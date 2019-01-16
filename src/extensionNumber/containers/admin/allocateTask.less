@@ -1,0 +1,45 @@
+.select-number-page{
+  .page-content{
+    //padding: 16px;
+  }
+}
+.modal-select-number-page{
+  .d-fl{
+    display: flex;
+    justify-content: space-between;
+    .ant-form-item{margin-right: 0}
+    .textarea-box{
+      width: 360px;
+      & > p{
+        color: #999;
+        line-height: 1.1;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+    }
+  }
+  .ant-modal-body{
+    padding-top: 18px;
+    padding-bottom: 0;
+  }
+  footer{
+    .ant-form-item{
+      margin-right: 0;
+    }
+    text-align: right;
+  }
+}
+//转移原因超出省略号
+.comment-wordSpacing{
+  width:120px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;cursor: default;
+}
+//转移原因hover浮窗样式
+.comment-tips{
+  max-width:300px;height: auto;word-break: break-all;
+}
+//鼠标移入显示下划线
+.underLine{
+  &:hover{
+    text-decoration: underline;cursor: pointer;
+  }
+}

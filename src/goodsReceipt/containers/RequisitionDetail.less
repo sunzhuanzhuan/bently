@@ -1,0 +1,93 @@
+@import "../../indexNbTheme";
+.requisition-detail-container {
+    dl,
+    dt,
+    dd {
+        margin: 0;
+        padding: 0;
+        list-style: none
+    }
+    .fixed-top-wrapper {
+        position: sticky;
+        z-index: 9;
+        top: -20px;
+        padding: 4px 0 10px;
+        background: #fff;
+        border-bottom: .5px solid #f6f6f6;
+        .fixed-top-info {
+            color: @primary-color
+        }
+        .fixed-top-actions {
+            margin-top: 8px;
+            display: flex;
+            .ant-btn {
+                margin-right: 10px
+            }
+        }
+    }
+    section .detail-info-item {
+        display: flex;
+        padding: 8px 0;
+        border-bottom: .5px solid #f6f6f6;
+        align-items: center;
+        .item-dt {
+            flex: 0 0 268px;
+            font-weight: normal;
+            color: #666;
+            &::after {
+                content: '：';
+                margin: 0 2px;
+            }
+        }
+        .item-dd {
+            line-height: 24px;
+            flex: auto;
+            .ant-anchor-link {
+                padding: 0;
+                display: inline-block;
+                line-height: 24px;
+            }
+        }
+    }
+    & .detail-info-item:last-child {
+        border: none;
+    }
+    .order-statistical-data-table {
+        background: #f5f5f5;
+        padding: 10px;
+        &>div {
+            padding-bottom: 10px;
+            font-size: @font-size-base;
+            font-weight: 500
+        }
+        th {
+            font-weight: normal;
+        }
+        td {
+            color: @primary-color;
+            padding: 4px 20px 4px 4px;
+        }
+    }
+    .data-table {
+        margin-bottom: 20px;
+    }
+    .circle-number {
+        width: 22px;
+        height: 22px;
+        border: 1px solid @primary-color;
+        background: @primary-color;
+        border-radius: 11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        float: left;
+        margin-right: 20px
+    }
+    .is-yellow-box {
+        border-radius: 2px;
+        padding: 2px 8px;
+        background: #FFFBE7;
+        border: 1px solid #FEE9A8
+    }
+}

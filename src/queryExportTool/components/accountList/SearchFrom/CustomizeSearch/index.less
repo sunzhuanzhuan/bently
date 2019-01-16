@@ -1,0 +1,38 @@
+@import "../../../../../indexNbTheme.less";
+.customize-search {
+    width: 400px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin: 0px auto;
+    .have-box {
+        background: #F9F9F9;
+        border-radius: 2px;
+    }
+    .option-box {
+        padding: 10px;
+        .lable-operate {
+            float: right;
+        }
+        .all-item {
+            margin-top: 10px;
+        }
+        .defult-item {
+            background: #E3E3E3;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+        }
+        .not-selected-item {
+            color: @primary-color;
+            border-color: @primary-color;
+            .anticon-close::after {
+                font-size: 19px;
+                font-weight: 100;
+                color: @primary-color;
+                content: "+"
+            }
+            .anticon svg {
+                display: none;
+            }
+        }
+    }
+}

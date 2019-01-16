@@ -1,0 +1,31 @@
+.account-secondary-wrapper {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 24px;
+    margin-top: 2px;
+    .account-secondary-item {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+        color: #999;
+        &::after {
+            content: '';
+            margin: 0 8px;
+            display: inline-block;
+            height: 0.9em;
+            width: 1px;
+            vertical-align: middle;
+            position: relative;
+            top: -0.06em;
+            font-size: 13px;
+            line-height: 1.5;
+            background-color: #cacaca;
+        }
+        &:last-child::after {
+            content: none;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+@import "../../../../../indexNbTheme.less";
+.sorter-button-container {
+  position: relative;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 28px 0 10px;
+  cursor: pointer;
+  transition: all .3s;
+  user-select: none;
+  &:hover{background: rgba(0,0,0,.06);}
+  &.active{color: @primary-color}
+  .sorter-suffix-icon {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    width: 14px;
+    height: 17px;
+    margin-top: -9.5px;
+    text-align: center;
+    color: #bfbfbf;
+    transition: all .3s;
+    & > i {
+      font-size: 12px;
+      line-height: 4px;
+      height: 4px;
+      transition: all .3s;
+      display: block;
+      &.on{color: @primary-color}
+    }
+    .anticon-caret-up{}
+    .anticon-caret-down{
+      margin-top: 4px;
+    }
+  }
+}

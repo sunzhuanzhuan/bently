@@ -1,0 +1,58 @@
+.sales-audit-manage {
+  .upload-data-list{
+    text-align: left;
+    .ant-form-item{
+      margin: 0;
+      .custom-label{ color: #333;margin-right: 6px;}
+      .ant-form-item-label{margin-right: -10px;}
+    }
+  }
+  .upload-img-container{
+    @picArea: 68px;
+    text-align: left;
+    .ant-upload-list{float: none}
+    .ant-upload-list-item{
+      width: @picArea;
+      height: @picArea;
+      padding: 2px;
+      border-radius: 0;
+    }
+    .ant-upload-select.ant-upload-select-picture-card{
+      float: left;
+      width: @picArea;
+      height: @picArea;
+      .anticon{font-size: 20px;margin-top: 4px;}
+      .upload-text{font-size: 12px; margin:0;}
+
+    }
+    .ant-upload-list-picture-card .ant-upload-list-item-info:before{left: 0}
+  }
+  .input-link-wrap {
+    text-align: left;
+    .ant-form-item{
+      margin-bottom: 0;
+    }
+    .auto-input-source{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & > span{margin-right: 6px;}
+      a {
+        margin-right: auto;
+      }
+    }
+  }
+  .sales-audit-manage-modal-header{
+    ul,li{padding: 0;margin: 0;}
+    display: flex;
+    align-items: baseline;
+    ul{
+      display: flex;
+      font-size: 14px;
+      color: #666;
+      margin: 0 12px;
+      font-weight: normal;
+      li{margin-right: 6px;}
+    }
+  }
+}

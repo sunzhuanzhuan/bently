@@ -1,0 +1,69 @@
+/**
+ * Created by lzb on 2018/10/24.
+ */
+
+.account-header-sort-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center; //margin: 0 10px 0px;
+    height: 44px;
+    background: #f5f5f5;
+    margin-top: 6px;
+    .sort-diff-items,
+    .sort-base-items {
+        width: calc(50% - 8.5px);
+        flex-wrap: nowrap;
+        overflow: hidden;
+        align-items: center;
+    }
+    .sort-base-items {
+        display: flex;
+        margin-right: auto;
+        white-space: nowrap;
+    }
+    .sort-diff-items {
+        display: flex;
+        margin-left: auto;
+        justify-content: flex-end;
+    }
+    .sort-drop-down-wrap {
+        margin: 0 10px;
+        white-space: nowrap;
+    }
+    .sort-drop-down-tap {
+        cursor: pointer;
+        user-select: none;
+    }
+    .sorter-more-sort {
+        margin: 0 12px;
+        padding-top: 3px;
+        font-size: 13px;
+        outline: none;
+        user-select: none;
+        cursor: pointer;
+        white-space: nowrap;
+        vertical-align: baseline;
+        &>span {
+            vertical-align: text-bottom;
+            display: inline-block;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .sorter-container {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+}
+
+.pop-more-sort {
+    transition: all .3s;
+    .ant-cascader-menu {
+        height: auto;
+    }
+}

@@ -1,0 +1,89 @@
+@import "../../indexNbTheme.less"; // 用于覆盖上面定义的变量
+.font(@size, @color) {
+    font-family: "微软雅黑";
+    font-size: @size;
+    color: @color;
+}
+
+.fieldset_css {
+    border: 1px solid @primary-color;
+    border-radius: 6px;
+    padding: 10px;
+    legend {
+        color: @primary-color;
+        background-color: #fff;
+        width: auto;
+        padding: 0 10px;
+        margin-bottom: 0;
+    }
+}
+.red-font{
+    color:red;
+}
+.left-gap{
+    margin-left: 20px;
+}
+.more-left-gap{
+    margin-left: 40px;
+}
+.top-gap{
+    margin-top: 20px;
+}
+.studioManage-search-form{
+    margin-left: 20px;
+    .warp-control{
+        width: 22%;
+    }
+    .data-picker{
+        .ant-form-item-control{
+            width: 370px;
+        }
+    }
+    .detail-data-picker{
+        .ant-form-item-control{
+            width: 270px;
+        }
+    }
+    .ant-form-item-label label{
+        float: left;
+    }
+    .ant-form-item-control-wrapper{
+        float: left;
+    }
+    .reset-filter-container{
+        transform: translate(50%);
+    }
+}
+.new-studio-manage{
+    .new-studio-form{
+        .ant-row{
+            width: 80%;
+        }
+    }
+}
+.studio-modal{
+    .modal-header{
+        text-align: center;
+    }
+    .studio-list-container{
+        padding: 10px 0;
+        border-top: 1px solid #d9d9d9;;
+        border-bottom: 1px solid #d9d9d9;
+        .studio-list{
+            border:1px solid #d9d9d9;
+            padding: 0 10px;
+            margin:10px 0;
+            height: 40px;
+            overflow: auto;
+        }
+    }
+    .studio-select{
+        width: 100%;
+        .ant-select-selection{
+            height: 62px;
+            p{
+                margin: 0;
+            }
+        }
+    }
+}

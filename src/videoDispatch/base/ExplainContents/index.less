@@ -1,0 +1,37 @@
+@import "../../../indexNbTheme.less"; // 用于覆盖上面定义的变量
+.explain-contents-modal {
+    .ant-modal-close-x {
+        @h: 48px;
+        width: @h;
+        height: @h;
+        line-height: @h
+    }
+    .ant-modal-content {
+        border-radius: 0;
+        border: 1px solid #ddd;
+    }
+    .ant-modal-body {
+        padding: 12px 24px;
+    }
+    header {
+        color: @primary-color;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    .desc {
+        margin-bottom: 4px;
+    }
+    .img-box {
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.blue-tips-text {
+    color: @primary-color;
+    padding-left: 10px;
+    cursor: pointer;
+    font-size: 12px;
+}

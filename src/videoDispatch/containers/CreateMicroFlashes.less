@@ -1,0 +1,72 @@
+@import "../../indexNbTheme.less"; // 用于覆盖上面定义的变量
+.create-micro-flashes {
+    width: 700px;
+    margin: 0px auto !important;
+    .ant-form-item {
+        margin-bottom: 10px
+    }
+    .ant-form-item-label label {
+        color: #999;
+    }
+    .create-micro-flashes-date,
+    .create-micro-flashes-time {
+        float: left;
+        margin-bottom: 2px
+    }
+    .prompt-content {
+        color: #999;
+        font-size: 12px;
+        line-height: 21px;
+        clear: both
+    }
+    .has-error .ant-form-explain,
+    .has-error .ant-form-split {
+        font-size: 12px;
+    }
+    .upload-video {
+        .ant-upload.ant-upload-select-picture-card {
+            border-color: @primary-color;
+            background: #d4fbe0;
+        }
+    }
+    .link-upload {
+        .ant-upload-list-picture-card .ant-upload-list-item {
+            width: 200px;
+            height: 160px
+        }
+    }
+    .filelist_squalit_all_video {
+        .ant-upload-list-picture .ant-upload-list-item,
+        .ant-upload-list-picture-card .ant-upload-list-item {
+            width: 108px;
+            height: 108px;
+            float: left;
+            margin-right: 10px;
+        }
+        .ant-upload-list-picture .ant-upload-list-item-thumbnail img,
+        .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+            width: 80px;
+            height: 80px;
+            margin: 5px;
+        }
+        .ant-upload-list-picture .anticon-cross,
+        .ant-upload-list-picture-card .anticon-cross {
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: -8px;
+            margin-top: -8px;
+        }
+    }
+    .required-label {
+        color: #999
+    }
+    .required-red-star {
+        display: inline-block;
+        margin-right: 4px;
+        content: "*";
+        font-family: SimSun;
+        line-height: 1;
+        font-size: 14px;
+        color: #f5222d
+    }
+}

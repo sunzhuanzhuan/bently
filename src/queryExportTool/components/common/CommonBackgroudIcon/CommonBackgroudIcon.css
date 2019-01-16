@@ -1,0 +1,15 @@
+.wby-backgroud-img {
+    display: block;
+    color: #fff;
+    background-size: 100% 100%;
+    width: 64px;
+    height: 15px;
+    background-repeat: no-repeat;
+    margin: 0 2px;
+}
+
+.wby-backgroud-list-img {
+    display: block;
+    background-repeat: no-repeat;
+    color: #fff;
+}

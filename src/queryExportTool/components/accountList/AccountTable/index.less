@@ -1,0 +1,74 @@
+@import "../../../../indexNbTheme.less";
+.account-table-wxy {
+    margin-top: 6px;
+    .check-box {
+        width: 38px;
+        float: left;
+        text-align: center
+    }
+    .account-table-page {
+        float: right;
+    }
+    .account-table-wxy-title .ant-table-thead>tr>th {
+        border-right: 1px solid #fff;
+        padding-bottom: 12px;
+    }
+    .account-table-wxy-title .ant-table-tbody>tr>td {
+        padding: 0px;
+        border-right: 1px solid #e8e8e8;
+    }
+    .account-table-wxy-title {
+        .ant-table-tbody>tr .ant-table-row-selected td {
+            background: #fff;
+        }
+        .ant-table-thead>tr.ant-table-row-hover>td,
+        .ant-table-tbody>tr.ant-table-row-hover>td,
+        .ant-table-thead>tr:hover>td,
+        .ant-table-tbody>tr:hover>td {
+            background: #f5f5f5
+        }
+        .ant-table-thead>tr:first-child>th:first-child {
+            .ant-checkbox-wrapper:after {
+                content: " 全选"
+            }
+        }
+        .ant-table-tbody>tr>td.ant-table-selection-column {
+            border-right: 1px solid #e8e8e8;
+            border-left: 1px solid #e8e8e8;
+        }
+        .ant-table-tbody>tr>td.ant-table-selection-column {
+            width: 44px;
+            min-width: 44px;
+        }
+        th {
+            background: #fff;
+            font-weight: 400
+        }
+        .ant-table-tbody>tr.ant-table-row-selected td {
+            background: transparent;
+        }
+        .ant-table-tbody>tr.ant-table-row-selected:hover {
+            background: #f5f5f5
+        }
+    }
+}
+
+.table-title-wxy {
+    margin-top: 2px;
+    div {
+        float: left;
+        margin-left: 20px;
+    }
+    span {
+        color: @primary-color;
+        padding: 0px 4px;
+    }
+}
+
+.searchResultTable {
+    margin-bottom: 40px;
+}
+
+.no-not-exist-row-color {
+    background: #f5f5f5;
+}

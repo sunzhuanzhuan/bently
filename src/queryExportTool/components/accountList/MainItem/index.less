@@ -1,0 +1,84 @@
+@import "../../../../indexNbTheme.less";
+@color-gray-1: #ededed;
+@item-border-style: 1px solid @color-gray-1;
+.account-list-main-item {
+    .delete-actions {
+        display: none;
+        position: absolute;
+        right: 0px;
+        z-index: 9;
+        color: #fff;
+        background: fadeout(@primary-color, 20%);
+        padding: 2px 8px;
+        font-size: 12px;
+        cursor: pointer;
+    } // border: @item-border-style;
+    .account-list-main-item-checkbox {
+        border-right: @item-border-style;
+        margin-left: -1px;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        font-size: 0;
+    }
+    .account-list-main-item-content {
+        flex: 1;
+        .content-main {
+            display: flex; //justify-content: space-between;
+            padding: 10px;
+            .content-main-left {
+                flex: 2.5;
+                margin-top: 6px;
+                display: flex;
+                min-width: 230px;
+                width: 25%;
+                &>div {
+                    margin-right: 10px;
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+            .fans-count-box {
+                flex: 0.8; // margin-right: auto;
+                min-width: 100px;
+            }
+        }
+        .introduction-two-line {
+            height: 40px;
+            overflow: hidden;
+        }
+        .content-footer {
+            display: flex;
+            border-top: @item-border-style;
+            margin-bottom: -1px;
+            padding: 10px 16px;
+            height: 44px;
+            .footer-info-status {
+                margin-left: auto;
+            }
+        }
+    }
+    .sns_name_title {
+        font-size: 15px;
+        color: #333;
+        font-weight: bold;
+        display: inline-block;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: bottom;
+    }
+}
+
+.main-item-hover:hover {
+    .delete-actions {
+        display: block;
+    }
+}
+
+.sns_name_title:hover {
+    color: @primary-color;
+    cursor: pointer;
+}

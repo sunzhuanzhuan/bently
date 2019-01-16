@@ -1,0 +1,17 @@
+.link-overflow-ellipsis-fn(@maxWidth: 180px) {
+  vertical-align: middle;
+  display: inline-block;
+  max-width: @maxWidth;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sales-audit-manage {
+  .link-overflow-ellipsis {
+    .link-overflow-ellipsis-fn()
+  }
+  ul, li {
+    list-style: none;
+
+  }
+}

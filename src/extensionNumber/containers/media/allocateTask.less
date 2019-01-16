@@ -1,0 +1,51 @@
+.select-number-page{
+  .page-content{
+    //padding: 16px;
+  }
+}
+.modal-select-number-page{
+  .d-fl{
+    display: flex;
+    justify-content: space-between;
+    .ant-form-item{margin-right: 0}
+    .textarea-box{
+      width: 360px;
+      & > p{
+        color: #999;
+        line-height: 1.1;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+    }
+  }
+  .ant-modal-body{
+    padding-top: 18px;
+    padding-bottom: 0;
+  }
+  footer{
+    .ant-form-item{
+      margin-right: 0;
+    }
+    text-align: right;
+  }
+}
+//分割线改变上下的margin
+.divider{
+  margin:5px 0;
+}
+//申请转移弹框取消浮动影响
+.moadlBox{
+  &:after{
+    display: block;clear: both;content:"";
+  }
+}
+//错误提示
+.error{
+  color: red;
+}
+//包含账号
+.include-account-num{
+  &:hover{
+    text-decoration: underline;
+  }
+}

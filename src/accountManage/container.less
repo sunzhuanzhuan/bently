@@ -1,0 +1,146 @@
+@import "../indexNbTheme.less";
+.account-manage {
+  position: relative;
+  .ant-row {
+    margin-bottom: 10px !important;
+  }
+  .account-info-container {
+    padding: 0 160px 0 0;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .account-info-sidebar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    user-select: none;
+    .sidebar-nav {
+      border-left: 1px solid #ddd;
+      margin: 16px 0;
+      h4 {
+        margin-bottom: 4px;
+        padding-left: 16px;
+      }
+      li {
+        margin-bottom: 4px;
+        a {
+          display: block;
+          padding-left: 16px;
+          margin-left: -1px;
+          text-decoration: none;
+          border-left: 1px solid transparent;
+          transition: all 0.3s ease;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #314659;
+          width: 110px;
+        }
+        a.current {
+          color: @primary-color;
+          border-color: @primary-color;
+        }
+      }
+    }
+  }
+  .has-error .input-suffix-text {
+    color: #f5222d;
+  }
+  .input-suffix-text {
+    color: rgb(191, 191, 191);
+  }
+  .input-desc-bottom {
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.2;
+    color: rgb(191, 191, 191);
+  }
+}
+.price-bold-input {
+  .price-bold-number {
+    color: #888;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .price-bold-unit {
+    display: block;
+    position: absolute;
+    background: orange;
+    color: #fff;
+    top: 0;
+    padding: 4px 10px;
+    border-radius: 0 0 3px 3px;
+  }
+}
+.sina-reference-table {
+  width: 300px;
+  margin-bottom: 10px;
+  table {width: 100%}
+  table, tr, th, td {
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  th, td {width: 50%}
+  th {
+    font-weight: normal;
+  }
+}
+.account-price-help-tips {
+  width: 600px;
+  img {
+    width: 100%;
+  }
+}
+.account-status-tabs {
+  display: flex;
+  & > div {
+    margin-left: 16px;
+  }
+}
+.block-submit-button {
+  width: 400px;
+  margin: 0 auto;
+}
+.fixed-btn-wrapper {
+  position: relative;
+  margin-left: -2px;
+  background: #fff;
+  padding: 10px 0 0 0;
+  z-index: 1;
+  width: 120px;
+  overflow: hidden;
+}
+.price_scroll_container{
+  position: relative;
+}
+
+// B端固定tab
+.account-manage {
+  height: 100%;
+  .update-page-container{
+    height: 100%;
+    &>.ant-tabs{
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 40px);
+      &>.ant-tabs-bar{}
+      &>.ant-tabs-content{
+        height: calc(100% - 60px);
+
+        .ant-tabs-tabpane{
+          height: 100%;
+          &>div,&>form{
+            height: 100%;
+            overflow-y: auto;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+.filter-common {
+    margin-top: 10px;
+    .filter-common-items {
+        display: inline-block;
+    }
+    .filter-common-items{
+        height: 36px;
+    }
+    .filter-common-items, .filter-common-selected-items{
+        line-height: 36px;
+        margin-bottom: 10px;
+    }
+    .filter-common-selected-items{
+        background:#fafafa;
+        border: 1px inside #ededed;
+        padding: 5px 10px;
+    }
+}
+
+.filter-more-popover {
+    .ant-popover-inner {
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+        border-radius: 4px;
+        outline: none;
+        .ant-popover-inner-content {
+            height: 460px;
+            overflow: auto;
+        }
+    }
+}
+
+.ant-dropdown {
+    .ant-menu-inline,
+    .ant-menu-vertical,
+    .ant-menu-vertical-left {
+        border-right: none;
+    }
+    .select-input,
+    .ant-calendar-picker {
+        padding: 10px;
+        background: #fff;
+        border-radius: 4px;
+    }
+    .ant-calendar-picker,
+    .select-input,
+    .ant-menu-root.ant-menu-vertical,
+    .ant-menu-root.ant-menu-vertical-left,
+    .ant-menu-root.ant-menu-vertical-right,
+    .ant-menu-root.ant-menu-inline {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .ant-menu-vertical .ant-menu-item {
+        margin-bottom: 0;
+        margin-top: 0;
+        &:hover {
+            background: #d8e6df;
+        }
+    }
+}

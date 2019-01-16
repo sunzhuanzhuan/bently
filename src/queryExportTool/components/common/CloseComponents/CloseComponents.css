@@ -1,0 +1,22 @@
+.wby-close {
+    position: absolute;
+    margin: 0!important;
+    top: -12px;
+    right: -16px;
+    width: 30px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
+.wby-close img {
+    transition: .4s ease
+}
+
+.wby-close:hover img {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg)
+}

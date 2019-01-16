@@ -1,0 +1,82 @@
+@import "../../indexNbTheme.less";
+.ta-r{
+    text-align: right;
+}
+.wrap-panel{
+    background: #fff;
+    //border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    //border-top: 1px solid #f8f8f8;
+    position: relative;
+    padding:10px 0;
+
+    .wrap-panel-header{
+        .wrap-panel-right-content{
+            font-size: 13px;
+            display: inline-block;
+            .gray-text{
+                font-size: 12px;
+                color: #999;
+                margin-right: 20px;
+            }
+        }
+        .wrap-panel-left-content{
+            font-size: 13px;
+            display: inline-block;
+            img{
+                display: inline-block;
+                width: 22px;
+                height: 22px;
+                margin-right: 10px;
+            }
+        }
+       .wrap-panel-header-content{
+           display: table;
+           white-space: nowrap;
+           font-size: 15px;
+           height: 1px;
+           width: 100%;
+           clear: both;
+           vertical-align: middle;
+           position: relative;
+           top: -0.06em;
+           .wrap-panel-header-text{
+               display: inline-block;
+               padding: 0 10px 0 0;
+           }
+           .wrap-panel-header-left{
+               display: inline-block;
+               padding: 0 10px;
+           }
+           .wrap-panel-header-right{
+               display: inline-block;
+               padding: 0 10px;
+           }
+           .wrap-panel-header-line{
+               display: table-cell;
+               position: relative;
+               top: 50%;
+               width: 100%;
+               border-top: 1px dashed #e8e8e8;
+               transform: translateY(50%);
+           }
+       }
+
+        padding-left:25px;
+        line-height: 32px;
+        &:before {
+            content: " ";
+            position: absolute;
+            display: inline-block;
+            width: 5px;
+            height: 16px;
+            top:18px;
+            left:0;
+            background: @primary-color;
+        }
+    }
+    .wrap-panel-body{
+        padding: 14px 0;
+    }
+}

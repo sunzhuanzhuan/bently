@@ -1,0 +1,28 @@
+@price-red-color: #F1473B;
+@price-dark-color: #333;
+.layout-fs { display: inline-block; font-size: 100%}
+.value-format-display-container {
+  .layout-fs();
+  font-size: 14px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+.value-format-display-value {
+  .layout-fs();
+  vertical-align: baseline;
+}
+.value-format-display-unit {
+  .layout-fs();
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  transform: scale(.71429);
+  transform-origin: left bottom;
+}
+.price-value-red {
+  font-size: 14px;
+  color: @price-red-color;
+}
+.price-value-dark {
+  font-size: 12px;
+  color: @price-dark-color;
+}

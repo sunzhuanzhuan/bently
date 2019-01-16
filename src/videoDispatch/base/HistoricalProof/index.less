@@ -1,0 +1,66 @@
+.historical-proof-modal {
+    @h: 35px;
+    .ant-modal-close-x {
+        width: @h;
+        height: @h;
+        line-height: @h
+    }
+    .ant-modal-header {
+        padding: 0 0 0 14px;
+        height: @h;
+        background: hsla(0, 0%, 96%, 1);
+        .ant-modal-title {
+            color: #333;
+            font-size: 14px;
+            line-height: @h;
+            font-weight: normal;
+        }
+    }
+    .ant-modal-content {
+        border-radius: 1px;
+        .ant-modal-body {
+            padding: 18px;
+        }
+    }
+    .img-list-container {
+        padding: 10px;
+        .img-list-item {
+            float: left;
+            position: relative;
+            margin: 0 12px 24px;
+            border: 2px solid #fff;
+            cursor: pointer;
+            &.active {
+                border-color: #FE6A5F;
+                .img-tick {
+                    display: block;
+                }
+            }
+            .img-list-item-container {
+                width: 186px;
+                height: 150px;
+                line-height: 150px;
+                background: #666;
+                img {
+                    width: 186px;
+                    height: 150px;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+            }
+            .img-tick {
+                display: none;
+                position: absolute;
+                left: -2px;
+                top: -2px;
+                font-size: 0;
+                color: #fff;
+                .anticon {
+                    font-size: 20px;
+                    padding: 2px;
+                    background: #FE6A5F;
+                }
+            }
+        }
+    }
+}
