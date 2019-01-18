@@ -29,7 +29,7 @@ module.exports = {
 	},
 
 	output: {
-		filename: '[name].[chunkhash:8].js',
+		filename: '[name].js',
 		path: path.resolve('public/static/js/'),
 		library,
 		libraryTarget:'window'
