@@ -169,7 +169,7 @@ class StudioManage extends React.Component {
 			</fieldset>
 			<div className='top-gap'>
 				<Button type='primary' onClick={() => {
-					this.props.history.push('/studiomanage/new?postType=1');
+					this.props.history.push('/finance/studiomanage/new?postType=1');
 				}}>新建</Button>
 			</div>
 			<div className='top-gap'>

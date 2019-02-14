@@ -55,7 +55,7 @@ class ReceiptsTable extends React.Component {
 					pagination={paginationObj}
 				>
 					<Link style={{ marginLeft: '20px' }} target='_blank' replace to={{
-						pathname: '/remitOrder/paymentOrder',
+						pathname: '/finance/remitOrder/paymentOrder',
 						search: '?' + qs.stringify({ id: questParams.id, bill_params: curSelectRows }),
 					}}>
 						<Button type='default' disabled={curSelectRowKeys.length === 0}>预览</Button>

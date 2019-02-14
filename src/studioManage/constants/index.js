@@ -166,7 +166,7 @@ export const studioConfigFunc = (handleStopStudio, handleStartStudio, history) =
 			render: (Text, record) => {
 				return <div>
 					<a href='javascript:;' onClick={() => {
-						history.push(`/studiomanage/new?postType=2&id=${record.id}&name=${record.name}`);
+						history.push(`/finance/studiomanage/new?postType=2&id=${record.id}&name=${record.name}`);
 					}}>编辑</a>
 					{record.status === 1 ? <a href='javascript:;' className='left-gap' onClick={() => {
 						handleStopStudio(record);

@@ -76,7 +76,7 @@ class ReceiptsModal extends React.Component {
 					this.setState({ newRandomKey: this.getNewRandomKey() })
 				}}>关闭</Button>,
 				<Link key='previewLink' target='_blank' replace to={{
-					pathname: '/remitOrder/paymentOrder',
+					pathname: '/finance/remitOrder/paymentOrder',
 					search: '?' + qs.stringify({ id: questParams.id, status: questParams.status, status_type: current_tab, type: 'all' }),
 				}}>
 					<Button key="preview" type='primary' disabled={!(dataSource && dataSource.length > 0)}>全部预览</Button>

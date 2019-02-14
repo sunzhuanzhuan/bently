@@ -17,14 +17,14 @@ class ExtractConin extends Component {
 	render() {
 		return (
 			<div>
-				<Route exact path="/contractManage" component={contractManage} />
-				<Route path="/contractManage/addContract" component={addContract} />
-				<Route path="/contractManage/addOrder" component={addOrder} />
-				<Route exact path="/extractManage" component={extractManage} />
-				<Route path="/extractManage/applyDetail" component={applyDetail} />
-				<Route exact path="/remitOrder" component={remitOrder} />
-				<Route path="/remitOrder/detail" component={remitOrderDetail} />
-				<Route path="/remitOrder/paymentOrder" component={paymentOrder} />
+				<Route exact path="/finance/contractManage" component={contractManage} />
+				<Route path="/finance/contractManage/addContract" component={addContract} />
+				<Route path="/finance/contractManage/addOrder" component={addOrder} />
+				<Route exact path="/finance/extractManage" component={extractManage} />
+				<Route path="/finance/extractManage/applyDetail" component={applyDetail} />
+				<Route exact path="/finance/remitOrder" component={remitOrder} />
+				<Route path="/finance/remitOrder/detail" component={remitOrderDetail} />
+				<Route path="/finance/remitOrder/paymentOrder" component={paymentOrder} />
 			</div>
 		);
 	}

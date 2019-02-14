@@ -239,7 +239,7 @@ class ApplyList extends Component {
 						// browserHistory.push({ pathname: "/invoice/upload", state: Obj })
 						//修改了push的方式
 						that.props.history.push({
-							pathname: "/invoice/upload",
+							pathname: "/finance/invoice/upload",
 							search: '?' + qs.stringify(Obj)
 						})
 					} else if (that.state.isOrderIncomplete && !that.state.isNeedUploadProof) {
@@ -251,7 +251,7 @@ class ApplyList extends Component {
 							role: role
 						}
 						that.props.history.push({
-							pathname: "/invoice/completeApply",
+							pathname: "/finance/invoice/completeApply",
 							search: '?' + qs.stringify(Obj)
 						})
 					} else if (!that.state.isNeedUploadProof && !that.state.isOrderIncomplete) {
@@ -469,7 +469,7 @@ class ApplyList extends Component {
 					if (record.payback_status == 0) {
 						return (
 							<div>
-								<a target='_blank' href={`/invoice/applyDetail?id=${record.id}`} >{text}</a>
+								<a target='_blank' href={`/finance/invoice/applyDetail?id=${record.id}`} >{text}</a>
 								<span className="highLight" >待回款</span>
 							</div >
 
@@ -477,7 +477,7 @@ class ApplyList extends Component {
 					} else if (record.payback_status == 2) {
 						return (
 							<div>
-								<a target='_blank' href={`/invoice/applyDetail?id=${record.id}`} >{text}</a>
+								<a target='_blank' href={`/finance/invoice/applyDetail?id=${record.id}`} >{text}</a>
 								<Popover content={partMoney} trigger="click">
 									<span className="highLight" onClick={() => { this.handlePartMoney(record.id) }} >已回款</span>
 								</Popover>
@@ -486,7 +486,7 @@ class ApplyList extends Component {
 					} else if (record.payback_status == 1) {
 						return (
 							<div>
-								<a target='_blank' href={`/invoice/applyDetail?id=${record.id}`} >{text}</a>
+								<a target='_blank' href={`/finance/invoice/applyDetail?id=${record.id}`} >{text}</a>
 								<Popover content={partMoney} trigger="click">
 									<span className="highLight" onClick={() => { this.handlePartMoney(record.id) }}>部分回款</span>
 								</Popover>
@@ -494,7 +494,7 @@ class ApplyList extends Component {
 						)
 					} else {
 						return <div>
-							<a target='_blank' href={`/invoice/applyDetail?id=${record.id}`} >{text}</a>
+							<a target='_blank' href={`/finance/invoice/applyDetail?id=${record.id}`} >{text}</a>
 						</div>
 					}
 				}
@@ -648,12 +648,12 @@ class ApplyList extends Component {
 						<div>
 							{role == 'sale' ?
 								<div className='button-margin'>
-									<Button size='small' type="primary" href={`/invoice/apply?applyType=3&company_id=${record.company_id}&id=${record.id}`} >复制</Button>
+									<Button size='small' type="primary" href={`/finance/invoice/apply?applyType=3&company_id=${record.company_id}&id=${record.id}`} >复制</Button>
 									{record.status_display == '已开' ? <Button size='small' type="primary" onClick={this.showConfirm.bind(this, 'deliver', record.id, role, expressCompanyData)}>已寄出</Button> : ''}
 									{record.status_display == '草稿' ?
 										<p>
 											<Button size='small' type="primary" onClick={this.showConfirm.bind(this, 'sale-commit', record.id, role)} disabled={this.state.passDisable}>提交审核</Button>
-											<Button size='small' type="primary" href={`/invoice/apply?applyType=2&company_id=${record.company_id}&id=${record.id}`} >修改</Button>
+											<Button size='small' type="primary" href={`/finance/invoice/apply?applyType=2&company_id=${record.company_id}&id=${record.id}`} >修改</Button>
 											{record.status == 0 ? <Button size='small' type="primary" onClick={this.showConfirm.bind(this, 'sale-cancel', record.id)}>取消</Button> : ''}
 										</p> : ''}
 								</div> : ''
@@ -711,7 +711,7 @@ class ApplyList extends Component {
 							<p style={{ fontSize: '12px' }}>该公司总消费：{this.state.totalSpendAmount}元，总充值：{this.state.totalRechargeAmount}元，已开票金额（含合同、邮件审批）：{this.state.totalInvoicedAmount}元</p>
 							<p>请确认该发票申请单之前没有开过发票，以免开重，然后再进行下一步操作</p>
 							<Row type="flex" justify="center" gutter={16}>
-								{this.state.isAssociateBtnVisible == '消费' || this.state.isAssociateBtnVisible == '充值' ? <Col><Button><Link to={"/invoice/associateInvoice?id=" + this.state.invoiceApplyId + "&role=" + role}>已开票，关联现有发票</Link></Button></Col> : ''}
+								{this.state.isAssociateBtnVisible == '消费' || this.state.isAssociateBtnVisible == '充值' ? <Col><Button><Link to={"/finance/invoice/associateInvoice?id=" + this.state.invoiceApplyId + "&role=" + role}>已开票，关联现有发票</Link></Button></Col> : ''}
 								<Col><Button onClick={this.handleCreatNewInvoice.bind(this)}>未开票，开具新发票</Button></Col>
 							</Row>
 

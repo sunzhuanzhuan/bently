@@ -43,7 +43,7 @@ class BatchTable extends Component {
 			render: (text, record) => {
 				return <span className="sns_name_title"
 					onClick={() => this.setModalContent(<AccountDetails account_id={record.account_id} />)}>
-					<span data-src={record.base.avatar_url} id={`avatar_list${record.base.account_id}`}></span>
+					<span data-src={record.base.avatar_url ? `http://api-webroot.api.weiboyi.com/pic.php?picurl=${record.base.avatar_url}` : ""} id={`avatar_list${record.base.account_id}`}></span>
 					{record.base.sns_name}
 				</span>
 			}

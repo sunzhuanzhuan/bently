@@ -134,7 +134,7 @@ export const groupBySorter = {
 						label: '由远及近'
 					}]
 				},
-				...handleMoreList([5, 6, 7, 8])
+				...handleMoreList([1, 2, 3, 4, 5, 6, 7, 8])
 			],
 			default: { snbt: 'desc' }
 		}

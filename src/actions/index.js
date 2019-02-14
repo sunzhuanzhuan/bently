@@ -8,12 +8,22 @@ export const {
 	getCompanyList_success
 } = createHttpAction('getCompanyList2', Interface.common.getCompanyList)
 
+//新上传获取token
+export const {
+	getNewToken
+} = createHttpAction('getNewToken', Interface.common.getToken)
+
 //所有平台下拉列表
 export const {
 	getAllPlatform,
 	getAllPlatform_success
 } = createHttpAction('getAllPlatform', Interface.common.getAllPlatform)
 
+// 获取中国城市列表
+export const {
+	getChineseCities,
+	getChineseCities_success
+} = createHttpAction('getChineseCities', Interface.common.getChineseCities)
 
 export const {
 	getAuthorizations,

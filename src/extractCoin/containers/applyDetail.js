@@ -318,7 +318,7 @@ class ApplyDetail extends React.Component {
 				</Row> : null}
 				{status === 1 ? <Row className='topGap'>
 					<Col style={{ textAlign: 'right' }}>
-						<Link to='/extractManage'>
+						<Link to='/finance/extractManage'>
 							<Button style={{ marginRight: '20px' }} size='large'>取消</Button>
 						</Link>
 						<Button style={{ marginRight: '20px' }} size='large' onClick={() => {
@@ -331,13 +331,13 @@ class ApplyDetail extends React.Component {
 					</Col>
 				</Row> : status === 2 ? <Row className='topGap'>
 					<Col style={{ textAlign: 'right' }}>
-						<Link to='/extractManage'>
+						<Link to='/finance/extractManage'>
 							<Button style={{ marginRight: '20px' }} size='large'>返回</Button>
 						</Link>
 					</Col>
 				</Row> : <Row className='topGap'>
 							<Col style={{ textAlign: 'right' }}>
-								<Link to='/extractManage'>
+								<Link to='/finance/extractManage'>
 									<Button size='large'>返回</Button>
 								</Link>
 							</Col>

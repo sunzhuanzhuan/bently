@@ -45,7 +45,7 @@ class AccountDetail extends Component {
 					<Col>账户冻结金额： <span className='red-font'>{general.freeze_amount ? numeral(general.freeze_amount).format('0.00') : '0.00'}元</span></Col>
 					<Col><a href='javascript:;' onClick={() => {
 						this.props.history.push({
-							pathname: '/freeze/detail',
+							pathname: '/finance/freeze/detail',
 							search: `?${qs.stringify({ company_id: id })}`,
 						});
 					}

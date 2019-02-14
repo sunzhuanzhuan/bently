@@ -22,17 +22,17 @@ class SaleIncomeRoute extends React.Component {
 	render() {
 		return (
 			<div>
-				<Route path='/saleIncome/missionList' component={MissionList} />
-				<Route path='/saleIncome/missionInput' component={MissionInput} />
-				<Route path='/saleIncome/missionOutput' component={MissionOutput} />
-				<Route path='/saleIncome/businessIncome' component={BusinessList} />
-				<Route path='/saleIncome/exceedPayment' component={ExceedList} />
-				<Route path='/saleIncome/longAging' component={LongAging} />
-				<Route path='/saleIncome/completePercent' component={CompletePercent} />
-				<Route path='/saleIncome/clientPayment' component={ClientPayment} />
-				<Route path='/saleIncome/personInfo' component={PersonInfo} />
-				<Route path='/saleIncome/companyIncome' component={CompanyIncome} />
-				<Route path='/saleIncome/businessAccounting' component={BusinessAccounting} />
+				<Route path='/finance/saleIncome/missionList' component={MissionList} />
+				<Route path='/finance/saleIncome/missionInput' component={MissionInput} />
+				<Route path='/finance/saleIncome/missionOutput' component={MissionOutput} />
+				<Route path='/finance/saleIncome/businessIncome' component={BusinessList} />
+				<Route path='/finance/saleIncome/exceedPayment' component={ExceedList} />
+				<Route path='/finance/saleIncome/longAging' component={LongAging} />
+				<Route path='/finance/saleIncome/completePercent' component={CompletePercent} />
+				<Route path='/finance/saleIncome/clientPayment' component={ClientPayment} />
+				<Route path='/finance/saleIncome/personInfo' component={PersonInfo} />
+				<Route path='/finance/saleIncome/companyIncome' component={CompanyIncome} />
+				<Route path='/finance/saleIncome/businessAccounting' component={BusinessAccounting} />
 			</div>
 		);
 	}

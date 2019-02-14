@@ -4,9 +4,9 @@ import './Avatar.less'
 let defaultPic = require('./img/default.jpg')
 export const Avatar = ({ id, src = defaultPic, name = '', children }) => {
 
-	return <div id={id} data-src={src} className='account-avatar-wrapper'>
+	return <div id={id} data-src={src ? `http://api-webroot.api.weiboyi.com/pic.php?picurl=${src}` : ""} className='account-avatar-wrapper'>
 		<div className='pic'>
-			<img src={src ? src : require('./img/default.jpg')} alt={name} onError={(e) => e.target.src = require('./img/default.jpg')} />
+			<img src={src ? `http://api-webroot.api.weiboyi.com/pic.php?picurl=${src}` : require('./img/default.jpg')} alt={name} onError={(e) => e.target.src = require('./img/default.jpg')} />
 		</div>
 		<span className='avatar-suffix'>
 			{children}

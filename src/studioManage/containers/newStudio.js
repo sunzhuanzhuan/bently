@@ -118,7 +118,7 @@ class NewStudio extends React.Component {
 				if (search.postType && search.postType === postTypeMap['modified']) {
 					postUpdateStudio({ ...params, id: search.id }).then(() => {
 						hide();
-						this.props.history.push("/studioManage/list");
+						this.props.history.push("/finance/studioManage/list");
 					}).catch(({ errorMsg }) => {
 						hide();
 						message.error(errorMsg || '请求失败，请重试')
@@ -127,7 +127,7 @@ class NewStudio extends React.Component {
 				}
 				postCreateStudio({ ...params }).then(() => {
 					hide();
-					this.props.history.push("/studioManage/list");
+					this.props.history.push("/finance/studioManage/list");
 				}).catch(({ errorMsg }) => {
 					hide();
 					message.error(errorMsg || '请求失败，请重试')

@@ -97,7 +97,7 @@ class contractAdd extends React.Component {
 		}
 		hide();
 		//修改了push的方式
-		this.props.history.push('/contractManage');
+		this.props.history.push('/finance/contractManage');
 		//browserHistory.push('/contractManage');
 	}
 
@@ -232,7 +232,7 @@ class contractAdd extends React.Component {
 					<Col style={{ textAlign: 'right' }}>
 						<Button style={{ marginRight: '20px' }} size='large' onClick={() => {
 							//修改了push的方式
-							this.props.history.push("/contractManage")
+							this.props.history.push("/finance/contractManage")
 							//browserHistory.push("/contractManage")
 						}}>取消</Button>
 						<Button type='primary' size='large' disabled={!getFieldValue('contract_no') || this.hasErrors(getFieldsError()) || getContractsOrderList.length < 1} onClick={this.handleSubmit}>提交</Button>

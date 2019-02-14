@@ -76,7 +76,7 @@ class CompleteApplyList extends Component {
 		message.success(data.msg || '操作成功', 2, () => {
 			let timer = setTimeout(() => {
 				clearTimeout(timer)
-				this.props.history.push('/invoice/applyList')
+				this.props.history.push('/finance/invoice/applyList')
 			}, 300);
 		});
 	}
@@ -145,7 +145,7 @@ class CompleteApplyList extends Component {
 	}
 	handlePreve = () => {
 		let { detail: { id, company_id } } = this.props;
-		this.props.history.push(`/invoice/apply?company_id=${company_id}&applyType=2&id=${id}`);
+		this.props.history.push(`/finance/invoice/apply?company_id=${company_id}&applyType=2&id=${id}`);
 	}
 	render() {
 		let { detail: {

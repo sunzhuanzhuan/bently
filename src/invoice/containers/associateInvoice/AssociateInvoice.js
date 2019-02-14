@@ -76,7 +76,7 @@ class AssociateInvoice extends Component {
 		message.success(data.message || 'OK', 2, () => {
 			let timer = setTimeout(() => {
 				clearTimeout(timer)
-				this.props.history.push('/invoice/applyList')
+				this.props.history.push('/finance/invoice/applyList')
 			}, 300);
 		});
 	}
@@ -133,7 +133,7 @@ class AssociateInvoice extends Component {
 						<legend>关联发票</legend>
 						<Row type="flex" justify="start" gutter={16} style={{ lineHeight: "32px" }} >
 							{/* 此处需要改成详情页路由的url */}
-							<Col><h4>发票申请单ID：<a href={'/invoice/applyDetail?id=' + id + 'role=' + role}>{id || '-'}</a></h4></Col>
+							<Col><h4>发票申请单ID：<a href={'/finance/invoice/applyDetail?id=' + id + 'role=' + role}>{id || '-'}</a></h4></Col>
 							<Col><h4>公司简称：{company_name || '-'}</h4></Col>
 							<Col><h4>销售：{creator_name || '-'}</h4></Col>
 							<Col><h4>发票抬头：{invoice_title || '-'}</h4></Col>

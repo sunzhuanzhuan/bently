@@ -22,7 +22,6 @@ import accountEnterReducers from '../accountEnter/reducers'
 import videoDispatch from "../videoDispatch/reducers";
 import saleIncome from '../saleIncome/reducers'
 import studioManage from '../studioManage/reducers'
-import accountManageReducer from '../accountManage/reducer';
 import filterParams from '../accountRecommend/reducers'
 import goodsReceipt from '../goodsReceipt/reducers'
 import salesAuditManage from "../salesAuditManage/reducers";
@@ -54,7 +53,6 @@ export default combineReducers({
 	videoDispatch,
 	saleIncome,
 	studioManage,
-	accountManageReducer,
 	filterParams,
 	goodsReceipt,
 	salesAuditManage,//销售审核管理

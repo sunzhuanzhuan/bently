@@ -81,7 +81,7 @@ class AdjustDetail extends Component {
 				const hide = message.loading('查询中，请稍候...');
 				this.queryData({ company_id: search.company_id, ...params.keys, page: 1, page_size: this.state.pageSize }, () => {
 					this.props.history.replace({
-						pathname: '/golden/adjustDetail',
+						pathname: '/finance/golden/adjustDetail',
 						search: `?${qs.stringify(params)}`,
 					});
 				}).then(() => {
@@ -106,7 +106,7 @@ class AdjustDetail extends Component {
 				const obj = { company_id: search.company_id, ...search.keys, page: current, page_size: pageSize };
 				this.queryData(obj, () => {
 					this.props.history.replace({
-						pathname: '/golden/adjustDetail',
+						pathname: '/finance/golden/adjustDetail',
 						search: `?${qs.stringify(obj)}`,
 					});
 				});
@@ -116,7 +116,7 @@ class AdjustDetail extends Component {
 				this.setState({ pageSize })
 				this.queryData(obj, () => {
 					this.props.history.replace({
-						pathname: '/golden/adjustDetail',
+						pathname: '/finance/golden/adjustDetail',
 						search: `?${qs.stringify(obj)}`,
 					});
 				});

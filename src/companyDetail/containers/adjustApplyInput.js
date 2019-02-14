@@ -53,7 +53,7 @@ class AdjustApplyInput extends React.Component {
 					<p className="ant-upload-text">拖拽或点击选择上传模板</p>
 				</Dragger>
 			</div>
-			<div className='top-gap' style={{ textAlign: 'center' }}><Button type='primary' href='/golden/adjustApply'>返回</Button></div>
+			<div className='top-gap' style={{ textAlign: 'center' }}><Button type='primary' href='/finance/golden/adjustApply'>返回</Button></div>
 			{/* <p className='apply-input-tip'>
 				<span className='red-font'><Icon type="exclamation-circle-o" />提示：</span>如果您还没有批量订单调价导入模板，请点击
 				<a href='/api/finance/readjust/excelExportView'>订单调价导入模板下载.xlsx</a>

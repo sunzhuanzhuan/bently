@@ -58,7 +58,7 @@ class ApplyModal extends React.Component {
 							content: `申请成功，申请编号${res.data}`,
 							onOk: () => {
 								onCancel();
-								this.props.history.push('/golden/adjustApply');
+								this.props.history.push('/finance/golden/adjustApply');
 							}
 						});
 					})

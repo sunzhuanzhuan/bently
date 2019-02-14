@@ -12,9 +12,9 @@ class StudioManage extends Component {
 	render() {
 		return (
 			<div>
-				<Route exact path="/studioManage/list" component={StudioList} />
-				<Route exact path="/studioManage/new" component={NewStudio} />
-				<Route exact path="/studioManage/detail" component={StudioDetail} />
+				<Route exact path="/finance/studioManage/list" component={StudioList} />
+				<Route exact path="/finance/studioManage/new" component={NewStudio} />
+				<Route exact path="/finance/studioManage/detail" component={StudioDetail} />
 			</div>
 		);
 	}

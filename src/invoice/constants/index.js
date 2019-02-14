@@ -90,7 +90,7 @@ export const orderColumnsFunc = (flag, handlePass, handleRefuse) => {
 				const content = (
 					<div style={{ width: '200px' }}>
 						<p style={{ width: '200px' }}>赔偿原因:{record.reparation_reason}</p>
-						{flag && record.remarks ? <p style={{ width: '200px' }}>备注:{record.remarks}</p> : "-"}
+						<p style={{ width: '200px' }}>备注:{flag && record.remarks ? record.remarks : "-"}</p>
 					</div>
 				);
 				return (<div>

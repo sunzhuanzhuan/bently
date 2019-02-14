@@ -12,7 +12,7 @@ export const AccountPutAttributeStep1 = (props) => {
 						className="AccountPutAttributeStep1-row" >
 						{
 							item.map((it, itIndex) => {
-								return <Col span={4} key={itIndex} onClick={() => props.jumpToTab2(platformIcon[it].operateType, it)}
+								return <Col span={4} key={itIndex} onClick={() => props.jumpToTab2(platformIcon[it].operateType, it,platformIcon[it].remark["weibo_type"])}
 									className="AccountPutAttributeStep1-col"
 								>
 									<div className="icon-img"

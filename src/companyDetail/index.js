@@ -29,14 +29,14 @@ class Company extends Component {
 	render() {
 		return (
 			<dic>
-				<Route path='/detail/company' component={CompanyDetail} />
-				<Route path='/freeze/detail' component={FreezeDetail} />
-				<Route path='/golden/detail' component={GoldenDetail} />
-				<Route path='/golden/adjustDetail' component={AdjustDetail} />
-				<Route path='/golden/adjustApply' component={AdjustApply} />
-				<Route path='/golden/addAdjustApply' component={AddAdjustApply} />
-				<Route path='/golden/adjustApplyDetail' component={AdjustApplyDetail} />
-				<Route path='/golden/adjustApplyInput' component={AdjustApplyInput} />
+				<Route path='/finance/detail/company' component={CompanyDetail} />
+				<Route path='/finance/freeze/detail' component={FreezeDetail} />
+				<Route path='/finance/golden/detail' component={GoldenDetail} />
+				<Route path='/finance/golden/adjustDetail' component={AdjustDetail} />
+				<Route path='/finance/golden/adjustApply' component={AdjustApply} />
+				<Route path='/finance/golden/addAdjustApply' component={AddAdjustApply} />
+				<Route path='/finance/golden/adjustApplyDetail' component={AdjustApplyDetail} />
+				<Route path='/finance/golden/adjustApplyInput' component={AdjustApplyInput} />
 			</dic>
 		);
 	}
