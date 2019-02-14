@@ -91,17 +91,23 @@ class AccountSearch extends React.Component {
 		}
 		this.props.onFilterSearch({ ...params, ...values })
 	}
-	onItemLableChange = (id, name, { optionsNames: names }, value) => {
+	onItemLableChange = (id, name, { optionsNames: names }, needReset) => {
+		let params, clear = true;
 		const selectedItems = {
 			...this.state.selectedItems,
 			[id]: name + ':' + names
 		}
 		if (!names || names.length == 0) {
 			delete selectedItems[id]
+			clear = false
 		}
 		this.setState({ selectedItems })
 		// this.props.onFilter()
-		this.onFilterSearch(value);
+		if(needReset){
+			params = this.accountSort.reset(clear)
+		}
+
+		this.onFilterSearch(params);
 	}
 
 	resetFilter = (id) => {
@@ -161,7 +167,7 @@ class AccountSearch extends React.Component {
 		const { grouped_platforms = [] } = group;
 		return <div>
 			<Search keyword={keyword} form={form}
-				onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, this.accountSort.reset())}
+				onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
 			></Search>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
 				{getFieldDecorator('classification_id')(
