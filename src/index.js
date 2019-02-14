@@ -47,7 +47,7 @@ import ErrorIndex from './containers/error'
 import Login from './login/container/Login'
 import videoDispatch from "./videoDispatch";
 //404错误页面
-import AccountManage from './accountManage'
+// import AccountManage from './accountManage'
 import GoodsReceipt from "./goodsReceipt";
 numeral.locale('chs')
 moment.locale('zh-cn');

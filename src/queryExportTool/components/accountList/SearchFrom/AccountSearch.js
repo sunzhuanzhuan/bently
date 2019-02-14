@@ -82,7 +82,7 @@ class AccountSearch extends React.Component {
 		if (params.follower_count && !params.follower_count[1]) {
 			params.follower_count[1] = null;
 		}
-		
+
 		if (params.sku_open_quote_price && !params.sku_open_quote_price[1]) {
 			params.sku_open_quote_price[1] = null;
 		}
@@ -91,7 +91,7 @@ class AccountSearch extends React.Component {
 		}
 		this.props.onFilterSearch({ ...params, ...values })
 	}
-	onItemLableChange = (id, name, { optionsNames: names }) => {
+	onItemLableChange = (id, name, { optionsNames: names }, value) => {
 		const selectedItems = {
 			...this.state.selectedItems,
 			[id]: name + ':' + names
@@ -101,7 +101,7 @@ class AccountSearch extends React.Component {
 		}
 		this.setState({ selectedItems })
 		// this.props.onFilter()
-		this.onFilterSearch();
+		this.onFilterSearch(value);
 	}
 
 	resetFilter = (id) => {
@@ -161,7 +161,7 @@ class AccountSearch extends React.Component {
 		const { grouped_platforms = [] } = group;
 		return <div>
 			<Search keyword={keyword} form={form}
-				onSearch={(names) => this.onItemLableChange('keyword', '关键字', names)}
+				onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, this.accountSort.reset())}
 			></Search>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
 				{getFieldDecorator('classification_id')(
@@ -226,7 +226,7 @@ class AccountSearch extends React.Component {
 				</div>
 			</LayoutSearch>}
 			<FilterCommon selectedItems={selectedItems} {...this.props} resetFilter={this.resetFilter} onFilter={this.onFilterSearch} />
-			<AccountSort onChange={this.onFilterSearch} group={params.platformType} />
+			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
 }

@@ -28,6 +28,14 @@ export default class SortGroup extends Component {
 		})
 		this.dataToParams(valueArray[0], valueArray[1])
 	}
+	reset = () => {
+		this.setState({
+			sort: this.props.sorter.default || {},
+			moreText: '更多排序',
+			isDrop: false
+		})
+		return { sort: this.props.sorter.default || {} }
+	}
 
 	constructor(props) {
 		super(props)
@@ -37,8 +45,6 @@ export default class SortGroup extends Component {
 			isDrop: false
 		}
 	}
-
-	componentWillMount() { }
 
 	render() {
 		const { sorter = {} } = this.props

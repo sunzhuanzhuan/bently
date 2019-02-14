@@ -31,8 +31,25 @@ export default class AccountSort extends Component {
 		}
 		onChange && onChange(newParams)
 	}
+	reset = () => {
+		let params = {}
+		const { filter } = groupBySorter[this.props.group || '1']
+		const { check } = filter
+		check.forEach(({name}) => params[name] = undefined)
+		for (let key in this.child) {
+			if(!this.child.hasOwnProperty(key)) continue
+			params = {...params, ...this.child[key].reset()}
+		}
+		this.setState(params)
+		return params
+	}
 
-	componentWillMount() { }
+	constructor(props) {
+		super(props);
+		this.state = {}
+		this.child = {}
+		window.TEST = this.resetState
+	}
 
 	render() {
 		const { group = '1' } = this.props
@@ -41,14 +58,14 @@ export default class AccountSort extends Component {
 		return <div className='account-header-sort-container'>
 			<section className='sort-base-items'>
 				{drop.map(item =>
-					<SortDrop key={item.field} {...item} onSelect={this.selectDrop} />)}
+					<SortDrop ref={node => this.child['drop_' + item.field] = node} key={item.field} {...item} onSelect={this.selectDrop} />)}
 				{/*<SortDrop title='执行类型' prefix='comply' field='is_famous' onSelect={this.selectDrop} />*/}
 				{check.map(({ title, name }) =>
-					<Checkbox key={name} name={name} onChange={this.checked}>{title}</Checkbox>)}
+					<Checkbox checked={this.state[name] === 1} key={name} name={name} onChange={this.checked}>{title}</Checkbox>)}
 			</section>
 			<Divider type="vertical" />
 			<section className='sort-diff-items'>
-				<SortGroup sorter={sorter} onSort={this.sort} />
+				<SortGroup ref={node => this.child.sortGroup = node} sorter={sorter} onSort={this.sort} />
 			</section>
 		</div>
 	}
