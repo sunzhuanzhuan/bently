@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Button, Form, Select, DatePicker, Table, Tooltip, message } from 'antd';
+import { Button, Form, Select, DatePicker, Table, Tooltip } from 'antd';
 import * as dealResultAction from '../../actions/dealResult.js'
 import { statusDotColor } from '../../constants/config'
 import './DealResult.less'
@@ -10,10 +10,10 @@ const Option = Select.Option;
 //筛选
 const FormItem = Form.Item;
 const Filter = (props) => {
-	// const formItemLayout = {
-	// 	labelCol: { span: 7 },
-	// 	wrapperCol: { span: 17 }
-	// };
+	const formItemLayout = {
+		labelCol: { span: 7 },
+		wrapperCol: { span: 17 }
+	};
 	const statusFormItemLayout = {
 		labelCol: { span: 8 },
 		wrapperCol: { span: 16 }
@@ -38,7 +38,7 @@ const Filter = (props) => {
 					</Select>
 				)}
 			</FormItem>
-			{/* <FormItem
+			<FormItem
 				{...formItemLayout}
 				label="批量操作类型"
 				className="form-item-marginLeft"
@@ -55,7 +55,7 @@ const Filter = (props) => {
 						}
 					</Select>
 				)}
-			</FormItem> */}
+			</FormItem>
 			<FormItem
 				label="提交时间"
 				className="startTime"
@@ -96,8 +96,7 @@ class DealResult extends Component {
 		this.state = {
 			startValue: null,
 			endValue: null,
-			tableLoading: true,
-			filterValue: {}
+			loading: false
 		}
 	}
 	disabledStartDate = (startValue) => {
@@ -129,65 +128,12 @@ class DealResult extends Component {
 		this.onChange('endValue', value);
 	}
 	componentWillMount() {
-		this.dealSearchValues(
-			this.props.actions.getDealResultList, 1
-		)
-	}
-	componentWillReceiveProps(props) {
-		if (props.tab2Update == true) {
-			this.props.cancelTab2Update()
-			this.props.form.resetFields()
-			this.setState({
-				tableLoading: true
-			})
-			this.dealSearchValues(
-				this.props.actions.getDealResultList, 1
-			)
-		}
+		this.props.actions.getSelectionList()
 	}
 	//截取15个字
 	cut = (text) => {
 		let txt = text.substring(0, 15)
 		return txt
-	}
-	//处理查询条件
-	dealSearchValues = (fun, page) => {
-		let values = this.props.form.getFieldsValue();
-		Object.keys(values).forEach(item => {
-			if (values[item] == "0" || !values[item]) {
-				delete values[item]
-			}
-		})
-		const timeList = ["startTime", "endTime"]
-		timeList.forEach(item => {
-			if (values[item]) {
-				values[item] = values[item].format('YYYY-MM-DD')
-			}
-		})
-		values.operateType = "addSelfmediaUser"
-		this.setState({
-			filterValue: { ...values }
-		}, () => {
-			fun({ ...values, page: page }).then(() => {
-				this.setState({
-					tableLoading: false
-				})
-			}).catch(() => {
-				message.error("列表数据加载失败")
-				this.setState({
-					tableLoading: false
-				})
-			})
-		})
-	}
-	//查询
-	search = () => {
-		this.setState({
-			tableLoading: true
-		})
-		this.dealSearchValues(
-			this.props.actions.getDealResultList, 1
-		)
 	}
 	render() {
 		const columns = [
@@ -230,25 +176,25 @@ class DealResult extends Component {
 				}
 			}
 		];
-		const { dealResultList } = this.props
+		const { selectionList, dealResultList, loading } = this.props
 		return (
 			<div>
 				<h3>处理结果</h3>
-				<Form layout="inline">
-					<Filter
-						form={this.props.form}
-						search={this.search}
-						disabledStartDate={this.disabledStartDate}
-						disabledEndDate={this.disabledEndDate}
-						onStartChange={this.onStartChange}
-						onEndChange={this.onEndChange}
-					></Filter>
-				</Form>
+				<Filter
+					form={this.props.form}
+					selectionList={Object.keys(selectionList).length !== 0 ? selectionList.list : []}
+					search={this.props.search}
+					disabledStartDate={this.disabledStartDate}
+					disabledEndDate={this.disabledEndDate}
+					onStartChange={this.onStartChange}
+					onEndChange={this.onEndChange}
+					loading={loading}
+				></Filter>
 				<Table dataSource={Object.keys(dealResultList).length !== 0 ?
 					dealResultList.list.rows : []} columns={columns}
 					className="dealResult-table"
 					bordered={true}
-					loading={this.state.tableLoading}
+					loading={loading}
 					rowKey='id'
 					pagination={{
 						current: Object.keys(dealResultList).length !== 0 ? dealResultList.list.page : '',
@@ -256,12 +202,10 @@ class DealResult extends Component {
 						showQuickJumper: true,
 						total: Object.keys(dealResultList).length !== 0 ? dealResultList.list.count : '',
 						onChange: (page) => {
-							this.setState({
-								tableLoading: true
+							this.props.actions.getDealResultList({
+								page: page,
+								...this.props.filterValue
 							})
-							this.dealSearchValues(
-								this.props.actions.getDealResultList, page
-							)
 						},
 						size: 'small'
 					}}
@@ -271,6 +215,7 @@ class DealResult extends Component {
 	}
 }
 const mapStateToProps = (state) => ({
+	selectionList: state.batchCreateMainAccountReducers.selectionList,
 	dealResultList: state.batchCreateMainAccountReducers.dealResultList
 })
 const mapDispatchToProps = (dispatch) => ({
@@ -282,4 +227,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
 	mapStateToProps,//redux和react连接起来
 	mapDispatchToProps
-)(Form.create()(DealResult))
+)(DealResult)
