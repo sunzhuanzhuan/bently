@@ -31,14 +31,14 @@ export default class AccountSort extends Component {
 		}
 		onChange && onChange(newParams)
 	}
-	reset = () => {
+	reset = (clear) => {
 		let params = {}
 		const { filter } = groupBySorter[this.props.group || '1']
 		const { check } = filter
 		check.forEach(({name}) => params[name] = undefined)
 		for (let key in this.child) {
 			if(!this.child.hasOwnProperty(key)) continue
-			params = {...params, ...this.child[key].reset()}
+			params = {...params, ...this.child[key].reset(clear)}
 		}
 		this.setState(params)
 		return params

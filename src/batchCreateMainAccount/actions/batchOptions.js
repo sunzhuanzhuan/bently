@@ -24,13 +24,6 @@ export const {
 } = createHttpAction('getDownloadLink', Interface.getDownloadLink, {
 	method: 'post'
 });
-//批量获取下载地址---新
-export const {
-	getNewDownloadLink,
-	getNewDownloadLink_success
-} = createHttpAction('getNewDownloadLink', Interface.getNewDownloadLink, {
-	method: 'get'
-});
 //resetdownloadLink
 export const resetdownloadLink = () => {
 	return {
@@ -42,11 +35,5 @@ export const resetdownloadLink = () => {
 export const {
 	postAdviceAndLike
 } = createHttpAction('postAdviceAndLike', Interface.postAdviceAndLike, {
-	method: 'post'
-});
-//解析
-export const {
-	saveBatchOperate
-} = createHttpAction('saveBatchOperate', Interface.saveBatchOperate, {
 	method: 'post'
 });
