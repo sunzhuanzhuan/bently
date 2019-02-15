@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Button, Form, Popover, Icon, message } from 'antd';
+import { Button, Form, Popover, Icon } from 'antd';
 import { WBYUploadFile } from 'wbyui'
-import NewUpload from '../NewUpload'
-import { uploadAccountMessage, bizzCode } from '../../constants/config'
+import { uploadAccountMessage } from '../../constants/config'
 import './UploadAccountMessage.less'
 
 const FormItem = Form.Item;
@@ -18,6 +17,7 @@ class UploadAccountMessage extends Component {
 			visible: false
 		});
 	}
+
 	handleVisibleChange = (visible) => {
 		this.setState({ visible });
 	}
@@ -26,7 +26,6 @@ class UploadAccountMessage extends Component {
 			labelCol: { span: 5 },
 			wrapperCol: { span: 19 }
 		};
-		const { getNewToken } = this.props
 		return (
 			<div className="main" >
 				<FormItem
@@ -34,50 +33,28 @@ class UploadAccountMessage extends Component {
 					label="操作"
 				>
 					{
-						this.props.downloadLink == "" ?
+						this.props.downloadLink.list == "" ?
 							null :
-							(
-								this.props.downloadLink == null ?
-									message.error("未获取到下载模板，请联系产品经理") :
-									<Button type="primary" href={this.props.downloadLink}
-										loading={this.props.downloadLink == undefined ? true : false}
-									>下载模板</Button>
-							)
+							<Button type="primary" href={this.props.downloadLink.list}
+								loading={this.props.downloadLink.list == undefined ? true : false}
+							>下载模板</Button>
 					}
 					<div className="upload-box">
-						{
-							this.props.operateKey == "addSelfmediaUser" ?
-								<WBYUploadFile
-									tok={{
-										token: this.props.uploadInfo.token,
-										upload_url: this.props.uploadInfo.upload_uri
-									}}
-									len={1}
-									size={50}
-									listType="text"
-									uploadText={uploadAccountMessage[this.props.operateKey].uploadBtn}
-									onChange={(file) => this.props.upload(file)}
-									accept=".xlsx,.xls"
-									btnProps={{
-										type: 'primary'
-									}}
-								/> :
-								<NewUpload
-									tok={getNewToken}
-									uploadUrl="/api/common-file/file/v1/uploadPriBucket"
-									len={1}
-									size={50}
-									listType="text"
-									uploadText={uploadAccountMessage[this.props.operateKey].uploadBtn}
-									onChange={(file, originFile) => this.props.upload(file, originFile)}
-									accept=".xlsx,.xls"
-									btnProps={{
-										type: 'primary'
-									}}
-									bizzCode={bizzCode[this.props.operateKey]}
-								/>
-						}
-
+						<WBYUploadFile
+							tok={{
+								token: this.props.uploadInfo.token,
+								upload_url: this.props.uploadInfo.upload_uri
+							}}
+							len={1}
+							size={50}
+							listType="text"
+							uploadText={uploadAccountMessage[this.props.operateKey].uploadBtn}
+							onChange={(file) => this.props.upload(file)}
+							accept=".xlsx,.xls"
+							btnProps={{
+								type: 'primary'
+							}}
+						/>
 					</div>
 				</FormItem>
 				<FormItem

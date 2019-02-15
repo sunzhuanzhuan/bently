@@ -1,8 +1,7 @@
 
 import React from 'react'
-import { Button, Form, message } from 'antd';
-// import { WBYUploadFile } from 'wbyui'
-import NewUpload from '../NewUpload'
+import { Button, Form } from 'antd';
+import { WBYUploadFile } from 'wbyui'
 import '../mainAccountAndmicro/UploadAccountMessage.less'
 
 const FormItem = Form.Item;
@@ -18,18 +17,14 @@ export const AccountPutAttributeStep2 = (props) => {
 				label="操作"
 			>
 				{
-					props.downloadLink == "" ?
+					props.downloadLink.list == "" ?
 						null :
-						(
-							props.downloadLink == null ?
-								message.error("未获取到下载模板，请联系产品经理") :
-								<Button type="primary" href={props.downloadLink}
-									loading={props.downloadLink == undefined ? true : false}
-								>下载模板</Button>
-						)
+						<Button type="primary" href={props.downloadLink.list}
+							loading={props.downloadLink.list == undefined ? true : false}
+						>下载模板</Button>
 				}
 				<div className="upload-box">
-					{/* <WBYUploadFile
+					<WBYUploadFile
 						tok={{
 							token: props.uploadInfo.token,
 							upload_url: props.uploadInfo.upload_uri
@@ -43,20 +38,6 @@ export const AccountPutAttributeStep2 = (props) => {
 						btnProps={{
 							type: 'primary'
 						}}
-					/> */}
-					<NewUpload
-						tok={props.getNewToken}
-						uploadUrl="/api/common-file/file/v1/uploadPriBucket"
-						len={1}
-						size={50}
-						listType="text"
-						uploadText="上传账号信息"
-						onChange={(file, originFile) => props.uploadFile(file, originFile)}
-						accept=".xlsx,.xls"
-						btnProps={{
-							type: 'primary'
-						}}
-						bizzCode="B_EXCEL_0004"
 					/>
 				</div>
 			</FormItem>

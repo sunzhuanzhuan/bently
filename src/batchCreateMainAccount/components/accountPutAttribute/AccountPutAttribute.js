@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { AccountPutAttributeSteps } from '../../constants/config'
-import { platformIcon, operateClass } from '../../constants/config'
+import { platformIcon } from '../../constants/config'
 import * as batchOptionsAction from '../../actions/batchOptions'
-import * as commonActions from '../../../actions/index'
 import { Steps, message } from 'antd';
 
 const Step = Steps.Step;
@@ -14,23 +13,18 @@ class AccountPutAttribute extends Component {
 		super(props)
 		this.state = {
 			current: 0,
-			platform: '',
-			platformId: '',
-			operateType: ''
+			platform: ''
 		}
 	}
 	//跳转“上传账号信息”
-	jumpToTab2 = (operateType, it, id) => {
+	jumpToTab2 = (operateType, it) => {
 		this.props.actions.resetdownloadLink()
 		this.setState({
 			current: 1,
-			platform: it,
-			platformId: id,
-			operateType: operateType
+			platform: it
 		})
-		this.props.actions.getNewDownloadLink({
-			operateKey: operateType,
-			platformId: id
+		this.props.actions.getDownloadLink({
+			operateKey: operateType
 		})
 	}
 	//返回第一步
@@ -41,23 +35,20 @@ class AccountPutAttribute extends Component {
 		})
 	}
 	//上传
-	uploadFile = (file, originFile) => {
-		if (file.length !== 0) {
-			let value = {
-				uploadUrl: file[0].url,
-				operateType: this.state.operateType,
-				originalFileName: originFile.name,
-				platformId: this.state.platformId,
-				operateClass: operateClass[this.state.operateType]
-			}
-			this.props.actions.saveBatchOperate(value).then(() => {
-				this.setState({
-					current: 2
-				})
-			}).catch(() => {
-				message.error("请求失败")
-			})
+	uploadFile = (file) => {
+		let value = {
+			operate_type: platformIcon[this.state.platform].operateType,
+			remark: platformIcon[this.state.platform].remark,
+			url: file[0].url,
+			token: this.props.uploadInfo.token
 		}
+		this.props.actions.operateBatch(value).then(() => {
+			this.setState({
+				current: 2
+			})
+		}).catch(() => {
+			message.error("请求失败")
+		})
 	}
 	render() {
 		const Content = AccountPutAttributeSteps[this.state.current]
@@ -76,7 +67,6 @@ class AccountPutAttribute extends Component {
 					downloadLink={this.props.downloadLink}
 					uploadInfo={this.props.uploadInfo}
 					uploadFile={this.uploadFile}
-					getNewToken={this.props.actions.getNewToken}
 				></Content>
 			</div>
 		)
@@ -90,7 +80,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators({
-		...batchOptionsAction, ...commonActions
+		...batchOptionsAction
 	}, dispatch)
 })
 
