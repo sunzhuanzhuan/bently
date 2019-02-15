@@ -74,7 +74,7 @@ render(
 					{/* <Route exact path='/test' component={FormTest} /> */}
 					<Route exact path='/' render={() => (<Redirect to="/loginSuccess" />)} />
 					<Route path='/login' component={Login} />
-					<Route path='/finance/remitOrder/paymentOrder' component={ExtractCoin} />
+					{/* <Route path='/finance/remitOrder/paymentOrder' component={ExtractCoin} /> */}
 					<App history={history}>
 						<Switch>
 							<Route path='/orderTools' component={Order} />
@@ -84,16 +84,16 @@ render(
 							<Route path='/auth' component={AuthRoute} />
 							<Route path='/manage' component={ManageRoute} />
 							<Route path='/recommend' component={KeyWordIndex} />
-							<Route path='/finance/detail' component={Detail} />
+							<Route path='/sale' component={SaleCRMRoute} />
+							{/* <Route path='/finance/detail' component={Detail} />
 							<Route path='/finance/freeze' component={Detail} />
 							<Route path='/finance/golden' component={Detail} />
-							<Route path='/sale' component={SaleCRMRoute} />
 							<Route path='/finance/invoice' component={Invoice} />
 							<Route path='/finance/contractManage' component={ExtractCoin} />
 							<Route path='/finance/extractManage' component={ExtractCoin} />
 							<Route path='/finance/remitOrder' component={ExtractCoin} />
 							<Route path='/finance/saleIncome' component={SaleIncomeRoute} />
-							<Route path='/finance/studioManage' component={StudioManage} />
+							<Route path='/finance/studioManage' component={StudioManage} /> */}
 							<Route path='/goodsReceipt' component={GoodsReceipt} />
 							<Route path='/ol' component={OperationslabelRoute} />
 							<Route path='/extensionNumber' component={ExtensionNumber} />
