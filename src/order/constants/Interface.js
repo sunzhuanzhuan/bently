@@ -1,4 +1,4 @@
 export default {
-	getExportDotDataList: '/toolbox/file/v1/getOrderDateCollectionList',
-	downloadDotData: '/toolbox/file/v1/getRealDownLoadPath'
+	getExportDotDataList: '/toolbox-gateway/file/v1/getOrderDateCollectionList',
+	downloadDotData: '/toolbox-gateway/file/v1/getRealDownLoadPath'
 }
