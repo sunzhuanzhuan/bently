@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Steps, message } from 'antd';
+import * as commonActions from '../../../actions/index'
 import * as batchOptionsActions from '../../actions/batchOptions'
 import UploadAccountMessage from './UploadAccountMessage'
 import { Finish } from './Finish'
-import { stepMessage, step2Title } from '../../constants/config'
+import { stepMessage, step2Title, operateClass } from '../../constants/config'
 import './BatchCreateMainAccount.less'
 
 const Step = Steps.Step;
@@ -18,21 +19,43 @@ class BatchCreateMainAccount extends Component {
 		}
 	}
 	componentWillMount() {
-		this.props.getdownloadLink()
-	}
-	upload = (file) => {
-		let value = {
-			url: file[0].url,
-			operate_type: this.props.operateKey,
-			token: this.props.uploadInfo.token
+		if (this.props.operateKey == "addSelfmediaUser") {
+			this.props.getdownloadLink()
+		} else {
+			this.props.getNewDownloadLink()
 		}
-		this.props.actions.operateBatch(value).then(() => {
-			this.setState({
-				current: 1
-			})
-		}).catch(() => {
-			message.error("请求失败")
-		})
+	}
+	upload = (file, originFile) => {
+		if (file.length !== 0) {
+			if (this.props.operateKey == "addSelfmediaUser") {
+				let value = {
+					url: file[0].url,
+					operate_type: this.props.operateKey,
+					token: this.props.uploadInfo.token
+				}
+				this.props.actions.operateBatch(value).then(() => {
+					this.setState({
+						current: 1
+					})
+				}).catch(() => {
+					message.error("请求失败")
+				})
+			} else {
+				let value = {
+					uploadUrl: file[0].url,
+					operateType: this.props.operateKey,
+					originalFileName: originFile.name,
+					operateClass: operateClass[this.props.operateKey]
+				}
+				this.props.actions.saveBatchOperate(value).then(() => {
+					this.setState({
+						current: 1
+					})
+				}).catch(() => {
+					message.error("请求失败")
+				})
+			}
+		}
 	}
 	//继续操作
 	continueOption = () => {
@@ -58,6 +81,7 @@ class BatchCreateMainAccount extends Component {
 							return={this.props.return}
 							downloadLink={this.props.downloadLink}
 							operateKey={this.props.operateKey}
+							getNewToken={this.props.actions.getNewToken}
 						></UploadAccountMessage> :
 						<Finish
 							return={this.props.return}
@@ -77,7 +101,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators({
-		...batchOptionsActions
+		...batchOptionsActions, ...commonActions
 	}, dispatch)
 })
 
