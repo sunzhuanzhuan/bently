@@ -104,7 +104,7 @@ class AddAdjustApply extends React.Component {
 			/>
 			<Row className='top-gap' style={{ textAlign: 'center' }}>
 				<Button className='adjust-apply-btn' type='default' onClick={() => {
-					this.props.history.push('/golden/adjustApply')
+					this.props.history.push('/finance/golden/adjustApply')
 				}}>上一步</Button>
 				<Button className='adjust-apply-btn left-gap' type='primary' disabled={!curSelectRowKeys.length}
 					onClick={

@@ -6,6 +6,7 @@ import EventEmitter from 'events';
 const { location } = window;
 
 export const toast = ({ text }) => {
+	message.destroy()
 	message.error(text)
 	// notification.error({
 	// 	message: text
@@ -26,7 +27,7 @@ const request = (endpoint, options) => {
 	}
 	const type = (options.type || 'get').toLowerCase();
 
-	if (type == 'post') {
+	if (type == 'post' || type == 'put') {
 		return api[type](endpoint, options.data);
 	} else {
 		return api[type](endpoint, { params: options.data });
@@ -61,7 +62,7 @@ const getUrlParam = (str = location.href) => {
 /**
  * 根据loction.pathname判断平台页面类型
  * @param str 默认是location.pathname
- * 
+ *
  */
 const checkPlatformType = (str = location.pathname) => {
 	let platformTypeCharArray = ["weixin", "video", "live", "sina", "moments"];

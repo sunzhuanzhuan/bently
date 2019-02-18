@@ -73,7 +73,7 @@ class AccountFlow extends Component {
 				const hide = message.loading('查询中，请稍候...');
 				this.queryData({ company_id: this.props.id, ...params.keys, page: 1, page_size: 20 }, () => {
 					this.props.history.replace({
-						pathname: '/detail/company',
+						pathname: '/finance/detail/company',
 						search: `?${qs.stringify(params)}`,
 					})
 				}).then(() => {

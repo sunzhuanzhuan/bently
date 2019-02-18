@@ -56,7 +56,7 @@ class AdjustQuery extends React.Component {
 				const hide = message.loading('查询中，请稍候...');
 				questAction({ ...params.keys, page: 1, page_size: pageSize }).then(() => {
 					this.props.history.replace({
-						pathname: '/golden/adjustApply',
+						pathname: '/finance/golden/adjustApply',
 						search: `?${qs.stringify(params)}`,
 					})
 					hide();
@@ -123,10 +123,10 @@ class AdjustQuery extends React.Component {
 				</FormItem>
 				<FormItem className='left-gap'>
 					<Button type="primary" onClick={this.handleSearch}>查询</Button>
-					{flag ? <Button type='primary' className='left-gap' href='/golden/adjustApplyInput'
+					{flag ? <Button type='primary' className='left-gap' href='/finance/golden/adjustApplyInput'
 					>导入</Button> : null}
 					{btnFlag ? <Button className='left-gap' type="primary"
-						href={`/golden/addAdjustApply?${qs.stringify({ keys: { page_size: 50 } })}`}
+						href={`/finance/golden/addAdjustApply?${qs.stringify({ keys: { page_size: 50 } })}`}
 						target='_blank'
 					>添加申请</Button> : null}
 					<a className="reset-filter left-gap" onClick={this.handleClear}><Icon type="retweet" />重置搜索框</a>

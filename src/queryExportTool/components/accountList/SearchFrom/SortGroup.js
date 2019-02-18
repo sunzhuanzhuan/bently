@@ -3,7 +3,7 @@ import { } from 'antd'
 import SortBtn from "@/queryExportTool/components/accountList/SearchFrom/SortBtn";
 import { Icon } from "antd";
 import { Cascader } from "antd";
-
+import { parseUrlQuery } from '@/util/parseUrl'
 
 export default class SortGroup extends Component {
 	dataToParams = (key, sort) => {
@@ -28,17 +28,24 @@ export default class SortGroup extends Component {
 		})
 		this.dataToParams(valueArray[0], valueArray[1])
 	}
+	reset = (clear) => {
+		this.setState({
+			sort: (clear ? undefined : this.props.sorter.default) || {},
+			moreText: '更多排序',
+			isDrop: false
+		})
+		return { sort: (clear ? undefined : this.props.sorter.default) }
+	}
 
 	constructor(props) {
 		super(props)
+		let keyword = parseUrlQuery()['keyword'];
 		this.state = {
-			sort: props.sorter.default || {},
+			sort: keyword ? {} : (props.sorter.default || {}),
 			moreText: '更多排序',
 			isDrop: false
 		}
 	}
-
-	componentWillMount() { }
 
 	render() {
 		const { sorter = {} } = this.props

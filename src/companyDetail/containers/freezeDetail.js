@@ -77,7 +77,7 @@ class FreezeDetail extends Component {
 				const hide = message.loading('查询中，请稍候...');
 				this.queryData({ company_id: search.company_id, ...params.keys, page: 1, page_size: 20 }, () => {
 					this.props.history.replace({
-						pathname: '/freeze/detail',
+						pathname: '/finance/freeze/detail',
 						search: `?${qs.stringify(params)}`,
 					});
 				}).then(() => {

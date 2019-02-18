@@ -50,12 +50,12 @@ class AdjustApply extends React.Component {
 	}
 	handleJump = (id, company_id) => {
 		this.props.history.push({
-			pathname: '/golden/adjustApplyDetail',
+			pathname: '/finance/golden/adjustApplyDetail',
 			search: `?${qs.stringify({ readjust_application_id: id, company_id, keys: { readjust_application_id: id, company_id, page_size: 50 } })}`,
 		});
 	}
 	handleInput = () => {
-		this.props.history.push('/golden/adjustApplyInput')
+		this.props.history.push('/finance/golden/adjustApplyInput')
 	}
 	handleExport = (readjust_application_id) => {
 		this.props.actions.getExport({ readjust_application_id })

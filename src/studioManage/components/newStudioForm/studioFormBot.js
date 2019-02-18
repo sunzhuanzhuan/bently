@@ -103,7 +103,7 @@ class StudioFormBot extends React.Component {
 			</Row>
 			<Row className='top-gap' type='flex' justify='center'>
 				<Button type='default' onClick={() => {
-					this.props.history.push('/studiomanage/list');
+					this.props.history.push('/finance/studiomanage/list');
 				}}>取消</Button>
 				<Button className='left-gap' type='primary' onClick={handleOk}>提交</Button>
 			</Row>

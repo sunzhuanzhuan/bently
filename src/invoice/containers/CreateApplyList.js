@@ -349,13 +349,13 @@ class CreateApplyList extends Component {
 				}, () => {
 					if (this.props.applyType == 2) {
 						this.props.actions.modifiedSubmit(this.state.formData).then((response) => {
-							this.props.history.push("/invoice/applyList")
+							this.props.history.push("/finance/invoice/applyList")
 						}).catch(({ errorMsg }) => {
 							message.error(errorMsg || '请求出错', 1)
 						});
 					} else {
 						this.props.actions.postForm(this.state.formData).then((response) => {
-							this.props.history.push("/invoice/applyList")
+							this.props.history.push("/finance/invoice/applyList")
 						}).catch(({ errorMsg }) => {
 							message.error(errorMsg || '请求出错', 1)
 						});
@@ -526,7 +526,7 @@ class CreateApplyList extends Component {
 						//debugger
 						//修改了push的方式
 						this.props.history.push({
-							pathname: "/invoice/upload",
+							pathname: "/finance/invoice/upload",
 							search: '?' + qs.stringify(Obj)
 						})
 
@@ -535,13 +535,13 @@ class CreateApplyList extends Component {
 							//browserHistory.push("/invoice/completeApply?id=" + this.state.id)
 							//修改了push的方式
 							this.props.history.push({
-								pathname: "/invoice/completeApply",
+								pathname: "/finance/invoice/completeApply",
 								search: '?' + qs.stringify({ id: this.state.id })
 							})
 
 						} else {
 							//修改了push的方式
-							this.props.history.push("/invoice/applyList")
+							this.props.history.push("/finance/invoice/applyList")
 							//browserHistory.push("/invoice/applyList")
 						}
 
@@ -581,7 +581,7 @@ class CreateApplyList extends Component {
 					//browserHistory.push({ pathname: "/invoice/upload", state: Obj })
 					//修改了push的方式
 					this.props.history.push({
-						pathname: "/invoice/upload",
+						pathname: "/finance/invoice/upload",
 						search: '?' + qs.stringify(Obj)
 					})
 
@@ -590,14 +590,14 @@ class CreateApplyList extends Component {
 						//browserHistory.push("/invoice/completeApply?id=" + this.state.id)
 						//修改了push的方式
 						this.props.history.push({
-							pathname: "/invoice/completeApply",
+							pathname: "/finance/invoice/completeApply",
 							search: '?' + qs.stringify({ id: this.state.id })
 						})
 
 					} else {
 						//browserHistory.push("/invoice/applyList")
 						//修改了push的方式
-						this.props.history.push("/invoice/applyList")
+						this.props.history.push("/finance/invoice/applyList")
 					}
 
 				}

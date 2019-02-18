@@ -17,7 +17,13 @@ export default class SortDrop extends Component {
 		isDrop: false
 	}
 
-	componentWillMount() { }
+	reset = () => {
+		this.setState({
+			value: '0',
+			isDrop: false
+		})
+		return { [this.props.field]: undefined }
+	}
 
 	render() {
 		const { title = '上下架类型', prefix = 'shelf', lists, field } = this.props

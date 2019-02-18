@@ -195,7 +195,7 @@ class RemitOrderDetail extends React.Component {
 				</Row> : null}
 				<Row className='topGap'>
 					<Col style={{ textAlign: 'right' }}>
-						<Link to='/remitOrder'>
+						<Link to='/finance/remitOrder'>
 							<Button style={{ marginRight: '20px' }} size='large'>返回</Button>
 						</Link>
 						{status === 3 ? null : <Button type="primary" size='large' onClick={this.handleTipVisible}>{status === 0 ? '已打款' : status === 1 ? '已还款' : '已结税'}</Button>}

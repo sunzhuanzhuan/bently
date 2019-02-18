@@ -96,7 +96,7 @@ const mapFieldsToPlatform = {
 	"introduction": [1, 2, 3, 4, 5],
 	"verification_info": [1, 2, 3, 4, 5],
 	"cooperation_tips": [1, 2, 3, 4, 5],
-	"cooperation_case_brand": [1, 2, 4],
+	"trademark_name": [1, 2, 4],
 	"hotword_name": [1, 2, 4],
 	"latest_publish_time": [1, 2, 3, 4],
 	"verified_status": [2],
@@ -139,7 +139,7 @@ class MoreFilter extends Component {
 		const { onCancel, selectedkeys } = this.props;
 		const moreFileldKeys = [
 			"introduction", "verification_info", "cooperation_tips",
-			"cooperation_case_brand", "hotword_name", "sku_unit_read_price", "sku_unit_play_price",
+			"trademark_name", "hotword_name", "sku_unit_read_price", "sku_unit_play_price",
 			"latest_publish_time", "verified_status", "is_verified", "gender", "media_type", "industry_id", "sku_price_valid"
 		]
 		const _moreFileldKeys = moreFileldKeys.filter(item => selectedkeys.indexOf(item) == -1)
@@ -197,12 +197,12 @@ class MoreFilter extends Component {
 								)}
 							</FormItem>
 						</Col>}
-						{mapFieldsToPlatform['cooperation_case_brand'].includes(platformType) && <Col span={12}>
+						{mapFieldsToPlatform['trademark_name'].includes(platformType) && <Col span={12}>
 							<FormItem
 								{...formItemLayout}
 								label={'提及品牌词'}>
-								{getFieldDecorator('cooperation_case_brand')(
-									<Input onChange={(e) => this.onChange('cooperation_case_brand', '提及品牌词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+								{getFieldDecorator('trademark_name')(
+									<Input onChange={(e) => this.onChange('trademark_name', '提及品牌词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
 								)}
 							</FormItem>
 						</Col>}

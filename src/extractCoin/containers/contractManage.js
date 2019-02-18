@@ -159,7 +159,7 @@ class contract extends React.Component {
 				align: 'center',
 				render: (text, { id }) => {
 					return <span>
-						<Link to={`/contractManage/addContract?contract_id=${id}`}>编辑</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+						<Link to={`/finance/contractManage/addContract?contract_id=${id}`}>编辑</Link>&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href='javascript:;' onClick={() => {
 							this.handleModal(id)
 						}}>删除</a>
@@ -207,7 +207,7 @@ class contract extends React.Component {
 					</Col>
 				</Row>
 			</Form>
-			<Link to='/contractManage/addContract'>
+			<Link to='/finance/contractManage/addContract'>
 				<Button type='primary' className='addBtn'>添加合同</Button>
 			</Link>
 			<Table className='amazing-table' columns={contractConfig} pagination={contractPagination}

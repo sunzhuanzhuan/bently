@@ -38,17 +38,16 @@ export default class ModifyLinkModal extends Component {
 		callback('请上传数据截图')
 	}
 
-	validatorValue = (isProportion) => (rule, value, callback) => {
-		let decimal = value.toString().split(".")[1]
-		if(decimal && decimal.length > 2){
-			callback('仅支持小数点后两位')
-		}
-		callback()
-		/*if (isProportion) {
+	validatorValue = (isProportion) => (rule, value = '', callback) => {
+		if (isProportion) {
+			let decimal = value.toString().split(".")[1]
+			if(decimal && decimal.length > 2){
+				callback('仅支持小数点后两位')
+			}
 			callback()
 		} else {
 			callback()
-		}*/
+		}
 	}
 
 	componentWillMount() {
@@ -120,9 +119,16 @@ export default class ModifyLinkModal extends Component {
 						let isProportion = type === 'double'
 						let props = isProportion ? {
 							max: 100,
-							formatter: value => `${value}%`,
+							min: -1,
+							formatter: value => {
+								value = (value >= -1 && value < 0 ) ? -1 : value
+								return (value && (value == -1 ? value : `${value}%`))
+							},
 							parser: value => value.replace('%', '')
-						} : {}
+						} : {
+							min: -1,
+							precision: 0
+						}
 						return <div key={item_id} >
 							<Form.Item label=' ' colon={false}>
 								<span className='custom-label'>{display}:</span>
@@ -132,7 +138,7 @@ export default class ModifyLinkModal extends Component {
 									rules: [{ required: required == 1, message: `请录入${display}` },
 										{ validator: this.validatorValue(isProportion) }]
 								})(
-									<InputNumber size='small' min={0} style={{ width: '80px' }} {...props} />)}
+									<InputNumber size='small' style={{ width: '80px' }} {...props} />)}
 							</Form.Item>
 							{getFieldDecorator(`execution_results[${n}]record_for_sale[${index}].id`,{initialValue: item_id,})(
 								<input type="hidden" />)}

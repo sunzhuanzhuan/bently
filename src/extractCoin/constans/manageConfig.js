@@ -71,7 +71,7 @@ export const contractConfig = [
 		align: 'center',
 		render: () => {
 			return <span>
-				<a href='/contractManage/addContract'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href='/finance/contractManage/addContract'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href='#'>删除</a>
 			</span>
 		}
@@ -265,7 +265,7 @@ export const extractDetailFunc = (order_status) => {
 			align: 'center',
 			fixed: 'left',
 			render: (text, { id }) => {
-				return <a target='_blank' href={`/extractManage/applyDetail?id=${id}`}>{text}</a>
+				return <a target='_blank' href={`/finance/extractManage/applyDetail?id=${id}`}>{text}</a>
 			}
 		},
 		{
@@ -552,7 +552,7 @@ export const remitOrderFunc = (order_status, handleOutputDetail, handleReceiptsV
 						handleOutputDetail(id, record)
 					}}>导出打款单</a> : status === 3 ? null : <a href={`/api/flash/down_excel?${qs.stringify(obj)}`} target='_blank' className='rightGap'>{status === 1 ? '导出还款单' : '导出结税单'}</a>}
 					<Link to={{
-						pathname: 'remitOrder/detail',
+						pathname: '/finance/remitOrder/detail',
 						search: `?id=${id}`,
 					}} className='rightGap'>查看详情</Link>
 					{/*不同状态对应不同文案及接口，接口处理在handleTipVisible（）中 */}
@@ -756,7 +756,7 @@ export const receiptsConfig = [
 				id,
 				bill_params: [{ ...objFilter(obj) }]
 			};
-			return <a href={`/remitOrder/paymentOrder?${qs.stringify(params)}`} target='_blank'>预览</a>
+			return <a href={`/finance/remitOrder/paymentOrder?${qs.stringify(params)}`} target='_blank'>预览</a>
 		}
 	}
 ]

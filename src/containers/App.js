@@ -38,6 +38,7 @@ class App extends Component {
 		//神策的代码不应该阻塞，去掉await, 使用then的成功回调。
 		this.props.actions.getUserConfigKey({ keys: 'shence_base_url_for_b,babysitter_host' }).then((res) => {
 			let userResult = res.data.shence_base_url_for_b
+			window.bentleyConfig = res.data || {}
 			sensors(userInfoId, userResult.value, 101)
 		});
 

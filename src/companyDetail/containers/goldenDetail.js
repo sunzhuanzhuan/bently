@@ -81,7 +81,7 @@ class GoldenDetail extends Component {
 				const hide = message.loading('查询中，请稍候...');
 				this.queryData({ company_id: search.company_id, ...params.keys, page: 1, page_size: this.state.pageSize }, () => {
 					this.props.history.replace({
-						pathname: '/golden/detail',
+						pathname: '/finance/golden/detail',
 						search: `?${qs.stringify(params)}`,
 					});
 				}).then(() => {

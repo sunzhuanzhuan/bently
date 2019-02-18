@@ -153,7 +153,7 @@ export const coffersListFunc = (id) => {
 			dataIndex: 'action',
 			key: 'action',
 			align: 'left',
-			render: () => <Link to={`/golden/detail?company_id=${id}`}>查看详情</Link>
+			render: () => <Link to={`/finance/golden/detail?company_id=${id}`}>查看详情</Link>
 		}
 	]
 }
@@ -175,7 +175,7 @@ export const companyAdjustFunc = (id) => {
 			title: '调价明细',
 			dataIndex: 'action',
 			key: 'action',
-			render: () => <Link to={`/golden/adjustDetail?company_id=${id}`}>查看详情</Link>
+			render: () => <Link to={`/finance/golden/adjustDetail?company_id=${id}`}>查看详情</Link>
 		}
 	]
 }

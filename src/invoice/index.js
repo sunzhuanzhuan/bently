@@ -22,15 +22,15 @@ class Invoice extends Component {
 	render() {
 		return (
 			<div>
-				<Route path="/invoice/applyList" component={ApplyList}></Route>
-				<Route path="/invoice/apply" component={ContainerForm}></Route>
-				<Route path="/invoice/upload" component={Upload}></Route>
-				<Route path="/invoice/completeApply" component={CompleteApplyList}></Route>
-				<Route path='/invoice/applyDetail' component={InvoiceApplyDetail}></Route>
-				<Route path="/invoice/reparation" component={Reparation}></Route>
+				<Route path="/finance/invoice/applyList" component={ApplyList}></Route>
+				<Route path="/finance/invoice/apply" component={ContainerForm}></Route>
+				<Route path="/finance/invoice/upload" component={Upload}></Route>
+				<Route path="/finance/invoice/completeApply" component={CompleteApplyList}></Route>
+				<Route path='/finance/invoice/applyDetail' component={InvoiceApplyDetail}></Route>
+				<Route path="/finance/invoice/reparation" component={Reparation}></Route>
 				{/* <Route path="/invoice/editApply" component={modified}></Route>
     <Route path="/invoice/editUpload" component={modifiedUpload}></Route> */}
-				<Route path="/invoice/associateInvoice" component={AssociateInvoice}></Route>
+				<Route path="/finance/invoice/associateInvoice" component={AssociateInvoice}></Route>
 				{/* <Route path="/invoice/tan" component={newInvoice}></Route> */}
 
 			</div>

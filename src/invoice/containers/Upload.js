@@ -140,12 +140,12 @@ class upload extends Component {
 								id: search.id
 							}
 							this.props.history.push({
-								pathname: '/invoice/completeApply',
+								pathname: '/finance/invoice/completeApply',
 								search: '?' + qs.stringify(params)
 							})
 						} else {
 							//修改了push的方式
-							this.props.history.push("/invoice/applyList")
+							this.props.history.push("/finance/invoice/applyList")
 						}
 					}
 				}).catch(({ errorMsg }) => {
@@ -163,7 +163,7 @@ class upload extends Component {
 		const params = { company_id, applyType, id };
 		//修改了push的方式
 		this.props.history.push({
-			pathname: '/invoice/apply',
+			pathname: '/finance/invoice/apply',
 			search: '?' + qs.stringify(params)
 		})
 	}

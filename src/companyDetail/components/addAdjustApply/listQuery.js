@@ -88,7 +88,7 @@ class ListQuery extends React.Component {
 			'add': {
 				params: { page: 1 }, func: (params) => {
 					this.props.history.replace({
-						pathname: '/golden/addAdjustApply',
+						pathname: '/finance/golden/addAdjustApply',
 						search: `?${qs.stringify(params)}`,
 					})
 				}
@@ -96,7 +96,7 @@ class ListQuery extends React.Component {
 			'detail': {
 				params: { page: 1, readjust_application_id: search.readjust_application_id, company_id: search.company_id }, func: (params) => {
 					this.props.history.replace({
-						pathname: '/golden/adjustApplyDetail',
+						pathname: '/finance/golden/adjustApplyDetail',
 						search: `?${qs.stringify({ readjust_application_id: search.readjust_application_id, company_id: search.company_id, ...params })}`,
 					})
 				}
