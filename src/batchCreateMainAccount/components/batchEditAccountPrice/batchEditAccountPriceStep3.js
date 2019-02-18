@@ -1,12 +1,11 @@
 
 import React from 'react'
 import { Button, Form, message } from 'antd';
-// import { WBYUploadFile } from 'wbyui'
 import NewUpload from '../NewUpload'
 import '../mainAccountAndmicro/UploadAccountMessage.less'
 
 const FormItem = Form.Item;
-export const AccountPutAttributeStep2 = (props) => {
+export const batchEditAccountPriceStep3 = (props) => {
 	const formItemLayout = {
 		labelCol: { span: 5 },
 		wrapperCol: { span: 19 }
@@ -29,21 +28,6 @@ export const AccountPutAttributeStep2 = (props) => {
 						)
 				}
 				<div className="upload-box">
-					{/* <WBYUploadFile
-						tok={{
-							token: props.uploadInfo.token,
-							upload_url: props.uploadInfo.upload_uri
-						}}
-						len={1}
-						size={50}
-						listType="text"
-						uploadText="上传账号信息"
-						onChange={(file) => props.uploadFile(file)}
-						accept=".xlsx,.xls"
-						btnProps={{
-							type: 'primary'
-						}}
-					/> */}
 					<NewUpload
 						tok={props.getNewToken}
 						uploadUrl="/api/common-file/file/v1/uploadPriBucket"
@@ -56,7 +40,7 @@ export const AccountPutAttributeStep2 = (props) => {
 						btnProps={{
 							type: 'primary'
 						}}
-						bizzCode="B_EXCEL_0004"
+						bizzCode="B_EXCEL_0005"
 					/>
 				</div>
 			</FormItem>
@@ -66,7 +50,7 @@ export const AccountPutAttributeStep2 = (props) => {
 			>
 				<ul className="option-function">
 					<li>1、点击【下载模板】按钮，下载模板</li>
-					<li>2、按要求将需入库的账号信息填写在模板表格中</li>
+					<li>2、按要求将需要修改报价的账号信息填写在模板表格中</li>
 					<li>3、点击【上传账号信息】按钮，上传填写好的模板</li>
 				</ul>
 			</FormItem>
@@ -80,7 +64,7 @@ export const AccountPutAttributeStep2 = (props) => {
 			</FormItem>
 			<FormItem>
 				<Button type="default" className="btn-return"
-					onClick={() => props.jumpToTab1()}
+					onClick={() => props.returnStep2()}
 				>返回上一步</Button>
 			</FormItem>
 		</div>
