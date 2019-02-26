@@ -46,6 +46,8 @@ import AccountList from './queryExportTool/index'
 import ErrorIndex from './containers/error'
 import Login from './login/container/Login'
 import videoDispatch from "./videoDispatch";
+import CooperationPlatform from "./cooperationPlatform";
+
 //404错误页面
 // import AccountManage from './accountManage'
 import GoodsReceipt from "./goodsReceipt";
@@ -54,18 +56,18 @@ moment.locale('zh-cn');
 // const AccountList = lazyLoadComponent(() => import('./queryExportTool/index'))
 const redirectToOtherProjects = ({ location: { pathname = '/error' }, history }) => {
 	/** 新B端测试环境地址 @namespace process.env.REACT_APP_TRUNK_BENTLEY_ADDRESS **/
-	if(/^\/(account|finance)+\/.+/.test(pathname)){
+	if (/^\/(account|finance)+\/.+/.test(pathname)) {
 		if (process.env.NODE_ENV === 'development') {
 			window.location.replace(process.env.REACT_APP_TRUNK_BENTLEY_ADDRESS + pathname)
 			return null;
 		}
 		window.location.replace(pathname)
-	}else{
+	} else {
 		return <Redirect to={'/error'} />;
 	}
 	return null
 }
-  
+
 render(
 	<LocaleProvider locale={zhCN}>
 		<Provider store={store}>
@@ -108,6 +110,7 @@ render(
 							<Route path='/error' component={ErrorIndex} />
 							<Route path='/exportTemplate' component={ExportTemplate} />
 							<Route path='/salesAuditManage' component={SalesAuditManage} />
+							<Route path='/config' component={CooperationPlatform} />
 							{/* <Redirect to={'/error'} /> */}
 							<Route render={redirectToOtherProjects} />
 						</Switch>
