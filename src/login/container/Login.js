@@ -37,7 +37,15 @@ class NormalLoginForm extends React.Component {
 		if (window.location.host === 'nb.weiboyi.com') {
 			Cookie.set('token', data['X-Access-Token'], { domain: '.weiboyi.com', expires: expires_in_days, path: '/' })
 		} else {
-			Cookie.set('token', data['X-Access-Token'], { expires: expires_in_days, path: '/' })
+			let domain;
+			// 判断是否为IP
+			if(/^(\d+\.\d+\.\d+\.\d+)$/.test(window.location.hostname)){
+				domain = window.location.hostname
+			}else {
+				// 截取主域名
+				domain = '.' + window.location.hostname.split('.').slice(-2).join('.')
+			}
+			Cookie.set('token', data['X-Access-Token'], { expires: expires_in_days, path: '/', domain })
 		}
 	}
 	componentDidMount() {
