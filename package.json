@@ -92,8 +92,16 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
+		"/api/login": {
+			"target": "http://nb.tst-weiboyi.com",
+			"changeOrigin": true
+		},
+		"/api/cross": {
+			"target": "http://nb.tst-weiboyi.com",
+			"changeOrigin": true
+		},
 		"/api": {
-			"target": "http://192.168.100.196:8090",
+			"target": "http://192.168.100.196:9097",
 			"changeOrigin": true
 		}
 	},
