@@ -217,7 +217,8 @@ class NewDealResult extends Component {
 				align: 'center',
 				render: (text, record) =>
 					<Tooltip title={text} arrowPointAtCenter>
-						<a href={record.urlName}>{this.cut(text)}{text.length > 15 ? '...' : ''}</a>
+						<a onClick={() => this.downloadDealResult(record.urlName)}
+						>{this.cut(text)}{text.length > 15 ? '...' : ''}</a>
 					</Tooltip>
 			}, {
 				title: '批量操作类型',
