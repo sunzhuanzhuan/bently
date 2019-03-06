@@ -24,10 +24,10 @@ import AuthRoute from './auth/index'
 import ReservationRoute from './reservation/index'
 import BatchCreateMainAccountRoute from './batchCreateMainAccount/index'
 import SaleCRMRoute from './saleCRM/index'
-import Detail from './companyDetail/index'
-import Invoice from './invoice/index'
+// import Detail from './companyDetail/index'
+// import Invoice from './invoice/index'
 import AccountUploadRoute from "./accountUpload/index";
-import ExtractCoin from './extractCoin/index'
+// import ExtractCoin from './extractCoin/index'
 import OperationslabelRoute from './operationslabel/index'
 import ExtensionNumber from './extensionNumber/index'
 import ManageRoute from './manage/index'
@@ -35,9 +35,9 @@ import KeyWordIndex from './accountRecommend/index'
 import LoginSuccess from './loginIndex/index'
 import VideoMark from './videomark/index'
 import AccountEnter from './accountEnter/index'
-import SaleIncomeRoute from './saleIncome/index'
-//import FormTest from './components/Form/FormTest'
-import StudioManage from './studioManage'
+// import SaleIncomeRoute from './saleIncome/index'
+// import FormTest from './components/Form/FormTest'
+// import StudioManage from './studioManage'
 import SalesAuditManage from "./salesAuditManage/index";
 
 import ExportTemplate from './exportTemplate/index'
@@ -52,14 +52,14 @@ import GoodsReceipt from "./goodsReceipt";
 numeral.locale('chs')
 moment.locale('zh-cn');
 // const AccountList = lazyLoadComponent(() => import('./queryExportTool/index'))
-const redirectToOtherProjects = ({ location: { pathname = '/error' }, history }) => {
+const redirectToOtherProjects = ({ location: { pathname = '/error', search = '' }, history }) => {
 	/** 新B端测试环境地址 @namespace process.env.REACT_APP_TRUNK_BENTLEY_ADDRESS **/
 	if(/^\/(account|finance)+\/.+/.test(pathname)){
 		if (process.env.NODE_ENV === 'development') {
 			window.location.replace(process.env.REACT_APP_TRUNK_BENTLEY_ADDRESS + pathname)
 			return null;
 		}
-		window.location.replace(pathname)
+		window.location.replace(pathname + search)
 	}else{
 		return <Redirect to={'/error'} />;
 	}
@@ -74,7 +74,7 @@ render(
 					{/* <Route exact path='/test' component={FormTest} /> */}
 					<Route exact path='/' render={() => (<Redirect to="/loginSuccess" />)} />
 					<Route path='/login' component={Login} />
-					<Route path='/finance/remitOrder/paymentOrder' component={ExtractCoin} />
+					{/* <Route path='/finance/remitOrder/paymentOrder' component={ExtractCoin} /> */}
 					<App history={history}>
 						<Switch>
 							<Route path='/orderTools' component={Order} />
@@ -84,16 +84,16 @@ render(
 							<Route path='/auth' component={AuthRoute} />
 							<Route path='/manage' component={ManageRoute} />
 							<Route path='/recommend' component={KeyWordIndex} />
-							<Route path='/finance/detail' component={Detail} />
+							<Route path='/sale' component={SaleCRMRoute} />
+							{/* <Route path='/finance/detail' component={Detail} />
 							<Route path='/finance/freeze' component={Detail} />
 							<Route path='/finance/golden' component={Detail} />
-							<Route path='/sale' component={SaleCRMRoute} />
 							<Route path='/finance/invoice' component={Invoice} />
 							<Route path='/finance/contractManage' component={ExtractCoin} />
 							<Route path='/finance/extractManage' component={ExtractCoin} />
 							<Route path='/finance/remitOrder' component={ExtractCoin} />
 							<Route path='/finance/saleIncome' component={SaleIncomeRoute} />
-							<Route path='/finance/studioManage' component={StudioManage} />
+							<Route path='/finance/studioManage' component={StudioManage} /> */}
 							<Route path='/goodsReceipt' component={GoodsReceipt} />
 							<Route path='/ol' component={OperationslabelRoute} />
 							<Route path='/extensionNumber' component={ExtensionNumber} />

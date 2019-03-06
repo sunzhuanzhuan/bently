@@ -4,11 +4,30 @@ import AccountPutAttribute from '../components/accountPutAttribute/AccountPutAtt
 import { AccountPutAttributeStep1 } from '../components/accountPutAttribute/AccountPutAttributeStep1'
 import { AccountPutAttributeStep2 } from '../components/accountPutAttribute/AccountPutAttributeStep2'
 import { AccountPutAttributeStep3 } from '../components/accountPutAttribute/AccountPutAttributeStep3'
+import BatchEditAccountPrice from '../components/batchEditAccountPrice/BatchEditAccountPrice'
+import { batchEditAccountPriceStep1 } from '../components/batchEditAccountPrice/batchEditAccountPriceStep1'
+import { batchEditAccountPriceStep2 } from '../components/batchEditAccountPrice/batchEditAccountPriceStep2'
+import { batchEditAccountPriceStep3 } from '../components/batchEditAccountPrice/batchEditAccountPriceStep3'
+import { batchEditAccountPriceStep4 } from '../components/batchEditAccountPrice/batchEditAccountPriceStep4'
 
+export const operateType = {
+	"addMicroPutAttribute": "账号批量操作-标记微闪投账号",
+	"addSelfmediaUser": "主账号批量操作-创建主账号",
+	"addAccountForHomeLink": "账号批量操作-账号入库",
+	"addAccountForOnline": "账号批量操作-账号批量上下架",
+	"addAccountForChangeMainAccount": "账号批量操作-账号批量更换主账号"
+}
+export const statusName = {
+	"1": "待处理",
+	"2": "处理中",
+	"3": "处理完成",
+	"4": "处理失败"
+}
 export const typeConfig = {
 	"tab1": ChooseType,
 	"tab2": BatchCreateMainAccount,
-	"tab3": AccountPutAttribute
+	"tab3": AccountPutAttribute,
+	"tab4": BatchEditAccountPrice
 }
 
 export const statusDotColor = {
@@ -243,3 +262,38 @@ export const platformIconArray = [
 	["淘宝达人", "抖音", "小红书", "秒拍", "微视", "Acfun"], ["西瓜视频", "快手", "火山小视频", "哔哩哔哩", "优酷", "土豆视频"],
 	["爱奇艺", "搜狐视频", "腾讯视频", "美拍", "小咖秀", "一直播"], ["花椒", "映客", "新浪微博", "微信", "熊猫直播"]
 ]
+
+export const batchEditAccountPricePlatformIconArray = [
+	["淘宝达人", "抖音", "小红书", "秒拍", "微视", "Acfun"], ["西瓜视频", "快手", "火山小视频", "哔哩哔哩", "优酷", "土豆视频"],
+	["爱奇艺", "搜狐视频", "腾讯视频", "美拍", "小咖秀", "一直播"], ["花椒", "映客", "新浪微博", "微信", "熊猫直播"]
+]
+
+export const bizzCode = {
+	//创建微闪投
+	"addMicroPutAttribute": "B_EXCEL_0001",
+	//账号批量上下架
+	"addAccountForOnline": "B_EXCEL_0003",
+	//更换主账号
+	"addAccountForChangeMainAccount": "B_EXCEL_0002"
+}
+
+export const batchEditAccountPrice_steps = {
+	"step1": batchEditAccountPriceStep1,
+	"step2": batchEditAccountPriceStep2,
+	"step3": batchEditAccountPriceStep3,
+	"step4": batchEditAccountPriceStep4
+}
+
+export const operateClass = {
+	"addMicroPutAttribute": "BatchOperateMicroPut",
+	"addSelfmediaUser": "BatchOperateAddSelfmediaUser",
+	"addAccountForHomeLink": "BatchOperateAddAccount",
+	"addAccountForAccountId": "BatchOperateAddAccount",
+	"addAccountForWeChat": "BatchOperateAddAccount",
+	"addAccountForWeiBo": "BatchOperateAddAccount",
+	"addAccountForOnline": "BatchOperateIsOnline",
+	"addAccountForRedBook": "BatchOperateAddAccount",
+	"addAccountForPanda": "BatchOperateAddAccount",
+	"addAccountForChangeMainAccount": "BatchOperateChangeMainAccount",
+	"batchOperateUpdateSkuPrice": "BatchOperateUpdateSkuPrice"
+}
