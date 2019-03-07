@@ -60,6 +60,7 @@ class PaymentMethod extends Component {
 				{getFieldValue("payment_method") == 1 ? <div>
 					<Form.Item label="开户行"{...formLayout}>
 						{getFieldDecorator('bank', {
+							initialValue: 1,
 							rules: [
 								{ required: true, message: '请选择开户行' },
 							],
@@ -74,6 +75,7 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('bankItem', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
+							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入开户支行' },
 								{ max: 60, message: "最多可输入60个字符" },
@@ -87,6 +89,7 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('province', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
+							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入开户所在省' },
 								{ max: 30, message: "最多可输入30个字符" },
@@ -100,6 +103,7 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('city', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
+							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入开户所在市' },
 								{ max: 50, message: "最多可输入50个字符" },
@@ -113,6 +117,7 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('account', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
+							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入账号' },
 								{ validator: this.accountVali },
@@ -125,6 +130,7 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('name', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
+							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入户名' },
 								{ max: 50, message: "最多可输入50个字符" },
@@ -139,6 +145,7 @@ class PaymentMethod extends Component {
 						<Form.Item label="账号"  {...formLayout}>
 							{getFieldDecorator('account', {
 								validateFirst: true,
+								initialValue: 1,
 								rules: [
 									{ required: true, message: '请输入账号' },
 									{ max: 80, message: "最多可输入80个字符" }
@@ -150,6 +157,7 @@ class PaymentMethod extends Component {
 						<Form.Item label="收款方"  {...formLayout}>
 							{getFieldDecorator('Receipt', {
 								validateFirst: true,
+								initialValue: 1,
 								rules: [
 									{ required: true, message: '请输入收款方' },
 									{ max: 50, message: "最多可输入50个字符" }

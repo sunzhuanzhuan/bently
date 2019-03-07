@@ -10,8 +10,8 @@ export default class CooperationPlatform extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showModal: { title: "", content: "" },
-			visible: false,
+			showModal: { title: "", content: "", width: '' },
+			visable: false,
 			isLoading: true
 		};
 	}
@@ -21,13 +21,17 @@ export default class CooperationPlatform extends Component {
 		})
 	}
 	hideModal = () => {
-		this.setState({ visible: false })
+		this.setState({ visable: false })
 	}
 	setShowModal = (isVisable, showModal) => {
-		this.setState({
-			visable: isVisable,
-			showModal: showModal
-		})
+		if (isVisable) {
+			this.setState({
+				visable: isVisable,
+				showModal: showModal
+			})
+		} else {
+			this.hideModal()
+		}
 	}
 	searchAsync = (params) => {
 		this.setState({
@@ -45,8 +49,12 @@ export default class CooperationPlatform extends Component {
 		const searchProps = {
 			searchAsync: this.searchAsync
 		}
+		const listProps = {
+			setShowModal: this.setShowModal
+		}
 		return (
 			<div className="cooperation-platform" >
+				<div className="head-title">合作平台管理<span style={{ padding: '0px 15px' }}>/</span>合作平台配置</div>
 				<fieldset className='fieldset-css'>
 					<legend>查询</legend>
 					<Search {...searchProps} />
@@ -56,13 +64,14 @@ export default class CooperationPlatform extends Component {
 					<Button type="primary" style={{ margin: "10px 0px" }}>新增合作平台</Button>
 				</a>
 				<Spin spinning={isLoading} >
-					<TableList />
+					<TableList {...listProps} />
 				</Spin>
 				<Modal
 					title={showModal.title}
 					visible={visable}
-					onOk={this.hideModal}
-					onCancel={this.hideModal}>
+					width={showModal.width}
+					onCancel={this.hideModal}
+					footer={null}>
 					{showModal.content}
 				</Modal>
 			</div>

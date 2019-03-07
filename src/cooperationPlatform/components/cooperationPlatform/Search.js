@@ -34,8 +34,9 @@ class Search extends Component {
 				<Form.Item label="平台状态">
 					{getFieldDecorator('select')(
 						<Select placeholder="请选择" style={{ width: 200 }}>
-							<Option value="china">China</Option>
-							<Option value="usa">U.S.A</Option>
+							<Option value="0">未启用</Option>
+							<Option value="1">已停用</Option>
+							<Option value="2">已启用</Option>
 						</Select>
 					)}
 				</Form.Item>

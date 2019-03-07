@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import TableList from "../components/agent/TableList";
 import { DividingBox } from "../components/common";
 import "./Agent.less";
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, Button } from 'antd';
+import { Link } from 'react-router-dom';
 class Agent extends Component {
 	constructor(props) {
 		super(props);
@@ -56,6 +57,11 @@ class Agent extends Component {
 					</div>
 					<DividingBox text="代理商信息" />
 					<TableList  {...listProps} />
+					<div style={{ textAlign: "center", marginBottom: 20 }}>
+						<Link to="/config/platform/list">
+							<Button>返回</Button>
+						</Link>
+					</div>
 					<Modal
 						title={showModal && showModal.title}
 						visible={visible}

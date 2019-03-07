@@ -11,16 +11,15 @@ class QuotationEdit extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			const { time } = values
-			const { isEdit, addQuotationList, index, updateQuotationList, item } = this.props
+			const { isEdit, addList, index, updateList, item } = this.props
 			if (!err) {
 				console.log('Received values of form: ', values);
 				if (isEdit) {
 					console.log('index', index);
-					updateQuotationList(index, { ...item, ...values })
+					updateList(index, { ...item, ...values }, 'quotationList')
 				} else {
-					addQuotationList(values)
+					addList(values, 'quotationList')
 				}
-
 			}
 		});
 	}
@@ -28,7 +27,7 @@ class QuotationEdit extends Component {
 		this.props.form.resetFields()
 	}
 	render() {
-		const { formLayoutModal, form, item } = this.props
+		const { formLayoutModal, form, item, setShowModal } = this.props
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
@@ -58,6 +57,20 @@ class QuotationEdit extends Component {
 
 					)}
 				</Form.Item>
+				<Form.Item label="关联预设报价项" {...formLayoutModal}>
+					{getFieldDecorator('associa', {
+						initialValue: item && item.associa,
+						rules: [
+							{ required: true, message: '请选择关联预设报价项' },
+						],
+					})(
+						<Select placeholder="请选择关联预设报价项" style={{ width: 314 }}>
+							<Option value="china">China</Option>
+							<Option value="usa">U.S.A</Option>
+						</Select>
+					)}
+				</Form.Item>
+
 				<Form.Item label="描述"  {...formLayoutModal}>
 					{getFieldDecorator('remark', {
 						initialValue: item && item.remark,
@@ -69,8 +82,10 @@ class QuotationEdit extends Component {
 						<TextArea placeholder="最多可输入50个字" />
 					)}
 				</Form.Item>
-				<Button>取消</Button>
-				<Button type='primary' onClick={this.onAdd}>确定</Button>
+				<div style={{ textAlign: "center" }}>
+					<Button onClick={() => setShowModal(false, null)}>取消</Button>
+					<Button type='primary' onClick={this.onAdd} style={{ marginLeft: 20 }}>提交</Button>
+				</div>
 			</Form>
 		);
 	}

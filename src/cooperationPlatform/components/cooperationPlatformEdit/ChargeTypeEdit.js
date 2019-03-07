@@ -7,12 +7,18 @@ class QuotationEdit extends Component {
 		super(props);
 		this.state = {};
 	}
-	onSearch = (e) => {
+	onEdit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			const { time } = values
+			const { isEdit, addList, index, updateList, item } = this.props
 			if (!err) {
 				console.log('Received values of form: ', values);
+				if (isEdit) {
+					console.log('index', index);
+					updateList(index, { ...item, ...values }, 'chargeTypeList')
+				} else {
+					addList(values, 'chargeTypeList')
+				}
 			}
 		});
 	}
@@ -29,12 +35,12 @@ class QuotationEdit extends Component {
 		}
 	}
 	render() {
-		const { formLayoutModal, form } = this.props
+		const { formLayoutModal, form, setShowModal } = this.props
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
 				<Form.Item label="平台收费类型名称" {...formLayoutModal}>
-					{getFieldDecorator('select', {
+					{getFieldDecorator('name', {
 						rules: [
 							{ required: true, message: '请选择平台收费类型名称' },
 						],
@@ -57,7 +63,7 @@ class QuotationEdit extends Component {
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>
-					{getFieldDecorator('platform', {
+					{getFieldDecorator('remark', {
 						validateFirst: true,
 						rules: [
 							{ max: 50, message: "最多可输入50个字符" }
@@ -66,7 +72,10 @@ class QuotationEdit extends Component {
 						<TextArea placeholder="最多可输入50个字" />
 					)}
 				</Form.Item>
-
+				<div style={{ textAlign: "center" }}>
+					<Button onClick={() => setShowModal(false, null)}>取消</Button>
+					<Button type='primary' style={{ marginLeft: 20 }} onClick={this.onEdit}>提交</Button>
+				</div>
 			</Form>
 		);
 	}

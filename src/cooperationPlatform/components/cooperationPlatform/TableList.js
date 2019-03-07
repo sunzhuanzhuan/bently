@@ -1,24 +1,56 @@
 import React, { Component } from 'react'
-import { Table } from 'antd';
+import { Table, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from "../common";
+import Quotation from "../cooperationPlatformEdit/Quotation";
+import DisableDefault from "./DisableDefault";
+import './TableList.less'
+const confirm = Modal.confirm;
 class TableList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
-	render() {
+	//启用按钮判断
+	setEnable = () => {
+		const { setShowModal } = this.props
+		//判断该平台报价项是否启用
 
+		//启用
+		//未启用
+		setShowModal(true, {
+			title: '启用默认报价项',
+			content: <Quotation notOperate={true} onClose={setShowModal} />,
+			width: 800
+		})
+	}
+	//禁用按钮判断
+	setDisable = () => {
+		const { setShowModal } = this.props
+
+		//判断该平台是否含有多个平台并为默认报价项
+
+		//选择报价项弹窗并停用
+		setShowModal(true, {
+			title: '启用默认报价项',
+			content: <DisableDefault notOperate={true} setShowModal={setShowModal} />
+		})
+		//直接停用
+	}
+	render() {
+		const { setShowModal } = this.props
 
 		const dataSource = [{
 			key: '1',
 			name: '胡彦斌',
 			age: 32,
+			enable: 1,
 			address: '西湖区湖底公园1号'
 		}, {
 			key: '2',
 			name: '胡彦祖',
 			age: 42,
+			enable: 2,
 			address: '西湖区湖底公园1号'
 		}];
 
@@ -75,12 +107,12 @@ class TableList extends Component {
 			dataIndex: '操作name',
 			key: '操作name',
 			align: "center",
-			render: (record, index) => {
+			render: (text, record) => {
 				//启用状态
-				const enable = 1
+				const { enable } = record
 				return <div>
-					<a href={"/config/platform/detail"} target="_blank">查看</a>
-					<Link to={12} style={{ margin: "0px 4px" }}>{enable == '2' ? '停用' : '启用'}</Link>
+					<Link to={"/config/platform/detail"} >查看</Link>
+					<Link to={12} style={{ margin: "0px 4px" }} onClick={enable == '1' ? this.setEnable : this.setDisable}>{enable == '1' ? '启用' : '停用'}</Link>
 					<a href='/config/platform/edit' target='_blank' style={{ marginRight: 4 }} >修改</a>
 					{enable == 1 ? <DeleteModal /> : null}
 					<div>

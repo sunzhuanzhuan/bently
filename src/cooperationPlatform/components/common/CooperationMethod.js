@@ -37,6 +37,7 @@ class CooperationMethod extends Component {
 				</Form.Item>
 				{getFieldValue("method") == 1 ? <Form.Item label="反款比例"  {...formLayout}>
 					{getFieldDecorator('proportion', {
+						initialValue: 1,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入反款比例' },
@@ -48,6 +49,7 @@ class CooperationMethod extends Component {
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>
 						{getFieldDecorator('remark', {
+							initialValue: 1,
 							validateFirst: true,
 							rules: [
 								{ max: 50, message: "最多可输入50个字符" }

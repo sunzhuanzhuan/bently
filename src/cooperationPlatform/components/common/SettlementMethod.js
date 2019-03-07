@@ -14,6 +14,7 @@ class SettlementMethod extends Component {
 			<div>
 				<Form.Item label="结算方式"{...formLayout}>
 					{getFieldDecorator('settlementMethod', {
+						initialValue: 1,
 						rules: [
 							{ required: true, message: '请选择结算方式' },
 						],

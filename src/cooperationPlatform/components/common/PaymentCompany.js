@@ -12,6 +12,7 @@ class PaymentCompany extends Component {
 		return (
 			<Form.Item label="付款公司"{...formLayout}>
 				{getFieldDecorator('company', {
+					initialValue: 1,
 					rules: [
 						{ required: true, message: '请选择付款公司' },
 					],
