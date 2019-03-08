@@ -93,7 +93,7 @@ class BaseInfo extends Component {
 						initialValue: 1,
 						rules: [
 							{ required: true, message: '请输入下单平台名称' },
-							{ max: 50, message: "最多可输入50个字符" }
+							{ max: 15, message: "最多可输入15个字符" }
 						],
 					})(
 						<Input placeholder="请输入下单平台名称" />

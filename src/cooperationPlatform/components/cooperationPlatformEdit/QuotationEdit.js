@@ -27,7 +27,7 @@ class QuotationEdit extends Component {
 		this.props.form.resetFields()
 	}
 	render() {
-		const { formLayoutModal, form, item, setShowModal } = this.props
+		const { formLayoutModal, form, item, setShowModal, isWeiBo } = this.props
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
@@ -50,14 +50,14 @@ class QuotationEdit extends Component {
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入微播易展示报价项名称' },
-							{ max: 30, message: "最多可输入30个字符" }
+							{ max: 20, message: "最多可输入20个字符" }
 						],
 					})(
 						<Input placeholder="请输入" />
 
 					)}
 				</Form.Item>
-				<Form.Item label="关联预设报价项" {...formLayoutModal}>
+				{isWeiBo ? <Form.Item label="关联预设报价项" {...formLayoutModal}>
 					{getFieldDecorator('associa', {
 						initialValue: item && item.associa,
 						rules: [
@@ -69,7 +69,7 @@ class QuotationEdit extends Component {
 							<Option value="usa">U.S.A</Option>
 						</Select>
 					)}
-				</Form.Item>
+				</Form.Item> : null}
 
 				<Form.Item label="描述"  {...formLayoutModal}>
 					{getFieldDecorator('remark', {

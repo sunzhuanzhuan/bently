@@ -56,7 +56,6 @@ class QuotationEdit extends Component {
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入服务费比例' },
-							{ max: 30, message: "最多可输入30个字符" }
 						],
 					})(
 						<Input placeholder="请输入" style={{ width: '80%' }} />

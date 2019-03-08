@@ -22,6 +22,15 @@ class AgentEdit extends Component {
 	onClean = () => {
 		this.props.form.resetFields()
 	}
+	agentVali = (rule, value, callback) => {
+		const reg = /^[\u4e00-\u9fa5]+$/;
+		if (reg.test(value)) {
+			callback('代理商名称不可重复')
+		} else {
+			callback()
+		}
+
+	}
 	render() {
 		const { form } = this.props
 		const { getFieldDecorator } = form
@@ -39,6 +48,8 @@ class AgentEdit extends Component {
 					{getFieldDecorator('select', {
 						rules: [
 							{ required: true, message: '请输入代理商名称' },
+							{ max: 40, message: "最多可输入40个字符" },
+							{ validator: this.agentVali }
 						],
 					})(
 						<Input placeholder="请输入代理商名称" />

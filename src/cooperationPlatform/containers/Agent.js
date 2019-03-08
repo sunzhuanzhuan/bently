@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TableList from "../components/agent/TableList";
+import AgentEdit from "./AgentEdit";
 import { DividingBox } from "../components/common";
 import "./Agent.less";
 import { Modal, Spin, Button } from 'antd';
@@ -56,6 +57,7 @@ class Agent extends Component {
 						</div>
 					</div>
 					<DividingBox text="代理商信息" />
+					<a onClick={() => this.setShowModal(true, { title: '新增代理商', content: <AgentEdit />, width: 800 })}>新增代理商</a>
 					<TableList  {...listProps} />
 					<div style={{ textAlign: "center", marginBottom: 20 }}>
 						<Link to="/config/platform/list">
@@ -67,7 +69,7 @@ class Agent extends Component {
 						visible={visible}
 						onOk={this.hideModal}
 						footer={null}
-						width="auto"
+						width={showModal.width}
 						onCancel={this.hideModal}>
 						{showModal && showModal.content}
 					</Modal>

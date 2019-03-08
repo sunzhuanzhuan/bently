@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table, Button } from 'antd';
 import QuotationEdit from "./QuotationEdit";
 import { DeleteModal } from "../common"
+import { Tips } from "../cooperationPlatform/DisableDefault";
 class Quotation extends Component {
 	constructor(props) {
 		super(props);
@@ -23,7 +24,9 @@ class Quotation extends Component {
 			notOperate,//带复选框
 			onClose,//关闭弹窗
 			noLast,//只没有操作列
-			isEdit } = this.props
+			isEdit,
+			isWeiBo//是微博
+		} = this.props
 		const { selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
 			rowSelection: {
@@ -60,7 +63,8 @@ class Quotation extends Component {
 			dataIndex: 'ownName',
 			align: 'center',
 			key: 'ownName',
-		}, {
+		}]
+		const weiboColunm = [{
 			title: '对应预设报价项',
 			dataIndex: 'ow',
 			align: 'center',
@@ -101,17 +105,17 @@ class Quotation extends Component {
 							{record.status == 1 ? '停用' : '启用'}
 						</a>}
 				</div>
-
 			}
 		}];
 		const addColumns = [
-			...nameColunm, ...statuColunm, ...(notOperate ? [] : oprateColunm)
+			...nameColunm, ...(isWeiBo ? weiboColunm : []), ...statuColunm, ...(notOperate ? [] : oprateColunm)
 		]
 		const editColumns = [
-			...idColumns, ...nameColunm, ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
+			...idColumns, ...nameColunm, ...(isWeiBo ? weiboColunm : []), ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
 		]
 		return (
 			<div style={{ paddingLeft: notOperate ? '' : "10%", marginBottom: 8 }}>
+				{notOperate ? <div style={{ paddingBottom: 20 }}><Tips text='若要启用该平台，请至少选择一个报价项！' /> </div> : null}
 				<Table
 					dataSource={quotationList}
 					columns={isEdit ? editColumns : addColumns}

@@ -32,6 +32,7 @@ class CooperationMethod extends Component {
 						<RadioGroup >
 							<Radio value={1}>周期返款</Radio>
 							<Radio value={2}>其他</Radio>
+							<Radio value={3} disabled>折扣下单</Radio>
 						</RadioGroup>
 					)}
 				</Form.Item>
@@ -52,7 +53,7 @@ class CooperationMethod extends Component {
 							initialValue: 1,
 							validateFirst: true,
 							rules: [
-								{ max: 50, message: "最多可输入50个字符" }
+								{ max: 50, message: "最多可输入50个字" }
 							],
 						})(
 							<TextArea rows={2} placeholder="请输入说明" />
