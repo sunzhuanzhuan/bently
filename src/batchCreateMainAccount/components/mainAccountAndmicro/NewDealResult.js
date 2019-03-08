@@ -3,17 +3,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Button, Form, Select, DatePicker, Table, Tooltip, message } from 'antd';
 import * as dealResultAction from '../../actions/dealResult.js'
-import { statusDotColor } from '../../constants/config'
+import { statusDotColor, operateType, statusName } from '../../constants/config'
 import './DealResult.less'
 
 const Option = Select.Option;
 //筛选
 const FormItem = Form.Item;
 const Filter = (props) => {
-	// const formItemLayout = {
-	// 	labelCol: { span: 7 },
-	// 	wrapperCol: { span: 17 }
-	// };
+	const formItemLayout = {
+		labelCol: { span: 7 },
+		wrapperCol: { span: 17 }
+	};
 	const statusFormItemLayout = {
 		labelCol: { span: 8 },
 		wrapperCol: { span: 16 }
@@ -38,29 +38,29 @@ const Filter = (props) => {
 					</Select>
 				)}
 			</FormItem>
-			{/* <FormItem
+			<FormItem
 				{...formItemLayout}
 				label="批量操作类型"
 				className="form-item-marginLeft"
 			>
-				{getFieldDecorator('operateType', {
+				{getFieldDecorator('operateClass', {
 					initialValue: '0'
 				})(
 					<Select style={{ width: 210 }}>
 						<Option value='0' key='0'>请选择</Option>
 						{
 							props.selectionList.map(item =>
-								<Option value={item.operate_key} key={item.operate_key}>{item.file_name}</Option>
+								<Option value={item.classNameKey} key={item.classNameKey}>{item.classNameValue}</Option>
 							)
 						}
 					</Select>
 				)}
-			</FormItem> */}
+			</FormItem>
 			<FormItem
 				label="提交时间"
 				className="startTime"
 			>
-				{getFieldDecorator('startTime', {
+				{getFieldDecorator('queryStartTime', {
 
 				})(
 					<DatePicker format='YYYY-MM-DD' placeholder="请选择开始时间"
@@ -71,7 +71,7 @@ const Filter = (props) => {
 			</FormItem>
 			<span className="dealResult-center">~</span>
 			<FormItem>
-				{getFieldDecorator('endTime', {
+				{getFieldDecorator('queryEndTime', {
 
 				})(
 					<DatePicker format='YYYY-MM-DD' placeholder="请选择结束时间"
@@ -90,14 +90,14 @@ const Filter = (props) => {
 }
 
 //主页面
-class DealResult extends Component {
+class NewDealResult extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			startValue: null,
 			endValue: null,
-			tableLoading: true,
-			filterValue: {}
+			searchLoading: true,
+			tableLoading: true
 		}
 	}
 	disabledStartDate = (startValue) => {
@@ -129,19 +129,28 @@ class DealResult extends Component {
 		this.onChange('endValue', value);
 	}
 	componentWillMount() {
-		this.dealSearchValues(
-			this.props.actions.getDealResultList, 1
-		)
+		this.props.actions.getSelectionList().then(() => {
+			this.setState({
+				searchLoading: false
+			})
+			this.dealSearchValues(this.props.actions.getNewDealResultList, { currentPage: 1, pageSize: 50 })
+		}).catch(() => {
+			message.error("筛选数据加载失败")
+			this.setState({
+				searchLoading: false,
+				tableLoading: false
+			})
+		})
 	}
 	componentWillReceiveProps(props) {
-		if (props.tab2Update == true) {
-			this.props.cancelTab2Update()
+		if (props.tab3Update == true) {
+			this.props.cancelTab3Update()
 			this.props.form.resetFields()
 			this.setState({
 				tableLoading: true
 			})
 			this.dealSearchValues(
-				this.props.actions.getDealResultList, 1
+				this.props.actions.getNewDealResultList, { currentPage: 1, pageSize: 50 }
 			)
 		}
 	}
@@ -158,25 +167,24 @@ class DealResult extends Component {
 				delete values[item]
 			}
 		})
-		const timeList = ["startTime", "endTime"]
+		const timeList = ["queryStartTime", "queryEndTime"]
 		timeList.forEach(item => {
 			if (values[item]) {
 				values[item] = values[item].format('YYYY-MM-DD')
 			}
 		})
-		values.operateType = "addSelfmediaUser"
-		this.setState({
-			filterValue: { ...values }
-		}, () => {
-			fun({ ...values, page: page }).then(() => {
-				this.setState({
-					tableLoading: false
-				})
-			}).catch(() => {
-				message.error("列表数据加载失败")
-				this.setState({
-					tableLoading: false
-				})
+		let trueValue = {
+			page: { ...page },
+			form: { ...values }
+		}
+		fun({ ...trueValue }).then(() => {
+			this.setState({
+				tableLoading: false
+			})
+		}).catch(() => {
+			message.error("列表数据加载失败")
+			this.setState({
+				tableLoading: false
 			})
 		})
 	}
@@ -186,39 +194,52 @@ class DealResult extends Component {
 			tableLoading: true
 		})
 		this.dealSearchValues(
-			this.props.actions.getDealResultList, 1
+			this.props.actions.getNewDealResultList, { currentPage: 1, pageSize: 50 }
 		)
+	}
+	//下载处理结果
+	downloadDealResult = (url) => {
+		this.props.actions.downloadDealResult({ downLoadUrl: url }).then((res) => {
+			if (res.code == 1000) {
+				window.location.href = res.data
+			} else {
+				message.error("下载地址获取失败")
+			}
+		}).catch(() => {
+			message.error("下载地址获取失败")
+		})
 	}
 	render() {
 		const columns = [
 			{
 				title: '文件名称',
-				dataIndex: 'fileName',
+				dataIndex: 'originalFileName',
 				align: 'center',
 				render: (text, record) =>
 					<Tooltip title={text} arrowPointAtCenter>
-						<a href={record.file_name}>{this.cut(text)}{text.length > 15 ? '...' : ''}</a>
+						<a onClick={() => this.downloadDealResult(record.urlName)}
+						>{this.cut(text)}{text.length > 15 ? '...' : ''}</a>
 					</Tooltip>
 			}, {
 				title: '批量操作类型',
-				dataIndex: 'operateType',
+				dataIndex: 'operateClassName',
 				align: 'center'
 			}, {
 				title: '操作人',
-				dataIndex: 'operateUserName',
+				dataIndex: 'createdByName',
 				align: 'center'
 			}, {
 				title: '操作时间',
-				dataIndex: 'created_time',
+				dataIndex: 'createdAt',
 				align: 'center'
 			}, {
 				title: '状态',
-				dataIndex: 'statusName',
+				dataIndex: 'status',
 				align: 'center',
 				render: (text, record) => {
 					return <div>
 						<span className="statusDot" style={{ backgroundColor: statusDotColor[record.status] }}></span>
-						<span>{text}</span>
+						<span>{statusName[text]}</span>
 					</div>
 				}
 			}, {
@@ -226,42 +247,45 @@ class DealResult extends Component {
 				align: 'center',
 				render: (text, record) => {
 					return record.status == "3" ?
-						<a href={record.downloadUrl}>下载处理结果</a> : null
+						<a onClick={() => this.downloadDealResult(record.downloadUrl)}>下载处理结果</a> : null
 				}
 			}
 		];
-		const { dealResultList } = this.props
+		const { selectionList, newDealResultList } = this.props
 		return (
 			<div>
 				<h3>处理结果</h3>
 				<Form layout="inline">
 					<Filter
 						form={this.props.form}
+						selectionList={selectionList}
 						search={this.search}
 						disabledStartDate={this.disabledStartDate}
 						disabledEndDate={this.disabledEndDate}
 						onStartChange={this.onStartChange}
 						onEndChange={this.onEndChange}
+						loading={this.state.searchLoading}
 					></Filter>
 				</Form>
-				<Table dataSource={Object.keys(dealResultList).length !== 0 ?
-					dealResultList.list.rows : []} columns={columns}
+				<Table dataSource={Object.keys(newDealResultList).length !== 0 ?
+					newDealResultList.list : []} columns={columns}
 					className="dealResult-table"
 					bordered={true}
 					loading={this.state.tableLoading}
 					rowKey='id'
 					pagination={{
-						current: Object.keys(dealResultList).length !== 0 ? dealResultList.list.page : '',
+						current: Object.keys(newDealResultList).length !== 0 ? newDealResultList.pageNum : '',
 						pageSize: 50,
 						showQuickJumper: true,
-						total: Object.keys(dealResultList).length !== 0 ? dealResultList.list.count : '',
+						total: Object.keys(newDealResultList).length !== 0 ? newDealResultList.total : '',
 						onChange: (page) => {
 							this.setState({
 								tableLoading: true
+							}, () => {
+								this.dealSearchValues(
+									this.props.actions.getNewDealResultList, { currentPage: page, pageSize: 50 }
+								)
 							})
-							this.dealSearchValues(
-								this.props.actions.getDealResultList, page
-							)
 						},
 						size: 'small'
 					}}
@@ -271,7 +295,8 @@ class DealResult extends Component {
 	}
 }
 const mapStateToProps = (state) => ({
-	dealResultList: state.batchCreateMainAccountReducers.dealResultList
+	selectionList: state.batchCreateMainAccountReducers.selectionList,
+	newDealResultList: state.batchCreateMainAccountReducers.newDealResultList
 })
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators({
@@ -282,4 +307,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
 	mapStateToProps,//redux和react连接起来
 	mapDispatchToProps
-)(Form.create()(DealResult))
+)(Form.create()(NewDealResult))

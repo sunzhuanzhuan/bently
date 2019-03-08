@@ -5,12 +5,14 @@ import {
 } from './batchCreateMainAccount'
 import {
 	dealResultList,
-	selectionList
+	selectionList,
+	newDealResultList
 } from './dealResult'
 
 export default combineReducers({
 	uploadInfo,
 	dealResultList,
 	selectionList,
-	downloadLink
+	downloadLink,
+	newDealResultList
 })
