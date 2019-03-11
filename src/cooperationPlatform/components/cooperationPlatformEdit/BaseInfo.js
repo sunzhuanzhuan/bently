@@ -114,6 +114,13 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<PaymentCompany form={form} formLayout={formLayout} />
 				<Form.Item label="平台报价项" {...formLayoutTable}>
+					<a onClick={() => setShowModal(true, {
+						title: <div>新增报价项</div>,
+						content: <QuotationEdit
+							{...operateProps}
+						/>
+					})}>新增报价项</a>
+					<Quotation {...operateProps} />
 					{getFieldDecorator('quotation', {
 						initialValue: 1,
 						rules: [
@@ -122,14 +129,9 @@ class BaseInfo extends Component {
 					})(
 						<Input style={{ display: "none" }} />
 					)}
-					<a onClick={() => setShowModal(true, {
-						title: <div>新增报价项</div>,
-						content: <QuotationEdit
-							{...operateProps}
-						/>
-					})}>新增报价项</a>
+
 				</Form.Item>
-				<Quotation {...operateProps} />
+
 				<Form.Item label="收费类型" {...formLayoutTable}>
 					{getFieldDecorator('quotation', {
 						initialValue: 1,
