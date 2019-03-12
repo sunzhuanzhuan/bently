@@ -5,6 +5,9 @@ import { DividingBox } from "../components/common";
 import "./Agent.less";
 import { Modal, Spin, Button } from 'antd';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as action from '../actions/index'
 class Agent extends Component {
 	constructor(props) {
 		super(props);
@@ -80,4 +83,12 @@ class Agent extends Component {
 	}
 }
 
-export default Agent;
+const mapStateToProps = (state) => {
+	return {
+		cooperationPlatformReducer: state.cooperationPlatformReducer
+	}
+}
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(action, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Agent);

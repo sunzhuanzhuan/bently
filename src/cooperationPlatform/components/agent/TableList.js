@@ -24,52 +24,53 @@ class TableList extends Component {
 
 		const columns = [{
 			title: '代理商编号',
-			dataIndex: 'code',
+			dataIndex: 'agentCode',
 			align: 'center',
-			key: 'code',
+			key: 'agentCode',
 		}, {
 			title: '代理商名称',
-			dataIndex: 'name',
+			dataIndex: 'agentName',
 			align: 'center',
-			key: 'name',
+			key: 'agentName',
 		}, {
 			title: '合作方式',
-			dataIndex: 'setmethod',
+			dataIndex: 'cooperationStyle',
 			align: 'center',
-			key: 'setmethod',
-			render: (record, index) => {
-				return '周期返款'
+			key: 'cooperationStyle',
+			render: (text, recode) => {
+				return text == 1 ? '周期返款' : '其他'
 			}
 		}, {
 			title: '返款比例（%）',
-			dataIndex: 'm',
+			dataIndex: 'payRebate',
 			align: 'center',
-			key: 'm',
+			key: 'payRebate',
 		}, {
 			title: '状态',
-			dataIndex: 'setmethod',
+			dataIndex: 'agentStatus',
 			align: 'center',
-			key: 'setmethod',
-			render: (record, index) => {
-				return '已启用'
+			key: 'agentStatus',
+			render: (text, recode) => {
+				return text == 1 ? '已启用' : text == 2 ? '未启用' : '停用'
 			}
 		}, {
 			title: '创建时间',
-			dataIndex: 'setmethod',
+			dataIndex: 'createdAt',
 			align: 'center',
-			key: 'setmethod',
+			key: 'createdAt',
 		}, {
 			title: '最后一次操作时间',
-			dataIndex: 'setmethod',
+			dataIndex: 'modifiedAt',
 			align: 'center',
-			key: 'setmethod',
+			key: 'modifiedAt',
 		}, {
 			title: '操作',
 			dataIndex: 'setmethod',
 			align: 'center',
 			key: 'setmethod',
-			render: (record, index) => {
+			render: (text, recode) => {
 				const title = `代理商   【所属下单平台：${'快接单'} 所属媒体平台：${'快手'}】`
+				const { agentStatus } = recode
 				return <div>
 					<a onClick={() => setShowModal(true,
 						{
@@ -81,9 +82,9 @@ class TableList extends Component {
 							title: <div>修改{title}</div>,
 							content: <AgentEdit setShowModal={setShowModal} />
 						})} style={{ margin: "0px 4px" }}>修改</a>
-					<a style={{ marginRight: 4 }}>启用</a>
-					<DeleteModal />
-					<a style={{ marginLeft: 4 }}>停用</a>
+					{agentStatus == 3 ? <a style={{ marginRight: 4 }}>启用</a> :
+						agentStatus == 2 ? <DeleteModal /> :
+							<a style={{ marginLeft: 4 }}>停用</a>}
 				</div>
 			}
 		}]

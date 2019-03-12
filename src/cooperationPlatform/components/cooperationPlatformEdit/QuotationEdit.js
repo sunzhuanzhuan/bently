@@ -32,7 +32,7 @@ class QuotationEdit extends Component {
 		return (
 			<Form layout="horizontal">
 				<Form.Item label="平台抓取报价项名称" {...formLayoutModal}>
-					{getFieldDecorator('select', {
+					{getFieldDecorator('platformName', {
 						initialValue: item && item.select,
 						rules: [
 							{ required: true, message: '请选择平台抓取报价项名称' },
@@ -45,8 +45,8 @@ class QuotationEdit extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label="微播易展示报价项名称" {...formLayoutModal}>
-					{getFieldDecorator('name', {
-						initialValue: item && item.name,
+					{getFieldDecorator('wbyTypeName', {
+						initialValue: item && item.wbyTypeName,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入微播易展示报价项名称' },
@@ -72,8 +72,8 @@ class QuotationEdit extends Component {
 				</Form.Item> : null}
 
 				<Form.Item label="描述"  {...formLayoutModal}>
-					{getFieldDecorator('remark', {
-						initialValue: item && item.remark,
+					{getFieldDecorator('description', {
+						initialValue: item && item.description,
 						validateFirst: true,
 						rules: [
 							{ max: 50, message: "最多可输入50个字符" }

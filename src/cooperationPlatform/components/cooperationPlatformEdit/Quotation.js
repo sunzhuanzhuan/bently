@@ -55,14 +55,14 @@ class Quotation extends Component {
 		}]
 		const nameColunm = [{
 			title: '平台抓取报价项名称',
-			dataIndex: 'name',
+			dataIndex: 'platformName',
 			align: 'center',
-			key: 'name',
+			key: 'platformName',
 		}, {
 			title: '微播易展示报价项名称',
-			dataIndex: 'ownName',
+			dataIndex: 'wbyTypeName',
 			align: 'center',
-			key: 'ownName',
+			key: 'wbyTypeName',
 		}]
 		const weiboColunm = [{
 			title: '对应预设报价项',
@@ -72,9 +72,9 @@ class Quotation extends Component {
 		}]
 		const statuColunm = [{
 			title: '描述',
-			dataIndex: 'remark',
+			dataIndex: 'description',
 			align: 'center',
-			key: 'remark',
+			key: 'description',
 		}, {
 			title: '状态',
 			dataIndex: 'status',
@@ -114,7 +114,7 @@ class Quotation extends Component {
 			...idColumns, ...nameColunm, ...(isWeiBo ? weiboColunm : []), ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
 		]
 		return (
-			<div style={{ paddingLeft: notOperate ? '' : "10%", marginBottom: 8 }}>
+			<div style={{ marginBottom: 8 }}>
 				{notOperate ? <div style={{ paddingBottom: 20 }}><Tips text='若要启用该平台，请至少选择一个报价项！' /> </div> : null}
 				<Table
 					dataSource={quotationList}

@@ -1,5 +1,8 @@
 
 import React, { Component } from 'react'
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as action from '../actions/index'
 import { Form, Button, Modal } from 'antd';
 import { BaseInfo } from "../components/cooperationPlatformEdit";
 import { PaymentMethod, CooperationMethod, SettlementMethod, DividingBox } from "../components/common";
@@ -72,6 +75,12 @@ class CooperationPlatformEdit extends Component {
 	}
 }
 const CooperationPlatformEditFrom = Form.create()(CooperationPlatformEdit);
-
-export default CooperationPlatformEditFrom;
-
+const mapStateToProps = (state) => {
+	return {
+		cooperationPlatformReducer: state.cooperationPlatformReducer
+	}
+}
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(action, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CooperationPlatformEditFrom);

@@ -3,10 +3,10 @@ import Search from "../components/cooperationPlatform/Search";
 import TableList from "../components/cooperationPlatform/TableList";
 import { Modal, Button, Spin } from 'antd';
 import "./CooperationPlatform.less"
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as actions from '../../actions'
-//@connect(state => state.cooperationPlatform, actions)
-export default class CooperationPlatform extends Component {
+import * as action from '../actions/index'
+class CooperationPlatform extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -78,3 +78,14 @@ export default class CooperationPlatform extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		cooperationPlatformReducer: state.cooperationPlatformReducer
+	}
+}
+
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(action, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CooperationPlatform);

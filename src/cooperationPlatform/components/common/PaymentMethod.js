@@ -45,7 +45,7 @@ class PaymentMethod extends Component {
 		return (
 			<div>
 				<Form.Item label="收款方式"{...formLayout}>
-					{getFieldDecorator('payment_method', {
+					{getFieldDecorator('agentVO.payStyle', {
 						initialValue: 1,
 						rules: [
 							{ required: true, message: '请选择收款方式' },
@@ -59,7 +59,7 @@ class PaymentMethod extends Component {
 				</Form.Item>
 				{getFieldValue("payment_method") == 1 ? <div>
 					<Form.Item label="开户行"{...formLayout}>
-						{getFieldDecorator('bank', {
+						{getFieldDecorator('agentVO.bank', {
 							initialValue: 1,
 							rules: [
 								{ required: true, message: '请选择开户行' },
@@ -72,7 +72,7 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="开户支行"  {...formLayout}>
-						{getFieldDecorator('bankItem', {
+						{getFieldDecorator('agentVO.subbranchBank', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							initialValue: 1,
@@ -86,7 +86,7 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="开户所在省"  {...formLayout}>
-						{getFieldDecorator('province', {
+						{getFieldDecorator('agentVO.bankProvince', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							initialValue: 1,
@@ -100,7 +100,7 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="开户所在市"  {...formLayout}>
-						{getFieldDecorator('city', {
+						{getFieldDecorator('agentVO.bankCity', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							initialValue: 1,
@@ -114,7 +114,7 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="账号"  {...formLayout}>
-						{getFieldDecorator('account', {
+						{getFieldDecorator('agentVO.bankAccount', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							initialValue: 1,
@@ -127,7 +127,7 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="户名"  {...formLayout}>
-						{getFieldDecorator('name', {
+						{getFieldDecorator('agentVO.bankAccountName', {
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							initialValue: 1,
@@ -143,7 +143,7 @@ class PaymentMethod extends Component {
 					<div>
 
 						<Form.Item label="账号"  {...formLayout}>
-							{getFieldDecorator('account', {
+							{getFieldDecorator('agentVO.alipayAccount', {
 								validateFirst: true,
 								initialValue: 1,
 								rules: [
@@ -155,7 +155,7 @@ class PaymentMethod extends Component {
 							)}
 						</Form.Item>
 						<Form.Item label="收款方"  {...formLayout}>
-							{getFieldDecorator('Receipt', {
+							{getFieldDecorator('agentVO.alipayAccountName', {
 								validateFirst: true,
 								initialValue: 1,
 								rules: [

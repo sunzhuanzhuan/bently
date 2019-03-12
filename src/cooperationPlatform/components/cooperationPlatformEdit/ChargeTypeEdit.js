@@ -52,17 +52,18 @@ class QuotationEdit extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label="服务费比例" {...formLayoutModal}>
-					{getFieldDecorator('platform', {
+					{getFieldDecorator('serviceRatio', {
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入服务费比例' },
+							{ validator: this.vailPrice },
 						],
 					})(
 						<Input placeholder="请输入" style={{ width: '80%' }} />
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>
-					{getFieldDecorator('remark', {
+					{getFieldDecorator('description', {
 						validateFirst: true,
 						rules: [
 							{ max: 50, message: "最多可输入50个字符" }

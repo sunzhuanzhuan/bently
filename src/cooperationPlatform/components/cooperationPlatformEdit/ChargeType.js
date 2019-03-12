@@ -19,34 +19,34 @@ class ChargeType extends Component {
 		} = this.props
 		const columns = [{
 			title: '收费类型编号',
-			dataIndex: 'id',
+			dataIndex: 'tollTypeCode',
 			align: 'center',
-			key: 'id',
+			key: 'tollTypeCode',
 		}, {
 			title: '平台收费类型名称',
-			dataIndex: 'name',
+			dataIndex: 'tollTypeName',
 			align: 'center',
-			key: 'name',
+			key: 'tollTypeName',
 		}, {
 			title: '服务费比例%',
-			dataIndex: 'ID服务费比例%',
+			dataIndex: 'serviceRatio',
 			align: 'center',
-			key: 'ID服务费比例%',
+			key: 'serviceRatio',
 		}, {
 			title: '描述',
-			dataIndex: 'remark',
+			dataIndex: 'description',
 			align: 'center',
-			key: 'remark',
+			key: 'description',
 		}, {
 			title: '创建时间',
-			dataIndex: 'createTime',
+			dataIndex: 'createdAt',
 			align: 'center',
-			key: 'createTime',
+			key: 'createdAt',
 		}, {
 			title: '最后一次修改时间',
-			dataIndex: 'lastTime',
+			dataIndex: 'modifiedAt',
 			align: 'center',
-			key: 'lastTime',
+			key: 'modifiedAt',
 		}, {
 			title: '操作',
 			dataIndex: 'operate',
@@ -72,7 +72,7 @@ class ChargeType extends Component {
 		}]
 		const updateKey = ['createTime', 'lastTime', 'id']
 		return (
-			<div style={{ paddingLeft: "10%", }}>
+			<div >
 				<Table dataSource={chargeTypeList} columns={isEdit ?
 					noLast ? columns.filter(one => one.key != 'operate') : columns
 					: columns.filter(one => !updateKey.includes(one.key))}

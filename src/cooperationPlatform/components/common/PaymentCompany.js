@@ -11,7 +11,7 @@ class PaymentCompany extends Component {
 		const { getFieldDecorator } = form
 		return (
 			<Form.Item label="付款公司"{...formLayout}>
-				{getFieldDecorator('company', {
+				{getFieldDecorator('agentVO.payCompanyCode', {
 					initialValue: 1,
 					rules: [
 						{ required: true, message: '请选择付款公司' },

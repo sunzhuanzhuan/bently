@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { ShowDetailArr, DividingBox, PaymentMethodDetail, CooperationMethodDetail } from "../components/common";
 import Quotation from "../components/cooperationPlatformEdit/Quotation";
 import ChargeType from "../components/cooperationPlatformEdit/ChargeType";
-
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as action from '../actions/index'
 import { Spin, Button } from 'antd';
 import { Link } from 'react-router-dom';
 class CooperationPlatformDetail extends Component {
@@ -56,4 +58,13 @@ class CooperationPlatformDetail extends Component {
 	}
 }
 
-export default CooperationPlatformDetail;
+const mapStateToProps = (state) => {
+	return {
+		cooperationPlatformReducer: state.cooperationPlatformReducer
+	}
+}
+
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(action, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CooperationPlatformDetail);

@@ -1,6 +1,9 @@
 
 
 import React, { Component } from 'react'
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as action from '../actions/index'
 import { Form, Button, Modal, Input } from 'antd';
 import { PaymentMethod, CooperationMethod, SettlementMethod, PaymentCompany } from "../components/common";
 const { TextArea } = Input;
@@ -80,5 +83,13 @@ class AgentEdit extends Component {
 }
 const AgentEditFrom = Form.create()(AgentEdit);
 
-export default AgentEditFrom;
 
+const mapStateToProps = (state) => {
+	return {
+		cooperationPlatformReducer: state.cooperationPlatformReducer
+	}
+}
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(action, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(AgentEditFrom);

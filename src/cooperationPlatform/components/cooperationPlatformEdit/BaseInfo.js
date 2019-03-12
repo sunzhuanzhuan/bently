@@ -75,7 +75,7 @@ class BaseInfo extends Component {
 		return (
 			<div style={{ margin: "20px 0px" }}>
 				<Form.Item label="所属媒体平台"{...formLayout}>
-					{getFieldDecorator('select', {
+					{getFieldDecorator('platformId', {
 						initialValue: 1,
 						rules: [
 							{ required: true, message: '请选择所属媒体平台' },
@@ -88,7 +88,7 @@ class BaseInfo extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label="下单平台名称"  {...formLayout}>
-					{getFieldDecorator('name', {
+					{getFieldDecorator('platformName', {
 						validateFirst: true,
 						initialValue: 1,
 						rules: [
@@ -100,7 +100,7 @@ class BaseInfo extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label="下单截图是否必填"{...formLayout}>
-					{getFieldDecorator('picture', {
+					{getFieldDecorator('orderImageNeed', {
 						initialValue: 1,
 						rules: [
 							{ required: true, message: '请选择下单截图是否必填' },
@@ -120,7 +120,6 @@ class BaseInfo extends Component {
 							{...operateProps}
 						/>
 					})}>新增报价项</a>
-					<Quotation {...operateProps} />
 					{getFieldDecorator('quotation', {
 						initialValue: 1,
 						rules: [
@@ -129,7 +128,7 @@ class BaseInfo extends Component {
 					})(
 						<Input style={{ display: "none" }} />
 					)}
-
+					<Quotation {...operateProps} />
 				</Form.Item>
 
 				<Form.Item label="收费类型" {...formLayoutTable}>
@@ -146,8 +145,9 @@ class BaseInfo extends Component {
 							content: <ChargeTypeEdit {...operateProps} />
 						})}>
 						新增收费类型</a>
+					<ChargeType {...operateProps} />
 				</Form.Item>
-				<ChargeType {...operateProps} />
+
 			</div>
 		);
 	}

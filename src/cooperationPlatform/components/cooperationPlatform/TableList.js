@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Modal } from 'antd';
+import { Table, Modal, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from "../common";
 import Quotation from "../cooperationPlatformEdit/Quotation";
@@ -41,34 +41,40 @@ class TableList extends Component {
 		const { setShowModal } = this.props
 
 		const dataSource = [{
-			key: '1',
-			name: '胡彦斌',
+			orderPlatformCode: '1',
+			orderPlatformName: '胡彦斌',
 			age: 32,
-			enable: 1,
+			orderPlatformStatus: 1,
 			address: '西湖区湖底公园1号'
 		}, {
-			key: '2',
-			name: '胡彦祖',
-			age: 42,
-			enable: 2,
+			orderPlatformCode: '2',
+			orderPlatformName: '胡彦祖',
+			defaultOrderPlatform: 1,
+			orderPlatformStatus: 2,
 			address: '西湖区湖底公园1号'
 		}];
 
 		const columns = [{
 			title: '下单平台编号',
-			dataIndex: '下单平台编号name',
+			dataIndex: 'orderPlatformCode',
 			align: "center",
-			key: '下单平台编号name',
+			key: 'orderPlatformCode',
 		}, {
 			title: '下单平台名称',
-			dataIndex: 'name',
+			dataIndex: 'orderPlatformName',
 			align: "center",
-			key: 'name',
+			key: 'orderPlatformName',
+			render: (text, record) => {
+				return <div>
+					{text}
+					{record.defaultOrderPlatform == 1 ? <div className='default-order'>默认报价项</div> : null}
+				</div>
+			}
 		}, {
 			title: '所属媒体平台',
-			dataIndex: '所属媒体平台name',
+			dataIndex: 'platformName',
 			align: "center",
-			key: '所属媒体平台name',
+			key: 'platformName',
 		}, {
 			title: '代理商数量',
 			dataIndex: '代理商数量name',
@@ -79,24 +85,25 @@ class TableList extends Component {
 			}
 		}, {
 			title: '付款公司',
-			dataIndex: '付款公司name',
+			dataIndex: 'payCompanyName',
 			align: "center",
-			key: '付款公司name',
+			key: 'payCompanyName',
 		}, {
 			title: '创建时间',
-			dataIndex: '创建时间name',
+			dataIndex: 'createdAt',
 			align: "center",
-			key: '创建时间name',
+			key: 'createdAt',
 		}, {
 			title: '最近一次操作时间',
-			dataIndex: '最近一次操作时间name',
+			dataIndex: 'modifiedAt',
 			align: "center",
-			key: '最近一次操作时间name',
+			key: 'modifiedAt',
 		}, {
 			title: '平台状态',
-			dataIndex: '平台状态name',
+			dataIndex: 'orderPlatformStatus',
 			align: "center",
-			key: '平台状态name',
+			key: 'orderPlatformStatus',
+			render: (text, record) => text == 1 ? '启用' : text == 2 ? '未启用' : '停用'
 		}, {
 			title: '合作订单数',
 			dataIndex: '合作订单数name',
@@ -109,12 +116,13 @@ class TableList extends Component {
 			align: "center",
 			render: (text, record) => {
 				//启用状态
-				const { enable } = record
+				const { orderPlatformStatus, } = record
 				return <div>
 					<Link to={"/config/platform/detail"} >查看</Link>
-					<Link to={12} style={{ margin: "0px 4px" }} onClick={enable == '1' ? this.setEnable : this.setDisable}>{enable == '1' ? '启用' : '停用'}</Link>
+					{orderPlatformStatus == 2 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setEnable}>启用</Link> : null}
+					{orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setDisable}>停用</Link> : null}
 					<a href='/config/platform/edit' target='_blank' style={{ marginRight: 4 }} >修改</a>
-					{enable == 1 ? <DeleteModal /> : null}
+					{orderPlatformStatus == 1 ? <DeleteModal /> : null}
 					<div>
 						<Link to={"/config/platform/agentList"}>增加修改代理商</Link>
 					</div>
