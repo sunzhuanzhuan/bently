@@ -26,7 +26,7 @@ class Agent extends Component {
 			})
 		})
 	}
-
+	//查询
 	seachAgentByPage = (params) => {
 		this.setState({
 			isLoading: true
@@ -38,6 +38,7 @@ class Agent extends Component {
 			})
 		})
 	}
+	//设置弹窗
 	setShowModal = (isVisable, showModal) => {
 		if (isVisable) {
 			this.setState({
@@ -51,23 +52,29 @@ class Agent extends Component {
 		}
 
 	}
+	//隐藏弹窗
 	hideModal = () => {
 		this.setState({ visible: false })
 	}
+	//编辑代理商状态
 	editAgentStatus = (id, status) => {
 		const { actions: { updateAgentStatus } } = this.props
 		updateAgentStatus({ id: id, agentStatus: status })
 			.then(() => {
 				message.success(`改平台已经${status == 1 ? '启用' : '停用'}`);
+				this.seachAgentByPage()
 			})
 
 	}
+	//删除代理商
 	deleteAgent = (id) => {
 		const { actions: { delAgent } } = this.props
 		delAgent({ id: id })
 			.then(() => {
 				message.success(`删除成功`);
+				this.seachAgentByPage()
 			})
+
 	}
 	render() {
 		const { showModal, visible, isLoading } = this.state
