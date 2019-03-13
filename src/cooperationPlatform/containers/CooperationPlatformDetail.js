@@ -11,20 +11,22 @@ class CooperationPlatformDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLoading: true
+			isLoading: true,
+			cooperationPlatformInfoDetail: {}
 		};
 	}
 	componentDidMount = () => {
 		const { actions: { getCooperationPlatformInfoById } } = this.props
-		getCooperationPlatformInfoById({ currentPage: 1, pageSize: 10 }).then(() => {
+		getCooperationPlatformInfoById({ currentPage: 1, pageSize: 10 }).then(({ data }) => {
 			this.setState({
-				isLoading: false
+				isLoading: false,
+				cooperationPlatformInfoDetail: data
 			})
 		})
 	}
 	render() {
-		const { cooperationPlatformReducer: { cooperationPlatformInfoByIdDetail } } = this.props
-		const { settleType, paymentCompanyName, isNeedScreenshot, returnInvoiceType, agentVO } = cooperationPlatformInfoByIdDetail
+		const { cooperationPlatformInfoDetail } = this.state
+		const { settleType, paymentCompanyName, isNeedScreenshot, returnInvoiceType, agentVO } = cooperationPlatformInfoDetail
 		const baseInfo = [
 			{ title: "所属媒体平台", content: "131" },
 			{ title: "下单平台名称", content: '下单平台名称' },

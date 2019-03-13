@@ -13,14 +13,13 @@ class BaseInfo extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			quotationList: [],
-			chargeTypeList: [],
+			trinitySkuTypeVOS: [],
+			trinityCaptureTollTypeVOS: [],
 			IDCount: 1,
-			id: qs.parse(window.location.search.substring(1)).id
+			id: qs.parse(window.location.search.substring(1)).id,
 		};
 	}
 	componentDidMount = () => {
-
 		const dataSource = [{
 			ID: '1',
 			name: '胡彦斌',
@@ -34,14 +33,17 @@ class BaseInfo extends Component {
 		}];
 		const { id } = this.state
 		const data = {
-			quotationList: dataSource,
-			chargeTypeList: dataSource,
+			trinitySkuTypeVOS: dataSource,
+			trinityCaptureTollTypeVOS: dataSource,
 		}
 		if (id > 0) {
 			this.setState(data, () => {
 				this.props.form.setFieldsValue(data)
 			})
 		}
+	}
+	updateBaseInfoState = (data) => {
+		this.setState(data)
 	}
 	addList = (item, type) => {
 		const { IDCount } = this.state
@@ -53,6 +55,7 @@ class BaseInfo extends Component {
 		})
 		this.props.setShowModal(false)
 	}
+
 	updateList = (index, item, type) => {
 		this.state[type].splice(index, 1, item)
 		const data = { [type]: this.state[type] }
@@ -67,10 +70,18 @@ class BaseInfo extends Component {
 			this.props.form.setFieldsValue(data)
 		})
 	}
-
+	editQuotation = (params) => {
+		const { actions, setShowModal, updateBaseInfoState } = this.props
+		actions.addOrUpdateTrinitySkuType(params).then(() => {
+			setShowModal(false)
+			actions.getTrinitySkuTypeList({ trinityPlatformId: params.id }).then(({ data }) => {
+				this.setState({ trinitySkuTypeVOS: data })
+			})
+		})
+	}
 	render() {
-		const { form, formLayout, setShowModal } = this.props
-		const { getFieldDecorator } = form
+		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail } = this.props
+		const { getFieldDecorator, getFieldValue } = form
 		const formLayoutTable = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
@@ -79,36 +90,38 @@ class BaseInfo extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 16 },
 		}
-
-		const { quotationList, chargeTypeList } = this.state
+		const { trinitySkuTypeVOS, trinityCaptureTollTypeVOS, id } = this.state
 		const operateProps = {
+			actions,
 			addList: this.addList,
 			updateList: this.updateList,
 			deleteList: this.deleteList,
 			formLayoutModal: formLayoutModal,
-			quotationList,
-			chargeTypeList,
-			setShowModal
+			trinitySkuTypeVOS,
+			trinityCaptureTollTypeVOS,
+			setShowModal,
+			updateBaseInfoState: this.updateBaseInfoState,
+			editQuotation: this.editQuotation
 		}
+
 		return (
 			<div style={{ margin: "20px 0px" }}>
-				<Form.Item label="所属媒体平台"{...formLayout}>
+				<Form.Item label="所属媒体平台"{...formLayout} >
 					{getFieldDecorator('platformId', {
-						initialValue: 1,
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId,
 						rules: [
 							{ required: true, message: '请选择所属媒体平台' },
 						],
 					})(
-						<Select placeholder="请选择" style={{ width: 200 }}>
-							<Option value="china">China</Option>
-							<Option value="usa">U.S.A</Option>
+						<Select placeholder="请选择" style={{ width: 200 }} >
+							{platformSelect && platformSelect.map((one => <Option key={one.id} value={one.id} >{one.platformName}</Option>))}
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item label="下单平台名称"  {...formLayout}>
 					{getFieldDecorator('platformName', {
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName,
 						validateFirst: true,
-						initialValue: 1,
 						rules: [
 							{ required: true, message: '请输入下单平台名称' },
 							{ max: 15, message: "最多可输入15个字符" }
@@ -119,7 +132,7 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<Form.Item label="下单截图是否必填"{...formLayout}>
 					{getFieldDecorator('orderImageNeed', {
-						initialValue: 1,
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.orderImageNeed,
 						rules: [
 							{ required: true, message: '请选择下单截图是否必填' },
 						],
@@ -130,15 +143,16 @@ class BaseInfo extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				<PaymentCompany form={form} formLayout={formLayout} />
+				<PaymentCompany form={form} formLayout={formLayout} dataDefault={cooperationPlatformInfoDetail} />
 				<Form.Item label="平台报价项" {...formLayoutTable}>
 					<a onClick={() => setShowModal(true, {
 						title: <div>新增报价项</div>,
 						content: <QuotationEdit
 							{...operateProps}
+							platformId={getFieldValue('platformId')}
 						/>
 					})}>新增报价项</a>
-					{getFieldDecorator('quotationList', {
+					{getFieldDecorator('trinitySkuTypeVOS', {
 						rules: [
 							{ required: true, message: '请添加平台报价项' },
 						],
@@ -149,7 +163,7 @@ class BaseInfo extends Component {
 				</Form.Item>
 
 				<Form.Item label="收费类型" {...formLayoutTable}>
-					{getFieldDecorator('chargeTypeList', {
+					{getFieldDecorator('trinityCaptureTollTypeVOS', {
 						rules: [
 							{ required: true, message: '请添加收费类型' },
 						],
@@ -158,7 +172,7 @@ class BaseInfo extends Component {
 					)}<a onClick={() => setShowModal(true,
 						{
 							title: <div>新增收费类型</div>,
-							content: <ChargeTypeEdit {...operateProps} />
+							content: <ChargeTypeEdit {...operateProps} platformId={getFieldValue('platformId')} />
 						})}>
 						新增收费类型</a>
 					<ChargeType {...operateProps} />

@@ -47,16 +47,33 @@ class CooperationPlatform extends Component {
 			this.hideModal()
 		}
 	}
+	//删除合作平台操作
+	deleteCO = (id) => {
+		const { actions: { delPlatform } } = this.props
+		delPlatform({ id: id }).then(() => {
+			this.searchByPageOrOther()
+		})
+	}
+	//设置默认报价项
+	setDefaultCO = (id) => {
+		const { actions: { updatePlatformDefault } } = this.props
+		updatePlatformDefault({ id: id }).then(() => {
+			this.searchByPageOrOther()
+		})
+	}
 
 	render() {
 		const { showModal, isLoading, visable } = this.state
-		const { cooperationPlatformReducer: { cooperationPlatformByPageList } } = this.props
+		const { cooperationPlatformReducer: { cooperationPlatformByPageList }, actions } = this.props
 		const searchProps = {
 			searchByPageOrOther: this.searchByPageOrOther,
 		}
 		const listProps = {
 			setShowModal: this.setShowModal,
-			cooperationPlatformByPageList
+			cooperationPlatformByPageList,
+			actions,
+			deleteCO: this.deleteCO,
+			setDefaultCO: this.setDefaultCO
 		}
 		return (
 			<div className="cooperation-platform" >

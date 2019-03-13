@@ -25,22 +25,45 @@ class TableList extends Component {
 		})
 	}
 	//禁用按钮判断
-	setDisable = () => {
-		const { setShowModal } = this.props
+	setDisable = (platformId, coId) => {
+		const { setShowModal, actions } = this.props
 
 		//判断该平台是否含有多个平台并为默认报价项
-
-		//选择报价项弹窗并停用
-		setShowModal(true, {
-			title: '启用默认报价项',
-			content: <DisableDefault notOperate={true} setShowModal={setShowModal} />
+		actions.getCooperationPlatformByPage({ platformId: platformId, orderPlatformStatus: 1 }).then(({ data }) => {
+			if (data.list.length > 0) {
+				//含有则选择默认报价项
+				setShowModal(true, {
+					title: '启用默认报价项',
+					content: <DisableDefault notOperate={true}
+						setShowModal={setShowModal}
+						onDisableDefault={() => actions.updatePlatformStatus({ id: coId })} />
+				})
+			} else {
+				//不含则直接停用
+				this.enable(coId)
+			}
 		})
-		//直接停用
+	}
+	enable = (coId) => {
+		const { actions } = this.props
+		confirm({
+			title: '温馨提示',
+			content: '是否确认将该下单平台停用，停用后将无法下单？',
+			okText: '继续',
+			cancelText: '取消',
+			icon: "exclamation-circle",
+			iconType: "exclamation-circle",
+			onOk() {
+				actions.updatePlatformStatus({ id: coId })
+			},
+			onCancel() {
+
+			},
+		});
 	}
 	render() {
 
-		const { setShowModal, cooperationPlatformByPageList } = this.props
-
+		const { setShowModal, cooperationPlatformByPageList, setDefaultCO, deleteCO } = this.props
 		const dataSource = [{
 			orderPlatformCode: '1',
 			orderPlatformName: '胡彦斌',
@@ -118,17 +141,17 @@ class TableList extends Component {
 			align: "center",
 			render: (text, record) => {
 				//启用状态
-				const { orderPlatformStatus, } = record
+				const { orderPlatformStatus, defaultAgent, platformId, id } = record
 				return <div>
-					<Link to={"/config/platform/detail"} >查看</Link>
+					<Link to={`/config/platform/detail?id=${id}`} >查看</Link>
 					{orderPlatformStatus == 2 || orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setEnable}>启用</Link> : null}
-					{orderPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setDisable}>停用</Link> : null}
-					<a href={`/config/platform/edit?Id=${record.id}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
-					{orderPlatformStatus == 1 ? <DeleteModal /> : null}
+					{orderPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => defaultAgent == 1 ? this.setDisable(platformId, id) : this.enable(id)}>停用</Link> : null}
+					<a href={`/config/platform/edit?id=${id}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
+					{orderPlatformStatus == 1 ? <DeleteModal onDelete={() => deleteCO({ id: id })} /> : null}
 					<div>
-						<Link to={"/config/platform/agentList"}>增加修改代理商</Link>
+						<Link to={`/config/platform/agentList?id=${id}`}>增加修改代理商</Link>
 					</div>
-					<DeleteModal messageType="set" typeText="设置默认报价项" />
+					<DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO({ id: id })} />
 				</div>
 			}
 		}];

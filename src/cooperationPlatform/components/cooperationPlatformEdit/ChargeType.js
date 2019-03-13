@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table } from 'antd';
 import ChargeTypeEdit from "./ChargeTypeEdit";
 import { DeleteModal } from "../common"
+import qs from "qs";
 class ChargeType extends Component {
 	constructor(props) {
 		super(props);
@@ -9,7 +10,9 @@ class ChargeType extends Component {
 	}
 	render() {
 		const {
-			chargeTypeList,
+			actions,
+			updateBaseInfoState,
+			trinityCaptureTollTypeVOS,
 			setShowModal,//打开弹窗
 			formLayoutModal,
 			updateList,
@@ -17,11 +20,12 @@ class ChargeType extends Component {
 			noLast,//查看详情不显示操作列
 			isEdit//修改时显示编号和时间
 		} = this.props
+		const id = qs.parse(window.location.search.substring(1)).id
 		const columns = [{
 			title: '收费类型编号',
-			dataIndex: 'tollTypeCode',
+			dataIndex: 'trinityKey',
 			align: 'center',
-			key: 'tollTypeCode',
+			key: 'trinityKey',
 		}, {
 			title: '平台收费类型名称',
 			dataIndex: 'tollTypeName',
@@ -62,20 +66,24 @@ class ChargeType extends Component {
 							updateList={updateList}
 							index={index}
 							isEdit={true}
-							item={record} />
+							item={record}
+							actions={actions}
+							updateBaseInfoState={updateBaseInfoState} />
 					})} style={{ marginRight: 4 }}>修改</a>
-					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'chargeTypeList')} /> : null}
+					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'trinityCaptureTollTypeVOS')} /> : null}
 
 				</div>
 
 			}
 		}]
-		const updateKey = ['createTime', 'lastTime', 'id']
+		const updateKey = ['createdAt', 'modifiedAt', 'id']
 		return (
 			<div >
-				<Table dataSource={chargeTypeList} columns={isEdit ?
-					noLast ? columns.filter(one => one.key != 'operate') : columns
-					: columns.filter(one => !updateKey.includes(one.key))}
+				<Table dataSource={trinityCaptureTollTypeVOS} columns={
+					id > 0 ? noLast ? columns.filter(one => one.key != 'operate') :
+						columns
+						: columns.filter(one => !updateKey.includes(one.key))
+				}
 					pagination={false} bordered={true} />
 			</div>
 		);

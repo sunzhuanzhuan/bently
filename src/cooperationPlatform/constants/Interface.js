@@ -24,5 +24,8 @@ export default {
 	'getSkuType': defaultUrl + 'skuType',//合作平台-平台关联报价项下拉框接口
 	'': defaultUrl + '',//合作平台-获取合作平台是否有启用的报价项
 	'': defaultUrl + '',//获取除当前启用平台外是否还有其他启用平台
+	'getTrinitySkuTypeList': defaultUrl + 'getTrinitySkuTypeList',//获取Sku列表
+	'getTrinityTollTypeList': defaultUrl + 'getTrinityTollTypeList',//获取收费类型列表
+
 
 }

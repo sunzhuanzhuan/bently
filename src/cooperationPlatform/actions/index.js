@@ -18,6 +18,11 @@ export const {
 } = createHttpAction('addOrUpdateTollType', Interface.addOrUpdateTollType, {
 	method: 'post'
 })
+//获取收费类型列表
+export const {
+	getTrinityTollTypeList,
+	getTrinityTollTypeList_success
+} = createHttpAction('getTrinityTollTypeList', Interface.getTrinityTollTypeList)
 //平台抓取报价项名称下拉框接口
 export const {
 	getCaptureTrinitySkuType,
@@ -39,6 +44,9 @@ export const {
 export const {
 	getPlatform,
 	getPlatform_success
-} = createHttpAction('getPlatform', Interface.getPlatform, {
-	method: 'post'
-})
+} = createHttpAction('getPlatform', Interface.getPlatform)
+//获取报价项列表
+export const {
+	getTrinitySkuTypeList,
+	getTrinitySkuTypeList_success
+} = createHttpAction('getTrinitySkuTypeList', Interface.getTrinitySkuTypeList)

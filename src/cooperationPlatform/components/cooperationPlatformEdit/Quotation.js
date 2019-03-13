@@ -3,11 +3,13 @@ import { Table, Button } from 'antd';
 import QuotationEdit from "./QuotationEdit";
 import { DeleteModal } from "../common"
 import { Tips } from "../cooperationPlatform/DisableDefault";
+import qs from "qs";
 class Quotation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedRowKeys: []
+			selectedRowKeys: [],
+			id: qs.parse(window.location.search.substring(1)).id
 		};
 	}
 	onSelectChange = (selectedRowKeys) => {
@@ -16,7 +18,9 @@ class Quotation extends Component {
 	}
 	render() {
 		const {
-			quotationList,
+			actions,
+			editQuotation,
+			trinitySkuTypeVOS,
 			setShowModal,
 			formLayoutModal,
 			updateList,
@@ -24,10 +28,10 @@ class Quotation extends Component {
 			notOperate,//带复选框
 			onClose,//关闭弹窗
 			noLast,//只没有操作列
-			isEdit,
 			isWeiBo//是微博
 		} = this.props
-		const { selectedRowKeys } = this.state
+		const { id, selectedRowKeys } = this.state
+
 		const tableProps = notOperate ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -43,21 +47,21 @@ class Quotation extends Component {
 		const timeColumns = [{
 			id: 1,
 			title: '创建时间',
-			dataIndex: 'createTime',
+			dataIndex: 'createdAt',
 			align: 'center',
-			key: 'createTime',
+			key: 'createdAt',
 		}, {
 			id: 2,
 			title: '最后一次修改时间',
-			dataIndex: 'lastTime',
+			dataIndex: 'modifiedAt',
 			align: 'center',
-			key: 'lastTime',
+			key: 'modifiedAt',
 		}]
 		const nameColunm = [{
 			title: '平台抓取报价项名称',
-			dataIndex: 'platformName',
+			dataIndex: 'trinityTypeName',
 			align: 'center',
-			key: 'platformName',
+			key: 'trinityTypeName',
 		}, {
 			title: '微播易展示报价项名称',
 			dataIndex: 'wbyTypeName',
@@ -66,9 +70,9 @@ class Quotation extends Component {
 		}]
 		const weiboColunm = [{
 			title: '对应预设报价项',
-			dataIndex: 'ow',
+			dataIndex: 'skuTypeName',
 			align: 'center',
-			key: 'ow',
+			key: 'skuTypeName',
 		}]
 		const statuColunm = [{
 			title: '描述',
@@ -77,10 +81,10 @@ class Quotation extends Component {
 			key: 'description',
 		}, {
 			title: '状态',
-			dataIndex: 'status',
+			dataIndex: 'trinitySkuTypeStatus',
 			align: 'center',
-			key: 'status',
-			render: (text) => text == 1 ? "启用" : "已停用"
+			key: 'trinitySkuTypeStatus',
+			render: (text) => text == 1 ? "已启用" : text == 3 ? `已停用` : '未启用'
 		}]
 		const oprateColunm = [{
 			title: '操作',
@@ -88,6 +92,7 @@ class Quotation extends Component {
 			align: 'center',
 			key: 'operate',
 			render: (text, record, index) => {
+				const { trinitySkuTypeStatus, id } = record
 				return <div>
 					<a onClick={() => setShowModal(true, {
 						title: <div>修改报价项</div>,
@@ -97,13 +102,20 @@ class Quotation extends Component {
 							updateList={updateList}
 							index={index}
 							isEdit={true}
-							item={record} />
+							item={record}
+							actions={actions}
+							editQuotation={editQuotation} />
 					})} style={{ marginRight: 4 }}>修改</a>
-					{record.isAddItem ?
-						<DeleteModal onDelete={() => deleteList(record.id, 'quotationList')} /> :
-						<a style={{ marginLeft: 0 }} onClick={() => { console.log('启用') }}>
-							{record.status == 1 ? '停用' : '启用'}
-						</a>}
+					{record.trinitySkuTypeStatus == 2 ?
+						<DeleteModal onDelete={() => id > 0 ?
+							editQuotation({ id: id, isDeleted: 1 }) :
+							deleteList(record.id, 'trinitySkuTypeVOS')} /> : null}
+					{id > 0 ? <a style={{ marginLeft: 0 }} onClick={() => editQuotation({
+						id: id,
+						trinitySkuTypeStatus: record.trinitySkuTypeStatus == 1 ? 3 : 1//1启用，3停用
+					})}>
+						{record.trinitySkuTypeStatus == 1 ? '停用' : '启用'}
+					</a> : null}
 				</div>
 			}
 		}];
@@ -117,8 +129,8 @@ class Quotation extends Component {
 			<div style={{ marginBottom: 8 }}>
 				{notOperate ? <div style={{ paddingBottom: 20 }}><Tips text='若要启用该平台，请至少选择一个报价项！' /> </div> : null}
 				<Table
-					dataSource={quotationList}
-					columns={isEdit ? editColumns : addColumns}
+					dataSource={trinitySkuTypeVOS}
+					columns={id > 0 ? editColumns : addColumns}
 					pagination={false}
 					bordered={true}
 					{...tableProps} />
