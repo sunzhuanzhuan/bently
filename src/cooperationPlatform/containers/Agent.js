@@ -3,7 +3,7 @@ import TableList from "../components/agent/TableList";
 import AgentEdit from "./AgentEdit";
 import { DividingBox } from "../components/common";
 import "./Agent.less";
-import { Modal, Spin, Button } from 'antd';
+import { Modal, Spin, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -19,7 +19,24 @@ class Agent extends Component {
 		this.setShowModal = this.setShowModal.bind(this)
 	}
 	componentDidMount = () => {
-		this.setState({ isLoading: false })
+		const { actions: { getAgentByPage } } = this.props
+		getAgentByPage({ currentPage: 1, pageSize: 10 }).then(() => {
+			this.setState({
+				isLoading: false
+			})
+		})
+	}
+
+	seachAgentByPage = (params) => {
+		this.setState({
+			isLoading: true
+		})
+		const { actions: { getAgentByPage } } = this.props
+		getAgentByPage({ currentPage: 1, pageSize: 10, ...params }).then(() => {
+			this.setState({
+				isLoading: false
+			})
+		})
 	}
 	setShowModal = (isVisable, showModal) => {
 		if (isVisable) {
@@ -37,10 +54,33 @@ class Agent extends Component {
 	hideModal = () => {
 		this.setState({ visible: false })
 	}
+	editAgentStatus = (id, status) => {
+		const { actions: { updateAgentStatus } } = this.props
+		updateAgentStatus({ id: id, agentStatus: status })
+			.then(() => {
+				message.success(`改平台已经${status == 1 ? '启用' : '停用'}`);
+			})
+
+	}
+	deleteAgent = (id) => {
+		const { actions: { delAgent } } = this.props
+		delAgent({ id: id })
+			.then(() => {
+				message.success(`删除成功`);
+			})
+	}
 	render() {
 		const { showModal, visible, isLoading } = this.state
+		const { actions, cooperationPlatformReducer } = this.props
+		const { insertAgent } = actions
+		const { agentByPageList, } = cooperationPlatformReducer
 		const listProps = {
-			setShowModal: this.setShowModal
+			setShowModal: this.setShowModal,
+			agentByPageList,
+			deleteAgent: this.deleteAgent,
+			editAgentStatus: this.editAgentStatus,
+			seachAgentByPage: this.seachAgentByPage,
+			actions
 		}
 		return (
 
@@ -60,7 +100,11 @@ class Agent extends Component {
 						</div>
 					</div>
 					<DividingBox text="代理商信息" />
-					<a onClick={() => this.setShowModal(true, { title: '新增代理商', content: <AgentEdit />, width: 800 })}>新增代理商</a>
+					<a onClick={() => this.setShowModal(true, {
+						title: '新增代理商',
+						content: <AgentEdit setShowModal={this.setShowModal}
+							insertAgent={insertAgent} seachAgentByPage={this.seachAgentByPage} />, width: 800
+					})}>新增代理商</a>
 					<TableList  {...listProps} />
 					<div style={{ textAlign: "center", marginBottom: 20 }}>
 						<Link to="/config/platform/list">
@@ -70,6 +114,7 @@ class Agent extends Component {
 					<Modal
 						title={showModal && showModal.title}
 						visible={visible}
+						destroyOnClose={true}
 						onOk={this.hideModal}
 						footer={null}
 						width={showModal.width}

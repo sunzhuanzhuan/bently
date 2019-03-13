@@ -7,9 +7,4 @@ export const agentByPageList = handleActions({
 		return { ...action.payload.data }
 	}
 }, {})
-//详情
-export const agentByIdDetail = handleActions({
-	[cooperationPlatformActions.getAgentById_success]: (state, action) => {
-		return { ...action.payload.data }
-	}
-}, {})
+

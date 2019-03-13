@@ -9,13 +9,17 @@ class Search extends Component {
 	}
 	onSearch = (e) => {
 		e.preventDefault();
-		const { searchAsync, form } = this.props
+		const { searchByPageOrOther, form } = this.props
 		form.validateFields((err, values) => {
 			const { time } = values
 			if (!err) {
-				const begin = time && time[0] && time[0].format(defultTime)
-				const end = time && time[0] && time[0].format(defultTime)
-				searchAsync({ ...values, begin, end })
+				const startTime = time && time[0] && time[0].format(defultTime)
+				const endTime = time && time[0] && time[0].format(defultTime)
+				const searchPrams = {
+					form: { ...values, startTime: startTime, endTime: endTime },
+					page: { currentPage: 1, pageSize: 10 }
+				}
+				searchByPageOrOther(searchPrams)
 			}
 		});
 	}
@@ -27,16 +31,16 @@ class Search extends Component {
 		return (
 			<Form layout="inline">
 				<Form.Item label="下单平台" >
-					{getFieldDecorator('platform')(
+					{getFieldDecorator('orderPlatformName')(
 						<Input placeholder="请输入" />
 					)}
 				</Form.Item>
 				<Form.Item label="平台状态">
-					{getFieldDecorator('select')(
+					{getFieldDecorator('orderPlatformStatus')(
 						<Select placeholder="请选择" style={{ width: 200 }}>
-							<Option value="0">未启用</Option>
-							<Option value="1">已停用</Option>
-							<Option value="2">已启用</Option>
+							<Option value="2">未启用</Option>
+							<Option value="3">已停用</Option>
+							<Option value="1">已启用</Option>
 						</Select>
 					)}
 				</Form.Item>

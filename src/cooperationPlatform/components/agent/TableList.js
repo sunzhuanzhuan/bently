@@ -9,19 +9,8 @@ class TableList extends Component {
 		this.state = {};
 	}
 	render() {
-		const { setShowModal } = this.props
-		const dataSource = [{
-			code: 'code1',
-			name: '胡彦斌',
-			age: 32,
-			address: '西湖区湖底公园1号'
-		}, {
-			code: 'code2',
-			name: '胡彦祖',
-			age: 42,
-			address: '西湖区湖底公园1号'
-		}];
-
+		const { setShowModal, agentByPageList,
+			editAgentStatus, deleteAgent, seachAgentByPage, actions } = this.props
 		const columns = [{
 			title: '代理商编号',
 			dataIndex: 'agentCode',
@@ -70,21 +59,30 @@ class TableList extends Component {
 			key: 'setmethod',
 			render: (text, recode) => {
 				const title = `代理商   【所属下单平台：${'快接单'} 所属媒体平台：${'快手'}】`
-				const { agentStatus } = recode
+				const { agentStatus, id } = recode
 				return <div>
-					<a onClick={() => setShowModal(true,
+					<a style={{ marginRight: 4 }} onClick={() => setShowModal(true,
 						{
-							title: <div>查看{title} </div>,
-							content: <AgentDetail setShowModal={setShowModal} />
+							title: <div >查看{title} </div>,
+							content: <AgentDetail
+								setShowModal={setShowModal}
+								actions={actions} />
 						})}>查看</a>
+					{agentStatus == 1 ?
+						<a onClick={() => editAgentStatus(id, 3)}>停用</a>
+						:
+						<a onClick={() => editAgentStatus(id, 1)}>启用</a>
+					}
 					<a onClick={() => setShowModal(true,
 						{
+							width: '800px',
 							title: <div>修改{title}</div>,
-							content: <AgentEdit setShowModal={setShowModal} />
+							content: <AgentEdit setShowModal={setShowModal}
+								agentId={recode.id}
+								seachAgentByPage={seachAgentByPage}
+							/>
 						})} style={{ margin: "0px 4px" }}>修改</a>
-					{agentStatus == 3 ? <a style={{ marginRight: 4 }}>启用</a> :
-						agentStatus == 2 ? <DeleteModal /> :
-							<a style={{ marginLeft: 4 }}>停用</a>}
+					{agentStatus == 2 ? <DeleteModal onDelete={() => deleteAgent({ id: id })} /> : null}
 				</div>
 			}
 		}]
@@ -92,7 +90,7 @@ class TableList extends Component {
 			<Table
 				style={{ marginTop: 20 }}
 				bordered={true}
-				dataSource={dataSource}
+				dataSource={agentByPageList.list}
 				columns={columns}
 				pagination={{
 					current: 1,

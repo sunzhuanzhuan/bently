@@ -18,13 +18,13 @@ class CooperationMethod extends Component {
 	}
 
 	render() {
-		const { form, formLayout } = this.props
+		const { form, formLayout, dataDefault } = this.props
 		const { getFieldDecorator, getFieldValue } = form
 		return (
 			<div>
 				<Form.Item label="合作方式"{...formLayout}>
-					{getFieldDecorator('method', {
-						initialValue: 1,
+					{getFieldDecorator('agentVO.cooperationType', {
+						initialValue: dataDefault && dataDefault.cooperationType || 1,
 						rules: [
 							{ required: true, message: '请选择合作方式' },
 						],
@@ -36,9 +36,9 @@ class CooperationMethod extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				{getFieldValue("method") == 1 ? <Form.Item label="反款比例"  {...formLayout}>
-					{getFieldDecorator('proportion', {
-						initialValue: 1,
+				{getFieldValue("agentVO.cooperationType") == 1 ? <Form.Item label="反款比例"  {...formLayout}>
+					{getFieldDecorator('agentVO.refundRate', {
+						initialValue: dataDefault && dataDefault.refundRate,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入反款比例' },
@@ -49,8 +49,8 @@ class CooperationMethod extends Component {
 					)}
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>
-						{getFieldDecorator('remark', {
-							initialValue: 1,
+						{getFieldDecorator('agentVO.cooperationRemark', {
+							initialValue: dataDefault && dataDefault.cooperationRemark,
 							validateFirst: true,
 							rules: [
 								{ max: 50, message: "最多可输入50个字" }

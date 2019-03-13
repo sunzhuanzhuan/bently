@@ -8,13 +8,13 @@ class SettlementMethod extends Component {
 		this.state = {};
 	}
 	render() {
-		const { form, formLayout, isAgent } = this.props
+		const { form, formLayout, isAgent, dataDefault } = this.props
 		const { getFieldDecorator } = form
 		return (
 			<div>
 				<Form.Item label="结算方式"{...formLayout}>
 					{getFieldDecorator('agentVO.settleStyle', {
-						initialValue: 1,
+						initialValue: dataDefault && dataDefault.settleStyle,
 						rules: [
 							{ required: true, message: '请选择结算方式' },
 						],
@@ -27,7 +27,7 @@ class SettlementMethod extends Component {
 				</Form.Item>
 				<Form.Item label="回票方式"{...formLayout}>
 					{getFieldDecorator('agentVO.returnTicketStyle', {
-						initialValue: 1,
+						initialValue: dataDefault && dataDefault.returnTicketStyle || 1,
 						rules: [
 							{ required: true, message: '请选择回票方式' },
 						],

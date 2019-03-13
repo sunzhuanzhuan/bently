@@ -5,6 +5,7 @@ import ChargeType from "./ChargeType";
 import QuotationEdit from "./QuotationEdit";
 import ChargeTypeEdit from "./ChargeTypeEdit";
 import { PaymentCompany } from "../common/index";
+import qs from "qs";
 import numeral from "numeral"
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -14,10 +15,12 @@ class BaseInfo extends Component {
 		this.state = {
 			quotationList: [],
 			chargeTypeList: [],
-			IDCount: 1
+			IDCount: 1,
+			id: qs.parse(window.location.search.substring(1)).id
 		};
 	}
 	componentDidMount = () => {
+
 		const dataSource = [{
 			ID: '1',
 			name: '胡彦斌',
@@ -29,25 +32,40 @@ class BaseInfo extends Component {
 			remark: 'asdasdasd',
 			address: '西湖区湖底公园1号'
 		}];
-		this.setState({
+		const { id } = this.state
+		const data = {
 			quotationList: dataSource,
 			chargeTypeList: dataSource,
-		})
+		}
+		if (id > 0) {
+			this.setState(data, () => {
+				this.props.form.setFieldsValue(data)
+			})
+		}
 	}
 	addList = (item, type) => {
 		const { IDCount } = this.state
 		item.id = `${type}${numeral(IDCount).format('0000')}`
 		item.isAddItem = true
-		this.setState({ [type]: [...this.state[type], ...[item]], IDCount: IDCount + 1 })
+		const data = { [type]: [...this.state[type], ...[item]], IDCount: IDCount + 1 }
+		this.setState(data, () => {
+			this.props.form.setFieldsValue(data)
+		})
 		this.props.setShowModal(false)
 	}
 	updateList = (index, item, type) => {
 		this.state[type].splice(index, 1, item)
-		this.setState({ [type]: this.state[type] })
+		const data = { [type]: this.state[type] }
+		this.setState(data, () => {
+			this.props.form.setFieldsValue(data)
+		})
 		this.props.setShowModal(false)
 	}
 	deleteList = (id, type) => {
-		this.setState({ [type]: this.state[type].filter(one => one.id != id) })
+		const data = { [type]: this.state[type].filter(one => one.id != id) }
+		this.setState(data, () => {
+			this.props.form.setFieldsValue(data)
+		})
 	}
 
 	render() {
@@ -120,8 +138,7 @@ class BaseInfo extends Component {
 							{...operateProps}
 						/>
 					})}>新增报价项</a>
-					{getFieldDecorator('quotation', {
-						initialValue: 1,
+					{getFieldDecorator('quotationList', {
 						rules: [
 							{ required: true, message: '请添加平台报价项' },
 						],
@@ -132,10 +149,9 @@ class BaseInfo extends Component {
 				</Form.Item>
 
 				<Form.Item label="收费类型" {...formLayoutTable}>
-					{getFieldDecorator('quotation', {
-						initialValue: 1,
+					{getFieldDecorator('chargeTypeList', {
 						rules: [
-							{ required: true, message: '请添加平台报价项' },
+							{ required: true, message: '请添加收费类型' },
 						],
 					})(
 						<Input style={{ display: "none" }} />

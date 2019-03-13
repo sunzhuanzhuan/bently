@@ -38,7 +38,8 @@ class TableList extends Component {
 		//直接停用
 	}
 	render() {
-		const { setShowModal } = this.props
+
+		const { setShowModal, cooperationPlatformByPageList } = this.props
 
 		const dataSource = [{
 			orderPlatformCode: '1',
@@ -64,12 +65,7 @@ class TableList extends Component {
 			dataIndex: 'orderPlatformName',
 			align: "center",
 			key: 'orderPlatformName',
-			render: (text, record) => {
-				return <div>
-					{text}
-					{record.defaultOrderPlatform == 1 ? <div className='default-order'>默认报价项</div> : null}
-				</div>
-			}
+
 		}, {
 			title: '所属媒体平台',
 			dataIndex: 'platformName',
@@ -81,7 +77,7 @@ class TableList extends Component {
 			align: "center",
 			key: '代理商数量name',
 			render: (record, index) => {
-				return <Link to={"/config/platform/agentList"}>12</Link>
+				return <Link to={`/config/platform/agentList?`}>12</Link>
 			}
 		}, {
 			title: '付款公司',
@@ -105,10 +101,16 @@ class TableList extends Component {
 			key: 'orderPlatformStatus',
 			render: (text, record) => text == 1 ? '启用' : text == 2 ? '未启用' : '停用'
 		}, {
-			title: '合作订单数',
-			dataIndex: '合作订单数name',
+			title: '是否默认报价项',
+			dataIndex: 'defaultAgent',
 			align: "center",
-			key: '合作订单数name',
+			key: 'defaultAgent',
+			render: (text, record) => text == 1 ? '是' : '否'
+		}, {
+			title: '合作订单数',
+			dataIndex: 'orderNumber',
+			align: "center",
+			key: 'orderNumber',
 		}, {
 			title: '操作',
 			dataIndex: '操作name',
@@ -119,9 +121,9 @@ class TableList extends Component {
 				const { orderPlatformStatus, } = record
 				return <div>
 					<Link to={"/config/platform/detail"} >查看</Link>
-					{orderPlatformStatus == 2 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setEnable}>启用</Link> : null}
-					{orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setDisable}>停用</Link> : null}
-					<a href='/config/platform/edit' target='_blank' style={{ marginRight: 4 }} >修改</a>
+					{orderPlatformStatus == 2 || orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setEnable}>启用</Link> : null}
+					{orderPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setDisable}>停用</Link> : null}
+					<a href={`/config/platform/edit?Id=${record.id}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
 					{orderPlatformStatus == 1 ? <DeleteModal /> : null}
 					<div>
 						<Link to={"/config/platform/agentList"}>增加修改代理商</Link>
@@ -133,7 +135,7 @@ class TableList extends Component {
 
 		return (
 			<Table
-				dataSource={dataSource}
+				dataSource={cooperationPlatformByPageList.list}
 				columns={columns}
 				bordered={true}
 				pagination={{

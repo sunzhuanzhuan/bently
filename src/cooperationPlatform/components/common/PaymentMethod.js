@@ -40,13 +40,13 @@ class PaymentMethod extends Component {
 
 	}
 	render() {
-		const { form, formLayout } = this.props
+		const { form, formLayout, dataDefault } = this.props
 		const { getFieldDecorator, getFieldValue } = form
 		return (
 			<div>
 				<Form.Item label="收款方式"{...formLayout}>
-					{getFieldDecorator('agentVO.payStyle', {
-						initialValue: 1,
+					{getFieldDecorator('agentVO.paymentType', {
+						initialValue: dataDefault && dataDefault.paymentType || 1,
 						rules: [
 							{ required: true, message: '请选择收款方式' },
 						],
@@ -57,10 +57,10 @@ class PaymentMethod extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				{getFieldValue("payment_method") == 1 ? <div>
+				{getFieldValue("agentVO.paymentType") == 1 ? <div>
 					<Form.Item label="开户行"{...formLayout}>
 						{getFieldDecorator('agentVO.bank', {
-							initialValue: 1,
+							initialValue: dataDefault && dataDefault.bank,
 							rules: [
 								{ required: true, message: '请选择开户行' },
 							],
@@ -73,9 +73,9 @@ class PaymentMethod extends Component {
 					</Form.Item>
 					<Form.Item label="开户支行"  {...formLayout}>
 						{getFieldDecorator('agentVO.subbranchBank', {
+							initialValue: dataDefault && dataDefault.subbranchBank,
 							validateFirst: true,
 							validateTrigger: "onBlur",
-							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入开户支行' },
 								{ max: 60, message: "最多可输入60个字符" },
@@ -87,9 +87,9 @@ class PaymentMethod extends Component {
 					</Form.Item>
 					<Form.Item label="开户所在省"  {...formLayout}>
 						{getFieldDecorator('agentVO.bankProvince', {
+							initialValue: dataDefault && dataDefault.bankProvince,
 							validateFirst: true,
 							validateTrigger: "onBlur",
-							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入开户所在省' },
 								{ max: 30, message: "最多可输入30个字符" },
@@ -101,9 +101,9 @@ class PaymentMethod extends Component {
 					</Form.Item>
 					<Form.Item label="开户所在市"  {...formLayout}>
 						{getFieldDecorator('agentVO.bankCity', {
+							initialValue: dataDefault && dataDefault.bankCity,
 							validateFirst: true,
 							validateTrigger: "onBlur",
-							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入开户所在市' },
 								{ max: 50, message: "最多可输入50个字符" },
@@ -115,9 +115,9 @@ class PaymentMethod extends Component {
 					</Form.Item>
 					<Form.Item label="账号"  {...formLayout}>
 						{getFieldDecorator('agentVO.bankAccount', {
+							initialValue: dataDefault && dataDefault.bankAccount,
 							validateFirst: true,
 							validateTrigger: "onBlur",
-							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入账号' },
 								{ validator: this.accountVali },
@@ -128,9 +128,9 @@ class PaymentMethod extends Component {
 					</Form.Item>
 					<Form.Item label="户名"  {...formLayout}>
 						{getFieldDecorator('agentVO.bankAccountName', {
+							initialValue: dataDefault && dataDefault.bankAccountName,
 							validateFirst: true,
 							validateTrigger: "onBlur",
-							initialValue: 1,
 							rules: [
 								{ required: true, message: '请输入户名' },
 								{ max: 50, message: "最多可输入50个字符" },
@@ -144,8 +144,8 @@ class PaymentMethod extends Component {
 
 						<Form.Item label="账号"  {...formLayout}>
 							{getFieldDecorator('agentVO.alipayAccount', {
+								initialValue: dataDefault && dataDefault.alipayAccount,
 								validateFirst: true,
-								initialValue: 1,
 								rules: [
 									{ required: true, message: '请输入账号' },
 									{ max: 80, message: "最多可输入80个字符" }
@@ -156,8 +156,8 @@ class PaymentMethod extends Component {
 						</Form.Item>
 						<Form.Item label="收款方"  {...formLayout}>
 							{getFieldDecorator('agentVO.alipayAccountName', {
+								initialValue: dataDefault && dataDefault.alipayAccountName,
 								validateFirst: true,
-								initialValue: 1,
 								rules: [
 									{ required: true, message: '请输入收款方' },
 									{ max: 50, message: "最多可输入50个字符" }

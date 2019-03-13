@@ -1,4 +1,4 @@
-const defaultUrl = '/api/operator-gateway/trinityPlatform/v1/'
+const defaultUrl = 'operator-gateway/trinityPlatform/v1/'
 export default {
 	'getCooperationPlatformByPage': defaultUrl + 'getCooperationPlatformByPage',//合作平台-管理列表接口
 	'insertCooperationPlatform': defaultUrl + 'insertCooperationPlatform',//合作平台-新增接口

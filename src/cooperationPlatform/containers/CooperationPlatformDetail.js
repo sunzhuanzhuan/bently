@@ -15,21 +15,25 @@ class CooperationPlatformDetail extends Component {
 		};
 	}
 	componentDidMount = () => {
-		this.setState({
-			isLoading: false
+		const { actions: { getCooperationPlatformInfoById } } = this.props
+		getCooperationPlatformInfoById({ currentPage: 1, pageSize: 10 }).then(() => {
+			this.setState({
+				isLoading: false
+			})
 		})
 	}
 	render() {
-
+		const { cooperationPlatformReducer: { cooperationPlatformInfoByIdDetail } } = this.props
+		const { settleType, paymentCompanyName, isNeedScreenshot, returnInvoiceType, agentVO } = cooperationPlatformInfoByIdDetail
 		const baseInfo = [
 			{ title: "所属媒体平台", content: "131" },
-			{ title: "下单平台名称", content: "12312" },
-			{ title: "下单截图是否必填", content: "123123" },
-			{ title: "付款公司", content: "123" },
+			{ title: "下单平台名称", content: '下单平台名称' },
+			{ title: "下单截图是否必填", content: isNeedScreenshot },
+			{ title: "付款公司", content: paymentCompanyName },
 		]
 		const payInfo = [
-			{ title: "结算方式", content: "123" },
-			{ title: "回票方式", content: "1231" },
+			{ title: "结算方式", content: settleType == 1 ? '预付款' : '周期结算' },
+			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
 		]
 		const { isLoading } = this.state
 		return (
@@ -44,9 +48,9 @@ class CooperationPlatformDetail extends Component {
 				</div>
 				<DividingBox text="平台合作信息" />
 				<div style={{ margin: "30px 0px" }}>
-					<CooperationMethodDetail />
+					<CooperationMethodDetail detailData={agentVO} />
 					<ShowDetailArr arr={payInfo} />
-					<PaymentMethodDetail />
+					<PaymentMethodDetail detailData={agentVO} />
 				</div>
 				<div style={{ textAlign: "center", marginBottom: 20 }}>
 					<Link to="/config/platform/list">

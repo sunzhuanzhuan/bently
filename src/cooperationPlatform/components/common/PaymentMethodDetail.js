@@ -6,22 +6,25 @@ class PaymentMethodDetail extends Component {
 		this.state = {};
 	}
 	render() {
+		const { detailData = {} } = this.props
+		const {
+			bank, bankAgency, bankAgencyCity, bankAgencyProvince, cardNumber, realName,
+			alipayAccount, alipayAccountName } = detailData
 		const bankArr = [
 			{ title: "收款方式", content: "银行转账" },
-			{ title: "开户行", content: "" },
-			{ title: "开户支行", content: "" },
-			{ title: "开户行所在省", content: "" },
-			{ title: "开户行所在市", content: "" },
-			{ title: "帐号", content: "" },
-			{ title: "户名", content: "" },
+			{ title: "开户行", content: bank },
+			{ title: "开户支行", content: bankAgency },
+			{ title: "开户行所在省", content: bankAgencyProvince },
+			{ title: "开户行所在市", content: bankAgencyCity },
+			{ title: "帐号", content: cardNumber },
+			{ title: "户名", content: realName },
 		]
 		const alipayArr = [
 			{ title: "收款方式", content: "支付宝" },
-			{ title: "帐号", content: "" },
-			{ title: "收款方", content: "" },]
-		const { isPaymentBank } = this.props
+			{ title: "帐号", content: alipayAccount },
+			{ title: "收款方", content: alipayAccountName },]
 		return (
-			<ShowDetailArr arr={isPaymentBank ? bankArr : alipayArr} />
+			<ShowDetailArr arr={bank ? bankArr : alipayArr} />
 		);
 	}
 }

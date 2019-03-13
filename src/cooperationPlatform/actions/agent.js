@@ -13,6 +13,7 @@ export const {
 	getAgentById,
 	getAgentById_success
 } = createHttpAction('getAgentById', Interface.getAgentById)
+
 //新增代理商
 export const {
 	insertAgent,

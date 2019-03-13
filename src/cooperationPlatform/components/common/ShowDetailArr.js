@@ -5,15 +5,15 @@ class ShowDetailArr extends Component {
 		this.state = {};
 	}
 	render() {
-		const { arr } = this.props
+		const { arr = [] } = this.props
 		return (
 			<div>
 				{arr.map((one, index) => {
 					return <div key={index}>
-						<div style={{ width: 150, height: 30, textAlign: "right", display: "inline-table" }}>
-							{one.title}:
+						<div style={{ width: 150, height: 40, fontSize: 14, textAlign: "right", display: "inline-table" }}>
+							{one.title}：
 							</div>
-						<div style={{ width: 200, display: "inline-table" }}>
+						<div style={{ width: 200, display: "inline-table", paddingLeft: 5 }}>
 							{one.content}
 						</div>
 					</div>

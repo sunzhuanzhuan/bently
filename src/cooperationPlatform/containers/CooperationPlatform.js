@@ -12,12 +12,26 @@ class CooperationPlatform extends Component {
 		this.state = {
 			showModal: { title: "", content: "", width: '' },
 			visable: false,
-			isLoading: true
+			isLoading: true,
 		};
 	}
 	componentDidMount = () => {
+		const { actions: { getCooperationPlatformByPage } } = this.props
+		getCooperationPlatformByPage({ currentPage: 1, pageSize: 10 }).then(() => {
+			this.setState({
+				isLoading: false
+			})
+		})
+	}
+	searchByPageOrOther = (params) => {
 		this.setState({
-			isLoading: false
+			isLoading: true
+		})
+		const { actions: { getCooperationPlatformByPage } } = this.props
+		getCooperationPlatformByPage(params).then(() => {
+			this.setState({
+				isLoading: false
+			})
 		})
 	}
 	hideModal = () => {
@@ -33,24 +47,16 @@ class CooperationPlatform extends Component {
 			this.hideModal()
 		}
 	}
-	searchAsync = (params) => {
-		this.setState({
-			isLoading: true
-		})
-		console.log(params);
-		setTimeout(() => {
-			this.setState({
-				isLoading: false
-			})
-		}, 1000);
-	}
+
 	render() {
 		const { showModal, isLoading, visable } = this.state
+		const { cooperationPlatformReducer: { cooperationPlatformByPageList } } = this.props
 		const searchProps = {
-			searchAsync: this.searchAsync
+			searchByPageOrOther: this.searchByPageOrOther,
 		}
 		const listProps = {
-			setShowModal: this.setShowModal
+			setShowModal: this.setShowModal,
+			cooperationPlatformByPageList
 		}
 		return (
 			<div className="cooperation-platform" >

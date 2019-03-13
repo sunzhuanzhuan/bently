@@ -1,35 +1,50 @@
 import React, { Component } from 'react'
 import { ShowDetailArr, PaymentMethodDetail, CooperationMethodDetail } from "../components/common";
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 class AgentDetail extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			isLoading: true,
+			agentByIdDetail: {}
+		};
+	}
+	componentDidMount = () => {
+		const { agentId, actions } = this.props
+		actions.getAgentById({ id: agentId }).then(({ data }) => {
+			this.setState({
+				isLoading: false,
+				agentByIdDetail: data
+			})
+		})
 	}
 	render() {
-		const AgentInfo = [
-			{ title: "代理商ID", content: "" },
-			{ title: "代理商名称", content: "" },
+
+		const { agentByIdDetail } = this.state
+		const { agentName, id, paymentCompanyName, settleType, returnInvoiceType } = agentByIdDetail
+		const showInfo = [
+			{ title: "代理商ID", content: id },
+			{ title: "代理商名称", content: agentName },
 		]
 		const otherInfo = [
-			{ title: "付款公司", content: "" },
-			{ title: "结算方式", content: "" },
-			{ title: "回票方式", content: "" },
-
+			{ title: "付款公司", content: paymentCompanyName },
+			{ title: "结算方式", content: settleType == 1 ? '预付款' : '周期结算' },
+			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
 		]
+
 		const remark = [{ title: "备注", content: "" }]
 		const { setShowModal } = this.props
 		return (
-			<div style={{ margin: "10px 0px" }}>
-				<ShowDetailArr arr={AgentInfo} />
-				<CooperationMethodDetail />
+			<Spin spinning={this.state.isLoading} style={{ margin: "10px 0px" }}>
+				<ShowDetailArr arr={showInfo} />
+				<CooperationMethodDetail detailData={agentByIdDetail} />
 				<ShowDetailArr arr={otherInfo} />
-				<PaymentMethodDetail />
+				<PaymentMethodDetail detailData={agentByIdDetail} />
 				<ShowDetailArr arr={remark} />
 				<div style={{ textAlign: "center" }}>
 					<Button style={{ width: 100 }} onClick={() => setShowModal(false, null)}>返回</Button>
 				</div>
-			</div>
+			</Spin>
 		);
 	}
 }
