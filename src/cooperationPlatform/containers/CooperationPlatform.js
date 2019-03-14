@@ -73,7 +73,8 @@ class CooperationPlatform extends Component {
 			cooperationPlatformByPageList,
 			actions,
 			deleteCO: this.deleteCO,
-			setDefaultCO: this.setDefaultCO
+			setDefaultCO: this.setDefaultCO,
+			searchByPageOrOther: this.searchByPageOrOther
 		}
 		return (
 			<div className="cooperation-platform" >

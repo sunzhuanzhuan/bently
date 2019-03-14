@@ -26,7 +26,7 @@ class TableList extends Component {
 	}
 	//禁用按钮判断
 	setDisable = (platformId, coId) => {
-		const { setShowModal, actions } = this.props
+		const { setShowModal, actions, searchByPageOrOther } = this.props
 
 		//判断该平台是否含有多个平台并为默认报价项
 		actions.getCooperationPlatformByPage({ platformId: platformId, orderPlatformStatus: 1 }).then(({ data }) => {
@@ -36,7 +36,7 @@ class TableList extends Component {
 					title: '启用默认报价项',
 					content: <DisableDefault notOperate={true}
 						setShowModal={setShowModal}
-						onDisableDefault={() => actions.updatePlatformStatus({ id: coId })} />
+						onDisableDefault={() => actions.updatePlatformStatus({ id: coId }).then(() => searchByPageOrOther())} />
 				})
 			} else {
 				//不含则直接停用
@@ -45,7 +45,7 @@ class TableList extends Component {
 		})
 	}
 	enable = (coId) => {
-		const { actions } = this.props
+		const { actions, searchByPageOrOther } = this.props
 		confirm({
 			title: '温馨提示',
 			content: '是否确认将该下单平台停用，停用后将无法下单？',
@@ -54,7 +54,7 @@ class TableList extends Component {
 			icon: "exclamation-circle",
 			iconType: "exclamation-circle",
 			onOk() {
-				actions.updatePlatformStatus({ id: coId })
+				actions.updatePlatformStatus({ id: coId }).then(() => searchByPageOrOther())
 			},
 			onCancel() {
 
