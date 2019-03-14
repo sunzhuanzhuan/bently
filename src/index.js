@@ -54,18 +54,18 @@ moment.locale('zh-cn');
 // const AccountList = lazyLoadComponent(() => import('./queryExportTool/index'))
 const redirectToOtherProjects = ({ location: { pathname = '/error', search = '' }, history }) => {
 	/** 新B端测试环境地址 @namespace process.env.REACT_APP_TRUNK_BENTLEY_ADDRESS **/
-	if(/^\/(account|finance)+\/.+/.test(pathname)){
+	if (/^\/(account|finance|systemConfig)+\/.+/.test(pathname)) {
 		if (process.env.NODE_ENV === 'development') {
 			window.location.replace(process.env.REACT_APP_TRUNK_BENTLEY_ADDRESS + pathname)
 			return null;
 		}
 		window.location.replace(pathname + search)
-	}else{
+	} else {
 		return <Redirect to={'/error'} />;
 	}
 	return null
 }
-  
+
 render(
 	<LocaleProvider locale={zhCN}>
 		<Provider store={store}>
