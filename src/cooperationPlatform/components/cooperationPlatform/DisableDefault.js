@@ -8,31 +8,30 @@ class DisableDefault extends Component {
 	}
 	onDisableDefault = (e) => {
 		e.preventDefault();
-		const { form } = this.props
+		const { form, setDefaultCO } = this.props
 		form.validateFields((err, values) => {
 			if (!err) {
 				//保存
+				setDefaultCO(values.id)
 			}
 		});
 	}
 
 	render() {
-		const { setShowModal, form } = this.props
+		const { setShowModal, form, list = [] } = this.props
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="inline">
 				<Tips text='该下单平台为默认报价项，请选择停用后设置为默认报价项的下单平台后，再停用该下单平台！' />
 				<div style={{ height: 60, marginTop: 10 }}>
 					<Form.Item label="请选择下单平台">
-						{getFieldDecorator('platform', {
+						{getFieldDecorator('id', {
 							rules: [
 								{ required: true, message: '请选择下单平台' },
 							]
 						})(
 							<Select placeholder="请选择" style={{ width: 320 }}>
-								<Option value="0">秒拍</Option>
-								<Option value="1">抖音</Option>
-								<Option value="2">快手</Option>
+								{list.map(one => <Option key={one.id} value={one.id}>{one.orderPlatformName}</Option>)}
 							</Select>
 						)}
 					</Form.Item>

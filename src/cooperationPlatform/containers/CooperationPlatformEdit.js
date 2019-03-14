@@ -64,7 +64,7 @@ class CooperationPlatformEdit extends Component {
 	}
 	render() {
 		const { form, cooperationPlatformReducer, actions } = this.props
-		const { showModal, visable, cooperationPlatformInfoDetail, isLoading } = this.state
+		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, id } = this.state
 		const formLayout = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
@@ -79,28 +79,30 @@ class CooperationPlatformEdit extends Component {
 			platformSelect,
 			actions
 		}
+
 		return (
-			<Spin spinning={isLoading}>
-				<Form layout="horizontal">
-					<DividingBox text="平台基本信息" />
-					<BaseInfo {...commonProps} />
-					<DividingBox text="平台合作信息" />
-					<CooperationMethod {...commonProps} />
-					<SettlementMethod {...commonProps} />
-					<PaymentMethod  {...commonProps} />
-					<div style={{ float: "right" }}>
-						<Button type="primary" onClick={this.onSearch}>提交</Button>
-					</div>
-					<Modal
-						title={showModal && showModal.title}
-						visible={visable}
-						onCancel={this.handleCancel}
-						footer={null}
-					>
-						{showModal && showModal.content}
-					</Modal>
-				</Form>
-			</Spin>
+			id && Object.keys(cooperationPlatformInfoDetail).length > 0 || !id ?
+				<Spin spinning={isLoading}>
+					<Form layout="horizontal">
+						<DividingBox text="平台基本信息" />
+						<BaseInfo {...commonProps} />
+						<DividingBox text="平台合作信息" />
+						<CooperationMethod {...commonProps} />
+						<SettlementMethod {...commonProps} />
+						<PaymentMethod  {...commonProps} />
+						<div style={{ float: "right" }}>
+							<Button type="primary" onClick={this.onSearch}>提交</Button>
+						</div>
+						<Modal
+							title={showModal && showModal.title}
+							visible={visable}
+							onCancel={this.handleCancel}
+							footer={null}
+						>
+							{showModal && showModal.content}
+						</Modal>
+					</Form>
+				</Spin> : <div></div>
 		);
 	}
 }

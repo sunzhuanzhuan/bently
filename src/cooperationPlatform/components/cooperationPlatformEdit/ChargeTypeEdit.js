@@ -52,7 +52,7 @@ class QuotationEdit extends Component {
 	vailPrice = (rule, value, callback) => {
 		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
 		if (!parent.test(value) || value < 0 || value > 100) {
-			callback('请确认填写的是0-100，最多可以输入两位小数')
+			callback('仅可输入0-100之间的正数！')
 		} else {
 			callback()
 		}
@@ -71,7 +71,7 @@ class QuotationEdit extends Component {
 					{getFieldDecorator('trinityKey', {
 						initialValue: item && item.trinityKey,
 						rules: [
-							{ required: true, message: '请选择平台收费类型名称' },
+							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
 						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType}>
@@ -89,11 +89,11 @@ class QuotationEdit extends Component {
 						initialValue: item && item.serviceRatio,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '请输入服务费比例' },
+							{ required: true, message: '”本项为必选项，请输入！' },
 							{ validator: this.vailPrice },
 						],
 					})(
-						<Input placeholder="请输入" style={{ width: '80%' }} />
+						<Input placeholder="请输入正数" style={{ width: '80%' }} />
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>
@@ -101,10 +101,10 @@ class QuotationEdit extends Component {
 						initialValue: item && item.description,
 						validateFirst: true,
 						rules: [
-							{ max: 50, message: "最多可输入50个字符" }
+							{ max: 50, message: "最多可输入50个字！" }
 						],
 					})(
-						<TextArea placeholder="最多可输入50个字" />
+						<TextArea placeholder="最多可输入50个字！" />
 					)}
 				</Form.Item>
 				<div style={{ textAlign: "center" }}>

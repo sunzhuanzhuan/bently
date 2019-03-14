@@ -6,6 +6,7 @@ import "./CooperationPlatform.less"
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as action from '../actions/index'
+import axios from "axios";
 class CooperationPlatform extends Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +18,7 @@ class CooperationPlatform extends Component {
 	}
 	componentDidMount = () => {
 		const { actions: { getCooperationPlatformByPage } } = this.props
-		getCooperationPlatformByPage({ currentPage: 1, pageSize: 10 }).then(() => {
+		getCooperationPlatformByPage({ page: { currentPage: '1', pageSize: '10' } }).then(() => {
 			this.setState({
 				isLoading: false
 			})

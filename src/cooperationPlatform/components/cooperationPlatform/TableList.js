@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Modal, Tag } from 'antd';
+import { Table, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from "../common";
 import Quotation from "../cooperationPlatformEdit/Quotation";
@@ -11,38 +11,65 @@ class TableList extends Component {
 		super(props);
 		this.state = {};
 	}
-	//启用按钮判断
-	setEnable = () => {
-		const { setShowModal } = this.props
-		//判断该平台报价项是否启用
 
-		//启用
-		//未启用
+	showModal = (coId, data) => {
+		const { setShowModal, actions, searchByPageOrOther } = this.props
+		//弹出选择启用报价项弹窗
 		setShowModal(true, {
 			title: '启用默认报价项',
-			content: <Quotation notOperate={true} onClose={setShowModal} />,
+			content: <Quotation notOperate={true} setEnableArr={async (arr) => {
+				//启用报价项
+				const list = arr.map(one => { return { id: one, trinitySkuTypeStatus: 1 } })
+				await actions.addOrUpdateTrinitySkuType(list)
+				//并启用该平台
+				await actions.updatePlatformStatus({ trinityPlatformId: coId, orderPlatformStatus: 1 });
+				setShowModal(false)
+				message.success('启用成功');
+			}}
+				onClose={() => setShowModal(false)}
+				trinitySkuTypeVOS={data} />,
 			width: 800
 		})
 	}
-	//禁用按钮判断
-	setDisable = (platformId, coId) => {
-		const { setShowModal, actions, searchByPageOrOther } = this.props
+	//启用按钮判断
+	setEnable = async (coId) => {
+		const { actions } = this.props
+		//判断该平台下 报价项 是否含有报价项启用数据
+		const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformId: coId, trinitySkuTypeStatus: 1 });
+		if (data.length < 0) {
+			//有，直接启用合作平台
+			await actions.updatePlatformStatus({ trinityPlatformId: coId, orderPlatformStatus: 1 });
+			message.success('启用成功');
 
+		} else {
+			//未启用，查询报价项列表
+			const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformId: coId });
+			this.showModal(coId, data)
+		}
+
+	}
+
+	//禁用按钮判断
+	setDisable = async (platformId, coId) => {
+		const { setShowModal, actions, searchByPageOrOther, setDefaultCO } = this.props
 		//判断该平台是否含有多个平台并为默认报价项
-		actions.getCooperationPlatformByPage({ platformId: platformId, orderPlatformStatus: 1 }).then(({ data }) => {
-			if (data.list.length > 0) {
-				//含有则选择默认报价项
-				setShowModal(true, {
-					title: '启用默认报价项',
-					content: <DisableDefault notOperate={true}
-						setShowModal={setShowModal}
-						onDisableDefault={() => actions.updatePlatformStatus({ id: coId }).then(() => searchByPageOrOther())} />
-				})
-			} else {
-				//不含则直接停用
-				this.enable(coId)
-			}
-		})
+		const { data } = await actions.getCooperationPlatformByPage({ platformId: platformId, orderPlatformStatus: 1 })
+		if (data.list.length > 0) {
+			//含有则选择默认报价项
+			setShowModal(true, {
+				title: '启用默认报价项',
+				content: <DisableDefault
+					list={data.list}
+					setDefaultCO={() => setDefaultCO}
+					notOperate={true}
+					setShowModal={setShowModal}
+					onDisableDefault={() => actions.updatePlatformStatus({ id: coId }).then(() => searchByPageOrOther())
+					} />
+			})
+		} else {
+			//不含则直接停用
+			this.enable(coId)
+		}
 	}
 	enable = (coId) => {
 		const { actions, searchByPageOrOther } = this.props
@@ -144,7 +171,7 @@ class TableList extends Component {
 				const { orderPlatformStatus, defaultAgent, platformId, id } = record
 				return <div>
 					<Link to={`/config/platform/detail?id=${id}`} >查看</Link>
-					{orderPlatformStatus == 2 || orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={this.setEnable}>启用</Link> : null}
+					{orderPlatformStatus == 2 || orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => this.setEnable(id)}>启用</Link> : null}
 					{orderPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => defaultAgent == 1 ? this.setDisable(platformId, id) : this.enable(id)}>停用</Link> : null}
 					<a href={`/config/platform/edit?id=${id}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
 					{orderPlatformStatus == 1 ? <DeleteModal onDelete={() => deleteCO({ id: id })} /> : null}

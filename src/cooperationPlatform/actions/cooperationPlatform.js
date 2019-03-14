@@ -7,7 +7,9 @@ import api from "../../api";
 export const {
 	getCooperationPlatformByPage,
 	getCooperationPlatformByPage_success
-} = createHttpAction('getCooperationPlatformByPage', Interface.getCooperationPlatformByPage)
+} = createHttpAction('getCooperationPlatformByPage', Interface.getCooperationPlatformByPage, {
+	method: 'post'
+})
 //合作平台-新增接口
 export const {
 	insertCooperationPlatform,

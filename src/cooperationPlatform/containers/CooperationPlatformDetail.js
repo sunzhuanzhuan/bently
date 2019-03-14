@@ -26,7 +26,9 @@ class CooperationPlatformDetail extends Component {
 	}
 	render() {
 		const { cooperationPlatformInfoDetail } = this.state
-		const { settleType, paymentCompanyName, isNeedScreenshot, returnInvoiceType, agentVO } = cooperationPlatformInfoDetail
+		const { settleType, paymentCompanyName, isNeedScreenshot,
+			returnInvoiceType, agentVO, trinitySkuTypeVOS,
+			trinityTollTypeVOS } = cooperationPlatformInfoDetail
 		const baseInfo = [
 			{ title: "所属媒体平台", content: "131" },
 			{ title: "下单平台名称", content: '下单平台名称' },
@@ -44,9 +46,13 @@ class CooperationPlatformDetail extends Component {
 				<div style={{ margin: "30px 0px" }}>
 					<ShowDetailArr arr={baseInfo} />
 					<ShowDetailArr arr={[{ title: "平台报价项", content: "" }]} />
-					<Quotation isEdit={true} noLast={true} />
+					<div style={{ marginLeft: 70 }}>
+						<Quotation isEdit={true} noLast={true} trinitySkuTypeVOS={trinitySkuTypeVOS} />
+					</div>
 					<ShowDetailArr arr={[{ title: "收费类型", content: "" }]} />
-					<ChargeType isEdit={true} noLast={true} />
+					<div style={{ marginLeft: 70 }}>
+						<ChargeType isEdit={true} noLast={true} trinityCaptureTollTypeVOS={trinityTollTypeVOS} />
+					</div>
 				</div>
 				<DividingBox text="平台合作信息" />
 				<div style={{ margin: "30px 0px" }}>

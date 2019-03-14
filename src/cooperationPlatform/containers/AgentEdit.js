@@ -98,7 +98,7 @@ class AgentEdit extends Component {
 							initialValue: agentByIdDetail && agentByIdDetail.agentName,
 							rules: [
 								{ required: true, message: '请输入代理商名称' },
-								{ max: 40, message: "最多可输入40个字符" },
+								{ max: 40, message: "最多可输入40个字！" },
 								{ validator: this.agentVali }
 							],
 						})(

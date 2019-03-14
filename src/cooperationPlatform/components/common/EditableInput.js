@@ -44,7 +44,7 @@ class EditableInput extends Component {
 						validateFirst: true,
 						rules: [{ required: true, message: '请输入微播易展示报价项名称!' },
 						{ validator: this.chinaAndNumberVali },
-						{ max: 30, message: "最多可输入30个字符" }
+						{ max: 30, message: "最多可输入30个字！" }
 						],
 					})(
 						<Input

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Select, Radio, } from 'antd';
+import { Form, Input, Select, Radio, Col, Row } from 'antd';
 import Quotation from "./Quotation";
 import ChargeType from "./ChargeType";
 import QuotationEdit from "./QuotationEdit";
@@ -20,21 +20,11 @@ class BaseInfo extends Component {
 		};
 	}
 	componentDidMount = () => {
-		const dataSource = [{
-			ID: '1',
-			name: '胡彦斌',
-			remark: 'addasdasdasd',
-			address: '西湖区湖底公园1号'
-		}, {
-			ID: '2',
-			name: '胡彦祖',
-			remark: 'asdasdasd',
-			address: '西湖区湖底公园1号'
-		}];
+		const { cooperationPlatformInfoDetail: { trinitySkuTypeVOS, trinityTollTypeVOS } } = this.props
 		const { id } = this.state
 		const data = {
-			trinitySkuTypeVOS: dataSource,
-			trinityCaptureTollTypeVOS: dataSource,
+			trinitySkuTypeVOS: trinitySkuTypeVOS,
+			trinityCaptureTollTypeVOS: trinityTollTypeVOS,
 		}
 		if (id > 0) {
 			this.setState(data, () => {
@@ -110,7 +100,7 @@ class BaseInfo extends Component {
 					{getFieldDecorator('platformId', {
 						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId,
 						rules: [
-							{ required: true, message: '请选择所属媒体平台' },
+							{ required: true, message: '本项为必填项，请选择！' },
 						],
 					})(
 						<Select placeholder="请选择" style={{ width: 200 }} >
@@ -123,18 +113,18 @@ class BaseInfo extends Component {
 						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '请输入下单平台名称' },
-							{ max: 15, message: "最多可输入15个字符" }
+							{ required: true, message: '本项为必填项，请输入！' },
+							{ max: 15, message: "最多可输入15个字！" }
 						],
 					})(
-						<Input placeholder="请输入下单平台名称" />
+						<Input placeholder="最多可输入15个字！" />
 					)}
 				</Form.Item>
 				<Form.Item label="下单截图是否必填"{...formLayout}>
 					{getFieldDecorator('orderImageNeed', {
 						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.orderImageNeed,
 						rules: [
-							{ required: true, message: '请选择下单截图是否必填' },
+							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>
@@ -159,15 +149,17 @@ class BaseInfo extends Component {
 					})(
 						<Input style={{ display: "none" }} />
 					)}
-					<Quotation {...operateProps} />
+
 				</Form.Item>
+				<Row>
+					<Col span={2}></Col>
+					<Col span={22}>
+						<Quotation {...operateProps} />
+					</Col>
+				</Row>
 
 				<Form.Item label="收费类型" {...formLayoutTable}>
-					{getFieldDecorator('trinityCaptureTollTypeVOS', {
-						rules: [
-							{ required: true, message: '请添加收费类型' },
-						],
-					})(
+					{getFieldDecorator('trinityCaptureTollTypeVOS')(
 						<Input style={{ display: "none" }} />
 					)}<a onClick={() => setShowModal(true,
 						{
@@ -175,8 +167,13 @@ class BaseInfo extends Component {
 							content: <ChargeTypeEdit {...operateProps} platformId={getFieldValue('platformId')} />
 						})}>
 						新增收费类型</a>
-					<ChargeType {...operateProps} />
 				</Form.Item>
+				<Row>
+					<Col span={2}></Col>
+					<Col span={22}>
+						<ChargeType {...operateProps} />
+					</Col>
+				</Row>
 
 			</div>
 		);

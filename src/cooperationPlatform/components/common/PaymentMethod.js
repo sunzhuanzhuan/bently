@@ -12,43 +12,54 @@ class PaymentMethod extends Component {
 		const reg = /^[0-9]+$/;
 		if (reg.test(value)) {
 			if (16 > value.length || value.length > 19) {
-				callback("仅可输入16位--19位")
+				callback("仅可输入16-19位数字")
 			} else {
 				callback()
 			}
 		} else {
-			callback("仅可输入数字")
+			callback("仅可输入16-19位数字")
 		}
 
 	}
-	chinaVali = (rule, value, callback) => {
+	chinaVali = (number, rule, value, callback) => {
 		const reg = /^[\u4e00-\u9fa5]+$/;
-		if (reg.test(value)) {
+		if (reg.test(value) && value.length < number) {
 			callback()
 		} else {
-			callback("仅可输入汉字")
+			callback(`仅可输入${number}字以内的汉字！`)
 		}
 
 	}
 	chinaAndNumberVali = (rule, value, callback) => {
-		const reg = /^[0-9\u4e00-\u9fa5]+$/;
+		const reg = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
 		if (reg.test(value)) {
 			callback()
 		} else {
-			callback("仅可输入汉字及数字")
+			callback("最多可输入60个字以内的中英文及数字！")
 		}
-
 	}
 	render() {
 		const { form, formLayout, dataDefault } = this.props
 		const { getFieldDecorator, getFieldValue } = form
 		return (
 			<div>
+				<Form.Item label="发票开具方"  {...formLayout}>
+					{getFieldDecorator('agentVO.alipayAccountName', {
+						initialValue: dataDefault && dataDefault.alipayAccountName,
+						validateFirst: true,
+						rules: [
+							{ required: true, message: '本项为必选项，请输入！' },
+							{ max: 50, message: "最多可输入50个字！" }
+						],
+					})(
+						<Input placeholder="请输入发票开具方" />
+					)}
+				</Form.Item>
 				<Form.Item label="收款方式"{...formLayout}>
 					{getFieldDecorator('agentVO.paymentType', {
 						initialValue: dataDefault && dataDefault.paymentType || 1,
 						rules: [
-							{ required: true, message: '请选择收款方式' },
+							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>
@@ -78,8 +89,9 @@ class PaymentMethod extends Component {
 							validateTrigger: "onBlur",
 							rules: [
 								{ required: true, message: '请输入开户支行' },
-								{ max: 60, message: "最多可输入60个字符" },
-								{ validator: this.chinaAndNumberVali }
+								{ validator: this.chinaAndNumberVali },
+								{ max: 60, message: "最多可输入60个字以内的中英文及数字！" },
+
 							],
 						})(
 							<Input placeholder="请输入开户支行" />
@@ -89,14 +101,12 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('agentVO.bankProvince', {
 							initialValue: dataDefault && dataDefault.bankProvince,
 							validateFirst: true,
-							validateTrigger: "onBlur",
 							rules: [
 								{ required: true, message: '请输入开户所在省' },
-								{ max: 30, message: "最多可输入30个字符" },
-								{ validator: this.chinaVali }
+								{ validator: this.chinaVali.bind(null, 30) },
 							],
 						})(
-							<Input placeholder="请输入开户所在省" />
+							<Input placeholder="请输入省份" />
 						)}
 					</Form.Item>
 					<Form.Item label="开户所在市"  {...formLayout}>
@@ -106,11 +116,10 @@ class PaymentMethod extends Component {
 							validateTrigger: "onBlur",
 							rules: [
 								{ required: true, message: '请输入开户所在市' },
-								{ max: 50, message: "最多可输入50个字符" },
-								{ validator: this.chinaVali }
+								{ validator: this.chinaVali.bind(null, 50) },
 							],
 						})(
-							<Input placeholder="请输入开户所在市" />
+							<Input placeholder="请输入城市" />
 						)}
 					</Form.Item>
 					<Form.Item label="账号"  {...formLayout}>
@@ -123,7 +132,7 @@ class PaymentMethod extends Component {
 								{ validator: this.accountVali },
 							],
 						})(
-							<Input placeholder="请输入账号" />
+							<Input placeholder="请输入16-19位卡号" />
 						)}
 					</Form.Item>
 					<Form.Item label="户名"  {...formLayout}>
@@ -133,8 +142,7 @@ class PaymentMethod extends Component {
 							validateTrigger: "onBlur",
 							rules: [
 								{ required: true, message: '请输入户名' },
-								{ max: 50, message: "最多可输入50个字符" },
-								{ validator: this.chinaVali }
+								{ validator: this.chinaVali.bind(null, 50) },
 							],
 						})(
 							<Input placeholder="请输入户名" />
@@ -148,7 +156,7 @@ class PaymentMethod extends Component {
 								validateFirst: true,
 								rules: [
 									{ required: true, message: '请输入账号' },
-									{ max: 80, message: "最多可输入80个字符" }
+									{ max: 80, message: "最多可输入80个字！" }
 								],
 							})(
 								<Input placeholder="请输入账号" />
@@ -160,13 +168,14 @@ class PaymentMethod extends Component {
 								validateFirst: true,
 								rules: [
 									{ required: true, message: '请输入收款方' },
-									{ max: 50, message: "最多可输入50个字符" }
+									{ max: 50, message: "最多可输入50个字！" }
 								],
 							})(
 								<Input placeholder="请输入收款方" />
 							)}
 						</Form.Item>
 					</div>}
+
 			</div>
 		);
 	}

@@ -76,7 +76,7 @@ class ChargeType extends Component {
 
 			}
 		}]
-		const updateKey = ['createdAt', 'modifiedAt', 'id']
+		const updateKey = ['createdAt', 'modifiedAt', 'trinityKey']
 		return (
 			<div >
 				<Table dataSource={trinityCaptureTollTypeVOS} columns={

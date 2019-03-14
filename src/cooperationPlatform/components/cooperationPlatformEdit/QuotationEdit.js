@@ -56,9 +56,10 @@ class QuotationEdit extends Component {
 	}
 
 	render() {
-		const { formLayoutModal, form, item, setShowModal, isWeiBo } = this.props
+		const { formLayoutModal, form, item, setShowModal, isWeiBo, trinitySkuTypeVOS } = this.props
 		const { getFieldDecorator } = form
 		const { captureTrinitySkuType } = this.state
+		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityPlatformId)
 		return (
 			<Form layout="horizontal" >
 
@@ -70,7 +71,7 @@ class QuotationEdit extends Component {
 						],
 					})(
 						<Select placeholder="请选择平台抓取报价项名称" style={{ width: 314 }} onChange={this.changeTrinityType}>
-							{captureTrinitySkuType.map(one => <Option key={one.id} value={one.id}>{one.trinityTypeName}</Option>)}
+							{captureTrinitySkuType.map(one => trinityKeyIsSelected.includes(one.id) ? null : <Option key={one.id} value={one.id}>{one.trinityTypeName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>
@@ -84,11 +85,11 @@ class QuotationEdit extends Component {
 						initialValue: item && item.wbyTypeName,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '请输入微播易展示报价项名称' },
-							{ max: 20, message: "最多可输入20个字符" }
+							{ required: true, message: '本项为必选项，请输入' },
+							{ max: 20, message: "最多可输入20个字！" }
 						],
 					})(
-						<Input placeholder="请输入" />
+						<Input placeholder="最多可输入20个字！" />
 
 					)}
 				</Form.Item>
@@ -97,7 +98,7 @@ class QuotationEdit extends Component {
 						getFieldDecorator('skuTypeId', {
 							initialValue: item && item.skuTypeId,
 							rules: [
-								{ required: true, message: '请选择关联预设报价项' },
+								{ required: true, message: '本项为必选项，请选择！' },
 							],
 						})(
 							<Select placeholder="请选择关联预设报价项" style={{ width: 314 }}>
@@ -116,7 +117,7 @@ class QuotationEdit extends Component {
 						initialValue: item && item.description,
 						validateFirst: true,
 						rules: [
-							{ max: 50, message: "最多可输入50个字符" }
+							{ max: 50, message: "最多可输入50个字！" }
 						],
 					})(
 						<TextArea placeholder="最多可输入50个字" />

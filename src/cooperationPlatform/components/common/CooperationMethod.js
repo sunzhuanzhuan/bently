@@ -11,7 +11,7 @@ class CooperationMethod extends Component {
 	vailPrice = (rule, value, callback) => {
 		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
 		if (!parent.test(value) || value < 0 || value > 100) {
-			callback('请确认填写的是0-100，最多可以输入两位小数')
+			callback('仅可输入0-100间的正数！')
 		} else {
 			callback()
 		}
@@ -26,7 +26,7 @@ class CooperationMethod extends Component {
 					{getFieldDecorator('agentVO.cooperationType', {
 						initialValue: dataDefault && dataDefault.cooperationType || 1,
 						rules: [
-							{ required: true, message: '请选择合作方式' },
+							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
 						<RadioGroup >
@@ -41,11 +41,11 @@ class CooperationMethod extends Component {
 						initialValue: dataDefault && dataDefault.refundRate,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '请输入反款比例' },
+							{ required: true, message: '本项为必选项，请输入！' },
 							{ validator: this.vailPrice }
 						],
 					})(
-						<Input placeholder="请输入反款比例" />
+						<Input placeholder="请输入0-100的正数" />
 					)}
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>
@@ -53,7 +53,7 @@ class CooperationMethod extends Component {
 							initialValue: dataDefault && dataDefault.cooperationRemark,
 							validateFirst: true,
 							rules: [
-								{ max: 50, message: "最多可输入50个字" }
+								{ max: 50, message: "最多可输入50个字！" }
 							],
 						})(
 							<TextArea rows={2} placeholder="请输入说明" />

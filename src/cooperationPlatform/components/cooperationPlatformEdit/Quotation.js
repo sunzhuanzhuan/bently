@@ -18,6 +18,7 @@ class Quotation extends Component {
 	}
 	render() {
 		const {
+			setEnableArr,
 			actions,
 			editQuotation,
 			trinitySkuTypeVOS,
@@ -40,9 +41,9 @@ class Quotation extends Component {
 		} : {}
 		const idColumns = [{
 			title: '报价项ID',
-			dataIndex: 'id',
+			dataIndex: 'trinityKey',
 			align: 'center',
-			key: 'id',
+			key: 'trinityKey',
 		}]
 		const timeColumns = [{
 			id: 1,
@@ -92,7 +93,7 @@ class Quotation extends Component {
 			align: 'center',
 			key: 'operate',
 			render: (text, record, index) => {
-				const { trinitySkuTypeStatus, id } = record
+				const { trinitySkuTypeStatus, trinityKey } = record
 				return <div>
 					<a onClick={() => setShowModal(true, {
 						title: <div>修改报价项</div>,
@@ -108,10 +109,10 @@ class Quotation extends Component {
 					})} style={{ marginRight: 4 }}>修改</a>
 					{record.trinitySkuTypeStatus == 2 ?
 						<DeleteModal onDelete={() => id > 0 ?
-							editQuotation({ id: id, isDeleted: 1 }) :
-							deleteList(record.id, 'trinitySkuTypeVOS')} /> : null}
+							editQuotation({ id: trinityKey, isDeleted: 1 }) :
+							deleteList(record.trinityKey, 'trinitySkuTypeVOS')} /> : null}
 					{id > 0 ? <a style={{ marginLeft: 0 }} onClick={() => editQuotation({
-						id: id,
+						id: trinityKey,
 						trinitySkuTypeStatus: record.trinitySkuTypeStatus == 1 ? 3 : 1//1启用，3停用
 					})}>
 						{record.trinitySkuTypeStatus == 1 ? '停用' : '启用'}
@@ -135,8 +136,8 @@ class Quotation extends Component {
 					bordered={true}
 					{...tableProps} />
 				{notOperate ? <div style={{ textAlign: "center", marginTop: 20 }}>
-					<Button onClick={() => onClose(false)}>取消</Button>
-					<Button type='primary' style={{ marginLeft: 40 }} onClick={() => { '启用' }} disabled={selectedRowKeys < 1}>确认</Button>
+					<Button onClick={onClose}>取消</Button>
+					<Button type='primary' style={{ marginLeft: 40 }} onClick={() => setEnableArr(selectedRowKeys)} disabled={selectedRowKeys < 1}>确认</Button>
 				</div> : null}
 			</div>
 		);
