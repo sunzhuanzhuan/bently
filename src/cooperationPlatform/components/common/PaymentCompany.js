@@ -10,19 +10,22 @@ class PaymentCompany extends Component {
 		const { form, formLayout, dataDefault } = this.props
 		const { getFieldDecorator } = form
 		return (
-			<Form.Item label="付款公司"{...formLayout}>
-				{getFieldDecorator('agentVo.paymentCompanyCode', {
-					initialValue: dataDefault && dataDefault.paymentCompanyCode,
-					rules: [
-						{ required: true, message: '请选择付款公司' },
-					],
-				})(
-					<RadioGroup>
-						<Radio value='ZF0002'>微博易</Radio>
-						<Radio value='ZF0001'>布谷鸟</Radio>
-					</RadioGroup>
-				)}
-			</Form.Item>
+			<div>
+				<Form.Item label="付款公司"{...formLayout}>
+					{getFieldDecorator('agentVo.paymentCompanyCode', {
+						initialValue: dataDefault && dataDefault.paymentCompanyCode,
+						rules: [
+							{ required: true, message: '请选择付款公司' },
+						],
+					})(
+						<RadioGroup>
+							<Radio value='ZF0002'>微博易</Radio>
+							<Radio value='ZF0001'>布谷鸟</Radio>
+						</RadioGroup>
+					)}
+				</Form.Item>
+			</div>
+
 		);
 	}
 }

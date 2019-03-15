@@ -58,7 +58,7 @@ class QuotationEdit extends Component {
 	}
 	render() {
 		const { formLayoutModal, form, setShowModal, item, trinityTollTypeVOS, captureTollTypeSelect = [] } = this.props
-		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.trinityPlatformId)
+		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.tollTypeName)
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
@@ -70,7 +70,8 @@ class QuotationEdit extends Component {
 						],
 					})(
 						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType}>
-							{captureTollTypeSelect.map(one => <Option key={one.trinityKey} value={one.trinityKey}>{one.tollTypeName}</Option>)}
+							{captureTollTypeSelect.map(one => captureTollTypeSelected.includes(one.tollTypeName) ? null :
+								<Option key={one.trinityKey} value={one.trinityKey}>{one.tollTypeName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>

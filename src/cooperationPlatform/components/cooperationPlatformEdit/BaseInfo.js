@@ -22,7 +22,7 @@ class BaseInfo extends Component {
 			captureTollTypeSelect: []
 		};
 	}
-	componentDidMount = async () => {
+	componentDidMount = () => {
 		const { actions: { getTrinitySkuTypeList, getTrinityTollTypeList } } = this.props
 		const data = qs.parse(window.location.search.substring(1))
 
@@ -72,11 +72,14 @@ class BaseInfo extends Component {
 			this.props.form.setFieldsValue(data)
 		})
 	}
+	//查询该报价项的
 	editQuotation = (params) => {
 		const { actions, setShowModal, updateBaseInfoState } = this.props
 		actions.addOrUpdateTrinitySkuType(params).then(() => {
 			setShowModal(false)
-			actions.getTrinitySkuTypeList({ trinityPlatformId: params.id }).then(({ data }) => {
+			actions.getTrinitySkuTypeList({
+				trinityPlatformCode: qs.parse(window.location.search.substring(1)).code
+			}).then(({ data }) => {
 				this.setState({ trinitySkuTypeVOS: data })
 			})
 		})
@@ -105,7 +108,7 @@ class BaseInfo extends Component {
 		//如果微博平台则查询关联报价项
 		if (platformId == 1) {
 			getSkuTypeList({ platformId: platformId, productLineId: 1 }).then(({ data }) => {
-				this.setState({ skuTypeLis: data })
+				this.setState({ skuTypeList: data })
 			})
 		}
 
@@ -122,22 +125,19 @@ class BaseInfo extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 16 },
 		}
-		const { trinitySkuTypeVOS, trinityTollTypeVOS, id, skuTypeList, captureTrinitySkuType } = this.state
+		const { id } = this.state
 		const operateProps = {
 			actions,
 			addList: this.addList,
 			updateList: this.updateList,
 			deleteList: this.deleteList,
 			formLayoutModal: formLayoutModal,
-			trinitySkuTypeVOS,
-			trinityTollTypeVOS,
 			setShowModal,
 			updateBaseInfoState: this.updateBaseInfoState,
 			editQuotation: this.editQuotation,
-			skuTypeList,
-			captureTrinitySkuType,
 			platformId: getFieldValue("agentVo.platformId"),
-			cooperationPlatformReducer
+			cooperationPlatformReducer,
+			...this.state
 		}
 
 		return (

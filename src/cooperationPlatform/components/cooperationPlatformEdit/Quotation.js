@@ -139,7 +139,7 @@ class Quotation extends Component {
 					{...tableProps} />
 				{notOperate ? <div style={{ textAlign: "center", marginTop: 20 }}>
 					<Button onClick={onClose}>取消</Button>
-					<Button type='primary' style={{ marginLeft: 40 }} onClick={() => setEnableArr(selectedRowKeys)} disabled={selectedRowKeys < 1}>确认</Button>
+					<Button type='primary' style={{ marginLeft: 40 }} onClick={() => setEnableArr(selectedRowKeys)} disabled={selectedRowKeys.length < 1}>确认</Button>
 				</div> : null}
 			</div>
 		);

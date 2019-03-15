@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as action from '../actions/index'
+import qs from "qs";
 import { Form, Button, message, Input, Spin } from 'antd';
 import { PaymentMethod, CooperationMethod, SettlementMethod, PaymentCompany } from "../components/common";
 const { TextArea } = Input;
@@ -12,7 +13,7 @@ class AgentEdit extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
-			agentByIdDetail: {}
+			agentByIdDetail: {},
 		};
 	}
 	componentDidMount = () => {
@@ -37,7 +38,11 @@ class AgentEdit extends Component {
 		const { insertAgent, updateAgent } = actions
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				const data = { ...values, ...values.agentVo }
+				values.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
+				const search = qs.parse(window.location.search.substring(1))
+				const data = { ...values, ...values.agentVo, cooperationPlatformCode: search.code }
+				//付款公司
+
 				if (agentId) {
 					updateAgent(data).then(() => {
 						this.commEditAction()

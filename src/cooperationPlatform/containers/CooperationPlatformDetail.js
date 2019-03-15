@@ -21,10 +21,10 @@ class CooperationPlatformDetail extends Component {
 	componentDidMount = async () => {
 		const { actions: { getCooperationPlatformInfoById, getTrinitySkuTypeList,
 			getTrinityTollTypeList } } = this.props
-		const id = qs.parse(window.location.search.substring(1)).id
-		const coRes = await getCooperationPlatformInfoById({ id: id })
-		const tsRes = await getTrinitySkuTypeList({ id: id })
-		const ttRes = await getTrinityTollTypeList({ id: id })
+		const data = qs.parse(window.location.search.substring(1))
+		const coRes = await getCooperationPlatformInfoById({ id: data.id })
+		const tsRes = await getTrinitySkuTypeList({ trinityPlatformCode: data.code })
+		const ttRes = await getTrinityTollTypeList({ trinityPlatformCode: data.code })
 		this.setState({
 			isLoading: false,
 			cooperationPlatformInfoDetail: coRes.data,
@@ -59,7 +59,7 @@ class CooperationPlatformDetail extends Component {
 					</div>
 					<ShowDetailArr arr={[{ title: "收费类型", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
-						<ChargeType isEdit={true} noLast={true} trinityCaptureTollTypeVOS={trinityTollTypeList} />
+						<ChargeType isEdit={true} noLast={true} trinityTollTypeVOS={trinityTollTypeList} />
 					</div>
 				</div>
 				<DividingBox text="平台合作信息" />

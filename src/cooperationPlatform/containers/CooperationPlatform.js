@@ -59,9 +59,9 @@ class CooperationPlatform extends Component {
 		})
 	}
 	//设置默认报价项
-	setDefaultCO = (id) => {
+	setDefaultCO = (id, platformId) => {
 		const { actions: { updatePlatformDefault } } = this.props
-		updatePlatformDefault({ id: id }).then(() => {
+		updatePlatformDefault({ id: id, platformId: platformId }).then(() => {
 			this.searchByPageOrOther()
 		})
 	}

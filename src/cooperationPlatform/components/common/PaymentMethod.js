@@ -83,8 +83,8 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="开户支行"  {...formLayout}>
-						{getFieldDecorator('agentVo.subbranchBank', {
-							initialValue: dataDefault && dataDefault.subbranchBank,
+						{getFieldDecorator('agentVo.bankAgency', {
+							initialValue: dataDefault && dataDefault.bankAgency,
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							rules: [
@@ -98,8 +98,8 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="开户所在省"  {...formLayout}>
-						{getFieldDecorator('agentVo.bankProvince', {
-							initialValue: dataDefault && dataDefault.bankProvince,
+						{getFieldDecorator('agentVo.bankAgencyProvince', {
+							initialValue: dataDefault && dataDefault.bankAgencyProvince,
 							validateFirst: true,
 							rules: [
 								{ required: true, message: '请输入开户所在省' },
@@ -110,8 +110,8 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="开户所在市"  {...formLayout}>
-						{getFieldDecorator('agentVo.bankCity', {
-							initialValue: dataDefault && dataDefault.bankCity,
+						{getFieldDecorator('agentVo.bankAgencyCity', {
+							initialValue: dataDefault && dataDefault.bankAgencyCity,
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							rules: [
@@ -123,8 +123,8 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="账号"  {...formLayout}>
-						{getFieldDecorator('agentVo.bankAccount', {
-							initialValue: dataDefault && dataDefault.bankAccount,
+						{getFieldDecorator('agentVo.cardNumber', {
+							initialValue: dataDefault && dataDefault.cardNumber,
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							rules: [
@@ -136,8 +136,8 @@ class PaymentMethod extends Component {
 						)}
 					</Form.Item>
 					<Form.Item label="户名"  {...formLayout}>
-						{getFieldDecorator('agentVo.bankAccountName', {
-							initialValue: dataDefault && dataDefault.bankAccountName,
+						{getFieldDecorator('agentVo.realName', {
+							initialValue: dataDefault && dataDefault.realName,
 							validateFirst: true,
 							validateTrigger: "onBlur",
 							rules: [

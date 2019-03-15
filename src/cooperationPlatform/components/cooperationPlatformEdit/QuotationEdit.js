@@ -62,7 +62,8 @@ class QuotationEdit extends Component {
 	render() {
 		const { formLayoutModal, form, item, setShowModal, platformId, trinitySkuTypeVOS = [], skuTypeList, captureTrinitySkuType = [] } = this.props
 		const { getFieldDecorator } = form
-		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityPlatformId)
+		//已选的ID
+		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityTypeName)
 		return (
 			<Form layout="horizontal" >
 
@@ -74,7 +75,7 @@ class QuotationEdit extends Component {
 						],
 					})(
 						<Select placeholder="请选择平台抓取报价项名称" style={{ width: 314 }} onChange={this.changeTrinityType}>
-							{captureTrinitySkuType.map(one => trinityKeyIsSelected.includes(one.id) ? null :
+							{captureTrinitySkuType.map(one => trinityKeyIsSelected.includes(one.trinityTypeName) ? null :
 								<Option key={one} value={one.id}>{one.trinityTypeName}</Option>)}
 						</Select>
 					)}

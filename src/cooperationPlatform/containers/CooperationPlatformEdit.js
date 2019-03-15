@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as action from '../actions/index'
-import { Form, Button, Modal, Spin } from 'antd';
+import { Form, Button, Modal, Spin, message } from 'antd';
 import qs from "qs";
 import { BaseInfo } from "../components/cooperationPlatformEdit";
 import { PaymentMethod, CooperationMethod, SettlementMethod, DividingBox } from "../components/common";
@@ -16,7 +16,8 @@ class CooperationPlatformEdit extends Component {
 			visable: false,
 			id: qs.parse(window.location.search.substring(1)).id,
 			cooperationPlatformInfoDetail: {},
-			isLoading: false
+			isLoading: false,
+			saveLoading: false
 		};
 	}
 	componentDidMount = () => {
@@ -47,10 +48,24 @@ class CooperationPlatformEdit extends Component {
 			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
 			console.log('Received values of form: ', values);
 			if (!err) {
+				this.setState({
+					saveLoading: true
+				})
 				if (id > 0) {
-					updateCooperationPlatform({ ...values, id: id, })
+
+					updateCooperationPlatform({ ...values, id: id, }).then(() => {
+						message.success('您所提交的信息已经保存成功！')
+						this.setState({
+							saveLoading: false
+						})
+					})
 				} else {
-					insertCooperationPlatform({ ...values, })
+					insertCooperationPlatform({ ...values, }).then(() => {
+						message.success('您所提交的信息已经保存成功！')
+						this.setState({
+							saveLoading: false
+						})
+					})
 				}
 			}
 		});
@@ -70,7 +85,7 @@ class CooperationPlatformEdit extends Component {
 	}
 	render() {
 		const { form, cooperationPlatformReducer, actions } = this.props
-		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, id } = this.state
+		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, saveLoading } = this.state
 		const formLayout = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
@@ -88,28 +103,27 @@ class CooperationPlatformEdit extends Component {
 		}
 
 		return (
-			id && Object.keys(cooperationPlatformInfoDetail).length > 0 || !id ?
-				<Spin spinning={isLoading}>
-					<Form layout="horizontal">
-						<DividingBox text="平台基本信息" />
-						<BaseInfo {...commonProps} />
-						<DividingBox text="平台合作信息" />
-						<CooperationMethod {...commonProps} />
-						<SettlementMethod {...commonProps} />
-						<PaymentMethod  {...commonProps} />
-						<div style={{ float: "right" }}>
-							<Button type="primary" onClick={this.onEditSave}>提交</Button>
-						</div>
-						<Modal
-							title={showModal && showModal.title}
-							visible={visable}
-							onCancel={this.handleCancel}
-							footer={null}
-						>
-							{showModal && showModal.content}
-						</Modal>
-					</Form>
-				</Spin> : <div></div>
+			<Spin spinning={isLoading && Object.keys(cooperationPlatformInfoDetail).length > 0}>
+				<Form layout="horizontal">
+					<DividingBox text="平台基本信息" />
+					<BaseInfo {...commonProps} />
+					<DividingBox text="平台合作信息" />
+					<CooperationMethod {...commonProps} />
+					<SettlementMethod {...commonProps} />
+					<PaymentMethod  {...commonProps} />
+					<div style={{ float: "right" }}>
+						<Button type="primary" onClick={this.onEditSave} loading={saveLoading}>提交</Button>
+					</div>
+					<Modal
+						title={showModal && showModal.title}
+						visible={visable}
+						onCancel={this.handleCancel}
+						footer={null}
+					>
+						{showModal && showModal.content}
+					</Modal>
+				</Form>
+			</Spin>
 		);
 	}
 }
