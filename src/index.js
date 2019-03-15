@@ -46,6 +46,8 @@ import AccountList from './queryExportTool/index'
 import ErrorIndex from './containers/error'
 import Login from './login/container/Login'
 import videoDispatch from "./videoDispatch";
+import CooperationPlatform from "./cooperationPlatform";
+
 //404错误页面
 // import AccountManage from './accountManage'
 import GoodsReceipt from "./goodsReceipt";
@@ -108,6 +110,7 @@ render(
 							<Route path='/error' component={ErrorIndex} />
 							<Route path='/exportTemplate' component={ExportTemplate} />
 							<Route path='/salesAuditManage' component={SalesAuditManage} />
+							<Route path='/config' component={CooperationPlatform} />
 							{/* <Redirect to={'/error'} /> */}
 							<Route render={redirectToOtherProjects} />
 						</Switch>

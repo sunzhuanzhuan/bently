@@ -28,6 +28,7 @@ import salesAuditManage from "../salesAuditManage/reducers";
 import queryExportToolReducer from '../queryExportTool/reducer'
 import exportTemplateReducer from '../components/exportTemplate/reducer'
 import videoMark from '../videomark/reducers'
+import cooperationPlatformReducer from "../cooperationPlatform/reducers";
 export default combineReducers({
 	commonReducers,
 	routing: routerReducer,
@@ -58,5 +59,6 @@ export default combineReducers({
 	salesAuditManage,//销售审核管理
 	queryExportToolReducer,
 	exportTemplateReducer,
-	videoMark
+	videoMark,
+	cooperationPlatformReducer//三方合作平台
 });
