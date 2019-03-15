@@ -113,7 +113,7 @@ class Quotation extends Component {
 						<DeleteModal onDelete={() => idCo > 0 ?
 							editQuotation([{ id: id, isDeleted: 1 }]) :
 							deleteList(record.idAdd, 'trinitySkuTypeVOS')} /> : null}
-					{id > 0 ? <a style={{ marginLeft: 0 }} onClick={() => editQuotation([{
+					{id > 0 ? <a style={{ marginLeft: 4 }} onClick={() => editQuotation([{
 						id: id,
 						trinitySkuTypeStatus: record.trinitySkuTypeStatus == 1 ? 3 : 1//1启用，3停用
 					}])}>
