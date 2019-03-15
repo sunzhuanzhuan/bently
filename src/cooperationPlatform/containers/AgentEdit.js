@@ -37,7 +37,7 @@ class AgentEdit extends Component {
 		const { insertAgent, updateAgent } = actions
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				const data = { ...values, ...values.agentVO }
+				const data = { ...values, ...values.agentVo }
 				if (agentId) {
 					updateAgent(data).then(() => {
 						this.commEditAction()
@@ -61,13 +61,13 @@ class AgentEdit extends Component {
 		setShowModal(false, null)
 	}
 	agentVali = (rule, value, callback) => {
-		const reg = /^[\u4e00-\u9fa5]+$/;
+		const reg = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
 		if (reg.test(value)) {
-			callback('代理商名称不可重复')
-		} else {
 			callback()
+			//'代理商名称不可重复'
+		} else {
+			callback('最多可输入40个以内的中英文及数字！')
 		}
-
 	}
 
 	render() {
@@ -97,8 +97,8 @@ class AgentEdit extends Component {
 						{getFieldDecorator('agentName', {
 							initialValue: agentByIdDetail && agentByIdDetail.agentName,
 							rules: [
-								{ required: true, message: '请输入代理商名称' },
-								{ max: 40, message: "最多可输入40个字！" },
+								{ required: true, message: '本项为必填项，请输入！' },
+								{ max: 40, message: "最多可输入40个以内的中英文及数字！" },
 								{ validator: this.agentVali }
 							],
 						})(
@@ -114,7 +114,7 @@ class AgentEdit extends Component {
 							{getFieldDecorator('agentRemark', {
 								initialValue: agentByIdDetail && agentByIdDetail.agentRemark,
 								rules: [
-									{ max: 100, message: "最多可输入100个字符" }
+									{ max: 100, message: "最多可输入100个字!" }
 								],
 							})(
 								<TextArea rows={3} placeholder="最多100个字" />

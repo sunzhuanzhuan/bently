@@ -92,8 +92,8 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"api/operator-gateway/trinityPlatform/v1/": {
-			"target": "http://192.168.20.51:7300/mock/5c73560e73f3100017a640ad",
+		"api/operator-gateway": {
+			"target": "http://47.93.10.229:17071",
 			"changeOrigin": true
 		},
 		"/api": {

@@ -14,31 +14,43 @@ class BaseInfo extends Component {
 		super(props);
 		this.state = {
 			trinitySkuTypeVOS: [],
-			trinityCaptureTollTypeVOS: [],
+			trinityTollTypeVOS: [],
 			IDCount: 1,
 			id: qs.parse(window.location.search.substring(1)).id,
+			skuTypeList: [],
+			captureTrinitySkuType: [],
+			captureTollTypeSelect: []
 		};
 	}
-	componentDidMount = () => {
-		const { cooperationPlatformInfoDetail: { trinitySkuTypeVOS, trinityTollTypeVOS } } = this.props
-		const { id } = this.state
-		const data = {
-			trinitySkuTypeVOS: trinitySkuTypeVOS,
-			trinityCaptureTollTypeVOS: trinityTollTypeVOS,
-		}
-		if (id > 0) {
-			this.setState(data, () => {
-				this.props.form.setFieldsValue(data)
+	componentDidMount = async () => {
+		const { actions: { getTrinitySkuTypeList, getTrinityTollTypeList } } = this.props
+		const data = qs.parse(window.location.search.substring(1))
+
+		if (data.id > 0) {
+			//此处查询报价项列表
+			getTrinitySkuTypeList({ trinityPlatformCode: data.code }).then(({ data }) => {
+				const dataSku = { trinitySkuTypeVOS: data }
+				this.setState(dataSku, () => {
+					this.props.form.setFieldsValue(dataSku)
+				})
+			})
+			//此处查询消费类型列表
+			getTrinityTollTypeList({ trinityPlatformCode: data.code }).then(({ data }) => {
+				const dataToll = { trinityTollTypeVOS: data }
+				this.setState(dataToll, () => {
+					this.props.form.setFieldsValue(dataToll)
+				})
 			})
 		}
+		this.platformChange(data.platformId || 115)
 	}
 	updateBaseInfoState = (data) => {
 		this.setState(data)
 	}
 	addList = (item, type) => {
 		const { IDCount } = this.state
-		item.id = `${type}${numeral(IDCount).format('0000')}`
-		item.isAddItem = true
+		item.idAdd = `${type}${numeral(IDCount).format('0000')}`
+		item.trinitySkuTypeStatus = 2
 		const data = { [type]: [...this.state[type], ...[item]], IDCount: IDCount + 1 }
 		this.setState(data, () => {
 			this.props.form.setFieldsValue(data)
@@ -55,7 +67,7 @@ class BaseInfo extends Component {
 		this.props.setShowModal(false)
 	}
 	deleteList = (id, type) => {
-		const data = { [type]: this.state[type].filter(one => one.id != id) }
+		const data = { [type]: this.state[type].filter(one => one.idAdd != id) }
 		this.setState(data, () => {
 			this.props.form.setFieldsValue(data)
 		})
@@ -69,8 +81,38 @@ class BaseInfo extends Component {
 			})
 		})
 	}
+
+	platformChange = async (platformId) => {
+		//平台修改后，收费类型下拉框改变
+		const { actions: { getCaptureTollType, getCaptureTrinitySkuType, getSkuTypeList }, platformSelect } = this.props
+		//平台修改后，收费类型下拉框改变
+		getCaptureTollType({ platformId: platformId }).then(({ data }) => {
+			this.setState({
+				captureTollTypeSelect: data,
+			})
+		})
+		//平台修改后，sku下拉框改变
+		getCaptureTrinitySkuType({ platformId: platformId }).then(({ data }) => {
+			this.setState({
+				captureTrinitySkuType: data,
+			})
+		})
+		//收费类型和sku列表清空
+		this.setState({
+			trinitySkuTypeVOS: [],
+			trinityTollTypeVOS: [],
+		})
+		//如果微博平台则查询关联报价项
+		if (platformId == 1) {
+			getSkuTypeList({ platformId: platformId, productLineId: 1 }).then(({ data }) => {
+				this.setState({ skuTypeLis: data })
+			})
+		}
+
+	}
 	render() {
-		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail } = this.props
+		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail, cooperationPlatformReducer } = this.props
+		const { agentVo = {} } = cooperationPlatformInfoDetail
 		const { getFieldDecorator, getFieldValue } = form
 		const formLayoutTable = {
 			labelCol: { span: 4 },
@@ -80,7 +122,7 @@ class BaseInfo extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 16 },
 		}
-		const { trinitySkuTypeVOS, trinityCaptureTollTypeVOS, id } = this.state
+		const { trinitySkuTypeVOS, trinityTollTypeVOS, id, skuTypeList, captureTrinitySkuType } = this.state
 		const operateProps = {
 			actions,
 			addList: this.addList,
@@ -88,29 +130,33 @@ class BaseInfo extends Component {
 			deleteList: this.deleteList,
 			formLayoutModal: formLayoutModal,
 			trinitySkuTypeVOS,
-			trinityCaptureTollTypeVOS,
+			trinityTollTypeVOS,
 			setShowModal,
 			updateBaseInfoState: this.updateBaseInfoState,
-			editQuotation: this.editQuotation
+			editQuotation: this.editQuotation,
+			skuTypeList,
+			captureTrinitySkuType,
+			platformId: getFieldValue("agentVo.platformId"),
+			cooperationPlatformReducer
 		}
 
 		return (
 			<div style={{ margin: "20px 0px" }}>
 				<Form.Item label="所属媒体平台"{...formLayout} >
 					{getFieldDecorator('platformId', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId,
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId || 115,
 						rules: [
 							{ required: true, message: '本项为必填项，请选择！' },
 						],
 					})(
-						<Select placeholder="请选择" style={{ width: 200 }} >
-							{platformSelect && platformSelect.map((one => <Option key={one.id} value={one.id} >{one.platformName}</Option>))}
+						<Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange} disabled={id > 0}>
+							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.id} value={one.id} >{one.platformName}</Option>))}
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item label="下单平台名称"  {...formLayout}>
-					{getFieldDecorator('platformName', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName,
+					{getFieldDecorator('cooperationPlatformName', {
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.cooperationPlatformName,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '本项为必填项，请输入！' },
@@ -121,8 +167,8 @@ class BaseInfo extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label="下单截图是否必填"{...formLayout}>
-					{getFieldDecorator('orderImageNeed', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.orderImageNeed,
+					{getFieldDecorator('isNeedScreenshot', {
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.isNeedScreenshot,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
@@ -133,7 +179,7 @@ class BaseInfo extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				<PaymentCompany form={form} formLayout={formLayout} dataDefault={cooperationPlatformInfoDetail} />
+				<PaymentCompany form={form} formLayout={formLayout} dataDefault={agentVo} />
 				<Form.Item label="平台报价项" {...formLayoutTable}>
 					<a onClick={() => setShowModal(true, {
 						title: <div>新增报价项</div>,
@@ -159,7 +205,7 @@ class BaseInfo extends Component {
 				</Row>
 
 				<Form.Item label="收费类型" {...formLayoutTable}>
-					{getFieldDecorator('trinityCaptureTollTypeVOS')(
+					{getFieldDecorator('trinityTollTypeVOS')(
 						<Input style={{ display: "none" }} />
 					)}<a onClick={() => setShowModal(true,
 						{

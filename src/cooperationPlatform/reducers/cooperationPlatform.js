@@ -10,9 +10,14 @@ export const cooperationPlatformByPageList = handleActions({
 //平台下拉框
 export const platformSelect = handleActions({
 	[cooperationPlatformActions.getPlatform_success]: (state, action) => {
-		return [...action.payload.data]
+		const arr = [...action.payload.data]
+		const map = arr.reduce((obj, product) => {
+			obj[product.id] = product
+			return obj
+		}, {})
+		return { arr: arr || [], map: map }
 	}
-}, [])
+}, {})
 
 
 

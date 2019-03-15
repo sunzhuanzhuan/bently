@@ -7,28 +7,36 @@ import { connect } from "react-redux";
 import * as action from '../actions/index'
 import { Spin, Button } from 'antd';
 import { Link } from 'react-router-dom';
+import qs from "qs";
 class CooperationPlatformDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isLoading: true,
-			cooperationPlatformInfoDetail: {}
+			cooperationPlatformInfoDetail: {},
+			trinitySkuTypeList: [],
+			trinityTollTypeList: []
 		};
 	}
-	componentDidMount = () => {
-		const { actions: { getCooperationPlatformInfoById } } = this.props
-		getCooperationPlatformInfoById({ currentPage: 1, pageSize: 10 }).then(({ data }) => {
-			this.setState({
-				isLoading: false,
-				cooperationPlatformInfoDetail: data
-			})
+	componentDidMount = async () => {
+		const { actions: { getCooperationPlatformInfoById, getTrinitySkuTypeList,
+			getTrinityTollTypeList } } = this.props
+		const id = qs.parse(window.location.search.substring(1)).id
+		const coRes = await getCooperationPlatformInfoById({ id: id })
+		const tsRes = await getTrinitySkuTypeList({ id: id })
+		const ttRes = await getTrinityTollTypeList({ id: id })
+		this.setState({
+			isLoading: false,
+			cooperationPlatformInfoDetail: coRes.data,
+			trinitySkuTypeList: tsRes.data,
+			trinityTollTypeList: ttRes.data
 		})
 	}
 	render() {
-		const { cooperationPlatformInfoDetail } = this.state
-		const { settleType, paymentCompanyName, isNeedScreenshot,
-			returnInvoiceType, agentVO, trinitySkuTypeVOS,
-			trinityTollTypeVOS } = cooperationPlatformInfoDetail
+		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
+		const { settleType, isNeedScreenshot,
+			returnInvoiceType, agentVo = {} } = cooperationPlatformInfoDetail
+		const { paymentCompanyName } = agentVo
 		const baseInfo = [
 			{ title: "所属媒体平台", content: "131" },
 			{ title: "下单平台名称", content: '下单平台名称' },
@@ -41,24 +49,24 @@ class CooperationPlatformDetail extends Component {
 		]
 		const { isLoading } = this.state
 		return (
-			<Spin spinning={isLoading}>
+			<Spin spinning={isLoading && Object.keys(cooperationPlatformInfoDetail).length > 0}>
 				<DividingBox text="平台基本信息" />
 				<div style={{ margin: "30px 0px" }}>
 					<ShowDetailArr arr={baseInfo} />
 					<ShowDetailArr arr={[{ title: "平台报价项", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
-						<Quotation isEdit={true} noLast={true} trinitySkuTypeVOS={trinitySkuTypeVOS} />
+						<Quotation isEdit={true} noLast={true} trinitySkuTypeVOS={trinitySkuTypeList} />
 					</div>
 					<ShowDetailArr arr={[{ title: "收费类型", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
-						<ChargeType isEdit={true} noLast={true} trinityCaptureTollTypeVOS={trinityTollTypeVOS} />
+						<ChargeType isEdit={true} noLast={true} trinityCaptureTollTypeVOS={trinityTollTypeList} />
 					</div>
 				</div>
 				<DividingBox text="平台合作信息" />
 				<div style={{ margin: "30px 0px" }}>
-					<CooperationMethodDetail detailData={agentVO} />
+					<CooperationMethodDetail detailData={agentVo} />
 					<ShowDetailArr arr={payInfo} />
-					<PaymentMethodDetail detailData={agentVO} />
+					<PaymentMethodDetail detailData={agentVo} />
 				</div>
 				<div style={{ textAlign: "center", marginBottom: 20 }}>
 					<Link to="/config/platform/list">

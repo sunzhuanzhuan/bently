@@ -7,30 +7,23 @@ class QuotationEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			captureTrinitySkuType: [],
-			skuType: []
+
 		};
 	}
-	componentWillMount = () => {
-		const { platformId, actions } = this.props
-		actions.getCaptureTrinitySkuType({ platformId: platformId }).then(({ data }) => {
-			this.setState({ captureTrinitySkuType: data })
-		})
-		actions.getSkuType({ platformId: platformId, productLineId: 1 }).then(({ data }) => {
-			this.setState({ skuType: data })
-		})
-	}
-
 	onAdd = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			const id = qs.parse(window.location.search.substring(1)).id
+			const data = qs.parse(window.location.search.substring(1))
 			const { isEdit, addList, index, updateList, item, editQuotation } = this.props
 			if (!err) {
 				console.log('Received values of form: ', values);
-				if (id > 0) {
+				if (data.id > 0) {
 					//在修改页面的新增和修改直接保存数据库
-					editQuotation({ ...values, trinityPlatformId: id })
+					editQuotation([{
+						...values,
+						trinityPlatformCode: data.code,
+						platformId: data.platformId
+					}])
 				} else {
 					//新增页面操作页面缓存
 					if (isEdit) {
@@ -48,17 +41,27 @@ class QuotationEdit extends Component {
 	onClean = () => {
 		this.props.form.resetFields()
 	}
+	//选择时设置相关数据
 	changeTrinityType = (value) => {
 		const { form: { setFieldsValue } } = this.props
+		const item = this.props.captureTrinitySkuType.filter(one => value == one.id)[0]
 		setFieldsValue({
-			trinityTypeName: this.state.captureTrinitySkuType.filter(one => value == one.trinityKey)[0].trinityTypeName
+			trinityTypeName: item.trinityTypeName,
+			trinityPlatformName: item.trinityPlatformName,
+			trinityKey: item.trinityKey
 		})
 	}
-
+	//选择时设置相关数据
+	skuTypeChange = (value) => {
+		const { form: { setFieldsValue } } = this.props
+		const item = this.props.skuTypeList.filter(one => value == one.skuTypeId)[0]
+		setFieldsValue({
+			skuTypeName: item.skuTypeName,
+		})
+	}
 	render() {
-		const { formLayoutModal, form, item, setShowModal, isWeiBo, trinitySkuTypeVOS } = this.props
+		const { formLayoutModal, form, item, setShowModal, platformId, trinitySkuTypeVOS = [], skuTypeList, captureTrinitySkuType = [] } = this.props
 		const { getFieldDecorator } = form
-		const { captureTrinitySkuType } = this.state
 		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityPlatformId)
 		return (
 			<Form layout="horizontal" >
@@ -71,12 +74,23 @@ class QuotationEdit extends Component {
 						],
 					})(
 						<Select placeholder="请选择平台抓取报价项名称" style={{ width: 314 }} onChange={this.changeTrinityType}>
-							{captureTrinitySkuType.map(one => trinityKeyIsSelected.includes(one.id) ? null : <Option key={one.id} value={one.id}>{one.trinityTypeName}</Option>)}
+							{captureTrinitySkuType.map(one => trinityKeyIsSelected.includes(one.id) ? null :
+								<Option key={one} value={one.id}>{one.trinityTypeName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item style={{ display: 'none' }}>
 					{getFieldDecorator('trinityTypeName')(
+						<Input />
+					)}
+				</Form.Item>
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('trinityKey')(
+						<Input />
+					)}
+				</Form.Item>
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('trinityPlatformName')(
 						<Input />
 					)}
 				</Form.Item>
@@ -93,7 +107,7 @@ class QuotationEdit extends Component {
 
 					)}
 				</Form.Item>
-				{isWeiBo ? <Form.Item label="关联预设报价项" {...formLayoutModal} >
+				{platformId == 1 ? <Form.Item label="关联预设报价项" {...formLayoutModal} >
 					{
 						getFieldDecorator('skuTypeId', {
 							initialValue: item && item.skuTypeId,
@@ -101,9 +115,8 @@ class QuotationEdit extends Component {
 								{ required: true, message: '本项为必选项，请选择！' },
 							],
 						})(
-							<Select placeholder="请选择关联预设报价项" style={{ width: 314 }}>
-								<Option value="china">China</Option>
-								<Option value="usa">U.S.A</Option>
+							<Select placeholder="请选择关联预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
+								{skuTypeList.map(one => <Option key={one.skuTypeId} value={one.skuTypeId}>{one.skuTypeName}</Option>)}
 							</Select>
 						)}
 				</Form.Item > : null}

@@ -9,9 +9,10 @@ class Quotation extends Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			id: qs.parse(window.location.search.substring(1)).id
+			idCo: qs.parse(window.location.search.substring(1)).id
 		};
 	}
+
 	onSelectChange = (selectedRowKeys) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys);
 		this.setState({ selectedRowKeys });
@@ -31,7 +32,8 @@ class Quotation extends Component {
 			noLast,//只没有操作列
 			isWeiBo//是微博
 		} = this.props
-		const { id, selectedRowKeys } = this.state
+		const { idCo, selectedRowKeys } = this.state
+		console.log(idCo, 'idCo');
 
 		const tableProps = notOperate ? {
 			rowSelection: {
@@ -41,9 +43,9 @@ class Quotation extends Component {
 		} : {}
 		const idColumns = [{
 			title: '报价项ID',
-			dataIndex: 'trinityKey',
+			dataIndex: 'trinityCode',
 			align: 'center',
-			key: 'trinityKey',
+			key: 'trinityCode',
 		}]
 		const timeColumns = [{
 			id: 1,
@@ -93,7 +95,7 @@ class Quotation extends Component {
 			align: 'center',
 			key: 'operate',
 			render: (text, record, index) => {
-				const { trinitySkuTypeStatus, trinityKey } = record
+				const { trinitySkuTypeStatus, id } = record
 				return <div>
 					<a onClick={() => setShowModal(true, {
 						title: <div>修改报价项</div>,
@@ -108,13 +110,13 @@ class Quotation extends Component {
 							editQuotation={editQuotation} />
 					})} style={{ marginRight: 4 }}>修改</a>
 					{record.trinitySkuTypeStatus == 2 ?
-						<DeleteModal onDelete={() => id > 0 ?
-							editQuotation({ id: trinityKey, isDeleted: 1 }) :
-							deleteList(record.trinityKey, 'trinitySkuTypeVOS')} /> : null}
-					{id > 0 ? <a style={{ marginLeft: 0 }} onClick={() => editQuotation({
-						id: trinityKey,
+						<DeleteModal onDelete={() => idCo > 0 ?
+							editQuotation([{ id: id, isDeleted: 1 }]) :
+							deleteList(record.idAdd, 'trinitySkuTypeVOS')} /> : null}
+					{id > 0 ? <a style={{ marginLeft: 0 }} onClick={() => editQuotation([{
+						id: id,
 						trinitySkuTypeStatus: record.trinitySkuTypeStatus == 1 ? 3 : 1//1启用，3停用
-					})}>
+					}])}>
 						{record.trinitySkuTypeStatus == 1 ? '停用' : '启用'}
 					</a> : null}
 				</div>
@@ -131,7 +133,7 @@ class Quotation extends Component {
 				{notOperate ? <div style={{ paddingBottom: 20 }}><Tips text='若要启用该平台，请至少选择一个报价项！' /> </div> : null}
 				<Table
 					dataSource={trinitySkuTypeVOS}
-					columns={id > 0 ? editColumns : addColumns}
+					columns={idCo > 0 ? editColumns : addColumns}
 					pagination={false}
 					bordered={true}
 					{...tableProps} />

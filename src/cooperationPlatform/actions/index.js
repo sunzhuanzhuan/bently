@@ -37,9 +37,9 @@ export const {
 })
 //',//合作平台-平台关联报价项下拉框接口
 export const {
-	getSkuType,
+	getSkuTypeList,
 	getSkuType_success
-} = createHttpAction('getSkuType', Interface.getSkuType)
+} = createHttpAction('getSkuTypeList', Interface.getSkuTypeList)
 //合作平台-所属媒体平台下拉框接口
 export const {
 	getPlatform,

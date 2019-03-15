@@ -23,7 +23,7 @@ class CooperationMethod extends Component {
 		return (
 			<div>
 				<Form.Item label="合作方式"{...formLayout}>
-					{getFieldDecorator('agentVO.cooperationType', {
+					{getFieldDecorator('agentVo.cooperationType', {
 						initialValue: dataDefault && dataDefault.cooperationType || 1,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
@@ -36,8 +36,8 @@ class CooperationMethod extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				{getFieldValue("agentVO.cooperationType") == 1 ? <Form.Item label="反款比例"  {...formLayout}>
-					{getFieldDecorator('agentVO.refundRate', {
+				{getFieldValue("agentVo.cooperationType") == 1 ? <Form.Item label="反款比例"  {...formLayout}>
+					{getFieldDecorator('agentVo.refundRate', {
 						initialValue: dataDefault && dataDefault.refundRate,
 						validateFirst: true,
 						rules: [
@@ -49,7 +49,7 @@ class CooperationMethod extends Component {
 					)}
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>
-						{getFieldDecorator('agentVO.cooperationRemark', {
+						{getFieldDecorator('agentVo.cooperationRemark', {
 							initialValue: dataDefault && dataDefault.cooperationRemark,
 							validateFirst: true,
 							rules: [

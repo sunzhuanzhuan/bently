@@ -12,7 +12,7 @@ class ChargeType extends Component {
 		const {
 			actions,
 			updateBaseInfoState,
-			trinityCaptureTollTypeVOS,
+			trinityTollTypeVOS,
 			setShowModal,//打开弹窗
 			formLayoutModal,
 			updateList,
@@ -23,9 +23,9 @@ class ChargeType extends Component {
 		const id = qs.parse(window.location.search.substring(1)).id
 		const columns = [{
 			title: '收费类型编号',
-			dataIndex: 'trinityKey',
+			dataIndex: 'tollTypeCode',
 			align: 'center',
-			key: 'trinityKey',
+			key: 'tollTypeCode',
 		}, {
 			title: '平台收费类型名称',
 			dataIndex: 'tollTypeName',
@@ -38,9 +38,9 @@ class ChargeType extends Component {
 			key: 'serviceRatio',
 		}, {
 			title: '描述',
-			dataIndex: 'description',
+			dataIndex: 'tollDescribe',
 			align: 'center',
-			key: 'description',
+			key: 'tollDescribe',
 		}, {
 			title: '创建时间',
 			dataIndex: 'createdAt',
@@ -70,16 +70,16 @@ class ChargeType extends Component {
 							actions={actions}
 							updateBaseInfoState={updateBaseInfoState} />
 					})} style={{ marginRight: 4 }}>修改</a>
-					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'trinityCaptureTollTypeVOS')} /> : null}
+					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'trinityTollTypeVOS')} /> : null}
 
 				</div>
 
 			}
 		}]
-		const updateKey = ['createdAt', 'modifiedAt', 'trinityKey']
+		const updateKey = ['createdAt', 'modifiedAt', 'tollTypeCode']
 		return (
 			<div >
-				<Table dataSource={trinityCaptureTollTypeVOS} columns={
+				<Table dataSource={trinityTollTypeVOS} columns={
 					id > 0 ? noLast ? columns.filter(one => one.key != 'operate') :
 						columns
 						: columns.filter(one => !updateKey.includes(one.key))

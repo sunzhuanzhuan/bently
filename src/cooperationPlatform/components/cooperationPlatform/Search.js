@@ -31,12 +31,12 @@ class Search extends Component {
 		return (
 			<Form layout="inline">
 				<Form.Item label="下单平台" >
-					{getFieldDecorator('orderPlatformName')(
+					{getFieldDecorator('platformName')(
 						<Input placeholder="请输入" />
 					)}
 				</Form.Item>
 				<Form.Item label="平台状态">
-					{getFieldDecorator('orderPlatformStatus')(
+					{getFieldDecorator('cooperationPlatformStatus')(
 						<Select placeholder="请选择" style={{ width: 200 }}>
 							<Option value="2">未启用</Option>
 							<Option value="3">已停用</Option>

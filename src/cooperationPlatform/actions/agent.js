@@ -7,7 +7,9 @@ import api from "../../api";
 export const {
 	getAgentByPage,
 	getAgentByPage_success
-} = createHttpAction('getAgentByPage', Interface.getAgentByPage)
+} = createHttpAction('getAgentByPage', Interface.getAgentByPage, {
+	method: 'post'
+})
 //查看代理商
 export const {
 	getAgentById,

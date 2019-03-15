@@ -10,12 +10,7 @@ class QuotationEdit extends Component {
 			captureTollType: []
 		};
 	}
-	componentDidMount = () => {
-		const { platformId, actions } = this.props
-		actions.getCaptureTollType({ platformId: platformId }).then(({ data }) => {
-			this.setState({ captureTollType: data })
-		})
-	}
+
 	onEdit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
@@ -26,9 +21,9 @@ class QuotationEdit extends Component {
 				console.log('Received values of form: ', values);
 				if (id > 0) {
 					//在修改页面的新增和修改直接保存数据库
-					actions.addOrUpdateTollType({ ...values, id: id }).then(() => {
+					actions.addOrUpdateTollType([{ ...values, id: id }]).then(() => {
 						actions.getTrinityTollTypeList({ trinityPlatformId: id }).then(({ data }) => {
-							updateBaseInfoState({ trinityCaptureTollTypeVOS: data })
+							updateBaseInfoState({ trinityTollTypeVOS: data })
 							setShowModal(false)
 						})
 					})
@@ -36,9 +31,9 @@ class QuotationEdit extends Component {
 					//新增页面操作页面缓存
 					if (isEdit) {
 						console.log('index', index);
-						updateList(index, { ...item, ...values }, 'trinityCaptureTollTypeVOS')
+						updateList(index, { ...item, ...values }, 'trinityTollTypeVOS')
 					} else {
-						addList(values, 'trinityCaptureTollTypeVOS')
+						addList(values, 'trinityTollTypeVOS')
 					}
 				}
 
@@ -58,13 +53,13 @@ class QuotationEdit extends Component {
 		}
 	}
 	changeTollType = (value) => {
-		const { form: { setFieldsValue } } = this.props
-		setFieldsValue({ tollTypeName: this.state.captureTollType.filter(one => value == one.trinityKey)[0].tollTypeName })
+		const { form: { setFieldsValue }, captureTollTypeSelect, } = this.props
+		setFieldsValue({ tollTypeName: captureTollTypeSelect.filter(one => value == one.trinityKey)[0].tollTypeName })
 	}
 	render() {
-		const { formLayoutModal, form, setShowModal, item } = this.props
+		const { formLayoutModal, form, setShowModal, item, trinityTollTypeVOS, captureTollTypeSelect = [] } = this.props
+		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.trinityPlatformId)
 		const { getFieldDecorator } = form
-		const { captureTollType } = this.state
 		return (
 			<Form layout="horizontal">
 				<Form.Item label="平台收费类型名称" {...formLayoutModal}>
@@ -75,7 +70,7 @@ class QuotationEdit extends Component {
 						],
 					})(
 						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType}>
-							{captureTollType.map(one => <Option key={one.trinityKey} value={one.trinityKey}>{one.tollTypeName}</Option>)}
+							{captureTollTypeSelect.map(one => <Option key={one.trinityKey} value={one.trinityKey}>{one.tollTypeName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>

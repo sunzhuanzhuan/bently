@@ -13,8 +13,8 @@ class SettlementMethod extends Component {
 		return (
 			<div>
 				<Form.Item label="结算方式"{...formLayout}>
-					{getFieldDecorator('agentVO.settleStyle', {
-						initialValue: dataDefault && dataDefault.settleStyle,
+					{getFieldDecorator('agentVo.settleType', {
+						initialValue: dataDefault && dataDefault.settleType,
 						rules: [
 							{ required: true, message: '请选择结算方式' },
 						],
@@ -26,8 +26,8 @@ class SettlementMethod extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label="回票方式"{...formLayout}>
-					{getFieldDecorator('agentVO.returnTicketStyle', {
-						initialValue: dataDefault && dataDefault.returnTicketStyle || 1,
+					{getFieldDecorator('agentVo.returnInvoiceType', {
+						initialValue: dataDefault && dataDefault.returnInvoiceType || 1,
 						rules: [
 							{ required: true, message: '请选择回票方式' },
 						],

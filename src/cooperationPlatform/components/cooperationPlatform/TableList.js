@@ -22,7 +22,7 @@ class TableList extends Component {
 				const list = arr.map(one => { return { id: one, trinitySkuTypeStatus: 1 } })
 				await actions.addOrUpdateTrinitySkuType(list)
 				//并启用该平台
-				await actions.updatePlatformStatus({ trinityPlatformId: coId, orderPlatformStatus: 1 });
+				await actions.updatePlatformStatus({ trinityPlatformId: coId, cooperationPlatformStatus: 1 });
 				setShowModal(false)
 				message.success('启用成功');
 			}}
@@ -38,7 +38,7 @@ class TableList extends Component {
 		const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformId: coId, trinitySkuTypeStatus: 1 });
 		if (data.length < 0) {
 			//有，直接启用合作平台
-			await actions.updatePlatformStatus({ trinityPlatformId: coId, orderPlatformStatus: 1 });
+			await actions.updatePlatformStatus({ trinityPlatformId: coId, cooperationPlatformStatus: 1 });
 			message.success('启用成功');
 
 		} else {
@@ -53,7 +53,7 @@ class TableList extends Component {
 	setDisable = async (platformId, coId) => {
 		const { setShowModal, actions, searchByPageOrOther, setDefaultCO } = this.props
 		//判断该平台是否含有多个平台并为默认报价项
-		const { data } = await actions.getCooperationPlatformByPage({ platformId: platformId, orderPlatformStatus: 1 })
+		const { data } = await actions.getCooperationPlatformByPage({ platformId: platformId, cooperationPlatformStatus: 1 })
 		if (data.list.length > 0) {
 			//含有则选择默认报价项
 			setShowModal(true, {
@@ -90,31 +90,18 @@ class TableList extends Component {
 	}
 	render() {
 
-		const { setShowModal, cooperationPlatformByPageList, setDefaultCO, deleteCO } = this.props
-		const dataSource = [{
-			orderPlatformCode: '1',
-			orderPlatformName: '胡彦斌',
-			age: 32,
-			orderPlatformStatus: 1,
-			address: '西湖区湖底公园1号'
-		}, {
-			orderPlatformCode: '2',
-			orderPlatformName: '胡彦祖',
-			defaultOrderPlatform: 1,
-			orderPlatformStatus: 2,
-			address: '西湖区湖底公园1号'
-		}];
+		const { setShowModal, searchByPageOrOther, cooperationPlatformByPageList, setDefaultCO, deleteCO } = this.props
 
 		const columns = [{
 			title: '下单平台编号',
-			dataIndex: 'orderPlatformCode',
+			dataIndex: 'cooperationPlatformCode',
 			align: "center",
-			key: 'orderPlatformCode',
+			key: 'cooperationPlatformCode',
 		}, {
 			title: '下单平台名称',
-			dataIndex: 'orderPlatformName',
+			dataIndex: 'cooperationPlatformName',
 			align: "center",
-			key: 'orderPlatformName',
+			key: 'cooperationPlatformName',
 
 		}, {
 			title: '所属媒体平台',
@@ -126,14 +113,16 @@ class TableList extends Component {
 			dataIndex: '代理商数量name',
 			align: "center",
 			key: '代理商数量name',
-			render: (record, index) => {
-				return <Link to={`/config/platform/agentList?`}>12</Link>
+			render: (text, record) => {
+				const { id, cooperationPlatformCode, platformId } = record
+				const params = `?id=${id}&code=${cooperationPlatformCode}&platformId=${platformId}`
+				return <Link to={`/config/platform/agentList${params}`}>12</Link>
 			}
 		}, {
 			title: '付款公司',
-			dataIndex: 'payCompanyName',
+			dataIndex: 'paymentCompanyName',
 			align: "center",
-			key: 'payCompanyName',
+			key: 'paymentCompanyName',
 		}, {
 			title: '创建时间',
 			dataIndex: 'createdAt',
@@ -146,9 +135,9 @@ class TableList extends Component {
 			key: 'modifiedAt',
 		}, {
 			title: '平台状态',
-			dataIndex: 'orderPlatformStatus',
+			dataIndex: 'cooperationPlatformStatus',
 			align: "center",
-			key: 'orderPlatformStatus',
+			key: 'cooperationPlatformStatus',
 			render: (text, record) => text == 1 ? '启用' : text == 2 ? '未启用' : '停用'
 		}, {
 			title: '是否默认报价项',
@@ -168,37 +157,40 @@ class TableList extends Component {
 			align: "center",
 			render: (text, record) => {
 				//启用状态
-				const { orderPlatformStatus, defaultAgent, platformId, id } = record
-				return <div>
-					<Link to={`/config/platform/detail?id=${id}`} >查看</Link>
-					{orderPlatformStatus == 2 || orderPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => this.setEnable(id)}>启用</Link> : null}
-					{orderPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => defaultAgent == 1 ? this.setDisable(platformId, id) : this.enable(id)}>停用</Link> : null}
-					<a href={`/config/platform/edit?id=${id}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
-					{orderPlatformStatus == 1 ? <DeleteModal onDelete={() => deleteCO({ id: id })} /> : null}
+				const { cooperationPlatformStatus, defaultAgent, platformId, id, cooperationPlatformCode } = record
+				const params = `?id=${id}&code=${cooperationPlatformCode}&platformId=${platformId}`
+				return <div style={{ width: 130 }}>
+					<Link to={`/config/platform/detail${params}`} >查看</Link>
+					{cooperationPlatformStatus == 2 || cooperationPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => this.setEnable(id)}>启用</Link> : null}
+					{cooperationPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => defaultAgent == 1 ? this.setDisable(platformId, id) : this.enable(id)}>停用</Link> : null}
+					<a href={`/config/platform/edit${params}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
+					{cooperationPlatformStatus == 2 ? <DeleteModal onDelete={() => deleteCO(id)} /> : null}
 					<div>
-						<Link to={`/config/platform/agentList?id=${id}`}>增加修改代理商</Link>
+						<Link to={`/config/platform/agentList${params}`}>增加修改代理商</Link>
 					</div>
-					<DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO({ id: id })} />
+					<DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO(id)} />
 				</div>
 			}
 		}];
-
+		const { list, total, pageSize, pageNum } = cooperationPlatformByPageList
 		return (
 			<Table
-				dataSource={cooperationPlatformByPageList.list}
+				dataSource={list}
 				columns={columns}
 				bordered={true}
 				pagination={{
-					current: 1,
-					pageSize: 10,
+					current: pageNum,
+					pageSize: pageSize,
+					total: total,
 					showQuickJumper: true,
 					showSizeChanger: true,
 					onShowSizeChange: (current, pageSize) => {
-						console.log(current, pageSize);
-
+						console.log('onShowSizeChange', current, pageSize);
+						searchByPageOrOther({ page: { currentPage: current, pageSize: pageSize } })
 					},
 					onChange: (current, pageSize) => {
-						console.log(current, pageSize);
+						console.log('onChange', current, pageSize);
+						searchByPageOrOther({ page: { currentPage: current, pageSize: pageSize } })
 					},
 				}}
 			/>

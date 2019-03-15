@@ -7,6 +7,7 @@ import { Modal, Spin, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import qs from "qs";
 import * as action from '../actions/index'
 class Agent extends Component {
 	constructor(props) {
@@ -20,7 +21,11 @@ class Agent extends Component {
 	}
 	componentDidMount = () => {
 		const { actions: { getAgentByPage } } = this.props
-		getAgentByPage({ currentPage: 1, pageSize: 10 }).then(() => {
+		const data = qs.parse(window.location.search.substring(1))
+		getAgentByPage({
+			page: { currentPage: 1, pageSize: 10 },
+			form: { cooperationPlatformCode: data.code }
+		}).then(() => {
 			this.setState({
 				isLoading: false
 			})

@@ -14,24 +14,27 @@ class CooperationPlatform extends Component {
 			showModal: { title: "", content: "", width: '' },
 			visable: false,
 			isLoading: true,
+			oldParams: {}
 		};
 	}
 	componentDidMount = () => {
 		const { actions: { getCooperationPlatformByPage } } = this.props
-		getCooperationPlatformByPage({ page: { currentPage: '1', pageSize: '10' } }).then(() => {
+		getCooperationPlatformByPage({ page: { currentPage: 1, pageSize: 10 }, form: {} }).then(() => {
 			this.setState({
 				isLoading: false
 			})
 		})
 	}
 	searchByPageOrOther = (params) => {
+		const { oldParams } = this.state
 		this.setState({
 			isLoading: true
 		})
 		const { actions: { getCooperationPlatformByPage } } = this.props
-		getCooperationPlatformByPage(params).then(() => {
+		getCooperationPlatformByPage({ page: { currentPage: 1, pageSize: 10 }, ...oldParams, params }).then(() => {
 			this.setState({
-				isLoading: false
+				isLoading: false,
+				oldParams: params
 			})
 		})
 	}

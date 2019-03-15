@@ -23,6 +23,7 @@ class CooperationPlatformEdit extends Component {
 		const { id } = this.state
 		const { actions } = this.props
 		this.props.form.resetFields()
+		//修改获取下拉框数据
 		if (id > 0) {
 			this.setState({ isLoading: true })
 			actions.getCooperationPlatformInfoById({ id: id }).then(({ data }) => {
@@ -34,17 +35,22 @@ class CooperationPlatformEdit extends Component {
 		}
 		actions.getPlatform()
 	}
-	onSearch = (e) => {
+	//保存数据
+	onEditSave = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			const { actions: { insertCooperationPlatform, updateCooperationPlatform } } = this.props
+			const { actions: { insertCooperationPlatform, updateCooperationPlatform }, cooperationPlatformReducer: { platformSelect } } = this.props
 			const { id } = this.state
+			//平台名称
+			values.platformName = platformSelect.map[values.platformId].platformName
+			//付款公司
+			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
+			console.log('Received values of form: ', values);
 			if (!err) {
-				console.log('Received values of form: ', values);
 				if (id > 0) {
-					updateCooperationPlatform({ ...values, id: id })
+					updateCooperationPlatform({ ...values, id: id, })
 				} else {
-					insertCooperationPlatform(values)
+					insertCooperationPlatform({ ...values, })
 				}
 			}
 		});
@@ -52,7 +58,7 @@ class CooperationPlatformEdit extends Component {
 	onClean = () => {
 		this.props.form.resetFields()
 	}
-
+	//弹窗方法
 	setShowModal = (isVisable, showModal) => {
 		this.setState({
 			visable: isVisable,
@@ -74,10 +80,11 @@ class CooperationPlatformEdit extends Component {
 			form,
 			formLayout,
 			setShowModal: this.setShowModal,
-			dataDefault: cooperationPlatformInfoDetail.agentVO,
+			dataDefault: cooperationPlatformInfoDetail.agentVo,
 			cooperationPlatformInfoDetail,
 			platformSelect,
-			actions
+			actions,
+			cooperationPlatformReducer
 		}
 
 		return (
@@ -91,7 +98,7 @@ class CooperationPlatformEdit extends Component {
 						<SettlementMethod {...commonProps} />
 						<PaymentMethod  {...commonProps} />
 						<div style={{ float: "right" }}>
-							<Button type="primary" onClick={this.onSearch}>提交</Button>
+							<Button type="primary" onClick={this.onEditSave}>提交</Button>
 						</div>
 						<Modal
 							title={showModal && showModal.title}
