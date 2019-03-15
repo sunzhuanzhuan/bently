@@ -133,6 +133,7 @@ class Quotation extends Component {
 				{notOperate ? <div style={{ paddingBottom: 20 }}><Tips text='若要启用该平台，请至少选择一个报价项！' /> </div> : null}
 				<Table
 					dataSource={trinitySkuTypeVOS}
+					rowKey={record => record.id}
 					columns={idCo > 0 ? editColumns : addColumns}
 					pagination={false}
 					bordered={true}

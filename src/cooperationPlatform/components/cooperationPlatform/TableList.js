@@ -13,7 +13,7 @@ class TableList extends Component {
 	}
 
 	showModal = (coId, platformId, data) => {
-		const { setShowModal, actions, searchByPageOrOther } = this.props
+		const { setShowModal, actions, setStatusCO } = this.props
 		//弹出选择启用报价项弹窗
 		setShowModal(true, {
 			title: '启用默认报价项',
@@ -22,9 +22,7 @@ class TableList extends Component {
 				const list = arr.map(one => { return { id: one, platformId: platformId, trinitySkuTypeStatus: 1 } })
 				await actions.addOrUpdateTrinitySkuType(list)
 				//并启用该平台
-				await actions.updatePlatformStatus({ id: coId, platformId: platformId, cooperationPlatformStatus: 1 });
-				setShowModal(false)
-				message.success('启用成功');
+				setStatusCO(coId, platformId, 1)
 			}}
 				onClose={() => setShowModal(false)}
 				trinitySkuTypeVOS={data} />,
@@ -32,47 +30,55 @@ class TableList extends Component {
 		})
 	}
 	//启用按钮判断
-	setEnable = async (coId, platformId) => {
-		const { actions } = this.props
+	setEnable = async (code, coId, platformId, ) => {
+		const { actions, setStatusCO } = this.props
 		//判断该平台下 报价项 是否含有报价项启用数据
-		const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformId: coId, trinitySkuTypeStatus: 1 });
-		if (data.length < 0) {
+		const enableRes = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId, trinitySkuTypeStatus: 1 });
+		console.log('======enableRes.data.length==');
+		console.log(enableRes.data.length);
+		if (enableRes.data.length > 0) {
 			//有，直接启用合作平台
-			await actions.updatePlatformStatus({ trinityPlatformId: coId, cooperationPlatformStatus: 1 });
-			message.success('启用成功');
-
+			setStatusCO(coId, platformId, 1)
 		} else {
 			//未启用，查询报价项列表
-			const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformId: coId });
+			const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId });
 			this.showModal(coId, platformId, data)
 		}
 
 	}
 
 	//禁用按钮判断
-	setDisable = async (platformId, coId) => {
-		const { setShowModal, actions, searchByPageOrOther, setDefaultCO } = this.props
+	setDisable = async (coId, platformId) => {
+		console.log('setDisable');
+		console.log(coId, platformId);
+		const { setShowModal, actions, setStatusCO } = this.props
 		//判断该平台是否含有多个平台并为默认报价项
-		const { data } = await actions.getCooperationPlatformByPage({ platformId: platformId, cooperationPlatformStatus: 1 })
+		const { data } = await actions.getCooperationPlatformByPage({ page: { currentPage: 1, pageSize: 10 }, form: { platformId: platformId, cooperationPlatformStatus: 1 } })
 		if (data.list.length > 0) {
 			//含有则选择默认报价项
 			setShowModal(true, {
 				title: '启用默认报价项',
 				content: <DisableDefault
 					list={data.list}
-					setDefaultCO={() => setDefaultCO}
 					notOperate={true}
 					setShowModal={setShowModal}
-					onDisableDefault={() => actions.updatePlatformStatus({ id: coId, platformId: platformId }).then(() => searchByPageOrOther())
-					} />
+					onDefault={(id) => {
+						actions.updatePlatformDefault({
+							id: id,
+							platformId: platformId
+						}).then(() => {
+							setStatusCO(coId, platformId, 3)
+						})
+					}} />
 			})
 		} else {
 			//不含则直接停用
-			this.enable(coId)
+			this.enable(coId, platformId)
 		}
 	}
 	enable = (coId, platformId) => {
-		const { actions, searchByPageOrOther } = this.props
+
+		const { setStatusCO } = this.props
 		confirm({
 			title: '温馨提示',
 			content: '是否确认将该下单平台停用，停用后将无法下单？',
@@ -81,7 +87,7 @@ class TableList extends Component {
 			icon: "exclamation-circle",
 			iconType: "exclamation-circle",
 			onOk() {
-				actions.updatePlatformStatus({ id: coId, platformId: platformId }).then(() => searchByPageOrOther())
+				setStatusCO(coId, platformId, 3)
 			},
 			onCancel() {
 
@@ -161,8 +167,11 @@ class TableList extends Component {
 				const params = `?id=${id}&code=${cooperationPlatformCode}&platformId=${platformId}`
 				return <div style={{ width: 130 }}>
 					<Link to={`/config/platform/detail${params}`} >查看</Link>
-					{cooperationPlatformStatus == 2 || cooperationPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => this.setEnable(id, platformId)}>启用</Link> : null}
-					{cooperationPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => cooperationDefaultPlatform == 1 ? this.setDisable(platformId, id) : this.enable(id, platformId)}>停用</Link> : null}
+					{cooperationPlatformStatus == 2 || cooperationPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => this.setEnable(cooperationPlatformCode, id, platformId)}>启用</Link> : null}
+					{cooperationPlatformStatus == 1 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => cooperationDefaultPlatform == 1 ?
+						this.setDisable(id, platformId) :
+						this.enable(id, platformId)}>停用</Link> : null}
+
 					<a href={`/config/platform/edit${params}`} target='_blank' style={{ marginRight: 4 }} >修改</a>
 					{cooperationPlatformStatus == 2 ? <DeleteModal onDelete={() => deleteCO(id)} /> : null}
 					<div>
@@ -178,6 +187,7 @@ class TableList extends Component {
 				dataSource={list}
 				columns={columns}
 				bordered={true}
+
 				pagination={{
 					current: pageNum,
 					pageSize: pageSize,

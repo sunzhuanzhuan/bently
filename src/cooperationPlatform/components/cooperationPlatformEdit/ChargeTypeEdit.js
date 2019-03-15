@@ -93,8 +93,8 @@ class QuotationEdit extends Component {
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>
-					{getFieldDecorator('description', {
-						initialValue: item && item.description,
+					{getFieldDecorator('tollDescribe', {
+						initialValue: item && item.tollDescribe,
 						validateFirst: true,
 						rules: [
 							{ max: 50, message: "最多可输入50个字！" }

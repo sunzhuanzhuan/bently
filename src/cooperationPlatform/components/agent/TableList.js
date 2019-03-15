@@ -66,7 +66,8 @@ class TableList extends Component {
 							title: <div >查看{title} </div>,
 							content: <AgentDetail
 								setShowModal={setShowModal}
-								actions={actions} />
+								actions={actions}
+								agentId={id} />
 						})}>查看</a>
 					{agentStatus == 1 ?
 						<a onClick={() => editAgentStatus(id, 3)}>停用</a>

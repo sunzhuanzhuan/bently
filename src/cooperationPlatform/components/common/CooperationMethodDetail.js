@@ -6,14 +6,14 @@ class CooperationMethodDetail extends Component {
 		this.state = {};
 	}
 	render() {
-		const { detailData: { cooperationType, refundRate, tollDescribe } } = this.props
+		const { detailData: { cooperationType, refundRate, cooperationRemark } } = this.props
 		const weekArr = [
 			{ title: "合作方式", content: "周期付款" },
 			{ title: "返款比例", content: refundRate },
 		]
 		const otherArr = [
 			{ title: "合作方式", content: "其他" },
-			{ title: "说明", content: tollDescribe },
+			{ title: "说明", content: cooperationRemark },
 		]
 		return (
 			<ShowDetailArr arr={cooperationType == 1 ? weekArr : otherArr} />

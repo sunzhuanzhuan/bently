@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import Search from "../components/cooperationPlatform/Search";
 import TableList from "../components/cooperationPlatform/TableList";
-import { Modal, Button, Spin } from 'antd';
+import { Modal, Button, Spin, message } from 'antd';
 import "./CooperationPlatform.less"
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as action from '../actions/index'
-import axios from "axios";
 class CooperationPlatform extends Component {
 	constructor(props) {
 		super(props);
@@ -25,13 +24,13 @@ class CooperationPlatform extends Component {
 			})
 		})
 	}
-	searchByPageOrOther = (params) => {
+	searchByPageOrOther = (params = { page: { currentPage: 1, pageSize: 10 }, form: {} }) => {
 		const { oldParams } = this.state
 		this.setState({
 			isLoading: true
 		})
 		const { actions: { getCooperationPlatformByPage } } = this.props
-		getCooperationPlatformByPage({ page: { currentPage: 1, pageSize: 10 }, ...oldParams, params }).then(() => {
+		getCooperationPlatformByPage({ ...oldParams, ...params }).then(() => {
 			this.setState({
 				isLoading: false,
 				oldParams: params
@@ -63,6 +62,17 @@ class CooperationPlatform extends Component {
 		const { actions: { updatePlatformDefault } } = this.props
 		updatePlatformDefault({ id: id, platformId: platformId }).then(() => {
 			this.searchByPageOrOther()
+			this.setShowModal()
+			message.success(`您的操作已保存成功！`)
+		})
+	}
+	//设置禁用或启用
+	setStatusCO = (id, platformId, status) => {
+		const { actions: { updatePlatformStatus } } = this.props
+		updatePlatformStatus({ id: id, platformId: platformId, cooperationPlatformStatus: status }).then(() => {
+			this.searchByPageOrOther()
+			this.setShowModal()
+			message.success(`您的操作已保存成功！`)
 		})
 	}
 
@@ -78,7 +88,8 @@ class CooperationPlatform extends Component {
 			actions,
 			deleteCO: this.deleteCO,
 			setDefaultCO: this.setDefaultCO,
-			searchByPageOrOther: this.searchByPageOrOther
+			searchByPageOrOther: this.searchByPageOrOther,
+			setStatusCO: this.setStatusCO,
 		}
 		return (
 			<div className="cooperation-platform" >

@@ -8,11 +8,11 @@ class DisableDefault extends Component {
 	}
 	onDisableDefault = (e) => {
 		e.preventDefault();
-		const { form, setDefaultCO } = this.props
+		const { form, onDefault } = this.props
 		form.validateFields((err, values) => {
 			if (!err) {
 				//保存
-				setDefaultCO(values.id)
+				onDefault(values.id)
 			}
 		});
 	}
@@ -31,7 +31,7 @@ class DisableDefault extends Component {
 							]
 						})(
 							<Select placeholder="请选择" style={{ width: 320 }}>
-								{list.map(one => <Option key={one.id} value={one.id}>{one.orderPlatformName}</Option>)}
+								{list.map(one => <Option key={one.id} value={one.id}>{one.cooperationPlatformName}</Option>)}
 							</Select>
 						)}
 					</Form.Item>

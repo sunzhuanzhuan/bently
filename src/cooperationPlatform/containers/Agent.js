@@ -9,6 +9,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import qs from "qs";
 import * as action from '../actions/index'
+const pageDefault = { page: { currentPage: 1, pageSize: 10 } }
 class Agent extends Component {
 	constructor(props) {
 		super(props);
@@ -32,12 +33,13 @@ class Agent extends Component {
 		})
 	}
 	//查询
-	seachAgentByPage = (params) => {
+	seachAgentByPage = (params = pageDefault) => {
+		const data = qs.parse(window.location.search.substring(1))
 		this.setState({
 			isLoading: true
 		})
 		const { actions: { getAgentByPage } } = this.props
-		getAgentByPage({ currentPage: 1, pageSize: 10, ...params }).then(() => {
+		getAgentByPage({ ...pageDefault, form: { cooperationPlatformCode: data.code }, ...params }).then(() => {
 			this.setState({
 				isLoading: false
 			})
