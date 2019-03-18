@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Select, DatePicker, Button } from 'antd';
 const Option = Select.Option;
-const defultTime = "YYYY:MM:DD HH:mm:ss"
+const defultTime = "YYYY/MM/DD HH:mm:ss"
 class Search extends Component {
 	constructor(props) {
 		super(props);

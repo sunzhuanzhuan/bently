@@ -64,6 +64,7 @@ class QuotationEdit extends Component {
 		const { getFieldDecorator } = form
 		//已选的ID
 		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityTypeName)
+		//过滤已选ID
 		return (
 			<Form layout="horizontal" >
 
