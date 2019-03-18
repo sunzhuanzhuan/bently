@@ -47,6 +47,7 @@ class BaseInfo extends Component {
 	updateBaseInfoState = (data) => {
 		this.setState(data)
 	}
+	//前台新增数据
 	addList = (item, type) => {
 		const { IDCount } = this.state
 		item.idAdd = `${type}${numeral(IDCount).format('0000')}`
@@ -57,7 +58,7 @@ class BaseInfo extends Component {
 		})
 		this.props.setShowModal(false)
 	}
-
+	//前台修改数据
 	updateList = (index, item, type) => {
 		this.state[type].splice(index, 1, item)
 		const data = { [type]: this.state[type] }
@@ -66,6 +67,7 @@ class BaseInfo extends Component {
 		})
 		this.props.setShowModal(false)
 	}
+	//前台删除数据
 	deleteList = (id, type) => {
 		const data = { [type]: this.state[type].filter(one => one.idAdd != id) }
 		this.setState(data, () => {
@@ -84,7 +86,7 @@ class BaseInfo extends Component {
 			})
 		})
 	}
-
+	//平台重选后重新查询相应的报价项，消费类型，并清空原来的列表信息
 	platformChange = async (platformId) => {
 		//平台修改后，收费类型下拉框改变
 		const { actions: { getCaptureTollType, getCaptureTrinitySkuType, getSkuTypeList }, platformSelect } = this.props

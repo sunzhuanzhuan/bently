@@ -33,8 +33,6 @@ class Quotation extends Component {
 			isWeiBo//是微博
 		} = this.props
 		const { idCo, selectedRowKeys } = this.state
-		console.log(idCo, 'idCo');
-
 		const tableProps = notOperate ? {
 			rowSelection: {
 				selectedRowKeys,

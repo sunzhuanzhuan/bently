@@ -54,29 +54,47 @@ class QuotationEdit extends Component {
 	}
 	changeTollType = (value) => {
 		const { form: { setFieldsValue }, captureTollTypeSelect, } = this.props
-		setFieldsValue({ tollTypeName: captureTollTypeSelect.filter(one => value == one.trinityKey)[0].tollTypeName })
+		const item = captureTollTypeSelect.filter(one => value == one.trinityKey)[0]
+		setFieldsValue({
+			tollTypeName: item.tollTypeName,
+			trinityKey: item.trinityKey
+		})
 	}
 	render() {
 		const { formLayoutModal, form, setShowModal, item, trinityTollTypeVOS, captureTollTypeSelect = [] } = this.props
 		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.tollTypeName)
+		//过滤已选ID
+		const captureTollType = captureTollTypeSelect.filter(one => !captureTollTypeSelected.includes(one.trinityTypeName))
+		//判断是否还含有报价项/无则不能提交
+		const isSkuType = captureTollType && captureTollType[0]
+		//默认选中第一个可用报价项
+		const captureTollTypeFirst = isSkuType || {}
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
 				<Form.Item label="平台收费类型名称" {...formLayoutModal}>
 					{getFieldDecorator('trinityKey', {
-						initialValue: item && item.trinityKey,
+						initialValue: item && item.trinityKey || captureTollTypeFirst.trinityKey,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
 						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType}>
-							{captureTollTypeSelect.map(one => captureTollTypeSelected.includes(one.tollTypeName) ? null :
-								<Option key={one.trinityKey} value={one.trinityKey}>{one.tollTypeName}</Option>)}
+							{captureTollType.map(one => <Option key={one.id} value={one.id}>{one.tollTypeName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item style={{ display: 'none' }}>
-					{getFieldDecorator('tollTypeName')(
+					{getFieldDecorator('tollTypeName', {
+						initialValue: item && item.tollTypeName || captureTollTypeFirst.tollTypeName,
+					})(
+						<Input />
+					)}
+				</Form.Item>
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('trinityKey', {
+						initialValue: item && item.trinityKey || captureTollTypeFirst.trinityKey,
+					})(
 						<Input />
 					)}
 				</Form.Item>
