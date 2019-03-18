@@ -47,9 +47,9 @@ class QuotationEdit extends Component {
 	//选择时设置相关数据
 	changeTrinityType = (value) => {
 		const { form: { setFieldsValue } } = this.props
-		const item = this.props.captureTrinitySkuType.filter(one => value == one.id)[0]
+		const item = this.props.captureTrinitySkuType.filter(one => value == one.trinityTypeName)[0]
 		setFieldsValue({
-			trinityTypeName: item.trinityTypeName,
+			trinityPlatformName: item.trinityPlatformName,
 			trinityKey: item.trinityKey
 		})
 	}
@@ -62,7 +62,10 @@ class QuotationEdit extends Component {
 		})
 	}
 	render() {
-		const { formLayoutModal, form, item, setShowModal, platformId, trinitySkuTypeVOS = [], skuTypeList, captureTrinitySkuType = [] } = this.props
+		const { formLayoutModal, form, item, setShowModal,
+			platformId, trinitySkuTypeVOS = [], skuTypeList,
+			captureTrinitySkuType = [],
+			isEdit } = this.props
 		const { getFieldDecorator } = form
 		//已选的ID
 		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityTypeName)
@@ -74,22 +77,35 @@ class QuotationEdit extends Component {
 		const filterSkuTypeFirst = isSkuType || {}
 		return (
 			<Form layout="horizontal" >
-
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('id', {
+						initialValue: item && item.id
+					})(
+						<Input />
+					)}
+				</Form.Item>
 				<Form.Item label="平台抓取报价项名称" {...formLayoutModal}>
-					{getFieldDecorator('trinityPlatformId', {
-						initialValue: item && item.trinityPlatformId || filterSkuTypeFirst.id,
+					{getFieldDecorator('trinityTypeName', {
+						initialValue: item && item.trinityTypeName || filterSkuTypeFirst.trinityTypeName,
 						rules: [
 							{ required: true, message: '请选择平台抓取报价项名称' },
 						],
 					})(
-						<Select placeholder={isSkuType ? '请选择平台抓取报价项名称' : '无可用报价项！'} style={{ width: 314 }} onChange={this.changeTrinityType} disabled={!isSkuType}>
-							{filterSkuType.map(one => <Option key={one.id} value={one.id}>{one.trinityTypeName}</Option>)}
+						<Select placeholder={isSkuType ? '请选择平台抓取报价项名称' : '无可用报价项！'} style={{ width: 314 }} onChange={this.changeTrinityType} disabled={isEdit}>
+							{captureTrinitySkuType.map(one => {
+								const { trinityTypeName } = one
+								return <Option key={trinityTypeName}
+									value={trinityTypeName}
+									disabled={trinityKeyIsSelected.includes(trinityTypeName)}>
+									{trinityTypeName}</Option>
+							})}
 						</Select>
 					)}
 				</Form.Item>
+
 				<Form.Item style={{ display: 'none' }}>
-					{getFieldDecorator('trinityTypeName', {
-						initialValue: item && item.trinityTypeName || filterSkuTypeFirst.trinityTypeName
+					{getFieldDecorator('trinityPlatformName', {
+						initialValue: item && item.trinityPlatformName || filterSkuTypeFirst.trinityPlatformName
 					})(
 						<Input />
 					)}
@@ -145,7 +161,7 @@ class QuotationEdit extends Component {
 				</Form.Item>
 				<div style={{ textAlign: "center" }}>
 					<Button onClick={() => setShowModal(false, null)}>取消</Button>
-					<Button type='primary' onClick={this.onAdd} style={{ marginLeft: 20 }} disabled={!isSkuType}>提交</Button>
+					<Button type='primary' onClick={this.onAdd} style={{ marginLeft: 20 }} >提交</Button>
 				</div>
 			</Form >
 		);

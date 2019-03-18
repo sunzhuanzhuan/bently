@@ -18,7 +18,6 @@ class ChargeType extends Component {
 			updateList,
 			deleteList,
 			noLast,//查看详情不显示操作列
-			isEdit//修改时显示编号和时间
 		} = this.props
 		const id = qs.parse(window.location.search.substring(1)).id
 		const columns = [{

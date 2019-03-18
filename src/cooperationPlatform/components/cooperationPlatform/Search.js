@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Select, DatePicker, Button } from 'antd';
 const Option = Select.Option;
-const defultTime = "YYYY/MM/DD HH:mm:ss"
+const defultTime = "YYYY-MM-DD HH:mm:ss"
 class Search extends Component {
 	constructor(props) {
 		super(props);
@@ -14,7 +14,7 @@ class Search extends Component {
 			const { time } = values
 			if (!err) {
 				const startTime = time && time[0] && time[0].format(defultTime)
-				const endTime = time && time[0] && time[0].format(defultTime)
+				const endTime = time && time[1] && time[1].format(defultTime)
 				const searchPrams = {
 					form: { ...values, startTime: startTime, endTime: endTime },
 					page: { currentPage: 1, pageSize: 10 }
@@ -31,7 +31,7 @@ class Search extends Component {
 		return (
 			<Form layout="inline">
 				<Form.Item label="下单平台" >
-					{getFieldDecorator('platformName')(
+					{getFieldDecorator('cooperationPlatformName')(
 						<Input placeholder="请输入" />
 					)}
 				</Form.Item>

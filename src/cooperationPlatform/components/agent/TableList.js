@@ -80,10 +80,11 @@ class TableList extends Component {
 							title: <div>修改{title}</div>,
 							content: <AgentEdit setShowModal={setShowModal}
 								agentId={recode.id}
+								agentName={recode.agentName}
 								seachAgentByPage={seachAgentByPage}
 							/>
 						})} style={{ margin: "0px 4px" }}>修改</a>
-					{agentStatus == 2 ? <DeleteModal onDelete={() => deleteAgent({ id: id })} /> : null}
+					{agentStatus == 2 ? <DeleteModal onDelete={() => deleteAgent(id)} /> : null}
 				</div>
 			}
 		}]

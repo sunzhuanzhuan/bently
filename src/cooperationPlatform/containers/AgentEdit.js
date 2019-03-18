@@ -13,6 +13,7 @@ class AgentEdit extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
+			searchParams: qs.parse(window.location.search.substring(1)),
 			agentByIdDetail: {},
 		};
 	}
@@ -39,8 +40,8 @@ class AgentEdit extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				values.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
-				const search = qs.parse(window.location.search.substring(1))
-				const data = { ...values, ...values.agentVo, cooperationPlatformCode: search.code }
+				const { searchParams } = this.state
+				const data = { ...values, ...values.agentVo, cooperationPlatformCode: searchParams.code }
 				//付款公司
 
 				if (agentId) {
@@ -65,11 +66,21 @@ class AgentEdit extends Component {
 		const { setShowModal } = this.props
 		setShowModal(false, null)
 	}
+	//代理商名称验证
 	agentVali = (rule, value, callback) => {
+		const { actions: { existsAgentName }, agentName } = this.props
+		const { searchParams } = this.state
 		const reg = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
 		if (reg.test(value)) {
-			callback()
 			//'代理商名称不可重复'
+			existsAgentName({ cooperationPlatformCode: searchParams.code, agentName: value }).then(({ data }) => {
+				if (!data || agentName == value) {
+					callback()
+				} else {
+					callback('代理商名称不可重复')
+				}
+			})
+
 		} else {
 			callback('最多可输入40个以内的中英文及数字！')
 		}

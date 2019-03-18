@@ -74,8 +74,8 @@ class BaseInfo extends Component {
 			this.props.form.setFieldsValue(data)
 		})
 	}
-	//查询该报价项的
-	editQuotation = (params) => {
+	//修改该报价项的并实时查询数据
+	editQuotation = (params, onChange) => {
 		const { actions, setShowModal, updateBaseInfoState } = this.props
 		actions.addOrUpdateTrinitySkuType(params).then(() => {
 			setShowModal(false)
@@ -83,6 +83,7 @@ class BaseInfo extends Component {
 				trinityPlatformCode: qs.parse(window.location.search.substring(1)).code
 			}).then(({ data }) => {
 				this.setState({ trinitySkuTypeVOS: data })
+				onChange && onChange()
 			})
 		})
 	}

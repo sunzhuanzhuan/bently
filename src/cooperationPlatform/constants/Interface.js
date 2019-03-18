@@ -21,6 +21,7 @@ export default {
 	'getAgentById': agent + 'getAgentById',//查看代理商
 	'updateAgentStatus': agent + 'updateAgentStatus',//启用/停用代理商
 	'delAgent': agent + 'delAgent',//删除代理商
+	'existsAgentName': agent + 'existsAgentName',//删除代理商
 
 	'addOrUpdateTrinitySkuType': skuUrl + 'addOrUpdateTrinitySkuType',//添加或修改三方报价类型:通过id存在即修改，不存在即添加，编号唯一
 	'addOrUpdateTollType': skuUrl + 'addOrUpdateTollType',//添加或修改服务类型

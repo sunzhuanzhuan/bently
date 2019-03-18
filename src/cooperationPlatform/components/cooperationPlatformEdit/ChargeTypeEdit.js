@@ -14,15 +14,15 @@ class QuotationEdit extends Component {
 	onEdit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			const id = qs.parse(window.location.search.substring(1)).id
+			const searchParam = qs.parse(window.location.search.substring(1))
 			const { isEdit, addList, index, updateList, item,
 				actions, setShowModal, updateBaseInfoState } = this.props
 			if (!err) {
 				console.log('Received values of form: ', values);
-				if (id > 0) {
+				if (searchParam.id > 0) {
 					//在修改页面的新增和修改直接保存数据库
-					actions.addOrUpdateTollType([{ ...values, id: id }]).then(() => {
-						actions.getTrinityTollTypeList({ trinityPlatformId: id }).then(({ data }) => {
+					actions.addOrUpdateTollType([{ ...values, trinityPlatformCode: searchParam.code, platformId: searchParam.platformId }]).then(() => {
+						actions.getTrinityTollTypeList({ trinityPlatformCode: searchParam.code }).then(({ data }) => {
 							updateBaseInfoState({ trinityTollTypeVOS: data })
 							setShowModal(false)
 						})
@@ -54,41 +54,40 @@ class QuotationEdit extends Component {
 	}
 	changeTollType = (value) => {
 		const { form: { setFieldsValue }, captureTollTypeSelect, } = this.props
-		const item = captureTollTypeSelect.filter(one => value == one.trinityKey)[0]
+		const item = captureTollTypeSelect.filter(one => value == one.tollTypeName)[0]
 		setFieldsValue({
-			tollTypeName: item.tollTypeName,
 			trinityKey: item.trinityKey
 		})
 	}
 	render() {
-		const { formLayoutModal, form, setShowModal, item, trinityTollTypeVOS, captureTollTypeSelect = [] } = this.props
+		const { formLayoutModal, form, setShowModal, item, isEdit, trinityTollTypeVOS = [], captureTollTypeSelect = [] } = this.props
 		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.tollTypeName)
 		//过滤已选ID
-		const captureTollType = captureTollTypeSelect.filter(one => !captureTollTypeSelected.includes(one.trinityTypeName))
+		//const captureTollType = captureTollTypeSelect.filter(one => !captureTollTypeSelected.includes(one.tollTypeName))
 		//判断是否还含有报价项/无则不能提交
-		const isSkuType = captureTollType && captureTollType[0]
+		const isTollType = captureTollTypeSelect && captureTollTypeSelect[0]
 		//默认选中第一个可用报价项
-		const captureTollTypeFirst = isSkuType || {}
+		const captureTollTypeFirst = isTollType || {}
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('id', {
+						initialValue: item && item.id
+					})(
+						<Input />
+					)}
+				</Form.Item>
 				<Form.Item label="平台收费类型名称" {...formLayoutModal}>
-					{getFieldDecorator('trinityKey', {
-						initialValue: item && item.trinityKey || captureTollTypeFirst.trinityKey,
+					{getFieldDecorator('tollTypeName', {
+						initialValue: item && item.tollTypeName || captureTollTypeFirst.tollTypeName,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType}>
-							{captureTollType.map(one => <Option key={one.id} value={one.id}>{one.tollTypeName}</Option>)}
+						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType} disabled={isEdit}>
+							{captureTollTypeSelect.map(one => <Option key={one.id} value={one.id}>{one.tollTypeName}</Option>)}
 						</Select>
-					)}
-				</Form.Item>
-				<Form.Item style={{ display: 'none' }}>
-					{getFieldDecorator('tollTypeName', {
-						initialValue: item && item.tollTypeName || captureTollTypeFirst.tollTypeName,
-					})(
-						<Input />
 					)}
 				</Form.Item>
 				<Form.Item style={{ display: 'none' }}>

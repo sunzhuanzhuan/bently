@@ -52,12 +52,12 @@ class CooperationPlatformEdit extends Component {
 					saveLoading: true
 				})
 				if (id > 0) {
-
 					updateCooperationPlatform({ ...values, id: id, }).then(() => {
 						message.success('您所提交的信息已经保存成功！')
 						this.setState({
 							saveLoading: false
 						})
+						window.location.href('/config/platform/list')
 					})
 				} else {
 					insertCooperationPlatform({ ...values, }).then(() => {
@@ -65,7 +65,9 @@ class CooperationPlatformEdit extends Component {
 						this.setState({
 							saveLoading: false
 						})
+						window.location.href('/config/platform/list')
 					})
+
 				}
 			}
 		});

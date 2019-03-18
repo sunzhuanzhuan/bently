@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd';
+import { Table, Button, message } from 'antd';
 import QuotationEdit from "./QuotationEdit";
 import { DeleteModal } from "../common"
 import { Tips } from "../cooperationPlatform/DisableDefault";
@@ -30,7 +30,7 @@ class Quotation extends Component {
 			notOperate,//带复选框
 			onClose,//关闭弹窗
 			noLast,//只没有操作列
-			isWeiBo//是微博
+			isWeiBo,//是微博
 		} = this.props
 		const { idCo, selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
@@ -94,6 +94,7 @@ class Quotation extends Component {
 			key: 'operate',
 			render: (text, record, index) => {
 				const { trinitySkuTypeStatus, id } = record
+				const isEnable = trinitySkuTypeStatus == 1
 				return <div>
 					<a onClick={() => setShowModal(true, {
 						title: <div>修改报价项</div>,
@@ -105,17 +106,20 @@ class Quotation extends Component {
 							isEdit={true}
 							item={record}
 							actions={actions}
-							editQuotation={editQuotation} />
+							editQuotation={editQuotation}
+							trinitySkuTypeVOS={trinitySkuTypeVOS} />
 					})} style={{ marginRight: 4 }}>修改</a>
-					{record.trinitySkuTypeStatus == 2 ?
+					{trinitySkuTypeStatus == 2 ?
 						<DeleteModal onDelete={() => idCo > 0 ?
 							editQuotation([{ id: id, isDeleted: 1 }]) :
 							deleteList(record.idAdd, 'trinitySkuTypeVOS')} /> : null}
 					{id > 0 ? <a style={{ marginLeft: 4 }} onClick={() => editQuotation([{
 						id: id,
-						trinitySkuTypeStatus: record.trinitySkuTypeStatus == 1 ? 3 : 1//1启用，3停用
-					}])}>
-						{record.trinitySkuTypeStatus == 1 ? '停用' : '启用'}
+						trinitySkuTypeStatus: isEnable ? 3 : 1//1启用，3停用
+					}], () => {
+						message.success(`提示：当前报价项已${isEnable ? '停用' : '启用'}，下单时该报价项${isEnable ? '不' : ''}可见！`)
+					})}>
+						{isEnable ? '停用' : '启用'}
 					</a> : null}
 				</div>
 			}

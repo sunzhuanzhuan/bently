@@ -116,13 +116,13 @@ class TableList extends Component {
 			key: 'platformName',
 		}, {
 			title: '代理商数量',
-			dataIndex: '代理商数量name',
+			dataIndex: 'agentPlatformNumber',
 			align: "center",
-			key: '代理商数量name',
+			key: 'agentPlatformNumber',
 			render: (text, record) => {
 				const { id, cooperationPlatformCode, platformId } = record
 				const params = `?id=${id}&code=${cooperationPlatformCode}&platformId=${platformId}`
-				return <Link to={`/config/platform/agentList${params}`}>12</Link>
+				return <Link to={`/config/platform/agentList${params}`}>{text}</Link>
 			}
 		}, {
 			title: '付款公司',
@@ -177,7 +177,7 @@ class TableList extends Component {
 					<div>
 						<Link to={`/config/platform/agentList${params}`}>增加修改代理商</Link>
 					</div>
-					<DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO(id, platformId)} />
+					{cooperationDefaultPlatform == 1 ? null : <DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO(id, platformId)} />}
 				</div>
 			}
 		}];
