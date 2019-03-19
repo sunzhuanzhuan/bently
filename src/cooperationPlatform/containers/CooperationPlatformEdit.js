@@ -16,7 +16,6 @@ class CooperationPlatformEdit extends Component {
 			id: qs.parse(window.location.search.substring(1)).id,
 			cooperationPlatformInfoDetail: {},
 			isLoading: false,
-			saveLoading: false
 		};
 	}
 	componentDidMount = () => {
@@ -47,26 +46,17 @@ class CooperationPlatformEdit extends Component {
 			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
 			console.log('Received values of form: ', values);
 			if (!err) {
-				this.setState({
-					saveLoading: true
-				})
 				if (id > 0) {
 					updateCooperationPlatform({ ...values, id: id, }).then(() => {
 						message.success('您所提交的信息已经保存成功！')
-						this.setState({
-							saveLoading: false
-						})
 						this.jumpPage()
 					})
 				} else {
 					insertCooperationPlatform({ ...values, }).then(() => {
 						message.success('您所提交的信息已经保存成功！')
-						this.setState({
-							saveLoading: false
-						})
+
 						this.jumpPage()
 					})
-
 				}
 			}
 		});
@@ -86,7 +76,7 @@ class CooperationPlatformEdit extends Component {
 	}
 	render() {
 		const { form, cooperationPlatformReducer, actions } = this.props
-		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, saveLoading } = this.state
+		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, } = this.state
 		const formLayout = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
@@ -114,7 +104,7 @@ class CooperationPlatformEdit extends Component {
 					<PaymentMethod  {...commonProps} />
 					<div style={{ textAlign: "center", margin: '40px auto' }}>
 						<Button style={{ marginRight: 50 }}><DeleteModal typeText={'取消'} onDelete={this.jumpPage} /></Button>
-						<Button type="primary" onClick={this.onEditSave} loading={saveLoading}>提交</Button>
+						<Button type="primary" onClick={this.onEditSave} >提交</Button>
 					</div>
 					<Modal
 						title={showModal && showModal.title}
@@ -125,7 +115,7 @@ class CooperationPlatformEdit extends Component {
 						{showModal && showModal.content}
 					</Modal>
 				</Form>
-			</Spin>
+			</Spin >
 		);
 	}
 }
