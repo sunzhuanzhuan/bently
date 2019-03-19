@@ -21,7 +21,7 @@ class AgentDetail extends Component {
 	render() {
 
 		const { agentByIdDetail } = this.state
-		const { agentName, id, paymentCompanyName, settleType, returnInvoiceType } = agentByIdDetail
+		const { agentName, id, paymentCompanyName, settleType, returnInvoiceType, agentRemark } = agentByIdDetail
 		const showInfo = [
 			{ title: "代理商ID", content: id },
 			{ title: "代理商名称", content: agentName },
@@ -32,7 +32,7 @@ class AgentDetail extends Component {
 			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
 		]
 
-		const remark = [{ title: "备注", content: "" }]
+		const remark = [{ title: "备注", content: agentRemark }]
 		const { setShowModal } = this.props
 		return (
 			<Spin spinning={this.state.isLoading} style={{ margin: "10px 0px" }}>
