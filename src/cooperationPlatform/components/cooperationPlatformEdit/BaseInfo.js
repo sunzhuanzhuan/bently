@@ -205,14 +205,11 @@ class BaseInfo extends Component {
 					})(
 						<Input style={{ display: "none" }} />
 					)}
-
-				</Form.Item>
-				<Row>
-					<Col span={2}></Col>
-					<Col span={22}>
+					<div style={{ marginLeft: -100 }}>
 						<Quotation {...operateProps} />
-					</Col>
-				</Row>
+					</div>
+				</Form.Item>
+
 
 				<Form.Item label="收费类型" {...formLayoutTable}>
 					{getFieldDecorator('trinityTollTypeVOS')(
@@ -223,15 +220,11 @@ class BaseInfo extends Component {
 							content: <ChargeTypeEdit {...operateProps} platformId={getFieldValue('platformId')} />
 						})}>
 						新增收费类型</a>
-				</Form.Item>
-				<Row>
-					<Col span={2}></Col>
-					<Col span={22}>
+					<div style={{ marginLeft: -100 }}>
 						<ChargeType {...operateProps} />
-					</Col>
-				</Row>
-
-			</div>
+					</div>
+				</Form.Item>
+			</div >
 		);
 	}
 }

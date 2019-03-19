@@ -30,7 +30,7 @@ class DisableDefault extends Component {
 					<Form.Item label="请选择下单平台">
 						{getFieldDecorator('id', {
 							rules: [
-								{ required: true, message: '请选择下单平台' },
+								{ required: true, message: '请选择设置为默认的平台！' },
 							]
 						})(
 							<Select placeholder="请选择" style={{ width: 320 }}>
@@ -49,8 +49,8 @@ class DisableDefault extends Component {
 }
 export const Tips = ({ text }) => {
 	return <div >
-		<div style={{ fontSize: 16, fontWeight: 500 }}>
-			<Icon type="exclamation-circle" style={{ color: '#faad14', padding: '2px 14px 0px 0px' }} />
+		<div style={{ fontSize: 16, fontWeight: 500, marginBottom: 5 }}>
+			<Icon type="exclamation-circle" theme="filled" style={{ color: '#faad14', padding: '2px 14px 0px 0px' }} />
 			<span style={{ color: '#000' }}>温馨提示</span>
 		</div>
 		{text}

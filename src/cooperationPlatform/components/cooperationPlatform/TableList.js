@@ -145,7 +145,7 @@ class TableList extends Component {
 			dataIndex: 'cooperationPlatformStatus',
 			align: "center",
 			key: 'cooperationPlatformStatus',
-			render: (text, record) => text == 1 ? '启用' : text == 2 ? '未启用' : '停用'
+			render: (text, record) => text == 1 ? '已启用' : text == 2 ? '未启用' : '已停用'
 		}, {
 			title: '是否默认报价项',
 			dataIndex: 'cooperationDefaultPlatform',
