@@ -6,8 +6,7 @@ import * as action from '../actions/index'
 import { Form, Button, Modal, Spin, message } from 'antd';
 import qs from "qs";
 import { BaseInfo } from "../components/cooperationPlatformEdit";
-import { PaymentMethod, CooperationMethod, SettlementMethod, DividingBox } from "../components/common";
-const defultTime = "YYYY:MM:DD HH:mm:ss"
+import { PaymentMethod, CooperationMethod, SettlementMethod, DividingBox, DeleteModal } from "../components/common";
 class CooperationPlatformEdit extends Component {
 	constructor(props) {
 		super(props);
@@ -57,7 +56,7 @@ class CooperationPlatformEdit extends Component {
 						this.setState({
 							saveLoading: false
 						})
-						window.location.href = "/config/platform/list";
+						this.jumpPage()
 					})
 				} else {
 					insertCooperationPlatform({ ...values, }).then(() => {
@@ -65,15 +64,15 @@ class CooperationPlatformEdit extends Component {
 						this.setState({
 							saveLoading: false
 						})
-						window.location.href = "/config/platform/list";
+						this.jumpPage()
 					})
 
 				}
 			}
 		});
 	}
-	onClean = () => {
-		this.props.form.resetFields()
+	jumpPage = () => {
+		window.location.href = "/config/platform/list";
 	}
 	//弹窗方法
 	setShowModal = (isVisable, showModal) => {
@@ -113,7 +112,8 @@ class CooperationPlatformEdit extends Component {
 					<CooperationMethod {...commonProps} />
 					<SettlementMethod {...commonProps} />
 					<PaymentMethod  {...commonProps} />
-					<div style={{ float: "right" }}>
+					<div style={{ textAlign: "center", margin: '40px auto' }}>
+						<Button style={{ marginRight: 50 }}><DeleteModal typeText={'取消'} onDelete={this.jumpPage} /></Button>
 						<Button type="primary" onClick={this.onEditSave} loading={saveLoading}>提交</Button>
 					</div>
 					<Modal

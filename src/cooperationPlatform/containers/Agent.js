@@ -16,16 +16,17 @@ class Agent extends Component {
 		this.state = {
 			visible: false,
 			showModal: { title: "", content: "" },
-			isLoading: true
+			isLoading: true,
+			searchParams: qs.parse(window.location.search.substring(1))
 		};
 		this.setShowModal = this.setShowModal.bind(this)
 	}
 	componentDidMount = () => {
 		const { actions: { getAgentByPage } } = this.props
-		const data = qs.parse(window.location.search.substring(1))
+		const { searchParams } = this.state
 		getAgentByPage({
 			page: { currentPage: 1, pageSize: 10 },
-			form: { cooperationPlatformCode: data.code }
+			form: { cooperationPlatformCode: searchParams.code }
 		}).then(() => {
 			this.setState({
 				isLoading: false
@@ -34,12 +35,12 @@ class Agent extends Component {
 	}
 	//查询
 	seachAgentByPage = (params = pageDefault) => {
-		const data = qs.parse(window.location.search.substring(1))
+		const { searchParams } = this.state
 		this.setState({
 			isLoading: true
 		})
 		const { actions: { getAgentByPage } } = this.props
-		getAgentByPage({ ...pageDefault, form: { cooperationPlatformCode: data.code }, ...params }).then(() => {
+		getAgentByPage({ ...pageDefault, form: { cooperationPlatformCode: searchParams.code }, ...params }).then(() => {
 			this.setState({
 				isLoading: false
 			})
@@ -84,7 +85,7 @@ class Agent extends Component {
 
 	}
 	render() {
-		const { showModal, visible, isLoading } = this.state
+		const { showModal, visible, isLoading, searchParams } = this.state
 		const { actions, cooperationPlatformReducer } = this.props
 		const { insertAgent } = actions
 		const { agentByPageList, } = cooperationPlatformReducer
@@ -104,13 +105,13 @@ class Agent extends Component {
 					<DividingBox text="下单平台基本信息" />
 					<div className="agent-base-info">
 						<div>
-							下单平台编号：asda12312
+							下单平台编号：{searchParams.code}
 						</div>
 						<div>
-							下单平台名称：快手所属
+							下单平台名称：{searchParams.name}
 						</div>
 						<div>
-							所属媒体平台：快手
+							所属媒体平台：{searchParams.platformName}
 						</div>
 					</div>
 					<DividingBox text="代理商信息" />

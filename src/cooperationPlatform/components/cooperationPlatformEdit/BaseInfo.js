@@ -145,6 +145,13 @@ class BaseInfo extends Component {
 
 		return (
 			<div style={{ margin: "20px 0px" }}>
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('agentVo.id', {
+						initialValue: agentVo && agentVo.id
+					})(
+						<Input />
+					)}
+				</Form.Item>
 				<Form.Item label="所属媒体平台"{...formLayout} >
 					{getFieldDecorator('platformId', {
 						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId || 115,

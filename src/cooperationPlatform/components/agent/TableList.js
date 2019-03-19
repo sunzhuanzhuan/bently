@@ -31,9 +31,9 @@ class TableList extends Component {
 			}
 		}, {
 			title: '返款比例（%）',
-			dataIndex: 'payRebate',
+			dataIndex: 'refundRate',
 			align: 'center',
-			key: 'payRebate',
+			key: 'refundRate',
 		}, {
 			title: '状态',
 			dataIndex: 'agentStatus',
@@ -88,23 +88,26 @@ class TableList extends Component {
 				</div>
 			}
 		}]
+		const { list, total, pageSize, pageNum } = agentByPageList
 		return (
 			<Table
 				style={{ marginTop: 20 }}
 				bordered={true}
-				dataSource={agentByPageList.list}
+				dataSource={list}
 				columns={columns}
 				pagination={{
-					current: 1,
-					pageSize: 10,
+					current: pageNum,
+					pageSize: pageSize,
+					total: total,
 					showQuickJumper: true,
 					showSizeChanger: true,
 					onShowSizeChange: (current, pageSize) => {
-						console.log(current, pageSize);
-
+						console.log('onShowSizeChange', current, pageSize);
+						seachAgentByPage({ page: { currentPage: current, pageSize: pageSize } })
 					},
 					onChange: (current, pageSize) => {
-						console.log(current, pageSize);
+						console.log('onChange', current, pageSize);
+						seachAgentByPage({ page: { currentPage: current, pageSize: pageSize } })
 					},
 				}}
 			/>
