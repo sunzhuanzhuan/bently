@@ -103,6 +103,7 @@ class TableList extends Component {
 			dataIndex: 'cooperationPlatformCode',
 			align: "center",
 			key: 'cooperationPlatformCode',
+			width: '78px'
 		}, {
 			title: '下单平台名称',
 			dataIndex: 'cooperationPlatformName',

@@ -23,9 +23,9 @@ class TableList extends Component {
 			key: 'agentName',
 		}, {
 			title: '合作方式',
-			dataIndex: 'cooperationStyle',
+			dataIndex: 'cooperationType',
 			align: 'center',
-			key: 'cooperationStyle',
+			key: 'cooperationType',
 			render: (text, recode) => {
 				return text == 1 ? '周期返款' : '其他'
 			}
@@ -34,6 +34,9 @@ class TableList extends Component {
 			dataIndex: 'refundRate',
 			align: 'center',
 			key: 'refundRate',
+			render: (text, recode) => {
+				return recode.cooperationType == 1 ? text : '-'
+			}
 		}, {
 			title: '状态',
 			dataIndex: 'agentStatus',
