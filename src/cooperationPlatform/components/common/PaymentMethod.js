@@ -77,8 +77,10 @@ class PaymentMethod extends Component {
 							],
 						})(
 							<Select placeholder="请选择" style={{ width: 200 }}>
-								<Option value="china">China</Option>
-								<Option value="usa">U.S.A</Option>
+								<Option value="中国招商银行">中国招商银行</Option>
+								<Option value="中国建设银行">中国建设银行</Option>
+								<Option value="中国农业银行">中国农业银行</Option>
+
 							</Select>
 						)}
 					</Form.Item>
