@@ -94,7 +94,7 @@ class TableList extends Component {
 		const { list, total, pageSize, pageNum } = agentByPageList
 		return (
 			<Table
-				style={{ marginTop: 20 }}
+				style={{ marginTop: 20, minHeight: 300 }}
 				bordered={true}
 				dataSource={list}
 				columns={columns}

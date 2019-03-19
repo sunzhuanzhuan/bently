@@ -13,7 +13,7 @@ class ShowDetailArr extends Component {
 						<div style={{ width: 150, height: 40, fontSize: 14, textAlign: "right" }}>
 							{one.title}：
 							</div>
-						<div style={{ display: "inline-table", paddingLeft: 5 }}>
+						<div style={{ display: "inline-table", paddingLeft: 5, height: 38, marginTop: 1 }}>
 							{one.content}
 						</div>
 					</div>
