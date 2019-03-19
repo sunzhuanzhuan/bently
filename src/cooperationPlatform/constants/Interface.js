@@ -10,10 +10,10 @@ export default {
 	'updatePlatformStatus': defaultUrl + 'updatePlatformStatus',//合作平台-启用/禁用合作平台
 	'updatePlatformDefault': defaultUrl + 'updatePlatformDefault',//合作平台-设置默认报价项
 	'getPlatform': defaultUrl + 'getPlatform',//合作平台-所属媒体平台下拉框接口
-	'': defaultUrl + '',//合作平台-开户行下拉框接口
+	'getCooperationPlatform': defaultUrl + 'getCooperationPlatform',//获取除当前启用平台外是否还有其他启用平台
 
+	'': defaultUrl + '',//合作平台-开户行下拉框接口
 	'': defaultUrl + '',//合作平台-获取合作平台是否有启用的报价项
-	'': defaultUrl + '',//获取除当前启用平台外是否还有其他启用平台
 
 	'getAgentByPage': agent + 'getAgentByPage',//代理商列表
 	'insertAgent': agent + 'insertAgent',//新增代理商

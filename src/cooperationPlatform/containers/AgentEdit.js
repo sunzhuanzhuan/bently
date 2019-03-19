@@ -59,7 +59,7 @@ class AgentEdit extends Component {
 	commEditAction = () => {
 		const { seachAgentByPage } = this.props
 		seachAgentByPage()
-		message.success('操作成功')
+		message.success('您的操作已保存成功！')
 		this.onClean()
 	}
 	onClean = () => {

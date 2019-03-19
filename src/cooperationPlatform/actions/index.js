@@ -50,3 +50,8 @@ export const {
 	getTrinitySkuTypeList,
 	getTrinitySkuTypeList_success
 } = createHttpAction('getTrinitySkuTypeList', Interface.getTrinitySkuTypeList)
+//获取平台id&&启用状态&&非默认状态
+export const {
+	getCooperationPlatform,
+	getCooperationPlatform_success
+} = createHttpAction('getCooperationPlatform', Interface.getCooperationPlatform)

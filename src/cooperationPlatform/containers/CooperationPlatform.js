@@ -55,6 +55,7 @@ class CooperationPlatform extends Component {
 		const { actions: { delPlatform } } = this.props
 		delPlatform({ id: id }).then(() => {
 			this.searchByPageOrOther()
+			message.success(`删除成功！`)
 		})
 	}
 	//设置默认报价项
@@ -110,6 +111,7 @@ class CooperationPlatform extends Component {
 					visible={visable}
 					width={showModal.width}
 					onCancel={this.hideModal}
+					destroyOnClose={true}
 					footer={null}>
 					{showModal.content}
 				</Modal>

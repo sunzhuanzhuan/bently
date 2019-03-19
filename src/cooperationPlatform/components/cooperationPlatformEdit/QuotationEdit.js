@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Select, Button, message } from 'antd';
 import qs from "qs";
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -26,7 +26,7 @@ class QuotationEdit extends Component {
 						...values,
 						trinityPlatformCode: data.code,
 						platformId: data.platformId
-					}])
+					}], () => { message.success('您的操作已保存成功！') })
 				} else {
 					//新增页面操作页面缓存
 					if (isEdit) {

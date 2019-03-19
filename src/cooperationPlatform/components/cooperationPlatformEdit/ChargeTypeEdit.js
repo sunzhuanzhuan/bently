@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Select, Button, message } from 'antd';
 import qs from "qs";
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -22,9 +22,11 @@ class QuotationEdit extends Component {
 				if (searchParam.id > 0) {
 					//在修改页面的新增和修改直接保存数据库
 					actions.addOrUpdateTollType([{ ...values, trinityPlatformCode: searchParam.code, platformId: searchParam.platformId }]).then(() => {
+						message.success('您的操作已保存成功！')
 						actions.getTrinityTollTypeList({ trinityPlatformCode: searchParam.code }).then(({ data }) => {
 							updateBaseInfoState({ trinityTollTypeVOS: data })
 							setShowModal(false)
+
 						})
 					})
 				} else {
@@ -63,9 +65,9 @@ class QuotationEdit extends Component {
 		const { formLayoutModal, form, setShowModal, item, isEdit, trinityTollTypeVOS = [], captureTollTypeSelect = [] } = this.props
 		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.tollTypeName)
 		//过滤已选ID
-		//const captureTollType = captureTollTypeSelect.filter(one => !captureTollTypeSelected.includes(one.tollTypeName))
+		const captureTollType = captureTollTypeSelect.filter(one => !captureTollTypeSelected.includes(one.tollTypeName))
 		//判断是否还含有报价项/无则不能提交
-		const isTollType = captureTollTypeSelect && captureTollTypeSelect[0]
+		const isTollType = captureTollType && captureTollType[0]
 		//默认选中第一个可用报价项
 		const captureTollTypeFirst = isTollType || {}
 		const { getFieldDecorator } = form
@@ -85,8 +87,12 @@ class QuotationEdit extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						<Select placeholder="请选择平台收费类型名称" style={{ width: 314 }} onChange={this.changeTollType} disabled={isEdit}>
-							{captureTollTypeSelect.map(one => <Option key={one.id} value={one.id}>{one.tollTypeName}</Option>)}
+						<Select placeholder={isTollType ? "请选择平台收费类型名称" : '无可用收费类型！'} style={{ width: 314 }} onChange={this.changeTollType} disabled={isEdit}>
+							{captureTollTypeSelect.map(one => <Option
+								disabled={captureTollTypeSelected.includes(one.tollTypeName)}
+								key={one.tollTypeName}
+								value={one.tollTypeName}
+							>{one.tollTypeName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>

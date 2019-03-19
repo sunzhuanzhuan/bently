@@ -57,7 +57,6 @@ class CooperationPlatformEdit extends Component {
 						this.setState({
 							saveLoading: false
 						})
-						window.location.href('/config/platform/list')
 					})
 				} else {
 					insertCooperationPlatform({ ...values, }).then(() => {
@@ -65,7 +64,6 @@ class CooperationPlatformEdit extends Component {
 						this.setState({
 							saveLoading: false
 						})
-						window.location.href('/config/platform/list')
 					})
 
 				}

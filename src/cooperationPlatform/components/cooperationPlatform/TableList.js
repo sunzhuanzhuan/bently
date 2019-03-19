@@ -53,13 +53,13 @@ class TableList extends Component {
 		console.log(coId, platformId);
 		const { setShowModal, actions, setStatusCO } = this.props
 		//判断该平台是否含有多个平台并为默认报价项
-		const { data } = await actions.getCooperationPlatformByPage({ page: { currentPage: 1, pageSize: 10 }, form: { platformId: platformId, cooperationPlatformStatus: 1 } })
-		if (data.list.length > 0) {
+		const { data } = await actions.getCooperationPlatform({ platformId: platformId, cooperationPlatformStatus: 1, cooperationDefaultPlatform: 2 })
+		if (data.length > 0) {
 			//含有则选择默认报价项
 			setShowModal(true, {
 				title: '启用默认报价项',
 				content: <DisableDefault
-					list={data.list}
+					list={data}
 					notOperate={true}
 					setShowModal={setShowModal}
 					onDefault={(id) => {
@@ -177,7 +177,7 @@ class TableList extends Component {
 					<div>
 						<Link to={`/config/platform/agentList${params}`}>增加修改代理商</Link>
 					</div>
-					{cooperationDefaultPlatform == 1 ? null : <DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO(id, platformId)} />}
+					{cooperationDefaultPlatform == 2 && cooperationPlatformStatus == 1 ? <DeleteModal messageType="set" typeText="设置默认报价项" onDelete={() => setDefaultCO(id, platformId)} /> : null}
 				</div>
 			}
 		}];

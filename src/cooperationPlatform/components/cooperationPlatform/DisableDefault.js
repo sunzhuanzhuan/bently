@@ -6,6 +6,9 @@ class DisableDefault extends Component {
 		super(props);
 		this.state = {};
 	}
+	componentDidMount = () => {
+		this.props.form.resetFields()
+	}
 	onDisableDefault = (e) => {
 		e.preventDefault();
 		const { form, onDefault } = this.props
