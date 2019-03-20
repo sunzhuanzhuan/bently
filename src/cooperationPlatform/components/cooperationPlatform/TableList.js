@@ -165,9 +165,10 @@ class TableList extends Component {
 			align: "center",
 			render: (text, record) => {
 				//启用状态
-				const { cooperationPlatformStatus, cooperationDefaultPlatform, platformId, id, cooperationPlatformCode, platformName, cooperationPlatformName } = record
+				const { cooperationPlatformStatus, cooperationDefaultPlatform, platformId, id,
+					cooperationPlatformCode, platformName, cooperationPlatformName, } = record
 				const params = `?id=${id}&code=${cooperationPlatformCode}
-				&platformId=${platformId}&platformName=${platformName}&name=${cooperationPlatformName}`
+				&platformId=${platformId}&platformName=${platformName}&name=${cooperationPlatformName}&status=${cooperationPlatformStatus}`
 				return <div style={{ width: 130 }}>
 					<Link to={`/config/platform/detail${params}`} >查看</Link>
 					{cooperationPlatformStatus == 2 || cooperationPlatformStatus == 3 ? <Link to={12} style={{ margin: "0px 4px" }} onClick={() => this.setEnable(cooperationPlatformCode, id, platformId)}>启用</Link> : null}

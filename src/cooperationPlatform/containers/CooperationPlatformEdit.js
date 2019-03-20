@@ -38,27 +38,44 @@ class CooperationPlatformEdit extends Component {
 	onEditSave = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			const { actions: { insertCooperationPlatform, updateCooperationPlatform }, cooperationPlatformReducer: { platformSelect } } = this.props
-			const { id } = this.state
+			const { cooperationPlatformReducer: { platformSelect } } = this.props
+
 			//平台名称
 			values.platformName = platformSelect.map[values.platformId].platformName
 			//付款公司
 			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
 			console.log('Received values of form: ', values);
 			if (!err) {
-				if (id > 0) {
-					updateCooperationPlatform({ ...values, id: id, }).then(() => {
-						message.success('您所提交的信息已经保存成功！')
-						this.jumpPage()
-					})
-				} else {
-					insertCooperationPlatform({ ...values, }).then(() => {
-						message.success('您所提交的信息已经保存成功！')
-						this.jumpPage()
-					})
-				}
+				this.editOprate(values)
 			}
 		});
+	}
+	editOprate = async (values) => {
+		const { id } = this.state
+		const search = qs.parse(window.location.search.substring(1))
+		const { actions: { insertCooperationPlatform, updateCooperationPlatform, getTrinitySkuTypeList } } = this.props
+		if (id > 0) {
+			//如果平台启用则修改时校验报价项是否有启用
+			if (search.status == 1) {
+				const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: search.code, trinitySkuTypeStatus: 1 });
+				if (data.length > 0) {
+					await updateCooperationPlatform({ ...values, id: id, })
+					message.success('您所提交的信息已经保存成功！')
+					this.jumpPage()
+				} else {
+					message.error('请您至少启用一条报价项，以免影响正常下单')
+				}
+			} else {
+				await updateCooperationPlatform({ ...values, id: id, })
+				message.success('您所提交的信息已经保存成功！')
+				this.jumpPage()
+			}
+		} else {
+			await insertCooperationPlatform({ ...values, })
+			message.success('您所提交的信息已经保存成功！')
+			this.jumpPage()
+		}
+
 	}
 	jumpPage = () => {
 		window.location.href = "/config/platform/list";
