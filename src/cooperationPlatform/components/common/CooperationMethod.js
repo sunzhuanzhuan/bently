@@ -41,7 +41,7 @@ class CooperationMethod extends Component {
 						initialValue: dataDefault && dataDefault.refundRate,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '本项为必选项，请输入！' },
+							{ required: true, message: '本项为必填项，请输入！' },
 							{ validator: this.vailPrice }
 						],
 					})(

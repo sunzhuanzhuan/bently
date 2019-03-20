@@ -106,12 +106,13 @@ class AgentEdit extends Component {
 						{getFieldDecorator('id', {
 							initialValue: agentByIdDetail && agentByIdDetail.id,
 						})(
-							<Input placeholder="请输入代理商名称" />
+							<Input />
 						)}
 					</Form.Item> : null}
 					<Form.Item label="代理商名称"{...formLayout}>
 						{getFieldDecorator('agentName', {
 							initialValue: agentByIdDetail && agentByIdDetail.agentName,
+							validateFirst: true,
 							rules: [
 								{ required: true, message: '本项为必填项，请输入！' },
 								{ max: 40, message: "最多可输入40个以内的中英文及数字！" },

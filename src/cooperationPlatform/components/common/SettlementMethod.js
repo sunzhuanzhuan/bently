@@ -16,7 +16,7 @@ class SettlementMethod extends Component {
 					{getFieldDecorator('agentVo.settleType', {
 						initialValue: dataDefault && dataDefault.settleType,
 						rules: [
-							{ required: true, message: '此项为必填项，请输入！' },
+							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>
