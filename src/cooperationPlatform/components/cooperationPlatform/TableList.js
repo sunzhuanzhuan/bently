@@ -33,15 +33,13 @@ class TableList extends Component {
 	setEnable = async (code, coId, platformId, ) => {
 		const { actions, setStatusCO } = this.props
 		//判断该平台下 报价项 是否含有报价项启用数据
-		const enableRes = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId, trinitySkuTypeStatus: 1 });
-		console.log('======enableRes.data.length==');
-		console.log(enableRes.data.length);
+		const enableRes = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId, trinitySkuTypeStatus: 1, platformId: platformId });
 		if (enableRes.data.length > 0) {
 			//有，直接启用合作平台
 			setStatusCO(coId, platformId, 1)
 		} else {
 			//未启用，查询报价项列表
-			const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId });
+			const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId, platformId: platformId });
 			this.showModal(coId, platformId, data)
 		}
 

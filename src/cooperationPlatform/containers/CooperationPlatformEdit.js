@@ -57,7 +57,7 @@ class CooperationPlatformEdit extends Component {
 		if (id > 0) {
 			//如果平台启用则修改时校验报价项是否有启用
 			if (search.status == 1) {
-				const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: search.code, trinitySkuTypeStatus: 1 });
+				const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: search.code, trinitySkuTypeStatus: 1, platformId: search.platformId });
 				if (data.length > 0) {
 					await updateCooperationPlatform({ ...values, id: id, })
 					message.success('您所提交的信息已经保存成功！')

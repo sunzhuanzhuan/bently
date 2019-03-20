@@ -23,7 +23,7 @@ class CooperationPlatformDetail extends Component {
 			getTrinityTollTypeList } } = this.props
 		const data = qs.parse(window.location.search.substring(1))
 		const coRes = await getCooperationPlatformInfoById({ id: data.id })
-		const tsRes = await getTrinitySkuTypeList({ trinityPlatformCode: data.code })
+		const tsRes = await getTrinitySkuTypeList({ trinityPlatformCode: data.code, platformId: data.platformId })
 		const ttRes = await getTrinityTollTypeList({ trinityPlatformCode: data.code })
 		this.setState({
 			isLoading: false,

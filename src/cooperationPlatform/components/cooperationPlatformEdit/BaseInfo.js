@@ -28,7 +28,7 @@ class BaseInfo extends Component {
 
 		if (data.id > 0) {
 			//此处查询报价项列表
-			getTrinitySkuTypeList({ trinityPlatformCode: data.code }).then(({ data }) => {
+			getTrinitySkuTypeList({ trinityPlatformCode: data.code, platformId: data.platformId }).then(({ data }) => {
 				const dataSku = { trinitySkuTypeVOS: data }
 				this.setState(dataSku, () => {
 					this.props.form.setFieldsValue(dataSku)
@@ -77,10 +77,12 @@ class BaseInfo extends Component {
 	//修改该报价项的并实时查询数据
 	editQuotation = (params, onChange) => {
 		const { actions, setShowModal, updateBaseInfoState } = this.props
+		const data = qs.parse(window.location.search.substring(1))
 		actions.addOrUpdateTrinitySkuType(params).then(() => {
 			setShowModal(false)
 			actions.getTrinitySkuTypeList({
-				trinityPlatformCode: qs.parse(window.location.search.substring(1)).code
+				trinityPlatformCode: data.code,
+				platformId: data.platformId
 			}).then(({ data }) => {
 				this.setState({ trinitySkuTypeVOS: data })
 				onChange && onChange()
