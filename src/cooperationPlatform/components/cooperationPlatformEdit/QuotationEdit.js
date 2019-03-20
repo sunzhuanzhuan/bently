@@ -144,7 +144,9 @@ class QuotationEdit extends Component {
 						)}
 				</Form.Item > : null}
 				<Form.Item style={{ display: 'none' }}>
-					{getFieldDecorator('skuTypeName')(
+					{getFieldDecorator('skuTypeName', {
+						initialValue: item && item.skuTypeName
+					})(
 						<Input />
 					)}
 				</Form.Item>

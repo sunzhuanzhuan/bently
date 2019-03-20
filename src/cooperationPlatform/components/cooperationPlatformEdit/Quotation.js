@@ -30,7 +30,8 @@ class Quotation extends Component {
 			notOperate,//带复选框
 			onClose,//关闭弹窗
 			noLast,//只没有操作列
-			isWeiBo,//是微博
+			platformId,//是微博
+			skuTypeList
 		} = this.props
 		const { idCo, selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
@@ -107,7 +108,9 @@ class Quotation extends Component {
 							item={record}
 							actions={actions}
 							editQuotation={editQuotation}
-							trinitySkuTypeVOS={trinitySkuTypeVOS} />
+							trinitySkuTypeVOS={trinitySkuTypeVOS}
+							platformId={platformId}
+							skuTypeList={skuTypeList} />
 					})} style={{ marginRight: 4 }}>修改</a>
 					{trinitySkuTypeStatus == 2 ?
 						<DeleteModal onDelete={() => idCo > 0 ?
@@ -125,10 +128,10 @@ class Quotation extends Component {
 			}
 		}];
 		const addColumns = [
-			...nameColunm, ...(isWeiBo ? weiboColunm : []), ...statuColunm, ...(notOperate ? [] : oprateColunm)
+			...nameColunm, ...(platformId == 1 ? weiboColunm : []), ...statuColunm, ...(notOperate ? [] : oprateColunm)
 		]
 		const editColumns = [
-			...idColumns, ...nameColunm, ...(isWeiBo ? weiboColunm : []), ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
+			...idColumns, ...nameColunm, ...(platformId == 1 ? weiboColunm : []), ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
 		]
 		return (
 			<div style={{ marginBottom: 8 }}>

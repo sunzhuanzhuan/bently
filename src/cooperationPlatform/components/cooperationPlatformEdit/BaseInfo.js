@@ -41,8 +41,8 @@ class BaseInfo extends Component {
 					this.props.form.setFieldsValue(dataToll)
 				})
 			})
+			this.platformChange(data.platformId)
 		}
-		this.platformChange(data.platformId || 115)
 	}
 	updateBaseInfoState = (data) => {
 		this.setState(data)
@@ -138,7 +138,7 @@ class BaseInfo extends Component {
 			setShowModal,
 			updateBaseInfoState: this.updateBaseInfoState,
 			editQuotation: this.editQuotation,
-			platformId: getFieldValue("agentVo.platformId"),
+			platformId: getFieldValue("platformId"),
 			cooperationPlatformReducer,
 			...this.state
 		}
@@ -154,7 +154,7 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<Form.Item label="所属媒体平台"{...formLayout} >
 					{getFieldDecorator('platformId', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId || 115,
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId,
 						rules: [
 							{ required: true, message: '本项为必填项，请选择！' },
 						],
@@ -195,7 +195,6 @@ class BaseInfo extends Component {
 						title: <div>新增报价项</div>,
 						content: <QuotationEdit
 							{...operateProps}
-							platformId={getFieldValue('platformId')}
 						/>
 					})}>新增报价项</a>
 					{getFieldDecorator('trinitySkuTypeVOS', {
