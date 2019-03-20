@@ -108,7 +108,7 @@ class QuotationEdit extends Component {
 						initialValue: item && item.serviceRatio,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '”本项为必选项，请输入！' },
+							{ required: true, message: '本项为必填项，请输入！' },
 							{ validator: this.vailPrice },
 						],
 					})(

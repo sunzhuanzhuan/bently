@@ -16,7 +16,7 @@ class SettlementMethod extends Component {
 					{getFieldDecorator('agentVo.settleType', {
 						initialValue: dataDefault && dataDefault.settleType,
 						rules: [
-							{ required: true, message: '请选择结算方式' },
+							{ required: true, message: '此项为必填项，请输入！' },
 						],
 					})(
 						<RadioGroup>
@@ -29,7 +29,7 @@ class SettlementMethod extends Component {
 					{getFieldDecorator('agentVo.returnInvoiceType', {
 						initialValue: dataDefault && dataDefault.returnInvoiceType || 1,
 						rules: [
-							{ required: true, message: '请选择回票方式' },
+							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>

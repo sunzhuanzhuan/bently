@@ -54,7 +54,6 @@ class CooperationPlatformEdit extends Component {
 				} else {
 					insertCooperationPlatform({ ...values, }).then(() => {
 						message.success('您所提交的信息已经保存成功！')
-
 						this.jumpPage()
 					})
 				}

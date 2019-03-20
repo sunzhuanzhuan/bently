@@ -122,7 +122,7 @@ class QuotationEdit extends Component {
 						initialValue: item && item.wbyTypeName,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '本项为必选项，请输入' },
+							{ required: true, message: '本项为必填项，请输入' },
 							{ max: 20, message: "最多可输入20个字！" }
 						],
 					})(
