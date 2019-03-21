@@ -39,7 +39,6 @@ class CooperationPlatformEdit extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			const { cooperationPlatformReducer: { platformSelect } } = this.props
-
 			//平台名称
 			values.platformName = platformSelect.map[values.platformId].platformName
 			//付款公司
@@ -55,27 +54,12 @@ class CooperationPlatformEdit extends Component {
 		const search = qs.parse(window.location.search.substring(1))
 		const { actions: { insertCooperationPlatform, updateCooperationPlatform, getTrinitySkuTypeList } } = this.props
 		if (id > 0) {
-			//如果平台启用则修改时校验报价项是否有启用
-			if (search.status == 1) {
-				const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: search.code, trinitySkuTypeStatus: 1, platformId: search.platformId });
-				if (data.length > 0) {
-					await updateCooperationPlatform({ ...values, id: id, })
-					message.success('您所提交的信息已经保存成功！')
-					this.jumpPage()
-				} else {
-					message.error('请您至少启用一条报价项，以免影响正常下单')
-				}
-			} else {
-				await updateCooperationPlatform({ ...values, id: id, })
-				message.success('您所提交的信息已经保存成功！')
-				this.jumpPage()
-			}
+			await updateCooperationPlatform({ ...values, id: id, })
 		} else {
 			await insertCooperationPlatform({ ...values, })
-			message.success('您所提交的信息已经保存成功！')
-			this.jumpPage()
 		}
-
+		message.success('您所提交的信息已经保存成功！')
+		this.jumpPage()
 	}
 	jumpPage = () => {
 		window.location.href = "/config/platform/list";
