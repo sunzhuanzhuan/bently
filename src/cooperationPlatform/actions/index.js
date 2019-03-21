@@ -42,9 +42,9 @@ export const {
 } = createHttpAction('getSkuTypeList', Interface.getSkuTypeList)
 //合作平台-所属媒体平台下拉框接口
 export const {
-	getPlatform,
-	getPlatform_success
-} = createHttpAction('getPlatform', Interface.getPlatform)
+	getExistTrinityPlatformList,
+	getExistTrinityPlatformList_success
+} = createHttpAction('getExistTrinityPlatformList', Interface.getExistTrinityPlatformList)
 //获取报价项列表
 export const {
 	getTrinitySkuTypeList,
@@ -55,3 +55,8 @@ export const {
 	getCooperationPlatform,
 	getCooperationPlatform_success
 } = createHttpAction('getCooperationPlatform', Interface.getCooperationPlatform)
+////获取未使用关联的抓取合作平台
+export const {
+	getUnusedCooperationPlatform,
+	getUnusedCooperationPlatform_success
+} = createHttpAction('getUnusedCooperationPlatform', Interface.getUnusedCooperationPlatform)

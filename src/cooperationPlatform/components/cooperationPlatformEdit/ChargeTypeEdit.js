@@ -7,10 +7,17 @@ class QuotationEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			captureTollType: []
+			captureTollTypeSelect: []
 		};
 	}
-
+	componentDidMount = async () => {
+		const { actions: { getCaptureTollType }, cooperationPlatformKey, platformId } = this.props
+		//平台修改后，收费类型下拉框改变
+		const toll = await getCaptureTollType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
+		this.setState({
+			captureTollTypeSelect: toll.data,
+		})
+	}
 	onEdit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
@@ -55,14 +62,16 @@ class QuotationEdit extends Component {
 		}
 	}
 	changeTollType = (value) => {
-		const { form: { setFieldsValue }, captureTollTypeSelect, } = this.props
-		const item = captureTollTypeSelect.filter(one => value == one.tollTypeName)[0]
+		const { form: { setFieldsValue }, } = this.props
+		const item = this.state.captureTollTypeSelect.filter(one => value == one.tollTypeName)[0]
 		setFieldsValue({
 			trinityKey: item.trinityKey
 		})
 	}
 	render() {
-		const { formLayoutModal, form, setShowModal, item, isEdit, trinityTollTypeVOS = [], captureTollTypeSelect = [] } = this.props
+		const { formLayoutModal, form, setShowModal, item, isEdit, trinityTollTypeVOS = [],
+			cooperationPlatformKey } = this.props
+		const { captureTollTypeSelect = [], } = this.state
 		const captureTollTypeSelected = trinityTollTypeVOS.map(one => one.tollTypeName)
 		//过滤已选ID
 		const captureTollType = captureTollTypeSelect.filter(one => !captureTollTypeSelected.includes(one.tollTypeName))
@@ -99,6 +108,13 @@ class QuotationEdit extends Component {
 				<Form.Item style={{ display: 'none' }}>
 					{getFieldDecorator('trinityKey', {
 						initialValue: item && item.trinityKey || captureTollTypeFirst.trinityKey,
+					})(
+						<Input />
+					)}
+				</Form.Item>
+				<Form.Item style={{ display: 'none' }}>
+					{getFieldDecorator('cooperationPlatformKey', {
+						initialValue: item && item.cooperationPlatformKey || cooperationPlatformKey
 					})(
 						<Input />
 					)}

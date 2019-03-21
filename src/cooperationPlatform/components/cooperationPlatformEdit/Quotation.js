@@ -54,7 +54,7 @@ class Quotation extends Component {
 			onClose,//关闭弹窗
 			noLast,//只没有操作列
 			platformId,//是微博
-			skuTypeList
+			cooperationPlatformKey
 		} = this.props
 		const { searchParams, selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
@@ -133,7 +133,7 @@ class Quotation extends Component {
 							editQuotation={editQuotation}
 							trinitySkuTypeVOS={trinitySkuTypeVOS}
 							platformId={platformId}
-							skuTypeList={skuTypeList} />
+							cooperationPlatformKey={cooperationPlatformKey} />
 					})} style={{ marginRight: 4 }}>修改</a>
 					{trinitySkuTypeStatus == 2 ?
 						<DeleteModal onDelete={() => searchParams.id > 0 ?

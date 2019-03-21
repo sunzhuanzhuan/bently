@@ -9,7 +9,7 @@ export const cooperationPlatformByPageList = handleActions({
 
 //平台下拉框
 export const platformSelect = handleActions({
-	[cooperationPlatformActions.getPlatform_success]: (state, action) => {
+	[cooperationPlatformActions.getExistTrinityPlatformList_success]: (state, action) => {
 		const arr = [...action.payload.data]
 		const map = arr.reduce((obj, product) => {
 			obj[product.id] = product

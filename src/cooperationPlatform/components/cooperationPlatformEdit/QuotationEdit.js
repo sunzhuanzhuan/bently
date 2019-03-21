@@ -7,11 +7,23 @@ class QuotationEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			captureTrinitySkuType: [],
+			skuTypeList: []
 		};
 	}
-	componentDidMount = () => {
-
+	componentDidMount = async () => {
+		const { actions: { getCaptureTrinitySkuType, getSkuTypeList, }, cooperationPlatformKey, platformId } = this.props
+		//平台修改后，sku下拉框改变
+		const sku = await getCaptureTrinitySkuType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
+		let skuType = {}
+		//如果微博平台则查询关联报价项
+		if (platformId == 1) {
+			skuType = await getSkuTypeList({ platformId: platformId, productLineId: 1 })
+		}
+		this.setState({
+			captureTrinitySkuType: sku.data,
+			skuTypeList: skuType.data
+		})
 	}
 	onAdd = (e) => {
 		e.preventDefault();
@@ -47,7 +59,7 @@ class QuotationEdit extends Component {
 	//选择时设置相关数据
 	changeTrinityType = (value) => {
 		const { form: { setFieldsValue } } = this.props
-		const item = this.props.captureTrinitySkuType.filter(one => value == one.trinityTypeName)[0]
+		const item = this.state.captureTrinitySkuType.filter(one => value == one.trinityTypeName)[0]
 		setFieldsValue({
 			trinityPlatformName: item.trinityPlatformName,
 			trinityKey: item.trinityKey
@@ -56,17 +68,18 @@ class QuotationEdit extends Component {
 	//选择时设置相关数据
 	skuTypeChange = (value) => {
 		const { form: { setFieldsValue } } = this.props
-		const item = this.props.skuTypeList.filter(one => value == one.skuTypeId)[0]
+		const item = this.state.skuTypeList.filter(one => value == one.skuTypeId)[0]
 		setFieldsValue({
 			skuTypeName: item.skuTypeName,
 		})
 	}
 	render() {
 		const { formLayoutModal, form, item, setShowModal,
-			platformId, trinitySkuTypeVOS = [], skuTypeList,
-			captureTrinitySkuType = [],
+			platformId, trinitySkuTypeVOS = [],
+			cooperationPlatformKey,
 			isEdit } = this.props
 		const { getFieldDecorator } = form
+		const { captureTrinitySkuType = [], skuTypeList = [] } = this.state
 		//已选的ID
 		const trinityKeyIsSelected = trinitySkuTypeVOS.map(one => one.trinityTypeName)
 		//过滤已选ID
@@ -104,8 +117,8 @@ class QuotationEdit extends Component {
 				</Form.Item>
 
 				<Form.Item style={{ display: 'none' }}>
-					{getFieldDecorator('trinityPlatformName', {
-						initialValue: item && item.trinityPlatformName || filterSkuTypeFirst.trinityPlatformName
+					{getFieldDecorator('cooperationPlatformKey', {
+						initialValue: item && item.cooperationPlatformKey || cooperationPlatformKey
 					})(
 						<Input />
 					)}

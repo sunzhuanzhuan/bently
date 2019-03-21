@@ -18,6 +18,7 @@ class ChargeType extends Component {
 			updateList,
 			deleteList,
 			noLast,//查看详情不显示操作列
+			cooperationPlatformKey
 		} = this.props
 		const id = qs.parse(window.location.search.substring(1)).id
 		const columns = [{
@@ -67,7 +68,8 @@ class ChargeType extends Component {
 							isEdit={true}
 							item={record}
 							actions={actions}
-							updateBaseInfoState={updateBaseInfoState} />
+							updateBaseInfoState={updateBaseInfoState}
+							cooperationPlatformKey={cooperationPlatformKey} />
 					})} style={{ marginRight: 4 }}>修改</a>
 					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'trinityTollTypeVOS')} /> : null}
 

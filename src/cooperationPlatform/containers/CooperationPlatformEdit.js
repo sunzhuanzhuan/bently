@@ -18,21 +18,20 @@ class CooperationPlatformEdit extends Component {
 			isLoading: false,
 		};
 	}
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		const { id } = this.state
 		const { actions } = this.props
 		this.props.form.resetFields()
 		//修改获取下拉框数据
 		if (id > 0) {
 			this.setState({ isLoading: true })
-			actions.getCooperationPlatformInfoById({ id: id }).then(({ data }) => {
-				this.setState({
-					cooperationPlatformInfoDetail: data,
-					isLoading: false
-				})
+			const { data } = await actions.getCooperationPlatformInfoById({ id: id })
+			this.setState({
+				cooperationPlatformInfoDetail: data,
+				isLoading: false
 			})
 		}
-		actions.getPlatform()
+		actions.getExistTrinityPlatformList()
 	}
 	//保存数据
 	onEditSave = (e) => {

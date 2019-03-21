@@ -17,9 +17,8 @@ class BaseInfo extends Component {
 			trinityTollTypeVOS: [],
 			IDCount: 1,
 			id: qs.parse(window.location.search.substring(1)).id,
-			skuTypeList: [],
-			captureTrinitySkuType: [],
-			captureTollTypeSelect: []
+			unUsedCPSelect: []
+
 		};
 	}
 	componentDidMount = () => {
@@ -91,37 +90,40 @@ class BaseInfo extends Component {
 	}
 	//平台重选后重新查询相应的报价项，消费类型，并清空原来的列表信息
 	platformChange = async (platformId) => {
-		//平台修改后，收费类型下拉框改变
-		const { actions: { getCaptureTollType, getCaptureTrinitySkuType, getSkuTypeList }, platformSelect } = this.props
-		//平台修改后，收费类型下拉框改变
-		getCaptureTollType({ platformId: platformId }).then(({ data }) => {
-			this.setState({
-				captureTollTypeSelect: data,
-			})
-		})
-		//平台修改后，sku下拉框改变
-		getCaptureTrinitySkuType({ platformId: platformId }).then(({ data }) => {
-			this.setState({
-				captureTrinitySkuType: data,
-			})
-		})
+
+		const { actions, form } = this.props
 		//收费类型和sku列表清空
 		this.setState({
 			trinitySkuTypeVOS: [],
 			trinityTollTypeVOS: [],
 		})
-		//如果微博平台则查询关联报价项
-		if (platformId == 1) {
-			getSkuTypeList({ platformId: platformId, productLineId: 1 }).then(({ data }) => {
-				this.setState({ skuTypeList: data })
-			})
-		}
+		//清空可下拉数据，清空微博自定义名称
+		form.resetFields(['cooperationPlatformName', 'cooperationPlatformKey'])
+		//获取未使用关联的抓取合作平台
+		const unCP = await actions.getUnusedCooperationPlatform({ platformId: platformId })
+		this.setState({
+			unUsedCPSelect: unCP.data,
+		})
 
+	}
+	changeCPkey = async (item, platformId) => {
+		const { form } = this.props
+		const { unUsedCPSelect } = this.state
+		//收费类型和sku列表清空
+		this.setState({
+			trinitySkuTypeVOS: [],
+			trinityTollTypeVOS: [],
+		})
+		//设置默认值
+		form.setFieldsValue({
+			cooperationPlatformName: unUsedCPSelect.filter(one => one.cooperationPlatformKey == item)[0].cooperationPlatformName
+		})
 	}
 	render() {
 		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail, cooperationPlatformReducer } = this.props
 		const { agentVo = {} } = cooperationPlatformInfoDetail
 		const { getFieldDecorator, getFieldValue } = form
+
 		const formLayoutTable = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
@@ -141,6 +143,7 @@ class BaseInfo extends Component {
 			updateBaseInfoState: this.updateBaseInfoState,
 			editQuotation: this.editQuotation,
 			platformId: getFieldValue("platformId"),
+			cooperationPlatformKey: getFieldValue("cooperationPlatformKey"),
 			cooperationPlatformReducer,
 			...this.state
 		}
@@ -158,11 +161,23 @@ class BaseInfo extends Component {
 					{getFieldDecorator('platformId', {
 						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId,
 						rules: [
-							{ required: true, message: '本项为必填项，请选择！' },
+							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
 						<Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange} disabled={id > 0}>
-							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.id} value={one.id} >{one.platformName}</Option>))}
+							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.platformName} value={one.id} >{one.platformName}</Option>))}
+						</Select>
+					)}
+				</Form.Item>
+				<Form.Item label="可选下单平台"{...formLayout} >
+					{getFieldDecorator('cooperationPlatformKey', {
+						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.cooperationPlatformKey,
+						rules: [
+							{ required: true, message: '本项为必选项，请选择！' },
+						],
+					})(
+						<Select placeholder="请选择" style={{ width: 200 }} onChange={(value) => this.changeCPkey(value, getFieldValue("platformId"))} disabled={id > 0}>
+							{this.state.unUsedCPSelect.map((one => <Option key={one.cooperationPlatformKey} value={one.cooperationPlatformKey} >{one.cooperationPlatformName}</Option>))}
 						</Select>
 					)}
 				</Form.Item>
@@ -196,6 +211,7 @@ class BaseInfo extends Component {
 					<a onClick={() => setShowModal(true, {
 						title: <div>新增报价项</div>,
 						content: <QuotationEdit
+							key={getFieldValue("cooperationPlatformKey")}
 							{...operateProps}
 						/>
 					})}>新增报价项</a>
@@ -218,7 +234,8 @@ class BaseInfo extends Component {
 					)}<a onClick={() => setShowModal(true,
 						{
 							title: <div>新增收费类型</div>,
-							content: <ChargeTypeEdit {...operateProps} platformId={getFieldValue('platformId')} />
+							content: <ChargeTypeEdit {...operateProps}
+								key={getFieldValue("cooperationPlatformKey")} />
 						})}>
 						新增收费类型</a>
 					<div style={{ marginLeft: -100 }}>
