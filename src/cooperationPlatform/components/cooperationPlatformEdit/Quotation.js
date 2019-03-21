@@ -9,13 +9,36 @@ class Quotation extends Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			idCo: qs.parse(window.location.search.substring(1)).id
+			searchParams: qs.parse(window.location.search.substring(1))
 		};
 	}
 
 	onSelectChange = (selectedRowKeys) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys);
 		this.setState({ selectedRowKeys });
+	}
+	setSkuTypeStatus = (id, isEnable) => {
+		this.props.editQuotation([{
+			id: id,
+			trinitySkuTypeStatus: isEnable ? 3 : 1//1启用，3停用
+		}], () => {
+			message.success(`提示：当前报价项已${isEnable ? '停用' : '启用'}，下单时该报价项${isEnable ? '不' : ''}可见！`)
+		})
+	}
+	stopSkuTypeStatus = async (id, isEnable) => {
+		const { actions: { getTrinitySkuTypeList } } = this.props
+		const { searchParams: { code, platformId, status } } = this.state
+		//如果平台启用则修改时校验报价项是否有启用
+		if (status == 1) {
+			const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: code, trinitySkuTypeStatus: 1, platformId: platformId });
+			if (data.length > 1) {
+				this.setSkuTypeStatus(id, isEnable)
+			} else {
+				message.error('请您至少启用一条报价项，以免影响正常下单')
+			}
+		} else {
+			this.setSkuTypeStatus(id, isEnable)
+		}
 	}
 	render() {
 		const {
@@ -33,7 +56,7 @@ class Quotation extends Component {
 			platformId,//是微博
 			skuTypeList
 		} = this.props
-		const { idCo, selectedRowKeys } = this.state
+		const { searchParams, selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -113,17 +136,16 @@ class Quotation extends Component {
 							skuTypeList={skuTypeList} />
 					})} style={{ marginRight: 4 }}>修改</a>
 					{trinitySkuTypeStatus == 2 ?
-						<DeleteModal onDelete={() => idCo > 0 ?
+						<DeleteModal onDelete={() => searchParams.id > 0 ?
 							editQuotation([{ id: id, isDeleted: 1 }]) :
 							deleteList(record.idAdd, 'trinitySkuTypeVOS')} /> : null}
-					{id > 0 ? <a style={{ marginLeft: 4 }} onClick={() => editQuotation([{
-						id: id,
-						trinitySkuTypeStatus: isEnable ? 3 : 1//1启用，3停用
-					}], () => {
-						message.success(`提示：当前报价项已${isEnable ? '停用' : '启用'}，下单时该报价项${isEnable ? '不' : ''}可见！`)
-					})}>
-						{isEnable ? '停用' : '启用'}
-					</a> : null}
+
+					{searchParams.id > 0 ?
+						isEnable ? <a style={{ marginLeft: 4 }} onClick={() => this.stopSkuTypeStatus(id, isEnable)}>
+							停用
+						</a> : <a style={{ marginLeft: 4 }} onClick={() => this.setSkuTypeStatus(id, isEnable)}>
+								启用
+						</a> : null}
 				</div>
 			}
 		}];
@@ -139,7 +161,7 @@ class Quotation extends Component {
 				<Table
 					dataSource={trinitySkuTypeVOS}
 					rowKey={record => record.id}
-					columns={idCo > 0 ? editColumns : addColumns}
+					columns={searchParams.id > 0 ? editColumns : addColumns}
 					pagination={false}
 					bordered={true}
 					{...tableProps} />
