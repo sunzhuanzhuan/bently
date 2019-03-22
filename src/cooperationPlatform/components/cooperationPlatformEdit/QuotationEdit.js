@@ -57,20 +57,17 @@ class QuotationEdit extends Component {
 		this.props.form.resetFields()
 	}
 	//选择时设置相关数据
-	changeTrinityType = (value) => {
+	changeTrinityType = (value, item) => {
 		const { form: { setFieldsValue } } = this.props
-		const item = this.state.captureTrinitySkuType.filter(one => value == one.trinityTypeName)[0]
 		setFieldsValue({
-			trinityPlatformName: item.trinityPlatformName,
-			trinityKey: item.trinityKey
+			trinityKey: item.key
 		})
 	}
 	//选择时设置相关数据
-	skuTypeChange = (value) => {
+	skuTypeChange = (value, item) => {
 		const { form: { setFieldsValue } } = this.props
-		const item = this.state.skuTypeList.filter(one => value == one.skuTypeId)[0]
 		setFieldsValue({
-			skuTypeName: item.skuTypeName,
+			skuTypeName: item.key,
 		})
 	}
 	render() {
@@ -107,7 +104,7 @@ class QuotationEdit extends Component {
 						<Select placeholder={isSkuType ? '请选择平台抓取报价项名称' : '无可用报价项！'} style={{ width: 314 }} onChange={this.changeTrinityType} disabled={isEdit}>
 							{captureTrinitySkuType.map(one => {
 								const { trinityTypeName } = one
-								return <Option key={trinityTypeName}
+								return <Option key={one.trinityKey}
 									value={trinityTypeName}
 									disabled={trinityKeyIsSelected.includes(trinityTypeName)}>
 									{trinityTypeName}</Option>
@@ -152,7 +149,7 @@ class QuotationEdit extends Component {
 							],
 						})(
 							<Select placeholder="请选择关联预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
-								{skuTypeList.map(one => <Option key={one.skuTypeId} value={one.skuTypeId}>{one.skuTypeName}</Option>)}
+								{skuTypeList.map(one => <Option key={one.skuTypeName} value={one.skuTypeId}>{one.skuTypeName}</Option>)}
 							</Select>
 						)}
 				</Form.Item > : null}

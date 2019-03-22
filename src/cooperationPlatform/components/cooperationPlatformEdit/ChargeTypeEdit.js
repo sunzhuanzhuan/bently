@@ -61,11 +61,10 @@ class QuotationEdit extends Component {
 			callback()
 		}
 	}
-	changeTollType = (value) => {
+	changeTollType = (value, item) => {
 		const { form: { setFieldsValue }, } = this.props
-		const item = this.state.captureTollTypeSelect.filter(one => value == one.tollTypeName)[0]
 		setFieldsValue({
-			trinityKey: item.trinityKey
+			trinityKey: item.key
 		})
 	}
 	render() {
@@ -99,7 +98,7 @@ class QuotationEdit extends Component {
 						<Select placeholder={isTollType ? "请选择平台收费类型名称" : '无可用收费类型！'} style={{ width: 314 }} onChange={this.changeTollType} disabled={isEdit}>
 							{captureTollTypeSelect.map(one => <Option
 								disabled={captureTollTypeSelected.includes(one.tollTypeName)}
-								key={one.tollTypeName}
+								key={one.trinityKey}
 								value={one.tollTypeName}
 							>{one.tollTypeName}</Option>)}
 						</Select>

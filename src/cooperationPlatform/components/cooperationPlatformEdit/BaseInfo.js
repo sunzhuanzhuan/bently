@@ -24,7 +24,6 @@ class BaseInfo extends Component {
 	componentDidMount = () => {
 		const { actions: { getTrinitySkuTypeList, getTrinityTollTypeList } } = this.props
 		const data = qs.parse(window.location.search.substring(1))
-
 		if (data.id > 0) {
 			//此处查询报价项列表
 			getTrinitySkuTypeList({ trinityPlatformCode: data.code, platformId: data.platformId }).then(({ data }) => {
@@ -40,7 +39,6 @@ class BaseInfo extends Component {
 					this.props.form.setFieldsValue(dataToll)
 				})
 			})
-			this.platformChange(data.platformId)
 		}
 	}
 	updateBaseInfoState = (data) => {
@@ -106,9 +104,8 @@ class BaseInfo extends Component {
 		})
 
 	}
-	changeCPkey = async (item, platformId) => {
+	changeCPkey = async (value, item) => {
 		const { form } = this.props
-		const { unUsedCPSelect } = this.state
 		//收费类型和sku列表清空
 		this.setState({
 			trinitySkuTypeVOS: [],
@@ -116,7 +113,7 @@ class BaseInfo extends Component {
 		})
 		//设置默认值
 		form.setFieldsValue({
-			cooperationPlatformName: unUsedCPSelect.filter(one => one.cooperationPlatformKey == item)[0].cooperationPlatformName
+			cooperationPlatformName: item.key
 		})
 	}
 	render() {
@@ -164,7 +161,7 @@ class BaseInfo extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						<Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange} disabled={id > 0}>
+						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange}>
 							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.platformName} value={one.id} >{one.platformName}</Option>))}
 						</Select>
 					)}
@@ -176,7 +173,7 @@ class BaseInfo extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						<Select placeholder="请选择" style={{ width: 200 }} onChange={(value) => this.changeCPkey(value, getFieldValue("platformId"))} disabled={id > 0}>
+						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.captureCooperationPlatformName}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.changeCPkey} >
 							{this.state.unUsedCPSelect.map((one => <Option key={one.cooperationPlatformKey} value={one.cooperationPlatformKey} >{one.cooperationPlatformName}</Option>))}
 						</Select>
 					)}

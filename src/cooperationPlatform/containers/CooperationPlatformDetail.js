@@ -34,13 +34,14 @@ class CooperationPlatformDetail extends Component {
 	}
 	render() {
 		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
-		const { settleType, isNeedScreenshot, cooperationPlatformName, platformName,
+		const { settleType, isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
 			returnInvoiceType, agentVo = {} } = cooperationPlatformInfoDetail
 		const { paymentCompanyName } = agentVo
 		const baseInfo = [
-			{ title: "所属媒体平台", content: cooperationPlatformName },
-			{ title: "下单平台名称", content: platformName },
-			{ title: "下单截图是否必填", content: isNeedScreenshot },
+			{ title: "所属媒体平台", content: platformName },
+			{ title: "下单平台", content: captureCooperationPlatformName },
+			{ title: "下单平台名称", content: cooperationPlatformName },
+			{ title: "下单截图是否必填", content: isNeedScreenshot == 1 ? '是' : '否' },
 			{ title: "付款公司", content: paymentCompanyName },
 		]
 		const payInfo = [
