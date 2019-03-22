@@ -61,10 +61,11 @@ class QuotationEdit extends Component {
 			callback()
 		}
 	}
-	changeTollType = (value, item) => {
+	changeTollType = (value, option) => {
+		const { trinityKey } = option.props
 		const { form: { setFieldsValue }, } = this.props
 		setFieldsValue({
-			trinityKey: item.key
+			trinityKey: trinityKey
 		})
 	}
 	render() {
@@ -99,6 +100,7 @@ class QuotationEdit extends Component {
 							{captureTollTypeSelect.map(one => <Option
 								disabled={captureTollTypeSelected.includes(one.tollTypeName)}
 								key={one.trinityKey}
+								trinityKey={one.trinityKey}
 								value={one.tollTypeName}
 							>{one.tollTypeName}</Option>)}
 						</Select>

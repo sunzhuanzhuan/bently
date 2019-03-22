@@ -102,7 +102,7 @@ class CooperationPlatformEdit extends Component {
 					<SettlementMethod {...commonProps} />
 					<PaymentMethod  {...commonProps} />
 					<div style={{ textAlign: "center", margin: '40px auto' }}>
-						<Button style={{ marginRight: 50 }}><DeleteModal typeText={'取消'} onDelete={this.jumpPage} /></Button>
+						<Button style={{ marginRight: 50 }}><DeleteModal typeText={'取消'} messageType='cancle' onDelete={this.jumpPage} /></Button>
 						<Button type="primary" onClick={this.onEditSave} >提交</Button>
 					</div>
 					<Modal

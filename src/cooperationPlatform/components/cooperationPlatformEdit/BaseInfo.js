@@ -104,8 +104,9 @@ class BaseInfo extends Component {
 		})
 
 	}
-	changeCPkey = async (value, item) => {
+	changeCPkey = async (value, option) => {
 		const { form } = this.props
+		const { cooperationPlatformName } = option.props
 		//收费类型和sku列表清空
 		this.setState({
 			trinitySkuTypeVOS: [],
@@ -113,7 +114,7 @@ class BaseInfo extends Component {
 		})
 		//设置默认值
 		form.setFieldsValue({
-			cooperationPlatformName: item.key
+			cooperationPlatformName: cooperationPlatformName
 		})
 	}
 	render() {
@@ -174,11 +175,14 @@ class BaseInfo extends Component {
 						],
 					})(
 						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.captureCooperationPlatformName}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.changeCPkey} >
-							{this.state.unUsedCPSelect.map((one => <Option key={one.cooperationPlatformKey} value={one.cooperationPlatformKey} >{one.cooperationPlatformName}</Option>))}
+							{this.state.unUsedCPSelect.map((one => <Option
+								key={one.cooperationPlatformKey}
+								cooperationPlatformName={one.cooperationPlatformName}
+								value={one.cooperationPlatformKey} >{one.cooperationPlatformName}</Option>))}
 						</Select>
 					)}
 				</Form.Item>
-				<Form.Item label="下单平台名称"  {...formLayout}>
+				<Form.Item label="微播易展示下单平台名称"  {...formLayout}>
 					{getFieldDecorator('cooperationPlatformName', {
 						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.cooperationPlatformName,
 						validateFirst: true,
