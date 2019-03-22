@@ -161,7 +161,7 @@ class BaseInfo extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange}>
+						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange}>
 							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.platformName} value={one.id} >{one.platformName}</Option>))}
 						</Select>
 					)}
