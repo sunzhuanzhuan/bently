@@ -15,8 +15,10 @@ import AccountInfos, {
 	Avatar,
 	AvatarType,
 	Secondary,
-	ImgType,
-	StatusAB
+	StatusAB,
+	PlatformVerified,
+	WeiboVip,
+	LevalImg
 } from "@/queryExportTool/components/common/AccountInfos";
 import QRCode from "@/queryExportTool/components/common/AccountInfos/QRCode";
 import MediaInfo from "@/queryExportTool/components/common/MediaInfo";
@@ -105,14 +107,23 @@ export default class MainItem extends PureComponent {
 							</div>
 						</div>
 						<AccountInfos>
-							<div onClick={() => { this.track('vievAccountDetailEvent'); this.props.setModalContent(<AccountDetails account_id={account_id} />) }}>
+							<div className='one-line-box-name-level' onClick={() => { this.track('vievAccountDetailEvent'); this.props.setModalContent(<AccountDetails account_id={account_id} />) }}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={sns_name} trigger="hover"  >
-									<span className="sns_name_title">{sns_name}</span>
+									<div className="sns_name_title">{sns_name}</div>
 								</Popover>
 								{/* 此处是账号平台认证图标、等级图标、蓝黄V图标 */}
-								<ImgType verified_status={verified_status} level={level} platform_id={platform_id} is_verified={is_verified} Is_Red={Is_Red} Is_Vidro={Is_Vidro} />
-
+								<div>
+									<PlatformVerified verified_status={verified_status} platform_id={platform_id} />
+								</div>
+								<div>
+									<WeiboVip verified_status={verified_status} platform_id={platform_id} />
+								</div>
+								{Is_Red || Is_Vidro ? <LevalImg leval={level} platform_id={platform_id} /> : null}
+							</div>
+							<div>
+								{/* 需要在 【视频/直播】、【小红书】、【其他平台】增加 账号ID的展示 */}
+								{sns_id ? Is_Red || Is_Vidro || Is_Other ? `ID：${sns_id}` : null : null}
 							</div>
 							{/* 性别|地域|年龄 */}
 							<Secondary genderName={genderName} area_name={area_name} age_group={age_group} />
