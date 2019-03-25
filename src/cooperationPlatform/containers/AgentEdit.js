@@ -87,7 +87,7 @@ class AgentEdit extends Component {
 	}
 
 	render() {
-		const { form, agentId } = this.props
+		const { form, agentId, actions, cooperationPlatformReducer } = this.props
 		const { agentByIdDetail } = this.state
 		const { getFieldDecorator } = form
 		const formLayout = {
@@ -97,7 +97,9 @@ class AgentEdit extends Component {
 		const commonProps = {
 			form,
 			formLayout,
-			dataDefault: agentByIdDetail
+			dataDefault: agentByIdDetail,
+			actions,
+			cooperationPlatformReducer
 		}
 		return (
 			<Spin spinning={this.state.isLoading}>

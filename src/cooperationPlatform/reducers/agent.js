@@ -7,4 +7,9 @@ export const agentByPageList = handleActions({
 		return { ...action.payload.data }
 	}
 }, {})
-
+//开户行下拉框
+export const paymentTypeList = handleActions({
+	[cooperationPlatformActions.getPaymentTypeList_success]: (state, action) => {
+		return [...action.payload.data]
+	}
+}, [])

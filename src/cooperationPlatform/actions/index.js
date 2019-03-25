@@ -60,3 +60,8 @@ export const {
 	getUnusedCooperationPlatform,
 	getUnusedCooperationPlatform_success
 } = createHttpAction('getUnusedCooperationPlatform', Interface.getUnusedCooperationPlatform)
+//开户行-下拉框
+export const {
+	getPaymentTypeList,
+	getPaymentTypeList_success
+} = createHttpAction('getPaymentTypeList', Interface.getPaymentTypeList)

@@ -8,6 +8,9 @@ class PaymentMethod extends Component {
 		super(props);
 		this.state = {};
 	}
+	componentDidMount = () => {
+		this.props.actions.getPaymentTypeList()
+	}
 	accountVali = (rule, value, callback) => {
 		const reg = /^[0-9]+$/;
 		if (reg.test(value)) {
@@ -39,7 +42,7 @@ class PaymentMethod extends Component {
 		}
 	}
 	render() {
-		const { form, formLayout, dataDefault } = this.props
+		const { form, formLayout, dataDefault, cooperationPlatformReducer: { paymentTypeList } } = this.props
 		const { getFieldDecorator, getFieldValue } = form
 		return (
 			<div>
@@ -77,10 +80,7 @@ class PaymentMethod extends Component {
 							],
 						})(
 							<Select placeholder="请选择" style={{ width: 200 }}>
-								<Option value="中国招商银行">中国招商银行</Option>
-								<Option value="中国建设银行">中国建设银行</Option>
-								<Option value="中国农业银行">中国农业银行</Option>
-
+								{paymentTypeList && paymentTypeList.map(one => <Option key={one.payment_type_id} value={one.name}>{one.name}</Option>)}
 							</Select>
 						)}
 					</Form.Item>
