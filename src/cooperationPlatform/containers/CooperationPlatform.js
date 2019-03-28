@@ -30,11 +30,12 @@ class CooperationPlatform extends Component {
 			isLoading: true
 		})
 		const { actions: { getCooperationPlatformByPage } } = this.props
-		getCooperationPlatformByPage({ ...oldParams, ...params }).then(() => {
+		getCooperationPlatformByPage({ ...oldParams, ...params }).then(({ data }) => {
 			this.setState({
 				isLoading: false,
 				oldParams: params
 			})
+			if (data.total) message.warning('没有符合条件的记录！')
 		})
 	}
 	hideModal = () => {
