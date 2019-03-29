@@ -12,11 +12,13 @@ class QuotationEdit extends Component {
 	}
 	componentDidMount = async () => {
 		const { actions: { getCaptureTollType }, cooperationPlatformKey, platformId } = this.props
-		//平台修改后，收费类型下拉框改变
-		const toll = await getCaptureTollType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
-		this.setState({
-			captureTollTypeSelect: toll.data,
-		})
+		if (platformId) {
+			//平台修改后，收费类型下拉框改变
+			const toll = await getCaptureTollType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
+			this.setState({
+				captureTollTypeSelect: toll.data,
+			})
+		}
 	}
 	onEdit = (e) => {
 		e.preventDefault();
@@ -129,7 +131,7 @@ class QuotationEdit extends Component {
 							{ validator: this.vailPrice },
 						],
 					})(
-						<Input placeholder="请输入正数" style={{ width: '80%' }} />
+						<Input placeholder="请输入正数" style={{ width: '94%' }} />
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>

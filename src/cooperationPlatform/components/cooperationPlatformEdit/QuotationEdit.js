@@ -13,17 +13,20 @@ class QuotationEdit extends Component {
 	}
 	componentDidMount = async () => {
 		const { actions: { getCaptureTrinitySkuType, getSkuTypeList, }, cooperationPlatformKey, platformId } = this.props
-		//平台修改后，sku下拉框改变
-		const sku = await getCaptureTrinitySkuType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
-		let skuType = {}
-		//如果微博平台则查询关联报价项
-		if (platformId == 1) {
-			skuType = await getSkuTypeList({ platformId: platformId, productLineId: 1 })
+		if (platformId) {
+			//平台修改后，sku下拉框改变
+			const sku = await getCaptureTrinitySkuType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
+			let skuType = {}
+			//如果微博平台则查询关联报价项
+			if (platformId == 1) {
+				skuType = await getSkuTypeList({ platformId: platformId, productLineId: 1 })
+			}
+			this.setState({
+				captureTrinitySkuType: sku.data,
+				skuTypeList: skuType.data
+			})
 		}
-		this.setState({
-			captureTrinitySkuType: sku.data,
-			skuTypeList: skuType.data
-		})
+
 	}
 	onAdd = (e) => {
 		e.preventDefault();
