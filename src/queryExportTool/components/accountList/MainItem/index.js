@@ -135,7 +135,7 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 根据平台不同展示不同的标签 */}
 								{original_type_display.map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}
-								{is_prevent_shielding == 1 && Is_Weibo ? <CTag color='green'>防屏蔽</CTag> : null}
+								{!IS_WEiXin && is_prevent_shielding == 1 ? <CTag color='green'>防屏蔽</CTag> : null}
 								{is_support_topic_and_link == 1 && Is_Weibo ? <CTag color='green'>可带@/话题/链接</CTag> : null}
 								{can_origin == 1 ? <CTag color='green'>原创</CTag> : null}
 							</div>
