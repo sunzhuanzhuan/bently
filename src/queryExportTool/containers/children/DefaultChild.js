@@ -102,6 +102,10 @@ class DefaultChild extends Component {
 			})
 		});
 	}
+
+	isdBackUp = (isdBackUp) => {
+		document.getElementById('app-content-children-id').scrollTop = 0
+	}
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;
@@ -140,13 +144,15 @@ class DefaultChild extends Component {
 							removeCartAccount={removeCartAccount}
 							countNum={countNum}
 							isShowNoFind={true}
+							isdBackUp={this.isdBackUp}
 						/> : <AccountTableSelect
 							actions={actions}
 							accountList={accountList}
 							serachAction={this.serachAction}
 							header={header}
 							countNum={countNum}
-							isShowNoFind={true} />}
+							isShowNoFind={true}
+							isdBackUp={this.isdBackUp} />}
 				</div>
 			</Spin>
 		</div >

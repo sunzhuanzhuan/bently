@@ -135,6 +135,7 @@ export default {
 		'118': '',
 		'119': '',
 		'120': '',
+		'998': 'auth_index_icon2x.png',
 		'999': 'v_sina_2x.png',
 		'1000': 'v_weibo_2x.png',
 		'555': 'daren_sina_2x.png'

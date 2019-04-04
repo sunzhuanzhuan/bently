@@ -30,7 +30,7 @@ export const verificationTypeOptions = [
 	},
 	{
 		"name": "金V",
-		"value": "1"
+		"value": "6"
 	}, {
 		"name": "黄V",
 		"value": "2"

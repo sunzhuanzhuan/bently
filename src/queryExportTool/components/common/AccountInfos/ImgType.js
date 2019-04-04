@@ -15,10 +15,13 @@ export const WeiboVip = ({ verified_status = 0, platform_id = 0 }) => {
 	if (verified_status == 3) {
 		imgUrl = platform.platformTypeImg['999']
 	}
+	if (verified_status == 6) {
+		imgUrl = platform.platformTypeImg['998']
+	}
 	if (verified_status == 4) {
 		imgUrl = platform.platformTypeImg['555']
 	}
-	return imgUrl && platform_id == 1 ? <img src={require(`./img/${imgUrl}`)} width="14" style={{ marginLeft: 2, marginBottom: 2 }} /> : null
+	return imgUrl && platform_id == 1 ? <img src={require(`./img/${imgUrl}`)} width="14" style={{ marginLeft: 2, marginTop: 4 }} /> : null
 }
 export const LevalImg = ({ leval = 0, platform_id = 0 }) => {
 	return leval > 0 ? <span className="leval-text-box">等级{leval}</span> : null
