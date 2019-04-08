@@ -283,6 +283,10 @@ const GetQcHistory = (props) => {
 				<td>{content.complaint_rejection_refused.charge_ratio + "%"}</td>
 			</tr>
 			<tr>
+				<td>扣款金额:</td>
+				<td>{((content.complaint_rejection_refused.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
+			</tr>
+			<tr>
 				<td>质检时间:</td>
 				<td>{content.complaint_rejection_refused.created_at}</td>
 			</tr>
@@ -800,6 +804,10 @@ const GetQcHistory = (props) => {
 				<td>{content.inspector_manager_qc_unqualified.charge_ratio + "%"}</td>
 			</tr>
 			<tr>
+				<td>扣款金额:</td>
+				<td>{((content.inspector_manager_qc_unqualified.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
+			</tr>
+			<tr>
 				<td>质检时间:</td>
 				<td>{content.entry_at}</td>
 			</tr>
@@ -816,6 +824,10 @@ const GetQcHistory = (props) => {
 			<tr>
 				<td>扣款比例:</td>
 				<td>{content.final_qc_expired.charge_ratio + "%"}</td>
+			</tr>
+			<tr>
+				<td>扣款金额:</td>
+				<td>{((content.final_qc_expired.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
 			</tr>
 			<tr>
 				<td>质检时间:</td>
@@ -930,6 +942,10 @@ const GetQcHistory = (props) => {
 			<tr>
 				<td>扣款比例:</td>
 				<td>{content.second_qc_expired_unqualified.charge_ratio + "%"}</td>
+			</tr>
+			<tr>
+				<td>扣款金额:</td>
+				<td>{((content.second_qc_expired_unqualified.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
 			</tr>
 			<tr>
 				<td>质检时间:</td>
