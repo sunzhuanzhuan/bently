@@ -35,7 +35,7 @@ class CooperationPlatform extends Component {
 				isLoading: false,
 				oldParams: params
 			})
-			if (data.total) message.warning('没有符合条件的记录！')
+			if (!data.total) message.warning('没有符合条件的记录！')
 		})
 	}
 	hideModal = () => {
