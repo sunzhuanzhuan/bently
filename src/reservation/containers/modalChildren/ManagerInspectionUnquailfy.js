@@ -320,7 +320,11 @@ class ManagerInspectionUnquailfy extends Component {
 								)}
 							</FormItem> :
 							<FormItem label="扣款比例" {...formItemLayout}>
-								<span>0%</span>
+								{getFieldDecorator("charge_ratio", {
+									initialValue: '0'
+								})(
+									<span>0%</span>
+								)}
 							</FormItem>
 					}
 					<FormItem label="扣款金额" {...formItemLayout}>

@@ -21,7 +21,8 @@ class RefuseRejection extends Component {
 			previewVisible: false,
 			previewImage: '',
 			btnloading: false,
-			reasonsRequire: false
+			reasonsRequire: false,
+			costAmount: 0
 		}
 	}
 	componentWillMount() {
@@ -176,8 +177,24 @@ class RefuseRejection extends Component {
 			}
 		})
 	}
+	//改变扣款比例
+	changeCostRatio = (e) => {
+		const reg = /^(100(\.0{1,2})?|([1-9]\d|\d)(\.\d{1,2})?)$/
+		let ratio = e.target.value
+		let costAmountTotal = this.props.modifyComplainData.cost_amount
+		if (reg.test(ratio)) {
+			this.setState({
+				costAmount: (costAmountTotal * (e.target.value / 100)).toFixed("2")
+			})
+		} else {
+			this.setState({
+				costAmount: '扣款比例输入不符合验证规则'
+			})
+		}
+	}
 	render() {
 		const { record, modifyComplainData, form, formItemLayout } = this.props;
+		console.log(modifyComplainData)
 		const { getFieldDecorator } = form;
 		return (
 			<Spin spinning={this.state.loading} >
@@ -251,19 +268,40 @@ class RefuseRejection extends Component {
 							</Modal>
 						</FormItem>
 					}
-					<FormItem label="扣款比例" {...formItemLayout}>
-						{getFieldDecorator("charge_ratio", {
-							rules: [{
-								required: true, message: '请输入扣款比例'
-							}, {
-								pattern: /^(100(\.0{1,2})?|([1-9]\d|\d)(\.\d{1,2})?)$/,
-								message: '扣款比例应该限制在0~100之间'
-							}]
-						})(
-							<label className='chargeRatioBoxContianer'>
-								<Input />
-							</label>
-						)}
+					<FormItem label="提示" {...formItemLayout}>
+						<span>本订单可质检的金额为：
+							{Object.keys(modifyComplainData).length != 0 ?
+								modifyComplainData.cost_amount : "-"
+							}
+						</span>
+					</FormItem>
+					{
+						Object.keys(modifyComplainData).length != 0 &&
+							modifyComplainData.cost_amount != 0 ?
+							<FormItem label="扣款比例" {...formItemLayout}>
+								{getFieldDecorator("charge_ratio", {
+									rules: [{
+										required: true, message: '请输入扣款比例'
+									}, {
+										pattern: /^(100(\.0{1,2})?|([1-9]\d|\d)(\.\d{1,2})?)$/,
+										message: '扣款比例应该限制在0~100之间'
+									}]
+								})(
+									<label className='chargeRatioBoxContianer'>
+										<Input onChange={this.changeCostRatio} />
+									</label>
+								)}
+							</FormItem> :
+							<FormItem label="扣款比例" {...formItemLayout}>
+								{getFieldDecorator("charge_ratio", {
+									initialValue: '0'
+								})(
+									<span>0%</span>
+								)}
+							</FormItem>
+					}
+					<FormItem label="扣款金额" {...formItemLayout}>
+						<span>{this.state.costAmount}</span>
 					</FormItem>
 					<div className="btnCenter">
 						<Button className="btn" type="primary" htmlType="submit"
