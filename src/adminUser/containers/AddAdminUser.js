@@ -291,6 +291,7 @@ class AddAdminUser extends Component {
 					onOk={this.handleOk}
 					maskClosable={false}
 					width='700px'
+					destroyOnClose={true}
 				>
 					{isEditAciton ? <FormItem label="用户ID" style={{ display: 'none' }}>
 						{getFieldDecorator('user_id', {
