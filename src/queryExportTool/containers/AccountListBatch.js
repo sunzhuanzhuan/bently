@@ -188,6 +188,9 @@ class AccountListBatch extends Component {
 			})
 		})
 	}
+	isdBackUp = () => {
+		document.getElementById('app-content-children-id').scrollTop = 0
+	}
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { showTypeList, visible, loading, showList, searchValue, showModalType, buttonLoaing, exactQueryData = {} } = this.state
@@ -211,6 +214,7 @@ class AccountListBatch extends Component {
 					{searchValue.query_type == 1 ?
 						<Spin spinning={loading} >
 							<AccountTableSelect
+								isdBackUp={this.isdBackUp}
 								accountList={batchSearchList}
 								header={header}
 								actions={actions}

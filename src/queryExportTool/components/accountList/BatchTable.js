@@ -32,6 +32,7 @@ class BatchTable extends Component {
 			visible: true
 		})
 	}
+
 	render() {
 		const { visible, modalContent } = this.state
 		const { accountList = {}, type = 1, actions, arrSelectExactQuery } = this.props
@@ -141,6 +142,7 @@ class BatchTable extends Component {
 				{type == 1 ?
 					<div className="account-table-wxy ">
 						<AccountTableSelect
+
 							accountList={accountList}
 							actions={actions}
 							IsExactQuery={true}
