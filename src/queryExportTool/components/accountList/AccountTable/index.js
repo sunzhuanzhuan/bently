@@ -46,6 +46,8 @@ class AccountTable extends Component {
 	}
 
 	onChangePageSize = (pagination, pageSize) => {
+		const { isdBackUp } = this.props
+		isdBackUp && isdBackUp()
 		const param = { page: pagination, page_size: pageSize }
 		this.setState({
 			pageSize: pageSize,
@@ -53,11 +55,14 @@ class AccountTable extends Component {
 		this.searchList(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
+		const { isdBackUp } = this.props
+		isdBackUp && isdBackUp()
 		const param = { page: pagination, page_size: pageSize }
 		this.setState({
 			pageSize: pageSize,
 		})
 		this.searchList(param)
+
 	}
 	searchList = (values) => {
 
