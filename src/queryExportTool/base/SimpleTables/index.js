@@ -6,11 +6,17 @@ import ValueStyle from "@/queryExportTool/base/ValueFormat/ValueStyle";
 import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
 import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg } from "./unit";
+const Shielding = ({ isShielding }) => {
+	return <MarkMessage {...messageInfo['isShielding']} text={<span className='shielding-box'>
+		防
+</span>} />
+
+}
 export default class SimpleTables extends Component {
 	componentWillMount() { }
 
 	render() {
-		const { data = [], columsNum = ['fabu'], Is_wei, dataTime, tableFooterText, isLeft } = this.props
+		const { data = [], columsNum = ['fabu'], Is_wei, dataTime, tableFooterText, isLeft, isShielding } = this.props
 		const config = {
 			pagination: false,
 			size: "middle",
@@ -78,24 +84,29 @@ export default class SimpleTables extends Component {
 				align: 'center',
 				width: "50%",
 			}, {
-				title: '价格',
+				title: <span>价格	{isShielding ? <Shielding /> : null}</span>,
 				dataIndex: 'price_1',
 				key: 'price_1',
 				align: 'center',
 				width: "50%",
 				render: (text, record) => {
-					return <span><ValueStyle value={Is_wei ? numeral(record.price_1).format('0,0') : getQuoteNumber(record.price_1)} type="1" product_on_shelf_status={record.product_on_shelf_status} unit="元" /></span>
+					return <span>
+						<ValueStyle value={Is_wei ? numeral(record.price_1).format('0,0') :
+							getQuoteNumber(record.price_1)} type="1" product_on_shelf_status={record.product_on_shelf_status}
+							unit="元" />
+
+					</span>
 				}
 			}],
 			//包含报价和价格，价格有平均数据列（视频）
 			'baojiatwo': [{
-				title: <span>报价/播放单价</span>,
+				title: <span>报价/播放单价<MarkMessage {...messageInfo['zhuanfa']} /></span>,
 				dataIndex: 'sku_type_name',
 				key: "sku_type_name",
 				align: 'center',
 				width: "60%",
 			}, {
-				title: <span>价格<MarkMessage {...messageInfo['zhuanfa']} /></span>,
+				title: <span>价格{isShielding ? <Shielding /> : null}</span>,
 				dataIndex: 'price_1',
 				key: 'price_1',
 				align: 'center',
