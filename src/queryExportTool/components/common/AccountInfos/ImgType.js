@@ -7,7 +7,7 @@ export const PlatformVerified = ({ verified_status = 0, platform_id = 0 }) => {
 	let imgUrl = platform.platformTypeImg[platformId]
 	return imgUrl && platform_id != 1 && verified_status && verified_status != 1 ? <img src={require(`./img/${imgUrl}`)} width="13" style={{ marginLeft: 5, marginBottom: 2 }} /> : null
 }
-export const WeiboVip = ({ verified_status = 0, platform_id = 0 }) => {
+export const WeiboVip = ({ verified_status = 0, platform_id = 0, marginTop = 4 }) => {
 	let imgUrl = ""
 	if (verified_status == 2) {
 		imgUrl = platform.platformTypeImg['1000']
@@ -21,7 +21,7 @@ export const WeiboVip = ({ verified_status = 0, platform_id = 0 }) => {
 	if (verified_status == 4) {
 		imgUrl = platform.platformTypeImg['555']
 	}
-	return imgUrl && platform_id == 1 ? <img src={require(`./img/${imgUrl}`)} width="14" style={{ marginLeft: 2, marginTop: 4 }} /> : null
+	return imgUrl && platform_id == 1 ? <img src={require(`./img/${imgUrl}`)} width="14" style={{ marginLeft: 2, marginTop: marginTop }} /> : null
 }
 export const LevalImg = ({ leval = 0, platform_id = 0 }) => {
 	return leval > 0 ? <span className="leval-text-box">等级{leval}</span> : null

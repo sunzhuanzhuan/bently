@@ -36,7 +36,7 @@ class Heard extends Component {
 							</Col>
 							<Col span={22}>
 								<div style={{ float: "left", marginRight: 10 }} >{sns_name}
-									<WeiboVip platform_id={platform_id} verified_status={verified_status} />
+									<WeiboVip platform_id={platform_id} verified_status={verified_status} marginTop={0} />
 									<PlatformVerified is_verified={is_verified} platform_id={platform_id} />
 								</div>
 								<div style={{ marginTop: -4 }}>
