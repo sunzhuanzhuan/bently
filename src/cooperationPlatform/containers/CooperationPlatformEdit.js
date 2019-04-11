@@ -75,7 +75,7 @@ class CooperationPlatformEdit extends Component {
 	}
 	render() {
 		const { form, cooperationPlatformReducer, actions } = this.props
-		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, } = this.state
+		const { showModal, visable, cooperationPlatformInfoDetail, isLoading, id } = this.state
 		const formLayout = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
@@ -94,6 +94,7 @@ class CooperationPlatformEdit extends Component {
 
 		return (
 			<Spin spinning={isLoading && Object.keys(cooperationPlatformInfoDetail).length > 0}>
+				<h2>{`${id > 0 ? '修改' : '新增'}合作平台`}</h2>
 				<Form layout="horizontal">
 					<DividingBox text="平台基本信息" />
 					<BaseInfo {...commonProps} />
