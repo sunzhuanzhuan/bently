@@ -84,11 +84,11 @@ class QuotationEdit extends Component {
 		const { getFieldDecorator } = form
 		return (
 			<Form layout="horizontal">
-				<Form.Item style={{ display: 'none' }}>
+				<Form.Item label="收费类型ID" style={{ display: item && item.id ? 'bolock' : 'none' }} {...formLayoutModal}>
 					{getFieldDecorator('id', {
 						initialValue: item && item.id
 					})(
-						<Input />
+						<span>{item && item.tollTypeCode}</span>
 					)}
 				</Form.Item>
 				<Form.Item label="平台收费类型名称" {...formLayoutModal}>

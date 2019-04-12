@@ -99,9 +99,14 @@ class CooperationPlatformEdit extends Component {
 					<DividingBox text="平台基本信息" />
 					<BaseInfo {...commonProps} />
 					<DividingBox text="平台合作信息" />
-					<CooperationMethod {...commonProps} />
+					<div style={{ width: '60%', marginLeft: '6.6%' }}>
+						<CooperationMethod {...commonProps} />
+					</div>
 					<SettlementMethod {...commonProps} />
-					<PaymentMethod  {...commonProps} />
+					<div style={{ width: '60%', marginLeft: '6.6%' }}>
+						<PaymentMethod  {...commonProps} />
+					</div>
+
 					<div style={{ textAlign: "center", margin: '40px auto' }}>
 						<Button style={{ marginRight: 50 }}><DeleteModal typeText={'取消'} messageType='cancle' onDelete={this.jumpPage} /></Button>
 						<Button type="primary" onClick={this.onEditSave} >提交</Button>

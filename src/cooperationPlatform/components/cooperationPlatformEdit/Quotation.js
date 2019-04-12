@@ -54,7 +54,8 @@ class Quotation extends Component {
 			onClose,//关闭弹窗
 			noLast,//只没有操作列
 			platformId,//是微博
-			cooperationPlatformKey
+			cooperationPlatformKey,
+			titleModal
 		} = this.props
 		const { searchParams, selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
@@ -121,7 +122,7 @@ class Quotation extends Component {
 				const isEnable = trinitySkuTypeStatus == 1
 				return <div>
 					<a onClick={() => setShowModal(true, {
-						title: <div>修改报价项</div>,
+						title: <div>修改报价项{titleModal}</div>,
 						content: <QuotationEdit
 							formLayoutModal={formLayoutModal}
 							setShowModal={setShowModal}

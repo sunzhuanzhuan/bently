@@ -18,7 +18,8 @@ class ChargeType extends Component {
 			updateList,
 			deleteList,
 			noLast,//查看详情不显示操作列
-			cooperationPlatformKey
+			cooperationPlatformKey,
+			titleModal
 		} = this.props
 		const id = qs.parse(window.location.search.substring(1)).id
 		const columns = [{
@@ -59,7 +60,7 @@ class ChargeType extends Component {
 			render: (text, record, index) => {
 				return <div>
 					<a onClick={() => setShowModal(true, {
-						title: <div>修改报价项</div>,
+						title: <div>修改报价项{titleModal}</div>,
 						content: <ChargeTypeEdit
 							formLayoutModal={formLayoutModal}
 							setShowModal={setShowModal}

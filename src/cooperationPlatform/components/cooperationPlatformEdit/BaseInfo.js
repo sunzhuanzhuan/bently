@@ -17,14 +17,18 @@ class BaseInfo extends Component {
 			trinityTollTypeVOS: [],
 			IDCount: 1,
 			id: qs.parse(window.location.search.substring(1)).id,
-			unUsedCPSelect: []
-
+			unUsedCPSelect: [],
+			platformName: '',
+			cooperationPlatformName: ''
 		};
 	}
 	componentDidMount = () => {
 		const { actions: { getTrinitySkuTypeList, getTrinityTollTypeList } } = this.props
 		const data = qs.parse(window.location.search.substring(1))
 		if (data.id > 0) {
+			this.setState({
+				platformName: data.platformName,
+			})
 			//此处查询报价项列表
 			getTrinitySkuTypeList({ trinityPlatformCode: data.code, platformId: data.platformId }).then(({ data }) => {
 				const dataSku = { trinitySkuTypeVOS: data }
@@ -87,13 +91,15 @@ class BaseInfo extends Component {
 		})
 	}
 	//平台重选后重新查询相应的报价项，消费类型，并清空原来的列表信息
-	platformChange = async (platformId) => {
-
+	platformChange = async (platformId, option) => {
 		const { actions, form } = this.props
+		const { platformName } = option.props
+		console.log(platformName, 'platformName^^^^');
 		//收费类型和sku列表清空
 		this.setState({
 			trinitySkuTypeVOS: [],
 			trinityTollTypeVOS: [],
+			platformName: platformName
 		})
 		//清空可下拉数据，清空微博自定义名称
 		form.resetFields(['cooperationPlatformName', 'cooperationPlatformKey'])
@@ -111,6 +117,7 @@ class BaseInfo extends Component {
 		this.setState({
 			trinitySkuTypeVOS: [],
 			trinityTollTypeVOS: [],
+			cooperationPlatformName: cooperationPlatformName
 		})
 		//设置默认值
 		form.setFieldsValue({
@@ -130,7 +137,8 @@ class BaseInfo extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 16 },
 		}
-		const { id } = this.state
+		const { id, platformName, cooperationPlatformName } = this.state
+		const titleModal = <span style={{ paddingLeft: 16 }}>【平台：{platformName}<span style={{ paddingLeft: 6 }}>下单平台：{cooperationPlatformName || cooperationPlatformInfoDetail.captureCooperationPlatformName}】</span></span>
 		const operateProps = {
 			actions,
 			addList: this.addList,
@@ -143,9 +151,9 @@ class BaseInfo extends Component {
 			platformId: getFieldValue("platformId"),
 			cooperationPlatformKey: getFieldValue("cooperationPlatformKey"),
 			cooperationPlatformReducer,
-			...this.state
+			...this.state,
+			titleModal
 		}
-
 		return (
 			<div style={{ margin: "20px 0px" }}>
 				<Form.Item style={{ display: 'none' }}>
@@ -162,8 +170,9 @@ class BaseInfo extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.platformChange}>
-							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.platformName} value={one.id} >{one.platformName}</Option>))}
+						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName}</span> : <Select placeholder="请选择" style={{ width: 250 }} onChange={this.platformChange}>
+							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.platformName}
+								platformName={one.platformName} value={one.id} >{one.platformName}</Option>))}
 						</Select>
 					)}
 				</Form.Item>
@@ -174,7 +183,7 @@ class BaseInfo extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.captureCooperationPlatformName}</span> : <Select placeholder="请选择" style={{ width: 200 }} onChange={this.changeCPkey} >
+						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.captureCooperationPlatformName}</span> : <Select placeholder="请选择" style={{ width: 250 }} onChange={this.changeCPkey} >
 							{this.state.unUsedCPSelect.map((one => <Option
 								key={one.cooperationPlatformKey}
 								cooperationPlatformName={one.cooperationPlatformName}
@@ -191,7 +200,7 @@ class BaseInfo extends Component {
 							{ max: 15, message: "最多可输入15个字！" }
 						],
 					})(
-						<Input placeholder="最多可输入15个字！" />
+						<Input placeholder="最多可输入15个字！" style={{ width: 250 }} />
 					)}
 				</Form.Item>
 				<Form.Item label="下单截图是否必填"{...formLayout}>
@@ -210,7 +219,7 @@ class BaseInfo extends Component {
 				<PaymentCompany form={form} formLayout={formLayout} dataDefault={agentVo} />
 				<Form.Item label="平台报价项" {...formLayoutTable}>
 					<a onClick={() => setShowModal(true, {
-						title: <div>新增报价项</div>,
+						title: <div>新增报价项{titleModal}</div>,
 						content: <QuotationEdit
 							key={getFieldValue("cooperationPlatformKey")}
 							{...operateProps}
@@ -234,7 +243,7 @@ class BaseInfo extends Component {
 						<Input style={{ display: "none" }} />
 					)}<a onClick={() => setShowModal(true,
 						{
-							title: <div>新增收费类型</div>,
+							title: <div>新增收费类型{titleModal}</div>,
 							content: <ChargeTypeEdit {...operateProps}
 								key={getFieldValue("cooperationPlatformKey")} />
 						})}>

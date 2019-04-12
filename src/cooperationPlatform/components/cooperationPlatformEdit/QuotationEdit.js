@@ -92,11 +92,11 @@ class QuotationEdit extends Component {
 		const filterSkuTypeFirst = isSkuType || {}
 		return (
 			<Form layout="horizontal" >
-				<Form.Item style={{ display: 'none' }}>
+				<Form.Item label="报价项ID" style={{ display: item && item.id ? 'bolock' : 'none' }} {...formLayoutModal}>
 					{getFieldDecorator('id', {
 						initialValue: item && item.id
 					})(
-						<Input />
+						<span>{item && item.trinityCode}</span>
 					)}
 				</Form.Item>
 				<Form.Item label="平台抓取报价项名称" {...formLayoutModal}>
