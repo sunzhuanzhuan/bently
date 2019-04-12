@@ -75,6 +75,15 @@ class QuotationEdit extends Component {
 			skuTypeName: skuTypeId,
 		})
 	}
+	//
+	chinaAndNumberVali = (rule, value, callback) => {
+		const reg = /^[0-9\u4e00-\u9fa5]+$/;
+		if (reg.test(value)) {
+			callback()
+		} else {
+			callback("最多可输入20个字以内的汉字及数字！")
+		}
+	}
 	render() {
 		const { formLayoutModal, form, item, setShowModal,
 			platformId, trinitySkuTypeVOS = [],
@@ -139,7 +148,8 @@ class QuotationEdit extends Component {
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '本项为必填项，请输入' },
-							{ max: 20, message: "最多可输入20个字！" }
+							{ max: 20, message: "最多可输入20个字！", },
+							{ validator: this.chinaAndNumberVali },
 						],
 					})(
 						<Input placeholder="最多可输入20个字！" />

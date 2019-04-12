@@ -26,7 +26,7 @@ class PaymentMethod extends Component {
 	}
 	chinaVali = (number, rule, value, callback) => {
 		const reg = /^[\u4e00-\u9fa5]+$/;
-		if (reg.test(value) && value.length < number) {
+		if (reg.test(value) && value.length < (number + 1)) {
 			callback()
 		} else {
 			callback(`仅可输入${number}字以内的汉字！`)
@@ -98,7 +98,7 @@ class PaymentMethod extends Component {
 							<Input placeholder="请输入开户支行" />
 						)}
 					</Form.Item>
-					<Form.Item label="开户所在省"  {...formLayout}>
+					<Form.Item label="开户行所在省"  {...formLayout}>
 						{getFieldDecorator('agentVo.bankAgencyProvince', {
 							initialValue: dataDefault && dataDefault.bankAgencyProvince,
 							validateFirst: true,
@@ -110,7 +110,7 @@ class PaymentMethod extends Component {
 							<Input placeholder="请输入省份" />
 						)}
 					</Form.Item>
-					<Form.Item label="开户所在市"  {...formLayout}>
+					<Form.Item label="开户行所在市"  {...formLayout}>
 						{getFieldDecorator('agentVo.bankAgencyCity', {
 							initialValue: dataDefault && dataDefault.bankAgencyCity,
 							validateFirst: true,

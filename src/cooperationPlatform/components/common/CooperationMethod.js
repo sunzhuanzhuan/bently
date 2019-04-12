@@ -36,7 +36,7 @@ class CooperationMethod extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				{getFieldValue("agentVo.cooperationType") == 1 ? <Form.Item label="反款比例"  {...formLayout}>
+				{getFieldValue("agentVo.cooperationType") == 1 ? <Form.Item label="返款比例"  {...formLayout}>
 					{getFieldDecorator('agentVo.refundRate', {
 						initialValue: dataDefault && dataDefault.refundRate,
 						validateFirst: true,
@@ -45,8 +45,8 @@ class CooperationMethod extends Component {
 							{ validator: this.vailPrice }
 						],
 					})(
-						<Input placeholder="请输入0-100的正数" />
-					)}
+						<Input placeholder="请输入0-100的正数" style={{ width: 250 }} />
+					)}<span style={{ paddingLeft: 8 }}>%</span>
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>
 						{getFieldDecorator('agentVo.cooperationRemark', {
