@@ -114,7 +114,7 @@ export default class MainItem extends PureComponent {
 								</Popover>
 								{/* 此处是账号平台认证图标、等级图标、蓝黄V图标 */}
 								<div>
-									<PlatformVerified verified_status={verified_status} platform_id={platform_id} />
+									<PlatformVerified verified_status={is_verified} platform_id={platform_id} />
 								</div>
 								<div>
 									<WeiboVip verified_status={verified_status} platform_id={platform_id} />
