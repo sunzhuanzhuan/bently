@@ -16,7 +16,9 @@ class CooperationMethod extends Component {
 			callback()
 		}
 	}
-
+	changeType = () => {
+		this.props.form.resetFields(['agentVo.refundRate', 'agentVo.cooperationRemark'])
+	}
 	render() {
 		const { form, formLayout, dataDefault } = this.props
 		const { getFieldDecorator, getFieldValue } = form
@@ -29,7 +31,7 @@ class CooperationMethod extends Component {
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						<RadioGroup >
+						<RadioGroup onChange={this.changeType}>
 							<Radio value={1}>周期返款</Radio>
 							<Radio value={2}>其他</Radio>
 							<Radio value={3} disabled>折扣下单</Radio>

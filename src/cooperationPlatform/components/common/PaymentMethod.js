@@ -41,6 +41,16 @@ class PaymentMethod extends Component {
 			callback("最多可输入60个字以内的中英文及数字！")
 		}
 	}
+	changePaymentType = () => {
+		this.props.form.resetFields([
+			'agentVo.bank',
+			'agentVo.bankAgency',
+			'agentVo.bankAgencyProvince',
+			'agentVo.bankAgencyCity',
+			'agentVo.cardNumber',
+			'agentVo.realName',
+		])
+	}
 	render() {
 		const { form, formLayout, dataDefault, cooperationPlatformReducer: { paymentTypeList } } = this.props
 		const { getFieldDecorator, getFieldValue } = form
@@ -65,7 +75,7 @@ class PaymentMethod extends Component {
 							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
-						<RadioGroup>
+						<RadioGroup onChange={this.changePaymentType}>
 							<Radio value={1}>银行转账</Radio>
 							<Radio value={2}>支付宝</Radio>
 						</RadioGroup>
@@ -98,6 +108,7 @@ class PaymentMethod extends Component {
 							<Input placeholder="请输入开户支行" />
 						)}
 					</Form.Item>
+
 					<Form.Item label="开户行所在省"  {...formLayout}>
 						{getFieldDecorator('agentVo.bankAgencyProvince', {
 							initialValue: dataDefault && dataDefault.bankAgencyProvince,

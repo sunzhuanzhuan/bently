@@ -34,8 +34,8 @@ class SettlementMethod extends Component {
 					})(
 						<RadioGroup>
 							<Radio value={1}>全部回票</Radio>
-							<Radio value={2}>部分回票</Radio>
-							<Radio value={3}>不回票</Radio>
+							{/* <Radio value={2}>部分回票</Radio>
+							<Radio value={3}>不回票</Radio> */}
 						</RadioGroup>
 					)}
 				</Form.Item>

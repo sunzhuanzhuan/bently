@@ -72,7 +72,7 @@ class ChargeType extends Component {
 							updateBaseInfoState={updateBaseInfoState}
 							cooperationPlatformKey={cooperationPlatformKey} />
 					})} style={{ marginRight: 4 }}>修改</a>
-					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'trinityTollTypeVOS')} /> : null}
+					{record.tollTypeCode ? null : <DeleteModal onDelete={() => deleteList(record.idAdd, 'trinityTollTypeVOS')} />}
 
 				</div>
 
