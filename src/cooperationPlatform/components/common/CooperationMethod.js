@@ -11,7 +11,7 @@ class CooperationMethod extends Component {
 	vailPrice = (rule, value, callback) => {
 		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
 		if (!parent.test(value) || value < 0 || value > 100) {
-			callback('仅可输入0-100间的正数！')
+			callback('请输入100以内的正数，小数点后可保留两位！')
 		} else {
 			callback()
 		}
@@ -47,7 +47,7 @@ class CooperationMethod extends Component {
 							{ validator: this.vailPrice }
 						],
 					})(
-						<Input placeholder="请输入0-100的正数" style={{ width: 250 }} />
+						<Input placeholder="请输入100以内的正数，小数点后可保留两位！" style={{ width: 250 }} />
 					)}<span style={{ paddingLeft: 8 }}>%</span>
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>

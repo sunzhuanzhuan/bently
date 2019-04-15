@@ -58,7 +58,7 @@ class QuotationEdit extends Component {
 	vailPrice = (rule, value, callback) => {
 		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
 		if (!parent.test(value) || value < 0 || value > 100) {
-			callback('仅可输入0-100之间的正数！')
+			callback('请输入100以内的正数，小数点后可保留两位！')
 		} else {
 			callback()
 		}
@@ -131,7 +131,7 @@ class QuotationEdit extends Component {
 							{ validator: this.vailPrice },
 						],
 					})(
-						<Input placeholder="请输入正数" style={{ width: '94%' }} />
+						<Input placeholder="请输入100以内的正数，小数点后可保留两位！" style={{ width: '94%' }} />
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>

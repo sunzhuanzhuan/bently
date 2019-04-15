@@ -60,7 +60,7 @@ class ChargeType extends Component {
 			render: (text, record, index) => {
 				return <div>
 					<a onClick={() => setShowModal(true, {
-						title: <div>修改报价项{titleModal}</div>,
+						title: <div>修改收费类型{titleModal}</div>,
 						content: <ChargeTypeEdit
 							formLayoutModal={formLayoutModal}
 							setShowModal={setShowModal}
