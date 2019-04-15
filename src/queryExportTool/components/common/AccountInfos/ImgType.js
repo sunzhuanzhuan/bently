@@ -5,7 +5,7 @@ import "./ImgType.less"
 export const PlatformVerified = ({ verified_status = 0, platform_id = 0 }) => {
 	const platformId = platform_id.toString()
 	let imgUrl = platform.platformTypeImg[platformId]
-	return imgUrl && platform_id != 1 && verified_status && verified_status != 1 ? <img src={require(`./img/${imgUrl}`)} width="13" style={{ marginLeft: 5, marginBottom: 2 }} /> : null
+	return imgUrl && platform_id != 1 && verified_status && verified_status == 1 ? <img src={require(`./img/${imgUrl}`)} width="13" style={{ marginLeft: 5, marginBottom: 2 }} /> : null
 }
 export const WeiboVip = ({ verified_status = 0, platform_id = 0, marginTop = 4 }) => {
 	let imgUrl = ""
