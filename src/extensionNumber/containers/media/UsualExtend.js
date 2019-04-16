@@ -249,7 +249,7 @@ class FilterForm extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				// 查询请求
-				values['category_name'] = values['category_name'] && values['category_name'].label
+				// values['category_name'] = values['category_name'] && values['category_name'].label
 				values['tag_name'] = values['tag_name'] && values['tag_name'].label
 				getList(values)
 			}
