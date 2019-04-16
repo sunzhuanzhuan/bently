@@ -47,7 +47,7 @@ class CooperationMethod extends Component {
 							{ validator: this.vailPrice }
 						],
 					})(
-						<Input placeholder="请输入100以内的正数，小数点后可保留两位！" style={{ width: 250 }} />
+						<Input placeholder="请输入100以内的正数，小数点后可保留两位！" style={{ width: 300 }} />
 					)}<span style={{ paddingLeft: 8 }}>%</span>
 				</Form.Item>
 					: <Form.Item label="说明"  {...formLayout}>

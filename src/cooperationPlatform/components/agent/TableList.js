@@ -10,7 +10,7 @@ class TableList extends Component {
 	}
 	render() {
 		const { setShowModal, agentByPageList,
-			editAgentStatus, deleteAgent, seachAgentByPage, actions } = this.props
+			editAgentStatus, deleteAgent, seachAgentByPage, actions, titleModal } = this.props
 		const columns = [{
 			title: '代理商编号',
 			dataIndex: 'agentCode',
@@ -61,7 +61,7 @@ class TableList extends Component {
 			align: 'center',
 			key: 'setmethod',
 			render: (text, recode) => {
-				const title = `代理商   【所属下单平台：${'快接单'} 所属媒体平台：${'快手'}】`
+				const title = `代理商  ${titleModal} `
 				const { agentStatus, id } = recode
 				return <div>
 					<a style={{ marginRight: 4 }} onClick={() => setShowModal(true,

@@ -69,17 +69,20 @@ class CooperationPlatformEdit extends Component {
 			} else {
 				values.agentVo.refundRate = ""
 			}
+			const { trinityTollTypeVOS = [] } = values
 			//修改时，消费类型信息 trinityTollTypeVOS 列表
-			const list = values.trinityTollTypeVOS.map(one => {
-				return {
-					...one,
-					cooperationPlatformKey: values.cooperationPlatformKey,
-					trinityPlatformCode: search.code,
-					platformId: search.platformId
-				}
-			})
-			//修改时，异步修改消费类型信息
-			await addOrUpdateTollType(list)
+			if (trinityTollTypeVOS.length > 0) {
+				const list = values.trinityTollTypeVOS.map(one => {
+					return {
+						...one,
+						cooperationPlatformKey: values.cooperationPlatformKey,
+						trinityPlatformCode: search.code,
+						platformId: search.platformId
+					}
+				})
+				//修改时，异步修改消费类型信息
+				await addOrUpdateTollType(list)
+			}
 			await updateCooperationPlatform({ ...values, id: id, })
 		} else {
 			await insertCooperationPlatform({ ...values, })

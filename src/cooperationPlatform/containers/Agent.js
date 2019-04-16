@@ -17,18 +17,21 @@ class Agent extends Component {
 			visible: false,
 			showModal: { title: "", content: "" },
 			isLoading: true,
-			searchParams: qs.parse(window.location.search.substring(1))
+			searchParams: qs.parse(window.location.search.substring(1)),
+			cooperationPlatformInfoDetail: {}
 		};
 		this.setShowModal = this.setShowModal.bind(this)
 	}
-	componentDidMount = () => {
-		const { actions: { getAgentByPage } } = this.props
+	componentDidMount = async () => {
+		const { actions: { getAgentByPage, getCooperationPlatformInfoById } } = this.props
 		const { searchParams } = this.state
+		const { data } = await getCooperationPlatformInfoById({ id: searchParams.id })
 		getAgentByPage({
 			page: { currentPage: 1, pageSize: 10 },
 			form: { cooperationPlatformCode: searchParams.code }
 		}).then(() => {
 			this.setState({
+				cooperationPlatformInfoDetail: data,
 				isLoading: false
 			})
 		})
@@ -85,18 +88,23 @@ class Agent extends Component {
 
 	}
 	render() {
-		const { showModal, visible, isLoading, searchParams } = this.state
+		const { showModal, visible, isLoading, searchParams, cooperationPlatformInfoDetail } = this.state
 		const { actions, cooperationPlatformReducer } = this.props
 		const { insertAgent } = actions
 		const { agentByPageList, } = cooperationPlatformReducer
+		const { platformName, cooperationPlatformName, captureCooperationPlatformName } = cooperationPlatformInfoDetail
+		const titleModal = `【所属下单平台：${captureCooperationPlatformName}  所属媒体平台：${platformName}】`
 		const listProps = {
 			setShowModal: this.setShowModal,
 			agentByPageList,
 			deleteAgent: this.deleteAgent,
 			editAgentStatus: this.editAgentStatus,
 			seachAgentByPage: this.seachAgentByPage,
-			actions
+			actions,
+			searchParams,
+			titleModal
 		}
+
 		return (
 
 			<div className="agent-info">
@@ -108,15 +116,15 @@ class Agent extends Component {
 							下单平台编号：{searchParams.code}
 						</div>
 						<div>
-							下单平台名称：{searchParams.name}
+							下单平台名称：{cooperationPlatformName}
 						</div>
 						<div>
-							所属媒体平台：{searchParams.platformName}
+							所属媒体平台：{platformName}
 						</div>
 					</div>
 					<DividingBox text="代理商信息" />
 					<a onClick={() => this.setShowModal(true, {
-						title: '新增代理商',
+						title: `新增代理商 ${titleModal}`,
 						content: <AgentEdit setShowModal={this.setShowModal}
 							insertAgent={insertAgent} seachAgentByPage={this.seachAgentByPage} />, width: 800
 					})}>新增代理商</a>

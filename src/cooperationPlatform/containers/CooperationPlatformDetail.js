@@ -34,8 +34,9 @@ class CooperationPlatformDetail extends Component {
 	}
 	render() {
 		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
-		const { settleType, isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
-			returnInvoiceType, agentVo = {} } = cooperationPlatformInfoDetail
+		const { isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
+			agentVo = {} } = cooperationPlatformInfoDetail
+		const { settleType, returnInvoiceType } = agentVo
 		const { paymentCompanyName } = agentVo
 		const baseInfo = [
 			{ title: "所属媒体平台", content: platformName },

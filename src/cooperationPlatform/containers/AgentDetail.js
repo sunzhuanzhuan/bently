@@ -41,7 +41,7 @@ class AgentDetail extends Component {
 				<ShowDetailArr arr={otherInfo} />
 				<PaymentMethodDetail detailData={agentByIdDetail} />
 				<ShowDetailArr arr={remark} />
-				<div style={{ textAlign: "center" }}>
+				<div style={{ textAlign: "center", marginTop: 30 }}>
 					<Button style={{ width: 100 }} onClick={() => setShowModal(false, null)}>返回</Button>
 				</div>
 			</Spin>
