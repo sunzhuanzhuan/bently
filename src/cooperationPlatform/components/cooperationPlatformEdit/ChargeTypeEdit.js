@@ -28,25 +28,26 @@ class QuotationEdit extends Component {
 				actions, setShowModal, updateBaseInfoState } = this.props
 			if (!err) {
 				console.log('Received values of form: ', values);
-				if (searchParam.id > 0) {
-					//在修改页面的新增和修改直接保存数据库
-					actions.addOrUpdateTollType([{ ...values, trinityPlatformCode: searchParam.code, platformId: searchParam.platformId }]).then(() => {
-						message.success('您的操作已保存成功！')
-						actions.getTrinityTollTypeList({ trinityPlatformCode: searchParam.code }).then(({ data }) => {
-							updateBaseInfoState({ trinityTollTypeVOS: data })
-							setShowModal(false)
+				//修改为页面保存数据
+				// if (searchParam.id > 0) {
+				// 	//在修改页面的新增和修改直接保存数据库
+				// 	actions.addOrUpdateTollType([{ ...values, trinityPlatformCode: searchParam.code, platformId: searchParam.platformId }]).then(() => {
+				// 		message.success('您的操作已保存成功！')
+				// 		actions.getTrinityTollTypeList({ trinityPlatformCode: searchParam.code }).then(({ data }) => {
+				// 			updateBaseInfoState({ trinityTollTypeVOS: data })
+				// 			setShowModal(false)
 
-						})
-					})
+				// 		})
+				// 	})
+				// } else {
+				//新增页面操作页面缓存
+				if (isEdit) {
+					console.log('index', index);
+					updateList(index, { ...item, ...values }, 'trinityTollTypeVOS')
 				} else {
-					//新增页面操作页面缓存
-					if (isEdit) {
-						console.log('index', index);
-						updateList(index, { ...item, ...values }, 'trinityTollTypeVOS')
-					} else {
-						addList(values, 'trinityTollTypeVOS')
-					}
+					addList(values, 'trinityTollTypeVOS')
 				}
+				// }
 
 			}
 		});

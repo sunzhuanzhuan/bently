@@ -51,7 +51,7 @@ class CooperationPlatformEdit extends Component {
 	editOprate = async (values) => {
 		const { id } = this.state
 		const search = qs.parse(window.location.search.substring(1))
-		const { actions: { insertCooperationPlatform, updateCooperationPlatform, getTrinitySkuTypeList } } = this.props
+		const { actions: { insertCooperationPlatform, updateCooperationPlatform, addOrUpdateTollType, getTrinitySkuTypeList } } = this.props
 		if (id > 0) {
 			if (values.agentVo.paymentType == 1) {
 				values.agentVo.alipayAccountName = ""
@@ -69,7 +69,17 @@ class CooperationPlatformEdit extends Component {
 			} else {
 				values.agentVo.refundRate = ""
 			}
-
+			//修改时，消费类型信息 trinityTollTypeVOS 列表
+			const list = values.trinityTollTypeVOS.map(one => {
+				return {
+					...one,
+					cooperationPlatformKey: values.cooperationPlatformKey,
+					trinityPlatformCode: search.code,
+					platformId: search.platformId
+				}
+			})
+			//修改时，异步修改消费类型信息
+			await addOrUpdateTollType(list)
 			await updateCooperationPlatform({ ...values, id: id, })
 		} else {
 			await insertCooperationPlatform({ ...values, })
