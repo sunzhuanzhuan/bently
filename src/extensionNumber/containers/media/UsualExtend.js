@@ -48,6 +48,7 @@ class AllocateTask extends Component {
 
 	componentWillMount() {
 		let { getAllPlatformList, allPlatformList } = this.props
+		this.props.getCategoryList()
 		if (Object.keys(allPlatformList).length <= 0) {
 			getAllPlatformList()
 		}
@@ -68,7 +69,7 @@ class AllocateTask extends Component {
 	}
 
 	render() {
-		let { usualAllotList } = this.props
+		let { usualAllotList, categoryList } = this.props
 		let { count = 0, page = 1, pageNum = 100, map, list } = usualAllotList || {}
 		let columns = [
 			{
@@ -99,7 +100,7 @@ class AllocateTask extends Component {
 					return text || '-'
 				}
 			}, {
-				title: '标签/分类',
+				title: '分类',
 				dataIndex: 'category',
 				align: 'center',
 				width: 108,
@@ -201,7 +202,7 @@ class AllocateTask extends Component {
 				<header className='page-content'>
 					<FilterContainer>
 						<FilterForm getList={this.getList}
-							getCategoryList={this.props.getCategoryList}
+							categoryList={this.props.categoryList}
 							getTagList={this.props.getTagList}
 							allPlatformList={this.props.allPlatformList}
 							tableLoading={this.state.tableLoading}
@@ -256,7 +257,7 @@ class FilterForm extends Component {
 	}
 
 	render() {
-		const { getTagList, getCategoryList } = this.props;
+		const { getTagList, categoryList } = this.props;
 		const { getFieldDecorator } = this.props.form;
 		let accountStatusKeys = [1, 2, 3],
 			// platformList = this.props.allPlatformList || {},
@@ -267,7 +268,7 @@ class FilterForm extends Component {
 		return (<div><Form layout="inline" onSubmit={this.submitQuery}>
 			<FormItem label="平台">
 				{
-					getFieldDecorator('weibo_type', )(
+					getFieldDecorator('weibo_type')(
                         /*<Select allowClear
                                 getPopupContainer={() => document.querySelector('.usual-extend-page')}
                                 showSearch
@@ -308,7 +309,7 @@ class FilterForm extends Component {
 						</div>)
 				}
 			</FormItem>
-			<FormItem label="标签">
+			{/* <FormItem label="标签">
 				{
 					getFieldDecorator('tag_name', {})(
 						<SearchSelect
@@ -317,8 +318,8 @@ class FilterForm extends Component {
 								return res.data.items
 							}} item={['id', 'name']} desc='请选择标签' />)
 				}
-			</FormItem>
-			<FormItem label="分类">
+			</FormItem> */}
+			{/* <FormItem label="分类">
 				{
 					getFieldDecorator('category_name', {})(
 						<SearchSelect
@@ -326,6 +327,19 @@ class FilterForm extends Component {
 							searchDataList={getCategoryList} keyWord='name' dataToList={res => {
 								return res.data.items
 							}} item={['key', 'name']} desc='请选择分类' />)
+				}
+			</FormItem> */}
+			<FormItem label="分类">
+				{
+					getFieldDecorator('category_name')(
+						<Select style={{ width: 120 }}>
+							{
+								categoryList.map(v => {
+									return <Option key={v.itemValue}>{v.itemValue}</Option>
+								})
+							}
+						</Select>
+					)
 				}
 			</FormItem>
 			<FormItem label="账号状态">
