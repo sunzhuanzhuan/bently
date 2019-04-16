@@ -49,6 +49,7 @@ class PaymentMethod extends Component {
 			'agentVo.bankAgencyCity',
 			'agentVo.cardNumber',
 			'agentVo.realName',
+			'agentVo.alipayAccount'
 		])
 	}
 	render() {
@@ -84,7 +85,8 @@ class PaymentMethod extends Component {
 				{getFieldValue("agentVo.paymentType") == 1 ? <div>
 					<Form.Item label="开户行"{...formLayout}>
 						{getFieldDecorator('agentVo.bank', {
-							initialValue: dataDefault && dataDefault.bank,
+							//此处判断是否存在开户行，不存在则为undefined
+							initialValue: dataDefault && dataDefault.bank && dataDefault.bank.length > 0 ? dataDefault.bank : undefined,
 							rules: [
 								{ required: true, message: '此项为必选项，请选择！' },
 							],

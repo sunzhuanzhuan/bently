@@ -40,11 +40,28 @@ class AgentEdit extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				values.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
+				//判断付款方式穿值
+				if (values.agentVo.paymentType == 1) {
+					values.agentVo.alipayAccountName = ""
+					values.agentVo.alipayAccount = ""
+				} else {
+					values.agentVo.bankAgency = ""
+					values.agentVo.bankAgencyProvince = ""
+					values.agentVo.bankAgencyCity = ""
+					values.agentVo.realName = ""
+					values.agentVo.bank = ""
+					values.agentVo.cardNumber = ""
+				}
+				if (values.agentVo.cooperationType == 1) {
+					values.agentVo.cooperationRemark = ""
+				} else {
+					values.agentVo.refundRate = ""
+				}
 				const { searchParams } = this.state
 				const data = { ...values, ...values.agentVo, cooperationPlatformCode: searchParams.code }
 				//付款公司
-
 				if (agentId) {
+
 					updateAgent(data).then(() => {
 						this.commEditAction()
 					})

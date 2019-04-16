@@ -53,6 +53,23 @@ class CooperationPlatformEdit extends Component {
 		const search = qs.parse(window.location.search.substring(1))
 		const { actions: { insertCooperationPlatform, updateCooperationPlatform, getTrinitySkuTypeList } } = this.props
 		if (id > 0) {
+			if (values.agentVo.paymentType == 1) {
+				values.agentVo.alipayAccountName = ""
+				values.agentVo.alipayAccount = ""
+			} else {
+				values.agentVo.bankAgency = ""
+				values.agentVo.bankAgencyProvince = ""
+				values.agentVo.bankAgencyCity = ""
+				values.agentVo.realName = ""
+				values.agentVo.bank = ""
+				values.agentVo.cardNumber = ""
+			}
+			if (values.agentVo.cooperationType == 1) {
+				values.agentVo.cooperationRemark = ""
+			} else {
+				values.agentVo.refundRate = ""
+			}
+
 			await updateCooperationPlatform({ ...values, id: id, })
 		} else {
 			await insertCooperationPlatform({ ...values, })
