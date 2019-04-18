@@ -137,8 +137,8 @@ class BaseInfo extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 16 },
 		}
-		const { id, platformName, cooperationPlatformName } = this.state
-		const titleModal = <span style={{ paddingLeft: 16 }}>【平台：{platformName}<span style={{ paddingLeft: 6 }}>下单平台：{cooperationPlatformName || cooperationPlatformInfoDetail.captureCooperationPlatformName}】</span></span>
+		const { id, cooperationPlatformName } = this.state
+		const titleModal = <span style={{ paddingLeft: 16 }}>【平台：{cooperationPlatformInfoDetail.platformName}<span style={{ paddingLeft: 6 }}>下单平台：{cooperationPlatformName || cooperationPlatformInfoDetail.captureCooperationPlatformName}】</span></span>
 		const operateProps = {
 			actions,
 			addList: this.addList,
@@ -218,13 +218,14 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<PaymentCompany form={form} formLayout={formLayout} dataDefault={agentVo} />
 				<Form.Item label="平台报价项" {...formLayoutTable}>
-					<a onClick={() => setShowModal(true, {
+					<div><a onClick={() => setShowModal(true, {
 						title: <div>新增报价项{titleModal}</div>,
 						content: <QuotationEdit
 							key={getFieldValue("cooperationPlatformKey")}
 							{...operateProps}
 						/>
-					})}>新增报价项</a>
+					})}
+					>新增报价项</a></div>
 					{getFieldDecorator('trinitySkuTypeVOS', {
 						rules: [
 							{ required: true, message: '请添加平台报价项' },

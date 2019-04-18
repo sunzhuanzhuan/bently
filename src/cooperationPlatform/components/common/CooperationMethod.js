@@ -40,7 +40,7 @@ class CooperationMethod extends Component {
 				</Form.Item>
 				{getFieldValue("agentVo.cooperationType") == 1 ? <Form.Item label="返款比例"  {...formLayout}>
 					{getFieldDecorator('agentVo.refundRate', {
-						initialValue: dataDefault && dataDefault.refundRate,
+						initialValue: dataDefault && dataDefault.refundRate || undefined,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '本项为必填项，请输入！' },

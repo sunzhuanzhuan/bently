@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Select, Button, message } from 'antd';
 import qs from "qs";
+import { DeleteModal } from "../common";
 const Option = Select.Option;
 const { TextArea } = Input;
 class QuotationEdit extends Component {
@@ -99,6 +100,8 @@ class QuotationEdit extends Component {
 		const isSkuType = filterSkuType && filterSkuType[0]
 		//默认选中第一个可用报价项
 		const filterSkuTypeFirst = isSkuType || {}
+		const isCancle = qs.parse(window.location.search.substring(1)).code
+
 		return (
 			<Form layout="horizontal" >
 				<Form.Item label="报价项ID" style={{ display: item && item.id ? 'bolock' : 'none' }} {...formLayoutModal}>
@@ -191,7 +194,9 @@ class QuotationEdit extends Component {
 					)}
 				</Form.Item>
 				<div style={{ textAlign: "center" }}>
-					<Button onClick={() => setShowModal(false, null)}>取消</Button>
+					<Button style={{ marginRight: 50 }}>
+						<DeleteModal typeText={'取消'} messageType='cancle' onDelete={() => setShowModal(false, null)} />
+					</Button>
 					<Button type='primary' onClick={this.onAdd} style={{ marginLeft: 20 }} >提交</Button>
 				</div>
 			</Form >

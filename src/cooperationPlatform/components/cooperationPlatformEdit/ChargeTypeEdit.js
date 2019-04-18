@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Form, Input, Select, Button, message } from 'antd';
 import qs from "qs";
+import { DeleteModal } from "../common";
+
 const Option = Select.Option;
 const { TextArea } = Input;
 class QuotationEdit extends Component {
@@ -147,7 +149,9 @@ class QuotationEdit extends Component {
 					)}
 				</Form.Item>
 				<div style={{ textAlign: "center" }}>
-					<Button onClick={() => setShowModal(false, null)}>取消</Button>
+					<Button style={{ marginRight: 50 }}>
+						<DeleteModal typeText={'取消'} messageType='cancle' onDelete={() => setShowModal(false, null)} />
+					</Button>
 					<Button type='primary' style={{ marginLeft: 20 }} onClick={this.onEdit}>提交</Button>
 				</div>
 			</Form>

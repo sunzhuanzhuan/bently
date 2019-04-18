@@ -46,7 +46,7 @@ class CooperationPlatformDetail extends Component {
 			{ title: "付款公司", content: paymentCompanyName },
 		]
 		const payInfo = [
-			{ title: "结算方式", content: settleType == 1 ? '预付款' : '周期结算' },
+			{ title: "结算方式", content: settleType == 1 ? '预付' : '周期结算' },
 			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
 		]
 		const { isLoading } = this.state

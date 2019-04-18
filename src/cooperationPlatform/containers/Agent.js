@@ -18,7 +18,8 @@ class Agent extends Component {
 			showModal: { title: "", content: "" },
 			isLoading: true,
 			searchParams: qs.parse(window.location.search.substring(1)),
-			cooperationPlatformInfoDetail: {}
+			cooperationPlatformInfoDetail: {},
+			pageParam: {}
 		};
 		this.setShowModal = this.setShowModal.bind(this)
 	}
@@ -37,15 +38,17 @@ class Agent extends Component {
 		})
 	}
 	//查询
-	seachAgentByPage = (params = pageDefault) => {
-		const { searchParams } = this.state
+	seachAgentByPage = (params) => {
+		const { searchParams, pageParam } = this.state
 		this.setState({
 			isLoading: true
 		})
 		const { actions: { getAgentByPage } } = this.props
-		getAgentByPage({ ...pageDefault, form: { cooperationPlatformCode: searchParams.code }, ...params }).then(() => {
+		const paramsAll = { ...pageDefault, ...pageParam, form: { cooperationPlatformCode: searchParams.code }, ...params }
+		getAgentByPage(paramsAll).then(() => {
 			this.setState({
-				isLoading: false
+				isLoading: false,
+				pageParam: paramsAll
 			})
 		})
 	}
@@ -72,7 +75,7 @@ class Agent extends Component {
 		const { actions: { updateAgentStatus } } = this.props
 		updateAgentStatus({ id: id, agentStatus: status })
 			.then(() => {
-				message.success(`改平台已经${status == 1 ? '启用' : '停用'}`);
+				message.success(`该平台已经${status == 1 ? '启用' : '停用'}`);
 				this.seachAgentByPage()
 			})
 
@@ -93,7 +96,7 @@ class Agent extends Component {
 		const { insertAgent } = actions
 		const { agentByPageList, } = cooperationPlatformReducer
 		const { platformName, cooperationPlatformName, captureCooperationPlatformName } = cooperationPlatformInfoDetail
-		const titleModal = `【所属下单平台：${captureCooperationPlatformName}  所属媒体平台：${platformName}】`
+		const titleModal = `【下单平台：${captureCooperationPlatformName}  所属媒体平台：${platformName}】`
 		const listProps = {
 			setShowModal: this.setShowModal,
 			agentByPageList,

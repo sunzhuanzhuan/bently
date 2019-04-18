@@ -16,7 +16,7 @@ class TableList extends Component {
 		const { setShowModal, actions, setStatusCO } = this.props
 		//弹出选择启用报价项弹窗
 		setShowModal(true, {
-			title: '启用默认报价项',
+			title: '启用报价项',
 			content: <Quotation notOperate={true} setEnableArr={async (arr) => {
 				//启用报价项
 				const list = arr.map(one => { return { id: one, platformId: platformId, trinitySkuTypeStatus: 1 } })
