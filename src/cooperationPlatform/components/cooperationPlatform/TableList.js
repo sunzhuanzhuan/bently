@@ -55,7 +55,7 @@ class TableList extends Component {
 		if (data.length > 0) {
 			//含有则选择默认报价项
 			setShowModal(true, {
-				title: '启用默认报价项',
+				title: '启用报价项',
 				content: <DisableDefault
 					list={data}
 					notOperate={true}
