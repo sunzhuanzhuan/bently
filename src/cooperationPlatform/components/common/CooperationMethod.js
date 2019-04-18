@@ -9,7 +9,7 @@ class CooperationMethod extends Component {
 		};
 	}
 	vailPrice = (rule, value, callback) => {
-		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
+		const parent = /^([1-9][0-9]{0,1}(\.[0-9]{1,2})?|100|100.0|100.00|[0]\.[0-9]{1,2}|0)$/
 		if (!parent.test(value) || value < 0 || value > 100) {
 			callback('请输入100以内的正数，小数点后可保留两位！')
 		} else {
