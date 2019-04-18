@@ -17,9 +17,10 @@ class Quotation extends Component {
 		console.log('selectedRowKeys changed: ', selectedRowKeys);
 		this.setState({ selectedRowKeys });
 	}
-	setSkuTypeStatus = (id, isEnable) => {
+	setSkuTypeStatus = (id, isEnable, code) => {
 		this.props.editQuotation([{
 			id: id,
+			trinityPlatformCode: code,
 			trinitySkuTypeStatus: isEnable ? 3 : 1//1启用，3停用
 		}], () => {
 			message.success(`提示：当前报价项已${isEnable ? '停用' : '启用'}，下单时该报价项${isEnable ? '不' : ''}可见！`)
@@ -32,12 +33,12 @@ class Quotation extends Component {
 		if (status == 1) {
 			const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: code, trinitySkuTypeStatus: 1, platformId: platformId });
 			if (data.length > 1) {
-				this.setSkuTypeStatus(id, isEnable)
+				this.setSkuTypeStatus(id, isEnable, code)
 			} else {
 				message.error('请您至少启用一条报价项，以免影响正常下单')
 			}
 		} else {
-			this.setSkuTypeStatus(id, isEnable)
+			this.setSkuTypeStatus(id, isEnable, code)
 		}
 	}
 	render() {
@@ -138,13 +139,13 @@ class Quotation extends Component {
 					})} style={{ marginRight: 4 }}>修改</a>
 					{trinitySkuTypeStatus == 2 ?
 						<DeleteModal onDelete={() => searchParams.id > 0 ?
-							editQuotation([{ id: id, isDeleted: 1 }]) :
+							editQuotation([{ id: id, isDeleted: 1, trinityPlatformCode: searchParams.code, }]) :
 							deleteList(record.idAdd, 'trinitySkuTypeVOS')} /> : null}
 
 					{searchParams.id > 0 ?
 						isEnable ? <a style={{ marginLeft: 4 }} onClick={() => this.stopSkuTypeStatus(id, isEnable)}>
 							停用
-						</a> : <a style={{ marginLeft: 4 }} onClick={() => this.setSkuTypeStatus(id, isEnable)}>
+						</a> : <a style={{ marginLeft: 4 }} onClick={() => this.setSkuTypeStatus(id, isEnable, searchParams.code)}>
 								启用
 						</a> : null}
 				</div>
