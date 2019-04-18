@@ -43,8 +43,12 @@ class Agent extends Component {
 		this.setState({
 			isLoading: true
 		})
-		const { actions: { getAgentByPage } } = this.props
+		const { actions: { getAgentByPage }, cooperationPlatformReducer: { agentByPageList } } = this.props
 		const paramsAll = { ...pageDefault, ...pageParam, form: { cooperationPlatformCode: searchParams.code }, ...params }
+
+		if (paramsAll.operate == 'delete' && (agentByPageList && agentByPageList.total) % paramsAll.page.pageSize == 1) {
+			paramsAll.page.currentPage = paramsAll.page.currentPage - 1
+		}
 		getAgentByPage(paramsAll).then(() => {
 			this.setState({
 				isLoading: false,
@@ -83,10 +87,10 @@ class Agent extends Component {
 	//删除代理商
 	deleteAgent = (id) => {
 		const { actions: { delAgent } } = this.props
-		delAgent({ id: id })
+		delAgent({ id: id, })
 			.then(() => {
 				message.success(`删除成功`);
-				this.seachAgentByPage()
+				this.seachAgentByPage({ operate: 'delete' })
 			})
 
 	}

@@ -94,7 +94,6 @@ class BaseInfo extends Component {
 	platformChange = async (platformId, option) => {
 		const { actions, form } = this.props
 		const { platformName } = option.props
-		console.log(platformName, 'platformName^^^^');
 		//收费类型和sku列表清空
 		this.setState({
 			trinitySkuTypeVOS: [],
@@ -137,8 +136,8 @@ class BaseInfo extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 16 },
 		}
-		const { id, cooperationPlatformName } = this.state
-		const titleModal = <span style={{ paddingLeft: 16 }}>【平台：{cooperationPlatformInfoDetail.platformName}<span style={{ paddingLeft: 6 }}>下单平台：{cooperationPlatformName || cooperationPlatformInfoDetail.captureCooperationPlatformName}】</span></span>
+		const { id, cooperationPlatformName, platformName } = this.state
+		const titleModal = <span style={{ paddingLeft: 16 }}>【平台：{platformName || cooperationPlatformInfoDetail.platformName}<span style={{ paddingLeft: 6 }}>下单平台：{cooperationPlatformName || cooperationPlatformInfoDetail.captureCooperationPlatformName}】</span></span>
 		const operateProps = {
 			actions,
 			addList: this.addList,
