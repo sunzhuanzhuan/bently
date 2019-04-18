@@ -102,19 +102,25 @@ export const mediaTypeOptions = [
 export const kol_visitor_age_draw_options = [
 	{
 		"name": "0-18岁",
-		"value": "500"
-	}, {
-		"name": "19-24岁",
 		"value": "501"
 	}, {
-		"name": "25-34岁",
+		"name": "19-25岁",
 		"value": "502"
 	}, {
-		"name": "35-49岁",
+		"name": "26-30岁",
 		"value": "503"
 	}, {
-		"name": "其他",
-		"value": "599"
+		"name": "31-35岁",
+		"value": "504"
+	}, {
+		"name": "36-40岁",
+		"value": "505"
+	},{
+		"name": "41-45岁",
+		"value": "506"
+	}, {
+		"name": "46以上",
+		"value": "507"
 	}
 ]
 
