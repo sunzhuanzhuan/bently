@@ -218,7 +218,7 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<PaymentCompany form={form} formLayout={formLayout} dataDefault={agentVo} />
 				<Form.Item label="平台报价项" {...formLayoutTable}>
-					<div><a onClick={() => setShowModal(true, {
+					<div style={{ textAlign: "right" }}><a onClick={() => setShowModal(true, {
 						title: <div>新增报价项{titleModal}</div>,
 						content: <QuotationEdit
 							key={getFieldValue("cooperationPlatformKey")}
@@ -242,13 +242,15 @@ class BaseInfo extends Component {
 				<Form.Item label="收费类型" {...formLayoutTable}>
 					{getFieldDecorator('trinityTollTypeVOS')(
 						<Input style={{ display: "none" }} />
-					)}<a onClick={() => setShowModal(true,
+					)}
+					<div style={{ textAlign: "right" }}><a onClick={() => setShowModal(true,
 						{
 							title: <div>新增收费类型{titleModal}</div>,
 							content: <ChargeTypeEdit {...operateProps}
 								key={getFieldValue("cooperationPlatformKey")} />
 						})}>
 						新增收费类型</a>
+					</div>
 					<div style={{ marginLeft: -100 }}>
 						<ChargeType {...operateProps} />
 					</div>
