@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Select, Button, message } from 'antd';
+import { Form, Input, InputNumber, Select, Button, message } from 'antd';
 import qs from "qs";
 import { DeleteModal } from "../common";
 
@@ -134,7 +134,7 @@ class QuotationEdit extends Component {
 							{ validator: this.vailPrice },
 						],
 					})(
-						<Input placeholder="请输入100以内的正数，小数点后可保留两位！" style={{ width: '94%' }} />
+						<InputNumber step={0.01} placeholder="请输入100以内的正数，小数点后可保留两位！" style={{ width: '94%' }} />
 					)}<span style={{ paddingLeft: 4 }}>%</span>
 				</Form.Item>
 				<Form.Item label="描述"  {...formLayoutModal}>

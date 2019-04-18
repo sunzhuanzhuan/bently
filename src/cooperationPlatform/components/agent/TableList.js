@@ -3,6 +3,8 @@ import AgentDetail from "../../containers/AgentDetail";
 import AgentEdit from "../../containers/AgentEdit";
 import { DeleteModal } from "../common";
 import { Table } from 'antd';
+import numeral from "numeral";
+
 class TableList extends Component {
 	constructor(props) {
 		super(props);
@@ -35,7 +37,7 @@ class TableList extends Component {
 			align: 'center',
 			key: 'refundRate',
 			render: (text, recode) => {
-				return recode.cooperationType == 1 ? text : '-'
+				return recode.cooperationType == 1 ? numeral(text || 0).format('0.00') : '-'
 			}
 		}, {
 			title: '状态',

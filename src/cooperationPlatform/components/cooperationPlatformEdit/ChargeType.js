@@ -3,6 +3,8 @@ import { Table } from 'antd';
 import ChargeTypeEdit from "./ChargeTypeEdit";
 import { DeleteModal } from "../common"
 import qs from "qs";
+import numeral from "numeral";
+
 class ChargeType extends Component {
 	constructor(props) {
 		super(props);
@@ -37,6 +39,7 @@ class ChargeType extends Component {
 			dataIndex: 'serviceRatio',
 			align: 'center',
 			key: 'serviceRatio',
+			render: (text) => numeral(text || 0).format('0.00')
 		}, {
 			title: '描述',
 			dataIndex: 'tollDescribe',
