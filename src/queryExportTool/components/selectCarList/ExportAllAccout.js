@@ -145,6 +145,15 @@ class EditQuotation extends Component {
 						<Input placeholder="请输入" />
 					)}
 				</FormItem>
+				<FormItem
+					{...formItemLayout}
+					label="三方平台下单规则"
+				>
+					<a
+						href="http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf"
+						target="_blank"
+					>{`查看微博&短视频&小红书平台下单规则`}</a>
+				</FormItem>
 				<div style={{ textAlign: "center", marginTop: 20, paddingBottom: 20 }}>
 					<Button type="primary" onClick={this.saveAndExport}>保存并导出</Button>
 				</div>

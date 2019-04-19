@@ -112,10 +112,26 @@ class DefaultChild extends Component {
 		const { selectedRowKeys, selectedRowKeysObject, quotation_id } = this.props
 		const { accountList, accountIdsByQuotation } = queryExportToolReducer;
 		let { platformType } = this.props.match.params;
+		let ruleUrl = {
+			2: "查看微博微任务/weiq &粉丝头条下单规则",
+			3: "查看短视频平台下单规则",
+			4: "查看小红书下单规则"
+		}
 		const { statistic = {} } = accountList
 		const countNum = statistic && Object.values(statistic).reduce((total, one) => total + one, 0)
 		const header = <div className="table-title-wxy">
-			<div>共<span>{countNum}</span>个账号</div>
+			<div>
+				共<span>{countNum}</span>个账号
+				&nbsp;&nbsp;&nbsp;
+				{
+					ruleUrl[platformType] ?
+						<a href="http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf"
+							target="_blank"
+						>
+							{ruleUrl[platformType]}
+						</a> : null
+				}
+			</div>
 			{search.keyword && <div>
 				<div>微信公众号<span><a href="javascript:void(0)" onClick={() => this.onCountClick(1)}>{statistic[1]}</a></span>个</div>
 				<div>新浪微博<span><a href="javascript:void(0)" onClick={() => this.onCountClick(2)}>{statistic[2]}</a></span>个</div>
