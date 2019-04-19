@@ -35,7 +35,7 @@ class CooperationPlatformDetail extends Component {
 	render() {
 		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
 		const { isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
-			agentVo = {} } = cooperationPlatformInfoDetail
+			agentVo = {}, platformId } = cooperationPlatformInfoDetail
 		const { settleType, returnInvoiceType } = agentVo
 		const { paymentCompanyName } = agentVo
 		const baseInfo = [
@@ -57,7 +57,7 @@ class CooperationPlatformDetail extends Component {
 					<ShowDetailArr arr={baseInfo} />
 					<ShowDetailArr arr={[{ title: "平台报价项", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
-						<Quotation isEdit={true} noLast={true} trinitySkuTypeVOS={trinitySkuTypeList} />
+						<Quotation isEdit={true} noLast={true} platformId={platformId} trinitySkuTypeVOS={trinitySkuTypeList} />
 					</div>
 					<ShowDetailArr arr={[{ title: "收费类型", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
