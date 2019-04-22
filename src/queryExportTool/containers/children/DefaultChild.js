@@ -106,6 +106,10 @@ class DefaultChild extends Component {
 	isdBackUp = (isdBackUp) => {
 		document.getElementById('app-content-children-id').scrollTop = 0
 	}
+	ruleUrlAddTrack = () => {
+		let { platformType } = this.props.match.params;
+		sensors.track('AccountSearchEvent', { app_id: 101, platformType: platformType, click_url: "http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf" });
+	}
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;
@@ -127,6 +131,7 @@ class DefaultChild extends Component {
 					ruleUrl[platformType] ?
 						<a href="http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf"
 							target="_blank"
+							onClick={this.ruleUrlAddTrack}
 						>
 							{ruleUrl[platformType]}
 						</a> : null
