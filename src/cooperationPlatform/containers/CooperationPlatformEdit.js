@@ -88,7 +88,7 @@ class CooperationPlatformEdit extends Component {
 			await insertCooperationPlatform({ ...values, })
 		}
 		message.success('您所提交的信息已经保存成功！')
-		//this.jumpPage()
+		this.jumpPage()
 	}
 	jumpPage = () => {
 		window.location.href = "/config/platform/list";
