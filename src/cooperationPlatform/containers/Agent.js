@@ -38,7 +38,7 @@ class Agent extends Component {
 		})
 	}
 	//查询
-	seachAgentByPage = (params) => {
+	seachAgentByPage = (params, operate) => {
 		const { searchParams, pageParam } = this.state
 		this.setState({
 			isLoading: true
@@ -46,7 +46,7 @@ class Agent extends Component {
 		const { actions: { getAgentByPage }, cooperationPlatformReducer: { agentByPageList } } = this.props
 		const paramsAll = { ...pageDefault, ...pageParam, form: { cooperationPlatformCode: searchParams.code }, ...params }
 
-		if (paramsAll.operate == 'delete' && (agentByPageList && agentByPageList.total) % paramsAll.page.pageSize == 1) {
+		if (operate == 'delete' && (agentByPageList && agentByPageList.total) % paramsAll.page.pageSize == 1) {
 			paramsAll.page.currentPage = paramsAll.page.currentPage - 1
 		}
 		getAgentByPage(paramsAll).then(() => {
@@ -90,7 +90,7 @@ class Agent extends Component {
 		delAgent({ id: id, })
 			.then(() => {
 				message.success(`删除成功`);
-				this.seachAgentByPage({ operate: 'delete' })
+				this.seachAgentByPage(null, 'delete')
 			})
 
 	}
