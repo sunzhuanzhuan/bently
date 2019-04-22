@@ -20,13 +20,14 @@ class CooperationMethod extends Component {
 		this.props.form.resetFields(['agentVo.refundRate', 'agentVo.cooperationRemark'])
 	}
 	render() {
-		const { form, formLayout, dataDefault } = this.props
+		const { form, formLayout, dataDefault = {} } = this.props
 		const { getFieldDecorator, getFieldValue } = form
+		const { refundRate, cooperationType } = dataDefault
 		return (
 			<div>
 				<Form.Item label="合作方式"{...formLayout}>
 					{getFieldDecorator('agentVo.cooperationType', {
-						initialValue: dataDefault && dataDefault.cooperationType || 1,
+						initialValue: cooperationType || 1,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
@@ -40,7 +41,8 @@ class CooperationMethod extends Component {
 				</Form.Item>
 				{getFieldValue("agentVo.cooperationType") == 1 ? <Form.Item label="返款比例"  {...formLayout}>
 					{getFieldDecorator('agentVo.refundRate', {
-						initialValue: dataDefault && dataDefault.refundRate || undefined,
+						//周期返款类型并且refundRate，refundRate取0否则refundRate=undefined
+						initialValue: refundRate || cooperationType == 1 && refundRate === 0 ? refundRate : undefined,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '本项为必填项，请输入！' },
