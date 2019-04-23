@@ -157,7 +157,7 @@ export default class MainItem extends PureComponent {
 						dataTime={price && price.price_valid_to}
 						tableFooterText={Is_wei ? "" : "价格有效期"}
 						isLeft={true} />
-					<SimpleTables Is_wei={Is_wei} data={avg_data && avg_data.items} columsNum={this.getColumsNum(group_type)[1]} dataTime={avg_data && avg_data.fetched_time} tableFooterText="抓取时间" />
+					<SimpleTables Is_wei={Is_wei} data={avg_data && avg_data.items} columsNum={this.getColumsNum(group_type)[1]} dataTime={avg_data && avg_data.media_fetched_time} tableFooterText="抓取时间" />
 
 				</main>
 				<footer className="content-footer">
