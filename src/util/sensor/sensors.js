@@ -23,7 +23,7 @@ export const sensors = (userId, serviceUrl, appId) => {
 			},
 			scroll_delay_time: 4000
 		},
-		show_log: true
+		show_log: false
 	})
 	wby.login(userId)
 	wby.quick("autoTrack");
