@@ -93,8 +93,8 @@ export default class MainItem extends PureComponent {
 							</Avatar>
 							<div>
 								<div style={{ padding: 10 }}>
-									{/* 朋友圈和微信没有去主页 */}
-									{IS_WEiXin || platform_id == 23 ? null : <a onClick={() => this.track('vievAccountHomePageEvent')} href={url} target="_blank">去主页</a>}
+									{/* 朋友圈没有去主页 */}
+									{platform_id == 23 ? null : <a onClick={() => this.track('vievAccountHomePageEvent')} href={url} target="_blank">去主页</a>}
 								</div>
 								<div style={{ marginLeft: 6 }}>
 									{is_low_quality == 1 ? <CTag color='gary'> 劣质号 </CTag> : null}

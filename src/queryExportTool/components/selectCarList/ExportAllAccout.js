@@ -8,6 +8,7 @@ import moment from 'moment';
 import api from '../../../api'
 import debounce from 'lodash/debounce';
 import { countstrlen } from "../../../util/verification";
+import { sensors } from '../../../util/sensor/sensors'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -65,6 +66,9 @@ class EditQuotation extends Component {
 		this.props.form.setFieldsValue({
 			company_id: { key: company_id, label: company_name ? company_name : "不限" }
 		})
+	}
+	ruleUrlAddTrack = () => {
+		sensors.track('AccountSearchEvent', { app_id: 101, sources: "查号导号工具-选号车", position: "添加报价单信息", click_url: "http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf" });
 	}
 	1234567890
 	render() {
@@ -144,6 +148,16 @@ class EditQuotation extends Component {
 					})(
 						<Input placeholder="请输入" />
 					)}
+				</FormItem>
+				<FormItem
+					{...formItemLayout}
+					label="三方平台下单规则"
+				>
+					<a
+						href="http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf"
+						target="_blank"
+						onClick={this.ruleUrlAddTrack}
+					>{`查看微博&短视频&小红书平台下单规则`}</a>
 				</FormItem>
 				<div style={{ textAlign: "center", marginTop: 20, paddingBottom: 20 }}>
 					<Button type="primary" onClick={this.saveAndExport}>保存并导出</Button>
