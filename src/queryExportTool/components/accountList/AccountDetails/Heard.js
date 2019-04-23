@@ -16,7 +16,7 @@ class Heard extends Component {
 		const { baseInfoList, } = this.props
 		const { base = {}, account_id } = baseInfoList
 		const { avatar_url, sns_name, verification_info,
-			latest_publish_time, cooperation_tips, platform_id,
+			media_fetched_time, cooperation_tips, platform_id,
 			is_famous, gender, area_name, age_group, is_verified, verified_status } = base
 		const Is_wei = is_famous == 2
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
@@ -47,7 +47,7 @@ class Heard extends Component {
 						</Row>
 						<Row style={{ marginTop: 10 }}>
 							<span style={{ color: 999 }}>最近一次内容更新时间：</span>
-							<span>{latest_publish_time}</span>
+							<span>{media_fetched_time}</span>
 						</Row>
 					</Col>
 					{/* <Col span={4}>
