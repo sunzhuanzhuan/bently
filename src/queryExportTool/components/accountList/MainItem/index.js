@@ -68,8 +68,8 @@ export default class MainItem extends PureComponent {
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
 		const IS_WEiXin = group_type == 1
 		const Is_Weibo = group_type == 2
-		const Is_Red = group_type == 3
-		const Is_Vidro = group_type == 4
+		const Is_Vidro = group_type == 3
+		const Is_Red = group_type == 4
 		const Is_Other = group_type == 5
 		const Is_wei = is_famous == 2
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
