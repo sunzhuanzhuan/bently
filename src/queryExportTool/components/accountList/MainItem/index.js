@@ -109,7 +109,7 @@ export default class MainItem extends PureComponent {
 						<AccountInfos>
 							<div className='one-line-box-name-level' onClick={() => {
 								this.track('vievAccountDetailEvent');
-								Is_Vidro ?
+								[103, 110, 115].includes(platform_id) ?
 									window.open(window.open(`/account/view/detail?accountId=${account_id}`, "_blank"))
 									: this.props.setModalContent(<AccountDetails account_id={account_id}
 									/>)
