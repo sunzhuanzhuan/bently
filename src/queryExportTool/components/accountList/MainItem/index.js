@@ -72,6 +72,7 @@ export default class MainItem extends PureComponent {
 		const Is_Red = group_type == 4
 		const Is_Other = group_type == 5
 		const Is_wei = is_famous == 2
+
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
 			{/* {checkNode} */}
 			{isDeleteAction ?
@@ -109,7 +110,7 @@ export default class MainItem extends PureComponent {
 						<AccountInfos>
 							<div className='one-line-box-name-level' onClick={() => {
 								this.track('vievAccountDetailEvent');
-								Is_Vidro ?
+								[24, 25, 103, 110, 115, 116, 118].includes(platform_id) ?
 									window.open(window.open(`/account/view/detail?accountId=${account_id}`, "_blank"))
 									: this.props.setModalContent(<AccountDetails account_id={account_id}
 									/>)
