@@ -107,7 +107,13 @@ export default class MainItem extends PureComponent {
 							</div>
 						</div>
 						<AccountInfos>
-							<div className='one-line-box-name-level' onClick={() => { this.track('vievAccountDetailEvent'); this.props.setModalContent(<AccountDetails account_id={account_id} />) }}>
+							<div className='one-line-box-name-level' onClick={() => {
+								this.track('vievAccountDetailEvent');
+								Is_Vidro ?
+									window.open(window.open(`/account/view/detail?accountId=${account_id}`, "_blank"))
+									: this.props.setModalContent(<AccountDetails account_id={account_id}
+									/>)
+							}}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={sns_name} trigger="hover"  >
 									<div className="sns_name_title">{sns_name}</div>
