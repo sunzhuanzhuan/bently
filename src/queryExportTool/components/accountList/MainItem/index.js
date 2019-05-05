@@ -68,8 +68,8 @@ export default class MainItem extends PureComponent {
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
 		const IS_WEiXin = group_type == 1
 		const Is_Weibo = group_type == 2
-		const Is_Red = group_type == 3
-		const Is_Vidro = group_type == 4
+		const Is_Vidro = group_type == 3
+		const Is_Red = group_type == 4
 		const Is_Other = group_type == 5
 		const Is_wei = is_famous == 2
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
@@ -107,7 +107,13 @@ export default class MainItem extends PureComponent {
 							</div>
 						</div>
 						<AccountInfos>
-							<div className='one-line-box-name-level' onClick={() => { this.track('vievAccountDetailEvent'); this.props.setModalContent(<AccountDetails account_id={account_id} />) }}>
+							<div className='one-line-box-name-level' onClick={() => {
+								this.track('vievAccountDetailEvent');
+								Is_Vidro ?
+									window.open(window.open(`/account/view/detail?accountId=${account_id}`, "_blank"))
+									: this.props.setModalContent(<AccountDetails account_id={account_id}
+									/>)
+							}}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={sns_name} trigger="hover"  >
 									<div className="sns_name_title">{sns_name}</div>
