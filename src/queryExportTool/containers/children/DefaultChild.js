@@ -108,7 +108,7 @@ class DefaultChild extends Component {
 	}
 	ruleUrlAddTrack = () => {
 		let { platformType } = this.props.match.params;
-		sensors.track('AccountSearchEvent', { app_id: 101, platformType: platformType, click_url: "http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf" });
+		sensors.track('AccountSearchEvent', { app_id: 101, platformType: platformType, click_url: "https://wby-download-storage.oss-cn-beijing.aliyuncs.com/trinity/%E7%9F%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0%E6%94%BF%E7%AD%96%26%E8%A7%84%E5%88%99%E6%A6%82%E8%A7%88.pdf" });
 	}
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
@@ -129,7 +129,7 @@ class DefaultChild extends Component {
 				&nbsp;&nbsp;&nbsp;
 				{
 					ruleUrl[platformType] ?
-						<a href="http://dev.xundameng.com:8095/download/attachments/34186949/短视频平台政策%26规则概览.pdf"
+						<a href="https://wby-download-storage.oss-cn-beijing.aliyuncs.com/trinity/%E7%9F%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0%E6%94%BF%E7%AD%96%26%E8%A7%84%E5%88%99%E6%A6%82%E8%A7%88.pdf"
 							target="_blank"
 							onClick={this.ruleUrlAddTrack}
 						>
