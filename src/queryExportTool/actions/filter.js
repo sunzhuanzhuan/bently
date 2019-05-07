@@ -12,6 +12,7 @@ const getCategory = (grouped_categories, group_id) => {
 		name: item.itemValue
 	}))
 }
+
 // let version = 0;
 export const getFilters = (params) => (dispatch) => {
 	const { group_id } = params;
