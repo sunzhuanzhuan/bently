@@ -26,6 +26,8 @@ class BatchCreateMainAccount extends Component {
 	//获取upload-token和upload-url
 	componentWillMount() {
 		this.props.actions.getUploadInfo()
+		// 获取入库平台列表
+		this.props.actions.getBatchInstockPlatformList()
 	}
 	//跳转Tab2
 	jumpToTab2 = () => {
