@@ -58,3 +58,11 @@ export const {
 } = createHttpAction('getBatchInstockPlatformList', Interface.getBatchInstockPlatformList, {
 	method: 'get'
 });
+
+// 获取批量修改账号报价平台列表
+export const {
+	getBatchSkuPlatformList,
+	getBatchSkuPlatformList_success
+} = createHttpAction('getBatchSkuPlatformList', Interface.getBatchSkuPlatformList, {
+	method: 'get'
+});

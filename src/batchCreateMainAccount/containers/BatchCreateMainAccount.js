@@ -28,6 +28,8 @@ class BatchCreateMainAccount extends Component {
 		this.props.actions.getUploadInfo()
 		// 获取入库平台列表
 		this.props.actions.getBatchInstockPlatformList()
+		// 修改账号报价获取平台列表
+		this.props.actions.getBatchSkuPlatformList()
 	}
 	//跳转Tab2
 	jumpToTab2 = () => {
@@ -147,7 +149,7 @@ class BatchCreateMainAccount extends Component {
 		}
 	}
 	render() {
-		const { instockPlatformList } = this.props
+		const { instockPlatformList, batchSkuPlatformList } = this.props
 		const Content = typeConfig[this.state.type]
 		return (
 			<div>
@@ -165,6 +167,7 @@ class BatchCreateMainAccount extends Component {
 							getNewDownloadLink={this.getNewDownloadLink}
 							editAccountPrice={this.editAccountPrice}
 							instockPlatformList={instockPlatformList}
+							batchSkuPlatformList={batchSkuPlatformList}
 						></Content>
 					</TabPane>
 					<TabPane tab="主账号批量处理结果" key="2">
@@ -190,7 +193,8 @@ const mapStateToProps = (state) => {
 	return {
 		uploadInfo: state.batchCreateMainAccountReducers.uploadInfo,
 		authVisibleList: state.authorizationsReducers.authVisibleList,
-		instockPlatformList: state.batchCreateMainAccountReducers.instockPlatformList
+		instockPlatformList: state.batchCreateMainAccountReducers.instockPlatformList,
+		batchSkuPlatformList: state.batchCreateMainAccountReducers.batchSkuPlatformList
 	}
 }
 

@@ -9,6 +9,7 @@ export default {
 	saveBatchOperate: '/operator-gateway/accountExcelTool/v1/saveBatchOperate',
 	getNewDealResultList: '/operator-gateway/accountExcelTool/v1/selectAccountBatchOperatePage',
 	downloadDealResult: '/operator-gateway/accountExcelTool/v1/getRealDownLoadPath',
-	getBatchInstockPlatformList: '/operator-gateway/common/v1/getBatchInstockPlatformList'
+	getBatchInstockPlatformList: '/operator-gateway/common/v1/getBatchInstockPlatformList',
+	getBatchSkuPlatformList: '/operator-gateway/common/v1/getBatchSkuPlatformList'
 }
 
