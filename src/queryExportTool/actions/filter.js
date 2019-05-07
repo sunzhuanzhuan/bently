@@ -13,6 +13,7 @@ const getCategory = (grouped_categories, group_id) => {
 		return grouped_categories.video_platforms
 	}
 }
+
 // let version = 0;
 export const getFilters = (params) => (dispatch) => {
 	const { group_id } = params;
