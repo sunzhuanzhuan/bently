@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import {
 	uploadInfo,
-	downloadLink
+	downloadLink,
+	instockPlatformList
 } from './batchCreateMainAccount'
 import {
 	dealResultList,
@@ -14,5 +15,6 @@ export default combineReducers({
 	dealResultList,
 	selectionList,
 	downloadLink,
-	newDealResultList
+	newDealResultList,
+	instockPlatformList
 })

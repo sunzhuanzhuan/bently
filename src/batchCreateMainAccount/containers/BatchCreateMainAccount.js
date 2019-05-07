@@ -147,6 +147,7 @@ class BatchCreateMainAccount extends Component {
 		}
 	}
 	render() {
+		const { instockPlatformList } = this.props
 		const Content = typeConfig[this.state.type]
 		return (
 			<div>
@@ -163,6 +164,7 @@ class BatchCreateMainAccount extends Component {
 							changeMainAccount={this.changeMainAccount}
 							getNewDownloadLink={this.getNewDownloadLink}
 							editAccountPrice={this.editAccountPrice}
+							instockPlatformList={instockPlatformList}
 						></Content>
 					</TabPane>
 					<TabPane tab="主账号批量处理结果" key="2">
@@ -187,7 +189,8 @@ class BatchCreateMainAccount extends Component {
 const mapStateToProps = (state) => {
 	return {
 		uploadInfo: state.batchCreateMainAccountReducers.uploadInfo,
-		authVisibleList: state.authorizationsReducers.authVisibleList
+		authVisibleList: state.authorizationsReducers.authVisibleList,
+		instockPlatformList: state.batchCreateMainAccountReducers.instockPlatformList
 	}
 }
 
