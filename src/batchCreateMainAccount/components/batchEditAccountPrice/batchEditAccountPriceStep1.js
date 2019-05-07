@@ -1,5 +1,4 @@
 import React from 'react'
-import { platformIcon, batchEditAccountPricePlatformIconArray } from '../../constants/config'
 import { Row, Col, Button } from 'antd';
 import './batchEditAccountPriceStep1.less'
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, Row, Col } from 'antd';
-import { platformIcon, platformIconArray } from '../../constants/config'
 import './AccountPutAttributeStep1.less'
 
 export const AccountPutAttributeStep1 = (props) => {
