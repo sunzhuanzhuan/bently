@@ -68,8 +68,8 @@ export default class MainItem extends PureComponent {
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
 		const IS_WEiXin = group_type == 1
 		const Is_Weibo = group_type == 2
-		const Is_Red = group_type == 3
-		const Is_Vidro = group_type == 4
+		const Is_Vidro = group_type == 3
+		const Is_Red = group_type == 4
 		const Is_Other = group_type == 5
 		const Is_wei = is_famous == 2
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
@@ -94,7 +94,7 @@ export default class MainItem extends PureComponent {
 							<div>
 								<div style={{ padding: 10 }}>
 									{/* 朋友圈和微信没有去主页 */}
-									{IS_WEiXin || platform_id == 23 ? null : <a onClick={() => this.track('vievAccountHomePageEvent')} href={url} target="_blank">去主页</a>}
+									{platform_id == 23 ? null : <a onClick={() => this.track('vievAccountHomePageEvent')} href={IS_WEiXin ? `https://weixin.sogou.com/weixin?query=${sns_id}` : url} target="_blank">去主页</a>}
 								</div>
 								<div style={{ marginLeft: 6 }}>
 									{is_low_quality == 1 ? <CTag color='gary'> 劣质号 </CTag> : null}
@@ -107,14 +107,20 @@ export default class MainItem extends PureComponent {
 							</div>
 						</div>
 						<AccountInfos>
-							<div className='one-line-box-name-level' onClick={() => { this.track('vievAccountDetailEvent'); this.props.setModalContent(<AccountDetails account_id={account_id} />) }}>
+							<div className='one-line-box-name-level' onClick={() => {
+								this.track('vievAccountDetailEvent');
+								[103, 110, 115].includes(platform_id) ?
+									window.open(`/account/view/detail?accountId=${account_id}`, "_blank")
+									: this.props.setModalContent(<AccountDetails account_id={account_id}
+									/>)
+							}}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={sns_name} trigger="hover"  >
 									<div className="sns_name_title">{sns_name}</div>
 								</Popover>
 								{/* 此处是账号平台认证图标、等级图标、蓝黄V图标 */}
 								<div>
-									<PlatformVerified verified_status={verified_status} platform_id={platform_id} />
+									<PlatformVerified verified_status={is_verified} platform_id={platform_id} />
 								</div>
 								<div>
 									<WeiboVip verified_status={verified_status} platform_id={platform_id} />
@@ -157,7 +163,7 @@ export default class MainItem extends PureComponent {
 						dataTime={price && price.price_valid_to}
 						tableFooterText={Is_wei ? "" : "价格有效期"}
 						isLeft={true} />
-					<SimpleTables Is_wei={Is_wei} data={avg_data && avg_data.items} columsNum={this.getColumsNum(group_type)[1]} dataTime={avg_data && avg_data.fetched_time} tableFooterText="抓取时间" />
+					<SimpleTables Is_wei={Is_wei} data={avg_data && avg_data.items} columsNum={this.getColumsNum(group_type)[1]} dataTime={avg_data && avg_data.media_fetched_time} tableFooterText="抓取时间" />
 
 				</main>
 				<footer className="content-footer">
