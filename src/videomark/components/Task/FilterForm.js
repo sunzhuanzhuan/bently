@@ -50,7 +50,7 @@ const originalPostType = [
     }
 ]
 class FilterForm extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
 
@@ -82,8 +82,8 @@ class FilterForm extends Component {
             'execution_completed_end_time'
         ];
         timeMap.forEach((v) => {
-            if (data[ v ]) {
-                data[ v ] = data[ v ].format("YYYY-MM-DD")
+            if (data[v]) {
+                data[v] = data[v].format("YYYY-MM-DD")
             }
         });
         return data
@@ -116,36 +116,36 @@ class FilterForm extends Component {
                 <fieldset className="margin-top-md form-container filter-form-box">
                     <legend className="searchTitle">搜索</legend>
                     <FormItem label="订单ID">
-                        { getFieldDecorator('order_id', {
-                            rules: [ {
+                        {getFieldDecorator('order_id', {
+                            rules: [{
                                 pattern: /^[1-9]\d*$/,
                                 message: '订单ID必须为正整数'
-                            } ]
+                            }]
                         })(
                             <Input className="input-width" />
-                        ) }
+                        )}
                     </FormItem>
                     {
                         type === 'reservation' ?
                             <FormItem label="预约需求名称">
-                                { getFieldDecorator('requirement_name')(
+                                {getFieldDecorator('requirement_name')(
                                     <Input className="input-width" />
-                                ) }
+                                )}
                             </FormItem>
                             :
                             <FormItem label="活动名称">
-                                { getFieldDecorator('campaign_name')(
+                                {getFieldDecorator('campaign_name')(
                                     <Input className="input-width" />
-                                ) }
+                                )}
                             </FormItem>
                     }
                     <FormItem label="账号名称">
-                        { getFieldDecorator('weibo_name')(
+                        {getFieldDecorator('weibo_name')(
                             <Input className="input-width" />
-                        ) }
+                        )}
                     </FormItem>
                     <FormItem label="平台">
-                        { getFieldDecorator('weibo_type_filter')(
+                        {getFieldDecorator('weibo_type_filter')(
                             <Select
                                 placeholder="请选择"
                                 className="select-width"
@@ -154,23 +154,23 @@ class FilterForm extends Component {
                                 {
                                     platformList.length > 0 ?
                                         platformList.map(item => {
-                                            return <Option key={ item.platform_id }
-                                                value={ item.platform_id }
+                                            return <Option key={item.platform_id}
+                                                value={item.platform_id}
                                             >
-                                                { item.platform_name }
+                                                {item.platform_name}
                                             </Option>
                                         }) : ""
                                 }
                             </Select>
-                        ) }
+                        )}
                     </FormItem>
                     <FormItem label="厂商简称">
-                        { getFieldDecorator('company_name')(
+                        {getFieldDecorator('company_name')(
                             <Input className="input-width" />
-                        ) }
+                        )}
                     </FormItem>
                     <FormItem label="销售经理">
-                        { getFieldDecorator('sale_manager_id')(
+                        {getFieldDecorator('sale_manager_id')(
                             <Select
                                 placeholder="请选择"
                                 className="select-width"
@@ -179,122 +179,122 @@ class FilterForm extends Component {
                                 {
                                     saleList.length > 0 ?
                                         saleList.map(item => {
-                                            return <Option key={ item.owner_admin_id }
-                                                value={ item.owner_admin_id }
+                                            return <Option key={item.owner_admin_id}
+                                                value={item.owner_admin_id}
                                             >
-                                                { item.real_name }
+                                                {item.real_name}
                                             </Option>
                                         }) : ""
                                 }
                             </Select>
-                        ) }
+                        )}
                     </FormItem>
                     {
                         type === 'reservation' && <FormItem label="回传链接时间">
-                            { getFieldDecorator('execution_completed_start_time', {
+                            {getFieldDecorator('execution_completed_start_time', {
 
                             })(
-                                <DatePicker format={ dateFormat } placeholder="请选择开始时间" />
-                            ) }
+                                <DatePicker format={dateFormat} placeholder="请选择开始时间" />
+                            )}
                         </FormItem>
                     }
                     {
                         type === 'reservation' && <FormItem label="">
                             <span className="time-section-line">-</span>
-                            { getFieldDecorator('execution_completed_end_time', {
+                            {getFieldDecorator('execution_completed_end_time', {
 
                             })(
-                                <DatePicker format={ dateFormat } placeholder="请选择结束时间" />
-                            ) }
+                                <DatePicker format={dateFormat} placeholder="请选择结束时间" />
+                            )}
                         </FormItem>
                     }
                     <FormItem label="标注时间">
-                        { getFieldDecorator('signed_start_time', {
+                        {getFieldDecorator('signed_start_time', {
 
                         })(
-                            <DatePicker format={ dateFormat } placeholder="请选择开始时间" />
+                            <DatePicker format={dateFormat} placeholder="请选择开始时间" />
 
-                        ) }
+                        )}
                     </FormItem>
                     <FormItem label="">
                         <span className="time-section-line">-</span>
-                        { getFieldDecorator('signed_end_time', {
+                        {getFieldDecorator('signed_end_time', {
 
                         })(
-                            <DatePicker format={ dateFormat } placeholder="请选择结束时间" />
-                        ) }
+                            <DatePicker format={dateFormat} placeholder="请选择结束时间" />
+                        )}
                     </FormItem>
                     <FormItem label="状态">
-                        { getFieldDecorator('is_signed', {
+                        {getFieldDecorator('is_signed', {
                             initialValue: 2
                         })(
                             <Select
                                 placeholder="请选择"
                                 className="select-width"
-                                onChange={ this.handleSignedChange }
+                                onChange={this.handleSignedChange}
                             >
                                 {
                                     signedList.map(item => {
-                                        return <Option key={ item.id }
-                                            value={ item.id }
+                                        return <Option key={item.id}
+                                            value={item.id}
                                         >
-                                            { item.value }
+                                            {item.value}
                                         </Option>
                                     })
                                 }
                             </Select>
-                        ) }
+                        )}
                     </FormItem>
                     {
                         signedStatus ?
                             <FormItem label="内容形式">
-                                { getFieldDecorator('content_type')(
+                                {getFieldDecorator('content_type')(
                                     <Select
                                         placeholder="请选择"
                                         className="select-width"
                                     >
                                         {
                                             contentType.map(item => {
-                                                return <Option key={ item.id }
-                                                    value={ item.id }
+                                                return <Option key={item.id}
+                                                    value={item.id}
                                                 >
-                                                    { item.value }
+                                                    {item.value}
                                                 </Option>
                                             })
                                         }
                                     </Select>
-                                ) }
+                                )}
                             </FormItem>
                             : ''
                     }
                     {
                         signedStatus ?
                             <FormItem label="需求类型">
-                                { getFieldDecorator('original_post_type')(
+                                {getFieldDecorator('original_post_type')(
                                     <Select
                                         placeholder="请选择"
                                         className="select-width"
                                     >
                                         {
                                             originalPostType.map(item => {
-                                                return <Option key={ item.id }
-                                                    value={ item.id }
+                                                return <Option key={item.id}
+                                                    value={item.id}
                                                 >
-                                                    { item.value }
+                                                    {item.value}
                                                 </Option>
                                             })
                                         }
                                     </Select>
-                                ) }
+                                )}
                             </FormItem>
                             : ''
                     }
                     <div className="filter_tool">
                         <FormItem>
-                            <Button type="primary" onClick={ this.handleSubmit }>搜索</Button>
+                            <Button type="primary" onClick={this.handleSubmit}>搜索</Button>
                         </FormItem>
                         <FormItem>
-                            <a onClick={ () => resetForm(type) } className="resetFilter"><Icon type="retweet" /> 重置搜索框</a>
+                            <a onClick={() => resetForm(type)} className="resetFilter"><Icon type="retweet" /> 重置搜索框</a>
                         </FormItem>
                     </div>
                 </fieldset>
