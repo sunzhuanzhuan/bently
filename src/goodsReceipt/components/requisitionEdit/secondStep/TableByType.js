@@ -144,7 +144,11 @@ class TableByType extends Component {
 				title: '采购价+服务费',
 				dataIndex: 'purchase_price_with_service_fee',
 				key: 'purchase_price_with_service_fee',
-				render: (text, record) => <NumeralFormat value={text} />
+				render: (text, record) => <EditTableCell
+					value={text}
+					onChange={this.onCellChange(record.item_id, 'purchase_price_with_service_fee')}
+					isOperated={record.purchase_price_with_service_fee != text}
+				/>
 			}, {
 				title: '采购价+服务费+税',
 				dataIndex: 'purchase_price_with_service_fee_and_tax',
