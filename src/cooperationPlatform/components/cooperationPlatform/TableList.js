@@ -12,14 +12,21 @@ class TableList extends Component {
 		this.state = {};
 	}
 
-	showModal = (coId, platformId, data) => {
+	showModal = (code, coId, platformId, data) => {
 		const { setShowModal, actions, setStatusCO } = this.props
 		//弹出选择启用报价项弹窗
 		setShowModal(true, {
 			title: '启用报价项',
 			content: <Quotation notOperate={true} setEnableArr={async (arr) => {
 				//启用报价项
-				const list = arr.map(one => { return { id: one, platformId: platformId, trinitySkuTypeStatus: 1 } })
+				const list = arr.map(one => {
+					return {
+						id: one,
+						platformId: platformId,
+						trinitySkuTypeStatus: 1,
+						trinityPlatformCode: code
+					}
+				})
 				await actions.addOrUpdateTrinitySkuType(list)
 				//并启用该平台
 				setStatusCO(coId, platformId, 1)
@@ -40,7 +47,7 @@ class TableList extends Component {
 		} else {
 			//未启用，查询报价项列表
 			const { data } = await actions.getTrinitySkuTypeList({ trinityPlatformCode: code, trinityPlatformId: coId, platformId: platformId });
-			this.showModal(coId, platformId, data)
+			this.showModal(code, coId, platformId, data)
 		}
 
 	}
