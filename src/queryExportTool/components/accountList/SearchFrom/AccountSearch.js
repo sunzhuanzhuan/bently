@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Tabs, Form } from 'antd';
+import { Row, Tabs, Form, Icon } from 'antd';
 import ItemLable from './ItemLable';
 import InputAndSlider from './InputAndSlider/InputAndSliderNew'
 import Search from './Search'
@@ -12,10 +12,10 @@ import {
 	followersCountMarks
 } from '@/queryExportTool/constants/searchFilter'
 const { TabPane } = Tabs;
-const LayoutSearch = ({ name, children }) => {
+const LayoutSearch = ({ name, children, width }) => {
 	return (
 		<Row className="layout-search-box">
-			<div className="lable">
+			<div className="lable" style={{ width: width }}>
 				<div>{name}：</div>
 			</div>
 			<div>
@@ -55,7 +55,9 @@ class AccountSearch extends React.Component {
 				value: [price.bar.min, price.bar.max],
 				selectValue: -1
 			},
-			selectedItems: {}
+			selectedItems: {},
+			isShowMore: false,
+			changTabNumber: '2'
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
@@ -148,8 +150,13 @@ class AccountSearch extends React.Component {
 			}
 		})
 	}
+	changeTab = (value) => {
+		this.setState({
+			changTabNumber: value
+		})
+	}
 	render() {
-		const { selectedItems } = this.state;
+		const { selectedItems, isShowMore, changTabNumber } = this.state;
 		const { form, match, history, location, keyword } = this.props;
 		const { getFieldDecorator } = form;
 		const { filterOptions = {} } = this.props.queryExportToolReducer;
@@ -165,6 +172,20 @@ class AccountSearch extends React.Component {
 		const isShowSelectForPrice = [1, 2, 3].indexOf(parseInt(platformType, 10)) !== -1;
 		price.options = grouped_sku_types[platformType] || []
 		const { grouped_platforms = [] } = group;
+
+		const historyFrom = <div>
+			{operation_tag && <LayoutSearch name={'历史推广行业'} width='100px'>
+				{getFieldDecorator('operation_tag_id')(
+					<ItemLable
+						onClick={(names) => this.onItemLableChange('operation_tag_id', '历史推广行业', names)}
+						// id='operation_tag'
+						tagsArray={operation_tag}
+					/>
+				)}
+			</LayoutSearch>}
+
+		</div>
+
 		const commSearch = <Search keyword={keyword} form={form}
 			onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
 		></Search>
@@ -234,16 +255,31 @@ class AccountSearch extends React.Component {
 			}
 			<FilterCommon selectedItems={selectedItems} {...this.props} resetFilter={this.resetFilter} onFilter={this.onFilterSearch} />
 		</div>
+
+
 		return <div>
-			<Tabs type="card" className='query-tool-search-tab'>
+			<Tabs type="card" className='query-tool-search-tab' activeKey={changTabNumber} onChange={this.changeTab}>
 				<TabPane tab="全库账号" key="1" >
 					{commSearch}
 					{allSearch}
 				</TabPane>
 				<TabPane tab="历史成交账号" key="2">
 					{commSearch}
+					{historyFrom}
+					{isShowMore ? <div >
+						{allSearch}
+					</div> : null}
 				</TabPane>
 			</Tabs>
+			{!isShowMore ? <div className='search-more' onClick={() => {
+				this.setState({
+					isShowMore: true
+				})
+			}}>
+				<div className='search-more-text'>更多筛选条件
+							<Icon type="down" className='search-more-icon' />
+				</div>
+			</div> : null}
 			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
