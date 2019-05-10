@@ -271,7 +271,7 @@ class AccountSearch extends React.Component {
 					</div> : null}
 				</TabPane>
 			</Tabs>
-			{!isShowMore ? <div className='search-more' onClick={() => {
+			{!isShowMore && changTabNumber == 2 ? <div className='search-more' onClick={() => {
 				this.setState({
 					isShowMore: true
 				})
