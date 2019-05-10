@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Input, Button, DatePicker, Select, Icon } from 'antd';
+import SelectFormItem from '../common/SelectFormItem'
 const Option = Select.Option;
 const FormItem = Form.Item;
 import './FilterForm.less'
@@ -247,46 +248,32 @@ class FilterForm extends Component {
                     </FormItem>
                     {
                         signedStatus ?
-                            <FormItem label="内容形式">
-                                {getFieldDecorator('content_type')(
-                                    <Select
-                                        placeholder="请选择"
-                                        className="select-width"
-                                    >
-                                        {
-                                            contentType.map(item => {
-                                                return <Option key={item.id}
-                                                    value={item.id}
-                                                >
-                                                    {item.value}
-                                                </Option>
-                                            })
-                                        }
-                                    </Select>
-                                )}
-                            </FormItem>
+                            <SelectFormItem
+                                getFieldDecorator={getFieldDecorator}
+                                label={'内容形式'}
+                                keyName={'content_type'}
+                                options={contentType}
+                            ></SelectFormItem>
                             : ''
                     }
                     {
                         signedStatus ?
-                            <FormItem label="需求类型">
-                                {getFieldDecorator('original_post_type')(
-                                    <Select
-                                        placeholder="请选择"
-                                        className="select-width"
-                                    >
-                                        {
-                                            originalPostType.map(item => {
-                                                return <Option key={item.id}
-                                                    value={item.id}
-                                                >
-                                                    {item.value}
-                                                </Option>
-                                            })
-                                        }
-                                    </Select>
-                                )}
-                            </FormItem>
+                            <SelectFormItem
+                                getFieldDecorator={getFieldDecorator}
+                                label={'需求类型'}
+                                keyName={'original_post_type'}
+                                options={originalPostType}
+                            ></SelectFormItem>
+                            : ''
+                    }
+                    {
+                        signedStatus ?
+                            <SelectFormItem
+                                getFieldDecorator={getFieldDecorator}
+                                label={'推广产品所属行业'}
+                                keyName={'industry'}
+                                options={originalPostType}
+                            ></SelectFormItem>
                             : ''
                     }
                     <div className="filter_tool">
