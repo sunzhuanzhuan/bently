@@ -5,7 +5,8 @@ import {
     reservationList,
     campaignList,
     industryList,
-    brandList
+    brandList,
+    brandListForModal
 } from './task'
 
 
@@ -15,5 +16,6 @@ export default combineReducers({
     reservationList,
     campaignList,
     industryList,
-    brandList
+    brandList,
+    brandListForModal
 })

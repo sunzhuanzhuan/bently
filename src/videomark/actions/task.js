@@ -32,11 +32,18 @@ export const {
     method: 'get'
 });
 
-//获取品牌列表
+//获取筛选项品牌列表
 export const {
     getBrandList,
     getBrandList_success
 } = createHttpAction('getBrandList', Interface.getBrandList, {
+    method: 'get'
+});
+//获取品牌列表
+export const {
+    getBrandListForModal,
+    getBrandListForModal_success
+} = createHttpAction('getBrandListForModal', Interface.getBrandList, {
     method: 'get'
 });
 

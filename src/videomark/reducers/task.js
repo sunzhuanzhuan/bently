@@ -6,7 +6,8 @@ import {
     getReservationList_success,
     getCampaignList_success,
     getVMIndustryList_success,
-    getBrandList_success
+    getBrandList_success,
+    getBrandListForModal_success
 } from '../actions/task'
 
 
@@ -41,6 +42,17 @@ export const campaignList = handleActions({
 //行业
 export const industryList = handleActions({
     [getVMIndustryList_success]: (state, action) => {
+        return [...action.payload.data.list].map((item) => {
+            item.id = item.code
+            item.value = item.name
+            return item
+        })
+    },
+}, []);
+
+//筛选项品牌
+export const brandList = handleActions({
+    [getBrandList_success]: (state, action) => {
         return [...action.payload.data].map((item) => {
             item.id = item.owner_admin_id
             item.value = item.real_name
@@ -49,12 +61,13 @@ export const industryList = handleActions({
     },
 }, []);
 
-//品牌
-export const brandList = handleActions({
-    [getBrandList_success]: (state, action) => {
+//弹窗品牌
+export const brandListForModal = handleActions({
+    [getBrandListForModal_success]: (state, action) => {
         return [...action.payload.data].map((item) => {
             item.id = item.owner_admin_id
             item.value = item.real_name
+            item.er = 'fdsfsd'
             return item
         })
     },

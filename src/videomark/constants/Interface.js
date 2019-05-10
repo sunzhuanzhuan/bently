@@ -3,6 +3,6 @@ export default {
     getCampaignList: '/dataProcessing/order/getOrderListOfDispatch',
     getPlatformList: '/dataProcessing/order/getPlatform',
     getSaleList: '/dataProcessing/order/getSalesManager',
-    getIndustryList: '/dataProcessing/order/getSalesManager',
+    getIndustryList: '/industry/getAll',
     getBrandList: '/dataProcessing/order/getSalesManager',
 }

@@ -28,7 +28,7 @@ class Task extends Component {
         await this.props.actions.getSaleList();
         await this.props.actions.getVMIndustryList();
         await this.props.actions.getBrandList({
-            id: this.state.filterParams.industry_id
+            code: this.state.filterParams.industry_id
         });
         await this.props.actions.getReservationList(this.state.filterParams);
         this.setState({ loadingVisible: false })
@@ -75,6 +75,7 @@ class Task extends Component {
             campaignList,
             industryList,
             brandList,
+            brandListForModal,
             actions
         } = this.props
         const markVisible = this.props.auth['data.order.sign']
@@ -100,8 +101,6 @@ class Task extends Component {
                                 ref={form => this.form[item.key] = form}
                                 platformList={platformList}
                                 saleList={saleList}
-                                industryList={industryList}
-                                brandList={brandList}
                                 actions={actions}
                                 setStateData={this.setStateData}
                                 resetForm={this.resetForm}
@@ -110,6 +109,8 @@ class Task extends Component {
                                 signedStatus={this.state.signedStatus}
                                 type={item.key}
                                 getOrderList={this.state.getOrderList}
+                                industryList={industryList}
+                                brandList={brandList}
                             />
                             <TaskTable
                                 data={item.key == 'reservation' ? reservationList : campaignList}
@@ -119,6 +120,8 @@ class Task extends Component {
                                 setStateData={this.setStateData}
                                 getOrderList={this.state.getOrderList}
                                 markVisible={markVisible}
+                                industryList={industryList}
+                                brandListForModal={brandListForModal}
                             >
                             </TaskTable>
                         </Spin>
@@ -136,6 +139,7 @@ const mapStateToProps = (state) => ({
     saleList: state.videoMark.saleList || [],
     industryList: state.videoMark.industryList || [],
     brandList: state.videoMark.brandList || [],
+    brandListForModal: state.videoMark.brandListForModal || [],
     auth: state.authorizationsReducers.authVisibleList
 })
 

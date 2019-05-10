@@ -9,8 +9,17 @@ class TaskTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            commonModalVisible: false
+            commonModalVisible: false,
+            brandListForModal: props.brandListForModal
         };
+    }
+    /**
+     * 根据行业改变品牌的数据
+     * * */
+    handleIndustryChange = (value) => {
+        this.props.actions.getBrandListForModal({
+            id: value
+        });
     }
     /**
      * 初始化添加/修改标注Modal
@@ -25,7 +34,9 @@ class TaskTable extends Component {
     initModal = async (record, edit_page, is_create) => {
         let title = ''
         let data = {
-            order_id: record.order_id
+            order_id: record.order_id,
+            industry_id: record.industry_id || 'D01',
+            brand_id: record.brand_id
         }
 
         if (is_create == 1) {
@@ -51,6 +62,10 @@ class TaskTable extends Component {
                 data.original_post_type_id = parseInt(record.original_post_type_id)
             }
         }
+        // 根据行业请求品牌数据
+        await this.props.actions.getBrandListForModal({
+            code: record.industry_id
+        });
 
         await this.setState({
             data: data,
@@ -136,8 +151,9 @@ class TaskTable extends Component {
                                     </div>
                                     <div style={{ color: 'red' }}>
                                         <span>内容形式：{record.content_type}</span><br />
-                                        <span>需求类型：{record.original_post_type || '-'}</span>
-
+                                        <span>需求类型：{record.original_post_type || '-'}</span><br />
+                                        <span>所属行业：{record.industry_name || '-'}</span><br />
+                                        <span>所属品牌：{record.brand_name || '-'}</span><br />
                                     </div>
                                     <div style={{ minWidth: 210 }}>
                                         <span>
@@ -212,7 +228,7 @@ class TaskTable extends Component {
                                     <div style={{ color: 'red' }}>
                                         <span>内容形式：{record.content_type}</span><br />
                                         <span>需求类型：{record.original_post_type || '-'}</span><br />
-                                        <span>所属行业：{record.industry_name}</span><br />
+                                        <span>所属行业：{record.industry_name || '-'}</span><br />
                                         <span>所属品牌：{record.brand_name || '-'}</span><br />
                                     </div>
                                     <div style={{ minWidth: 210 }}>
@@ -378,6 +394,9 @@ class TaskTable extends Component {
                 <TaskForm
                     ref={form => this.form = form}
                     data={this.state.data}
+                    industryList={this.props.industryList}
+                    brandList={this.props.brandListForModal}
+                    handleIndustryChange={this.handleIndustryChange}
                 ></TaskForm>
             </CommonModal>
         </div>

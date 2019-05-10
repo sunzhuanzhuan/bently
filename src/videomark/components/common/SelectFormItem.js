@@ -13,9 +13,11 @@ class SelectFormItem extends Component {
         }
     }
     render() {
-        const { getFieldDecorator, options, label, keyName, onChange } = this.props
-        return <FormItem label={label}>
-            {getFieldDecorator(keyName)(
+        const { getFieldDecorator, options, label, keyName, onChange,
+            initObj = {}, formItemLayout = {}
+        } = this.props
+        return <FormItem {...formItemLayout} label={label}>
+            {getFieldDecorator(keyName, initObj)(
                 <Select
                     placeholder="请选择"
                     className="select-width"
