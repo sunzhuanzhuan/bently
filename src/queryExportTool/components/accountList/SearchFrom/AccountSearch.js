@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Tabs, Form } from 'antd';
 import ItemLable from './ItemLable';
 import InputAndSlider from './InputAndSlider/InputAndSliderNew'
 import Search from './Search'
@@ -11,7 +11,7 @@ import {
 	priceMarks,
 	followersCountMarks
 } from '@/queryExportTool/constants/searchFilter'
-
+const { TabPane } = Tabs;
 const LayoutSearch = ({ name, children }) => {
 	return (
 		<Row className="layout-search-box">
@@ -103,7 +103,7 @@ class AccountSearch extends React.Component {
 		}
 		this.setState({ selectedItems })
 		// this.props.onFilter()
-		if(needReset){
+		if (needReset) {
 			params = this.accountSort.reset(clear)
 		}
 
@@ -165,10 +165,10 @@ class AccountSearch extends React.Component {
 		const isShowSelectForPrice = [1, 2, 3].indexOf(parseInt(platformType, 10)) !== -1;
 		price.options = grouped_sku_types[platformType] || []
 		const { grouped_platforms = [] } = group;
-		return <div>
-			<Search keyword={keyword} form={form}
-				onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
-			></Search>
+		const commSearch = <Search keyword={keyword} form={form}
+			onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
+		></Search>
+		const allSearch = <div>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
 				{getFieldDecorator('classification_id')(
 					<ItemLable
@@ -230,8 +230,20 @@ class AccountSearch extends React.Component {
 							selectList={[{ id: -1, name: '请选择报价类型' }, ...price.options]} />
 					)}
 				</div>
-			</LayoutSearch>}
+			</LayoutSearch>
+			}
 			<FilterCommon selectedItems={selectedItems} {...this.props} resetFilter={this.resetFilter} onFilter={this.onFilterSearch} />
+		</div>
+		return <div>
+			<Tabs type="card" className='query-tool-search-tab'>
+				<TabPane tab="全库账号" key="1" >
+					{commSearch}
+					{allSearch}
+				</TabPane>
+				<TabPane tab="历史成交账号" key="2">
+					{commSearch}
+				</TabPane>
+			</Tabs>
 			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}

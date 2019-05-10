@@ -59,6 +59,7 @@ class AccountDetails extends Component {
 								showkey == 2 ? <AccountDetailsAccountEvalua degreeList={degreeList} getDegreeList=
 									{getDegreeList} actions={actions} account_id={account_id} /> :
 									showkey == 3 ? <AccountDetailsRecentPrice recentReservationOrderPriceList={recentReservationOrderPriceList}
+										baseInfoList={baseInfoList}
 										actions={actions} account_id={account_id} />
 										: null}
 						</div>
