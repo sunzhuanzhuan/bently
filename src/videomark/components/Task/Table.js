@@ -211,8 +211,9 @@ class TaskTable extends Component {
                                     </div>
                                     <div style={{ color: 'red' }}>
                                         <span>内容形式：{record.content_type}</span><br />
-                                        <span>需求类型：{record.original_post_type || '-'}</span>
-
+                                        <span>需求类型：{record.original_post_type || '-'}</span><br />
+                                        <span>所属行业：{record.industry_name}</span><br />
+                                        <span>所属品牌：{record.brand_name || '-'}</span><br />
                                     </div>
                                     <div style={{ minWidth: 210 }}>
                                         <span>

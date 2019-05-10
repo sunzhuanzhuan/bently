@@ -100,12 +100,19 @@ class FilterForm extends Component {
             });
         }
     }
+    handleIndustryChange = (value) => {
+        this.props.actions.getBrandList({
+            id: value
+        })
+    }
 
     render() {
         const {
             type,
             platformList,
             saleList,
+            industryList,
+            brandList,
             resetForm,
             signedStatus,
             form
@@ -271,8 +278,19 @@ class FilterForm extends Component {
                             <SelectFormItem
                                 getFieldDecorator={getFieldDecorator}
                                 label={'推广产品所属行业'}
-                                keyName={'industry'}
-                                options={originalPostType}
+                                keyName={'industry_id'}
+                                options={industryList}
+                                onChange={this.handleIndustryChange}
+                            ></SelectFormItem>
+                            : ''
+                    }
+                    {
+                        signedStatus ?
+                            <SelectFormItem
+                                getFieldDecorator={getFieldDecorator}
+                                label={'推广产品所属品牌'}
+                                keyName={'brand_id'}
+                                options={brandList}
                             ></SelectFormItem>
                             : ''
                     }
