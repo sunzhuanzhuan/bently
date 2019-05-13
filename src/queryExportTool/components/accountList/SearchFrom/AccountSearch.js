@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Tabs, Form, Icon } from 'antd';
+import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
 import ItemLable from './ItemLable';
 import InputAndSlider from './InputAndSlider/InputAndSliderNew'
 import Search from './Search'
@@ -7,6 +7,7 @@ import debounce from 'lodash/debounce';
 import './index.less';
 import FilterCommon from './FilterCommon'
 import AccountSort from "@/queryExportTool/components/accountList/SearchFrom/AccountSort";
+import MarkMessage from "../../../base/MarkMessage";
 import {
 	priceMarks,
 	followersCountMarks
@@ -181,7 +182,16 @@ class AccountSearch extends React.Component {
 		const { grouped_platforms = [] } = group;
 
 		const historyFrom = <div>
-			{operation_tag && <LayoutSearch name={'历史推广行业'} width='100px'>
+			{operation_tag && <LayoutSearch name=
+				{<span>
+					历史推广行业
+					<Tooltip placement="top"
+						getPopupContainer={() => document.querySelector('.query-export-tool')}
+						title={'账号在微播易合作过的客户所属行业'}>
+						<Icon type="question-circle" theme="filled" style={{ color: '#1890ff' }} />
+					</Tooltip>
+				</span>
+				} width='115px'>
 				{getFieldDecorator('operation_tag_id')(
 					<ItemLable
 						onClick={(names) => this.onItemLableChange('operation_tag_id', '历史推广行业', names)}
