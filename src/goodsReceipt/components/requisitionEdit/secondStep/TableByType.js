@@ -26,7 +26,7 @@ class TableByType extends Component {
 				value: value,
 				[dataIndex]: value
 			}).then(() => {
-				if (dataIndex == "purchase_price") {
+				if (dataIndex == "purchase_price" || dataIndex == "purchase_price_with_service_fee") {
 					actions.getGRItemListStatistic({ gr_id: gr_id })
 				}
 			}).catch((err) => {

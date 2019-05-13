@@ -92,8 +92,8 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"api/operator-gateway": {
-			"target": "http://47.93.10.229:17071",
+		"/api/gr": {
+			"target": "http://192.168.100.117:30017",
 			"changeOrigin": true
 		},
 		"/api": {
