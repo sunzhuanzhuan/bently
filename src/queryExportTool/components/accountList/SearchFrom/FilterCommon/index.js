@@ -8,6 +8,7 @@ import SelectMenu from '../SelectMenu'
 import TreeTransfer from '../TreeTransfer'
 import './FilterCommon.less'
 import { objectToArray } from '../../../../../util'
+// import SelectedItem from '../SelectedItems'
 const { RangePicker } = DatePicker;
 // const FilterNumberRangePicker = DropdownMenu.FilterNumberRangePicker
 import {
@@ -358,25 +359,7 @@ export default class FilterCommon extends React.Component {
 					<Button>更多筛选<Icon type={this.state.moreFilterVisible ? "up" : "down"} /></Button>
 
 				</Popover>
-
-				{
-					selectedItemsArray.length > 0 && <div className="filter-common-selected-items">
-						已选：{
-							selectedItemsArray.map(item => {
-								return item.value ? <Tag
-									className='ant-tag-theme-thin ant-tag-checkable-checked'
-									key={item.id}
-									closable
-									onClose={() => this.remove(item.id)}
-								>{item.value}</Tag> : null
-							})
-						}
-						<a href="javascript:void(0)"
-							style={{ marginLeft: '10px' }}
-							onClick={this.resetFilter}
-						>清空</a>
-					</div>
-				}
+				{/* <SelectedItem selectedItemsArray={selectedItemsArray} resetFilter={this.resetFilter} remove={this.remove}></SelectedItem> */}
 			</div >
 		)
 	}

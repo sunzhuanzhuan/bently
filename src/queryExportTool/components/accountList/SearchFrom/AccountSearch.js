@@ -7,6 +7,8 @@ import debounce from 'lodash/debounce';
 import './index.less';
 import FilterCommon from './FilterCommon'
 import AccountSort from "@/queryExportTool/components/accountList/SearchFrom/AccountSort";
+import SelectedItem from './SelectedItems'
+import { objectToArray } from '@/util'
 import {
 	priceMarks,
 	followersCountMarks
@@ -113,6 +115,7 @@ class AccountSearch extends React.Component {
 	}
 
 	resetFilter = (id) => {
+		console.log("resetFilter: clear", id)
 		const urlAll = this.props.match.url
 		if (id) {
 			const _selectedItems = this.state.selectedItems
@@ -280,6 +283,7 @@ class AccountSearch extends React.Component {
 							<Icon type="down" className='search-more-icon' />
 				</div>
 			</div> : null}
+			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
 			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
