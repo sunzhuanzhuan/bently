@@ -155,6 +155,13 @@ class AccountSearch extends React.Component {
 			changTabNumber: value
 		})
 	}
+	isShowMoresSet = () => {
+		const { isShowMore } = this.state
+		this.setState({
+			isShowMore: !isShowMore
+		})
+	}
+
 	render() {
 		const { selectedItems, isShowMore, changTabNumber } = this.state;
 		const { form, match, history, location, keyword } = this.props;
@@ -271,13 +278,10 @@ class AccountSearch extends React.Component {
 					</div> : null}
 				</TabPane>
 			</Tabs>
-			{!isShowMore && changTabNumber == 2 ? <div className='search-more' onClick={() => {
-				this.setState({
-					isShowMore: true
-				})
-			}}>
-				<div className='search-more-text'>更多筛选条件
-							<Icon type="down" className='search-more-icon' />
+			{changTabNumber == 2 ? <div className='search-more' onClick={this.isShowMoresSet}>
+				<div className='search-more-text'>
+					<div className='text'>{isShowMore ? '收起' : '更多筛选条件'}</div>
+					<div><Icon type={isShowMore ? 'up' : "down"} className='search-more-icon' /></div>
 				</div>
 			</div> : null}
 			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
