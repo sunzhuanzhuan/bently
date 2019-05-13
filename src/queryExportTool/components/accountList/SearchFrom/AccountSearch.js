@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Tabs, Form, Icon } from 'antd';
+import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
 import ItemLable from './ItemLable';
 import InputAndSlider from './InputAndSlider/InputAndSliderNew'
 import Search from './Search'
@@ -9,6 +9,7 @@ import FilterCommon from './FilterCommon'
 import AccountSort from "@/queryExportTool/components/accountList/SearchFrom/AccountSort";
 import SelectedItem from './SelectedItems'
 import { objectToArray } from '@/util'
+import MarkMessage from "../../../base/MarkMessage";
 import {
 	priceMarks,
 	followersCountMarks
@@ -158,6 +159,13 @@ class AccountSearch extends React.Component {
 			changTabNumber: value
 		})
 	}
+	isShowMoresSet = () => {
+		const { isShowMore } = this.state
+		this.setState({
+			isShowMore: !isShowMore
+		})
+	}
+
 	render() {
 		const { selectedItems, isShowMore, changTabNumber } = this.state;
 		const { form, match, history, location, keyword } = this.props;
@@ -177,7 +185,16 @@ class AccountSearch extends React.Component {
 		const { grouped_platforms = [] } = group;
 
 		const historyFrom = <div>
-			{operation_tag && <LayoutSearch name={'历史推广行业'} width='100px'>
+			{operation_tag && <LayoutSearch name=
+				{<span>
+					历史推广行业
+					<Tooltip placement="top"
+						getPopupContainer={() => document.querySelector('.query-export-tool')}
+						title={'账号在微播易合作过的客户所属行业'}>
+						<Icon type="question-circle" theme="filled" style={{ color: '#1890ff' }} />
+					</Tooltip>
+				</span>
+				} width='115px'>
 				{getFieldDecorator('operation_tag_id')(
 					<ItemLable
 						onClick={(names) => this.onItemLableChange('operation_tag_id', '历史推广行业', names)}
@@ -274,13 +291,10 @@ class AccountSearch extends React.Component {
 					</div> : null}
 				</TabPane>
 			</Tabs>
-			{!isShowMore && changTabNumber == 2 ? <div className='search-more' onClick={() => {
-				this.setState({
-					isShowMore: true
-				})
-			}}>
-				<div className='search-more-text'>更多筛选条件
-							<Icon type="down" className='search-more-icon' />
+			{changTabNumber == 2 ? <div className='search-more' onClick={this.isShowMoresSet}>
+				<div className='search-more-text'>
+					<div className='text'>{isShowMore ? '收起' : '更多筛选条件'}</div>
+					<div><Icon type={isShowMore ? 'up' : "down"} className='search-more-icon' /></div>
 				</div>
 			</div> : null}
 			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
