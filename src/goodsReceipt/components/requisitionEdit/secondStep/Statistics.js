@@ -9,7 +9,8 @@ class Statistics extends Component {
 		this.state = {};
 	}
 	nextStep = () => {
-		const { setHistoryPush, supplementAttachmentsList = [], goodsReceipt: { baseDetail, GRItemListStatistic: { count = 0 } }, editServiceRateStatus } = this.props
+
+		const { setHistoryPush, supplementAttachmentsList = [], goodsReceipt: { baseDetail, errorList, GRItemListStatistic: { count = 0 } }, editServiceRateStatus } = this.props
 		const { reservation_items_total = 0,
 			campaign_items_total = 0,
 			extended_business_items_total = 0 } = count
@@ -19,6 +20,10 @@ class Statistics extends Component {
 		}
 		if (editServiceRateStatus) {
 			Modal.error({ title: "请先点击确认或取消修改服务费率，然后再提交" })
+			return false
+		}
+		if (Object.values(errorList).some(boolean => !boolean)) {
+			Modal.error({ title: "存在输入项有误的情况，请检查后提交" })
 			return false
 		}
 		if (baseDetail.need_supplement_attachments == 1) {

@@ -48,3 +48,8 @@ export const {
 } = createHttpAction('exportOrderExcel', Interface.exportOrderExcel)
 
 export const updateGRItemInfo_success = "updateGRItemInfo_success"
+
+//GR申请单->第二步->静态添加错误信息
+export const editErrorList = createAction('editErrorList', (value) => {
+	return value
+})

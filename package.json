@@ -92,10 +92,6 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"/api/gr": {
-			"target": "http://192.168.100.117:30017",
-			"changeOrigin": true
-		},
 		"/api": {
 			"target": "http://nb.tst-weiboyi.com",
 			"changeOrigin": true
