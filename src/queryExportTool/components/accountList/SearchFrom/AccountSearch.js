@@ -156,7 +156,8 @@ class AccountSearch extends React.Component {
 	}
 	changeTab = (value) => {
 		this.setState({
-			changTabNumber: value
+			changTabNumber: value,
+			isShowMore: false
 		})
 		//清空数据
 		this.resetFilter()
