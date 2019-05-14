@@ -12,6 +12,7 @@ import AccountListBatch from "./AccountListBatch"
 import { default as SelectCar, CarContent } from '../components/accountList/SelectCar';
 import platform from "../constants/platform";
 import debounce from 'lodash/debounce';
+import Cookie from 'js-cookie'
 const TabPane = Tabs.TabPane;
 // const renderTabBar = (props, DefaultTabBar) => (
 // 	<Sticky bottomOffset={80}>
@@ -34,9 +35,16 @@ class AccountList extends Component {
 		selectLoading: false,
 		quotation_id: 0,
 		quotation_name: "",
-		isLogined: false
+		isLogined: true
 	}
 	componentDidMount = () => {
+		if (!Cookie.get('isLoginedHistoryQueryTool')) {
+			this.setState({
+				isLogined: false
+			})
+		}
+
+
 		const { getAccountListFromCart } = this.props.actions
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { getAccountIdsByQuotation } = this.props.actions
@@ -188,6 +196,7 @@ class AccountList extends Component {
 	}
 	isLoginedSet = () => {
 		this.setState({ isLogined: true })
+		Cookie.set('isLoginedHistoryQueryTool', true)
 	}
 	render() {
 

@@ -60,7 +60,7 @@ class AccountSearch extends React.Component {
 			},
 			selectedItems: {},
 			isShowMore: false,
-			changTabNumber: '2'
+			changTabNumber: '1'
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
