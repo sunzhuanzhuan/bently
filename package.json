@@ -92,6 +92,14 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
+		"/api/operator-gateway/common/v1/getBatchSkuPlatformList": {
+			"target": "http://weiboyi-operator-gateway-test.192.168.100.203.nip.io",
+			"changeOrigin": true
+		},
+		"api/operator-gateway/common/v1/getBatchInstockPlatformList": {
+			"target": "http://weiboyi-operator-gateway-test.192.168.100.203.nip.io",
+			"changeOrigin": true
+		},
 		"api/operator-gateway": {
 			"target": "http://47.93.10.229:17071",
 			"changeOrigin": true

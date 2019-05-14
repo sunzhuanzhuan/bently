@@ -77,6 +77,7 @@ class AccountPutAttribute extends Component {
 					uploadInfo={this.props.uploadInfo}
 					uploadFile={this.uploadFile}
 					getNewToken={this.props.actions.getNewToken}
+					instockPlatformList={this.props.instockPlatformList}
 				></Content>
 			</div>
 		)
