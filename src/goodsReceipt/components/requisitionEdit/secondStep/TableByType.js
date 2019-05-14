@@ -144,7 +144,7 @@ class TableByType extends Component {
 				title: '采购价+服务费',
 				dataIndex: 'purchase_price_with_service_fee',
 				key: 'purchase_price_with_service_fee',
-				render: (text, record) => <EditTableCell
+				render: (text, record) => <EditTableCell key={text}
 					value={text}
 					onChange={this.onCellChange(record.item_id, 'purchase_price_with_service_fee')}
 					isOperated={record.purchase_price_with_service_fee != text}
