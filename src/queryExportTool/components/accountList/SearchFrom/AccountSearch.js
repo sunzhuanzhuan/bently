@@ -289,8 +289,9 @@ class AccountSearch extends React.Component {
 				</div>
 
 			</div>
-			<Tabs type="card" className='query-tool-search-tab' activeKey={changTabNumber} onChange={this.changeTab}>
-
+			<Tabs type="card"
+				className='query-tool-search-tab'
+				activeKey={changTabNumber} onChange={this.changeTab}>
 				<TabPane tab="全库账号" key="1" >
 					{commSearch}
 					{allSearch}
