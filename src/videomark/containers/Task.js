@@ -27,9 +27,12 @@ class Task extends Component {
         await this.props.actions.getPlatformList();
         await this.props.actions.getSaleList();
         await this.props.actions.getVMIndustryList();
-        await this.props.actions.getBrandList({
-            code: this.state.filterParams.industry_id
-        });
+        if (this.state.filterParams.industry_id) {
+            await this.props.actions.getBrandList({
+                code: this.state.filterParams.industry_id
+            });
+        }
+
         await this.props.actions.getReservationList(this.state.filterParams);
         this.setState({ loadingVisible: false })
     }

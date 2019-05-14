@@ -28,14 +28,14 @@ export const saleList = handleActions({
 //预约订单列表
 export const reservationList = handleActions({
     [getReservationList_success]: (state, action) => {
-        return { ...action.payload.data }
+        return {...action.payload.data }
     },
 }, {});
 
 //预约订单列表
 export const campaignList = handleActions({
     [getCampaignList_success]: (state, action) => {
-        return { ...action.payload.data }
+        return {...action.payload.data }
     },
 }, {});
 
@@ -53,22 +53,13 @@ export const industryList = handleActions({
 //筛选项品牌
 export const brandList = handleActions({
     [getBrandList_success]: (state, action) => {
-        return [...action.payload.data].map((item) => {
-            item.id = item.owner_admin_id
-            item.value = item.real_name
-            return item
-        })
+        return [...action.payload.data]
     },
 }, []);
 
 //弹窗品牌
 export const brandListForModal = handleActions({
     [getBrandListForModal_success]: (state, action) => {
-        return [...action.payload.data].map((item) => {
-            item.id = item.owner_admin_id
-            item.value = item.real_name
-            item.er = 'fdsfsd'
-            return item
-        })
+        return [...action.payload.data]
     },
 }, []);

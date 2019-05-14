@@ -17,8 +17,11 @@ class TaskTable extends Component {
      * 根据行业改变品牌的数据
      * * */
     handleIndustryChange = (value) => {
+        this.form.setFieldsValue({
+            signed_brand_id: undefined
+        })
         this.props.actions.getBrandListForModal({
-            id: value
+            code: value
         });
     }
     /**
@@ -35,8 +38,8 @@ class TaskTable extends Component {
         let title = ''
         let data = {
             order_id: record.order_id,
-            industry_id: record.industry_id || 'D01',
-            brand_id: record.brand_id
+            industry_category_code: record.industry_category_code,
+            signed_brand_id: record.signed_brand_id
         }
 
         if (is_create == 1) {
@@ -63,9 +66,11 @@ class TaskTable extends Component {
             }
         }
         // 根据行业请求品牌数据
-        await this.props.actions.getBrandListForModal({
-            code: record.industry_id
-        });
+        if (record.industry_category_code) {
+            await this.props.actions.getBrandListForModal({
+                code: record.industry_category_code
+            });
+        }
 
         await this.setState({
             data: data,

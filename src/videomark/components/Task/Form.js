@@ -49,7 +49,7 @@ class TaskForm extends Component {
     }
 
     render() {
-        const { form, data, industryList, brandList } = this.props;
+        const { form, data, industryList, brandList, handleIndustryChange } = this.props;
         const { getFieldDecorator } = form;
         const formItemLayout = {
             labelCol: { span: 10 },
@@ -62,8 +62,8 @@ class TaskForm extends Component {
                 message: '请选择推广产品所属的行业'
             }]
         }
-        if (data.industry_id) {
-            industryObj.initialValue = data.industry_id
+        if (data.industry_category_code) {
+            industryObj.initialValue = data.industry_category_code
         }
 
         let brandObj = {
@@ -72,8 +72,8 @@ class TaskForm extends Component {
                 message: '请选择推广产品所属的品牌'
             }]
         }
-        if (data.industry_id) {
-            brandObj.initialValue = data.brand_id
+        if (data.signed_brand_id) {
+            brandObj.initialValue = data.signed_brand_id
         }
 
         return (
@@ -133,16 +133,16 @@ class TaskForm extends Component {
                     <SelectFormItem
                         getFieldDecorator={getFieldDecorator}
                         label={'所属行业'}
-                        keyName={'industry_id'}
+                        keyName={'industry_category_code'}
                         options={industryList}
-                        onChange={this.handleIndustryChange}
+                        onChange={handleIndustryChange}
                         initObj={industryObj}
                         formItemLayout={formItemLayout}
                     ></SelectFormItem>
                     <SelectFormItem
                         getFieldDecorator={getFieldDecorator}
                         label={'所属品牌'}
-                        keyName={'brand_id'}
+                        keyName={'signed_brand_id'}
                         options={brandList}
                         initObj={brandObj}
                         formItemLayout={formItemLayout}

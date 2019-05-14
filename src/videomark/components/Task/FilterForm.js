@@ -68,9 +68,13 @@ class FilterForm extends Component {
             setStateData({ filterParams: values })
 
             const params = this.formatData(values)
-            this.props.getOrderList(params).then(() => {
-                setStateData({ loadingVisible: false });
-            })
+            this.props.getOrderList(params)
+                .then(() => {
+                    setStateData({ loadingVisible: false });
+                })
+                .catch(() => {
+                    setStateData({ loadingVisible: false });
+                });
         });
     }
 
@@ -101,8 +105,11 @@ class FilterForm extends Component {
         }
     }
     handleIndustryChange = (value) => {
+        this.props.form.setFieldsValue({
+            signed_brand_id: undefined
+        })
         this.props.actions.getBrandList({
-            id: value
+            code: value
         })
     }
 
@@ -278,7 +285,7 @@ class FilterForm extends Component {
                             <SelectFormItem
                                 getFieldDecorator={getFieldDecorator}
                                 label={'推广产品所属行业'}
-                                keyName={'industry_id'}
+                                keyName={'industry_category_code'}
                                 options={industryList}
                                 onChange={this.handleIndustryChange}
                             ></SelectFormItem>
@@ -289,7 +296,7 @@ class FilterForm extends Component {
                             <SelectFormItem
                                 getFieldDecorator={getFieldDecorator}
                                 label={'推广产品所属品牌'}
-                                keyName={'brand_id'}
+                                keyName={'signed_brand_id'}
                                 options={brandList}
                             ></SelectFormItem>
                             : ''
