@@ -197,6 +197,7 @@ class AccountSearch extends React.Component {
 				} width='115px'>
 				{getFieldDecorator('operation_tag_id')(
 					<ItemLable
+						isTooltip={true}
 						onClick={(names) => this.onItemLableChange('operation_tag_id', '历史推广行业', names)}
 						// id='operation_tag'
 						tagsArray={operation_tag}

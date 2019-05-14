@@ -5,7 +5,7 @@
  */
 import React, { Component } from 'react';
 import MoreOperate from "../../../common/MoreOperate";
-import { Tag } from 'antd';
+import { Tag, Tooltip } from 'antd';
 import "./index.less";
 const CheckableTag = Tag.CheckableTag;
 class ItemLable extends Component {
@@ -68,7 +68,7 @@ class ItemLable extends Component {
 
 	}
 	render() {
-		const { tagsArray = [] } = this.props
+		const { tagsArray = [], isTooltip } = this.props
 		const { selectedTags } = this.state;
 		return (
 			<div className="item-lable-box">
@@ -81,7 +81,10 @@ class ItemLable extends Component {
 							checked={checkedNow}
 							onChange={checked => this.handleChange(tag.id, checked)}
 						>
-							{tag.name}
+							{isTooltip ? <Tooltip title={`${tag.name}等品牌在微播易平台成交过的账号`}
+								getPopupContainer={() => document.querySelector('.query-export-tool')}>
+								{tag.name}
+							</Tooltip> : tag.name}
 						</CheckableTag>
 					})
 					}
