@@ -81,7 +81,7 @@ class ItemLable extends Component {
 							checked={checkedNow}
 							onChange={checked => this.handleChange(tag.id, checked)}
 						>
-							{isTooltip ? <Tooltip title={`${tag.name}等品牌在微播易平台成交过的账号`}
+							{isTooltip && tag.name ? <Tooltip title={`${tag.name}等品牌使用过的账号`}
 								getPopupContainer={() => document.querySelector('.query-export-tool')}>
 								{tag.name}
 							</Tooltip> : tag.name}
