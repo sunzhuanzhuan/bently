@@ -3,7 +3,7 @@ import React from 'react';
 import { Tag, DatePicker, Button, Popover, Icon, message } from 'antd';
 import { objectToArray } from '@/util'
 
-class SelectedItems extends React.Component{
+class SelectedItems extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -32,10 +32,9 @@ class SelectedItems extends React.Component{
 	// 	// this.props.resetFilter();
 	// 	// this.props.onFilter();
 	// }
-	render(){
+	render() {
 		const { selectedItems } = this.props;
 		const selectedItemsArray = objectToArray(selectedItems);
-		console.log("====", selectedItemsArray)
 		return selectedItemsArray.length > 0 && <div className="filter-common-selected-items">
 			已选：{
 				selectedItemsArray.map(item => {

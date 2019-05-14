@@ -88,11 +88,12 @@ class RecentPrice extends Component {
 													{item.price_label}
 												</Col>
 												<Col span={6}>
-													{executionData.map[platform_id].list.map((one, index) => <div key={index}>
-														<span>{one.name}：</span>
-														<span>{item[one.value] === 0 || item[one.value] ? item[one.value] : '-'}</span>
-													</div>
-													)}
+													{executionData.executionList.includes(platform_id) ?
+														executionData.executionMap[platform_id].list.map((one, index) => <div key={index}>
+															<span>{one.name}：</span>
+															<span>{item[one.value] === 0 || item[one.value] ? item[one.value] : '-'}</span>
+														</div>
+														) : '暂无数据'}
 												</Col>
 												<Col span={5}>
 													{item.created_time}
