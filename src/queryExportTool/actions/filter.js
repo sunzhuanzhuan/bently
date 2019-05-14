@@ -7,11 +7,10 @@ const getGroupById = (groups, group_id) => {
 	return groups.find(group => group.group_id == group_id)
 }
 const getCategory = (grouped_categories, group_id) => {
-	if (["1", "2", "5"].indexOf(group_id) !== -1) {
-		return grouped_categories.main_platforms
-	} else {
-		return grouped_categories.video_platforms
-	}
+	return grouped_categories.map(item => ({
+		id: item.itemKey,
+		name: item.itemValue
+	}))
 }
 // let version = 0;
 export const getFilters = (params) => (dispatch) => {
