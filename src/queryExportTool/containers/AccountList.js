@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 // import { StickyContainer, Sticky } from 'react-sticky';
 import * as action from '../actions/index'
-import { Tabs, Spin, BackTop } from "antd"
+import { Tabs, Spin, BackTop, Button } from "antd"
 import qs from "qs";
 import DefaultChild from './children/DefaultChild'
 import "./AccountList.less"
@@ -33,7 +33,8 @@ class AccountList extends Component {
 		selectCartInterimList: {},
 		selectLoading: false,
 		quotation_id: 0,
-		quotation_name: ""
+		quotation_name: "",
+		isLogined: false
 	}
 	componentDidMount = () => {
 		const { getAccountListFromCart } = this.props.actions
@@ -185,13 +186,15 @@ class AccountList extends Component {
 		const data = list.filter(item => type.includes(item.platform_id))
 		return data.length > 0 ? data : []
 	}
-
+	isLoginedSet = () => {
+		this.setState({ isLogined: true })
+	}
 	render() {
 
 		const { match, queryExportToolReducer, actions } = this.props;
 		let { platformType } = match.params;
 		const { selectedRowKeys, selectedRowKeysObject, selectCartInterimList, selectLoading } = this.state
-		const { quotation_name, quotation_id } = this.state
+		const { quotation_name, quotation_id, isLogined } = this.state
 		const isQuotation = quotation_id > 0
 		const { selectCartData, } = queryExportToolReducer;
 		//获取平台图标
@@ -237,7 +240,18 @@ class AccountList extends Component {
 
 		const heardText = <h2>{quotation_id > 0 ? `请为【${quotation_name}】报价单，选择您心仪的账号` : "账号列表"}</h2>
 		return <div >
+			{isLogined ? null : <div className={'query-export-tool-mask'}>
+				<div className='query-export-tool-mask-showbox'>
+					可以查找微播易平台
+					<span style={{ fontWeight: 600 }}>历史成交</span>
+					<span>过的账号了哦，快来试试吧！</span>
+					<div style={{ textAlign: 'center', marginTop: 4 }}>
+						<Button type='primary' size='small' onClick={this.isLoginedSet}>知道了</Button>
+					</div>
+				</div>
+			</div>}
 			<div id="Js-select-car-no-click-id">
+
 				<BackTop />
 				{heardText}
 				<Tabs onChange={this.onTabsChange} animated={false} activeKey={platformType.toString()}>
