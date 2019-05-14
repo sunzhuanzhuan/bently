@@ -284,7 +284,7 @@ class FilterForm extends Component {
                         signedStatus ?
                             <SelectFormItem
                                 getFieldDecorator={getFieldDecorator}
-                                label={'推广产品所属行业'}
+                                label={'推广行业'}
                                 keyName={'industry_category_code'}
                                 options={industryList}
                                 onChange={this.handleIndustryChange}
@@ -295,7 +295,7 @@ class FilterForm extends Component {
                         signedStatus ?
                             <SelectFormItem
                                 getFieldDecorator={getFieldDecorator}
-                                label={'推广产品所属品牌'}
+                                label={'推广品牌'}
                                 keyName={'signed_brand_id'}
                                 options={brandList}
                             ></SelectFormItem>
