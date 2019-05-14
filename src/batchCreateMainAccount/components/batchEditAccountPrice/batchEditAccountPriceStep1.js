@@ -1,5 +1,4 @@
 import React from 'react'
-import { platformIcon, batchEditAccountPricePlatformIconArray } from '../../constants/config'
 import { Row, Col, Button } from 'antd';
 import './batchEditAccountPriceStep1.less'
 
@@ -7,18 +6,18 @@ export const batchEditAccountPriceStep1 = (props) => {
 	return (
 		<div>
 			{
-				batchEditAccountPricePlatformIconArray.map((item, index) => {
+				props.batchSkuPlatformList.map((item, index) => {
 					return < Row key={index} type="flex" justify="start"
 						className="AccountPutAttributeStep1-row" >
 						{
 							item.map((it, itIndex) => {
-								return <Col span={4} key={itIndex} onClick={() => props.jumpToStep2(platformIcon[it].operateType, it, platformIcon[it].remark["weibo_type"])}
+								return <Col span={4} key={itIndex} onClick={() => props.jumpToStep2('', '', it.platformId)}
 									className="AccountPutAttributeStep1-col"
 								>
 									<div className="icon-img"
-										style={{ backgroundImage: `url(${platformIcon[it].img})` }}
+										style={{ backgroundImage: `url(${it.platformIcon})` }}
 									></div>
-									<div className="icon-title">{it}</div>
+									<div className="icon-title">{it.platformName}</div>
 								</Col>
 							})
 						}
