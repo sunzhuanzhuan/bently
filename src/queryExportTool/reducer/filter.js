@@ -9,9 +9,9 @@ export const filterOptions = handleAction(getFilters_success, (state, action) =>
 }, {})
 export const filtersMetaMap = handleAction(getFiltersMeta_success, (state, action) => {
 
-	let gropusAfter = [...action.payload.data.groups]
+	let gropusAfter = [...action.payload.data.groups_batch]
 	gropusAfter.unshift({ id: 0, name: "不限", platform_id: 0 })
-	const groups = gropusAfter.map((one, index) => {
+	const groups_batch = gropusAfter.map((one, index) => {
 		const { grouped_platforms = [] } = one
 		if (grouped_platforms.length <= 0) {
 			delete one.grouped_platforms
@@ -23,6 +23,6 @@ export const filtersMetaMap = handleAction(getFiltersMeta_success, (state, actio
 	})
 	return {
 		...action.payload.data,
-		groups: groups
+		groups_batch: groups_batch
 	}
 }, {})
