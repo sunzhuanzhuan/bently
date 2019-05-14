@@ -150,7 +150,7 @@ class TableByType extends Component {
 				title: '采购价+服务费',
 				dataIndex: 'purchase_price_with_service_fee',
 				key: 'purchase_price_with_service_fee',
-				render: (text, record) => <EditTableCell
+				render: (text, record) => <EditTableCell key={text}
 					value={text}
 					actions={actions}
 					itemId={record.item_id}
