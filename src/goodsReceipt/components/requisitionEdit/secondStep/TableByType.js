@@ -18,6 +18,7 @@ class TableByType extends Component {
 		return (value) => {
 			const { actions, tableType } = this.props
 			const gr_id = qs.parse(window.location.search.slice(1)).gr_id
+			window.updating = true
 			actions.updateGRItemInfo({
 				gr_id: gr_id,
 				item_type: tableType,
@@ -26,19 +27,20 @@ class TableByType extends Component {
 				value: value,
 				[dataIndex]: value
 			}).then(() => {
-				if (dataIndex == "purchase_price") {
+				if (dataIndex == "purchase_price" || dataIndex == "purchase_price_with_service_fee") {
+					actions.editErrorList({ [`${item_id}_purchase_price_with_service_fee`]: true })
 					actions.getGRItemListStatistic({ gr_id: gr_id })
 				}
 			}).catch((err) => {
 				message.error(err && err.errorMsg)
-			})
+			}).finally(() => window.updating = false)
 		};
 	}
 
 	render() {
 		const gr_id = qs.parse(window.location.search.slice(1)).gr_id
-		const { tableType, list = [], tableKeyId = "order_id", goodsReceipt: { baseDetail } } = this.props
-		const { old_b_host, formatted_start_time, formatted_end_time } = baseDetail
+		const { tableType, actions, list = [], tableKeyId = "order_id", goodsReceipt: { baseDetail } } = this.props
+		const { old_b_host, service_fee_rate, formatted_start_time, formatted_end_time } = baseDetail
 		const orderColumn = [{
 			title: '订单ID',
 			dataIndex: 'order_id',
@@ -108,6 +110,9 @@ class TableByType extends Component {
 				const { accept_reservation_chosen_price } = record
 				return <EditTableCell
 					value={text}
+					actions={actions}
+					itemId={record.item_id}
+					itemType='purchase_price'
 					onChange={this.onCellChange(record.item_id, 'purchase_price')}
 					isOperated={accept_reservation_chosen_price && accept_reservation_chosen_price.open_cost_price != text}
 				/>
@@ -134,6 +139,9 @@ class TableByType extends Component {
 			align: "center",
 			render: (text, record) => <EditTableCell
 				value={text}
+				actions={actions}
+				itemId={record.item_id}
+				itemType='purchase_price'
 				onChange={this.onCellChange(record.item_id, 'purchase_price')}
 				isOperated={record.price != text}
 			/>
@@ -144,7 +152,14 @@ class TableByType extends Component {
 				title: '采购价+服务费',
 				dataIndex: 'purchase_price_with_service_fee',
 				key: 'purchase_price_with_service_fee',
-				render: (text, record) => <NumeralFormat value={text} />
+				render: (text, record) => <EditTableCell key={text}
+					value={text}
+					actions={actions}
+					itemId={record.item_id}
+					itemType='purchase_price_with_service_fee'
+					onChange={this.onCellChange(record.item_id, 'purchase_price_with_service_fee')}
+					isOperated={record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)}
+				/>
 			}, {
 				title: '采购价+服务费+税',
 				dataIndex: 'purchase_price_with_service_fee_and_tax',
@@ -212,6 +227,9 @@ class TableByType extends Component {
 				align: "center",
 				render: (text, record) => <EditTableCell
 					value={text}
+					actions={actions}
+					itemId={record.item_id}
+					itemType='purchase_price'
 					onChange={this.onCellChange(record.item_id, 'purchase_price')}
 					isOperated={record.business_real_cost != text}
 				/>
