@@ -115,6 +115,7 @@ class SecondStep extends Component {
 									{service_fee_rate >= 0 ? <EditServiceRate
 										value={service_fee_rate}
 										unit="%"
+										actions={actions}
 										changeAction={updateBaseInfo}
 										minError="请确认填写的是0-100，小数点后最多2位的数字"
 										searchActionByFree={this.searchActionByFree}

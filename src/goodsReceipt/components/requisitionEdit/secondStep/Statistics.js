@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Divider, Modal } from "antd";
+import { Button, Divider, Modal, message } from "antd";
 import { withRouter } from "react-router-dom";
 import qs from "qs";
 import "./Statistics.less"
@@ -10,33 +10,37 @@ class Statistics extends Component {
 	}
 	nextStep = () => {
 
-		const { setHistoryPush, supplementAttachmentsList = [], goodsReceipt: { baseDetail, errorList, GRItemListStatistic: { count = 0 } }, editServiceRateStatus } = this.props
-		const { reservation_items_total = 0,
-			campaign_items_total = 0,
-			extended_business_items_total = 0 } = count
-		if ((reservation_items_total + campaign_items_total + extended_business_items_total) <= 0) {
-			Modal.error({ title: '请先勾选需要申请GR的订单/活动' });
-			return false
-		}
-		if (editServiceRateStatus) {
-			Modal.error({ title: "请先点击确认或取消修改服务费率，然后再提交" })
-			return false
-		}
-		if (Object.values(errorList).some(boolean => !boolean)) {
-			Modal.error({ title: "存在输入项有误的情况，请检查后提交" })
-			return false
-		}
-		if (baseDetail.need_supplement_attachments == 1) {
-			if (supplementAttachmentsList.length > 0) {
-				this.props.actions.addGRAttachment(this.getSumbitFileParam()).then((res) => {
-					setHistoryPush(2)
-				})
-			} else {
-				Modal.error({ title: "请上传需要补充上传的结案附件" })
+			if(window.updating){
+				return message.info('金额计算中, 请重试!')
 			}
-		} else {
-			setHistoryPush(2)
-		}
+			const { setHistoryPush, supplementAttachmentsList = [], goodsReceipt: { baseDetail, errorList, GRItemListStatistic: { count = 0 } }, editServiceRateStatus } = this.props
+			const { reservation_items_total = 0,
+				campaign_items_total = 0,
+				extended_business_items_total = 0 } = count
+			if ((reservation_items_total + campaign_items_total + extended_business_items_total) <= 0) {
+				Modal.error({ title: '请先勾选需要申请GR的订单/活动' });
+				return false
+			}
+			if (editServiceRateStatus) {
+				Modal.error({ title: "请先点击确认或取消修改服务费率，然后再提交" })
+				return false
+			}
+			if (Object.values(errorList).some(boolean => !boolean)) {
+				Modal.error({ title: "存在输入项有误的情况，请检查后提交" })
+				return false
+			}
+			if (baseDetail.need_supplement_attachments == 1) {
+				if (supplementAttachmentsList.length > 0) {
+					this.props.actions.addGRAttachment(this.getSumbitFileParam()).then((res) => {
+						setHistoryPush(2)
+					})
+				} else {
+					Modal.error({ title: "请上传需要补充上传的结案附件" })
+				}
+			} else {
+				setHistoryPush(2)
+			}
+
 	}
 	lastStep = () => {
 		const { setHistoryPush, goodsReceipt: { baseDetail }, supplementAttachmentsList } = this.props

@@ -53,3 +53,8 @@ export const updateGRItemInfo_success = "updateGRItemInfo_success"
 export const editErrorList = createAction('editErrorList', (value) => {
 	return value
 })
+
+//GR申请单->第二步->清空错误信息
+export const clearErrorList = createAction('clearErrorList', (value) => {
+	return value
+})

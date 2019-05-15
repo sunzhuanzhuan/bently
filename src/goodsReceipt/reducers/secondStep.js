@@ -75,5 +75,8 @@ const getUpdateList = (list, item_id, key, value, data) => {
 export const errorList = handleActions({
 	[goodsReceiptAction.editErrorList]: (state, action) => {
 		return { ...state, ...action.payload }
+	},
+	[goodsReceiptAction.clearErrorList]: (state, action) => {
+		return { }
 	}
 }, {})

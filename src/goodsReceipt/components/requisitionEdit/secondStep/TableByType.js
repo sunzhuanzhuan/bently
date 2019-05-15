@@ -18,6 +18,7 @@ class TableByType extends Component {
 		return (value) => {
 			const { actions, tableType } = this.props
 			const gr_id = qs.parse(window.location.search.slice(1)).gr_id
+			window.updating = true
 			actions.updateGRItemInfo({
 				gr_id: gr_id,
 				item_type: tableType,
@@ -27,11 +28,12 @@ class TableByType extends Component {
 				[dataIndex]: value
 			}).then(() => {
 				if (dataIndex == "purchase_price" || dataIndex == "purchase_price_with_service_fee") {
+					actions.editErrorList({ [`${item_id}_purchase_price_with_service_fee`]: true })
 					actions.getGRItemListStatistic({ gr_id: gr_id })
 				}
 			}).catch((err) => {
 				message.error(err && err.errorMsg)
-			})
+			}).finally(() => window.updating = false)
 		};
 	}
 
