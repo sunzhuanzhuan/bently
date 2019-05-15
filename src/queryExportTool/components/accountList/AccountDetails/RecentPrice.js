@@ -3,6 +3,7 @@ import { List, message, Spin, Row, Col, Alert, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import "./RecentPrice.less"
 import executionData from "../../../constants/executionData";
+import { getWeixinAvg, getOtherAllAvg } from "../../../base/SimpleTables/unit";
 
 class RecentPrice extends Component {
 	constructor(props) {
@@ -85,14 +86,17 @@ class RecentPrice extends Component {
 													{item.price_label}
 												</Col>
 												<Col span={4}>
-													{item.price_label}
+													{item.deal_price}
 												</Col>
 												<Col span={5} >
 													<div className='execution-data'>
 														{executionData.executionList.includes(`${platform_id}`) ?
 															executionData.executionMap[platform_id].list.map((one, index) => <div key={index} className='execution-data-item'>
 																<span>{one.name}：</span>
-																<span>{item[one.value] === 0 || item[one.value] ? item[one.value] : '-'}</span>
+																<span>{item[one.value] === 0 || item[one.value] ?
+																	platform_id == 9 ? getWeixinAvg(item[one.value])
+																		: getOtherAllAvg(item[one.value])
+																	: '-'}</span>
 															</div>
 															) : '暂无数据'}
 													</div>
