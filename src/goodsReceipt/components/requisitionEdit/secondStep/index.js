@@ -148,7 +148,7 @@ class SecondStep extends Component {
 						</div>
 					</TitleLable> : null}
 					<TitleLable title="确认已选择的订单/活动的采购价" >
-						<GroupRedio content={groupRedioContent} sumData={sumData} />
+						<GroupRedio content={groupRedioContent} sumData={sumData} actions={actions} />
 					</TitleLable>
 				</div >
 			</Spin>
