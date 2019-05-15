@@ -14,7 +14,7 @@ class GroupRedioThree extends Component {
 			checkedRedioValue: e.target.value
 		})
 		const { onChangeRedio, actions } = this.props
-		actions.clearErrorList()
+		actions && actions.clearErrorList()
 		onChangeRedio && onChangeRedio(e.target.value)
 	}
 	render() {
