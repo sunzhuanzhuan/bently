@@ -75,13 +75,14 @@ class ItemLable extends Component {
 				<MoreOperate lineHight={40} textMore="更多" >
 					{tagsArray.map((tag) => {
 						const checkedNow = selectedTags && selectedTags.indexOf(tag.id) > -1;
+						const brandList = (tag.brand_list || []).map(one => one.name)
 						return <CheckableTag
 							className="ant-tag-theme-thin"
 							key={tag.id}
 							checked={checkedNow}
 							onChange={checked => this.handleChange(tag.id, checked)}
 						>
-							{isTooltip && tag.name ? <Tooltip title={`${tag.name}等品牌使用过的账号`}
+							{isTooltip && tag.brand_list && tag.brand_list.length > 0 ? <Tooltip title={`${brandList.join('、')}等品牌使用过的账号`}
 								getPopupContainer={() => document.querySelector('.query-export-tool')}>
 								{tag.name}
 							</Tooltip> : tag.name}

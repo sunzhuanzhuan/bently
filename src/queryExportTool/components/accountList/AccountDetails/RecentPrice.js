@@ -57,9 +57,9 @@ class RecentPrice extends Component {
 					<div>
 						<Row className="price-table-row title">
 							<Col span={5}>应约时间</Col>
-							<Col span={4}>价格名称</Col>
+							<Col span={5}>价格名称</Col>
 							<Col span={4}>应约价(元)</Col>
-							<Col span={6}>执行数据</Col>
+							<Col span={5}>执行数据</Col>
 							<Col span={5}>发布时间</Col>
 						</Row>
 					</div>
@@ -81,22 +81,24 @@ class RecentPrice extends Component {
 												<Col span={5}>
 													{item.created_time}
 												</Col>
-												<Col span={4}>
+												<Col span={5}>
 													{item.price_label}
 												</Col>
 												<Col span={4}>
 													{item.price_label}
 												</Col>
-												<Col span={6}>
-													{executionData.executionList.includes(platform_id) ?
-														executionData.executionMap[platform_id].list.map((one, index) => <div key={index}>
-															<span>{one.name}：</span>
-															<span>{item[one.value] === 0 || item[one.value] ? item[one.value] : '-'}</span>
-														</div>
-														) : '暂无数据'}
+												<Col span={5} >
+													<div className='execution-data'>
+														{executionData.executionList.includes(`${platform_id}`) ?
+															executionData.executionMap[platform_id].list.map((one, index) => <div key={index} className='execution-data-item'>
+																<span>{one.name}：</span>
+																<span>{item[one.value] === 0 || item[one.value] ? item[one.value] : '-'}</span>
+															</div>
+															) : '暂无数据'}
+													</div>
 												</Col>
 												<Col span={5}>
-													{item.created_time}
+													{platform_id == 106 ? item.live_created_time : item.media_created_time}
 												</Col>
 											</Row>
 										</List.Item>

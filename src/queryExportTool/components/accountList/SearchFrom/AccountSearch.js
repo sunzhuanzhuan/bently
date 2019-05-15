@@ -181,7 +181,7 @@ class AccountSearch extends React.Component {
 		const _priceMarks = priceMarks[platformType] || priceMarks['default'];
 		const _followersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
 		const {
-			category, group, operation_tag, grouped_sku_types = {}
+			category, group, operation_tag, grouped_sku_types = {}, order_industry_category
 		} = filterOptions[platformType] || {};
 		//参考报价在平台1，2，3时，不现实下拉选择
 		const isShowSelectForPrice = [1, 2, 3].indexOf(parseInt(platformType, 10)) !== -1;
@@ -189,7 +189,7 @@ class AccountSearch extends React.Component {
 		const { grouped_platforms = [] } = group;
 
 		const historyFrom = <div>
-			{operation_tag && <LayoutSearch name=
+			{order_industry_category && <LayoutSearch name=
 				{<span>
 					历史推广行业
 					<Tooltip placement="top"
@@ -199,12 +199,12 @@ class AccountSearch extends React.Component {
 					</Tooltip>
 				</span>
 				} width='115px'>
-				{getFieldDecorator('operation_tag_id')(
+				{getFieldDecorator('order_industry_category')(
 					<ItemLable
 						isTooltip={true}
-						onClick={(names) => this.onItemLableChange('operation_tag_id', '历史推广行业', names)}
+						onClick={(names) => this.onItemLableChange('order_industry_category', '历史推广行业', names)}
 						// id='operation_tag'
-						tagsArray={operation_tag}
+						tagsArray={order_industry_category}
 					/>
 				)}
 			</LayoutSearch>}
