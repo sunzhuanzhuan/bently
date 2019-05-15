@@ -90,7 +90,7 @@ class RequisitionDetail extends Component {
 		let {
 			old_b_host, po_id, project_id, status, creator_name, need_supplement_attachments,
 			attachments, is_close_balance, available_operations = [], gr_id, currency_type, is_tax_inclusive,
-			total_amount = 0, total_amount_usd = 0
+			total_amount = 0, total_amount_usd = 0, service_fee_rate
 		} = data
 		const { goodsReceipt, actions: { exportOrderExcel }, GRListUrl, GReditUrl } = this.props
 		const { GRItemList } = goodsReceipt
@@ -284,7 +284,13 @@ class RequisitionDetail extends Component {
 						title: "采购价+服务费",
 						dataIndex: 'purchase_price_with_service_fee',
 						align: 'center',
-						render: (text, record) => <NumeralFormat value={text} />
+						render: (text, record) => {
+							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)
+
+							return <span className={isYellow ? "is-yellow-box" : ""}>
+								<NumeralFormat value={text} />
+							</span>
+						}
 					}, {
 						title: "采购价+服务费+税",
 						dataIndex: 'purchase_price_with_service_fee_and_tax',
@@ -350,7 +356,12 @@ class RequisitionDetail extends Component {
 						title: "采购价+服务费",
 						dataIndex: 'purchase_price_with_service_fee',
 						align: 'center',
-						render: (text, record) => <NumeralFormat value={text} />
+						render: (text, record) => {
+							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)
+
+							return <span className={isYellow ? "is-yellow-box" : ""}>
+								<NumeralFormat value={text} />
+							</span>}
 					}, {
 						title: "采购价+服务费+税",
 						dataIndex: 'purchase_price_with_service_fee_and_tax',
@@ -410,7 +421,12 @@ class RequisitionDetail extends Component {
 						title: "采购价+服务费",
 						dataIndex: 'purchase_price_with_service_fee',
 						align: 'center',
-						render: (text, record) => <NumeralFormat value={text} />
+						render: (text, record) => {
+							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)
+
+							return <span className={isYellow ? "is-yellow-box" : ""}>
+								<NumeralFormat value={text} />
+							</span>}
 					}, {
 						title: "采购价+服务费+税",
 						dataIndex: 'purchase_price_with_service_fee_and_tax',

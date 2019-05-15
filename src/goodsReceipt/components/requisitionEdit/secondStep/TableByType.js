@@ -40,7 +40,7 @@ class TableByType extends Component {
 	render() {
 		const gr_id = qs.parse(window.location.search.slice(1)).gr_id
 		const { tableType, actions, list = [], tableKeyId = "order_id", goodsReceipt: { baseDetail } } = this.props
-		const { old_b_host, formatted_start_time, formatted_end_time } = baseDetail
+		const { old_b_host, service_fee_rate, formatted_start_time, formatted_end_time } = baseDetail
 		const orderColumn = [{
 			title: '订单ID',
 			dataIndex: 'order_id',
@@ -158,7 +158,7 @@ class TableByType extends Component {
 					itemId={record.item_id}
 					itemType='purchase_price_with_service_fee'
 					onChange={this.onCellChange(record.item_id, 'purchase_price_with_service_fee')}
-					isOperated={record.purchase_price_with_service_fee != text}
+					isOperated={record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)}
 				/>
 			}, {
 				title: '采购价+服务费+税',
