@@ -96,6 +96,11 @@ class AccountSearch extends React.Component {
 		}
 		this.props.onFilterSearch({ ...params, ...values })
 	}
+	batchUpdateSelectedItems = (selectedItems) => {
+		this.setState({
+			selectedItems: { ...this.state.selectedItems, ...selectedItems }
+		})
+	}
 	onItemLableChange = (id, name, { optionsNames: names }, needReset) => {
 		let params, clear = true;
 		const selectedItems = {
@@ -107,7 +112,6 @@ class AccountSearch extends React.Component {
 			clear = false
 		}
 		this.setState({ selectedItems })
-		// this.props.onFilter()
 		if (needReset) {
 			params = this.accountSort.reset(clear)
 		}
@@ -116,7 +120,6 @@ class AccountSearch extends React.Component {
 	}
 
 	resetFilter = (id) => {
-		console.log("resetFilter: clear", id)
 		const urlAll = this.props.match.url
 		if (id) {
 			const _selectedItems = this.state.selectedItems
@@ -131,6 +134,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
+		this.onFilterSearch()
 	}
 	handleChangeForFilterMain = (params) => {
 		this.onChange(params)
@@ -278,7 +282,14 @@ class AccountSearch extends React.Component {
 				</div>
 			</LayoutSearch>
 			}
-			<FilterCommon selectedItems={selectedItems} {...this.props} resetFilter={this.resetFilter} onFilter={this.onFilterSearch} />
+			<FilterCommon
+				batchUpdateSelectedItems={this.batchUpdateSelectedItems}
+				onChange={this.onItemLableChange}
+				selectedItems={selectedItems}
+				{...this.props}
+				resetFilter={this.resetFilter}
+				onFilter={this.onFilterSearch}
+			/>
 		</div>
 
 
