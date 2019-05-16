@@ -72,10 +72,17 @@ class TaskForm extends Component {
                 message: '请选择推广产品所属的品牌'
             }]
         }
-        if (data.signed_brand_id) {
-            brandObj.initialValue = data.signed_brand_id
-        }
+        
+        const list = brandList.filter((v) => v.id == data.signed_brand_id);
 
+        if (data.signed_brand_id) {
+            if (list.length == 0) {
+                data.signed_brand_id = ''
+            }
+        }
+        if (data.signed_brand_id) {
+            brandObj.initialValue = parseInt(data.signed_brand_id)
+        }
         return (
             <div >
                 <Form layout='horizontal'>

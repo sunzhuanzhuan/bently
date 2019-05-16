@@ -43,6 +43,7 @@ class TaskTable extends Component {
         }
 
         if (is_create == 1) {
+            data.signed_brand_id = record.brand_id
             title = <span>
                 标注订单
                 <span style={{ marginLeft: '30px', fontWeight: 'normal' }}>
@@ -158,7 +159,7 @@ class TaskTable extends Component {
                                         <span>内容形式：{record.content_type}</span><br />
                                         <span>需求类型：{record.original_post_type || '-'}</span><br />
                                         <span>所属行业：{record.industry_name || '-'}</span><br />
-                                        <span>所属品牌：{record.brand_name || '-'}</span><br />
+                                        <span>所属品牌：{record.signed_brand_name || '-'}</span><br />
                                     </div>
                                     <div style={{ minWidth: 210 }}>
                                         <span>
@@ -234,7 +235,7 @@ class TaskTable extends Component {
                                         <span>内容形式：{record.content_type}</span><br />
                                         <span>需求类型：{record.original_post_type || '-'}</span><br />
                                         <span>所属行业：{record.industry_name || '-'}</span><br />
-                                        <span>所属品牌：{record.brand_name || '-'}</span><br />
+                                        <span>所属品牌：{record.signed_brand_name || '-'}</span><br />
                                     </div>
                                     <div style={{ minWidth: 210 }}>
                                         <span>
