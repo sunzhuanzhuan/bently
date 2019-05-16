@@ -27,12 +27,8 @@ class Task extends Component {
         await this.props.actions.getPlatformList();
         await this.props.actions.getSaleList();
         await this.props.actions.getVMIndustryList();
-        if (this.state.filterParams.industry_id) {
-            await this.props.actions.getBrandList({
-                code: this.state.filterParams.industry_id
-            });
-        }
 
+        await this.initBrandList(this.props.actions);
         await this.props.actions.getReservationList(this.state.filterParams);
         this.setState({ loadingVisible: false })
     }
@@ -55,15 +51,22 @@ class Task extends Component {
         }
         const params = this.state.filterParams
         await this.state.getOrderList(params);
+        await this.initBrandList(this.props.actions);
         this.setState({ loadingVisible: false })
     }
     resetForm = (type) => {
-
         this.setState({
             filterParams: { "is_signed": 2 },
             signedStatus: false,
         })
+        this.initBrandList(this.props.actions);
         this.form[type].resetFields();
+    }
+
+    initBrandList = (actions) => {
+        actions.getBrandList({
+            code: this.state.filterParams.industry_id || 'empty'
+        });
     }
 
     setStateData = (params) => {
