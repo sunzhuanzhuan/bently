@@ -46,11 +46,20 @@ export default class MainItem extends PureComponent {
 	track = (eventName) => {
 		const { accountListItem = {} } = this.props
 		const { base: { account_id } } = accountListItem;
-		console.log(eventName, { account_id: account_id, pathname: location.pathname })
 		sensors.track(eventName, { account_id: account_id, pathname: location.pathname });
 	}
-
-
+	//查看详情
+	lookDetail = (platform_id, account_id) => {
+		//神策统计
+		this.track('vievAccountDetailEvent');
+		[103, 110, 115].includes(platform_id) ?
+			window.open(`/account/view/detail?accountId=${account_id}`, "_blank")
+			: this.props.setModalContent(<AccountDetails account_id={account_id}
+			/>)
+		//添加打开详情
+		const { actions } = this.props
+		actions && actions.addLookDetailList([account_id]);
+	}
 	render() {
 		const { accountListItem = {}, isDeleteAction, batchRemove } = this.props
 		const { base = {}, price, avg_data = {}, platform_id = 0, group_type } = accountListItem
@@ -107,13 +116,7 @@ export default class MainItem extends PureComponent {
 							</div>
 						</div>
 						<AccountInfos>
-							<div className='one-line-box-name-level' onClick={() => {
-								this.track('vievAccountDetailEvent');
-								[103, 110, 115].includes(platform_id) ?
-									window.open(`/account/view/detail?accountId=${account_id}`, "_blank")
-									: this.props.setModalContent(<AccountDetails account_id={account_id}
-									/>)
-							}}>
+							<div className='one-line-box-name-level' onClick={() => this.lookDetail(platform_id, account_id)}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={sns_name} trigger="hover"  >
 									<div className="sns_name_title">{sns_name}</div>

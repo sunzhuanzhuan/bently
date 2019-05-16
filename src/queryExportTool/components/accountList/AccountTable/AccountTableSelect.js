@@ -75,9 +75,23 @@ class AccountTableSelect extends Component {
 		const { serachAction } = this.props
 		serachAction && serachAction({ ...valuesAll })
 	}
+	//神策添加
+	track = (addType, operateType, account_id) => {
+		sensors.track('eventName', {
+			account_id: account_id,
+			pathname: location.pathname,
+			place: '列表'
+		});
+	}
+
+
 	//选择和取消选择
 	onSelectChange = (key, seleced) => {
-		const { IsExactQuery, isShowTypeByList, actions } = this.props
+
+		const { IsExactQuery, isShowTypeByList, actions, lookDetailList } = this.props
+		console.log("TCL: onSelectChange -> seleced", seleced)
+		console.log("TCL: onSelectChange -> key->lookDetailList", lookDetailList.includes(key.account_id))
+
 		this.setState({
 			selecedTable: [key.account_id]
 		})
@@ -129,6 +143,7 @@ class AccountTableSelect extends Component {
 			this.props.actions.removeFromCart({ staging_ids })
 			IsExactQuery && actions.removeSelectExactQuery(staging_ids)
 		}
+
 	}
 	render() {
 		const { visible, modalContent, } = this.state
@@ -136,7 +151,7 @@ class AccountTableSelect extends Component {
 			isShowNoFind, countNum, IsExactQuery,
 			isShowTypeByList, columnsTypeByList,
 			arrSelectExactQuery,//精确查询的数组
-			isDeleteAction, batchRemove,//专为删除而设计，是否有删除，删除方法
+			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
 		} = this.props;
 		const { is_select = [] } = accountList
 		const rowSelection = {
@@ -171,7 +186,7 @@ class AccountTableSelect extends Component {
 				const { base } = record
 				return base.not_exist == 1 ?
 					<NoExist name={base.sns_name || base.account_id || base.sns_id} />
-					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} />
+					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} actions={actions} />
 
 			}
 		}];

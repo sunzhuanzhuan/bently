@@ -148,6 +148,15 @@ export const arrSelectExactQuery = handleActions({
 		return []
 	}
 }, [])
+export const lookDetailList = handleActions({
+	[accoutActions.addLookDetailList]: (state, action) => {
+		return [...state, ...action.payload]
+	},
+	[accoutActions.getAccountList_success]: (state, action) => {
+		return []
+	}
+}, [])
+
 export default combineReducers({
 	arrSelectExactQuery,
 	companyList,
@@ -157,6 +166,7 @@ export default combineReducers({
 	downloadList,
 	baseInfoList,
 	degreeList,
+	lookDetailList,
 	recentReservationOrderPriceList,
 	...filterOptions,
 	...selectCar,
