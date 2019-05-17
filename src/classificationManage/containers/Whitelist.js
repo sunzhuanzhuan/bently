@@ -5,6 +5,7 @@ import { Tabs } from 'antd';
 import * as action from '../actions'
 import * as commonAction from '@/actions'
 import UploadProcess from "../components/UploadProcess";
+import { ProcessResult } from "../components/ProcessResult";
 
 
 const TabPane = Tabs.TabPane;
@@ -37,6 +38,7 @@ class Whitelist extends Component {
 						<UploadProcess {...params}/>
 					</TabPane>
 					<TabPane tab="批处理结果" key="2">
+						<ProcessResult {...params}/>
 					</TabPane>
 				</Tabs>
 			</div>

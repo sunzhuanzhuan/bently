@@ -1,0 +1,267 @@
+import React, { Component } from 'react'
+import {
+	Button,
+	Form,
+	Select,
+	DatePicker,
+	Table,
+	Tooltip,
+	message,
+	Badge, Input
+} from 'antd';
+
+const Option = Select.Option;
+//筛选
+const FormItem = Form.Item;
+
+@Form.create()
+class Filter extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			startValue: null,
+			endValue: null
+		}
+	}
+
+	submit = (e) => {
+		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+				const timeList = ["queryStartTime", "queryEndTime"]
+				timeList.forEach(item => {
+					if (values[item]) {
+						values[item] = values[item].format('YYYY-MM-DD')
+					}
+				})
+				this.props.search({ ...values, page: 1 })
+			}
+		});
+	}
+
+	disabledStartDate = (startValue) => {
+		const endValue = this.state.endValue;
+		if (!startValue || !endValue) {
+			return false;
+		}
+		return startValue.valueOf() > endValue.valueOf();
+	}
+
+	disabledEndDate = (endValue) => {
+		const startValue = this.state.startValue;
+		if (!endValue || !startValue) {
+			return false;
+		}
+		return endValue.valueOf() <= startValue.valueOf();
+	}
+	onChange = (field, value) => {
+		this.setState({
+			[field]: value
+		});
+	}
+
+	onStartChange = (value) => {
+		this.onChange('startValue', value);
+	}
+
+	onEndChange = (value) => {
+		this.onChange('endValue', value);
+	}
+
+	render() {
+		const formItemLayout = {
+			labelCol: { span: 7 },
+			wrapperCol: { span: 17 }
+		};
+		const statusFormItemLayout = {
+			labelCol: { span: 8 },
+			wrapperCol: { span: 16 }
+		};
+		const { getFieldDecorator } = this.props.form;
+		return (
+			<Form layout="inline" onSubmit={this.submit} style={{ marginBottom: '16px' }}>
+				<FormItem label="处理状态" >
+					{getFieldDecorator('status')(
+						<Select style={{ width: 130 }} placeholder={'请选择'}>
+							<Option value="1">待处理</Option>
+							<Option value="2">处理中</Option>
+							<Option value="3">处理完成</Option>
+							<Option value="4">处理失败</Option>
+						</Select>
+					)}
+				</FormItem>
+				<FormItem label="操作人" >
+					{getFieldDecorator('name')(
+						<Input placeholder='请输入'/>
+					)}
+				</FormItem>
+				<FormItem label="提交时间">
+					{getFieldDecorator('queryStartTime', {})(
+						<DatePicker format='YYYY-MM-DD' placeholder="请选择开始时间"
+							disabledDate={this.disabledStartDate}
+							onChange={this.onStartChange}
+						/>
+					)}
+				</FormItem>
+				<FormItem label='~ ' colon={false}>
+					{getFieldDecorator('queryEndTime', {})(
+						<DatePicker format='YYYY-MM-DD' placeholder="请选择结束时间"
+							disabledDate={this.disabledEndDate}
+							onChange={this.onEndChange}
+						/>
+					)}
+				</FormItem>
+				<FormItem>
+					<Button
+						type="primary"
+						loading={this.props.loading}
+						htmlType='submit'
+					>
+						筛选
+					</Button>
+				</FormItem>
+			</Form>
+		)
+	}
+}
+
+const processStatus = {
+	'1' : {
+		status: 'default',
+		text: '待处理'
+	},
+	'2' : {
+		status: 'processing',
+		text: '处理中'
+	},
+	'3' : {
+		status: 'success',
+		text: '处理完成'
+	},
+	'4' : {
+		status: 'error',
+		text: '处理失败'
+	},
+}
+
+//主页面
+export class ProcessResult extends Component {
+	state = {
+		loading: true,
+		params: {
+			page: 1,
+			pageSize: 50
+		}
+	}
+
+	componentDidMount() {
+		this.search()
+	}
+
+	//截取15个字
+	cut = (text) => {
+		let txt = text.substring(0, 15)
+		return txt
+	}
+
+	//查询
+	search = (params) => {
+		let newParams = {
+			...this.state.params,
+			...params
+		}
+		this.setState({
+			loading: true,
+			params: newParams
+		})
+		console.log(newParams, '---->>>>>');
+		setTimeout(() => {
+			this.setState({
+				loading: false
+			})
+		},1000);
+		/*this.props.actions.getNewDealResultList(newParams).finally(() => {
+			this.setState({
+				loading: false
+			})
+		})*/
+	}
+	//下载处理结果
+	downloadDealResult = (url) => {
+		this.props.actions.downloadDealResult({ downLoadUrl: url }).then((res) => {
+			if (res.code === 1000) {
+				window.location.href = res.data
+			} else {
+				message.error("下载地址获取失败")
+			}
+		}).catch(() => {
+			message.error("下载地址获取失败")
+		})
+	}
+
+	render() {
+		const columns = [
+			{
+				title: '文件名称',
+				dataIndex: 'originalFileName',
+				align: 'center',
+				render: (text, record) =>
+					<Tooltip title={text} arrowPointAtCenter>
+						<a onClick={() => this.downloadDealResult(record.urlName)}
+						>{this.cut(text)}{text.length > 15 ? '...' : ''}</a>
+					</Tooltip>
+			}, {
+				title: '涉及账号',
+				dataIndex: 'operateClassName',
+				align: 'center',
+				render: (text, record) => text || '--'
+			}, {
+				title: '操作人',
+				dataIndex: 'createdByName',
+				align: 'center'
+			}, {
+				title: '操作时间',
+				dataIndex: 'createdAt',
+				align: 'center'
+			}, {
+				title: '状态',
+				dataIndex: 'status',
+				align: 'center',
+				render: (text = 1, record) => {
+					return <Badge status="success" {...processStatus[text]}/>
+				}
+			}, {
+				title: '操作',
+				align: 'center',
+				render: (text, record) => {
+					return record.status == "3" ?
+						<a onClick={() => this.downloadDealResult(record.downloadUrl)}>下载处理结果</a> : null
+				}
+			}
+		];
+		return (
+			<div>
+				<Filter
+					search={this.search}
+					loading={this.state.loading}
+				/>
+				<Table dataSource={[]} columns={columns}
+					bordered={true}
+					loading={this.state.loading}
+					rowKey='id'
+					pagination={{
+						current: 1,
+						pageSize: 50,
+						showQuickJumper: true,
+						total: 100,
+						onChange: (page) => {
+							this.search({ page })
+						},
+						size: 'small'
+					}}
+				/>
+			</div>
+		)
+	}
+}
