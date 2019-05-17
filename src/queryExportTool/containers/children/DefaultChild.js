@@ -106,16 +106,37 @@ class DefaultChild extends Component {
 	isdBackUp = (isdBackUp) => {
 		document.getElementById('app-content-children-id').scrollTop = 0
 	}
+	ruleUrlAddTrack = () => {
+		let { platformType } = this.props.match.params;
+		sensors.track('AccountSearchEvent', { app_id: 101, platformType: platformType, click_url: "https://wby-download-storage.oss-cn-beijing.aliyuncs.com/trinity/%E7%9F%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0%E6%94%BF%E7%AD%96%26%E8%A7%84%E5%88%99%E6%A6%82%E8%A7%88.pdf" });
+	}
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;
 		const { selectedRowKeys, selectedRowKeysObject, quotation_id } = this.props
 		const { accountList, accountIdsByQuotation } = queryExportToolReducer;
 		let { platformType } = this.props.match.params;
+		let ruleUrl = {
+			2: "查看微博微任务/weiq &粉丝头条下单规则",
+			3: "查看短视频平台下单规则",
+			4: "查看小红书下单规则"
+		}
 		const { statistic = {} } = accountList
 		const countNum = statistic && Object.values(statistic).reduce((total, one) => total + one, 0)
 		const header = <div className="table-title-wxy">
-			<div>共<span>{countNum}</span>个账号</div>
+			<div>
+				共<span>{countNum}</span>个账号
+				&nbsp;&nbsp;&nbsp;
+				{
+					ruleUrl[platformType] ?
+						<a href="https://wby-download-storage.oss-cn-beijing.aliyuncs.com/trinity/%E7%9F%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0%E6%94%BF%E7%AD%96%26%E8%A7%84%E5%88%99%E6%A6%82%E8%A7%88.pdf"
+							target="_blank"
+							onClick={this.ruleUrlAddTrack}
+						>
+							{ruleUrl[platformType]}
+						</a> : null
+				}
+			</div>
 			{search.keyword && <div>
 				<div>微信公众号<span><a href="javascript:void(0)" onClick={() => this.onCountClick(1)}>{statistic[1]}</a></span>个</div>
 				<div>新浪微博<span><a href="javascript:void(0)" onClick={() => this.onCountClick(2)}>{statistic[2]}</a></span>个</div>

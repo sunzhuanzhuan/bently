@@ -185,6 +185,7 @@ export const {
 // 获取分类列表
 export const {
 	getCategoryList,
+	getCategoryList_success
 } = createHttpAction('getCategoryList', Interface.media.getCategoryList, {
 	method: 'get',
 });
@@ -205,7 +206,7 @@ export const {
 //获取选择相似账号弹框提交
 
 export const getSimilarAccount = (parmas) => (dispatch) => {
-	return api.get(Interface.sellerAndAE.getSimilarAccount, {params: {...parmas} }).then((response) => {
+	return api.get(Interface.sellerAndAE.getSimilarAccount, { params: { ...parmas } }).then((response) => {
 		const { data } = response
 		dispatch({
 			type: GET_SIMILAR_ACCOUNT,
@@ -216,7 +217,7 @@ export const getSimilarAccount = (parmas) => (dispatch) => {
 		return data
 	})
 }
-export const sendTotalAccount = (data) =>(dispatch)=>{
+export const sendTotalAccount = (data) => (dispatch) => {
 	dispatch({
 		type: SEND_TOTAL_ACCOUNT,
 		payload: {
@@ -225,7 +226,7 @@ export const sendTotalAccount = (data) =>(dispatch)=>{
 	})
 	return data
 }
-export const updateAccount = (data) =>(dispatch)=>{
+export const updateAccount = (data) => (dispatch) => {
 	dispatch({
 		type: 'EXTENSION_NUMBER_UPDATE_ACCOUNT',
 		payload: {
@@ -236,25 +237,25 @@ export const updateAccount = (data) =>(dispatch)=>{
 }
 
 
-export const resetSimilarAccount=()=>(dispatch)=>{
+export const resetSimilarAccount = () => (dispatch) => {
 	dispatch({
 		type: RESET_SIMILAR_ACCOUNT
 	})
 }
 
-export const clearSelectedValue=()=>(dispatch)=>{
+export const clearSelectedValue = () => (dispatch) => {
 	dispatch({
-		
+
 	})
 }
 //发送相似数据到后端
-export const postSimilarAccount=(parmas)=>(dispatch)=>{
-	return api.post(Interface.sellerAndAE.postSimilarAccount,{...parmas}).then((response)=>{
+export const postSimilarAccount = (parmas) => (dispatch) => {
+	return api.post(Interface.sellerAndAE.postSimilarAccount, { ...parmas }).then((response) => {
 		const data = response.data
 		console.log(parmas)
 		dispatch({
 			type: POST_SIMILAR_ACCOUNT,
-			payload:{
+			payload: {
 				data
 			}
 		})

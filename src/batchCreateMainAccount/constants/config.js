@@ -258,16 +258,6 @@ export const platformIcon = {
 	}
 }
 
-export const platformIconArray = [
-	["淘宝达人", "抖音", "小红书", "秒拍", "微视", "Acfun"], ["西瓜视频", "快手", "火山小视频", "哔哩哔哩", "优酷", "土豆视频"],
-	["爱奇艺", "搜狐视频", "腾讯视频", "美拍", "小咖秀", "一直播"], ["花椒", "映客", "新浪微博", "微信", "熊猫直播"]
-]
-
-export const batchEditAccountPricePlatformIconArray = [
-	["淘宝达人", "抖音", "小红书", "秒拍", "微视", "Acfun"], ["西瓜视频", "快手", "火山小视频", "哔哩哔哩", "优酷", "土豆视频"],
-	["爱奇艺", "搜狐视频", "腾讯视频", "美拍", "小咖秀", "一直播"], ["花椒", "映客", "新浪微博", "微信", "熊猫直播"]
-]
-
 export const bizzCode = {
 	//创建微闪投
 	"addMicroPutAttribute": "B_EXCEL_0001",
