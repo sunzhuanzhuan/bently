@@ -125,7 +125,7 @@ class FilterForm extends Component {
             form
         } = this.props;
 
-        const { getFieldDecorator } = form;
+        const { getFieldDecorator, getFieldValue } = form;
         return (
             <Form layout="inline">
                 <fieldset className="margin-top-md form-container filter-form-box">
@@ -292,7 +292,7 @@ class FilterForm extends Component {
                             : ''
                     }
                     {
-                        signedStatus ?
+                        signedStatus && brandList.length > 0 ?
                             <SelectFormItem
                                 getFieldDecorator={getFieldDecorator}
                                 label={'推广品牌'}
