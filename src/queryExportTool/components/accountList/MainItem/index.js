@@ -43,22 +43,32 @@ export default class MainItem extends PureComponent {
 		}
 		return tableKey ? tableCol[tableKey] : ['', '']
 	}
-	track = (eventName) => {
+	track = (eventName, position) => {
 		const { accountListItem = {} } = this.props
 		const { base: { account_id } } = accountListItem;
-		sensors.track(eventName, { account_id: account_id, pathname: location.pathname });
+		sensors.track(eventName, {
+			account_id: account_id,
+			position: '列表',
+			app_id: 101
+		});
 	}
 	//查看详情
 	lookDetail = (platform_id, account_id) => {
 		//神策统计
-		this.track('vievAccountDetailEvent');
+		this.track('AccountListClick');
 		[103, 110, 115].includes(platform_id) ?
 			window.open(`/account/view/detail?accountId=${account_id}`, "_blank")
 			: this.props.setModalContent(<AccountDetails account_id={account_id}
 			/>)
 		//添加打开详情
 		const { actions } = this.props
-		actions && actions.addLookDetailList([account_id]);
+		actions && actions.addLookDetailOrIndexList({ detali: [account_id] });
+	}
+	//去主页的事件触发
+	lookIndex = (account_id) => {
+		this.track('vievAccountHomePageEvent')
+		const { actions } = this.props
+		actions && actions.addLookDetailOrIndexList({ index: [account_id] });
 	}
 	render() {
 		const { accountListItem = {}, isDeleteAction, batchRemove } = this.props
@@ -103,7 +113,8 @@ export default class MainItem extends PureComponent {
 							<div>
 								<div style={{ padding: 10 }}>
 									{/* 朋友圈和微信没有去主页 */}
-									{platform_id == 23 ? null : <a onClick={() => this.track('vievAccountHomePageEvent')} href={IS_WEiXin ? `https://weixin.sogou.com/weixin?query=${sns_id}` : url} target="_blank">去主页</a>}
+									{platform_id == 23 ? null : <a onClick={() => this.lookIndex(account_id)}
+										href={IS_WEiXin ? `https://weixin.sogou.com/weixin?query=${sns_id}` : url} target="_blank">去主页</a>}
 								</div>
 								<div style={{ marginLeft: 6 }}>
 									{is_low_quality == 1 ? <CTag color='gary'> 劣质号 </CTag> : null}

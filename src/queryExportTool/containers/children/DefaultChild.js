@@ -114,7 +114,7 @@ class DefaultChild extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;
 		const { selectedRowKeys, selectedRowKeysObject, quotation_id } = this.props
-		const { accountList, accountIdsByQuotation, lookDetailList } = queryExportToolReducer;
+		const { accountList, accountIdsByQuotation, addLookDetailOrIndexList } = queryExportToolReducer;
 		let { platformType } = this.props.match.params;
 		let ruleUrl = {
 			2: "查看微博微任务/weiq &粉丝头条下单规则",
@@ -174,7 +174,7 @@ class DefaultChild extends Component {
 							countNum={countNum}
 							isShowNoFind={true}
 							isdBackUp={this.isdBackUp}
-							lookDetailList={lookDetailList} />}
+							addLookDetailOrIndexList={addLookDetailOrIndexList} />}
 				</div>
 			</Spin>
 		</div >

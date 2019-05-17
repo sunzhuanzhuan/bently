@@ -76,21 +76,20 @@ class AccountTableSelect extends Component {
 		serachAction && serachAction({ ...valuesAll })
 	}
 	//神策添加
-	track = (addType, operateType, account_id) => {
-		sensors.track('eventName', {
-			account_id: account_id,
-			pathname: location.pathname,
-			place: '列表'
+	track = (dealType, visit, account_ids) => {
+		sensors.track('AccountToCart', {
+			app_id: 101,
+			account_ids: account_ids.join(','),
+			is_visit_detail: visit,
+			position: '列表',
+			deal_type: dealType,//批量加入batch。单个加入single
 		});
 	}
 
 
 	//选择和取消选择
 	onSelectChange = (key, seleced) => {
-
-		const { IsExactQuery, isShowTypeByList, actions, lookDetailList } = this.props
-		console.log("TCL: onSelectChange -> seleced", seleced)
-		console.log("TCL: onSelectChange -> key->lookDetailList", lookDetailList.includes(key.account_id))
+		const { IsExactQuery, isShowTypeByList, actions } = this.props
 
 		this.setState({
 			selecedTable: [key.account_id]
@@ -125,7 +124,7 @@ class AccountTableSelect extends Component {
 	}
 	//全选/取消全选
 	onSelectAllChange = (seleced, list, changeRows) => {
-		const { IsExactQuery, actions } = this.props
+		const { IsExactQuery, actions, addLookDetailOrIndexList } = this.props
 		const staging_ids = changeRows.map(one => one.account_id)
 
 		if (seleced) {

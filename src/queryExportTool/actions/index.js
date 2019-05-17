@@ -118,7 +118,7 @@ export const cleanSelectExactQuery = createAction('cleanSelectExactQuery', (valu
 	return value
 })
 //编辑点击查看详情统计
-export const addLookDetailList = createAction('addLookDetailList', (value) => {
+export const addLookDetailOrIndexList = createAction('addLookDetailOrIndexList', (value) => {
 	return value
 })
 
