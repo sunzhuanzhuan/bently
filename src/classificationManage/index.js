@@ -6,6 +6,7 @@ import './index.less'
 
 // 懒加载路由级组件
 const Whitelist = lazyLoadComponent(() => import('./containers/Whitelist'))
+const Feedback = lazyLoadComponent(() => import('./containers/Feedback'))
 
 
 class BatchCreateMainAccountIndex extends Component {
@@ -13,8 +14,8 @@ class BatchCreateMainAccountIndex extends Component {
 	render() {
 		return (
 			<div>
-				<Route path='/classificationManage/whitelist/:key' component={Whitelist} />
-				<Route path='/classificationManage/feedback/:key' component={Whitelist} />
+				<Route path='/classificationManage/whitelist' component={Whitelist} />
+				<Route path='/classificationManage/feedback' component={Feedback} />
 			</div>
 		);
 	}

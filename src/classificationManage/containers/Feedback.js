@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import { Tabs } from 'antd';
 import * as action from '../actions'
 import * as commonAction from '@/actions'
-import UploadProcess from "../components/UploadProcess";
-import ProcessResult from "../components/ProcessResult";
+import ClassificationReview from "../components/ClassificationReview";
+import FeedbackExport from "../components/FeedbackExport";
 
 
 const TabPane = Tabs.TabPane;
 
-class Whitelist extends Component {
+class Feedback extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -34,11 +34,11 @@ class Whitelist extends Component {
 		return (
 			<div>
 				<Tabs defaultActiveKey="1">
-					<TabPane tab="添加/修改分类" key="1">
-						<UploadProcess {...params}/>
+					<TabPane tab="内容分类审核" key="1">
+						<ClassificationReview {...params}/>
 					</TabPane>
-					<TabPane tab="批处理结果" key="2">
-						<ProcessResult {...params}/>
+					<TabPane tab="分类反馈收集" key="2">
+						<FeedbackExport {...params}/>
 					</TabPane>
 				</Tabs>
 			</div>
@@ -65,5 +65,5 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Whitelist)
+)(Feedback)
 

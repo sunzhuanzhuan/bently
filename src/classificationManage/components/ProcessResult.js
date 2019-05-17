@@ -83,7 +83,7 @@ class Filter extends Component {
 			<Form layout="inline" onSubmit={this.submit} style={{ marginBottom: '16px' }}>
 				<FormItem label="处理状态" >
 					{getFieldDecorator('status')(
-						<Select style={{ width: 130 }} placeholder={'请选择'}>
+						<Select style={{ width: 130 }} placeholder={'请选择'} allowClear>
 							<Option value="1">待处理</Option>
 							<Option value="2">处理中</Option>
 							<Option value="3">处理完成</Option>
@@ -145,13 +145,12 @@ const processStatus = {
 	},
 }
 
-//主页面
-export class ProcessResult extends Component {
+export default class ProcessResult extends Component {
 	state = {
 		loading: true,
 		params: {
 			page: 1,
-			pageSize: 50
+			pageSize: 20
 		}
 	}
 
@@ -159,9 +158,9 @@ export class ProcessResult extends Component {
 		this.search()
 	}
 
-	//截取15个字
+	//截取8个字
 	cut = (text) => {
-		let txt = text.substring(0, 15)
+		let txt = text.substring(0, 8)
 		return txt
 	}
 
@@ -209,7 +208,7 @@ export class ProcessResult extends Component {
 				render: (text, record) =>
 					<Tooltip title={text} arrowPointAtCenter>
 						<a onClick={() => this.downloadDealResult(record.urlName)}
-						>{this.cut(text)}{text.length > 15 ? '...' : ''}</a>
+						>{this.cut(text)}{text.length > 8 ? '...' : ''}</a>
 					</Tooltip>
 			}, {
 				title: '涉及账号',
@@ -251,12 +250,16 @@ export class ProcessResult extends Component {
 					loading={this.state.loading}
 					rowKey='id'
 					pagination={{
-						current: 1,
-						pageSize: 50,
-						showQuickJumper: true,
+						current: this.state.params.page,
+						pageSize: this.state.params.pageSize,
+						pageSizeOptions:['20','50','100'],
+						showSizeChanger: true,
 						total: 100,
-						onChange: (page) => {
-							this.search({ page })
+						onShowSizeChange: (current, pageSize) => {
+							this.search({ pageSize })
+						},
+						onChange: (page, pageSize) => {
+							this.search({ page, pageSize })
 						},
 						size: 'small'
 					}}
