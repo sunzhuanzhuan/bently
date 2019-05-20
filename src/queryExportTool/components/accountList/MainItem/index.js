@@ -48,14 +48,14 @@ export default class MainItem extends PureComponent {
 		const { base: { account_id } } = accountListItem;
 		sensors.track(eventName, {
 			account_id: account_id,
-			position: '列表',
+			position: position,
 			app_id: 101
 		});
 	}
 	//查看详情
 	lookDetail = (platform_id, account_id) => {
 		//神策统计
-		this.track('AccountListClick');
+		this.track('AccountListClick', '详情');
 		[103, 110, 115].includes(platform_id) ?
 			window.open(`/account/view/detail?accountId=${account_id}`, "_blank")
 			: this.props.setModalContent(<AccountDetails account_id={account_id}
@@ -66,7 +66,7 @@ export default class MainItem extends PureComponent {
 	}
 	//去主页的事件触发
 	lookIndex = (account_id) => {
-		this.track('vievAccountHomePageEvent')
+		this.track('AccountListClick', '主页')
 		const { actions } = this.props
 		actions && actions.addLookDetailOrIndexList({ index: [account_id] });
 	}

@@ -1,3 +1,9 @@
+/*
+ * @Author: wangxinyue 
+ * @Date: 2019-05-20 11:37:46 
+ * @Last Modified by: wangxinyue
+ * @Last Modified time: 2019-05-20 11:50:00
+ */
 /**
  * @param参数说明
  * setLoading loading方法
@@ -76,25 +82,35 @@ class AccountTableSelect extends Component {
 		serachAction && serachAction({ ...valuesAll })
 	}
 	//神策添加
-	track = (dealType, visit, account_ids) => {
+	track = (is_visit_detail, is_visit_homepage, operation_type, deal_type, account_ids) => {
 		sensors.track('AccountToCart', {
 			app_id: 101,
-			account_ids: account_ids.join(','),
-			is_visit_detail: visit,
+			is_visit_detail: is_visit_detail,
+			is_visit_homepage: is_visit_homepage,
+			operation_type: operation_type,
+			deal_type: deal_type,//批量加入batch。单个加入single
 			position: '列表',
-			deal_type: dealType,//批量加入batch。单个加入single
+			account_ids: account_ids.join(','),
 		});
 	}
 
 
 	//选择和取消选择
 	onSelectChange = (key, seleced) => {
-		const { IsExactQuery, isShowTypeByList, actions } = this.props
+		const { IsExactQuery, isShowTypeByList, actions, addLookDetailOrIndexList = {} } = this.props
 
 		this.setState({
 			selecedTable: [key.account_id]
 		})
+		const { detali = [], index = [] } = addLookDetailOrIndexList
 
+		this.track(
+			detali.includes(key.account_id) ? key.account_id : '',
+			index.includes(key.account_id) ? key.account_id : '',
+			seleced ? '加入' : '取消',
+			'single',
+			[key.account_id]
+		)
 		if (seleced) {
 			//同步发一个立刻选中
 			this.props.actions.addSelectStatic([key.account_id])
@@ -116,7 +132,6 @@ class AccountTableSelect extends Component {
 				start: faceImg,
 				image: faceImg.data("src")
 			})
-			sensors.track('accountSearchEvent', { account_id: key.account_id, pathname: location.pathname });
 		}
 	}
 	getSaveCart = (list) => {
@@ -126,6 +141,15 @@ class AccountTableSelect extends Component {
 	onSelectAllChange = (seleced, list, changeRows) => {
 		const { IsExactQuery, actions, addLookDetailOrIndexList } = this.props
 		const staging_ids = changeRows.map(one => one.account_id)
+		const { detali = [], index = [] } = addLookDetailOrIndexList
+
+		this.track(
+			detali.join(','),
+			index.join(','),
+			seleced ? '加入' : '取消',
+			'batch',
+			staging_ids
+		)
 
 		if (seleced) {
 			//同步发一个立刻选中
