@@ -24,3 +24,33 @@ export const {
 } = createHttpAction('addClassifyAuditInfo', Interface.addClassifyAuditInfo, {
 	method: 'post'
 })
+
+// 提交自定义分类
+export const {
+	addCustomClassify
+} = createHttpAction('addCustomClassify', Interface.addCustomClassify, {
+	method: 'post'
+})
+
+/**
+ * 反馈审核
+ */
+// 查询分类反馈信息列表
+export const {
+	getClassifyFeedbackList,
+	getClassifyFeedbackList_success,
+} = createHttpAction('getClassifyFeedbackList', Interface.getClassifyFeedbackList)
+
+// 同意账号分类反馈信息
+export const {
+	passClassifyAuditInfo,
+} = createHttpAction('passClassifyAuditInfo', Interface.passClassifyAuditInfo, {
+	method: 'post'
+})
+
+// 驳回账号分类反馈信息
+export const {
+	rejectClassifyAuditInfo,
+} = createHttpAction('rejectClassifyAuditInfo', Interface.rejectClassifyAuditInfo, {
+	method: 'post'
+})

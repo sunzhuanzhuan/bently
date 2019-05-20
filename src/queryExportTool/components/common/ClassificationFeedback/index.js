@@ -41,7 +41,6 @@ class ClassificationFeedback extends Component {
 
 	render() {
 		const { actions, data } = this.props
-		console.log(data, '======>');
 		const { classifyAuditInfoId, hasRecord } = this.state;
 		const accountInfo = {
 			accountId: data.account_id,
@@ -67,7 +66,7 @@ class ClassificationFeedback extends Component {
 			{this.state.feedback === 'detail' &&
 			<FeedbackDetail setModal={this.setModal} actions={actions} classifyAuditInfoId={classifyAuditInfoId}/>}
 			{this.state.feedback === 'mini' &&
-			<FeedbackMini setModal={this.setModal} actions={actions}/>}
+			<FeedbackMini setModal={this.setModal} accountInfo={accountInfo} actions={actions}/>}
 		</span>
 	}
 }

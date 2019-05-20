@@ -29,7 +29,8 @@ class Feedback extends Component {
 
 	render() {
 		const params = {
-			actions: this.props.actions
+			actions: this.props.actions,
+			data: this.props.data,
 		}
 		return (
 			<div>
@@ -48,10 +49,7 @@ class Feedback extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		uploadInfo: state.batchCreateMainAccountReducers.uploadInfo,
-		authVisibleList: state.authorizationsReducers.authVisibleList,
-		instockPlatformList: state.batchCreateMainAccountReducers.instockPlatformList,
-		batchSkuPlatformList: state.batchCreateMainAccountReducers.batchSkuPlatformList
+		data: state.classificationManageReducer
 	}
 }
 

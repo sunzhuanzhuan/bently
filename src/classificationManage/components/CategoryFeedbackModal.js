@@ -10,7 +10,9 @@ export class FeedbackCreate extends Component {
 	submit = () => {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
+				let hide = message.loading('处理中...')
 				this.props.actions.addClassifyAuditInfo(values).then(() => {
+					hide()
 					message.success('我们将在5个工作日内给您反馈，请您耐心等待', 1.5, () => {
 						this.props.setModal()
 					})
@@ -79,7 +81,8 @@ export class FeedbackCreate extends Component {
 							)
 						}
 					</Form.Item> :
-					getFieldDecorator('wrongReasonType', { initialValue: 0 })(<input type="hidden" />)
+					getFieldDecorator('wrongReasonType', { initialValue: 0 })(
+						<input type="hidden" />)
 				}
 				<Form.Item label='请填写您的原因' colon={false}>
 					{
@@ -101,10 +104,14 @@ export class FeedbackCreate extends Component {
 				>
 					未找到分类名称?
 				</a>
-				{getFieldDecorator('accountId', { initialValue: accountId })(<input type="hidden" />)}
-				{getFieldDecorator('snsName', { initialValue: snsName })(<input type="hidden" />)}
-				{getFieldDecorator('platformId', { initialValue: platformId })(<input type="hidden" />)}
-				{getFieldDecorator('url', { initialValue: url })(<input type="hidden" />)}
+				{getFieldDecorator('accountId', { initialValue: accountId })(
+					<input type="hidden" />)}
+				{getFieldDecorator('snsName', { initialValue: snsName })(
+					<input type="hidden" />)}
+				{getFieldDecorator('platformId', { initialValue: platformId })(
+					<input type="hidden" />)}
+				{getFieldDecorator('url', { initialValue: url })(
+					<input type="hidden" />)}
 				{getFieldDecorator('originClassifyKey', { initialValue: classificationList[0].id })(
 					<input type="hidden" />)}
 			</Form>
@@ -117,16 +124,27 @@ export class FeedbackMini extends Component {
 	submit = () => {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
-				message.info('反馈成功，我们将尽快处理', 1.5)
-				this.props.setModal()
+				const { actions } = this.props
+				let hide = message.loading('处理中...')
+				actions.addCustomClassify(values).then(() => {
+					hide()
+					message.info('反馈成功，我们将尽快处理', 1.5, () => {
+						this.props.setModal()
+					})
+				})
 			}
 		});
 	};
 
 	render() {
-		const { form } = this.props
+		const { form, accountInfo } = this.props
 		const { getFieldDecorator } = form
+		const {
+			accountId,
+			snsName,
+			platformId,
+			url
+		} = accountInfo
 		return <Modal
 			visible
 			title='没有找到你内容分类？填写告诉我们'
@@ -139,10 +157,13 @@ export class FeedbackMini extends Component {
 			<Form colon={false}>
 				<Form.Item>
 					{
-						getFieldDecorator('create4', {
+						getFieldDecorator('classifyName', {
 							validateFirst: true,
 							rules: [
-								{ pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/, message: '请填写中英文分类名称' },
+								{
+									pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/,
+									message: '请填写中英文分类名称'
+								},
 								{ max: 10, min: 2, message: '最多可输入2~10个字' },
 								{ required: true, message: '请填写分类名称' }
 							]
@@ -151,6 +172,14 @@ export class FeedbackMini extends Component {
 						)
 					}
 				</Form.Item>
+				{getFieldDecorator('accountId', { initialValue: accountId })(
+					<input type="hidden" />)}
+				{getFieldDecorator('snsName', { initialValue: snsName })(
+					<input type="hidden" />)}
+				{getFieldDecorator('platformId', { initialValue: platformId })(
+					<input type="hidden" />)}
+				{getFieldDecorator('url', { initialValue: url })(
+					<input type="hidden" />)}
 			</Form>
 		</Modal>
 	}
@@ -177,13 +206,6 @@ const auditTypeMap = {
 export class FeedbackView extends Component {
 	state = {
 		loading: true
-	}
-
-	showContact = () => {
-		Modal.info({
-			title: '直接添加客服QQ号',
-			content: '3460666273'
-		})
 	}
 
 	componentDidMount() {
@@ -421,14 +443,13 @@ export class FeedbackReview extends Component {
 		Modal.confirm({
 			title: '是否确定更新分类',
 			content: <SimpleTag>{this.state.newClassifyKey}</SimpleTag>,
-			onOk: () => {
-				// 发请求
+			onOk: () => actions.passClassifyAuditInfo({ classifyAuditInfoId }).then(() => {
 				message.success('提交成功', 1.5, () => {
 					setModal()
 					reload()
 				})
+			})
 
-			}
 		})
 	}
 	reject = () => {
@@ -439,14 +460,18 @@ export class FeedbackReview extends Component {
 		const { actions, classifyAuditInfoId, setModal, reload } = this.props
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
-				// 发请求
-				message.success('提交成功', 1.5, () => {
-					this.setState({ reasonModal: false }, () => {
+				this.setState({ reasonLoading: true })
+				actions.rejectClassifyAuditInfo({
+					classifyAuditInfoId,
+					...values
+				}).then(() => {
+					this.setState({ reasonLoading: false, reasonModal: false })
+					message.success('提交成功', 1.5, () => {
 						setModal()
 						reload()
 					})
 				})
+
 			}
 		})
 	}
@@ -546,11 +571,12 @@ export class FeedbackReview extends Component {
 				width={380}
 				centered
 				onOk={this.submit}
+				okButtonProps={{ loading: this.state.reasonLoading }}
 				onCancel={() => this.setState({ reasonModal: false })}
 				maskClosable={false}
 			>
 				<Form.Item>
-					{getFieldDecorator('reason', {
+					{getFieldDecorator('description', {
 						rules: [
 							{ required: true, message: '请填写驳回原因' },
 							{ max: 100, message: '最多可输入100字' }

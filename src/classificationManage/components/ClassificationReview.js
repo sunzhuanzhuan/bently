@@ -9,6 +9,7 @@ import {
 	message,
 	Badge, Input, Row, Col
 } from 'antd';
+import moment from "moment";
 import EmSpan from "../../base/EmSpan";
 import { WBYPlatformIcon } from "wbyui";
 import { FeedbackView, FeedbackReview } from "./CategoryFeedbackModal";
@@ -35,13 +36,14 @@ class Filter extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
-				const timeList = ["queryStartTime", "queryEndTime"]
+				const timeList = ["startTime", "endTime"]
 				timeList.forEach((item, n) => {
 					if (values['time'] && values['time'][n]) {
 						values[item] = values['time'][n].format('YYYY-MM-DD')
 					}
 				})
-				this.props.search({ ...values, page: 1 })
+				delete values['time']
+				this.props.search({ ...values, pageNum: 1 })
 			}
 		});
 	}
@@ -95,7 +97,7 @@ class Filter extends Component {
 				<Row gutter={20}>
 					<Col span={6}>
 						<FormItem label="主账号名称">
-							{getFieldDecorator('name')(
+							{getFieldDecorator('userIdentityName')(
 								<Input placeholder='请输入' />
 							)}
 						</FormItem>
@@ -109,7 +111,7 @@ class Filter extends Component {
 					</Col>
 					<Col span={6}>
 						<FormItem label="平台">
-							{getFieldDecorator('status')(
+							{getFieldDecorator('platformId')(
 								<Select placeholder={'请选择'} allowClear>
 									<Option value="1">待处理</Option>
 									<Option value="2">处理中</Option>
@@ -121,7 +123,7 @@ class Filter extends Component {
 					</Col>
 					<Col span={6}>
 						<FormItem label="账号名称">
-							{getFieldDecorator('name2')(
+							{getFieldDecorator('snsName')(
 								<Input placeholder='请输入' />
 							)}
 						</FormItem>
@@ -138,12 +140,11 @@ class Filter extends Component {
 					</Col>
 					<Col span={6}>
 						<FormItem label="状态">
-							{getFieldDecorator('status2')(
+							{getFieldDecorator('auditType')(
 								<Select placeholder={'请选择'} allowClear>
 									<Option value="1">待处理</Option>
-									<Option value="2">处理中</Option>
-									<Option value="3">处理完成</Option>
-									<Option value="4">处理失败</Option>
+									<Option value="2">已更新</Option>
+									<Option value="3">已驳回</Option>
 								</Select>
 							)}
 						</FormItem>
@@ -188,13 +189,9 @@ export default class ClassificationReview extends Component {
 		modal: '',
 		classifyAuditInfoId: '',
 		params: {
-			page: 1,
-			pageSize: 20,
+			pageNum: 1,
+			pageSize: 20
 		}
-	}
-
-	componentDidMount() {
-		this.search()
 	}
 
 	constructor(props, context) {
@@ -202,7 +199,7 @@ export default class ClassificationReview extends Component {
 		this.columns = [
 			{
 				title: '状态',
-				dataIndex: 'accountId2',
+				dataIndex: 'auditType',
 				align: 'center',
 				render: (text = 1, record) => {
 					return <Badge status="success" {...processStatus[text]} />
@@ -216,8 +213,8 @@ export default class ClassificationReview extends Component {
 				title: '平台/账号名称',
 				dataIndex: 'platformId',
 				render: (text, record) => <div className='platform-icon-text'>
-					<WBYPlatformIcon weibo_type={text || '9'} widthSize={22} />
-					<a className='text' style={{ maxWidth: 120 }} title={record.weiboName}>{record.weiboName || '账号名称账号名称账号名称'}</a>
+					<WBYPlatformIcon weibo_type={text} widthSize={22} />
+					<a href={record.url} className='text' style={{ maxWidth: 120 }} title={record.snsName}>{record.snsName || '--'}</a>
 				</div>
 
 			}, {
@@ -226,34 +223,45 @@ export default class ClassificationReview extends Component {
 				align: 'center'
 			}, {
 				title: '原分类',
-				dataIndex: 'createdAt',
+				dataIndex: 'originClassifyName',
 				align: 'center'
 			}, {
 				title: '期望分类',
-				dataIndex: 'createdAt2',
+				dataIndex: 'newClassifyName',
 				align: 'center'
 			}, {
 				title: '提交人(端口)/处理人',
-				dataIndex: 'statu2s',
-				align: 'center'
+				dataIndex: 'createdByName',
+				align: 'center',
+				render: (text, record) => <div>
+					{text}({record.createdFrom})/{record.modifiedByName || '-'}
+				</div>
 			}, {
 				title: '处理时间',
-				dataIndex: 'statu3s',
+				dataIndex: 'createdTime',
 				align: 'center',
-				render: text => 'YYYY-MM-DD HH:mm:ss'
+				render: (text, record) => <div>
+					{text && <div>提交时间: {moment(text).format('YYYY-MM-DD')}</div>}
+					{record.modifiedTime && <div>处理时间: {moment(record.modifiedTime).format('YYYY-MM-DD')}</div>}
+				</div>
 			}, {
 				title: '操作',
 				dataIndex: 'statu4s',
 				fixed: 'right',
+				align: 'center',
 				width: 100,
 				render: (text, record) => <div>
-					{record.status === 1 &&  <a onClick={() => this.setModal('review', record.classifyAuditInfoId)}>处理反馈</a>}
-					{record.status === 2 &&  <a onClick={() => this.setModal('view', record.classifyAuditInfoId)}>查看详情</a>}
+					{record.auditType === 1 ?
+					<a onClick={() => this.setModal('review', record.classifyAuditInfoId)}>处理反馈</a> :
+					<a onClick={() => this.setModal('view', record.classifyAuditInfoId)}>查看详情</a>}
 				</div>
 			}
 		];
 	}
 
+	componentDidMount() {
+		this.search()
+	}
 
 	//截取8个字
 	cut = (text) => {
@@ -271,17 +279,11 @@ export default class ClassificationReview extends Component {
 			loading: true,
 			params: newParams
 		})
-		console.log(newParams, '---->>>>>');
-		setTimeout(() => {
+		this.props.actions.getClassifyFeedbackList(newParams).finally(() => {
 			this.setState({
 				loading: false
 			})
-		}, 1000);
-		/*this.props.actions.getNewDealResultList(newParams).finally(() => {
-			this.setState({
-				loading: false
-			})
-		})*/
+		})
 	}
 	//下载处理结果
 	downloadDealResult = (url) => {
@@ -296,12 +298,13 @@ export default class ClassificationReview extends Component {
 		})
 	}
 
-	setModal = (type,id) => {
+	setModal = (type, id) => {
 		this.setState({ modal: type, classifyAuditInfoId: id })
 	}
 
 	render() {
 		const { classifyAuditInfoId, modal } = this.state
+		const { data: { classifyFeedbackList: source } } = this.props
 		return (
 			<div>
 				<Filter
@@ -309,23 +312,23 @@ export default class ClassificationReview extends Component {
 					loading={this.state.loading}
 				/>
 				<div style={{ marginBottom: '10px' }} className='clearfix'>
-					<span style={{ lineHeight: "32px" }}>筛选结果条数: 50条</span>
+					<span style={{ lineHeight: "32px" }}>筛选结果条数: {source.total || '-'} 条</span>
 				</div>
-				<Table dataSource={[{ status: 1 }, { status: 2 }]} columns={this.columns}
+				<Table dataSource={source.list} columns={this.columns}
 					scroll={{ x: 1500 }}
 					loading={this.state.loading}
 					rowKey='id'
 					pagination={{
-						current: this.state.params.page,
-						pageSize: this.state.params.pageSize,
+						current: source.pageNum,
+						pageSize: source.pageSize || 20,
 						pageSizeOptions: ['20', '50', '100'],
 						showSizeChanger: true,
-						total: 100,
+						total: source.total,
 						onShowSizeChange: (current, pageSize) => {
 							this.search({ pageSize })
 						},
-						onChange: (page, pageSize) => {
-							this.search({ page, pageSize })
+						onChange: (pageNum, pageSize) => {
+							this.search({ pageNum, pageSize })
 						}
 					}}
 				/>
