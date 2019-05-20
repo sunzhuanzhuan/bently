@@ -10,6 +10,8 @@ import {
 	Badge, Input, Row, Col
 } from 'antd';
 import EmSpan from "../../base/EmSpan";
+import { WBYPlatformIcon } from "wbyui";
+import { FeedbackDetail, FeedbackReview } from "./CategoryFeedbackModal";
 
 const Option = Select.Option;
 
@@ -129,7 +131,7 @@ class Filter extends Component {
 							{getFieldDecorator('time', {})(
 								<RangePicker
 									format='YYYY-MM-DD'
-									style={{width: "100%"}}
+									style={{ width: "100%" }}
 								/>
 							)}
 						</FormItem>
@@ -167,87 +169,91 @@ class Filter extends Component {
 }
 
 const processStatus = {
-	'1' : {
-		status: 'default',
+	'1': {
+		status: 'warning',
 		text: '待处理'
 	},
-	'2' : {
-		status: 'processing',
-		text: '处理中'
-	},
-	'3' : {
+	'2': {
 		status: 'success',
-		text: '处理完成'
+		text: '已更新'
 	},
-	'4' : {
+	'3': {
 		status: 'error',
-		text: '处理失败'
-	},
-}
-const columns = [
-	{
-		title: '状态',
-		dataIndex: 'accountId2',
-		align: 'center',
-		render: (text = 1, record) => {
-			return <Badge status="success" {...processStatus[text]}/>
-		}
-	},
-	{
-		title: 'account_id',
-		dataIndex: 'accountId',
-		align: 'center',
-		render: (text, record) => <a>{text}</a>
-	}, {
-		title: '平台/账号名称',
-		dataIndex: 'platformId',
-		align: 'center'
-	}, {
-		title: '账号名称',
-		dataIndex: 'createdByName',
-		align: 'center',
-		render: (text, record) => <a>{text}</a>
-	}, {
-		title: '现分类',
-		dataIndex: 'createdAt',
-		align: 'center'
-	},  {
-		title: '期望分类',
-		dataIndex: 'createdAt2',
-		align: 'center'
-	}, {
-		title: '主账号名称',
-		dataIndex: 'status',
-		align: 'center'
-	}, {
-		title: '提交人(端口)/处理人',
-		dataIndex: 'statu2s',
-		align: 'center'
-	}, {
-		title: '时间',
-		dataIndex: 'statu3s',
-		align: 'center'
-	}, {
-		title: '操作',
-		dataIndex: 'statu4s',
-		align: 'center',
-		fixed: 'right',
-		width: 100,
-		render: text => <a>处理反馈</a>
+		text: '已驳回'
 	}
-];
+}
 export default class ClassificationReview extends Component {
 	state = {
 		loading: true,
+		modal: '',
+		classifyAuditInfoId: '',
 		params: {
 			page: 1,
-			pageSize: 20
+			pageSize: 20,
 		}
 	}
 
 	componentDidMount() {
 		this.search()
 	}
+
+	constructor(props, context) {
+		super(props, context);
+		this.columns = [
+			{
+				title: '状态',
+				dataIndex: 'accountId2',
+				align: 'center',
+				render: (text = 1, record) => {
+					return <Badge status="success" {...processStatus[text]} />
+				}
+			},
+			{
+				title: 'account_id',
+				dataIndex: 'accountId',
+				render: (text, record) => <a>{text}</a>
+			}, {
+				title: '平台/账号名称',
+				dataIndex: 'platformId',
+				render: (text, record) => <div className='platform-icon-text'>
+					<WBYPlatformIcon weibo_type={text || '9'} widthSize={22} />
+					<a className='text' style={{ maxWidth: 120 }} title={record.weiboName}>{record.weiboName || '账号名称账号名称账号名称'}</a>
+				</div>
+
+			}, {
+				title: '主账号名称',
+				dataIndex: 'status',
+				align: 'center'
+			}, {
+				title: '原分类',
+				dataIndex: 'createdAt',
+				align: 'center'
+			}, {
+				title: '期望分类',
+				dataIndex: 'createdAt2',
+				align: 'center'
+			}, {
+				title: '提交人(端口)/处理人',
+				dataIndex: 'statu2s',
+				align: 'center'
+			}, {
+				title: '处理时间',
+				dataIndex: 'statu3s',
+				align: 'center',
+				render: text => 'YYYY-MM-DD HH:mm:ss'
+			}, {
+				title: '操作',
+				dataIndex: 'statu4s',
+				fixed: 'right',
+				width: 100,
+				render: (text, record) => <div>
+					{record.status === 1 &&  <a onClick={() => this.setModal('review', record.classifyAuditInfoId)}>处理反馈</a>}
+					{record.status === 2 &&  <a onClick={() => this.setModal('detail', record.classifyAuditInfoId)}>查看详情</a>}
+				</div>
+			}
+		];
+	}
+
 
 	//截取8个字
 	cut = (text) => {
@@ -290,7 +296,12 @@ export default class ClassificationReview extends Component {
 		})
 	}
 
+	setModal = (type,id) => {
+		this.setState({ modal: type, classifyAuditInfoId: id })
+	}
+
 	render() {
+		const { classifyAuditInfoId, modal } = this.state
 		return (
 			<div>
 				<Filter
@@ -299,22 +310,37 @@ export default class ClassificationReview extends Component {
 				/>
 				<div style={{ marginBottom: '10px' }} className='clearfix'>
 					<span style={{ lineHeight: "32px" }}>筛选结果条数: 50条</span>
-					<Button style={{ float: 'right' }} type='primary'>导出</Button>
 				</div>
-				<Table dataSource={[{xxx:"xx"}]} columns={columns}
-					bordered={true}
-					scroll={{x: 1500}}
+				<Table dataSource={[{ status: 1 }, { status: 2 }]} columns={this.columns}
+					scroll={{ x: 1500 }}
 					loading={this.state.loading}
 					rowKey='id'
 					pagination={{
 						current: this.state.params.page,
 						pageSize: this.state.params.pageSize,
+						pageSizeOptions: ['20', '50', '100'],
+						showSizeChanger: true,
 						total: 100,
+						onShowSizeChange: (current, pageSize) => {
+							this.search({ pageSize })
+						},
 						onChange: (page, pageSize) => {
 							this.search({ page, pageSize })
 						}
 					}}
 				/>
+				{modal === 'detail' && <FeedbackDetail
+					setModal={this.setModal}
+					actions={this.props.actions}
+					reload={this.search}
+					classifyAuditInfoId={classifyAuditInfoId}
+				/>}
+				{modal === 'review' && <FeedbackReview
+					setModal={this.setModal}
+					actions={this.props.actions}
+					reload={this.search}
+					classifyAuditInfoId={classifyAuditInfoId}
+				/>}
 			</div>
 		)
 	}

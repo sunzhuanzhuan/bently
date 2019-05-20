@@ -10,6 +10,11 @@ export default {
 	getNewDealResultList: '/operator-gateway/accountExcelTool/v1/selectAccountBatchOperatePage',
 	downloadDealResult: '/operator-gateway/accountExcelTool/v1/getRealDownLoadPath',
 	getBatchInstockPlatformList: '/operator-gateway/common/v1/getBatchInstockPlatformList',
-	getBatchSkuPlatformList: '/operator-gateway/common/v1/getBatchSkuPlatformList'
+	getBatchSkuPlatformList: '/operator-gateway/common/v1/getBatchSkuPlatformList',
+	//
+	isExistClassify: '/operator-gateway/classifyaudit/v1/isExistClassify',
+	getAuditDialogInfo: '/operator-gateway/classifyaudit/v1/selectAuditDialogInfo',
+	addClassifyAuditInfo: '/operator-gateway/classifyaudit/v1/addClassifyAuditInfo',
+	getAllClassifyInfos: '/operator-gateway/common/v1/getAllClassifyInfos'
 }
 

@@ -70,3 +70,67 @@
     }
   }
 }
+.platform-icon-text {
+  display: flex;
+  & > .text {
+    display: inline-block;
+    line-height: 22px;
+    vertical-align: middle;
+    margin-left: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+.category-feedback-detail-wrapper{
+  header{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+  }
+  .category-content{
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    padding: 16px;
+    margin: 10px 0;
+  }
+  .category-desc{
+    line-height: 32px;
+    padding: 6px 0;
+  }
+  main {
+    padding: 10px 16px;
+    border: 1px solid #dddddd;
+    & .category-history-item:last-child{
+      border: none;
+    }
+  }
+  .category-history-item{
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 0;
+    min-height: 80px;
+    display: flex;
+    .image-wrapper{
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      flex: none;
+      margin-right: 10px;
+      background: #f1f1f1;
+      img {
+        width: 100%;
+      }
+    }
+    .content-wrapper{
+      flex: auto;
+    }
+    .name{
+      b {
+        float: right;
+        font-weight: normal;
+        color: #999;
+        font-size: 12px;
+      }
+    }
+  }
+}
