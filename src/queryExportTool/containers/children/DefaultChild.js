@@ -76,7 +76,6 @@ class DefaultChild extends Component {
 				loading: false
 			})
 		});
-		sensors.track('accountSearchEvent', { platformType });
 	}
 	//关键字查询
 	onCountClick = (activeKey) => {
