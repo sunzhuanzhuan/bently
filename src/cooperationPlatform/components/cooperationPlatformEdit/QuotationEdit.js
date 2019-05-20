@@ -49,7 +49,6 @@ class QuotationEdit extends Component {
 						//在新增页面的修改
 
 						updateList(index, { ...item, ...values }, 'trinitySkuTypeVOS')
-						console.log("TCL: QuotationEdit -> onAdd -> { ...item, ...values }", { ...item, ...values })
 					} else {
 						//在新增页面新增报价项
 						addList(values, 'trinitySkuTypeVOS')
@@ -78,7 +77,6 @@ class QuotationEdit extends Component {
 			skuTypeName: skuTypeName,
 		})
 	}
-	//
 	chinaAndNumberVali = (rule, value, callback) => {
 		const reg = /^[0-9\u4e00-\u9fa5]+$/;
 		if (reg.test(value)) {

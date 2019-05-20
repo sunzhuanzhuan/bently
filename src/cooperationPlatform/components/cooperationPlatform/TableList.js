@@ -54,15 +54,13 @@ class TableList extends Component {
 
 	//禁用按钮判断
 	setDisable = async (coId, platformId) => {
-		console.log('setDisable');
-		console.log(coId, platformId);
 		const { setShowModal, actions, setStatusCO } = this.props
 		//判断该平台是否含有多个平台并为默认报价项
 		const { data } = await actions.getCooperationPlatform({ platformId: platformId, cooperationPlatformStatus: 1, cooperationDefaultPlatform: 2 })
 		if (data.length > 0) {
 			//含有则选择默认报价项
 			setShowModal(true, {
-				title: '启用报价项',
+				title: '温馨提示',
 				content: <DisableDefault
 					list={data}
 					notOperate={true}
