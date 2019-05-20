@@ -47,7 +47,9 @@ class QuotationEdit extends Component {
 					//新增页面操作页面缓存
 					if (isEdit) {
 						//在新增页面的修改
+
 						updateList(index, { ...item, ...values }, 'trinitySkuTypeVOS')
+						console.log("TCL: QuotationEdit -> onAdd -> { ...item, ...values }", { ...item, ...values })
 					} else {
 						//在新增页面新增报价项
 						addList(values, 'trinitySkuTypeVOS')
@@ -71,9 +73,9 @@ class QuotationEdit extends Component {
 	//选择时设置相关数据
 	skuTypeChange = (value, option) => {
 		const { form: { setFieldsValue } } = this.props
-		const { skuTypeId } = option.props
+		const { skuTypeName } = option.props
 		setFieldsValue({
-			skuTypeName: skuTypeId,
+			skuTypeName: skuTypeName,
 		})
 	}
 	//
