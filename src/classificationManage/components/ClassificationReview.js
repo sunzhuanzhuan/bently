@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import EmSpan from "../../base/EmSpan";
 import { WBYPlatformIcon } from "wbyui";
-import { FeedbackDetail, FeedbackReview } from "./CategoryFeedbackModal";
+import { FeedbackView, FeedbackReview } from "./CategoryFeedbackModal";
 
 const Option = Select.Option;
 
@@ -248,7 +248,7 @@ export default class ClassificationReview extends Component {
 				width: 100,
 				render: (text, record) => <div>
 					{record.status === 1 &&  <a onClick={() => this.setModal('review', record.classifyAuditInfoId)}>处理反馈</a>}
-					{record.status === 2 &&  <a onClick={() => this.setModal('detail', record.classifyAuditInfoId)}>查看详情</a>}
+					{record.status === 2 &&  <a onClick={() => this.setModal('view', record.classifyAuditInfoId)}>查看详情</a>}
 				</div>
 			}
 		];
@@ -329,7 +329,7 @@ export default class ClassificationReview extends Component {
 						}
 					}}
 				/>
-				{modal === 'detail' && <FeedbackDetail
+				{modal === 'view' && <FeedbackView
 					setModal={this.setModal}
 					actions={this.props.actions}
 					reload={this.search}

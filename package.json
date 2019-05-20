@@ -92,7 +92,7 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"/api/operator-gateway/classifyaudit/": {
+		"/api/operator-gateway": {
 			"target": "http://easymock.wby.me:7300/mock/5cdcc95a73f3100017a644ea/classify",
 			"changeOrigin": true
 		},
