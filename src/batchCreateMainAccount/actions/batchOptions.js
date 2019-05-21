@@ -50,3 +50,19 @@ export const {
 } = createHttpAction('saveBatchOperate', Interface.saveBatchOperate, {
 	method: 'post'
 });
+
+//获取批量入库平台列表
+export const {
+	getBatchInstockPlatformList,
+	getBatchInstockPlatformList_success
+} = createHttpAction('getBatchInstockPlatformList', Interface.getBatchInstockPlatformList, {
+	method: 'get'
+});
+
+// 获取批量修改账号报价平台列表
+export const {
+	getBatchSkuPlatformList,
+	getBatchSkuPlatformList_success
+} = createHttpAction('getBatchSkuPlatformList', Interface.getBatchSkuPlatformList, {
+	method: 'get'
+});

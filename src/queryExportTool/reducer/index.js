@@ -148,6 +148,29 @@ export const arrSelectExactQuery = handleActions({
 		return []
 	}
 }, [])
+export const addLookDetailOrIndexList = handleActions({
+	[accoutActions.addLookDetailOrIndexList]: (state, action) => {
+
+		const { detali = [], index = [] } = action.payload
+		const { detali: detaliOld, index: indexOld } = state
+
+		const data = {
+			detali: [...detaliOld, ...detali],
+			index: [...indexOld, ...index],
+		}
+		return data
+	},
+	[accoutActions.getAccountList_success]: (state, action) => {
+		return {
+			detali: [],
+			index: []
+		}
+	}
+}, {
+		detali: [],
+		index: []
+	})
+
 export default combineReducers({
 	arrSelectExactQuery,
 	companyList,
@@ -157,6 +180,7 @@ export default combineReducers({
 	downloadList,
 	baseInfoList,
 	degreeList,
+	addLookDetailOrIndexList,
 	recentReservationOrderPriceList,
 	...filterOptions,
 	...selectCar,

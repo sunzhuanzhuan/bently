@@ -115,6 +115,7 @@ class SecondStep extends Component {
 									{service_fee_rate >= 0 ? <EditServiceRate
 										value={service_fee_rate}
 										unit="%"
+										actions={actions}
 										changeAction={updateBaseInfo}
 										minError="请确认填写的是0-100，小数点后最多2位的数字"
 										searchActionByFree={this.searchActionByFree}
@@ -147,7 +148,7 @@ class SecondStep extends Component {
 						</div>
 					</TitleLable> : null}
 					<TitleLable title="确认已选择的订单/活动的采购价" >
-						<GroupRedio content={groupRedioContent} sumData={sumData} />
+						<GroupRedio content={groupRedioContent} sumData={sumData} actions={actions} />
 					</TitleLable>
 				</div >
 			</Spin>

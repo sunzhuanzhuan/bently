@@ -80,7 +80,7 @@ class BatchEditAccountPrice extends Component {
 	}
 	render() {
 		const Content = batchEditAccountPrice_steps[this.state.step]
-		const { downloadLink } = this.props
+		const { downloadLink, batchSkuPlatformList } = this.props
 		return (
 			<div>
 				<h4>批量修改账号报价</h4>
@@ -101,6 +101,7 @@ class BatchEditAccountPrice extends Component {
 						jumpToStep1={this.jumpToStep1}
 						jumpToStep2={this.jumpToStep2}
 						returnStep2={this.returnStep2}
+						batchSkuPlatformList={batchSkuPlatformList}
 					/>
 				</div>
 			</div>

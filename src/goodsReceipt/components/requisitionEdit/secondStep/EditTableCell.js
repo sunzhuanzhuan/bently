@@ -23,14 +23,20 @@ class EditTableCell extends Component {
 		});
 	}
 	vailPrice = (rule, value, callback) => {
+		const { actions, itemId, itemType } = this.props
 		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
-		if (value < 0) {
-			callback('价格必须 ≥0')
+		actions.editErrorList({ [`${itemId}_${itemType}`]: false })
+		if (!value) {
+			return callback('请输入价格')
+		} else if (value < 0) {
+			return callback('价格必须 ≥0')
 		} else if (!parent.test(value)) {
-			callback('保留两位小数')
+			return callback('保留两位小数')
 		} else {
 			callback()
+			actions.editErrorList({ [`${itemId}_${itemType}`]: true })
 		}
+
 
 	}
 	render() {
@@ -46,7 +52,8 @@ class EditTableCell extends Component {
 							{getFieldDecorator('price', {
 								initialValue: value,
 								validateFirst: true,
-								rules: [{ required: true, message: '请输入采购价!' }, { validator: this.vailPrice }],
+								rules: [
+									{ validator: this.vailPrice }],
 							})(
 								<Input
 									className={disabledClassName}
