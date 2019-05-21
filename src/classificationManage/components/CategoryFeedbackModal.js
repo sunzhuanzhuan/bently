@@ -23,6 +23,7 @@ export class FeedbackCreate extends Component {
 
 	componentDidMount() {
 		const { actions } = this.props
+		console.log(actions, "========>");
 		actions.getAllClassifyInfos().then(({ data }) => {
 			this.setState({
 				data
@@ -280,7 +281,7 @@ export class FeedbackView extends Component {
 											}
 										</div>
 									</div> :
-									<div className='category-history-item'>
+									<div className='category-history-item' key={n}>
 										<div className='image-wrapper'>
 											<img src="" alt="" />
 										</div>
@@ -393,7 +394,7 @@ export class FeedbackDetail extends Component {
 											}
 										</div>
 									</div> :
-									<div className='category-history-item'>
+									<div className='category-history-item' key={n}>
 										<div className='image-wrapper'>
 											<img src="" alt="" />
 										</div>
@@ -540,7 +541,7 @@ export class FeedbackReview extends Component {
 											}
 										</div>
 									</div> :
-									<div className='category-history-item'>
+									<div className='category-history-item' key={n}>
 										<div className='image-wrapper'>
 											<img src="" alt="" />
 										</div>

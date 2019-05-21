@@ -238,11 +238,11 @@ export default class ClassificationReview extends Component {
 				</div>
 			}, {
 				title: '处理时间',
-				dataIndex: 'createdTime',
+				dataIndex: 'createdAt',
 				align: 'center',
 				render: (text, record) => <div>
 					{text && <div>提交时间: {moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>}
-					{record.modifiedTime && <div>处理时间: {moment(record.modifiedTime).format('YYYY-MM-DD HH:mm:ss')}</div>}
+					{record.modifiedAt && <div>处理时间: {moment(record.modifiedAt).format('YYYY-MM-DD HH:mm:ss')}</div>}
 				</div>
 			}, {
 				title: '操作',

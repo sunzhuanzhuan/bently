@@ -9,6 +9,7 @@ import {
 	message,
 	Badge, Input
 } from 'antd';
+import moment from 'moment'
 
 const Option = Select.Option;
 //筛选
@@ -29,13 +30,13 @@ class Filter extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
-				const timeList = ["queryStartTime", "queryEndTime"]
+				const timeList = ["startTime", "endTime"]
 				timeList.forEach(item => {
 					if (values[item]) {
 						values[item] = values[item].format('YYYY-MM-DD')
 					}
 				})
-				this.props.search({ ...values, page: 1 })
+				this.props.search({ ...values, pageNum: 1 })
 			}
 		});
 	}
@@ -70,14 +71,6 @@ class Filter extends Component {
 	}
 
 	render() {
-		const formItemLayout = {
-			labelCol: { span: 7 },
-			wrapperCol: { span: 17 }
-		};
-		const statusFormItemLayout = {
-			labelCol: { span: 8 },
-			wrapperCol: { span: 16 }
-		};
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<Form layout="inline" onSubmit={this.submit} style={{ marginBottom: '16px' }}>
@@ -92,12 +85,12 @@ class Filter extends Component {
 					)}
 				</FormItem>
 				<FormItem label="操作人" >
-					{getFieldDecorator('name')(
+					{getFieldDecorator('createdBy')(
 						<Input placeholder='请输入'/>
 					)}
 				</FormItem>
 				<FormItem label="提交时间">
-					{getFieldDecorator('queryStartTime', {})(
+					{getFieldDecorator('startTime', {})(
 						<DatePicker format='YYYY-MM-DD' placeholder="请选择开始时间"
 							disabledDate={this.disabledStartDate}
 							onChange={this.onStartChange}
@@ -105,7 +98,7 @@ class Filter extends Component {
 					)}
 				</FormItem>
 				<FormItem label='~ ' colon={false}>
-					{getFieldDecorator('queryEndTime', {})(
+					{getFieldDecorator('endTime', {})(
 						<DatePicker format='YYYY-MM-DD' placeholder="请选择结束时间"
 							disabledDate={this.disabledEndDate}
 							onChange={this.onEndChange}
@@ -146,13 +139,59 @@ const processStatus = {
 }
 
 export default class ProcessResult extends Component {
-	state = {
-		loading: true,
-		params: {
-			page: 1,
-			pageSize: 20
+
+
+	constructor(props, context) {
+		super(props, context);
+		this.state = {
+			loading: true,
+			params: {
+				pageNum: 1,
+				pageSize: 20
+			}
 		}
+		this.columns = [
+			{
+				title: '文件名称',
+				dataIndex: 'fileName',
+				align: 'center',
+				render: (text = '', record) =>
+					<Tooltip title={text} arrowPointAtCenter>
+						<a onClick={() => this.download(record.sourceUrl)}
+						>{this.cut(text)}{text.length > 8 ? '...' : ''}</a>
+					</Tooltip>
+			}, {
+				title: '涉及账号',
+				dataIndex: 'accountNum',
+				align: 'center',
+				render: (text) => text || '--'
+			}, {
+				title: '操作人',
+				dataIndex: 'createdBy',
+				align: 'center'
+			}, {
+				title: '操作时间',
+				dataIndex: 'createdAt',
+				align: 'center',
+				render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss')
+			}, {
+				title: '状态',
+				dataIndex: 'status',
+				align: 'center',
+				render: (text) => {
+					return <Badge status="success" {...processStatus[text]}/>
+				}
+			}, {
+				title: '操作',
+				align: 'center',
+				render: (text, record) => {
+					return record.status === 3 ?
+						<a onClick={() => this.download(record.resultUrl)}>下载处理结果</a> : '-'
+				}
+			}
+		];
 	}
+
 
 	componentDidMount() {
 		this.search()
@@ -174,21 +213,15 @@ export default class ProcessResult extends Component {
 			loading: true,
 			params: newParams
 		})
-		console.log(newParams, '---->>>>>');
-		setTimeout(() => {
+		this.props.actions.getWhitelistResult(newParams).finally(() => {
 			this.setState({
 				loading: false
 			})
-		},1000);
-		/*this.props.actions.getNewDealResultList(newParams).finally(() => {
-			this.setState({
-				loading: false
-			})
-		})*/
+		})
 	}
 	//下载处理结果
-	downloadDealResult = (url) => {
-		this.props.actions.downloadDealResult({ downLoadUrl: url }).then((res) => {
+	download = (url) => {
+		this.props.actions.getFileRealPath({ downLoadUrl: url }).then((res) => {
 			if (res.code === 1000) {
 				window.location.href = res.data
 			} else {
@@ -200,66 +233,29 @@ export default class ProcessResult extends Component {
 	}
 
 	render() {
-		const columns = [
-			{
-				title: '文件名称',
-				dataIndex: 'originalFileName',
-				align: 'center',
-				render: (text, record) =>
-					<Tooltip title={text} arrowPointAtCenter>
-						<a onClick={() => this.downloadDealResult(record.urlName)}
-						>{this.cut(text)}{text.length > 8 ? '...' : ''}</a>
-					</Tooltip>
-			}, {
-				title: '涉及账号',
-				dataIndex: 'operateClassName',
-				align: 'center',
-				render: (text, record) => text || '--'
-			}, {
-				title: '操作人',
-				dataIndex: 'createdByName',
-				align: 'center'
-			}, {
-				title: '操作时间',
-				dataIndex: 'createdAt',
-				align: 'center'
-			}, {
-				title: '状态',
-				dataIndex: 'status',
-				align: 'center',
-				render: (text = 1, record) => {
-					return <Badge status="success" {...processStatus[text]}/>
-				}
-			}, {
-				title: '操作',
-				align: 'center',
-				render: (text, record) => {
-					return record.status == "3" ?
-						<a onClick={() => this.downloadDealResult(record.downloadUrl)}>下载处理结果</a> : null
-				}
-			}
-		];
+
+		const { data: { whitelistResult: source } } = this.props
 		return (
 			<div>
 				<Filter
 					search={this.search}
 					loading={this.state.loading}
 				/>
-				<Table dataSource={[]} columns={columns}
+				<Table dataSource={source.list} columns={this.columns}
 					bordered={true}
 					loading={this.state.loading}
 					rowKey='id'
 					pagination={{
-						current: this.state.params.page,
-						pageSize: this.state.params.pageSize,
+						current: source.pageNum,
+						pageSize: source.pageSize,
 						pageSizeOptions:['20','50','100'],
 						showSizeChanger: true,
-						total: 100,
+						total: source.total,
 						onShowSizeChange: (current, pageSize) => {
 							this.search({ pageSize })
 						},
-						onChange: (page, pageSize) => {
-							this.search({ page, pageSize })
+						onChange: (pageNum, pageSize) => {
+							this.search({ pageNum, pageSize })
 						},
 						size: 'small'
 					}}

@@ -6,12 +6,8 @@ import { createHttpAction } from '../../store/ajaxMiddleware'
  */
 	// 判断当前账号是否有内容分类反馈信息
 export const {
-		isExistClassify
-	} = createHttpAction('isExistClassify', Interface.isExistClassify)
-// 分类列表
-export const {
-	getAllClassifyInfos
-} = createHttpAction('getAllClassifyInfos', Interface.getAllClassifyInfos)
+	isExistClassify
+} = createHttpAction('isExistClassify', Interface.isExistClassify)
 
 // 查看分类反馈进度
 export const {
@@ -66,3 +62,10 @@ export const {
 export const {
 	exportCustomClassifyList,
 } = createHttpAction('exportCustomClassifyList', Interface.exportCustomClassifyList)
+
+
+// 白名单处理结果
+export const {
+	getWhitelistResult,
+	getWhitelistResult_success,
+} = createHttpAction('getWhitelistResult', Interface.getWhitelistResult)

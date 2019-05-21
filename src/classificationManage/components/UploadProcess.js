@@ -11,7 +11,8 @@ export default class UploadProcess extends Component {
 		super(props, context);
 		this.state = {
 			visible: false,
-			step: 0
+			step: 0,
+			authToken: '',
 		}
 		props.actions.getNewToken().then(({ data: authToken }) => {
 			this.setState({ authToken })

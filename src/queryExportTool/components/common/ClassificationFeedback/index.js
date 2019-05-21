@@ -7,11 +7,15 @@ import {
 	FeedbackMini
 } from "@/classificationManage/components/CategoryFeedbackModal";
 import { connect } from "react-redux";
-import * as action from "@/classificationManage/actions";
+import * as actions from "@/classificationManage/actions";
+import * as commonActions from "@/actions";
 import { bindActionCreators } from "redux";
 
 @connect(null,(dispatch) => ({
-	actions: bindActionCreators(action, dispatch)
+	actions: bindActionCreators({
+		...actions,
+		...commonActions
+	}, dispatch)
 }))
 class ClassificationFeedback extends Component {
 	constructor(props) {
