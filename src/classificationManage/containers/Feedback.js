@@ -35,7 +35,7 @@ class Feedback extends Component {
 		}
 		return (
 			<div>
-				<Tabs defaultActiveKey="2">
+				<Tabs defaultActiveKey="1">
 					<TabPane tab="内容分类审核" key="1">
 						<ClassificationReview {...params}/>
 					</TabPane>

@@ -13,9 +13,13 @@ export default class UploadProcess extends Component {
 			visible: false,
 			step: 0,
 			authToken: '',
+			templateUrl: ''
 		}
 		props.actions.getNewToken().then(({ data: authToken }) => {
 			this.setState({ authToken })
+		})
+		props.actions.getExcelTemplate().then(({ data: templateUrl }) => {
+			this.setState({ templateUrl })
 		})
 	}
 
@@ -29,12 +33,13 @@ export default class UploadProcess extends Component {
 		if (file.status === 'done') {
 			let value = {
 				url: file.url,
-				operate_type: this.props.operateKey,
-				token: this.props.uploadInfo.token
+				fileName: file.name
 			}
-			this.props.actions.operateBatch(value).then(() => {
-				this.setState({
-					step: 1
+			this.props.actions.addWhitelistRecord(value).then(() => {
+				message.success('上传成功!', 1.5, () => {
+					this.setState({
+						step: 1
+					})
 				})
 			}).catch(() => {
 				message.error("请求失败")
@@ -46,6 +51,13 @@ export default class UploadProcess extends Component {
 		this.setState({
 			step: 0
 		})
+	}
+
+	downloadTemplate = () => {
+		if (!this.state.templateUrl) {
+			return message.error("未获取到下载模板，请联系产品经理")
+		}
+		window.location.href = this.state.templateUrl
 	}
 
 	render() {
@@ -66,17 +78,11 @@ export default class UploadProcess extends Component {
 					this.state.step === 0 ?
 						<div className="main">
 							<FormItem label="操作" {...formItemLayout}>
-								{/*this.props.downloadLink == "" ?
-							null :
-							(
-								this.props.downloadLink == null ?
-									message.error("未获取到下载模板，请联系产品经理") :
-						)*/}
 								<div className='action-btn-wrap'>
 									<Button
 										style={{ margin: '4px 12px 0 0' }}
 										type="primary"
-										href={this.props.downloadLink}
+										onClick={this.downloadTemplate}
 									>
 										下载模板
 									</Button>

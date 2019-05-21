@@ -63,9 +63,20 @@ export const {
 	exportCustomClassifyList,
 } = createHttpAction('exportCustomClassifyList', Interface.exportCustomClassifyList)
 
-
 // 白名单处理结果
 export const {
 	getWhitelistResult,
 	getWhitelistResult_success,
 } = createHttpAction('getWhitelistResult', Interface.getWhitelistResult)
+
+// 获取excel模板
+export const {
+	getExcelTemplate,
+} = createHttpAction('getExcelTemplate', Interface.getExcelTemplate)
+
+// 添加白名单记录
+export const {
+	addWhitelistRecord,
+} = createHttpAction('addWhitelistRecord', Interface.addWhitelistRecord, {
+	method: 'post'
+})

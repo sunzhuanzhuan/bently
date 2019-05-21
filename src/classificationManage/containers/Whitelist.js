@@ -34,7 +34,7 @@ class Whitelist extends Component {
 		}
 		return (
 			<div>
-				<Tabs defaultActiveKey="2">
+				<Tabs defaultActiveKey="1">
 					<TabPane tab="添加/修改分类" key="1">
 						<UploadProcess {...params}/>
 					</TabPane>

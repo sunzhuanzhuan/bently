@@ -10,9 +10,7 @@ export default {
 	getCustomClassifyList: '/operator-gateway/classifyaudit/v1/getCustomClassifyList',
 	exportCustomClassifyList: '/operator-gateway/classifyaudit/v1/exportCustomClassifyList',
 	getWhitelistResult: '/operator-gateway/classifyaudit/v1/getWhitelistResult',
-	// 获取下载模板url
-	// 解析上传的信息
-	// 处理结果列表
-
+	getExcelTemplate: '/operator-gateway/classifyaudit/v1/getExcel',
+	addWhitelistRecord: '/operator-gateway/classifyaudit/v1/addRecord'
 }
 
