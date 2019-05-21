@@ -42,7 +42,6 @@ class CooperationPlatformEdit extends Component {
 			values.platformName = platformSelect.map[values.platformId].platformName
 			//付款公司
 			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
-			console.log('Received values of form: ', values);
 			if (!err) {
 				this.editOprate(values)
 			}
@@ -87,8 +86,8 @@ class CooperationPlatformEdit extends Component {
 		} else {
 			await insertCooperationPlatform({ ...values, })
 		}
-		message.success('您所提交的信息已经保存成功！')
-		this.jumpPage()
+		message.success('您所提交的信息已经保存成功！', 2).then(this.jumpPage)
+
 	}
 	jumpPage = () => {
 		window.location.href = "/config/platform/list";
@@ -146,6 +145,7 @@ class CooperationPlatformEdit extends Component {
 						visible={visable}
 						onCancel={this.handleCancel}
 						footer={null}
+						maskClosable={false}
 					>
 						{showModal && showModal.content}
 					</Modal>

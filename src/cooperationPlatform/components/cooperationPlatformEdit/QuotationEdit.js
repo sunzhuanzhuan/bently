@@ -159,7 +159,7 @@ class QuotationEdit extends Component {
 
 					)}
 				</Form.Item>
-				{platformId == 1 ? <Form.Item label="关联预设报价项" {...formLayoutModal} >
+				{platformId == 1 ? <Form.Item label="对应预设报价项" {...formLayoutModal} >
 					{
 						getFieldDecorator('skuTypeId', {
 							initialValue: item && item.skuTypeId,
@@ -167,7 +167,7 @@ class QuotationEdit extends Component {
 								{ required: true, message: '本项为必选项，请选择！' },
 							],
 						})(
-							<Select placeholder="请选择关联预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
+							<Select placeholder="请选择对应预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
 								{skuTypeList.map(one => <Option
 									key={one.skuTypeId}
 									skuTypeName={one.skuTypeName}
