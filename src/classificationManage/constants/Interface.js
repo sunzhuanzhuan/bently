@@ -21,5 +21,8 @@ export default {
 	getClassifyFeedbackList: '/operator-gateway/classifyaudit/v1/listClassifyAuditInfo',
 	passClassifyAuditInfo: '/operator-gateway/classifyaudit/v1//updatePassClassifyAuditInfo',
 	rejectClassifyAuditInfo: '/operator-gateway/classifyaudit/v1/updateRejectClassifyAuditInfo',
+	getCustomClassifyList: '/operator-gateway/classifyaudit/v1/getCustomClassifyList',
+	exportCustomClassifyList: '/operator-gateway/classifyaudit/v1/exportCustomClassifyList',
+
 }
 

@@ -54,3 +54,15 @@ export const {
 } = createHttpAction('rejectClassifyAuditInfo', Interface.rejectClassifyAuditInfo, {
 	method: 'post'
 })
+
+
+// 查询自定义分类列表
+export const {
+	getCustomClassifyList,
+	getCustomClassifyList_success,
+} = createHttpAction('getCustomClassifyList', Interface.getCustomClassifyList)
+
+// 导出自定义分类列表
+export const {
+	exportCustomClassifyList,
+} = createHttpAction('exportCustomClassifyList', Interface.exportCustomClassifyList)

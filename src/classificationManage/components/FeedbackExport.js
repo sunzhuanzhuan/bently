@@ -9,6 +9,7 @@ import {
 	message,
 	Badge, Input, Row, Col
 } from 'antd';
+import moment from "moment";
 import EmSpan from "../../base/EmSpan";
 
 const Option = Select.Option;
@@ -33,13 +34,13 @@ class Filter extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
-				const timeList = ["queryStartTime", "queryEndTime"]
+				const timeList = ["startTime", "endTime"]
 				timeList.forEach((item, n) => {
 					if (values['time'] && values['time'][n]) {
 						values[item] = values['time'][n].format('YYYY-MM-DD')
 					}
 				})
-				this.props.search({ ...values, page: 1 })
+				this.props.search({ ...values, pageNum: 1 })
 			}
 		});
 	}
@@ -74,14 +75,6 @@ class Filter extends Component {
 	}
 
 	render() {
-		const formItemLayout = {
-			labelCol: { span: 7 },
-			wrapperCol: { span: 17 }
-		};
-		const statusFormItemLayout = {
-			labelCol: { span: 8 },
-			wrapperCol: { span: 16 }
-		};
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<Form
@@ -93,7 +86,7 @@ class Filter extends Component {
 				<Row gutter={20}>
 					<Col span={6}>
 						<FormItem label="主账号名称">
-							{getFieldDecorator('name')(
+							{getFieldDecorator('userIdentityName')(
 								<Input placeholder='请输入' />
 							)}
 						</FormItem>
@@ -107,19 +100,19 @@ class Filter extends Component {
 					</Col>
 					<Col span={6}>
 						<FormItem label="平台">
-							{getFieldDecorator('status')(
+							{getFieldDecorator('platformId')(
 								<Select placeholder={'请选择'} allowClear>
-									<Option value="1">待处理</Option>
-									<Option value="2">处理中</Option>
-									<Option value="3">处理完成</Option>
-									<Option value="4">处理失败</Option>
+									{
+										this.props.platforms.map(item =>
+											<Option key={item.platform_id} value={item.platform_id}>{item.platform_name}</Option>)
+									}
 								</Select>
 							)}
 						</FormItem>
 					</Col>
 					<Col span={6}>
 						<FormItem label="账号名称">
-							{getFieldDecorator('name2')(
+							{getFieldDecorator('snsName')(
 								<Input placeholder='请输入' />
 							)}
 						</FormItem>
@@ -160,43 +153,44 @@ const columns = [
 		title: 'account_id',
 		dataIndex: 'accountId',
 		align: 'center',
-		render: (text, record) => <a>{text}</a>
+		render: (text, record) =>  <a target='_blank' href={`/account/manage/update/${record.platformId}?account_id=${text}`}>{text}</a>
 	}, {
 		title: '平台',
-		dataIndex: 'platformId',
+		dataIndex: 'platformName',
 		align: 'center'
 	}, {
 		title: '账号名称',
-		dataIndex: 'createdByName',
+		dataIndex: 'snsName',
 		align: 'center',
-		render: (text, record) => <a>{text}</a>
+		render: (text, record) => <a href={record.url}>{text}</a>
 	}, {
 		title: '分类',
-		dataIndex: 'createdAt',
+		dataIndex: 'classifyName',
 		align: 'center'
 	}, {
 		title: '主账号名称',
-		dataIndex: 'status',
+		dataIndex: 'userIdentityName',
 		align: 'center'
 	}, {
 		title: '提交人',
-		dataIndex: 'statu2s',
+		dataIndex: 'createdBy',
 		align: 'center'
 	}, {
 		title: '端口',
-		dataIndex: 'statu3s',
+		dataIndex: 'createdFrom',
 		align: 'center'
 	}, {
 		title: '提交时间',
-		dataIndex: 'statu4s',
-		align: 'center'
+		dataIndex: 'createdTime',
+		align: 'center',
+		render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss')
 	}
 ];
 export default class FeedbackExport extends Component {
 	state = {
 		loading: true,
 		params: {
-			page: 1,
+			pageNum: 1,
 			pageSize: 20
 		}
 	}
@@ -221,17 +215,11 @@ export default class FeedbackExport extends Component {
 			loading: true,
 			params: newParams
 		})
-		console.log(newParams, '---->>>>>');
-		setTimeout(() => {
+		this.props.actions.getCustomClassifyList(newParams).finally(() => {
 			this.setState({
 				loading: false
 			})
-		}, 1000);
-		/*this.props.actions.getNewDealResultList(newParams).finally(() => {
-			this.setState({
-				loading: false
-			})
-		})*/
+		})
 	}
 	//下载处理结果
 	downloadDealResult = (url) => {
@@ -246,27 +234,33 @@ export default class FeedbackExport extends Component {
 		})
 	}
 
+	exportResult = () => {
+		this.props.actions.exportCustomClassifyList(this.state.params)
+	}
+
 	render() {
+		const { data: { customClassifyList: source }, platforms } = this.props
 		return (
 			<div>
 				<Filter
 					search={this.search}
 					loading={this.state.loading}
+					platforms={platforms}
 				/>
 				<div style={{ marginBottom: '10px' }} className='clearfix'>
-					<span style={{ lineHeight: "32px" }}>筛选结果条数: 50条</span>
-					<Button style={{ float: 'right' }} type='primary'>导出</Button>
+					<span style={{ lineHeight: "32px" }}>筛选结果条数: {source.total || '-'} 条</span>
+					<Button onClick={this.exportResult} style={{ float: 'right' }} type='primary'>导出</Button>
 				</div>
-				<Table dataSource={[]} columns={columns}
+				<Table dataSource={source.list} columns={columns}
 					bordered={true}
 					loading={this.state.loading}
 					rowKey='id'
 					pagination={{
-						current: this.state.params.page,
-						pageSize: this.state.params.pageSize,
-						total: 100,
-						onChange: (page, pageSize) => {
-							this.search({ page, pageSize })
+						current: source.pageNum,
+						pageSize: source.pageSize,
+						total: source.total,
+						onChange: (pageNum, pageSize) => {
+							this.search({ pageNum, pageSize })
 						}
 					}}
 				/>

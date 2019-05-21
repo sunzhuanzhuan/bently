@@ -113,10 +113,10 @@ class Filter extends Component {
 						<FormItem label="平台">
 							{getFieldDecorator('platformId')(
 								<Select placeholder={'请选择'} allowClear>
-									<Option value="1">待处理</Option>
-									<Option value="2">处理中</Option>
-									<Option value="3">处理完成</Option>
-									<Option value="4">处理失败</Option>
+									{
+										this.props.platforms.map(item =>
+											<Option key={item.platform_id} value={item.platform_id}>{item.platform_name}</Option>)
+									}
 								</Select>
 							)}
 						</FormItem>
@@ -208,18 +208,18 @@ export default class ClassificationReview extends Component {
 			{
 				title: 'account_id',
 				dataIndex: 'accountId',
-				render: (text, record) => <a>{text}</a>
+				render: (text, record) => <a target='_blank' href={`/account/manage/update/${record.platformId}?account_id=${text}`}>{text}</a>
 			}, {
 				title: '平台/账号名称',
 				dataIndex: 'platformId',
 				render: (text, record) => <div className='platform-icon-text'>
 					<WBYPlatformIcon weibo_type={text} widthSize={22} />
-					<a href={record.url} className='text' style={{ maxWidth: 120 }} title={record.snsName}>{record.snsName || '--'}</a>
+					<a target='_blank' href={record.url} className='text' style={{ maxWidth: 120 }} title={record.snsName}>{record.snsName || '--'}</a>
 				</div>
 
 			}, {
 				title: '主账号名称',
-				dataIndex: 'status',
+				dataIndex: 'userIdentityName',
 				align: 'center'
 			}, {
 				title: '原分类',
@@ -241,19 +241,19 @@ export default class ClassificationReview extends Component {
 				dataIndex: 'createdTime',
 				align: 'center',
 				render: (text, record) => <div>
-					{text && <div>提交时间: {moment(text).format('YYYY-MM-DD')}</div>}
-					{record.modifiedTime && <div>处理时间: {moment(record.modifiedTime).format('YYYY-MM-DD')}</div>}
+					{text && <div>提交时间: {moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>}
+					{record.modifiedTime && <div>处理时间: {moment(record.modifiedTime).format('YYYY-MM-DD HH:mm:ss')}</div>}
 				</div>
 			}, {
 				title: '操作',
-				dataIndex: 'statu4s',
+				dataIndex: 'classifyAuditInfoId',
 				fixed: 'right',
 				align: 'center',
 				width: 100,
 				render: (text, record) => <div>
 					{record.auditType === 1 ?
-					<a onClick={() => this.setModal('review', record.classifyAuditInfoId)}>处理反馈</a> :
-					<a onClick={() => this.setModal('view', record.classifyAuditInfoId)}>查看详情</a>}
+					<a onClick={() => this.setModal('review', text)}>处理反馈</a> :
+					<a onClick={() => this.setModal('view', text)}>查看详情</a>}
 				</div>
 			}
 		];
@@ -304,12 +304,13 @@ export default class ClassificationReview extends Component {
 
 	render() {
 		const { classifyAuditInfoId, modal } = this.state
-		const { data: { classifyFeedbackList: source } } = this.props
+		const { data: { classifyFeedbackList: source }, platforms } = this.props
 		return (
 			<div>
 				<Filter
 					search={this.search}
 					loading={this.state.loading}
+					platforms={platforms}
 				/>
 				<div style={{ marginBottom: '10px' }} className='clearfix'>
 					<span style={{ lineHeight: "32px" }}>筛选结果条数: {source.total || '-'} 条</span>

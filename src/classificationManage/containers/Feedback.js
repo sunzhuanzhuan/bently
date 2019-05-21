@@ -20,7 +20,7 @@ class Feedback extends Component {
 
 	//获取upload-token和upload-url
 	componentDidMount() {
-		// this.props.actions.getUploadInfo()
+		this.props.actions.getAllPlatform()
 		// 获取入库平台列表
 		// this.props.actions.getBatchInstockPlatformList()
 		// 修改账号报价获取平台列表
@@ -31,10 +31,11 @@ class Feedback extends Component {
 		const params = {
 			actions: this.props.actions,
 			data: this.props.data,
+			platforms: this.props.platforms,
 		}
 		return (
 			<div>
-				<Tabs defaultActiveKey="1">
+				<Tabs defaultActiveKey="2">
 					<TabPane tab="内容分类审核" key="1">
 						<ClassificationReview {...params}/>
 					</TabPane>
@@ -49,7 +50,8 @@ class Feedback extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		data: state.classificationManageReducer
+		data: state.classificationManageReducer,
+		platforms: state.commonReducers.platforms
 	}
 }
 
