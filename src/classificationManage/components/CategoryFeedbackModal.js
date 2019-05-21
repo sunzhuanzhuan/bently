@@ -23,7 +23,6 @@ export class FeedbackCreate extends Component {
 
 	componentDidMount() {
 		const { actions } = this.props
-		console.log(actions, "========>");
 		actions.getAllClassifyInfos().then(({ data }) => {
 			this.setState({
 				data

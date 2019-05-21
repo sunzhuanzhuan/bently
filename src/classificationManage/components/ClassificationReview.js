@@ -140,8 +140,10 @@ class Filter extends Component {
 					</Col>
 					<Col span={6}>
 						<FormItem label="状态">
-							{getFieldDecorator('auditType')(
-								<Select placeholder={'请选择'} allowClear>
+							{getFieldDecorator('auditType', {
+								initialValue: '1'
+							})(
+								<Select placeholder={'请选择'}>
 									<Option value="1">待处理</Option>
 									<Option value="2">已更新</Option>
 									<Option value="3">已驳回</Option>
