@@ -39,7 +39,7 @@ class Filter extends Component {
 				const timeList = ["startTime", "endTime"]
 				timeList.forEach((item, n) => {
 					if (values['time'] && values['time'][n]) {
-						values[item] = values['time'][n].format('YYYY-MM-DD')
+						values[item] = values['time'][n].valueOf()
 					}
 				})
 				this.props.search({ ...values, pageNum: 1 })
@@ -123,7 +123,8 @@ class Filter extends Component {
 						<FormItem label={<EmSpan length={5}>提交时间</EmSpan>}>
 							{getFieldDecorator('time', {})(
 								<RangePicker
-									format='YYYY-MM-DD'
+									format='YYYY-MM-DD HH:mm:ss'
+									showTime
 									style={{width: "100%"}}
 								/>
 							)}

@@ -39,7 +39,7 @@ class Filter extends Component {
 				const timeList = ["startTime", "endTime"]
 				timeList.forEach((item, n) => {
 					if (values['time'] && values['time'][n]) {
-						values[item] = values['time'][n].format('YYYY-MM-DD')
+						values[item] = values['time'][n].valueOf()
 					}
 				})
 				delete values['time']
@@ -132,7 +132,8 @@ class Filter extends Component {
 						<FormItem label={<EmSpan length={5}>提交时间</EmSpan>}>
 							{getFieldDecorator('time', {})(
 								<RangePicker
-									format='YYYY-MM-DD'
+									format='YYYY-MM-DD HH:mm:ss'
+									showTime
 									style={{ width: "100%" }}
 								/>
 							)}
@@ -236,7 +237,7 @@ export default class ClassificationReview extends Component {
 				dataIndex: 'createdByName',
 				align: 'center',
 				render: (text, record) => <div>
-					{text}({record.createdFrom})/{record.modifiedByName || '-'}
+					{text}({record.createdFrom === 1 ? 'B' : 'C'})/{record.modifiedByName || '-'}
 				</div>
 			}, {
 				title: '处理时间',
