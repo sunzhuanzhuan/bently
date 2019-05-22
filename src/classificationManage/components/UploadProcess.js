@@ -32,7 +32,7 @@ export default class UploadProcess extends Component {
 	upload = ({ file }) => {
 		if (file.status === 'done') {
 			let value = {
-				url: file.url,
+				sourceUrl: file.response.url,
 				fileName: file.name
 			}
 			this.props.actions.addWhitelistRecord(value).then(() => {
@@ -42,7 +42,7 @@ export default class UploadProcess extends Component {
 					})
 				})
 			}).catch(() => {
-				message.error("请求失败")
+				message.error("解析文件失败, 请删除文件后重新上传!")
 			})
 		}
 	}
@@ -88,7 +88,6 @@ export default class UploadProcess extends Component {
 									</Button>
 									<OssUpload
 										onChange={this.upload}
-										bizzCode={'FFF_01'}
 										authToken={this.state.authToken}
 										rule={{
 											bizzCode: 'B_EXCEL_0001',
@@ -99,7 +98,6 @@ export default class UploadProcess extends Component {
 										len={1}
 										showUploadList={{
 											showPreviewIcon: false,
-											showRemoveIcon: false
 										}}
 									>
 										<Button type='primary'>

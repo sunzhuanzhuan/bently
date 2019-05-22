@@ -39,7 +39,9 @@ class Filter extends Component {
 				const timeList = ["startTime", "endTime"]
 				timeList.forEach((item, n) => {
 					if (values['time'] && values['time'][n]) {
-						values[item] = values['time'][n].valueOf()
+						values[item] = values['time'][n].format('YYYY-MM-DD HH:mm:ss')
+					}else {
+						values[item] = undefined
 					}
 				})
 				delete values['time']
@@ -249,7 +251,7 @@ export default class ClassificationReview extends Component {
 				</div>
 			}, {
 				title: '操作',
-				dataIndex: 'classifyAuditInfoId',
+				dataIndex: 'id',
 				fixed: 'right',
 				align: 'center',
 				width: 100,

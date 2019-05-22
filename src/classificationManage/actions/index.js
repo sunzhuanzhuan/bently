@@ -78,5 +78,6 @@ export const {
 export const {
 	addWhitelistRecord,
 } = createHttpAction('addWhitelistRecord', Interface.addWhitelistRecord, {
-	method: 'post'
+	method: 'post',
+	ignoreToast: true
 })
