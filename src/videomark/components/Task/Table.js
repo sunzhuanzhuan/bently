@@ -6,11 +6,23 @@ import CommonModal from "../../../components/Common/CommonModal";
 import TaskForm from "./Form";
 import api from '../../../api/index'
 class TaskTable extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
-            commonModalVisible: false
+            commonModalVisible: false,
+            brandListForModal: props.brandListForModal
         };
+    }
+    /**
+     * 根据行业改变品牌的数据
+     * * */
+    handleIndustryChange = (value) => {
+        this.form.setFieldsValue({
+            signed_brand_id: undefined
+        })
+        this.props.actions.getBrandListForModal({
+            code: value
+        });
     }
     /**
      * 初始化添加/修改标注Modal
@@ -25,31 +37,40 @@ class TaskTable extends Component {
     initModal = async (record, edit_page, is_create) => {
         let title = ''
         let data = {
-            order_id: record.order_id
+            order_id: record.order_id,
+            industry_category_code: record.industry_category_code,
+            signed_brand_id: record.signed_brand_id
         }
 
         if (is_create == 1) {
+            data.signed_brand_id = record.brand_id
             title = <span>
                 标注订单
-                <span style={ { marginLeft: '30px', fontWeight: 'normal' } }>
-                    <span style={ { marginRight: '20px' } }>【订单ID：{ record.order_id }</span>
-                    <span style={ { marginRight: '20px' } }>账号名称：{ record.weibo_name }</span>
-                    平台：{ record.weibo_type }】
+                <span style={{ marginLeft: '30px', fontWeight: 'normal' }}>
+                    <span style={{ marginRight: '20px' }}>【订单ID：{record.order_id}</span>
+                    <span style={{ marginRight: '20px' }}>账号名称：{record.weibo_name}</span>
+                    平台：{record.weibo_type}】
                 </span>
             </span>
         } else {
             title = <span>
                 修改标注
-                <span style={ { marginLeft: '30px', fontWeight: 'normal' } }>
-                    <span style={ { marginRight: '20px' } }>【订单ID：{ record.order_id }</span>
-                    <span style={ { marginRight: '20px' } }>账号名称：{ record.weibo_name }</span>
-                    平台：{ record.weibo_type }】
+                <span style={{ marginLeft: '30px', fontWeight: 'normal' }}>
+                    <span style={{ marginRight: '20px' }}>【订单ID：{record.order_id}</span>
+                    <span style={{ marginRight: '20px' }}>账号名称：{record.weibo_name}</span>
+                    平台：{record.weibo_type}】
                 </span>
             </span>
             data.content_type_id = parseInt(record.content_type_id)
             if (data.content_type_id != 1) {
                 data.original_post_type_id = parseInt(record.original_post_type_id)
             }
+        }
+        // 根据行业请求品牌数据
+        if (record.industry_category_code) {
+            await this.props.actions.getBrandListForModal({
+                code: record.industry_category_code
+            });
         }
 
         await this.setState({
@@ -117,8 +138,8 @@ class TaskTable extends Component {
                 align: 'center',
                 render: (text, record) => (
                     <a className="" target="_blank"
-                        href={ babysitter_host + linkContent + record.campaign_id }>
-                        { text }
+                        href={babysitter_host + linkContent + record.campaign_id}>
+                        {text}
                     </a>
                 ),
             }, {
@@ -132,27 +153,28 @@ class TaskTable extends Component {
                             record.is_signed == 1 ?
                                 <div>
                                     <div>
-                                        { record.sign_status }
+                                        {record.sign_status}
                                     </div>
-                                    <div style={ { color: 'red' } }>
-                                        <span>内容形式：{ record.content_type }</span><br />
-                                        <span>需求类型：{ record.original_post_type || '-' }</span>
-
+                                    <div style={{ color: 'red' }}>
+                                        <span>内容形式：{record.content_type}</span><br />
+                                        <span>需求类型：{record.original_post_type || '-'}</span><br />
+                                        <span>所属行业：{record.industry_name || '-'}</span><br />
+                                        <span>所属品牌：{record.signed_brand_name || '-'}</span><br />
                                     </div>
-                                    <div style={ { minWidth: 210 } }>
+                                    <div style={{ minWidth: 210 }}>
                                         <span>
-                                            时间：{ record.sign_time }
+                                            时间：{record.sign_time}
                                             <CommonQuestionTip
                                                 title='首次标注时间'
-                                                content={ record.sign_created_time }
+                                                content={record.sign_created_time}
                                                 type="click"
                                             ></CommonQuestionTip>
                                         </span><br />
-                                        <span>标注人：{ record.creator_real_name }</span>
+                                        <span>标注人：{record.creator_real_name}</span>
                                     </div>
                                 </div>
                                 :
-                                <div>{ record.sign_status }</div>
+                                <div>{record.sign_status}</div>
                         }
                     </div>
                 ),
@@ -192,8 +214,8 @@ class TaskTable extends Component {
                 align: 'center',
                 render: (text, record) => (
                     <a className="" target="_blank"
-                        href={ babysitter_host + linkContent + record.order_id }>
-                        { text }
+                        href={babysitter_host + linkContent + record.order_id}>
+                        {text}
                     </a>
                 ),
             }, {
@@ -207,27 +229,28 @@ class TaskTable extends Component {
                             record.is_signed == 1 ?
                                 <div>
                                     <div>
-                                        { record.sign_status }
+                                        {record.sign_status}
                                     </div>
-                                    <div style={ { color: 'red' } }>
-                                        <span>内容形式：{ record.content_type }</span><br />
-                                        <span>需求类型：{ record.original_post_type || '-' }</span>
-
+                                    <div style={{ color: 'red' }}>
+                                        <span>内容形式：{record.content_type}</span><br />
+                                        <span>需求类型：{record.original_post_type || '-'}</span><br />
+                                        <span>所属行业：{record.industry_name || '-'}</span><br />
+                                        <span>所属品牌：{record.signed_brand_name || '-'}</span><br />
                                     </div>
-                                    <div style={ { minWidth: 210 } }>
+                                    <div style={{ minWidth: 210 }}>
                                         <span>
-                                            时间：{ record.sign_time }
+                                            时间：{record.sign_time}
                                             <CommonQuestionTip
                                                 title='首次标注时间'
-                                                content={ record.sign_created_time }
+                                                content={record.sign_created_time}
                                                 type="click"
                                             ></CommonQuestionTip>
                                         </span><br />
-                                        <span>标注人：{ record.creator_real_name }</span>
+                                        <span>标注人：{record.creator_real_name}</span>
                                     </div>
                                 </div>
                                 :
-                                <div>{ record.sign_status }</div>
+                                <div>{record.sign_status}</div>
                         }
                     </div>
                 ),
@@ -299,12 +322,12 @@ class TaskTable extends Component {
                         <div>
                             {
                                 record.is_signed == 2 ?
-                                    <Button type="primary" onClick={ this.initModal.bind(this, record, 2, 1) }>标注</Button>
+                                    <Button type="primary" onClick={this.initModal.bind(this, record, 2, 1)}>标注</Button>
                                     : ""
                             }
                             {
                                 record.is_signed == 1 && record.is_sign_editable == 1 ?
-                                    <Button type="primary" onClick={ this.initModal.bind(this, record, 2, 2) }>修改标注</Button>
+                                    <Button type="primary" onClick={this.initModal.bind(this, record, 2, 2)}>修改标注</Button>
                                     : ""
                             }
                         </div>
@@ -326,12 +349,12 @@ class TaskTable extends Component {
                         <div>
                             {
                                 record.is_signed == 2 ?
-                                    <Button type="primary" onClick={ this.initModal.bind(this, record, 1, 1) }>标注</Button>
+                                    <Button type="primary" onClick={this.initModal.bind(this, record, 1, 1)}>标注</Button>
                                     : ""
                             }
                             {
                                 record.is_signed == 1 && record.is_sign_editable == 1 ?
-                                    <Button type="primary" onClick={ this.initModal.bind(this, record, 1, 2) }>修改标注</Button>
+                                    <Button type="primary" onClick={this.initModal.bind(this, record, 1, 2)}>修改标注</Button>
                                     : ""
                             }
                         </div>
@@ -356,27 +379,30 @@ class TaskTable extends Component {
         }
 
         return <div className="task-table-content">
-            <div className="total-content">共{ data.total || 0 }条订单</div>
+            <div className="total-content">共{data.total || 0}条订单</div>
             <Table
-                columns={ column }
-                dataSource={ dataRows }
-                rowKey={ record => record.order_id }
-                pagination={ paginationObj }
-                scroll={ { x: 1300 } }
+                columns={column}
+                dataSource={dataRows}
+                rowKey={record => record.order_id}
+                pagination={paginationObj}
+                scroll={{ x: 1300 }}
             >
             </Table>
             <CommonModal
-                visible={ this.state.commonModalVisible }
-                title={ this.state.modalTitle }
-                okText={ this.state.okText }
-                onCancel={ this.closeModal }
-                onOk={ this.handleAddAndUpdateMark }
+                visible={this.state.commonModalVisible}
+                title={this.state.modalTitle}
+                okText={this.state.okText}
+                onCancel={this.closeModal}
+                onOk={this.handleAddAndUpdateMark}
                 wrapClassName="order-mark-task-modal"
-                centered={ true }
+                centered={true}
             >
                 <TaskForm
-                    ref={ form => this.form = form }
-                    data={ this.state.data }
+                    ref={form => this.form = form}
+                    data={this.state.data}
+                    industryList={this.props.industryList}
+                    brandList={this.props.brandListForModal}
+                    handleIndustryChange={this.handleIndustryChange}
                 ></TaskForm>
             </CommonModal>
         </div>
