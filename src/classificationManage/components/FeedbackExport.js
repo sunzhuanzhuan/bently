@@ -11,6 +11,8 @@ import {
 } from 'antd';
 import moment from "moment";
 import EmSpan from "../../base/EmSpan";
+import api from '@/api'
+import Interface from '../constants/Interface'
 
 const Option = Select.Option;
 
@@ -236,6 +238,25 @@ export default class FeedbackExport extends Component {
 
 	exportResult = () => {
 		this.props.actions.exportCustomClassifyList(this.state.params)
+		/*api.get(Interface.exportCustomClassifyList, {
+			params: this.state.params,
+			responseType: 'blob'
+		}).then((res) => { // 处理返回的文件流
+			const blob = new Blob([res])
+			const fileName = '处理结果.xls'
+			if ('download' in document.createElement('a')) { // 非IE下载
+				const elink = document.createElement('a')
+				elink.download = fileName
+				elink.style.display = 'none'
+				elink.href = window.URL.createObjectURL(blob)
+				document.body.appendChild(elink)
+				elink.click()
+				window.URL.revokeObjectURL(elink.href) // 释放URL 对象
+				document.body.removeChild(elink)
+			} else { // IE10+下载
+				window.navigator.msSaveBlob(blob, fileName)
+			}
+		})*/
 	}
 
 	render() {
