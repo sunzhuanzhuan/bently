@@ -2,7 +2,7 @@
  * @Author: wangxinyue 
  * @Date: 2019-05-20 11:37:46 
  * @Last Modified by: wangxinyue
- * @Last Modified time: 2019-05-22 17:26:27
+ * @Last Modified time: 2019-05-22 17:27:19
  */
 /**
  * @param参数说明
@@ -148,8 +148,8 @@ class AccountTableSelect extends Component {
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
 		this.track(
-			detali.length > 0 ? detali.join(',') : '',
-			index.length > 0 ? index.join(',') : '',
+			detali.join(','),
+			index.join(','),
 			seleced ? '加入' : '取消',
 			'batch',
 			staging_ids
