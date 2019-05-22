@@ -174,7 +174,7 @@ const columns = [
 		align: 'center'
 	}, {
 		title: '主账号名称',
-		dataIndex: 'userIdentityName',
+		dataIndex: 'realName',
 		align: 'center'
 	}, {
 		title: '提交人',
@@ -183,7 +183,10 @@ const columns = [
 	}, {
 		title: '端口',
 		dataIndex: 'createdFrom',
-		align: 'center'
+		align: 'center',
+		render: (text) => <div>
+			{text === 1 ? 'B' : 'C'}
+		</div>
 	}, {
 		title: '提交时间',
 		dataIndex: 'createdTime',

@@ -7,7 +7,7 @@ export default {
 	getClassifyFeedbackList: '/operator-gateway/classifyAudit/v1/listClassifyAuditInfo',
 	passClassifyAuditInfo: '/operator-gateway/classifyAudit/v1//updatePassClassifyAuditInfo',
 	rejectClassifyAuditInfo: '/operator-gateway/classifyAudit/v1/updateRejectClassifyAuditInfo',
-	getCustomClassifyList: '/operator-gateway/classifyAudit/v1/getCustomClassifyInfo',
+	getCustomClassifyList: '/operator-gateway/classifyAudit/v1/getCustomClassfiyInfo',
 	exportCustomClassifyList: '/operator-gateway/classifyAudit/v1/transformDataToExcel',
 	getWhitelistResult: '/operator-gateway/classifyWhite/v1/getClassifyWhiteBatchResult',
 	getExcelTemplate: '/operator-gateway/classifyWhite/v1/getExcel',
