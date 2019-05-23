@@ -36,11 +36,10 @@ export default class UploadProcess extends Component {
 				fileName: file.name
 			}
 			this.props.actions.addWhitelistRecord(value).then(() => {
-				message.success('上传成功!', 1.5, () => {
-					this.setState({
-						step: 1
-					})
+				this.setState({
+					step: 1
 				})
+				message.success('上传成功!', 1.5)
 			}).catch(() => {
 				message.error("解析文件失败, 请删除文件后重新上传!")
 			})
@@ -89,6 +88,7 @@ export default class UploadProcess extends Component {
 									<OssUpload
 										onChange={this.upload}
 										authToken={this.state.authToken}
+										bucket='private'
 										rule={{
 											bizzCode: 'B_EXCEL_0001',
 											max: 50,

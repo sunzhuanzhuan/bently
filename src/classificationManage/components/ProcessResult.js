@@ -223,6 +223,7 @@ export default class ProcessResult extends Component {
 	download = (url) => {
 		this.props.actions.getFileRealPath({ downLoadUrl: url }).then((res) => {
 			if (res.code === "1000") {
+				console.log(res);
 				window.location.href = res.data
 			} else {
 				message.error("下载地址获取失败")
