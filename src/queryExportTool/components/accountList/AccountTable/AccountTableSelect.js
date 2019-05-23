@@ -2,7 +2,7 @@
  * @Author: wangxinyue 
  * @Date: 2019-05-20 11:37:46 
  * @Last Modified by: wangxinyue
- * @Last Modified time: 2019-05-20 11:50:00
+ * @Last Modified time: 2019-05-22 17:27:19
  */
 /**
  * @param参数说明
@@ -83,15 +83,19 @@ class AccountTableSelect extends Component {
 	}
 	//神策添加
 	track = (is_visit_detail, is_visit_homepage, operation_type, deal_type, account_ids) => {
-		sensors.track('AccountToCart', {
-			app_id: 101,
-			is_visit_detail: is_visit_detail,
-			is_visit_homepage: is_visit_homepage,
-			operation_type: operation_type,
-			deal_type: deal_type,//批量加入batch。单个加入single
-			position: '列表',
-			account_ids: account_ids.join(','),
-		});
+		const urlAll = this.props.match.url
+		let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/"
+		if (url == '/accountList/list/') {
+			sensors.track('AccountToCart', {
+				app_id: 101,
+				is_visit_detail: is_visit_detail,
+				is_visit_homepage: is_visit_homepage,
+				operation_type: operation_type,
+				deal_type: deal_type,//批量加入batch。单个加入single
+				position: '列表',
+				account_ids: account_ids.join(','),
+			});
+		}
 	}
 
 
@@ -139,7 +143,7 @@ class AccountTableSelect extends Component {
 	}
 	//全选/取消全选
 	onSelectAllChange = (seleced, list, changeRows) => {
-		const { IsExactQuery, actions, addLookDetailOrIndexList } = this.props
+		const { IsExactQuery, actions, addLookDetailOrIndexList = {} } = this.props
 		const staging_ids = changeRows.map(one => one.account_id)
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
