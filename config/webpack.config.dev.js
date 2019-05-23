@@ -220,7 +220,7 @@ module.exports = {
 		],
 	},
 	plugins: [
-		/*new webpack.DllReferencePlugin({
+		new webpack.DllReferencePlugin({
 			context: __dirname,
 			// context: path.join(__dirname, '../'),  //生成的manifest中路径的相对值
 			manifest: require('../public/vendors-manifest.json')
@@ -234,7 +234,7 @@ module.exports = {
 			context: __dirname,
 			// context: path.join(__dirname, '../'),  //生成的manifest中路径的相对值
 			manifest: require('../public/sensor-manifest.json')
-		}),*/
+		}),
 		// Makes some environment variables available in index.html.
 		// The public URL is available as %PUBLIC_URL% in index.html, e.g.:
 		// <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">

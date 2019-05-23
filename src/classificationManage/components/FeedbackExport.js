@@ -44,6 +44,7 @@ class Filter extends Component {
 						values[item] = undefined
 					}
 				})
+				delete values['time']
 				this.props.search({ ...values, pageNum: 1 })
 			}
 		});
@@ -178,15 +179,12 @@ const columns = [
 		align: 'center'
 	}, {
 		title: '提交人',
-		dataIndex: 'createdBy',
+		dataIndex: 'userName',
 		align: 'center'
 	}, {
 		title: '端口',
-		dataIndex: 'createdFrom',
-		align: 'center',
-		render: (text) => <div>
-			{text === 1 ? 'B' : 'C'}
-		</div>
+		dataIndex: 'createdFromName',
+		align: 'center'
 	}, {
 		title: '提交时间',
 		dataIndex: 'createdTime',
