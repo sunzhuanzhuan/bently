@@ -31,8 +31,12 @@ class Filter extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.submit()
+	}
+
 	submit = (e) => {
-		e.preventDefault();
+		e && e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
@@ -190,7 +194,6 @@ const processStatus = {
 }
 export default class ClassificationReview extends Component {
 	state = {
-		loading: true,
 		modal: '',
 		classifyAuditInfoId: '',
 		params: {
@@ -262,10 +265,6 @@ export default class ClassificationReview extends Component {
 				</div>
 			}
 		];
-	}
-
-	componentDidMount() {
-		this.search()
 	}
 
 	//截取8个字

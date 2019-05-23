@@ -31,8 +31,12 @@ class Filter extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.submit()
+	}
+
 	submit = (e) => {
-		e.preventDefault();
+		e && e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
@@ -194,15 +198,10 @@ const columns = [
 ];
 export default class FeedbackExport extends Component {
 	state = {
-		loading: true,
 		params: {
 			pageNum: 1,
 			pageSize: 20
 		}
-	}
-
-	componentDidMount() {
-		this.search()
 	}
 
 	//截取8个字

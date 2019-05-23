@@ -13,8 +13,9 @@ export class FeedbackCreate extends Component {
 				let hide = message.loading('处理中...')
 				this.props.actions.addClassifyAuditInfo(values).then(() => {
 					hide()
+					this.props.setModal()
 					message.success('我们将在5个工作日内给您反馈，请您耐心等待', 1.5, () => {
-						this.props.setModal()
+						this.props.reload()
 					})
 				})
 			}
@@ -445,8 +446,8 @@ export class FeedbackReview extends Component {
 			title: '是否确定更新分类',
 			content: <SimpleTag>{this.state.newClassifyName}</SimpleTag>,
 			onOk: () => actions.passClassifyAuditInfo({ classifyAuditInfoId }).then(() => {
+				setModal()
 				message.success('提交成功', 1.5, () => {
-					setModal()
 					reload()
 				})
 			})
@@ -467,8 +468,8 @@ export class FeedbackReview extends Component {
 					...values
 				}).then(() => {
 					this.setState({ reasonLoading: false, reasonModal: false })
+					setModal()
 					message.success('提交成功', 1.5, () => {
-						setModal()
 						reload()
 					})
 				})

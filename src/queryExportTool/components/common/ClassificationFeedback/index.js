@@ -26,7 +26,7 @@ class ClassificationFeedback extends Component {
 		};
 	}
 
-	componentDidMount() {
+	reload = () => {
 		const { data, actions } = this.props
 		actions.isExistClassify({ accountId: data.account_id }).then(({ data }) => {
 			this.setState({
@@ -34,6 +34,9 @@ class ClassificationFeedback extends Component {
 				hasRecord: data.count
 			})
 		})
+	}
+	componentDidMount() {
+		this.reload()
 	}
 	setModal = type => {
 		this.setState({ feedback: type })
@@ -66,7 +69,7 @@ class ClassificationFeedback extends Component {
 				分类错误?
 			</a>}
 			{this.state.feedback === 'create' &&
-			<FeedbackCreate setModal={this.setModal} accountInfo={accountInfo} actions={actions}/>}
+			<FeedbackCreate setModal={this.setModal} reload={this.reload} accountInfo={accountInfo} actions={actions}/>}
 			{this.state.feedback === 'detail' &&
 			<FeedbackDetail setModal={this.setModal} actions={actions} classifyAuditInfoId={classifyAuditInfoId}/>}
 			{this.state.feedback === 'mini' &&
