@@ -200,7 +200,7 @@ const auditTypeMap = {
 	'3': {
 		code: 3,
 		text: '已驳回',
-		desc: '如您对反馈处理结果不满意，您可'
+		desc: '如您对反馈处理结果不满意，您可联系产品'
 	}
 }
 
@@ -311,12 +311,6 @@ export class FeedbackDetail extends Component {
 		loading: true
 	}
 
-	showContact = () => {
-		Modal.info({
-			title: '直接添加客服QQ号',
-			content: this.state.customerQq || '3460666273'
-		})
-	}
 
 	componentDidMount() {
 		const { actions, classifyAuditInfoId } = this.props
@@ -354,8 +348,6 @@ export class FeedbackDetail extends Component {
 					</div>
 					<div className='category-desc'>
 						{auditTypeMap[auditType].desc}
-						{auditType === 3 &&
-						<a onClick={this.showContact} style={{ marginLeft: '6px' }}>联系客服</a>}
 					</div>
 					<main>
 						<header>协商历史</header>
@@ -363,7 +355,9 @@ export class FeedbackDetail extends Component {
 							classifyAuditDialogList.map((data, n) => {
 								return data.sourceType === 2 ?
 									<div className='category-history-item' key={n}>
-
+										<div className='image-wrapper'>
+											<img src="http://img.weiboyi.com/vol1/1/102/124/g/o/s27023837qs711r99p5o506o4op229o2/%E5%AE%A1%E6%A0%B8%E5%91%98.png" alt="" />
+										</div>
 										<div className='content-wrapper'>
 											<div className='info name'>
 												{data.adminRealName}
@@ -390,7 +384,9 @@ export class FeedbackDetail extends Component {
 										</div>
 									</div> :
 									<div className='category-history-item' key={n}>
-
+										<div className='image-wrapper'>
+											<img src="http://img.weiboyi.com/vol1/1/102/124/e/d/s35886957qs711r99p5o506o4op229o2/%E7%94%B3%E8%AF%B7%E4%BA%BA.png" alt="" />
+										</div>
 										<div className='content-wrapper'>
 											<div className='info name'>
 												博主
@@ -507,7 +503,9 @@ export class FeedbackReview extends Component {
 							classifyAuditDialogList.map((data, n) => {
 								return data.sourceType === 2 ?
 									<div className='category-history-item' key={n}>
-
+										<div className='image-wrapper'>
+											<img src="" alt="http://img.weiboyi.com/vol1/1/102/124/g/o/s27023837qs711r99p5o506o4op229o2/%E5%AE%A1%E6%A0%B8%E5%91%98.png" />
+										</div>
 										<div className='content-wrapper'>
 											<div className='info name'>
 												{data.adminRealName}
@@ -534,7 +532,9 @@ export class FeedbackReview extends Component {
 										</div>
 									</div> :
 									<div className='category-history-item' key={n}>
-
+										<div className='image-wrapper'>
+											<img src="http://img.weiboyi.com/vol1/1/102/124/e/d/s35886957qs711r99p5o506o4op229o2/%E7%94%B3%E8%AF%B7%E4%BA%BA.png" alt="" />
+										</div>
 										<div className='content-wrapper'>
 											<div className='info name'>
 												博主
