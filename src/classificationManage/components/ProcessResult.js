@@ -85,7 +85,7 @@ class Filter extends Component {
 					)}
 				</FormItem>
 				<FormItem label="操作人" >
-					{getFieldDecorator('createdBy')(
+					{getFieldDecorator('realName')(
 						<Input placeholder='请输入'/>
 					)}
 				</FormItem>
@@ -167,7 +167,7 @@ export default class ProcessResult extends Component {
 				render: (text) => text || '--'
 			}, {
 				title: '操作人',
-				dataIndex: 'createdBy',
+				dataIndex: 'realName',
 				align: 'center'
 			}, {
 				title: '操作时间',
