@@ -253,7 +253,9 @@ export class FeedbackView extends Component {
 							classifyAuditDialogList.map((data, n) => {
 								return data.sourceType === 2 ?
 									<div className='category-history-item' key={n}>
-
+										<div className='image-wrapper'>
+											<img src="http://img.weiboyi.com/vol1/1/102/124/g/o/s27023837qs711r99p5o506o4op229o2/%E5%AE%A1%E6%A0%B8%E5%91%98.png" alt="" />
+										</div>
 										<div className='content-wrapper'>
 											<div className='info name'>
 												{data.adminRealName}
@@ -280,7 +282,9 @@ export class FeedbackView extends Component {
 										</div>
 									</div> :
 									<div className='category-history-item' key={n}>
-
+										<div className='image-wrapper'>
+											<img src="http://img.weiboyi.com/vol1/1/102/124/e/d/s35886957qs711r99p5o506o4op229o2/%E7%94%B3%E8%AF%B7%E4%BA%BA.png" alt="" />
+										</div>
 										<div className='content-wrapper'>
 											<div className='info name'>
 												博主
