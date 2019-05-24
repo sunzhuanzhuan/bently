@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Modal, message } from 'antd';
+import { Table, Modal, message, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from "../common";
 import Quotation from "../cooperationPlatformEdit/Quotation";
@@ -60,7 +60,7 @@ class TableList extends Component {
 		if (data.length > 0) {
 			//含有则选择默认报价项
 			setShowModal(true, {
-				title: '温馨提示',
+				title: <div><Icon type="exclamation-circle" theme="filled" style={{ color: '#faad14', padding: '2px 6 px 0px 0px' }}/>温馨提示</div>,
 				content: <DisableDefault
 					list={data}
 					notOperate={true}
