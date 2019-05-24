@@ -95,7 +95,7 @@ class Filter extends Component {
 				<Row gutter={20}>
 					<Col span={6}>
 						<FormItem label="主账号名称">
-							{getFieldDecorator('userIdentityName')(
+							{getFieldDecorator('identityName')(
 								<Input placeholder='请输入' />
 							)}
 						</FormItem>
@@ -179,7 +179,7 @@ const columns = [
 		align: 'center'
 	}, {
 		title: '主账号名称',
-		dataIndex: 'realName',
+		dataIndex: 'identityName',
 		align: 'center'
 	}, {
 		title: '提交人',
