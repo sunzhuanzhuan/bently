@@ -190,9 +190,9 @@ export default class MainItem extends PureComponent {
 					<div className='footer-tages'>
 						{/* 此处是热门标签 */}
 						{classification && classification.slice(0, 1).map((one, index) => <CTag key={index}>{one.name}</CTag>)}
-						{classification && classification.length && <LazyLoad once overflow>
+						{(classification && classification.length) ? <LazyLoad once overflow>
 							<ClassificationFeedback data={accountListItem}/>
-						</LazyLoad>}
+						</LazyLoad> : null}
 					</div>
 					<div className='footer-info-status'>
 						{/* 此处为右下角展示统计信息 */}
