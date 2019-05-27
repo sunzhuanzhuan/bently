@@ -21,7 +21,12 @@ class DefaultChild extends Component {
 		const { getFilters, getAccountList } = this.props.actions
 		getFilters({ group_id })
 		const search = qs.parse(this.props.location.search.substring(1))
-		getAccountList({ group_id, page: 1, page_size: search.page_size || 20, keyword: search.keyword || '' }).then(results => {
+		getAccountList({
+			group_id, page: 1,
+			search_source: 1,
+			page_size: search.page_size || 20,
+			keyword: search.keyword || ''
+		}).then(results => {
 			if (this._isMounted) {
 				this.setState({
 					loading: false
@@ -96,7 +101,12 @@ class DefaultChild extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
-		this.props.actions.getAccountList({ ...this.paramsAll, ...params, group_id: platformType, keyword: search.keyword || '', }).then(() => {
+		this.props.actions.getAccountList({
+			...this.paramsAll,
+			search_source: 1,
+			...params, group_id: platformType,
+			keyword: search.keyword || '',
+		}).then(() => {
 			this.setState({
 				loading: false
 			})

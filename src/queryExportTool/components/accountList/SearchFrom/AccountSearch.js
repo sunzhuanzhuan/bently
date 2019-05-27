@@ -60,13 +60,15 @@ class AccountSearch extends React.Component {
 			},
 			selectedItems: {},
 			isShowMore: false,
-			changTabNumber: '1'
+			changTabNumber: '1',
+			searchSource: 1,
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
 	}
 	onFilterSearch = (values = {}) => {
 		const params = this.props.form.getFieldsValue();
+		const { searchSource } = this.state
 		const { sku_price_valid, follower_count } = params;
 		if (sku_price_valid && sku_price_valid.length > 0) {
 			params.sku_price_valid_from = sku_price_valid[0].format('YYYY-MM-DD')
@@ -94,7 +96,7 @@ class AccountSearch extends React.Component {
 		if (!params.sku_open_quote_price) {
 			params.sku_open_quote_price = undefined;
 		}
-		this.props.onFilterSearch({ ...params, ...values })
+		this.props.onFilterSearch({ search_source: searchSource, ...params, ...values })
 	}
 	batchUpdateSelectedItems = (selectedItems) => {
 		this.setState({
@@ -166,6 +168,11 @@ class AccountSearch extends React.Component {
 		//清空数据
 		this.resetFilter()
 		//查询数据
+		this.setState({
+			searchSource: value
+		})
+
+		this.onFilterSearch({ search_source: value })
 	}
 	isShowMoresSet = () => {
 		const { isShowMore } = this.state
