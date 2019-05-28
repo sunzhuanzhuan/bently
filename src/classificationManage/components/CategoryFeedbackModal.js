@@ -290,9 +290,9 @@ export class FeedbackView extends Component {
 												{data.createdFrom === 1 ? data.adminRealName : '博主'}
 												<b>{data.createdAt}</b>
 											</div>
-											<div className='info'>
+											{wrongReasonType ? <div className='info'>
 												错误原因: {wrongReasonType === 1 ? "与现有业务/受众不一致" : wrongReasonType === 2 ? "业务/受众变更" : '--'}
-											</div>
+											</div> : null}
 											<div className='info'>
 												期望分类: {newClassifyName}
 											</div>
@@ -396,9 +396,9 @@ export class FeedbackDetail extends Component {
 												{data.createdFrom === 1 ? data.adminRealName : '博主'}
 												<b>{data.createdAt}</b>
 											</div>
-											<div className='info'>
+											{wrongReasonType ? <div className='info'>
 												错误原因: {wrongReasonType === 1 ? "与现有业务/受众不一致" : wrongReasonType === 2 ? "业务/受众变更" : '--'}
-											</div>
+											</div> : null}
 											<div className='info'>
 												期望分类: {newClassifyName}
 											</div>
@@ -544,9 +544,9 @@ export class FeedbackReview extends Component {
 												{data.createdFrom === 1 ? data.adminRealName : '博主'}
 												<b>{data.createdAt}</b>
 											</div>
-											<div className='info'>
+											{wrongReasonType ? <div className='info'>
 												错误原因: {wrongReasonType === 1 ? "与现有业务/受众不一致" : wrongReasonType === 2 ? "业务/受众变更" : '--'}
-											</div>
+											</div> : null}
 											<div className='info'>
 												期望分类: {newClassifyName}
 											</div>
