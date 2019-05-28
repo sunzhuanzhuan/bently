@@ -89,7 +89,7 @@ class DownloadList extends Component {
 		})
 	}
 	downLoadById = (download_url, id) => {
-		this.props.actions.apiDownload({ task_id: id }).then((res) => {
+		this.props.actions.download({ task_id: id }).then((res) => {
 			this.searchDownload()
 		})
 		window.open(download_url)
