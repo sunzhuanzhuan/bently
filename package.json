@@ -36,6 +36,7 @@
 		"immutability-helper": "^2.8.1",
 		"jest": "20.0.4",
 		"js-cookie": "^2.2.0",
+		"js-file-download": "^0.4.7",
 		"lazy-load-component": "^1.1.5",
 		"lodash": "^4.17.5",
 		"numeral": "^2.0.6",

@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import moment from "moment";
 import EmSpan from "../../base/EmSpan";
-import api from '@/api'
+import apiDownload from '@/api/apiDownload'
 import Interface from '../constants/Interface'
 
 const Option = Select.Option;
@@ -44,7 +44,7 @@ class Filter extends Component {
 				timeList.forEach((item, n) => {
 					if (values['time'] && values['time'][n]) {
 						values[item] = values['time'][n].format('YYYY-MM-DD HH:mm:ss')
-					}else {
+					} else {
 						values[item] = undefined
 					}
 				})
@@ -132,24 +132,24 @@ class Filter extends Component {
 								<RangePicker
 									format='YYYY-MM-DD HH:mm:ss'
 									showTime
-									style={{width: "100%"}}
+									style={{ width: "100%" }}
 								/>
 							)}
 						</FormItem>
 					</Col>
 					<Col span={6}>
-					<FormItem>
-						<Button
-							type="primary"
-							loading={this.props.loading}
-							htmlType='submit'
-						>
-							查询
-						</Button>
-						<Button style={{ marginLeft: "10px" }} onClick={() => this.props.form.resetFields()}>
-							重置
-						</Button>
-					</FormItem>
+						<FormItem>
+							<Button
+								type="primary"
+								loading={this.props.loading}
+								htmlType='submit'
+							>
+								查询
+							</Button>
+							<Button style={{ marginLeft: "10px" }} onClick={() => this.props.form.resetFields()}>
+								重置
+							</Button>
+						</FormItem>
 					</Col>
 				</Row>
 			</Form>
@@ -163,7 +163,8 @@ const columns = [
 		title: 'account_id',
 		dataIndex: 'accountId',
 		align: 'center',
-		render: (text, record) =>  <a target='_blank' href={`/account/manage/update/${record.platformId}?account_id=${text}`}>{text}</a>
+		render: (text, record) =>
+			<a target='_blank' href={`/account/manage/update/${record.platformId}?account_id=${text}`}>{text}</a>
 	}, {
 		title: '平台',
 		dataIndex: 'platformName',
@@ -240,26 +241,12 @@ export default class FeedbackExport extends Component {
 	}
 
 	exportResult = () => {
-		this.props.actions.exportCustomClassifyList(this.state.params)
-		/*api.get(Interface.exportCustomClassifyList, {
-			params: this.state.params,
-			responseType: 'blob'
-		}).then((res) => { // 处理返回的文件流
-			const blob = new Blob([res])
-			const fileName = '处理结果.xls'
-			if ('download' in document.createElement('a')) { // 非IE下载
-				const elink = document.createElement('a')
-				elink.download = fileName
-				elink.style.display = 'none'
-				elink.href = window.URL.createObjectURL(blob)
-				document.body.appendChild(elink)
-				elink.click()
-				window.URL.revokeObjectURL(elink.href) // 释放URL 对象
-				document.body.removeChild(elink)
-			} else { // IE10+下载
-				window.navigator.msSaveBlob(blob, fileName)
-			}
-		})*/
+		// this.props.actions.exportCustomClassifyList(this.state.params)
+		apiDownload({
+			url: Interface.exportCustomClassifyList,
+			method: 'POST',
+			data: this.state.params,
+		}, '导出结果.xlsx')
 	}
 
 	render() {

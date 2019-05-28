@@ -4644,6 +4644,11 @@ js-cookie@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
 
+js-file-download@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/js-file-download/-/js-file-download-0.4.7.tgz#cafea2f7230b63fa1747e80efe1257649b59143e"
+  integrity sha512-9AQYwIpgTz3BqKQQ9kZldCXd0BekFmxvUguEVJwVlTe9cON1slRaT+hqctEbjoXbz9Aj+8Qgl3841zYWeCstuA==
+
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"

@@ -19,6 +19,12 @@ export const {
 	getAllPlatform_success
 } = createHttpAction('getAllPlatform', Interface.common.getAllPlatform)
 
+// 可用媒体平台下拉列表
+export const {
+	getAvailablePlatformList,
+	getAvailablePlatformList_success
+} = createHttpAction('getAvailablePlatformList', Interface.common.platformList)
+
 // 获取中国城市列表
 export const {
 	getChineseCities,
