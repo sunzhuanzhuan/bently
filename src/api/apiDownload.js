@@ -1,4 +1,4 @@
-import fileDownload from 'js-file-download'
+import { saveAs } from 'file-saver'
 import axios from 'axios'
 const Cookie = require('js-cookie');
 
@@ -14,7 +14,7 @@ const apiDownload = (opts, filename = 'file') => {
 			message.error("下载失败，文件不存在或权限不足");
 		} else {
 			let blob = new Blob([res.data]);
-			fileDownload(blob, filename)
+			saveAs(blob, filename)
 		}
 	})
 

@@ -192,7 +192,7 @@ const columns = [
 		align: 'center'
 	}, {
 		title: '提交时间',
-		dataIndex: 'createdTime',
+		dataIndex: 'createdAt',
 		align: 'center',
 		render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss')
 	}
