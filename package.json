@@ -92,12 +92,8 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"/api/export/account/getFiltersMeta": {
-			"target": "http://192.168.20.51:7300/mock/5cda288473f3100017a64448/export",
-			"changeOrigin": true
-		},
-		"/api/export/account/getRecentReservationOrderPriceList": {
-			"target": "http://192.168.20.51:7300/mock/5cda288473f3100017a64448/export",
+		"/api/export/account": {
+			"target": "http://172.16.121.60:10080",
 			"changeOrigin": true
 		},
 		"/api": {
