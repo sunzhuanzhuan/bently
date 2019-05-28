@@ -113,7 +113,7 @@ class Filter extends Component {
 								<Select placeholder={'请选择'} allowClear>
 									{
 										this.props.platforms.map(item =>
-											<Option key={item.platform_id} value={item.platform_id}>{item.platform_name}</Option>)
+											<Option key={item.id} value={item.id}>{item.platformName}</Option>)
 									}
 								</Select>
 							)}
