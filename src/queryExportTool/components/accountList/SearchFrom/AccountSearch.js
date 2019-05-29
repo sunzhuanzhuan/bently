@@ -311,15 +311,21 @@ class AccountSearch extends React.Component {
 				className='query-tool-search-tab'
 				activeKey={changTabNumber} onChange={this.changeTab}>
 				<TabPane tab="全库账号" key="1" >
-					{commSearch}
-					{allSearch}
-				</TabPane>
-				<TabPane tab="历史成交账号" key="2">
-					{commSearch}
-					{historyFrom}
-					{isShowMore ? <div >
+					{changTabNumber == 1 ? <div>
+						{commSearch}
 						{allSearch}
 					</div> : null}
+
+				</TabPane>
+				<TabPane tab="历史成交账号" key="2">
+					{changTabNumber == 2 ? <div>
+						{commSearch}
+						{historyFrom}
+						{isShowMore ? <div >
+							{allSearch}
+						</div> : null}
+					</div> : null}
+
 				</TabPane>
 			</Tabs>
 			{changTabNumber == 2 ? <div className='search-more' onClick={this.isShowMoresSet}>
