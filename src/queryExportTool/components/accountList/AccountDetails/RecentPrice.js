@@ -62,8 +62,7 @@ class RecentPrice extends Component {
 							<Col span={5}>价格名称</Col>
 							<Col span={4}>应约价(元)</Col>
 							<Col span={5}>执行数据<MarkMessage
-								content={<div style={{ width: 200 }}> </div>}
-								title='执行数据'
+								content={<div style={{ width: 200 }}>展示的是订单执行后的表现稳定性数据，一般为发布时间后72小时的数据；若为-则是因为该订单未最终执行或未抓取到数据。</div>}
 							/></Col>
 							<Col span={5}>发布时间</Col>
 						</Row>
