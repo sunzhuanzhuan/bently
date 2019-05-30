@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import "./RecentPrice.less"
 import { executionList, executionMap } from "../../../constants/executionData";
 import { getWeixinAvg, getOtherAllAvg } from "../../../base/SimpleTables/unit";
+import MarkMessage from "../../../base/MarkMessage";
 
 class RecentPrice extends Component {
 	constructor(props) {
@@ -60,7 +61,10 @@ class RecentPrice extends Component {
 							<Col span={5}>应约时间</Col>
 							<Col span={5}>价格名称</Col>
 							<Col span={4}>应约价(元)</Col>
-							<Col span={5}>执行数据</Col>
+							<Col span={5}>执行数据<MarkMessage
+								content={<div style={{ width: 200 }}> </div>}
+								title='执行数据'
+							/></Col>
 							<Col span={5}>发布时间</Col>
 						</Row>
 					</div>
