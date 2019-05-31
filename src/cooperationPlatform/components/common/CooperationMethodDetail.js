@@ -10,7 +10,7 @@ class CooperationMethodDetail extends Component {
 		const { detailData: { cooperationType, refundRate, cooperationRemark } } = this.props
 		const weekArr = [
 			{ title: "合作方式", content: "周期付款" },
-			{ title: "返款比例", content: numeral(refundRate || 0).format('0.00') },
+			{ title: "返款比例", content: `${numeral(refundRate || 0).format('0.00')} %` }
 		]
 		const otherArr = [
 			{ title: "合作方式", content: "其他" },
