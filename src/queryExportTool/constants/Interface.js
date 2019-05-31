@@ -9,7 +9,9 @@ export default {
 	batchAccountExport: "export/account/batchAccountExport",
 	//账号详情
 	getBaseInfo: "/export/account/getBaseInfo",
+	//账号详情---账号评价
 	getDegreeList: "/export/account/getDegreeList",
+	//账号详情---最近应约价
 	getRecentReservationOrderPriceList: "/export/account/getRecentReservationOrderPriceList",
 	//获取购物车
 	getAccountListFromCart: '/export/account/getAccountListFromCart',
@@ -49,7 +51,7 @@ export default {
 	codeCheck: "/export/account/codeCheck",
 	//将账号添加进报价单
 	addToQuotation: "/export/account/addToQuotation",
-
+	//获取公共分类
 	getCommonClassify: '/accountList/api/getCommonClassify',
 	//获取查询项
 	getFilters: '/export/account/getFiltersMeta'
