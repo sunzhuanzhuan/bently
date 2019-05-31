@@ -109,7 +109,6 @@ class AccountTable extends Component {
 				start: faceImg,
 				image: faceImg.data("src")
 			})
-			sensors.track('accountSearchEvent', { account_id: key.account_id, pathname: location.pathname });
 		}
 	}
 	//全选/取消全选
