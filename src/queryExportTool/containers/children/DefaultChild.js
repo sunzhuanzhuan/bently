@@ -11,29 +11,36 @@ class DefaultChild extends Component {
 		super(props);
 		this._isMounted = false;
 		this.paramsAll = {};
+
 	}
 	state = {
-		loading: true
+		loading: true,
 	}
 	componentDidMount() {
 		this._isMounted = true;
 		const { params: { platformType: group_id } } = this.props.match
 		const { getFilters, getAccountList } = this.props.actions
 		getFilters({ group_id })
+		this.serachStart()
+
+	}
+	serachStart = (search_source, changeTab) => {
+		const { getFilters, getAccountList } = this.props.actions
+		const { params: { platformType: group_id } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
 		getAccountList({
-			group_id, page: 1,
-			search_source: 1,
+			group_id,
+			page: 1,
+			search_source: search_source || 1,
 			page_size: search.page_size || 20,
-			keyword: search.keyword || ''
+			keyword: search.keyword || '',
 		}).then(results => {
-			if (this._isMounted) {
+			if (this._isMounted || changeTab) {
 				this.setState({
 					loading: false
 				})
 			}
 		});
-
 	}
 	componentWillUnmount() {
 		this._isMounted = false;
@@ -156,7 +163,11 @@ class DefaultChild extends Component {
 			</div>}
 		</div>
 		return <div >
-			<AccountSearch keyword={search.keyword || ''} onFilterSearch={this.onFilterSearch} {...this.props} />
+			<AccountSearch keyword={search.keyword || ''}
+				onFilterSearch={this.onFilterSearch}
+				{...this.props}
+				serachStart={this.serachStart}
+			/>
 			<Spin spinning={this.state.loading}>
 				{/*quotation_id>0代表走报价单选号车列表，已选的为选中不可编辑状态，选中值在前台保存。操作state
 				另一个table的选中是后台返回is_select，操作action*/}

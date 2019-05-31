@@ -269,7 +269,11 @@ class AccountList extends Component {
 							return <TabPane tab={item.name} key={item.group_type} style={index == 0 ? { minHeight: 1000 } : null}>
 								{
 									item.group_type != 6 && platformType == item.group_type ?
-										<DefaultChild {...this.props} {...tableProps} setAccountState={this.setAccountState} />
+										<DefaultChild
+											{...this.props}
+											{...tableProps}
+											setAccountState={this.setAccountState}
+										/>
 										: platformType == 6 ? <AccountListBatch {...tableProps} /> : null
 								}
 							</TabPane>

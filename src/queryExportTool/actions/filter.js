@@ -12,7 +12,7 @@ const getCategory = (grouped_categories, group_id) => {
 		name: item.itemValue
 	}))
 }
-const getOrderIndustryCategory = (order_industry_category) => {
+const getOrderIndustryCategory = (order_industry_category = []) => {
 	return order_industry_category.map(item => ({
 		...item,
 		id: item.code,

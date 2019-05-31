@@ -66,7 +66,7 @@ class AccountSearch extends React.Component {
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
 	}
-	onFilterSearch = (values = {}) => {
+	onFilterSearch = (values = {}, ischangTab) => {
 		const params = this.props.form.getFieldsValue();
 		const { searchSource } = this.state
 		const { sku_price_valid, follower_count } = params;
@@ -121,7 +121,7 @@ class AccountSearch extends React.Component {
 		this.onFilterSearch(params);
 	}
 
-	resetFilter = (id) => {
+	resetFilter = (id, params) => {
 		const urlAll = this.props.match.url
 		if (id) {
 			const _selectedItems = this.state.selectedItems
@@ -136,7 +136,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
-		this.onFilterSearch()
+		this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {
 		this.onChange(params)
@@ -165,14 +165,16 @@ class AccountSearch extends React.Component {
 			changTabNumber: value,
 			isShowMore: false
 		})
-		//清空数据
-		this.resetFilter()
+
 		//查询数据
 		this.setState({
 			searchSource: value
+		}, () => {
+			//清空数据
+			this.resetFilter(null, this.accountSort.reset())
+
 		})
 
-		this.onFilterSearch({ search_source: value })
 	}
 	isShowMoresSet = () => {
 		const { isShowMore } = this.state
@@ -183,7 +185,7 @@ class AccountSearch extends React.Component {
 
 	render() {
 		const { selectedItems, isShowMore, changTabNumber } = this.state;
-		const { form, match, history, location, keyword } = this.props;
+		const { form, match, history, location, keyword, } = this.props;
 		const { getFieldDecorator } = form;
 		const { filterOptions = {} } = this.props.queryExportToolReducer;
 		const { params } = match;
@@ -305,7 +307,6 @@ class AccountSearch extends React.Component {
 				<div className='new-box-img'>
 					<img src='http://img.weiboyi.com/vol1/1/102/124/n/v/rp7846pp75sn11r99p5o506o4op229o2/new.png' />
 				</div>
-
 			</div>
 			<Tabs type="card"
 				className='query-tool-search-tab'
@@ -335,7 +336,7 @@ class AccountSearch extends React.Component {
 				</div>
 			</div> : null}
 			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
-			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
+			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
 }
