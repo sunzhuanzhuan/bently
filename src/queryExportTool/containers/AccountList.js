@@ -12,7 +12,8 @@ import AccountListBatch from "./AccountListBatch"
 import { default as SelectCar, CarContent } from '../components/accountList/SelectCar';
 import platform from "../constants/platform";
 import debounce from 'lodash/debounce';
-import Cookie from 'js-cookie'
+import MaskBox from "../base/MaskBox";
+
 const TabPane = Tabs.TabPane;
 // const renderTabBar = (props, DefaultTabBar) => (
 // 	<Sticky bottomOffset={80}>
@@ -35,16 +36,8 @@ class AccountList extends Component {
 		selectLoading: false,
 		quotation_id: 0,
 		quotation_name: "",
-		isLogined: true
 	}
 	componentDidMount = () => {
-		if (!Cookie.get('isLoginedHistoryQueryTool')) {
-			this.setState({
-				isLogined: false
-			})
-		}
-
-
 		const { getAccountListFromCart } = this.props.actions
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { getAccountIdsByQuotation } = this.props.actions
@@ -194,16 +187,13 @@ class AccountList extends Component {
 		const data = list.filter(item => type.includes(item.platform_id))
 		return data.length > 0 ? data : []
 	}
-	isLoginedSet = () => {
-		this.setState({ isLogined: true })
-		Cookie.set('isLoginedHistoryQueryTool', true)
-	}
+
 	render() {
 
 		const { match, queryExportToolReducer, actions } = this.props;
 		let { platformType } = match.params;
 		const { selectedRowKeys, selectedRowKeysObject, selectCartInterimList, selectLoading } = this.state
-		const { quotation_name, quotation_id, isLogined } = this.state
+		const { quotation_name, quotation_id } = this.state
 		const isQuotation = quotation_id > 0
 		const { selectCartData, } = queryExportToolReducer;
 		//获取平台图标
@@ -249,18 +239,8 @@ class AccountList extends Component {
 
 		const heardText = <h2>{quotation_id > 0 ? `请为【${quotation_name}】报价单，选择您心仪的账号` : "账号列表"}</h2>
 		return <div >
-			{isLogined ? null : <div className={'query-export-tool-mask'}>
-				<div className='query-export-tool-mask-showbox'>
-					可以查找微播易平台
-					<span style={{ fontWeight: 600 }}>历史成交</span>
-					<span>过的账号了哦，快来试试吧！</span>
-					<div style={{ textAlign: 'center', marginTop: 4 }}>
-						<Button type='primary' size='small' onClick={this.isLoginedSet}>知道了</Button>
-					</div>
-				</div>
-			</div>}
+			<MaskBox />
 			<div id="Js-select-car-no-click-id">
-
 				<BackTop />
 				{heardText}
 				<Tabs onChange={this.onTabsChange} animated={false} activeKey={platformType.toString()}>

@@ -108,8 +108,8 @@ class DefaultChild extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		this.props.actions.getAccountList({
-			...this.paramsAll,
 			search_source: 1,
+			...this.paramsAll,
 			...params, group_id: platformType,
 			keyword: search.keyword || '',
 		}).then(() => {
@@ -126,6 +126,7 @@ class DefaultChild extends Component {
 		let { platformType } = this.props.match.params;
 		sensors.track('AccountSearchEvent', { app_id: 101, platformType: platformType, click_url: "https://wby-download-storage.oss-cn-beijing.aliyuncs.com/trinity/%E7%9F%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0%E6%94%BF%E7%AD%96%26%E8%A7%84%E5%88%99%E6%A6%82%E8%A7%88.pdf" });
 	}
+
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;

@@ -10,6 +10,8 @@ import AccountSort from "@/queryExportTool/components/accountList/SearchFrom/Acc
 import SelectedItem from './SelectedItems'
 import { objectToArray } from '@/util'
 import MarkMessage from "../../../base/MarkMessage";
+import Cookie from 'js-cookie'
+
 import {
 	priceMarks,
 	followersCountMarks
@@ -301,8 +303,11 @@ class AccountSearch extends React.Component {
 			/>
 		</div>
 
+		const historyStyle = Cookie.get('isLoginedHistoryQueryTool') ? {} : {
 
-		return <div>
+		}
+		return <div id='js-account-seach-id'>
+
 			<div className='history-new-box'>
 				<div className='new-box-img'>
 					<img src='http://img.weiboyi.com/vol1/1/102/124/n/v/rp7846pp75sn11r99p5o506o4op229o2/new.png' />
@@ -310,7 +315,8 @@ class AccountSearch extends React.Component {
 			</div>
 			<Tabs type="card"
 				className='query-tool-search-tab'
-				activeKey={changTabNumber} onChange={this.changeTab}>
+				activeKey={changTabNumber} onChange={this.changeTab}
+			>
 				<TabPane tab="全库账号" key="1" >
 					{changTabNumber == 1 ? <div>
 						{commSearch}
@@ -318,7 +324,11 @@ class AccountSearch extends React.Component {
 					</div> : null}
 
 				</TabPane>
-				<TabPane tab="历史成交账号" key="2">
+				<TabPane tab={
+					<div className='big-zindex-box'>
+						历史成交账号
+					</div>} key="2" >
+
 					{changTabNumber == 2 ? <div>
 						{commSearch}
 						{historyFrom}
@@ -329,6 +339,7 @@ class AccountSearch extends React.Component {
 
 				</TabPane>
 			</Tabs>
+
 			{changTabNumber == 2 ? <div className='search-more' onClick={this.isShowMoresSet}>
 				<div className='search-more-text'>
 					<div className='text'>{isShowMore ? '收起' : '更多筛选条件'}</div>
