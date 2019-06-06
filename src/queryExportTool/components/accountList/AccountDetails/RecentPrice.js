@@ -54,7 +54,7 @@ class RecentPrice extends Component {
 		const { platform_id } = base
 		return (
 			<div className="recent-price-wxy">
-				{visable ? <Alert message="说明:本页展示该账号最近半年在微播易平台的应约时间,价格名称,应约价" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
+				{visable ? <Alert message="说明:本页展示该账号最近一年在微播易平台的应约时间,价格名称,应约价，及执行后的数据表现" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
 				<div style={{ marginTop: 20 }}>
 					<div>
 						<Row className="price-table-row title">
@@ -105,7 +105,7 @@ class RecentPrice extends Component {
 													</div>
 												</Col>
 												<Col span={5}>
-													{platform_id == 106 ? item.live_created_time : item.media_created_time}
+													{platform_id == 106 ? item.live_created_time||'-' : item.media_created_time||'-'}
 												</Col>
 											</Row>
 										</List.Item>

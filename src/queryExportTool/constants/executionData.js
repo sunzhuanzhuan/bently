@@ -13,7 +13,7 @@ const liveComment = { name: '直播评论数', value: 'live_comment_num' }
 export const executionMap = {
 	1: { name: '新浪微博', list: [like, comment, forward] },
 	9: { name: '微信公众号', list: [read, like, comment] },
-	25: { name: '美拍', list: [read, like, comment, liveLook, liveLike, liveComment] },
+	25: { name: '美拍', list: [views, like, comment, liveLook, liveLike, liveComment] },
 	93: { name: '小红书', list: [views, like, comment, collect] },
 	110: { name: '哔哩哔哩动画', list: [views, like, comment, barrage] },
 	106: { name: '一直播', list: [liveLook, liveLike, liveComment] },
