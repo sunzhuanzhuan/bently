@@ -214,7 +214,8 @@ class QuotationDetail extends Component {
 			accountList: quotationAccountList,
 			isDeleteAction: true,
 			tablePageSize: 20,
-			batchRemove: this.batchRemove
+			batchRemove: this.batchRemove,
+			serachAction: this.serachAction
 		}
 		const exportUrl = `/accountList/downloadCenter`
 		const modelTypeMap = {
