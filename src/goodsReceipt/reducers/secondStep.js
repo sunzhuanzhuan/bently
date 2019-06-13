@@ -70,3 +70,13 @@ const getUpdateList = (list, item_id, key, value, data) => {
 	})
 	return [...dataModify]
 }
+
+//GR申请单->错误数据
+export const errorList = handleActions({
+	[goodsReceiptAction.editErrorList]: (state, action) => {
+		return { ...state, ...action.payload }
+	},
+	[goodsReceiptAction.clearErrorList]: (state, action) => {
+		return { }
+	}
+}, {})

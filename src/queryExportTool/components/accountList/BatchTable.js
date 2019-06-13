@@ -35,7 +35,8 @@ class BatchTable extends Component {
 
 	render() {
 		const { visible, modalContent } = this.state
-		const { accountList = {}, type = 1, actions, arrSelectExactQuery } = this.props
+		const { accountList = {}, type = 1, actions, arrSelectExactQuery,
+			addLookDetailOrIndexList } = this.props
 		const columns = [{
 			title: '账号昵称',
 			dataIndex: 'name',
@@ -142,7 +143,7 @@ class BatchTable extends Component {
 				{type == 1 ?
 					<div className="account-table-wxy ">
 						<AccountTableSelect
-
+							addLookDetailOrIndexList={addLookDetailOrIndexList}
 							accountList={accountList}
 							actions={actions}
 							IsExactQuery={true}
@@ -151,6 +152,7 @@ class BatchTable extends Component {
 					</div>
 					: <div>
 						<AccountTableSelect
+							addLookDetailOrIndexList={addLookDetailOrIndexList}
 							isShowTypeByList={true}
 							IsExactQuery={true}
 							accountList={accountList}

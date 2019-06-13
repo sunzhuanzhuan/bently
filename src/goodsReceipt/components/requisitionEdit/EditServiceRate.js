@@ -40,6 +40,7 @@ class EditServiceRate extends Component {
 						editable: false
 					})
 					onChange && onChange(values.serviceRate)
+					this.props.actions.clearErrorList()
 					searchActionByFree && searchActionByFree()
 				})
 				const { setEditState } = this.props
