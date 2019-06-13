@@ -137,6 +137,7 @@ class MoreFilter extends Component {
 	}
 	onCancel = () => {
 		const { onCancel, selectedkeys } = this.props;
+		console.log("selectedkeys", selectedkeys)
 		const moreFileldKeys = [
 			"introduction", "verification_info", "cooperation_tips",
 			"trademark_name", "hotword_name", "sku_unit_read_price", "sku_unit_play_price",
@@ -152,6 +153,7 @@ class MoreFilter extends Component {
 		onCancel && onCancel();
 	}
 	render() {
+		const { onChange } = this;
 		const { form } = this.props;
 		const { getFieldDecorator } = this.props.form;
 		const { params, filterMore } = this.props;
@@ -167,81 +169,78 @@ class MoreFilter extends Component {
 		const { unit_play_price_types, unit_read_price_types, verified_status, industry_list_options } = filterMore;
 		return (
 			<div>
-				<Form>
-					<Row>
-						<h4 >关键字</h4>
-						{mapFieldsToPlatform['introduction'].includes(platformType) && <Col span={12}>
-							<FormItem
-								{...formItemLayout}
-								label={'账号简介'}>
-								{getFieldDecorator('introduction')(
-									<Input onChange={(e) => this.onChange('introduction', '账号简介', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
-								)}
-							</FormItem>
-						</Col>}
-						{mapFieldsToPlatform['verification_info'].includes(platformType) && <Col span={12}>
-							<FormItem
-								{...formItemLayout}
-								label={'认证信息'}>
-								{getFieldDecorator('verification_info')(
-									<Input onChange={(e) => this.onChange('verification_info', '认证信息', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
-								)}
-							</FormItem>
-						</Col>}
-						{mapFieldsToPlatform['cooperation_tips'].includes(platformType) && <Col span={12}>
-							<FormItem
-								{...formItemLayout}
-								label={'合作须知'}>
-								{getFieldDecorator('cooperation_tips')(
-									<Input onChange={(e) => this.onChange('cooperation_tips', '合作须知', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
-								)}
-							</FormItem>
-						</Col>}
-						{mapFieldsToPlatform['trademark_name'].includes(platformType) && <Col span={12}>
-							<FormItem
-								{...formItemLayout}
-								label={'提及品牌词'}>
-								{getFieldDecorator('trademark_name')(
-									<Input onChange={(e) => this.onChange('trademark_name', '提及品牌词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
-								)}
-							</FormItem>
-						</Col>}
-						{mapFieldsToPlatform['hotword_name'].includes(platformType) && <Col span={12}>
-							<FormItem
-								{...formItemLayout}
-								label={'图文热词'}>
-								{getFieldDecorator('hotword_name')(
-									<Input onChange={(e) => this.onChange('hotword_name', '图文热词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
-								)}
-							</FormItem>
-						</Col>}
-						<Divider />
-					</Row>
-
-					{mapFieldsToPlatform['latest_publish_time'].includes(platformType) &&
-						<RadioItem onChecked={this.onChange} name='最近一次内容发布时间' id='latest_publish_time' options={dateRangeOptions} form={form}></RadioItem>}
-					{mapFieldsToPlatform['verified_status'].includes(platformType) &&
-						<RadioItem onChecked={this.onChange} options={verified_status} name='认证类型' id='verified_status' form={form}></RadioItem>}
-					{mapFieldsToPlatform['is_verified'].includes(platformType) &&
-						<RadioItem onChecked={this.onChange} options={is_verified_options} name='是否认证' id='is_verified' form={form}></RadioItem>}
-					{mapFieldsToPlatform['gender'].includes(platformType) &&
-						<RadioItem onChecked={this.onChange} options={genderOptions} name='账号性别' id='gender' form={form}></RadioItem>}
-					{mapFieldsToPlatform['media_type'].includes(platformType) &&
-						<RadioItem onChecked={this.onChange} options={mediaTypeOptions} name='名人媒体类别' id='media_type' form={form}></RadioItem>}
-					{mapFieldsToPlatform['industry_id'].includes(platformType) &&
-						<CheckboxItem onChecked={this.onChange} options={industry_list_options} name='账号行业' id='industry_id' form={form}></CheckboxItem>}
-					<PriceValid id="sku_price_valid" name="价格有效期" onChange={this.onChange} form={form}></PriceValid>
+				<Row>
+					<h4 >关键字</h4>
+					{mapFieldsToPlatform['introduction'].includes(platformType) && <Col span={12}>
+						<FormItem
+							{...formItemLayout}
+							label={'账号简介'}>
+							{getFieldDecorator('introduction')(
+								<Input onChange={(e) => onChange('introduction', '账号简介', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+							)}
+						</FormItem>
+					</Col>}
+					{mapFieldsToPlatform['verification_info'].includes(platformType) && <Col span={12}>
+						<FormItem
+							{...formItemLayout}
+							label={'认证信息'}>
+							{getFieldDecorator('verification_info')(
+								<Input onChange={(e) => onChange('verification_info', '认证信息', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+							)}
+						</FormItem>
+					</Col>}
+					{mapFieldsToPlatform['cooperation_tips'].includes(platformType) && <Col span={12}>
+						<FormItem
+							{...formItemLayout}
+							label={'合作须知'}>
+							{getFieldDecorator('cooperation_tips')(
+								<Input onChange={(e) => onChange('cooperation_tips', '合作须知', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+							)}
+						</FormItem>
+					</Col>}
+					{mapFieldsToPlatform['trademark_name'].includes(platformType) && <Col span={12}>
+						<FormItem
+							{...formItemLayout}
+							label={'提及品牌词'}>
+							{getFieldDecorator('trademark_name')(
+								<Input onChange={(e) => onChange('trademark_name', '提及品牌词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+							)}
+						</FormItem>
+					</Col>}
+					{mapFieldsToPlatform['hotword_name'].includes(platformType) && <Col span={12}>
+						<FormItem
+							{...formItemLayout}
+							label={'图文热词'}>
+							{getFieldDecorator('hotword_name')(
+								<Input onChange={(e) => onChange('hotword_name', '图文热词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+							)}
+						</FormItem>
+					</Col>}
 					<Divider />
-					<Row className='more-filter-footer'>
-						<Col>
-							<Button onClick={this.onCancel}>取消</Button>
-							<Button onClick={this.onOk} type='primary'>确定</Button>
-						</Col>
-					</Row>
-				</Form>
+				</Row>
+
+				{mapFieldsToPlatform['latest_publish_time'].includes(platformType) &&
+					<RadioItem onChecked={onChange} name='最近一次内容发布时间' id='latest_publish_time' options={dateRangeOptions} form={form}></RadioItem>}
+				{mapFieldsToPlatform['verified_status'].includes(platformType) &&
+					<RadioItem onChecked={onChange} options={verified_status} name='认证类型' id='verified_status' form={form}></RadioItem>}
+				{mapFieldsToPlatform['is_verified'].includes(platformType) &&
+					<RadioItem onChecked={onChange} options={is_verified_options} name='是否认证' id='is_verified' form={form}></RadioItem>}
+				{mapFieldsToPlatform['gender'].includes(platformType) &&
+					<RadioItem onChecked={onChange} options={genderOptions} name='账号性别' id='gender' form={form}></RadioItem>}
+				{mapFieldsToPlatform['media_type'].includes(platformType) &&
+					<RadioItem onChecked={onChange} options={mediaTypeOptions} name='名人媒体类别' id='media_type' form={form}></RadioItem>}
+				{mapFieldsToPlatform['industry_id'].includes(platformType) &&
+					<CheckboxItem onChecked={onChange} options={industry_list_options} name='账号行业' id='industry_id' form={form}></CheckboxItem>}
+				<PriceValid id="sku_price_valid" name="价格有效期" onChange={onChange} form={form}></PriceValid>
+				<Divider />
+				<Row className='more-filter-footer'>
+					<Col>
+						<Button onClick={this.onCancel}>取消</Button>
+						<Button onClick={this.onOk} type='primary'>确定</Button>
+					</Col>
+				</Row>
 			</div >
 		);
 	}
 }
-// const MoreFilterForm = Form.create()(MoreFilter);
 export default MoreFilter;
