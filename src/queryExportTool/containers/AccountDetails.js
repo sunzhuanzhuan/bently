@@ -51,7 +51,7 @@ class AccountDetails extends Component {
 							<RadioGroup onChange={this.onChange} defaultValue="1" >
 								<RadioButton value="1">基本信息</RadioButton>
 								<RadioButton value="2">账号评价（{baseInfoList && baseInfoList.degree_count || 0}）<MarkMessage {...messageInfo.degree} /></RadioButton>
-								<RadioButton value="3">近期应约价 （{baseInfoList && baseInfoList.price_count || 0}）</RadioButton>
+								<RadioButton value="3">近期应约 （{baseInfoList && baseInfoList.price_count || 0}）</RadioButton>
 							</RadioGroup>
 						</div>
 						<div >
@@ -59,6 +59,7 @@ class AccountDetails extends Component {
 								showkey == 2 ? <AccountDetailsAccountEvalua degreeList={degreeList} getDegreeList=
 									{getDegreeList} actions={actions} account_id={account_id} /> :
 									showkey == 3 ? <AccountDetailsRecentPrice recentReservationOrderPriceList={recentReservationOrderPriceList}
+										baseInfoList={baseInfoList}
 										actions={actions} account_id={account_id} />
 										: null}
 						</div>
