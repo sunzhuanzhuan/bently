@@ -93,6 +93,10 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
+		"/api/export/account/prepayment_account": {
+			"target": "http://192.168.20.51:7300/mock/5d03169af82ced0021c9fc67/api/v1/exportData",
+			"changeOrigin": true
+		},
 		"/api": {
 			"target": "http://nb.dev-weiboyi.com",
 			"changeOrigin": true
