@@ -5,28 +5,38 @@ import api from "../../../../api";
 class PayAdvanced extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			itemInfo: {}
+		};
 	}
 
 	componentDidMount = () => {
-		const { user_id } = this.props;
+		const { account_id } = this.props;
 		this.isMount = true;
 
-		if (user_id) {
-			api.get('export/account/prepayment_account', { params: { account_ids: user_id } }).then(res => {
-				const { data, code } = res;
+		if (account_id) {
+			api.get('export/account/prepayment_account', { params: { account_ids: account_id } }).then(res => {
+				const { data = {}, code } = res;
 				if(code !== 200) return;
-				
+
+				const { items = [] } = data;
+				const itemInfo = items.find(item => item.account_id === account_id) || {};
+
+				this.setState({itemInfo});
 			})
 		}
 	}
 
 	render() {
-		const { title = "提前打款", user_id = '' } = this.props;
+		const { title = "提前打款", account_id = '' } = this.props;
+		const { itemInfo } = this.state;
 
-		return (
-			<div className='pay_advanced_wrapper'>{`${title} ${user_id}`}</div>
-		);
+		if(itemInfo.account_id === account_id && itemInfo.is_prepayment === 1)
+			return (
+				<div className='pay_advanced_wrapper'>{title}</div>
+			);
+
+		return null;
 	}
 }
 

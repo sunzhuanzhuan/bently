@@ -169,7 +169,7 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为是否提前打款标示 */}
 								<LazyLoad once overflow>
-									<PayAdvanced user_id={user_id} />
+									<PayAdvanced account_id={account_id} />
 								</LazyLoad>
 							</div>
 						</AccountInfos>
