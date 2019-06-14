@@ -14,8 +14,9 @@ class PayAdvanced extends PureComponent {
 
 		if (user_id) {
 			api.get('export/account/prepayment_account', { params: { account_ids: user_id } }).then(res => {
-				const { data } = res
-
+				const { data, code } = res;
+				if(code !== 200) return;
+				
 			})
 		}
 	}
