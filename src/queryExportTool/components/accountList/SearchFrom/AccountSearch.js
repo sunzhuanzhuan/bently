@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
 import ItemLable from './ItemLable';
 import InputAndSlider from './InputAndSlider/InputAndSliderNew'
 import Search from './Search'
@@ -7,15 +7,20 @@ import debounce from 'lodash/debounce';
 import './index.less';
 import FilterCommon from './FilterCommon'
 import AccountSort from "@/queryExportTool/components/accountList/SearchFrom/AccountSort";
+import SelectedItem from './SelectedItems'
+import { objectToArray } from '@/util'
+import MarkMessage from "../../../base/MarkMessage";
+import Cookie from 'js-cookie'
+
 import {
 	priceMarks,
 	followersCountMarks
 } from '@/queryExportTool/constants/searchFilter'
-
-const LayoutSearch = ({ name, children }) => {
+const { TabPane } = Tabs;
+const LayoutSearch = ({ name, children, width }) => {
 	return (
 		<Row className="layout-search-box">
-			<div className="lable">
+			<div className="lable" style={{ width: width }}>
 				<div>{name}：</div>
 			</div>
 			<div>
@@ -55,13 +60,17 @@ class AccountSearch extends React.Component {
 				value: [price.bar.min, price.bar.max],
 				selectValue: -1
 			},
-			selectedItems: {}
+			selectedItems: {},
+			isShowMore: false,
+			changTabNumber: '1',
+			searchSource: 1,
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
 	}
-	onFilterSearch = (values = {}) => {
+	onFilterSearch = (values = {}, ischangTab) => {
 		const params = this.props.form.getFieldsValue();
+		const { searchSource } = this.state
 		const { sku_price_valid, follower_count } = params;
 		if (sku_price_valid && sku_price_valid.length > 0) {
 			params.sku_price_valid_from = sku_price_valid[0].format('YYYY-MM-DD')
@@ -89,7 +98,12 @@ class AccountSearch extends React.Component {
 		if (!params.sku_open_quote_price) {
 			params.sku_open_quote_price = undefined;
 		}
-		this.props.onFilterSearch({ ...params, ...values })
+		this.props.onFilterSearch({ search_source: searchSource, ...params, ...values })
+	}
+	batchUpdateSelectedItems = (selectedItems) => {
+		this.setState({
+			selectedItems: { ...this.state.selectedItems, ...selectedItems }
+		})
 	}
 	onItemLableChange = (id, name, { optionsNames: names }, needReset) => {
 		let params, clear = true;
@@ -102,15 +116,14 @@ class AccountSearch extends React.Component {
 			clear = false
 		}
 		this.setState({ selectedItems })
-		// this.props.onFilter()
-		if(needReset){
+		if (needReset) {
 			params = this.accountSort.reset(clear)
 		}
 
 		this.onFilterSearch(params);
 	}
 
-	resetFilter = (id) => {
+	resetFilter = (id, params) => {
 		const urlAll = this.props.match.url
 		if (id) {
 			const _selectedItems = this.state.selectedItems
@@ -125,6 +138,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
+		this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {
 		this.onChange(params)
@@ -148,9 +162,32 @@ class AccountSearch extends React.Component {
 			}
 		})
 	}
+	changeTab = (value) => {
+		this.setState({
+			changTabNumber: value,
+			isShowMore: false
+		})
+
+		//查询数据
+		this.setState({
+			searchSource: value
+		}, () => {
+			//清空数据
+			this.resetFilter(null, this.accountSort.reset())
+
+		})
+
+	}
+	isShowMoresSet = () => {
+		const { isShowMore } = this.state
+		this.setState({
+			isShowMore: !isShowMore
+		})
+	}
+
 	render() {
-		const { selectedItems } = this.state;
-		const { form, match, history, location, keyword } = this.props;
+		const { selectedItems, isShowMore, changTabNumber } = this.state;
+		const { form, match, history, location, keyword, } = this.props;
 		const { getFieldDecorator } = form;
 		const { filterOptions = {} } = this.props.queryExportToolReducer;
 		const { params } = match;
@@ -159,16 +196,40 @@ class AccountSearch extends React.Component {
 		const _priceMarks = priceMarks[platformType] || priceMarks['default'];
 		const _followersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
 		const {
-			category, group, operation_tag, grouped_sku_types = {}
+			category, group, operation_tag, grouped_sku_types = {}, order_industry_category
 		} = filterOptions[platformType] || {};
 		//参考报价在平台1，2，3时，不现实下拉选择
 		const isShowSelectForPrice = [1, 2, 3].indexOf(parseInt(platformType, 10)) !== -1;
 		price.options = grouped_sku_types[platformType] || []
 		const { grouped_platforms = [] } = group;
-		return <div>
-			<Search keyword={keyword} form={form}
-				onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
-			></Search>
+
+		const historyFrom = <div>
+			{order_industry_category && <LayoutSearch name=
+				{<span>
+					历史推广行业
+					<Tooltip placement="top"
+						getPopupContainer={() => document.querySelector('.query-export-tool')}
+						title={'账号在微播易合作过的客户所属行业'}>
+						<Icon type="question-circle" theme="filled" style={{ color: '#1890ff' }} />
+					</Tooltip>
+				</span>
+				} width='115px'>
+				{getFieldDecorator('order_industry_category')(
+					<ItemLable
+						isTooltip={true}
+						onClick={(names) => this.onItemLableChange('order_industry_category', '历史推广行业', names)}
+						// id='operation_tag'
+						tagsArray={order_industry_category}
+					/>
+				)}
+			</LayoutSearch>}
+
+		</div>
+
+		const commSearch = <Search keyword={keyword} form={form}
+			onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
+		></Search>
+		const allSearch = <div>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
 				{getFieldDecorator('classification_id')(
 					<ItemLable
@@ -230,9 +291,63 @@ class AccountSearch extends React.Component {
 							selectList={[{ id: -1, name: '请选择报价类型' }, ...price.options]} />
 					)}
 				</div>
-			</LayoutSearch>}
-			<FilterCommon selectedItems={selectedItems} {...this.props} resetFilter={this.resetFilter} onFilter={this.onFilterSearch} />
-			<AccountSort ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
+			</LayoutSearch>
+			}
+			<FilterCommon
+				batchUpdateSelectedItems={this.batchUpdateSelectedItems}
+				onChange={this.onItemLableChange}
+				selectedItems={selectedItems}
+				{...this.props}
+				resetFilter={this.resetFilter}
+				onFilter={this.onFilterSearch}
+			/>
+		</div>
+
+		const historyStyle = Cookie.get('isLoginedHistoryQueryTool') ? {} : {
+
+		}
+		return <div id='js-account-seach-id'>
+
+			<div className='history-new-box'>
+				<div className='new-box-img'>
+					<img src='http://img.weiboyi.com/vol1/1/102/124/n/v/rp7846pp75sn11r99p5o506o4op229o2/new.png' />
+				</div>
+			</div>
+			<Tabs type="card"
+				className='query-tool-search-tab'
+				activeKey={changTabNumber} onChange={this.changeTab}
+			>
+				<TabPane tab="全库账号" key="1" >
+					{changTabNumber == 1 ? <div>
+						{commSearch}
+						{allSearch}
+					</div> : null}
+
+				</TabPane>
+				<TabPane tab={
+					<div className='big-zindex-box'>
+						历史成交账号
+					</div>} key="2" >
+
+					{changTabNumber == 2 ? <div>
+						{commSearch}
+						{historyFrom}
+						{isShowMore ? <div >
+							{allSearch}
+						</div> : null}
+					</div> : null}
+
+				</TabPane>
+			</Tabs>
+
+			{changTabNumber == 2 ? <div className='search-more' onClick={this.isShowMoresSet}>
+				<div className='search-more-text'>
+					<div className='text'>{isShowMore ? '收起' : '更多筛选条件'}</div>
+					<div><Icon type={isShowMore ? 'up' : "down"} className='search-more-icon' /></div>
+				</div>
+			</div> : null}
+			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
+			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
 }

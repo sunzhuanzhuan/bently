@@ -35,10 +35,10 @@ export default class AccountSort extends Component {
 		let params = {}
 		const { filter } = groupBySorter[this.props.group || '1']
 		const { check } = filter
-		check.forEach(({name}) => params[name] = undefined)
+		check.forEach(({ name }) => params[name] = undefined)
 		for (let key in this.child) {
-			if(!this.child.hasOwnProperty(key)) continue
-			params = {...params, ...this.child[key].reset(clear)}
+			if (!this.child.hasOwnProperty(key)) continue
+			params = { ...params, ...this.child[key].reset(clear) }
 		}
 		this.setState(params)
 		return params
@@ -52,8 +52,12 @@ export default class AccountSort extends Component {
 	}
 
 	render() {
-		const { group = '1' } = this.props
+		const { group = '1', changTabNumber } = this.props
 		const { filter, sorter } = groupBySorter[group]
+		const changeSorter = changTabNumber == 1 ? sorter : {
+			...sorter,
+			default: {},
+		}
 		const { drop, check } = filter
 		return <div className='account-header-sort-container'>
 			<section className='sort-base-items'>
@@ -65,7 +69,7 @@ export default class AccountSort extends Component {
 			</section>
 			<Divider type="vertical" />
 			<section className='sort-diff-items'>
-				<SortGroup ref={node => this.child.sortGroup = node} sorter={sorter} onSort={this.sort} />
+				<SortGroup ref={node => this.child.sortGroup = node} sorter={changeSorter} onSort={this.sort} />
 			</section>
 		</div>
 	}
