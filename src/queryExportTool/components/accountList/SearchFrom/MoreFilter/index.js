@@ -7,6 +7,7 @@ import {
 	genderOptions,
 	mediaTypeOptions
 } from '@/queryExportTool/constants/searchFilter'
+import InputArr from "./InputArr";
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
@@ -176,7 +177,9 @@ class MoreFilter extends Component {
 							{...formItemLayout}
 							label={'账号简介'}>
 							{getFieldDecorator('introduction')(
-								<Input onChange={(e) => onChange('introduction', '账号简介', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+								<InputArr
+									onChange={(value) => onChange('introduction', '账号简介', { optionsNames: value })}
+									placeholder={'请输入关键词,多个空格隔开'} />
 							)}
 						</FormItem>
 					</Col>}
@@ -185,7 +188,7 @@ class MoreFilter extends Component {
 							{...formItemLayout}
 							label={'认证信息'}>
 							{getFieldDecorator('verification_info')(
-								<Input onChange={(e) => onChange('verification_info', '认证信息', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+								<InputArr onChange={(value) => onChange('verification_info', '认证信息', { optionsNames: value })} placeholder={'请输入关键词,多个空格隔开'} />
 							)}
 						</FormItem>
 					</Col>}
@@ -194,7 +197,7 @@ class MoreFilter extends Component {
 							{...formItemLayout}
 							label={'合作须知'}>
 							{getFieldDecorator('cooperation_tips')(
-								<Input onChange={(e) => onChange('cooperation_tips', '合作须知', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+								<InputArr onChange={(value) => onChange('cooperation_tips', '合作须知', { optionsNames: value })} placeholder={'请输入关键词,多个空格隔开'} />
 							)}
 						</FormItem>
 					</Col>}
@@ -203,7 +206,7 @@ class MoreFilter extends Component {
 							{...formItemLayout}
 							label={'提及品牌词'}>
 							{getFieldDecorator('trademark_name')(
-								<Input onChange={(e) => onChange('trademark_name', '提及品牌词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+								<InputArr onChange={(value) => onChange('trademark_name', '提及品牌词', { optionsNames: value })} placeholder={'请输入关键词,多个空格隔开'} />
 							)}
 						</FormItem>
 					</Col>}
@@ -212,7 +215,7 @@ class MoreFilter extends Component {
 							{...formItemLayout}
 							label={'图文热词'}>
 							{getFieldDecorator('hotword_name')(
-								<Input onChange={(e) => onChange('hotword_name', '图文热词', { optionsNames: e.target.value })} placeholder={'请输入关键词,多个空格隔开'} />
+								<InputArr onChange={(value) => onChange('hotword_name', '图文热词', { optionsNames: value })} placeholder={'请输入关键词,多个空格隔开'} />
 							)}
 						</FormItem>
 					</Col>}
