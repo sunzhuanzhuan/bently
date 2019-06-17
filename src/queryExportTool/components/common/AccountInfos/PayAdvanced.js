@@ -15,7 +15,7 @@ class PayAdvanced extends PureComponent {
 		this.isMount = true;
 
 		if (account_id) {
-			api.get('export/account/prepayment_account', { params: { account_ids: account_id } }).then(res => {
+			api.get('export/account/getPrepaymentAccount', { params: { account_ids: account_id } }).then(res => {
 				const { data = {}, code } = res;
 				if(code !== 200) return;
 
