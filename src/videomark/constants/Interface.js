@@ -5,4 +5,7 @@ export default {
     getSaleList: '/dataProcessing/order/getSalesManager',
     getIndustryList: '/industry/getAll',
     getBrandList: '/dataProcessing/order/getBrand',
+    getBrandManageList: 'dataProcessing/brand/getBrandList',
+    addBrand: '/dataProcessing/brand/addBrand',
+    uodateBrand: '/dataProcessing/brand/uodateBrand',
 }
