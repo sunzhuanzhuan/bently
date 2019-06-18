@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/brandManage'
 import { Table, Spin, Button } from 'antd';
 import BrandHeader from '../components/BrandManage/BrandHeader';
+import BrandModal from '../components/BrandManage/BrandModal';
 import './brandManage.less';
 
 class BrandManage extends Component {
@@ -100,8 +101,12 @@ class BrandManage extends Component {
         })
     }
 
+    isShowModal = modalType => {
+        this.setState({modalType});
+    }
+
     render() {
-        const { loading } = this.state;
+        const { loading, modalType } = this.state;
         const { brandManageList } = this.props;
         const pagination = {
             onChange: (current) => {
@@ -110,9 +115,10 @@ class BrandManage extends Component {
             total: 100,
             pageSize: 20,
             current: 1,
-        }
+        };
+        console.log('slkdjflsdkflskdfj', modalType)
         return [
-            <BrandHeader key='brandHeader' />,
+            <BrandHeader key='brandHeader' isShowModal={this.isShowModal} />,
             <Spin
                 key='spinWrapper'
                 spinning={loading}
@@ -127,7 +133,13 @@ class BrandManage extends Component {
                     pagination={pagination}
                     scroll={{ x: 1300 }}
                 />
-            </Spin>
+            </Spin>,
+            modalType ? 
+                <BrandModal 
+                    ke='brandModal' 
+                    modalType={modalType} 
+                    isShowModal={this.isShowModal}
+                /> : null
         ]
     }
 }

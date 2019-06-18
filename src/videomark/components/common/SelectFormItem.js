@@ -14,14 +14,16 @@ class SelectFormItem extends Component {
     }
     render() {
         const { getFieldDecorator, options, label, keyName, onChange,
-            initObj = {}, formItemLayout = {}
+            initObj = {}, formItemLayout = {}, showSearch, filterOption
         } = this.props
         return <FormItem {...formItemLayout} label={label}>
             {getFieldDecorator(keyName, initObj)(
                 <Select
+                    showSearch={showSearch}
                     placeholder="请选择"
                     className="select-width"
                     onChange={onChange}
+                    filterOption={filterOption}
                 >
                     {
                         options.map(item => {

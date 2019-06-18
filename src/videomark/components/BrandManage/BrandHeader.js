@@ -28,7 +28,7 @@ class BrandHeader extends Component {
     }
 
     render() {
-        const { form } = this.props;
+        const { form, isShowModal } = this.props;
         const { getFieldDecorator } = form;
         const levelInit = {
             initialValue: undefined,
@@ -63,7 +63,7 @@ class BrandHeader extends Component {
                     </FormItem>
                 </Form>
                 <Button key='searchBtn' type='primary' onClick={this.handleSearch}>搜索</Button>
-                <Button key='addBtn' type='primary'>添加品牌</Button>
+                <Button key='addBtn' type='primary' onClick={() => {isShowModal('add')}}>添加品牌</Button>
             </div>
         )
     }
