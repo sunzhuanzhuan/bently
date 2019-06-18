@@ -17,15 +17,20 @@ class BrandModal extends Component {
     }
 
     handleSave = () => {
-        const { form } = this.props;
+        const { form, handleAddItem } = this.props;
         form.validateFields((err, values) => {
             if(err) return;
 
+            handleAddItem(values);
         })
     }
 
+    handleSearchParent = value => {
+        console.log('sldkfjlskdjflsjdf', value)
+    }
+
     render() {
-        const { modalType, form, isShowModal } = this.props;
+        const { modalType, itemInfo, form, isShowModal } = this.props;
         const { getFieldDecorator } = form;
         const formItemLayout = {
             labelCol: {span: 4},
@@ -35,18 +40,18 @@ class BrandModal extends Component {
             initialValue: undefined,
             rules: [{
                 required: true,
-                message: '请选择内容形式'
+                message: '请选择品牌类型'
             }]
         };
         const signInit = {
             initialValue: undefined,
             rules: [{
                 required: true,
-                message: '请选择内容形式'
+                message: '请选择是否标注可用'
             }]
         };
         const brandLevel = form.getFieldValue('level');
-        console.log('sdlkfjsldkfjs', modalType)
+
         return (
             <Modal
                 visible
@@ -62,7 +67,7 @@ class BrandModal extends Component {
                             initialValue: undefined,
                             rules: [{
                                 required: true,
-                                message: '请选择内容形式'
+                                message: '请输入品牌名称'
                             }]
                         })(
                             <Input />
@@ -89,18 +94,26 @@ class BrandModal extends Component {
                                     <Input />
                                 )}
                             </FormItem> : 
-                            <SelectFormItem
-                                showSearch
-                                getFieldDecorator={getFieldDecorator}
-                                label={'选择主品牌'}
-                                keyName={'industry_code'}
-                                options={this.signOption}
-                                initObj={signInit}
-                                formItemLayout={formItemLayout}
-                                filterOption={(input, option) =>
-                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
-                            />
+                            <FormItem label="选择主品牌" {...formItemLayout}>
+                                {getFieldDecorator('industry_code', {
+                                    initialValue: undefined,
+                                    rules: [{
+                                        required: true,
+                                        message: '请选择主品牌'
+                                    }]
+                                })(
+                                    <Select
+                                        showSearch
+                                        placeholder='请选择'
+                                        defaultActiveFirstOption={false}
+                                        filterOption={false}
+                                        onSearch={this.handleSearchParent}
+                                        notFoundContent={null}
+                                    >
+                                        {/* {options} */}
+                                    </Select>
+                                )}
+                            </FormItem>
                     }
                     
                     <FormItem label="品牌序列号" {...formItemLayout}>

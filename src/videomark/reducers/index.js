@@ -8,11 +8,6 @@ import {
     brandList,
     brandListForModal
 } from './task'
-import {
-    brandManageList,
-    addBrandManage,
-    editBrandManage,
-} from './brandManage'
 
 export default combineReducers({
     platformList,
@@ -22,7 +17,4 @@ export default combineReducers({
     industryList,
     brandList,
     brandListForModal,
-    brandManageList,
-    addBrandManage,
-    editBrandManage,
 })

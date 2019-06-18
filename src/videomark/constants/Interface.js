@@ -7,5 +7,5 @@ export default {
     getBrandList: '/dataProcessing/order/getBrand',
     getBrandManageList: 'dataProcessing/brand/getBrandList',
     addBrand: '/dataProcessing/brand/addBrand',
-    uodateBrand: '/dataProcessing/brand/uodateBrand',
+    uodateBrand: '/dataProcessing/brand/updateBrand',
 }

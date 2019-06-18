@@ -41,6 +41,7 @@ class BrandManage extends Component {
                 key: 'level',
                 width: 100,
                 align: 'center',
+                render: data => <div>{data === 1 ? '主品牌' : '子品牌'}</div>
             },
             {
                 title: '所属主品牌',
@@ -76,6 +77,7 @@ class BrandManage extends Component {
                 key: 'is_signed_available',
                 width: 100,
                 align: 'center',
+                render: data => <div>{data === 1 ? '可用' : '不可用'}</div>
             },
             {
                 title: '添加/修改时间',
@@ -90,24 +92,28 @@ class BrandManage extends Component {
                 key: 'operate',
                 width: 100,
                 align: 'center',
+                render: (_, record) => {
+                    return <Button type='primary' onClick={ () => {this.isShowModal('edit', record)} }>修改</Button>
+                }
             },
         ]
     }
 
     componentDidMount() {
-        this.setState({loading: true});
-        this.props.actions.getBrandManageList().then(() => {
-            this.setState({loading: false});
-        })
+        this.props.getBrandManageList()
     }
 
-    isShowModal = modalType => {
-        this.setState({modalType});
+    isShowModal = (modalType, itemInfo) => {
+        this.setState({modalType, itemInfo});
+    }
+
+    handleAddItem = payload => {
+        this.props.addBrand(payload);
     }
 
     render() {
-        const { loading, modalType } = this.state;
-        const { brandManageList } = this.props;
+        const { modalType, itemInfo } = this.state;
+        const { brandList, progress } = this.props;
         const pagination = {
             onChange: (current) => {
                 
@@ -116,19 +122,19 @@ class BrandManage extends Component {
             pageSize: 20,
             current: 1,
         };
-        console.log('slkdjflsdkflskdfj', modalType)
+
         return [
             <BrandHeader key='brandHeader' isShowModal={this.isShowModal} />,
             <Spin
                 key='spinWrapper'
-                spinning={loading}
+                spinning={progress === 'loading'}
                 tip="加载中，请稍后..."
                 size="large"
             >
                 <Table
                     key='list'
                     columns={this.columns}
-                    dataSource={brandManageList}
+                    dataSource={brandList}
                     rowKey={record => record.id}
                     pagination={pagination}
                     scroll={{ x: 1300 }}
@@ -138,23 +144,26 @@ class BrandManage extends Component {
                 <BrandModal 
                     ke='brandModal' 
                     modalType={modalType} 
-                    isShowModal={this.isShowModal}
+                    itemInfo={itemInfo} 
+                    isShowModal={this.isShowModal} 
+                    handleAddItem={this.handleAddItem}
                 /> : null
         ]
     }
 }
 
-const mapStateToProps = (state) => ({
-    brandManageList: state.videoMark.brandManageList || [],
-    addInfo: state.videoMark.addBrandManage || {},
-    editInfo: state.videoMark.editBrandManage || {}
-})
+const mapStateToProps = (state) => {
+    const { brandManageReducer = {} } = state;
+    const { brandList, progress } = brandManageReducer;
 
-const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({
+    return { brandList, progress };
+}
+
+const mapDispatchToProps = (dispatch) => (
+    bindActionCreators({
         ...actions
     }, dispatch)
-})
+)
 
 export default connect(
     mapStateToProps,
