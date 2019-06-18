@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/brandManage'
-import { Table, Spin } from 'antd';
+import { Table, Spin, Button } from 'antd';
+import BrandHeader from '../components/BrandManage/BrandHeader';
 import './brandManage.less';
 
 class BrandManage extends Component {
@@ -111,7 +112,7 @@ class BrandManage extends Component {
             current: 1,
         }
         return [
-            <div key='title' className='brand_manage_title'>品牌管理</div>,
+            <BrandHeader key='brandHeader' />,
             <Spin
                 key='spinWrapper'
                 spinning={loading}
@@ -119,13 +120,13 @@ class BrandManage extends Component {
                 size="large"
             >
                 <Table
-                key='list'
-                columns={this.columns}
-                dataSource={brandManageList}
-                rowKey={record => record.id}
-                pagination={pagination}
-                scroll={{ x: 1300 }}
-            />
+                    key='list'
+                    columns={this.columns}
+                    dataSource={brandManageList}
+                    rowKey={record => record.id}
+                    pagination={pagination}
+                    scroll={{ x: 1300 }}
+                />
             </Spin>
         ]
     }
