@@ -19,6 +19,14 @@ class BrandHeader extends Component {
         ];
     }
 
+    handleSearch = () => {
+        const { form } = this.props;
+
+        form.validateFields((err, values) => {
+            if(err) return;
+        })
+    }
+
     render() {
         const { form } = this.props;
         const { getFieldDecorator } = form;
@@ -54,7 +62,7 @@ class BrandHeader extends Component {
                         )}
                     </FormItem>
                 </Form>
-                <Button key='searchBtn' type='primary'>搜索</Button>
+                <Button key='searchBtn' type='primary' onClick={this.handleSearch}>搜索</Button>
                 <Button key='addBtn' type='primary'>添加品牌</Button>
             </div>
         )
