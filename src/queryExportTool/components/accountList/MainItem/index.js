@@ -93,7 +93,7 @@ export default class MainItem extends PureComponent {
 		const Is_Red = group_type == 4
 		const Is_Other = group_type == 5
 		const Is_wei = is_famous == 2
-		console.log('slkdfjlsdkjflsdjf', user_id)
+
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
 			{/* {checkNode} */}
 			{isDeleteAction ?
