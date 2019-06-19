@@ -131,6 +131,7 @@ class AccountTableSelect extends Component {
 			IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 		}
 		if (seleced) {
+
 			let faceImg = $("#avatar_" + (isShowTypeByList ? "list" : "") + key.accountId);
 			CartFly.show({
 				start: faceImg,
@@ -213,7 +214,6 @@ class AccountTableSelect extends Component {
 				return record.not_exist == 1 ?
 					<NoExist name={record.sns_name || record.account_id || record.sns_id} />
 					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} actions={actions} />
-
 			}
 		}];
 		return (

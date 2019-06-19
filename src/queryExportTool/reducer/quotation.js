@@ -83,7 +83,7 @@ export const quotationAccountList = handleActions({
 				[type]: state.tabList[type] - 1
 
 			},
-			accounts: accountsFilter,
+			accountList: accountsFilter,
 			total: state.total - 1,
 			[numberType]: state[numberType] - 1,
 			follower_count: state.follower_count - follower_count
@@ -94,6 +94,7 @@ export const quotationAccountList = handleActions({
 		const { account_count, result } = data
 		return {
 			...result,
+			is_select: result.accountList.filter(one => one.isSeleted == 1).map(one => one.accountId),
 			tabList: data.statistic,
 			total: data.statistic.total,
 			pagination: data.pagination,
@@ -104,7 +105,7 @@ export const quotationAccountList = handleActions({
 }, {
 		total: 0,
 		tabList: {},
-		accounts: [],
+		accountList: [],
 		is_select: [],
 		yuyueNum: 0,
 		weiNum: 0

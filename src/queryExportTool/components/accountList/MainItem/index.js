@@ -113,8 +113,8 @@ export default class MainItem extends PureComponent {
 								</div>
 								{/* 此处是上下架判断 */}
 								<div style={{ marginTop: 2 }}>
-									<div><StatusAB title="A" status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStrings} /></div>
-									<div><StatusAB title="B" status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStrings} /></div>
+									<div><StatusAB title="A" status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStringList} /></div>
+									<div><StatusAB title="B" status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStringList} /></div>
 								</div>
 							</div>
 						</div>
