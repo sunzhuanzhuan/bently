@@ -138,6 +138,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
+		this.onFilterCommon.reset()
 		this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {
@@ -300,6 +301,7 @@ class AccountSearch extends React.Component {
 				{...this.props}
 				resetFilter={this.resetFilter}
 				onFilter={this.onFilterSearch}
+				ref={node => this.onFilterCommon = node}
 			/>
 		</div>
 
