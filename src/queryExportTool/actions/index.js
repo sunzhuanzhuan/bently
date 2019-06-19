@@ -15,7 +15,6 @@ export * from './download'
 } = createHttpAction('getCompanyList', Interface.getCompanyList)*/
 //获取账号列表信息
 export const getAccountList = (params) => (dispatch) => {
-	console.log("TCL: getAccountList -> params", params)
 	const interfaceKey = {
 		1: Interface.weixinSearch,//微信
 		2: Interface.xinaSearch,//微博
@@ -24,10 +23,8 @@ export const getAccountList = (params) => (dispatch) => {
 		5: Interface.otherPlatformSearch//其他平台
 	}
 
-	return api.post(interfaceKey[1], { params }).then((response) => {
+	return api.post(interfaceKey[params.groupType], params).then((response) => {
 		const { data, } = response
-		console.log("TCL: getAccountList -> data", data)
-
 		dispatch({
 			type: getAccountList_success,
 			payload: {

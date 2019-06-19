@@ -75,7 +75,7 @@ export const quotationAccountList = handleActions({
 	},
 	[accoutActions.deleteFromCart_success]: (state, action) => {
 		const { type, data, follower_count, numberType } = action.payload
-		const accountsFilter = state.accounts.filter(one => !data.includes(one.account_id))
+		const accountsFilter = state.accountList.filter(one => !data.includes(one.account_id))
 		return {
 			...state,
 			tabList: {
@@ -91,11 +91,10 @@ export const quotationAccountList = handleActions({
 	},
 	[accoutActions.getQuotationAccountSearch_success]: (state, action) => {
 		const { data } = { ...action.payload }
-		const { account_count } = data
+		const { account_count, result } = data
 		return {
-			...action.payload.data,
-			accounts: [...data.accounts],
-			tabList: { ...data.statistic },
+			...result,
+			tabList: data.statistic,
 			total: data.statistic.total,
 			pagination: data.pagination,
 			yuyueNum: account_count && account_count[0] && account_count[0].account_id_count || 0,

@@ -55,7 +55,7 @@ class QuotationDetail extends Component {
 				})
 			}
 		})
-		getQuotationAccountSearch({ quotation_id: quotation_id, page: 1, page_size: 20 }).then(results => {
+		getQuotationAccountSearch({ quotation_id: quotation_id, currentPage: 1, pageSize: 20 }).then(results => {
 			this.setState({
 				isLoading: false,
 			})
@@ -122,13 +122,13 @@ class QuotationDetail extends Component {
 			isLoading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		const data = { ...search, page: 1, group_type: key, quotation_id: search.quotation_id }
+		const data = { ...search, page: 1, groupType: key, quotation_id: search.quotation_id }
 		this.props.history.push({
 			search: `?` + qs.stringify(data)
 		})
 		this.setLoading()
 		if (key == 10) {
-			delete data.group_type
+			delete data.groupType
 		}
 		this.props.actions.getQuotationAccountSearch(data).then(() => {
 			this.setState({
@@ -154,9 +154,9 @@ class QuotationDetail extends Component {
 				follower_count: follower_count
 			}).then((res) => {
 				message.success('删除成功', 2);
-				let data = { group_type: selectKey, ...search }
+				let data = { groupType: selectKey, ...search }
 				if (selectKey == 10) {
-					data.group_type = 0
+					data.groupType = 0
 				}
 				//暂时搜索
 				this.props.actions.getQuotationAccountSearch(data)
@@ -175,7 +175,7 @@ class QuotationDetail extends Component {
 	serachAction = (value) => {
 		const { selectKey } = this.state
 		if (selectKey == 10) {
-			value.group_type = 0
+			value.groupType = 0
 		}
 		this.setLoading()
 		this.props.actions.getQuotationAccountSearch(value).then(() => {

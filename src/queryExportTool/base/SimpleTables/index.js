@@ -10,26 +10,26 @@ export default class SimpleTables extends Component {
 	componentWillMount() { }
 
 	render() {
-		const { data = [], columsNum = ['fabu'], Is_wei, dataTime, tableFooterText, isLeft, platform_id } = this.props
+		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft, platformId } = this.props
 		const config = {
 			pagination: false,
 			size: "middle",
 			//footer: () => <span>价格有效期：{dataTime}</span> 
 		}
-		const videoKey = platform_id == 115 ? 'videoStart' : 'video'
+		const videoKey = platformId == 115 ? 'videoStart' : 'video'
 		//微信平台-公共列项
 		const WeChat = [{
 			title: <span>报价/阅读单价</span>,
-			dataIndex: 'sku_type_name',
-			key: "sku_type_name",
+			dataIndex: 'skuTypeName',
+			key: "skuTypeName",
 			align: 'center',
 		}, {
 			title: <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布<MarkMessage {...messageInfo['fabu']} />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
-			dataIndex: 'price_1',
-			key: 'price_1',
+			dataIndex: 'price1',
+			key: 'price1',
 			align: 'center',
 			render: (text, record) => {
-				return <span><ValueStyle value={Is_wei ? numeral(record.price_1).format('0,0') : getQuoteNumber(record.price_1)} type="1" product_on_shelf_status={record.product_on_shelf_status} unit="元" />/<ValueStyle value={getUnitPrice(record.avg_price_1)} format='oneUnivalent' /></span>
+				return <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='oneUnivalent' /></span>
 			}
 		}]
 		const cloumsMap = {
@@ -38,11 +38,11 @@ export default class SimpleTables extends Component {
 			//微信平台-预约数据项
 			"fabu-yuyue": [...WeChat, {
 				title: <span>原创+发布<MarkMessage {...messageInfo['yuanchuangFabu']} /></span>,
-				dataIndex: 'price_2',
-				key: 'price_2',
+				dataIndex: 'price2',
+				key: 'price2',
 				align: 'center',
 				render: (text, record) => {
-					return <span><ValueStyle value={Is_wei ? numeral(record.price_2).format('0,0') : getQuoteNumber(record.price_2)} type="1" product_on_shelf_status={record.product_on_shelf_status} unit="元" />/<ValueStyle value={getUnitPrice(record.avg_price_2)} format='oneUnivalent' /></span>
+					return <span><ValueStyle value={IsWei ? numeral(record.price2).format('0,0') : getQuoteNumber(record.price2)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' /></span>
 				}
 			}],
 			//微信平台-阅读点赞量列
@@ -54,55 +54,55 @@ export default class SimpleTables extends Component {
 				width: "33.3%",
 			}, {
 				title: '阅读量',
-				dataIndex: 'value_1',
-				key: 'value_1',
+				dataIndex: 'value1',
+				key: 'value1',
 				align: 'center',
 				width: "33.3%",
 				render: (text, record) => {
-					return <ValueStyle value={getWeixinAvg(record.value_1)} fontSize="13px" />
+					return <ValueStyle value={getWeixinAvg(record.value1)} fontSize="13px" />
 				}
 			}, {
 				title: '点赞量',
-				dataIndex: 'value_2',
-				key: "value_2",
+				dataIndex: 'value2',
+				key: "value2",
 				align: 'center',
 				width: "33.3%",
 				render: (text, record) => {
-					return <ValueStyle value={getWeixinAvg(record.value_2)} fontSize="13px" />
+					return <ValueStyle value={getWeixinAvg(record.value2)} fontSize="13px" />
 				}
 			}],
 			//包含报价和价格，价格无平均数据列（新浪，视频）
 			'baojia': [{
 				title: '报价',
-				dataIndex: 'sku_type_name',
-				key: 'sku_type_name',
+				dataIndex: 'skuTypeName',
+				key: 'skuTypeName',
 				align: 'center',
 				width: "50%",
 			}, {
 				title: '价格',
-				dataIndex: 'price_1',
-				key: 'price_1',
+				dataIndex: 'price1',
+				key: 'price1',
 				align: 'center',
 				width: "50%",
 				render: (text, record) => {
-					return <span><ValueStyle value={Is_wei ? numeral(record.price_1).format('0,0') : getQuoteNumber(record.price_1)} type="1" product_on_shelf_status={record.product_on_shelf_status} unit="元" /></span>
+					return <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" /></span>
 				}
 			}],
 			//包含报价和价格，价格有平均数据列（视频）
 			'baojiatwo': [{
 				title: <span>报价/播放单价</span>,
-				dataIndex: 'sku_type_name',
-				key: "sku_type_name",
+				dataIndex: 'skuTypeName',
+				key: "skuTypeName",
 				align: 'center',
 				width: "60%",
 			}, {
 				title: <span>价格<MarkMessage {...messageInfo['zhuanfa']} /></span>,
-				dataIndex: 'price_1',
-				key: 'price_1',
+				dataIndex: 'price1',
+				key: 'price1',
 				align: 'center',
 				width: "40%",
 				render: (text, record) => {
-					return <span><ValueStyle value={Is_wei ? numeral(record.price_1).format('0,0') : getQuoteNumber(record.price_1)} type="1" product_on_shelf_status={record.product_on_shelf_status} unit="元" />/<ValueStyle value={getUnitPrice(record.avg_price_1)} format='univalent' /></span>
+					return <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' /></span>
 				}
 			}],
 			//新浪直发
@@ -114,21 +114,21 @@ export default class SimpleTables extends Component {
 				width: "33.3%",
 			}, {
 				title: '直发',
-				dataIndex: 'value_1',
-				key: "value_1",
+				dataIndex: 'value1',
+				key: "value1",
 				align: 'center',
 				width: "33.3%",
 				render: (text, record) => {
-					return <span><ValueStyle value={getOtherAllAvg(record.value_1)} fontSize="13px" /></span>
+					return <span><ValueStyle value={getOtherAllAvg(record.value1)} fontSize="13px" /></span>
 				}
 			}, {
 				title: '转发',
-				dataIndex: 'value_2',
-				key: "value_2",
+				dataIndex: 'value2',
+				key: "value2",
 				align: 'center',
 				width: "33.3%",
 				render: (text, record) => {
-					return <span><ValueStyle value={getOtherAllAvg(record.value_2)} fontSize="13px" /></span>
+					return <span><ValueStyle value={getOtherAllAvg(record.value2)} fontSize="13px" /></span>
 				}
 			}],
 			//视频转发
@@ -140,12 +140,12 @@ export default class SimpleTables extends Component {
 				width: "60%",
 			}, {
 				title: '数据',
-				dataIndex: 'value_1',
-				key: "value_1",
+				dataIndex: 'value1',
+				key: "value1",
 				align: 'center',
 				width: "40%",
 				render: (text, record) => {
-					return <span><ValueStyle value={getOtherAllAvg(record.value_1)} fontSize="13px" /></span>
+					return <span><ValueStyle value={getOtherAllAvg(record.value1)} fontSize="13px" /></span>
 				}
 			}],
 			//小红书视频文章列
@@ -157,21 +157,21 @@ export default class SimpleTables extends Component {
 				width: "33.3%",
 			}, {
 				title: <span>视频<MarkMessage {...messageInfo['redVideo']} /></span>,
-				dataIndex: 'value_1',
-				key: "value_1",
+				dataIndex: 'value1',
+				key: "value1",
 				align: 'center',
 				width: "33.3%",
 				render: (text, record) => {
-					return <span><ValueStyle value={getOtherAllAvg(record.value_1)} fontSize="13px" /></span>
+					return <span><ValueStyle value={getOtherAllAvg(record.value1)} fontSize="13px" /></span>
 				}
 			}, {
 				title: <span>文章<MarkMessage {...messageInfo['redBook']} /></span>,
-				dataIndex: 'value_2',
-				key: "value_2",
+				dataIndex: 'value2',
+				key: "value2",
 				align: 'center',
 				width: "33.3%",
 				render: (text, record) => {
-					return <span><ValueStyle value={getOtherAllAvg(record.value_2)} fontSize="13px" /></span>
+					return <span><ValueStyle value={getOtherAllAvg(record.value2)} fontSize="13px" /></span>
 				}
 			}],
 			"otherAvg": [{
@@ -180,7 +180,7 @@ export default class SimpleTables extends Component {
 				key: "otherAvg",
 				align: 'center',
 				render: (text, record) => {
-					//return <span><ValueStyle value={getOtherAllAvg(record.value_1)} fontSize="13px" /></span>
+					//return <span><ValueStyle value={getOtherAllAvg(record.value1)} fontSize="13px" /></span>
 				}
 			},]
 		}

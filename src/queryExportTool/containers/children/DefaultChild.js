@@ -18,21 +18,21 @@ class DefaultChild extends Component {
 	}
 	componentDidMount() {
 		this._isMounted = true;
-		const { params: { platformType: group_id } } = this.props.match
+		const { params: { platformType: groupType } } = this.props.match
 		const { getFilters, getAccountList } = this.props.actions
-		getFilters({ group_id })
+		getFilters({ groupType })
 		this.serachStart()
 
 	}
-	serachStart = (search_source, changeTab) => {
+	serachStart = (searchSource, changeTab) => {
 		const { getFilters, getAccountList } = this.props.actions
-		const { params: { platformType: group_id } } = this.props.match
+		const { params: { platformType: groupType } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
 		getAccountList({
-			group_id,
+			groupType,
 			page: 1,
-			search_source: search_source || 1,
-			page_size: search.page_size || 20,
+			searchSource: searchSource || 1,
+			pageSize: search.page_size || 20,
 			keyword: search.keyword || '',
 		}).then(results => {
 			if (this._isMounted || changeTab) {
@@ -82,7 +82,7 @@ class DefaultChild extends Component {
 				params.sku_open_quote_price[1] = ""
 			}
 		}
-		this.paramsAll = { ...this.paramsAll, ...params, group_id: platformType, page: 1, page_size: 20 }
+		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, page: 1, page_size: 20 }
 		this.props.actions.getAccountList(this.paramsAll).then(() => {
 			this.setState({
 				loading: false
@@ -108,9 +108,9 @@ class DefaultChild extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		this.props.actions.getAccountList({
-			search_source: 1,
+			searchSource: 1,
 			...this.paramsAll,
-			...params, group_id: platformType,
+			...params, groupType: platformType,
 			keyword: search.keyword || '',
 		}).then(() => {
 			this.setState({

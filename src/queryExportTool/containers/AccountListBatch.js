@@ -137,7 +137,7 @@ class AccountListBatch extends Component {
 				const exactQueryData = posts.reduce((prev, cur, index) => {
 					return {
 						data: {
-							accounts: [...prev.data.accounts, ...cur.data.accounts],
+							accounts: [...prev.data.accountList, ...cur.data.accountList],
 							is_select: [...(prev.data.is_select && prev.data.is_select || []), ...(cur.data.is_select && cur.data.is_select || [])],
 							statistic: {
 								a: {
@@ -230,7 +230,7 @@ class AccountListBatch extends Component {
 									<div>
 										<div className="batch-search-middle-line">
 											<div className="button-export">
-												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.accounts.length <= 0}>导出全部账号</Button>
+												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.accountList.length <= 0}>导出全部账号</Button>
 											</div>
 											<div className="img-action">
 												<img src={showTypeList == 1 ? images.cardActivePng : images.cardPng} width="14" onClick={() => { this.setShowTypeList(1) }} />

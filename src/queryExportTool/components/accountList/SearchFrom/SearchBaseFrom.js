@@ -35,7 +35,7 @@ class SearchBaseFrom extends Component {
 		console.log("查询的参数：", param)
 	}
 	render() {
-		console.log(this.props.accountList, 'accountListaccountListaccountListaccountList')
+		console.log(this.propsaccounts, 'accountListaccountListaccountListaccountList')
 		const defaultList = [{ id: 11, name: "常见分类" }, { id: 12, name: "运营标签" }, { id: 13, name: "粉丝数" }, { id: 14, name: "参考报价" }]
 		const defaultSelectList = [{ id: 21, name: "受众性别" }, { id: 22, name: "受众年龄" }, { id: 23, name: "受众地域" }, { id: 24, name: "真实阅读率" }]
 		const AudienceList = [{ id: 31, name: "受众兴趣" }, { id: 32, name: "受众兴趣" }, { id: 33, name: "受众兴趣" }, { id: 34, name: "受众兴趣" }, { id: 21, name: "受众性别" }, { id: 22, name: "受众年龄" }, { id: 23, name: "受众地域" }]

@@ -62,10 +62,10 @@ class SelectCarList extends Component {
 	componentDidMount() {
 		this.setLoading()
 		const { getCartSearchAll, getFilters } = this.props.actions
-		getCartSearchAll({ page: 1, page_size: 20 }).then(() => {
+		getCartSearchAll({ page: 1, pageSize: 20 }).then(() => {
 			this.setState({ isLoading: false })
 		})
-		getFilters({ group_id: 1 })
+		getFilters({ groupType: 1 })
 	}
 
 	//根据导出账号个数显示不同弹窗内容
@@ -98,14 +98,14 @@ class SelectCarList extends Component {
 	//调用查询执行函数
 	searchTab = (param) => {
 		this.setLoading()
-		if (param.group_type == 10) {
-			param.group_type = 0
+		if (param.groupType == 10) {
+			param.groupType = 0
 		}
 		const search = qs.parse(this.props.location.search.substring(1))
 		this.props.history.push({
-			search: `?` + qs.stringify({ ...param, page_size: search.page_size || 20 })
+			search: `?` + qs.stringify({ ...param, pageSize: search.pageSize || 20 })
 		})
-		this.props.actions.getCartSearchAll({ page: 1, page_size: 20, ...search, ...param }).then(() => {
+		this.props.actions.getCartSearchAll({ currentPage: 1, pageSize: 20, ...search, ...param }).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}
@@ -117,17 +117,17 @@ class SelectCarList extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		this.props.history.push({
-			search: `?` + qs.stringify({ group_type: key == 10 ? 0 : key, page_size: search.page_size || 20, is_famous: 0 })
+			search: `?` + qs.stringify({ groupType: key == 10 ? 0 : key, pageSize: search.pageSize || 20, isFamous: 0 })
 		})
 		this.setLoading()
-		this.props.actions.getCartSearchAll({ page: 1, page_size: search.page_size || 20, group_type: key == 10 ? 0 : key, is_famous: 0 }).then(() => {
+		this.props.actions.getCartSearchAll({ currentPage: 1, pageSize: search.pageSize || 20, groupType: key == 10 ? 0 : key, isFamous: 0 }).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}
 	//切换执行类型
 	changeRadio = (e) => {
 		const { cheackedKey } = this.state
-		this.searchTab({ group_type: cheackedKey, is_famous: e.target.value })
+		this.searchTab({ groupType: cheackedKey, isFamous: e.target.value })
 	}
 	//批量删除
 	remove = () => {
@@ -137,15 +137,15 @@ class SelectCarList extends Component {
 				selectedRowKeys: []
 			})
 			message.success('删除成功', 2);
-			this.searchTab({ group_type: cheackedKey })
+			this.searchTab({ groupType: cheackedKey })
 		})
 	}
 	//清空全部
 	cleanAll = () => {
 		const { cheackedKey } = this.state
-		this.props.actions.clearCart({ group_type: cheackedKey == 10 ? 0 : cheackedKey }).then((res) => {
+		this.props.actions.clearCart({ groupType: cheackedKey == 10 ? 0 : cheackedKey }).then((res) => {
 			message.success('清空成功', 2);
-			this.searchTab({ group_type: cheackedKey })
+			this.searchTab({ groupType: cheackedKey })
 		})
 	}
 	//申请通过函数
@@ -202,9 +202,9 @@ class SelectCarList extends Component {
 		const header = <div className="list-button">
 			<Button onClick={this.remove} disabled={selectedRowKeys.length <= 0}>批量删除</Button>
 			<Popconfirm placement="top" title={"你确定清空全部账号吗？"} onConfirm={this.cleanAll}>
-				<Button disabled={selectCarList.accounts && selectCarList.accounts.length <= 0}>清空全部</Button>
+				<Button disabled={selectCarList.accountList && selectCarList.accountList.length <= 0}>清空全部</Button>
 			</Popconfirm>
-			{search.is_famous > 0 ? <span style={{ marginLeft: 20, color: "#666" }}>
+			{search.isFamous > 0 ? <span style={{ marginLeft: 20, color: "#666" }}>
 				共{selectCarList.pagination && selectCarList.pagination.total}个账号
 			</span> : null}
 		</div>
@@ -260,7 +260,7 @@ class SelectCarList extends Component {
 											<div>执行类型：</div>
 										</Col>
 										<Col span={22}>
-											<RadioGroup value={search.is_famous > 0 ? Number(search.is_famous) : 0} disabled={countSum < 0} onChange={this.changeRadio}>
+											<RadioGroup value={search.isFamous > 0 ? Number(search.isFamous) : 0} disabled={countSum < 0} onChange={this.changeRadio}>
 												<RadioButton key={0} value={0}>不限</RadioButton>
 												<RadioButton key={1} value={1}>预约</RadioButton>
 												<RadioButton key={2} value={2}>微闪投</RadioButton>

@@ -16,8 +16,9 @@ export default {
 	weixinSearch: baseUrl + 'weixinSearch',
 	//批量查找账号列表
 	getBatchSearch: baseUrl + 'batchSearch',
-	//报价单列表
-	getQuotationList: baseUrl + "quotationList",
+
+	//报价单详情账号列表
+	getQuotationAccountSearch: baseUrl + "quotationList",
 	//获取sku价格及平均价格
 	getAccountPrice: baseUrl + 'account/price',
 	//获取购物车列表
@@ -33,7 +34,8 @@ export default {
 	getRecentReservationOrderPriceList: "/export/account/getRecentReservationOrderPriceList",
 	//获取购物车
 	getAccountListFromCart: '/export/account/getAccountListFromCart',
-
+	//报价单列表
+	getQuotationList: "/export/account/getQuotationList",
 	//删除购物车数据
 	removeFromCart: "/export/account/removeFromCart",
 	//添加购物车数据
@@ -51,8 +53,7 @@ export default {
 	getStencilList: "/export/account/getTemplateList",
 	//报价单详情
 	getQuotationDetail: "/export/account/getQuotationDetail",
-	//报价单详情账号列表
-	getQuotationAccountSearch: "/export/account/quotationAccountSearch",
+
 	//添加报价单
 	saveQuotation: "/export/account/saveQuotation",
 	//报价单详情批量删除

@@ -43,7 +43,7 @@ export const verificationTypeOptions = [
 		"value": "4"
 	}
 ]
-export const kol_visitor_gender_options = [
+export const kolVisitorGenderOptions = [
 	{
 		"name": "不限",
 		"value": ""
@@ -99,7 +99,7 @@ export const mediaTypeOptions = [
 	}
 ]
 
-export const kol_visitor_age_draw_options = [
+export const kolVisitorAgeDrawOptions = [
 	{
 		"name": "0-18岁",
 		"value": "501"
@@ -115,7 +115,7 @@ export const kol_visitor_age_draw_options = [
 	}, {
 		"name": "36-40岁",
 		"value": "505"
-	},{
+	}, {
 		"name": "41-45岁",
 		"value": "506"
 	}, {

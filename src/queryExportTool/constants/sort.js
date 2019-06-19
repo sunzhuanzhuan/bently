@@ -67,7 +67,7 @@ const shelfType = {
 function handleMoreList(list) {
 	return list.map(id => {
 		return {
-			value: 'sku_open_quote_price:' + id,
+			value: 'skuOpenQuotePrice:' + id,
 			label: skyType[id] + '价格',
 			children: [{
 				value: 'desc',
@@ -86,22 +86,22 @@ export const groupBySorter = {
 				{
 					'title': '上下架状态',
 					'prefix': 'shelf',
-					'field': 'online_status'
+					'field': 'onlineStatus'
 				},
 				{
 					'title': '执行类型',
 					'prefix': 'comply',
-					'field': 'is_famous'
+					'field': 'isFamous'
 				}
 			],
 			check: [
 				{
 					'title': '微信认证',
-					'name': 'is_verified'
+					'name': 'isVerified'
 				},
 				{
 					'title': '原创',
-					'name': 'can_origin_write'
+					'name': 'canOriginWrite'
 				}
 			]
 		},
@@ -111,20 +111,20 @@ export const groupBySorter = {
 					field: 'snbt',
 					title: 'SNBT'
 				}, {
-					field: 'follower_count',
+					field: 'followerCount',
 					title: '粉丝数'
 				}, {
-					field: 'true_read_ratio',
+					field: 'trueReadRatio',
 					title: '真实阅读率',
 					tip: <MarkMessage {...messageInfo['yudu']} />
 				}, {
-					field: 'media_index1_avg_read_num',
+					field: 'mediaIndex1AvgReadNum',
 					title: '多图文第一条阅读量'
 				}
 			],
 			more: [
 				{
-					value: 'created_at',
+					value: 'createdAt',
 					label: '入库时间',
 					children: [{
 						value: 'desc',
@@ -145,26 +145,26 @@ export const groupBySorter = {
 				{
 					'title': '上下架状态',
 					'prefix': 'shelf',
-					'field': 'online_status'
+					'field': 'onlineStatus'
 				},
 				{
 					'title': '执行类型',
 					'prefix': 'comply',
-					'field': 'is_famous'
+					'field': 'isFamous'
 				}
 			],
 			check: [
 				{
 					'title': '防屏蔽',
-					'name': 'sku_is_prevent_shielding'
+					'name': 'skuIsPreventShielding'
 				},
 				{
 					'title': '可带@/话题/链接',
-					'name': 'is_support_topic_and_link'
+					'name': 'isSupportTopicAndLink'
 				},
 				// {
 				// 	'title': '原创',
-				// 	'name': 'can_origin'
+				// 	'name': 'canOrigin'
 				// }
 			]
 		},
@@ -174,19 +174,19 @@ export const groupBySorter = {
 					field: 'snbt',
 					title: 'SNBT'
 				}, {
-					field: 'follower_count',
+					field: 'followerCount',
 					title: '粉丝数'
 				}, {
-					field: 'direct_media_interaction_avg',
+					field: 'directMediaInteractionAvg',
 					title: '平均互动量'
 				}, {
-					field: 'true_fans_rate',
+					field: 'trueFansRate',
 					title: '真粉率'
 				}
 			],
 			more: [
 				{
-					value: 'created_at',
+					value: 'createdAt',
 					label: '入库时间',
 					children: [{
 						value: 'desc',
@@ -207,18 +207,18 @@ export const groupBySorter = {
 				{
 					'title': '上下架状态',
 					'prefix': 'shelf',
-					'field': 'online_status'
+					'field': 'onlineStatus'
 				},
 				{
 					'title': '执行类型',
 					'prefix': 'comply',
-					'field': 'is_famous'
+					'field': 'isFamous'
 				}
 			],
 			check: [
 				{
 					'title': '原创',
-					'name': 'can_origin_write'
+					'name': 'canOriginWrite'
 				}
 			]
 		},
@@ -228,16 +228,16 @@ export const groupBySorter = {
 					field: 'snbt',
 					title: 'SNBT'
 				}, {
-					field: 'follower_count',
+					field: 'followerCount',
 					title: '粉丝数'
 				}, {
-					field: 'media_play_avg',
+					field: 'mediaPlayAvg',
 					title: '平均播放量'
 				}
 			],
 			more: [
 				{
-					value: 'created_at',
+					value: 'createdAt',
 					label: '入库时间',
 					children: [{
 						value: 'desc',
@@ -258,12 +258,12 @@ export const groupBySorter = {
 				{
 					'title': '上下架状态',
 					'prefix': 'shelf',
-					'field': 'online_status'
+					'field': 'onlineStatus'
 				},
 				{
 					'title': '执行类型',
 					'prefix': 'comply',
-					'field': 'is_famous'
+					'field': 'isFamous'
 				}
 			],
 			check: []
@@ -274,17 +274,17 @@ export const groupBySorter = {
 					field: 'snbt',
 					title: 'SNBT'
 				}, {
-					field: 'follower_count',
+					field: 'followerCount',
 					title: '粉丝数'
 				}, {
-					field: 'sku_open_quote_price',
+					field: 'skuOpenQuotePrice',
 					title: '参考报价'
 				}, {
-					field: 'created_at',
+					field: 'createdAt',
 					title: '入库时间'
 				}
 			],
-			default: { follower_count: 'desc' }
+			default: { followerCount: 'desc' }
 		}
 	},
 	'5': {
@@ -293,12 +293,12 @@ export const groupBySorter = {
 				{
 					'title': '上下架状态',
 					'prefix': 'shelf',
-					'field': 'online_status'
+					'field': 'onlineStatus'
 				},
 				{
 					'title': '执行类型',
 					'prefix': 'comply',
-					'field': 'is_famous'
+					'field': 'isFamous'
 				}
 			],
 			check: []
@@ -309,17 +309,17 @@ export const groupBySorter = {
 					field: 'snbt',
 					title: 'SNBT'
 				}, {
-					field: 'follower_count',
+					field: 'followerCount',
 					title: '粉丝数'
 				}, {
-					field: 'sku_open_quote_price',
+					field: 'skuOpenQuotePrice',
 					title: '参考报价'
 				}, {
-					field: 'created_at',
+					field: 'createdAt',
 					title: '入库时间'
 				}
 			],
-			default: { follower_count: 'desc' }
+			default: { followerCount: 'desc' }
 		}
 	}
 }

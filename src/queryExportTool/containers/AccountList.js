@@ -75,7 +75,7 @@ class AccountList extends Component {
 	//报价单的选中添加账号逻辑
 	addSelectedRowKeysToCart = (object, selected, list) => {
 		const { quotationAccountList = {} } = this.props.queryExportToolReducer
-		const quotationAccountId = quotationAccountList && quotationAccountList.accounts.map(one => one.account_id)
+		const quotationAccountId = quotationAccountList && quotationAccountList.accountList.map(one => one.account_id)
 		this.setState({
 			...object
 		})
