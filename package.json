@@ -94,11 +94,11 @@
 	},
 	"proxy": {
 		"/api/dataProcessing": {
-			"target": "http://192.168.20.51:7300/mock/5d06f650f82ced0021c9fd00/api/dataProcessing",
+			"target": "http://192.168.100.117:30006",
 			"changeOrigin": true
 		},
 		"/api": {
-			"target": "http://nb.dev-weiboyi.com",
+			"target": "http://nb.tst-weiboyi.com",
 			"changeOrigin": true
 		}
 	},

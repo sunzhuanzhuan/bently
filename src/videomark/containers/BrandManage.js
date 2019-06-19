@@ -11,7 +11,8 @@ class BrandManage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            loading: false
+            currentPage: 1,
+            searchQuery: ''
         }
         this.columns = [
             {
@@ -41,7 +42,7 @@ class BrandManage extends Component {
                 key: 'level',
                 width: 100,
                 align: 'center',
-                render: data => <div>{data === 1 ? '主品牌' : '子品牌'}</div>
+                render: data => <div>{data == 1 ? '主品牌' : '子品牌'}</div>
             },
             {
                 title: '所属主品牌',
@@ -77,7 +78,7 @@ class BrandManage extends Component {
                 key: 'is_signed_available',
                 width: 100,
                 align: 'center',
-                render: data => <div>{data === 1 ? '可用' : '不可用'}</div>
+                render: data => <div>{data == 1 ? '可用' : '不可用'}</div>
             },
             {
                 title: '添加/修改时间',
@@ -100,7 +101,9 @@ class BrandManage extends Component {
     }
 
     componentDidMount() {
-        this.props.getBrandManageList()
+        this.props.getBrandManageList('page=1');
+        this.props.getMainBrandList();
+        this.props.getIndustryList();
     }
 
     isShowModal = (modalType, itemInfo) => {
@@ -111,20 +114,34 @@ class BrandManage extends Component {
         this.props.addBrand(payload);
     }
 
+    handleEditItem = payload => {
+        this.props.editBrand(payload)
+    }
+
+    getSearchQuery = (searchQuery = '') => {
+        this.setState({searchQuery, currentPage: 1});
+        this.props.getBrandManageList(`page=1${searchQuery}`);
+    }
+
     render() {
-        const { modalType, itemInfo } = this.state;
-        const { brandList, progress } = this.props;
+        const { modalType, itemInfo, currentPage, searchQuery } = this.state;
+        const { brandList = [], totalCount = 0, mainBrandList = [], IndustryList = [], progress } = this.props;
         const pagination = {
-            onChange: (current) => {
-                
+            onChange: (currentPage) => {
+                this.setState({currentPage})
+                this.props.getBrandManageList(`page=${currentPage}${searchQuery}`)
             },
-            total: 100,
+            total: totalCount,
             pageSize: 20,
-            current: 1,
+            current: currentPage,
         };
 
         return [
-            <BrandHeader key='brandHeader' isShowModal={this.isShowModal} />,
+            <BrandHeader 
+                key='brandHeader' 
+                isShowModal={this.isShowModal} 
+                getSearchQuery={this.getSearchQuery}
+            />,
             <Spin
                 key='spinWrapper'
                 spinning={progress === 'loading'}
@@ -145,8 +162,11 @@ class BrandManage extends Component {
                     ke='brandModal' 
                     modalType={modalType} 
                     itemInfo={itemInfo} 
+                    mainBrandList={mainBrandList} 
+                    IndustryList={IndustryList}
                     isShowModal={this.isShowModal} 
                     handleAddItem={this.handleAddItem}
+                    handleEditItem={this.handleEditItem}
                 /> : null
         ]
     }
@@ -154,9 +174,9 @@ class BrandManage extends Component {
 
 const mapStateToProps = (state) => {
     const { brandManageReducer = {} } = state;
-    const { brandList, progress } = brandManageReducer;
+    const { brandList, totalCount, mainBrandList, IndustryList, progress } = brandManageReducer;
 
-    return { brandList, progress };
+    return { brandList, totalCount, mainBrandList, IndustryList, progress };
 }
 
 const mapDispatchToProps = (dispatch) => (

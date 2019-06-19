@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import SelectFormItem from '../common/SelectFormItem'
 const FormItem = Form.Item;
 
@@ -19,23 +19,46 @@ class BrandHeader extends Component {
         ];
     }
 
-    handleSearch = () => {
-        const { form } = this.props;
+    getSearchQuery = (data = {}) => {
+        return Object.keys(data).filter(key => data[key])
+            .map(key => { 
+                return `${key}=${encodeURIComponent(data[key])}`
+            }).join('&');
+    }
 
-        form.validateFields((err, values) => {
-            if(err) return;
+    handleSearch = () => {
+        const { form, getSearchQuery } = this.props;
+
+        form.validateFields((_, values) => {
+            const query = this.getSearchQuery(values);
+            if(query) {
+                getSearchQuery(`&${query}`)
+            }else {
+                this.getErrorTips('请输入搜索条件后重试');
+            }
         })
+    }
+
+    getErrorTips = msg => {
+        try {
+          if (typeof message.destroy === 'function') {
+            message.destroy();
+          }
+          message.error(msg);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+    handleResetSearch = () => {
+        const { form, getSearchQuery } = this.props;
+        getSearchQuery();
+        form.resetFields();
     }
 
     render() {
         const { form, isShowModal } = this.props;
         const { getFieldDecorator } = form;
-        const levelInit = {
-            initialValue: undefined,
-        };
-        const signInit = {
-            initialValue: undefined,
-        };
 
         return (
             <div className='formHeaderWrapper'>
@@ -45,25 +68,22 @@ class BrandHeader extends Component {
                         label={'品牌类型'}
                         keyName={'level'}
                         options={this.levelOption}
-                        initObj={levelInit}
                     />
                     <SelectFormItem
                         getFieldDecorator={getFieldDecorator}
                         label={'标注可用'}
                         keyName={'is_signed_available'}
                         options={this.signOption}
-                        initObj={signInit}
                     />
                     <FormItem label="品牌名称">
-                        {getFieldDecorator('content_type_id', {
-                            initialValue: undefined,
-                        })(
-                            <Input />
+                        {getFieldDecorator('brand_name')(
+                            <Input placeholder='请输入品牌名称' />
                         )}
                     </FormItem>
                 </Form>
-                <Button key='searchBtn' type='primary' onClick={this.handleSearch}>搜索</Button>
-                <Button key='addBtn' type='primary' onClick={() => {isShowModal('add')}}>添加品牌</Button>
+                <Button type='primary' onClick={this.handleSearch}>搜索</Button>
+                <Button type='primary' onClick={this.handleResetSearch}>重置</Button>
+                <Button type='primary' onClick={() => {isShowModal('add')}}>添加品牌</Button>
             </div>
         )
     }
