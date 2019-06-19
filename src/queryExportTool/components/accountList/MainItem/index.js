@@ -47,7 +47,7 @@ export default class MainItem extends PureComponent {
 		this.track('AccountListClick', '详情');
 		[103, 110, 115].includes(platformId) ?
 			window.open(`/account/view/detail?accountId=${accountId}`, "_blank")
-			: this.props.setModalContent(<AccountDetails accountId={accountId}
+			: this.props.setModalContent(<AccountDetails account_id={accountId}
 			/>)
 		//添加打开详情
 		const { actions } = this.props
@@ -64,10 +64,10 @@ export default class MainItem extends PureComponent {
 		const { price, } = accountListItem
 		const { snsName = '', avatarUrl, verifiedStatus, level, introduction,
 			isLowQuality, url, isSupportTopicAndLink, isVerified,
-			canOrigin, areaName, ageGroup, originalTypeDisplay = [],
+			canOriginWrite, areaName, ageGroup, originalName,
 			isPreventShielding, classification = [], qrCodeUrl,
 			snsId, verificationInfo, mediaManager, isFamous,
-			operationTags = [], followerCount, accountId, gender,
+			operationTagList = [], followerCount, accountId, gender,
 			snbt, trueFansRate, trueReadRatio, mediaWeeklyGroupCount90d,
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
 			onShelfStatus = {}, followerCountVerificationStatus,
@@ -82,6 +82,7 @@ export default class MainItem extends PureComponent {
 		const IsRed = groupType == 4
 		const IsOther = groupType == 5
 		const IsWei = isFamous == 2
+
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
 			{/* {checkNode} */}
 			{isDeleteAction ?
@@ -128,7 +129,7 @@ export default class MainItem extends PureComponent {
 									<PlatformVerified verifiedStatus={isVerified} platformId={platformId} />
 								</div>
 								<div>
-									<WeiboVip verifiedStatus={verifiedStatus} platformId={platformId} />
+									<WeiboVip verifiedStatus={verifiedStatus} platformId={platformId} marginTop={0} />
 								</div>
 								{IsRed || IsVidro ? <LevalImg leval={level} platformId={platformId} /> : null}
 							</div>
@@ -145,14 +146,14 @@ export default class MainItem extends PureComponent {
 								</Popover>}
 							<div style={{ marginTop: 10 }}>
 								{/* 根据平台不同展示不同的标签 */}
-								{originalTypeDisplay.map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}
+								{originalName.split(',').map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}
 								{isPreventShielding == 1 && IsWeibo ? <CTag color='green'>防屏蔽</CTag> : null}
 								{isSupportTopicAndLink == 1 && IsWeibo ? <CTag color='green'>可带@/话题/链接</CTag> : null}
-								{canOrigin == 1 ? <CTag color='green'>原创</CTag> : null}
+								{canOriginWrite == 1 ? <CTag color='green'>原创</CTag> : null}
 							</div>
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为运营标签 */}
-								{operationTags && operationTags.map((one, index) => <CTag key={one.id} color='blue'>{one.name}</CTag>)}
+								{operationTagList && operationTagList.map((one, index) => <CTag key={one.id} color='blue'>{one.name}</CTag>)}
 							</div>
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为是否提前打款标示 */}

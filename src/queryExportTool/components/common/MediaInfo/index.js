@@ -13,12 +13,12 @@ class MediaInfo extends Component {
 
 	render() {
 		const { isShowPopover = true, agentInfo = {} } = this.props
-		const { name = '-', title = '-', cell_phone = '-', email = '-', qq = '-' } = agentInfo
+		const { name = '-', group = '-', phone = '-', email = '-', qq = '-' } = agentInfo
 		const content = <div>
 			<div><img src={images.qqPng} width={14} /> {qq}</div>
 			<div><img src={images.emailPng} width={14} /> {email}</div>
-			<div><img src={images.phonePng} width={14} /> {cell_phone}</div>
-			<div><img src={images.zhiweiPng} width={14} /> {title}</div>
+			<div><img src={images.phonePng} width={14} /> {phone}</div>
+			<div><img src={images.zhiweiPng} width={14} /> {group}</div>
 		</div>
 		return (
 			isShowPopover ? <Popover placement="topLeft" content={content}>
