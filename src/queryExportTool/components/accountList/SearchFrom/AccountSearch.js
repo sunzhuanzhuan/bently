@@ -138,7 +138,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
-		this.onFilterCommon.reset()
+		this.onFilterCommon&&this.onFilterCommon.reset()
 		this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {
