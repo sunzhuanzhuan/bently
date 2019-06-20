@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/brandManage'
-import { Table, Spin, Button } from 'antd';
+import { Table, Spin, Button, message } from 'antd';
 import BrandHeader from '../components/BrandManage/BrandHeader';
 import BrandModal from '../components/BrandManage/BrandModal';
 import './brandManage.less';
@@ -106,6 +106,15 @@ class BrandManage extends Component {
         this.props.getIndustryList();
     }
 
+    componentDidUpdate(prevProps) {
+        const { progress: prevProgress } = prevProps;
+        const { errorMsg = '操作失败', progress } = this.props;
+
+        if(prevProgress !== progress && progress === 'fail') {
+            this.getErrorTips(errorMsg);
+        }
+    }
+
     isShowModal = (modalType, itemInfo) => {
         this.setState({modalType, itemInfo});
     }
@@ -122,6 +131,17 @@ class BrandManage extends Component {
         this.setState({searchQuery, currentPage: 1});
         this.props.getBrandManageList(`page=1${searchQuery}`);
     }
+
+    getErrorTips = msg => {
+        try {
+            if (typeof message.destroy === 'function') {
+                message.destroy();
+            }
+            message.error(msg);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     render() {
         const { modalType, itemInfo, currentPage, searchQuery } = this.state;
@@ -174,9 +194,9 @@ class BrandManage extends Component {
 
 const mapStateToProps = (state) => {
     const { brandManageReducer = {} } = state;
-    const { brandList, totalCount, mainBrandList, IndustryList, progress } = brandManageReducer;
+    const { brandList, totalCount, mainBrandList, IndustryList, progress, errorMsg } = brandManageReducer;
 
-    return { brandList, totalCount, mainBrandList, IndustryList, progress };
+    return { brandList, totalCount, mainBrandList, IndustryList, progress, errorMsg };
 }
 
 const mapDispatchToProps = (dispatch) => (

@@ -11,7 +11,7 @@ class BrandModal extends Component {
         super(props);
         this.state = {
             level: 1
-        }
+        };
         this.levelOption = [
             { id: 1, value: '主品牌' },
             { id: 2, value: '子品牌' },

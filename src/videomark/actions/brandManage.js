@@ -18,12 +18,13 @@ export function getBrandManageList(param) {
 					progress: 'success'
                 })
             })
-            .catch( () => {
+            .catch( ({errorMsg}) => {
                 dispatch({
                     type:GET_BRAND_LIST,
                     brandList: [],
                     total: 0,
-					progress: 'fail'
+                    progress: 'fail',
+                    errorMsg
                 })
             });
     }
@@ -77,10 +78,11 @@ export function addBrand(payload) {
 					progress: 'success'
                 })
             })
-            .catch( () => {
+            .catch( ({errorMsg}) => {
                 dispatch({
                     type:ADD_BRAND,
-					progress: 'fail'
+                    progress: 'fail',
+                    errorMsg
                 })
             });
     }
@@ -101,10 +103,11 @@ export function editBrand(payload) {
                     progress: 'success'
                 })
             })
-            .catch( () => {
+            .catch( ({errorMsg}) => {
                 dispatch({
                     type:EDIT_BRAND,
-					progress: 'fail'
+                    progress: 'fail',
+                    errorMsg
                 })
             });
     }

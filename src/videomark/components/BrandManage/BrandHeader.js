@@ -6,9 +6,7 @@ const FormItem = Form.Item;
 class BrandHeader extends Component {
     constructor(props) {
         super(props);
-        this.state = {
 
-        };
         this.levelOption = [
             { id: 1, value: '主品牌' },
             { id: 2, value: '子品牌' },
@@ -41,17 +39,18 @@ class BrandHeader extends Component {
 
     getErrorTips = msg => {
         try {
-          if (typeof message.destroy === 'function') {
-            message.destroy();
-          }
-          message.error(msg);
+            if (typeof message.destroy === 'function') {
+                message.destroy();
+            }
+            message.error(msg);
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
 
     handleResetSearch = () => {
         const { form, getSearchQuery } = this.props;
+        
         getSearchQuery();
         form.resetFields();
     }
