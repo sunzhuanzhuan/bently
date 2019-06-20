@@ -116,7 +116,7 @@ class BrandModal extends Component {
                 return;
             }
         }else if(type === 'brand_parent_code' && childCode && childCode.length === 5) {
-            this.handleVerifyUnique('品牌序列号', 'brand_child_code', childCode)
+            this.handleVerifyUnique('品牌序列号', 'brand_child_code', childCode, true)
         }
         
         api.post(Interface.verifyUnique, payload).then(result => {
