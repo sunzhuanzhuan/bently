@@ -116,8 +116,8 @@ export default class FilterCommon extends React.Component {
 		const { params } = this.props.match;
 		const { onChange } = this;
 		const {
-			unitPlayPriceTypes,
-			unitReadPriceTypes,
+			unit_play_price_types,
+			unit_read_price_types,
 			verified_status,
 			default_hot_cities,
 			industry_list_options,
@@ -302,7 +302,7 @@ export default class FilterCommon extends React.Component {
 									inputLableBefore='阅读单价'
 									inputLableAfter=''
 									showType='three'
-									options={unitReadPriceTypes}
+									options={unit_read_price_types}
 								></SelectAndInput>
 							)}
 						</div></DropdownMenuNew>
@@ -316,7 +316,7 @@ export default class FilterCommon extends React.Component {
 									inputLableBefore='播放单价'
 									inputLableAfter=''
 									showType='three'
-									options={unitPlayPriceTypes}
+									options={unit_play_price_types}
 								></SelectAndInput>
 							)}
 						</div></DropdownMenuNew>
@@ -352,8 +352,8 @@ export default class FilterCommon extends React.Component {
 							onOk={this.onMoreFilterOk}
 							onCancel={this.onMoreFilterCancel}
 							filterMore={{
-								unitPlayPriceTypes,
-								unitReadPriceTypes,
+								unit_play_price_types,
+								unit_read_price_types,
 								verified_status,
 								industry_list_options
 							}}></MoreFilter>

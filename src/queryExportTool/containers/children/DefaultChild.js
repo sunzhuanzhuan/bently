@@ -47,7 +47,7 @@ class DefaultChild extends Component {
 	}
 
 	onFilterSearch = (params) => {
-		const { sku_open_quote_price = [], follower_count = [] } = params;
+		const { skuOpenQuotePrice = [], follower_count = [] } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		// const searchParamsString = qs.stringify(params);
@@ -55,31 +55,33 @@ class DefaultChild extends Component {
 		let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/" + platformType
 		this.props.history.push({
 			pathname: url,
-			// search: searchParamsString,
 			search: "?keyword=" + params.keyword || ''
 		});
 		this.setState({
 			loading: true
 		})
 		//添加了空数组不穿给后台
-		// const isShowSkuPrice = !sku_open_quote_price[0];
-		// const isShowfollowerCount = follower_count[1] > 0 && follower_count[0] > 0
-		// if (!isShowfollowerCount) {
-		// 	delete params.follower_count
-		// 	delete this.paramsAll.follower_count
-		// }
-		// if (!sku_open_quote_price[0]) {
-		// 	delete params.sku_open_quote_price
-		// 	delete this.paramsAll.sku_open_quote_price
-		// }
-		if (!sku_open_quote_price[0]) {
-			if (params.sku_open_quote_price) {
-				params.sku_open_quote_price[0] = ""
+		if (!skuOpenQuotePrice[0]) {
+			if (params.skuOpenQuotePrice) {
+				params.skuOpenQuotePrice[0] = ""
 			}
 		}
-		if (!sku_open_quote_price[1]) {
-			if (params.sku_open_quote_price) {
-				params.sku_open_quote_price[1] = ""
+		if (!skuOpenQuotePrice[1]) {
+			if (params.skuOpenQuotePrice) {
+				params.skuOpenQuotePrice[1] = ""
+			}
+		}
+		//阅读单价和播放单价（java重构要求修改数据格式）
+		if (params.skuUnitReadPrice) {
+			params.skuUnitReadPrice = {
+				skuTypeId: params.skuUnitReadPrice.name,
+				unitPrices: params.skuUnitReadPrice.weight
+			}
+		}
+		if (params.skuUnitPlayPrice) {
+			params.skuUnitPlayPrice = {
+				skuTypeId: params.skuUnitPlayPrice.name,
+				unitPrices: params.skuUnitPlayPrice.weight
 			}
 		}
 		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, page: 1, page_size: 20 }
