@@ -74,12 +74,13 @@ class AccountList extends Component {
 	}
 	//报价单的选中添加账号逻辑
 	addSelectedRowKeysToCart = (object, selected, list) => {
+		console.log("TCL: addSelectedRowKeysToCart -> object", object)
 		const { quotationAccountList = {} } = this.props.queryExportToolReducer
 		const quotationAccountId = quotationAccountList && quotationAccountList.accountList.map(one => one.account_id)
 		this.setState({
 			...object
 		})
-		const filterData = object.selectedRowKeysObject.filter(one => !quotationAccountId.includes(one.account_id))
+		const filterData = object.selectedRowKeysObject.filter(one => !quotationAccountId.includes(one.accountId))
 		this.setState({
 			selectedRowKeysObject: filterData
 		}, () => {
@@ -94,7 +95,7 @@ class AccountList extends Component {
 		// })
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.account_id, platform_id: one.platform_id }))
+		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
 	}
 	//报价单的保存
 	addQuotation = () => {
@@ -113,7 +114,7 @@ class AccountList extends Component {
 		const { selectedRowKeysObject, selectedRowKeys } = this.state
 		if (isQuotation) {
 			this.setState({
-				selectedRowKeysObject: selectedRowKeysObject.filter(one => one.account_id != ids),
+				selectedRowKeysObject: selectedRowKeysObject.filter(one => one.accountId != ids),
 				selectedRowKeys: selectedRowKeys.filter(one => one != ids)
 			}, () => {
 				this.getSelectCartInterimList(group_type)
@@ -168,14 +169,14 @@ class AccountList extends Component {
 		const total = { total: selectedRowKeysObject.length }
 		//此处是处理选好车需要的数据项
 		const data = (type > 0 ? dataList[type] : selectedRowKeysObject).map(one => ({
-			"id": one.account_id,
-			"account_id": one.account_id,
-			"staging_id": one.account_id,
-			"sns_name": one.base && one.base.sns_name,
-			"follower_count": one.base && one.base.follower_count,
-			"platform_id": one.platform_id,
-			"avatar_url": one.base && one.base.avatar_url,
-			"is_famous": one.base && one.base.is_famous
+			"id": one.accountId,
+			"account_id": one.accountId,
+			"staging_id": one.accountId,
+			"sns_name": one.snsName,
+			"follower_count": one.followerCount,
+			"platform_id": one.platformId,
+			"avatar_url": one.avatarUrl,
+			"is_famous": one.isFamous
 		}))
 		const selectCartInterimList = {
 			...total, data: data, tabList: tabList
