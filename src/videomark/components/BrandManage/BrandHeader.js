@@ -8,17 +8,19 @@ class BrandHeader extends Component {
         super(props);
 
         this.levelOption = [
+            { id: 'ALL_OPTION', value: '请选择' },
             { id: 1, value: '主品牌' },
             { id: 2, value: '子品牌' },
         ];
         this.signOption = [
+            { id: 'ALL_OPTION', value: '请选择' },
             { id: 1, value: '可用' },
             { id: 2, value: '不可用' },
         ];
     }
 
     getSearchQuery = (data = {}) => {
-        return Object.keys(data).filter(key => data[key])
+        return Object.keys(data).filter(key => data[key] && data[key] !== 'ALL_OPTION')
             .map(key => { 
                 return `${key}=${encodeURIComponent(data[key])}`
             }).join('&');
@@ -29,11 +31,8 @@ class BrandHeader extends Component {
 
         form.validateFields((_, values) => {
             const query = this.getSearchQuery(values);
-            if(query) {
-                getSearchQuery(`&${query}`)
-            }else {
-                this.getErrorTips('请输入搜索条件后重试');
-            }
+
+            getSearchQuery(query ? `&${query}` : '')
         })
     }
 
