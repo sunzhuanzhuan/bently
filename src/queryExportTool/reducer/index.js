@@ -86,8 +86,13 @@ export const batchSearchList = handleActions({
 		return { ...state, is_select: [] }
 	},
 	[accoutActions.getBatchSearch_success]: (state, action) => {
+		const data = { ...action.payload.data }
+		const { result, statistic } = data
+		const is_select = result.accountList.filter(one => one.isSeleted == 1).map(one => one.accountId)
 		return {
-			...action.payload.data
+			...result,
+			statistic: statistic,
+			is_select: is_select
 		}
 	}
 }, {})

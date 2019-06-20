@@ -41,7 +41,7 @@ export const getAccountList_success = "getAccountList_success"
 export const {
 	getBatchSearch,
 	getBatchSearch_success
-} = createHttpAction('getBatchSearch', Interface.getBatchSearch)
+} = createHttpAction('getBatchSearch', Interface.getBatchSearch, { method: 'post' })
 //清空查询数据
 export const cleanBatchSearch = createAction('cleanBatchSearch', () => {
 	return {};

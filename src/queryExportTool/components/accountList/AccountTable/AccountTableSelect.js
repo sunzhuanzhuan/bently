@@ -131,8 +131,7 @@ class AccountTableSelect extends Component {
 			IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 		}
 		if (seleced) {
-
-			let faceImg = $("#avatar_" + (isShowTypeByList ? "list" : "") + key.accountId);
+			let faceImg = $(`#avatar_${isShowTypeByList ? "list_" : ""}${key.accountId}`);
 			CartFly.show({
 				start: faceImg,
 				image: faceImg.data("src")
@@ -181,13 +180,14 @@ class AccountTableSelect extends Component {
 			arrSelectExactQuery,//精确查询的数组
 			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
 		} = this.props;
+		console.log("TCL: render -> arrSelectExactQuery", arrSelectExactQuery)
 		const { is_select = [] } = accountList
 		const rowSelection = {
 			selectedRowKeys: IsExactQuery ? arrSelectExactQuery : is_select,
 			onSelect: this.onSelectChange,
 			onSelectAll: this.onSelectAllChange,
 			getCheckboxProps: record => (IsExactQuery ? {
-				disabled: record.not_exist == 1,
+				disabled: record.notExist == 1,
 				name: record.name,
 			} : {})
 		};
@@ -232,11 +232,11 @@ class AccountTableSelect extends Component {
 							className="account-table-wxy-list account-table-disabled-none"
 							columns={columnsTypeByList}
 							dataSource={accountList.accountList}
-							rowKey={(record, index) => record.account_id && record.account_id || index}
+							rowKey={(record, index) => record.accountId && record.accountId || index}
 							pagination={false}
 							rowSelection={rowSelection}
 							rowClassName={(record, index) => {
-								return record.not_exist == 1 ? "no-not-exist-row-color" : ""
+								return record.notExist == 1 ? "no-not-exist-row-color" : ""
 							}}
 						/> :
 							<div className="account-table-wxy">
@@ -256,7 +256,7 @@ class AccountTableSelect extends Component {
 										pageSizeOptions: ["20", "50", "100"]
 									}}
 									rowClassName={(record, index) => {
-										return record.not_exist == 1 ? "no-not-exist-row-color" : ""
+										return record.notExist == 1 ? "no-not-exist-row-color" : ""
 									}}
 								/>
 							</div>}

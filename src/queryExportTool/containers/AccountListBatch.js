@@ -62,10 +62,20 @@ class AccountListBatch extends Component {
 		const { exactQueryData } = this.state
 		const { accounts = [] } = exactQueryData
 		const exportArr = accounts.map(one => {
-			const { account_id = "", platform_id = "", base: { sns_name = "", sns_id = "", account_id: accountNone = "" } } = one
-			return { account_id: account_id ? account_id : accountNone, platform_id: platform_id, sns_name: sns_name, sns_id: sns_id }
+			const { accountId = "", platformId = "", snsName = "", snsId = "", accountId: accountNone = "" } = one
+			return {
+				account_id: accountId ? accountId : accountNone,
+				platform_id: platformId,
+				sns_name: snsName,
+				sns_id: snsId
+			}
 		})
-		const data = { ...value, accounts: exportArr, search_field: searchValue.field_type, platform_id: searchValue.platform_id }
+		const data = {
+			...value,
+			accounts: exportArr,
+			search_field: searchValue.fieldType,
+			platform_id: searchValue.platformId
+		}
 		this.setState({
 			buttonLoaing: true
 		})
@@ -110,7 +120,7 @@ class AccountListBatch extends Component {
 		const total = value.accoutName.length
 		this.setLoading()
 		const { getBatchSearch, addSelectExactQuery } = this.props.actions
-		if (value.query_type == 1) {
+		if (value.queryType == 1) {
 			this.props.actions.getBatchSearch({ ...value, page_size: 20, page: 1, accoutName: total }).then((data) => {
 				this.setState({
 					loading: false,
@@ -137,31 +147,32 @@ class AccountListBatch extends Component {
 				const exactQueryData = posts.reduce((prev, cur, index) => {
 					return {
 						data: {
-							accounts: [...prev.data.accountList, ...cur.data.accountList],
-							is_select: [...(prev.data.is_select && prev.data.is_select || []), ...(cur.data.is_select && cur.data.is_select || [])],
+							result: {
+								accountList: [...prev.data.result.accountList, ...cur.data.result.accountList],
+							},
 							statistic: {
-								a: {
-									on_shelf: (prev.data.statistic && prev.data.statistic.a.on_shelf) + (cur.data.statistic && cur.data.statistic.a.on_shelf),
-									off_shelf: (prev.data.statistic && prev.data.statistic.a.off_shelf) + (cur.data.statistic && cur.data.statistic.a.off_shelf)
-
-								},
-								b: {
-									on_shelf: (prev.data.statistic && prev.data.statistic.b.on_shelf) + (cur.data.statistic && cur.data.statistic.b.on_shelf),
-									off_shelf: (prev.data.statistic && prev.data.statistic.b.off_shelf) + (cur.data.statistic && cur.data.statistic.b.off_shelf)
-								},
-								not_exist: (prev.data.statistic && prev.data.statistic.not_exist) + (cur.data.statistic && cur.data.statistic.not_exist),
+								aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
+								aOffShelf: (prev.data.statistic && prev.data.statistic.aOffShelf) + (cur.data.statistic && cur.data.statistic.aOffShelf),
+								bOnShelf: (prev.data.statistic && prev.data.statistic.bOnShelf) + (cur.data.statistic && cur.data.statistic.bOnShelf),
+								bOffShelf: (prev.data.statistic && prev.data.statistic.bOffShelf) + (cur.data.statistic && cur.data.statistic.bOffShelf),
+								notExist: (prev.data.statistic && prev.data.statistic.notExist) + (cur.data.statistic && cur.data.statistic.notExist),
 								total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
 							}
 						}
 					}
 				})
+				const exactQueryDataUpdate = {
+					accountList: exactQueryData.data.result.accountList,
+					...exactQueryData.data
+				}
+				console.log("TCL: batchSearch -> exactQueryDataUpdate", exactQueryDataUpdate)
 				this.setState({
 					loading: false,
 					showList: true,
-					exactQueryData: exactQueryData.data,
+					exactQueryData: exactQueryDataUpdate,
 					searchValue: value
 				})
-				addSelectExactQuery(exactQueryData.data.is_select && exactQueryData.data.is_select || [])
+				addSelectExactQuery(exactQueryData.data.result.accountList.filter(one => one.isSeleted == 1).map(one => one.accountId))
 			})
 		}
 	}
@@ -197,11 +208,11 @@ class AccountListBatch extends Component {
 		const { queryExportToolReducer, actions } = this.props;
 		const { batchSearchList, filtersMetaMap, arrSelectExactQuery, addLookDetailOrIndexList } = queryExportToolReducer;
 		const { statistic = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
-		const { a = {}, b = {} } = statistic
+		const { aOffShelf, aOnShelf, bOffShelf, bOnShelf, notExist, total } = statistic
 		const header = <div style={{ marginTop: 2, color: "#666", float: "left" }}>
-			一共匹配到了符合条件的账号 <a>{statistic.total}</a> 个，
-		其中在A端上架 <a>{a.on_shelf}</a>个/下架 <a>{a.off_shelf}</a>个，
-		B端上架 <a>{b.on_shelf}</a>个/下架 <a>{b.off_shelf}</a> 个
+			一共匹配到了符合条件的账号 <a>{total}</a> 个，
+		其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
+		B端上架 <a>{bOnShelf}</a>个/下架 <a>{bOffShelf}</a> 个
 		</div>
 		const modalMap = {
 			1: <CreateTask onExportOperate={this.onExportOperate} buttonLoaing={buttonLoaing} />,
@@ -230,7 +241,7 @@ class AccountListBatch extends Component {
 									<div>
 										<div className="batch-search-middle-line">
 											<div className="button-export">
-												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.accountList.length <= 0}>导出全部账号</Button>
+												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.accountList && exactQueryData.accountList.length <= 0}>导出全部账号</Button>
 											</div>
 											<div className="img-action">
 												<img src={showTypeList == 1 ? images.cardActivePng : images.cardPng} width="14" onClick={() => { this.setShowTypeList(1) }} />
@@ -242,9 +253,9 @@ class AccountListBatch extends Component {
 											<Col span={18} >
 												<div className="title">
 													<div style={{ marginTop: 2, color: "#666" }}>
-														共查询账号 <a>{statistic.total}</a> 个，
-														其中在A端上架 <a>{a.on_shelf}</a>个/下架 <a>{a.off_shelf}</a>个，
-														B端上架 <a>{b.on_shelf}</a>个/下架 <a>{b.off_shelf}</a> 个，不在库：<a>{statistic.not_exist}</a>个
+														共查询账号 <a>{total}</a> 个，
+														其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
+														B端上架 <a>{bOnShelf}</a>个/下架 <a>{bOffShelf}</a> 个，不在库：<a>{notExist}</a>个
 													</div>
 												</div>
 											</Col>
