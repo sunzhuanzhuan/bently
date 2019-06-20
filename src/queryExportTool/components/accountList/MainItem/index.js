@@ -27,6 +27,7 @@ import AccountDetails from "../../../containers/AccountDetails";
 import { Popover, Row, Col, Button } from "antd";
 import { sensors } from '@/util/sensor/sensors'
 import ClassificationFeedback from "../../common/ClassificationFeedback";
+import PayAdvanced from "../../common/AccountInfos/PayAdvanced";
 const { location } = window;
 
 export default class MainItem extends PureComponent {
@@ -92,6 +93,7 @@ export default class MainItem extends PureComponent {
 		const Is_Red = group_type == 4
 		const Is_Other = group_type == 5
 		const Is_wei = is_famous == 2
+
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
 			{/* {checkNode} */}
 			{isDeleteAction ?
@@ -163,6 +165,12 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为运营标签 */}
 								{operation_tags && operation_tags.map((one, index) => <CTag key={one.id} color='blue'>{one.name}</CTag>)}
+							</div>
+							<div style={{ marginTop: 10 }}>
+								{/* 此处展示为是否提前打款标示 */}
+								<LazyLoad once overflow>
+									<PayAdvanced account_id={account_id} />
+								</LazyLoad>
 							</div>
 						</AccountInfos>
 
