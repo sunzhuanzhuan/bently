@@ -57,27 +57,33 @@ class BrandModal extends Component {
     judgeInputLenth = (_, value, callback) => {    
         const notEmpty = value && value.trim();
         const lenthOk = value && value.length <= 20;
+        const { brand_name } = this.state;
 
-        if(notEmpty && lenthOk)
+        if(notEmpty && lenthOk && !brand_name)
         {
             callback();
         }else if(!notEmpty) {
             callback("请填写品牌名称");
         }else if(!lenthOk) {
             callback("品牌名称不得超过20个字");
+        }else if(brand_name) {
+            callback('和现有品牌名称重复，请重新填写')
         }
     }
 
     judgeCode = (name, value, callback) => {
+        const { brand_parent_code, brand_child_code } = this.state;
         const isNum = /^\d+$/.test(value);
-        const message = !(value && value.length) ? 
-            `请填写${name}` : !isNum || value.length !== 5 ? 
-            `${name}必须为5位数字` : '';
+        const isRepeat = name === '主品牌code' ? brand_parent_code : brand_child_code;
         
-        if(isNum && value.length === 5) {
+        if(isNum && value.length === 5 && !isRepeat) {
             callback();
-        }else {
-            callback(message);
+        }else if(!(value && value.length)){
+            callback(`请填写${name}`);
+        }else if(!isNum || value.length !== 5) {
+            callback(`${name}必须为5位数字`)
+        }else if(isRepeat) {
+            callback(`和现有${name}重复，请重新填写`)
         }
     }
 
@@ -117,6 +123,7 @@ class BrandModal extends Component {
             const { data } = result;
             const errorMsg = data ? [new Error(`和现有${name}重复，请重新填写`)] : null;
 
+            this.setState({[type]: data});
             this.setFormItemError(type, value, errorMsg);
         });
     }
@@ -126,6 +133,10 @@ class BrandModal extends Component {
         const selectMainBrand = mainBrandList.find(item => item.id === value) || {};
 
         form.setFieldsValue({'industry_code': selectMainBrand.industry})
+    }
+
+    handleFocusInput = (type) => {
+        this.setState({[type]: false})
     }
 
     render() {
@@ -187,6 +198,7 @@ class BrandModal extends Component {
                         })(
                             <Input 
                                 placeholder='请输入主品牌code' 
+                                onFocus={() => {this.handleFocusInput('brand_parent_code')}}
                                 onBlur={
                                     ({target: {value}}) => 
                                     {
@@ -217,6 +229,7 @@ class BrandModal extends Component {
                     })(
                         <Input 
                             placeholder='请输入品牌序列号' 
+                            onFocus={() => {this.handleFocusInput('brand_child_code')}}
                             onBlur={
                                 ({target: {value}}) => 
                                 {
@@ -244,7 +257,16 @@ class BrandModal extends Component {
                             initialValue: this.getInitalValue('brand_name'),
                             rules: [{required: true, message: ' '}, {validator: this.judgeInputLenth}]
                         })(
-                            <Input placeholder='请输入20字以内品牌名称' onBlur={({target: {value}}) => {this.handleVerifyUnique('品牌名称', 'brand_name', value, value.length <= 20)}} />
+                            <Input 
+                                placeholder='请输入20字以内品牌名称' 
+                                onFocus={() => {this.handleFocusInput('brand_name')}}
+                                onBlur={
+                                    ({target: {value}}) => 
+                                    {
+                                        this.handleVerifyUnique('品牌名称', 'brand_name', value, value.length <= 20)
+                                    }
+                                } 
+                            />
                         )}
                     </FormItem>
                     { modalType === 'add' ? getAddInfoItems() : null }
