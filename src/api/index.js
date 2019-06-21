@@ -51,8 +51,9 @@ instance.interceptors.request.use(function (config) {
 });
 
 instance.interceptors.response.use(function (response) {
+	let reg = /application\/(vnd.ms-excel|x-msdownload|vnd.openxmlformats-officedocument.spreadsheetml.sheet)/i
 	// 处理下载请求
-	if (response.headers && (response.headers['content-type'] === 'application/vnd.ms-excel' || response.headers['content-type'] === 'application/x-msdownload' || response.headers['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+	if (response.headers && (reg.test(response.headers['content-type']))) {
 		downloadUrl(response.request.responseURL)
 		return
 	}

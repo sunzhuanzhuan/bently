@@ -1,0 +1,140 @@
+.wby-upload-files-container {
+  .action-btn-wrap {
+    display: flex;
+  }
+}
+
+.main {
+  width: 600px;
+  height: 350px;
+  margin: 100px auto 0 auto;
+}
+
+.option-function {
+  margin-bottom: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.btn-return {
+  margin: 0 auto;
+  display: block;
+}
+
+.upload-box {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.mainbox {
+  width: 100%;
+  height: auto;
+  margin-top: 100px;
+
+  .title1 {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-family: "微软雅黑";
+    font-size: 15px;
+  }
+
+  .title2 {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-family: "微软雅黑";
+    font-size: 12px;
+  }
+
+  .actionbox {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .margin-left {
+    margin-left: 10px;
+  }
+}
+
+.filter-form-layout-flex {
+  .ant-form-item{
+    display: flex;
+    .ant-form-item-label{
+      flex: none;
+    }
+    .ant-form-item-control-wrapper{
+      flex: auto;
+    }
+  }
+}
+.platform-icon-text {
+  display: flex;
+  & > .text {
+    display: inline-block;
+    line-height: 22px;
+    vertical-align: middle;
+    margin-left: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+.category-feedback-detail-wrapper{
+  header{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+  }
+  .category-content{
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    padding: 16px;
+    margin: 10px 0;
+  }
+  .category-desc{
+    line-height: 32px;
+    padding: 6px 0;
+  }
+  main {
+    padding: 10px 16px;
+    border: 1px solid #dddddd;
+    & .category-history-item:last-child{
+      border: none;
+    }
+  }
+  .category-history-item{
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 0;
+    min-height: 80px;
+    display: flex;
+    .image-wrapper{
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      flex: none;
+      margin-right: 10px;
+      //background: #f1f1f1;
+      img {
+        width: 100%;
+      }
+    }
+    .content-wrapper{
+      flex: auto;
+    }
+    .name{
+      font-weight: 700;
+      b {
+        float: right;
+        font-weight: normal;
+        color: #999;
+        font-size: 12px;
+      }
+    }
+    .info{
+      word-break: break-all
+    }
+  }
+}

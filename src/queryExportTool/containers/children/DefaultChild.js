@@ -11,24 +11,36 @@ class DefaultChild extends Component {
 		super(props);
 		this._isMounted = false;
 		this.paramsAll = {};
+
 	}
 	state = {
-		loading: true
+		loading: true,
 	}
 	componentDidMount() {
 		this._isMounted = true;
 		const { params: { platformType: group_id } } = this.props.match
 		const { getFilters, getAccountList } = this.props.actions
 		getFilters({ group_id })
+		this.serachStart()
+
+	}
+	serachStart = (search_source, changeTab) => {
+		const { getFilters, getAccountList } = this.props.actions
+		const { params: { platformType: group_id } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
-		getAccountList({ group_id, page: 1, page_size: search.page_size || 20, keyword: search.keyword || '' }).then(results => {
-			if (this._isMounted) {
+		getAccountList({
+			group_id,
+			page: 1,
+			search_source: search_source || 1,
+			page_size: search.page_size || 20,
+			keyword: search.keyword || '',
+		}).then(results => {
+			if (this._isMounted || changeTab) {
 				this.setState({
 					loading: false
 				})
 			}
 		});
-
 	}
 	componentWillUnmount() {
 		this._isMounted = false;
@@ -76,7 +88,6 @@ class DefaultChild extends Component {
 				loading: false
 			})
 		});
-		sensors.track('accountSearchEvent', { platformType });
 	}
 	//关键字查询
 	onCountClick = (activeKey) => {
@@ -96,7 +107,12 @@ class DefaultChild extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
-		this.props.actions.getAccountList({ ...this.paramsAll, ...params, group_id: platformType, keyword: search.keyword || '', }).then(() => {
+		this.props.actions.getAccountList({
+			search_source: 1,
+			...this.paramsAll,
+			...params, group_id: platformType,
+			keyword: search.keyword || '',
+		}).then(() => {
 			this.setState({
 				loading: false
 			})
@@ -110,11 +126,12 @@ class DefaultChild extends Component {
 		let { platformType } = this.props.match.params;
 		sensors.track('AccountSearchEvent', { app_id: 101, platformType: platformType, click_url: "https://wby-download-storage.oss-cn-beijing.aliyuncs.com/trinity/%E7%9F%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0%E6%94%BF%E7%AD%96%26%E8%A7%84%E5%88%99%E6%A6%82%E8%A7%88.pdf" });
 	}
+
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;
 		const { selectedRowKeys, selectedRowKeysObject, quotation_id } = this.props
-		const { accountList, accountIdsByQuotation } = queryExportToolReducer;
+		const { accountList, accountIdsByQuotation, addLookDetailOrIndexList } = queryExportToolReducer;
 		let { platformType } = this.props.match.params;
 		let ruleUrl = {
 			2: "查看微博微任务/weiq &粉丝头条下单规则",
@@ -146,7 +163,11 @@ class DefaultChild extends Component {
 			</div>}
 		</div>
 		return <div >
-			<AccountSearch keyword={search.keyword || ''} onFilterSearch={this.onFilterSearch} {...this.props} />
+			<AccountSearch keyword={search.keyword || ''}
+				onFilterSearch={this.onFilterSearch}
+				{...this.props}
+				serachStart={this.serachStart}
+			/>
 			<Spin spinning={this.state.loading}>
 				{/*quotation_id>0代表走报价单选号车列表，已选的为选中不可编辑状态，选中值在前台保存。操作state
 				另一个table的选中是后台返回is_select，操作action*/}
@@ -173,7 +194,8 @@ class DefaultChild extends Component {
 							header={header}
 							countNum={countNum}
 							isShowNoFind={true}
-							isdBackUp={this.isdBackUp} />}
+							isdBackUp={this.isdBackUp}
+							addLookDetailOrIndexList={addLookDetailOrIndexList} />}
 				</div>
 			</Spin>
 		</div >

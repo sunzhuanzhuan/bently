@@ -41,6 +41,7 @@ import SalesAuditManage from "./salesAuditManage/index";
 
 import ExportTemplate from './exportTemplate/index'
 import AccountList from './queryExportTool/index'
+import ClassificationManage from './classificationManage/index'
 //404错误页面
 import ErrorIndex from './containers/error'
 import Login from './login/container/Login'
@@ -110,6 +111,7 @@ render(
 							<Route path='/exportTemplate' component={ExportTemplate} />
 							<Route path='/salesAuditManage' component={SalesAuditManage} />
 							<Route path='/config' component={CooperationPlatform} />
+							<Route path='/classificationManage' component={ClassificationManage} />
 							{/* <Redirect to={'/error'} /> */}
 							<Route render={redirectToOtherProjects} />
 						</Switch>

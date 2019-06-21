@@ -16,12 +16,13 @@ export default class SimpleTables extends Component {
 	componentWillMount() { }
 
 	render() {
-		const { data = [], columsNum = ['fabu'], Is_wei, dataTime, tableFooterText, isLeft, isShielding } = this.props
+		const { data = [], columsNum = ['fabu'], Is_wei, dataTime, tableFooterText, isLeft, isShielding, platform_id } = this.props
 		const config = {
 			pagination: false,
 			size: "middle",
 			//footer: () => <span>价格有效期：{dataTime}</span> 
 		}
+		const videoKey = platform_id == 115 ? 'videoStart' : 'video'
 		//微信平台-公共列项
 		const WeChat = [{
 			title: <span>报价/阅读单价</span>,
@@ -143,7 +144,7 @@ export default class SimpleTables extends Component {
 			}],
 			//视频转发
 			'video': [{
-				title: <span>数据项<MarkMessage {...messageInfo['video']} /></span>,
+				title: <span>数据项<MarkMessage {...messageInfo[videoKey]} /></span>,
 				dataIndex: 'name',
 				key: "name",
 				align: 'center',

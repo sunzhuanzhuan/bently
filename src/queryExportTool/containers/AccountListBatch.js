@@ -195,7 +195,7 @@ class AccountListBatch extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { showTypeList, visible, loading, showList, searchValue, showModalType, buttonLoaing, exactQueryData = {} } = this.state
 		const { queryExportToolReducer, actions } = this.props;
-		const { batchSearchList, filtersMetaMap, arrSelectExactQuery } = queryExportToolReducer;
+		const { batchSearchList, filtersMetaMap, arrSelectExactQuery, addLookDetailOrIndexList } = queryExportToolReducer;
 		const { statistic = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
 		const { a = {}, b = {} } = statistic
 		const header = <div style={{ marginTop: 2, color: "#666", float: "left" }}>
@@ -214,11 +214,13 @@ class AccountListBatch extends Component {
 					{searchValue.query_type == 1 ?
 						<Spin spinning={loading} >
 							<AccountTableSelect
+								addLookDetailOrIndexList={addLookDetailOrIndexList}
 								isdBackUp={this.isdBackUp}
 								accountList={batchSearchList}
 								header={header}
 								actions={actions}
 								serachAction={this.serachAction}
+
 							/>
 						</Spin>
 						:
@@ -257,6 +259,7 @@ class AccountListBatch extends Component {
 										</Row>
 										{statistic.total ? <div>
 											<BatchTable
+												addLookDetailOrIndexList={addLookDetailOrIndexList}
 												accountList={exactQueryData}
 												type={showTypeList}
 												actions={actions}
