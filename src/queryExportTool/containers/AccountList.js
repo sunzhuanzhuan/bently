@@ -145,7 +145,7 @@ class AccountList extends Component {
 			this.getSelectCartInterimList(group_type)
 		}
 	}
-	//处理临时数据
+	//处理临时数据（报价单添加账号选号车数据）
 	getSelectCartInterimList = (type) => {
 		const { selectedRowKeysObject = [] } = this.state
 		//微信
@@ -185,7 +185,7 @@ class AccountList extends Component {
 	}
 	//根据全量数据过滤接口传递数据
 	getWeiboTypeList = (type, list, isInclude) => {
-		const data = list.filter(item => type.includes(item.platform_id))
+		const data = list.filter(item => type.includes(item.platformId))
 		return data.length > 0 ? data : []
 	}
 

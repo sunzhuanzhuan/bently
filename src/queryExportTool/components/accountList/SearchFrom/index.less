@@ -1,3 +1,5 @@
+@import '../../../../indexNbTheme.less';
+
 .layout-search-box {
     min-height: 36px;
     line-height: 36px;
@@ -87,4 +89,32 @@
     padding: 10px;
     background: #FAFAFA;
     width: 100%;
+}
+
+.key-word-box {
+    padding: 10px 0px;
+    width: 542px;
+    margin: 0px auto;
+
+    .key-word-tab {
+        color: @primary-color;
+        display: flex;
+
+        &>div {
+            text-align: center;
+            padding: 3px 20px;
+            margin: 0px 4px;
+            border-radius: 3px 3px 0px 0px;
+        }
+
+        &>div:hover {
+            .checked-style
+        }
+
+    }
+}
+
+.checked-style {
+    background: @primary-color;
+    color: #fff;
 }
