@@ -148,6 +148,7 @@ class Agent extends Component {
 						onOk={this.hideModal}
 						footer={null}
 						width={showModal.width}
+						maskClosable={false}
 						onCancel={this.hideModal}>
 						{showModal && showModal.content}
 					</Modal>
