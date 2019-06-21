@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { List, message, Spin, Row, Col, Alert, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import "./RecentPrice.less"
+import { executionList, executionMap } from "../../../constants/executionData";
+import { getWeixinAvg, getOtherAllAvg } from "../../../base/SimpleTables/unit";
+import MarkMessage from "../../../base/MarkMessage";
 
 class RecentPrice extends Component {
 	constructor(props) {
@@ -46,16 +49,22 @@ class RecentPrice extends Component {
 	}
 	render() {
 		const { visable, bigLoading, warnMessage } = this.state
-		const { recentReservationOrderPriceList } = this.props
+		const { recentReservationOrderPriceList, baseInfoList } = this.props
+		const { base = {}, } = baseInfoList
+		const { platform_id } = base
 		return (
 			<div className="recent-price-wxy">
-				{visable ? <Alert message="说明:本页展示该账号最近半年在微播易平台的应约时间,价格名称,应约价" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
+				{visable ? <Alert message="说明:本页展示该账号最近一年在微播易平台的应约时间,价格名称,应约价，及执行后的数据表现" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
 				<div style={{ marginTop: 20 }}>
 					<div>
 						<Row className="price-table-row title">
-							<Col span={8}>应约时间</Col>
-							<Col span={8}>价格名称</Col>
-							<Col span={8}>应约价(元)</Col>
+							<Col span={5}>应约时间</Col>
+							<Col span={5}>价格名称</Col>
+							<Col span={4}>应约价(元)</Col>
+							<Col span={5}>执行数据<MarkMessage
+								content={<div style={{ width: 200 }}>展示的是订单执行后的表现稳定性数据，一般为发布时间后72小时的数据；若为-则是因为该订单未最终执行或未抓取到数据。</div>}
+							/></Col>
+							<Col span={5}>发布时间</Col>
 						</Row>
 					</div>
 					<Spin spinning={bigLoading} >
@@ -73,14 +82,30 @@ class RecentPrice extends Component {
 									renderItem={(item, index) => (
 										<List.Item key={index} style={{ marginTop: 16 }}>
 											<Row className="price-table-row">
-												<Col span={8}>
+												<Col span={5}>
 													{item.created_time}
 												</Col>
-												<Col span={8}>
+												<Col span={5}>
 													{item.price_label}
 												</Col>
-												<Col span={8}>
+												<Col span={4}>
 													{item.deal_price}
+												</Col>
+												<Col span={5} >
+													<div className='execution-data'>
+														{executionList.includes(`${platform_id}`) ?
+															executionMap[platform_id].list.map((one, index) => <div key={index} className='execution-data-item'>
+																<span>{one.name}：</span>
+																<span>{item[one.value] === 0 || item[one.value] ?
+																	platform_id == 9 ? getWeixinAvg(item[one.value])
+																		: getOtherAllAvg(item[one.value])
+																	: '-'}</span>
+															</div>
+															) : '暂无数据'}
+													</div>
+												</Col>
+												<Col span={5}>
+													{platform_id == 106 ? item.live_created_time||'-' : item.media_created_time||'-'}
 												</Col>
 											</Row>
 										</List.Item>

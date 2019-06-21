@@ -12,13 +12,19 @@ const getCategory = (grouped_categories, group_id) => {
 		name: item.itemValue
 	}))
 }
+const getOrderIndustryCategory = (order_industry_category = []) => {
+	return order_industry_category.map(item => ({
+		...item,
+		id: item.code,
+	}))
+}
 // let version = 0;
 export const getFilters = (params) => (dispatch) => {
 	const { group_id } = params;
 	// version = params.version;
 	return api.get(Interface.getFilters).then((data) => {
 		data = data.data;
-		const { groups, grouped_categories, grouped_sku_types, kol_province_list, kol_interest_list, default_hot_cities } = data;
+		const { groups, grouped_categories, order_industry_category, grouped_sku_types, kol_province_list, kol_interest_list, default_hot_cities } = data;
 		const category = {
 			name: '常见分类',
 			options: getCategory(grouped_categories, group_id)
@@ -36,6 +42,7 @@ export const getFilters = (params) => (dispatch) => {
 					operation_tag,
 					group,
 					grouped_sku_types,
+					order_industry_category: getOrderIndustryCategory(order_industry_category),
 					industry_list_options: data.industry_list,
 					kol_province_list_options: kol_province_list,
 					kol_interest_list_options: kol_interest_list,

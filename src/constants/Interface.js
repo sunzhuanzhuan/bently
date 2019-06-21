@@ -4,6 +4,9 @@ export default {
 		getAllPlatform: '/platform/getAll',
 		getChineseCities: '/operator-gateway/common/v1/chineseCities',
 		getToken: '/toolbox-gateway/file/v1/getToken',
+		getAllClassifyInfos: '/operator-gateway/common/v1/getAllClassifyInfos',
+		getFileRealPath: '/operator-gateway/common/v1/getRealDownLoadPath',
+		platformList: '/operator-gateway/common/v1/platformList',
 	},
 	sourceRulesUrl: {
 		add: '/sourceRule/add',

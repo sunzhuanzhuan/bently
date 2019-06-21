@@ -1,0 +1,29 @@
+@import "../indexNbTheme";
+.simple-tag {
+  vertical-align: baseline;
+  font-variant: tabular-nums;
+  color: #333;
+  box-sizing: border-box;
+  margin: 0 20px 0 0;
+  list-style: none;
+  display: inline-block;
+  line-height: 28px;
+  height: 28px;
+  padding: 0 16px;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  opacity: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  background: fadeout(@primary-color, 90%);
+  //border: 1px solid fadeout(@primary-color, 40%);
+  border-radius: 4px;
+  color: @primary-color;
+}
+.has-error .right-fix-btn{
+  border-left-color: red!important;
+}
+div .simple-tag:last-of-type {
+  margin-right: 0;
+}
+

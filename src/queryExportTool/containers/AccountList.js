@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 // import { StickyContainer, Sticky } from 'react-sticky';
 import * as action from '../actions/index'
-import { Tabs, Spin, BackTop } from "antd"
+import { Tabs, Spin, BackTop, Button } from "antd"
 import qs from "qs";
 import DefaultChild from './children/DefaultChild'
 import "./AccountList.less"
@@ -12,6 +12,8 @@ import AccountListBatch from "./AccountListBatch"
 import { default as SelectCar, CarContent } from '../components/accountList/SelectCar';
 import platform from "../constants/platform";
 import debounce from 'lodash/debounce';
+import MaskBox from "../base/MaskBox";
+
 const TabPane = Tabs.TabPane;
 // const renderTabBar = (props, DefaultTabBar) => (
 // 	<Sticky bottomOffset={80}>
@@ -33,7 +35,7 @@ class AccountList extends Component {
 		selectCartInterimList: {},
 		selectLoading: false,
 		quotation_id: 0,
-		quotation_name: ""
+		quotation_name: "",
 	}
 	componentDidMount = () => {
 		const { getAccountListFromCart } = this.props.actions
@@ -237,6 +239,7 @@ class AccountList extends Component {
 
 		const heardText = <h2>{quotation_id > 0 ? `请为【${quotation_name}】报价单，选择您心仪的账号` : "账号列表"}</h2>
 		return <div >
+			<MaskBox />
 			<div id="Js-select-car-no-click-id">
 				<BackTop />
 				{heardText}
@@ -246,7 +249,11 @@ class AccountList extends Component {
 							return <TabPane tab={item.name} key={item.group_type} style={index == 0 ? { minHeight: 1000 } : null}>
 								{
 									item.group_type != 6 && platformType == item.group_type ?
-										<DefaultChild {...this.props} {...tableProps} setAccountState={this.setAccountState} />
+										<DefaultChild
+											{...this.props}
+											{...tableProps}
+											setAccountState={this.setAccountState}
+										/>
 										: platformType == 6 ? <AccountListBatch {...tableProps} /> : null
 								}
 							</TabPane>

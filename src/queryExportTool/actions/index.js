@@ -117,6 +117,10 @@ export const removeSelectExactQuery = createAction('removeSelectExactQuery', (va
 export const cleanSelectExactQuery = createAction('cleanSelectExactQuery', (value) => {
 	return value
 })
+//编辑点击查看详情统计
+export const addLookDetailOrIndexList = createAction('addLookDetailOrIndexList', (value) => {
+	return value
+})
 
 let collectHistoryData = createAction('collectHistoryData', history => history);
 export { collectHistoryData };
