@@ -35,8 +35,15 @@ class InputButton extends Component {
 		if (!("value" in this.props)) {
 			this.setState(state);
 		}
-		const { onChange } = this.props;
-		onChange && onChange(min);
+		this.triggerChange(state);
+	}
+	//数据每次变化调用函数
+	triggerChange = changedValue => {
+		// Should provide an event to pass value to Form.
+		const onChange = this.props.onChange;
+		if (onChange) {
+			onChange(changedValue.weight);
+		}
 	}
 	//拼接数据，已选选项
 	onClickOkButton = () => {
