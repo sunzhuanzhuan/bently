@@ -9,9 +9,10 @@ class PaymentMethodDetail extends Component {
 		const { detailData = {} } = this.props
 		const {
 			bank, bankAgency, bankAgencyCity, bankAgencyProvince, cardNumber, realName,
-			alipayAccountName, alipayAccount, paymentType } = detailData
+			alipayAccountName, alipayAccount, paymentType, beneficiaryCompany } = detailData
 		const bankArr = [
-			{ title: "收款方式", content: paymentType == 1 ? "银行转账" : '支付宝' },
+			{ title: "发票开具方", content: beneficiaryCompany },
+			{ title: "收款方式", content: "银行转账" },
 			{ title: "开户行", content: bank },
 			{ title: "开户支行", content: bankAgency },
 			{ title: "开户行所在省", content: bankAgencyProvince },
@@ -20,6 +21,7 @@ class PaymentMethodDetail extends Component {
 			{ title: "户名", content: realName },
 		]
 		const alipayArr = [
+			{ title: "发票开具方", content: beneficiaryCompany },
 			{ title: "收款方式", content: "支付宝" },
 			{ title: "帐号", content: alipayAccount },
 			{ title: "收款方", content: alipayAccountName },]

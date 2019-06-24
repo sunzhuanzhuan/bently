@@ -16,7 +16,7 @@ class SettlementMethod extends Component {
 					{getFieldDecorator('agentVo.settleType', {
 						initialValue: dataDefault && dataDefault.settleType,
 						rules: [
-							{ required: true, message: '请选择结算方式' },
+							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>
@@ -29,13 +29,13 @@ class SettlementMethod extends Component {
 					{getFieldDecorator('agentVo.returnInvoiceType', {
 						initialValue: dataDefault && dataDefault.returnInvoiceType || 1,
 						rules: [
-							{ required: true, message: '请选择回票方式' },
+							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>
 							<Radio value={1}>全部回票</Radio>
-							{isAgent ? <Radio value={2}>部分回票</Radio> : null}
-							{isAgent ? <Radio value={3}>不回票</Radio> : null}
+							{/* <Radio value={2}>部分回票</Radio>
+							<Radio value={3}>不回票</Radio> */}
 						</RadioGroup>
 					)}
 				</Form.Item>

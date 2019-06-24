@@ -7,11 +7,11 @@ class MarkMessage extends PureComponent {
 		this.state = {};
 	}
 	render() {
-		const { content, title = "", } = this.props
+		const { content, title = "", text = <Icon type="question-circle" theme="outlined" /> } = this.props
 		return (
 			<span style={{ marginLeft: 1 }}>
 				<Popover content={content} title={title} trigger="hover" getPopupContainer={() => document.querySelector('.query-export-tool')}>
-					<Icon type="question-circle" theme="outlined" />
+					{text}
 				</Popover>
 			</span>
 		);

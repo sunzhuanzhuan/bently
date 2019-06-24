@@ -3,6 +3,8 @@ import AgentDetail from "../../containers/AgentDetail";
 import AgentEdit from "../../containers/AgentEdit";
 import { DeleteModal } from "../common";
 import { Table } from 'antd';
+import numeral from "numeral";
+
 class TableList extends Component {
 	constructor(props) {
 		super(props);
@@ -10,7 +12,7 @@ class TableList extends Component {
 	}
 	render() {
 		const { setShowModal, agentByPageList,
-			editAgentStatus, deleteAgent, seachAgentByPage, actions } = this.props
+			editAgentStatus, deleteAgent, seachAgentByPage, actions, titleModal } = this.props
 		const columns = [{
 			title: '代理商编号',
 			dataIndex: 'agentCode',
@@ -23,17 +25,20 @@ class TableList extends Component {
 			key: 'agentName',
 		}, {
 			title: '合作方式',
-			dataIndex: 'cooperationStyle',
+			dataIndex: 'cooperationType',
 			align: 'center',
-			key: 'cooperationStyle',
+			key: 'cooperationType',
 			render: (text, recode) => {
 				return text == 1 ? '周期返款' : '其他'
 			}
 		}, {
 			title: '返款比例（%）',
-			dataIndex: 'payRebate',
+			dataIndex: 'refundRate',
 			align: 'center',
-			key: 'payRebate',
+			key: 'refundRate',
+			render: (text, recode) => {
+				return recode.cooperationType == 1 ? numeral(text || 0).format('0.00') : '-'
+			}
 		}, {
 			title: '状态',
 			dataIndex: 'agentStatus',
@@ -58,7 +63,7 @@ class TableList extends Component {
 			align: 'center',
 			key: 'setmethod',
 			render: (text, recode) => {
-				const title = `代理商   【所属下单平台：${'快接单'} 所属媒体平台：${'快手'}】`
+				const title = `代理商  ${titleModal} `
 				const { agentStatus, id } = recode
 				return <div>
 					<a style={{ marginRight: 4 }} onClick={() => setShowModal(true,
@@ -80,30 +85,34 @@ class TableList extends Component {
 							title: <div>修改{title}</div>,
 							content: <AgentEdit setShowModal={setShowModal}
 								agentId={recode.id}
+								agentName={recode.agentName}
 								seachAgentByPage={seachAgentByPage}
 							/>
 						})} style={{ margin: "0px 4px" }}>修改</a>
-					{agentStatus == 2 ? <DeleteModal onDelete={() => deleteAgent({ id: id })} /> : null}
+					{agentStatus == 2 ? <DeleteModal onDelete={() => deleteAgent(id)} /> : null}
 				</div>
 			}
 		}]
+		const { list, total, pageSize, pageNum } = agentByPageList
 		return (
 			<Table
-				style={{ marginTop: 20 }}
+				style={{ marginTop: 20, minHeight: 300 }}
 				bordered={true}
-				dataSource={agentByPageList.list}
+				dataSource={list}
 				columns={columns}
 				pagination={{
-					current: 1,
-					pageSize: 10,
+					current: pageNum,
+					pageSize: pageSize,
+					total: total,
 					showQuickJumper: true,
 					showSizeChanger: true,
 					onShowSizeChange: (current, pageSize) => {
-						console.log(current, pageSize);
-
+						console.log('onShowSizeChange', current, pageSize);
+						seachAgentByPage({ page: { currentPage: current, pageSize: pageSize } })
 					},
 					onChange: (current, pageSize) => {
-						console.log(current, pageSize);
+						console.log('onChange', current, pageSize);
+						seachAgentByPage({ page: { currentPage: current, pageSize: pageSize } })
 					},
 				}}
 			/>

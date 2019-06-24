@@ -78,7 +78,9 @@ export default class MainItem extends PureComponent {
 		const { sns_name = '', avatar_url, verified_status, level, introduction,
 			is_low_quality, url, is_support_topic_and_link, is_verified,
 			can_origin, area_name, age_group, original_type_display = [],
-			is_prevent_shielding, classification = [], qr_code_url,
+			is_prevent_shielding,//价格防屏蔽
+			trinity_is_prevent_shielding,//账号防屏蔽
+			classification = [], qr_code_url,
 			sns_id, verification_info, media_manager, is_famous,
 			operation_tags = [], follower_count, account_id, gender,
 			snbt, true_fans_rate, true_read_ratio, media_weekly_group_count_90d,
@@ -158,7 +160,7 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 根据平台不同展示不同的标签 */}
 								{original_type_display.map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}
-								{is_prevent_shielding == 1 && Is_Weibo ? <CTag color='green'>防屏蔽</CTag> : null}
+								{!IS_WEiXin && trinity_is_prevent_shielding == 1 ? <CTag color='green'>防屏蔽</CTag> : null}
 								{is_support_topic_and_link == 1 && Is_Weibo ? <CTag color='green'>可带@/话题/链接</CTag> : null}
 								{can_origin == 1 ? <CTag color='green'>原创</CTag> : null}
 							</div>
@@ -181,7 +183,7 @@ export default class MainItem extends PureComponent {
 							time={follower_count_screenshot_modified_time} IS_WEiXin={IS_WEiXin} />
 					</div>
 					{/* 此处是右侧两个小表格*/}
-					<SimpleTables Is_wei={Is_wei} data={price && price.skus}
+					<SimpleTables Is_wei={Is_wei} data={price && price.skus} isShielding={is_prevent_shielding == 1}
 						columsNum={this.getColumsNum(group_type, Is_wei)[0]}
 						dataTime={price && price.price_valid_to}
 						tableFooterText={Is_wei ? "" : "价格有效期"}

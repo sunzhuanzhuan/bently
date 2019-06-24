@@ -8,6 +8,9 @@ class PaymentMethod extends Component {
 		super(props);
 		this.state = {};
 	}
+	componentDidMount = () => {
+		this.props.actions.getPaymentTypeList()
+	}
 	accountVali = (rule, value, callback) => {
 		const reg = /^[0-9]+$/;
 		if (reg.test(value)) {
@@ -23,7 +26,7 @@ class PaymentMethod extends Component {
 	}
 	chinaVali = (number, rule, value, callback) => {
 		const reg = /^[\u4e00-\u9fa5]+$/;
-		if (reg.test(value) && value.length < number) {
+		if (reg.test(value) && value.length < (number + 1)) {
 			callback()
 		} else {
 			callback(`仅可输入${number}字以内的汉字！`)
@@ -38,8 +41,19 @@ class PaymentMethod extends Component {
 			callback("最多可输入60个字以内的中英文及数字！")
 		}
 	}
+	changePaymentType = () => {
+		this.props.form.resetFields([
+			'agentVo.bank',
+			'agentVo.bankAgency',
+			'agentVo.bankAgencyProvince',
+			'agentVo.bankAgencyCity',
+			'agentVo.cardNumber',
+			'agentVo.realName',
+			'agentVo.alipayAccount'
+		])
+	}
 	render() {
-		const { form, formLayout, dataDefault } = this.props
+		const { form, formLayout, dataDefault, cooperationPlatformReducer: { paymentTypeList } } = this.props
 		const { getFieldDecorator, getFieldValue } = form
 		return (
 			<div>
@@ -48,7 +62,7 @@ class PaymentMethod extends Component {
 						initialValue: dataDefault && dataDefault.beneficiaryCompany,
 						validateFirst: true,
 						rules: [
-							{ required: true, message: '本项为必选项，请输入！' },
+							{ required: true, message: '此项为必填项，请输入！' },
 							{ max: 50, message: "最多可输入50个字！" }
 						],
 					})(
@@ -62,7 +76,7 @@ class PaymentMethod extends Component {
 							{ required: true, message: '本项是必选项，请选择！' },
 						],
 					})(
-						<RadioGroup>
+						<RadioGroup onChange={this.changePaymentType}>
 							<Radio value={1}>银行转账</Radio>
 							<Radio value={2}>支付宝</Radio>
 						</RadioGroup>
@@ -71,14 +85,14 @@ class PaymentMethod extends Component {
 				{getFieldValue("agentVo.paymentType") == 1 ? <div>
 					<Form.Item label="开户行"{...formLayout}>
 						{getFieldDecorator('agentVo.bank', {
-							initialValue: dataDefault && dataDefault.bank,
+							//此处判断是否存在开户行，不存在则为undefined
+							initialValue: dataDefault && dataDefault.bank && dataDefault.bank.length > 0 ? dataDefault.bank : undefined,
 							rules: [
-								{ required: true, message: '请选择开户行' },
+								{ required: true, message: '此项为必选项，请选择！' },
 							],
 						})(
 							<Select placeholder="请选择" style={{ width: 200 }}>
-								<Option value="china">China</Option>
-								<Option value="usa">U.S.A</Option>
+								{paymentTypeList && paymentTypeList.map(one => <Option key={one.payment_type_id} value={one.name}>{one.name}</Option>)}
 							</Select>
 						)}
 					</Form.Item>
@@ -86,9 +100,8 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('agentVo.bankAgency', {
 							initialValue: dataDefault && dataDefault.bankAgency,
 							validateFirst: true,
-							validateTrigger: "onBlur",
 							rules: [
-								{ required: true, message: '请输入开户支行' },
+								{ required: true, message: '此项为必填项，请输入！' },
 								{ validator: this.chinaAndNumberVali },
 								{ max: 60, message: "最多可输入60个字以内的中英文及数字！" },
 
@@ -97,25 +110,25 @@ class PaymentMethod extends Component {
 							<Input placeholder="请输入开户支行" />
 						)}
 					</Form.Item>
-					<Form.Item label="开户所在省"  {...formLayout}>
+
+					<Form.Item label="开户行所在省"  {...formLayout}>
 						{getFieldDecorator('agentVo.bankAgencyProvince', {
 							initialValue: dataDefault && dataDefault.bankAgencyProvince,
 							validateFirst: true,
 							rules: [
-								{ required: true, message: '请输入开户所在省' },
+								{ required: true, message: '此项为必填项，请输入！' },
 								{ validator: this.chinaVali.bind(null, 30) },
 							],
 						})(
 							<Input placeholder="请输入省份" />
 						)}
 					</Form.Item>
-					<Form.Item label="开户所在市"  {...formLayout}>
+					<Form.Item label="开户行所在市"  {...formLayout}>
 						{getFieldDecorator('agentVo.bankAgencyCity', {
 							initialValue: dataDefault && dataDefault.bankAgencyCity,
 							validateFirst: true,
-							validateTrigger: "onBlur",
 							rules: [
-								{ required: true, message: '请输入开户所在市' },
+								{ required: true, message: '此项为必填项，请输入！' },
 								{ validator: this.chinaVali.bind(null, 50) },
 							],
 						})(
@@ -126,22 +139,21 @@ class PaymentMethod extends Component {
 						{getFieldDecorator('agentVo.cardNumber', {
 							initialValue: dataDefault && dataDefault.cardNumber,
 							validateFirst: true,
-							validateTrigger: "onBlur",
 							rules: [
-								{ required: true, message: '请输入账号' },
+								{ required: true, message: '此项为必填项，请输入！' },
 								{ validator: this.accountVali },
 							],
 						})(
 							<Input placeholder="请输入16-19位卡号" />
+
 						)}
 					</Form.Item>
 					<Form.Item label="户名"  {...formLayout}>
 						{getFieldDecorator('agentVo.realName', {
 							initialValue: dataDefault && dataDefault.realName,
 							validateFirst: true,
-							validateTrigger: "onBlur",
 							rules: [
-								{ required: true, message: '请输入户名' },
+								{ required: true, message: '此项为必填项，请输入！' },
 								{ validator: this.chinaVali.bind(null, 50) },
 							],
 						})(
@@ -155,7 +167,7 @@ class PaymentMethod extends Component {
 								initialValue: dataDefault && dataDefault.alipayAccount,
 								validateFirst: true,
 								rules: [
-									{ required: true, message: '请输入账号' },
+									{ required: true, message: '此项为必填项，请输入！' },
 									{ max: 80, message: "最多可输入80个字！" }
 								],
 							})(
@@ -167,7 +179,7 @@ class PaymentMethod extends Component {
 								initialValue: dataDefault && dataDefault.alipayAccountName,
 								validateFirst: true,
 								rules: [
-									{ required: true, message: '请输入收款方' },
+									{ required: true, message: '此项为必填项，请输入！' },
 									{ max: 50, message: "最多可输入50个字！" }
 								],
 							})(
