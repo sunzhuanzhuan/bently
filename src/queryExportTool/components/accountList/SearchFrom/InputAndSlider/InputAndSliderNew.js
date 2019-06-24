@@ -111,14 +111,14 @@ class InputAndSliderNew extends Component {
 			<div className="item-lable">
 				<div className="item-lable-right">
 					<Input value={number[0]} onChange={this.changedInputFilter(0)} className="lable-input" />
-					<Input className="middle-line" style={{ backgroundColor: '#fff' }} value="-" disabled />
+					<Input className="middle-line" style={{ backgroundColor: 'transparent' }} value="-" disabled />
 					<Input value={number[1]} onChange={this.changedInputFilter(1)} className="lable-input" />
 					<Input className="middle-line" style={{
-						backgroundColor: '#fff',
+						backgroundColor: 'transparent',
 						width: 42
 					}} value={unit} disabled />
 					<div className="ok-text">
-						<a onClick={this.onClickOkButton} style={{ color: isShowOK ? null : "#fff" }}>确定</a>
+						{isShowOK ? <a onClick={this.onClickOkButton} >确定</a> : null}
 					</div>
 				</div>
 				<div className="item-lable-left">
