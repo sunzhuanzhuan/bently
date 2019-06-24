@@ -75,13 +75,16 @@ class BrandModal extends Component {
         const { brand_parent_code, brand_child_code } = this.state;
         const isNum = /^\d+$/.test(value);
         const isRepeat = name === '主品牌code' ? brand_parent_code : brand_child_code;
+        const invalidVal = value === '00000';
         
-        if(isNum && value.length === 5 && !isRepeat) {
+        if(isNum && value.length === 5 && !isRepeat && !invalidVal) {
             callback();
         }else if(!(value && value.length)){
             callback(`请填写${name}`);
         }else if(!isNum || value.length !== 5) {
             callback(`${name}必须为5位数字`)
+        }else if(invalidVal) {
+            callback(`${name}不能全为0，请重新填写`)
         }else if(isRepeat) {
             callback(`和现有${name}重复，请重新填写`)
         }
@@ -106,7 +109,7 @@ class BrandModal extends Component {
         const childCode = form.getFieldValue('brand_child_code');
         const parentCode = form.getFieldValue('brand_parent_code');
 
-        if(!value || !lenthOk) return;
+        if(!value || !lenthOk || value === '00000') return;
 
         if(type === 'brand_child_code') {
             if(parentCode) {
