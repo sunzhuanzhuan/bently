@@ -4,16 +4,12 @@ import "./index.less"
 import PropTypes from 'prop-types'
 import CInputNumber from "@/queryExportTool/base/CInputNumber";
 const InputGroup = Input.Group;
-const Option = Select.Option;
 /**
  * @param
- * options:下拉列表集合
  * inputLableBefore：input前的文本
  * inputLableAfter：input后的文本
- * showType：展示个数为three时展示三个表单
- * inputLableMiddle：input中间的文本（showType=three三个时出现）
  */
-class SelectAndInput extends Component {
+class InputButton extends Component {
 	static propTypes = {
 		inputLableBefore: PropTypes.string,
 		inputLableAfter: PropTypes.string
@@ -39,17 +35,10 @@ class SelectAndInput extends Component {
 		if (!("value" in this.props)) {
 			this.setState(state);
 		}
-		this.triggerChange(state);
+		const { onChange } = this.props;
+		onChange && onChange(min);
 	}
-
-	triggerChange = changedValue => {
-		// Should provide an event to pass value to Form.
-		const onChange = this.props.onChange;
-		if (onChange) {
-			onChange(changedValue.weight);
-		}
-	};
-
+	//拼接数据，已选选项
 	onClickOkButton = () => {
 		const { weight } = this.state
 		const min = weight[0] || '';
@@ -71,8 +60,8 @@ class SelectAndInput extends Component {
 		} = this.props
 		const { weight } = this.state;
 		const min = weight[0];
-		//下拉框选择是否为空
-		let okBtnDisabled = !min || inputLableAfter == '%' && min >= 100;   //如果一个输入框，并且是百分比，
+		//如果一个输入框，并且是百分比，判断确定按钮是否亮起
+		let okBtnDisabled = !min || inputLableAfter == '%' && min >= 100;
 
 		return (
 			<div ref={e => this.node = e} className="select-input">
@@ -89,4 +78,4 @@ class SelectAndInput extends Component {
 	}
 }
 
-export default SelectAndInput;
+export default InputButton;
