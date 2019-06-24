@@ -4,6 +4,8 @@ import { Tag, DatePicker, Button, Popover, Icon, message } from 'antd';
 import DropdownMenuNew from '../../../dropdownMenu/dropdownMenuNew'
 import MoreFilter from '../MoreFilter/index'
 import SelectAndInput from '../SelectAndInput'
+import IndexButton from '../SelectAndInput/indexButton'
+
 import SelectMenu from '../SelectMenu'
 import TreeTransfer from '../TreeTransfer'
 import './FilterCommon.less'
@@ -204,7 +206,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }}></SelectAndInput>
+								<IndexButton id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }}></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{
@@ -215,7 +217,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput id='mediaIndex1AvgReadNum' onOkClick={(values) => { onChange('mediaIndex1AvgReadNum', '多一阅读量', values) }} inputLableAfter=""></SelectAndInput>
+								<IndexButton id='mediaIndex1AvgReadNum' onOkClick={(values) => { onChange('mediaIndex1AvgReadNum', '多一阅读量', values) }} inputLableAfter=""></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{/* 新浪微博 */}
@@ -227,7 +229,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput promptMessage="直发类型微博的平均转发、评论、点赞之和" id='directMediaInteractionAvg' onOkClick={(values) => { onChange('directMediaInteractionAvg', '直发互动量', values) }} inputLableAfter=""></SelectAndInput>
+								<IndexButton promptMessage="直发类型微博的平均转发、评论、点赞之和" id='directMediaInteractionAvg' onOkClick={(values) => { onChange('directMediaInteractionAvg', '直发互动量', values) }} inputLableAfter=""></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{
@@ -238,7 +240,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }}></SelectAndInput>
+								<IndexButton id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }}></IndexButton>
 							)}</DropdownMenuNew>
 					}
 

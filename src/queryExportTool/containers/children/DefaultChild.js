@@ -84,7 +84,7 @@ class DefaultChild extends Component {
 				unitPrices: params.skuUnitPlayPrice.weight
 			}
 		}
-		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, page: 1, page_size: 20 }
+		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, page: 1, pageSize: 20 }
 		this.props.actions.getAccountList(this.paramsAll).then(() => {
 			this.setState({
 				loading: false
