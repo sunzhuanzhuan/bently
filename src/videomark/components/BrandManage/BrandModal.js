@@ -104,12 +104,16 @@ class BrandModal extends Component {
     }
 
     handleVerifyUnique = (name, type, value, lenthOk) => {
-        const { form } = this.props;
+        const { form, modalType, itemInfo = {} } = this.props;
         const payload = {[type]: value};
         const childCode = form.getFieldValue('brand_child_code');
         const parentCode = form.getFieldValue('brand_parent_code');
 
         if(!value || !lenthOk || value === '00000') return;
+        if(modalType === 'edit' && type === 'brand_name' && value === itemInfo.brand_name) {
+            this.setState({brand_name: false});
+            return;
+        }
 
         if(type === 'brand_child_code') {
             if(parentCode) {
