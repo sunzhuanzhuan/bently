@@ -280,6 +280,7 @@ class RefuseRejection extends Component {
 							modifyComplainData.cost_amount != 0 ?
 							<FormItem label="扣款比例" {...formItemLayout}>
 								{getFieldDecorator("charge_ratio", {
+									initialValue: undefined,
 									rules: [{
 										required: true, message: '请输入扣款比例'
 									}, {
