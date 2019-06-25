@@ -98,7 +98,8 @@ class BaseInfo extends Component {
 		this.setState({
 			trinitySkuTypeVOS: [],
 			trinityTollTypeVOS: [],
-			platformName: platformName
+			platformName: platformName,
+			cooperationPlatformName: ''
 		})
 		//清空可下拉数据，清空微博自定义名称
 		form.resetFields(['cooperationPlatformName', 'cooperationPlatformKey'])
