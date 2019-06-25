@@ -307,6 +307,7 @@ class ManagerInspectionUnquailfy extends Component {
 							<FormItem label="扣款比例" {...formItemLayout}>
 
 								{getFieldDecorator("charge_ratio", {
+									initialValue: undefined,
 									rules: [{
 										required: true, message: '请输入扣款比例'
 									}, {
