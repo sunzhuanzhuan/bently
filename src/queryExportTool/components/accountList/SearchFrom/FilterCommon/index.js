@@ -108,7 +108,9 @@ export default class FilterCommon extends React.Component {
 	// 	this.props.resetFilter();
 	// 	this.props.onFilter();
 	// }
-
+	reset = () => {
+		this.MoreFilterNode && this.MoreFilterNode.reset()
+	}
 	render() {
 		const { form, selectedItems } = this.props;
 		const { getFieldDecorator } = form;
