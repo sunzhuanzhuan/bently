@@ -49,8 +49,15 @@ class BrandModal extends Component {
 
     handleChangeLevel = level => {
         const { form } = this.props;
-
+        const isChildCodeErr = form.getFieldError('brand_child_code');
+        const childCode = form.getFieldValue('brand_child_code');
+        const errMsg = level === 1 ? '请填写主品牌code' : '请选择主品牌';
         this.setState({ level });
+
+        if(childCode && childCode.length === 5 && isChildCodeErr) {
+            this.setFormItemError('brand_child_code', childCode, [new Error(errMsg)])
+        }
+
         form.resetFields(['brand_parent_code']);
     }
 
@@ -75,6 +82,7 @@ class BrandModal extends Component {
         const { brand_parent_code, brand_child_code } = this.state;
         const isNum = /^\d+$/.test(value);
         const isRepeat = name === '主品牌code' ? brand_parent_code : brand_child_code;
+        const repeatMsg = name === '主品牌code' ? `和现有${name}重复，请重新填写` : `和其他${name}重复，请重新填写`;
         const invalidVal = value === '00000';
         
         if(isNum && value.length === 5 && !isRepeat && !invalidVal) {
@@ -84,9 +92,9 @@ class BrandModal extends Component {
         }else if(!isNum || value.length !== 5) {
             callback(`${name}必须为5位数字`)
         }else if(invalidVal) {
-            callback(`${name}不能全为0，请重新填写`)
+            callback(`${name}不能全为0`)
         }else if(isRepeat) {
-            callback(`和现有${name}重复，请重新填写`)
+            callback(repeatMsg)
         }
     }
 
@@ -103,11 +111,13 @@ class BrandModal extends Component {
         form.setFields({[type]: {value, errors}})
     }
 
-    handleVerifyUnique = (name, type, value, lenthOk) => {
+    handleVerifyUnique = (name, type, value, lenthOk, parentCode) => {
         const { form, modalType, itemInfo = {} } = this.props;
+        const { level } = this.state;
         const payload = {[type]: value};
         const childCode = form.getFieldValue('brand_child_code');
-        const parentCode = form.getFieldValue('brand_parent_code');
+        const finalPCode = form.getFieldValue('brand_parent_code') || parentCode;
+        const parentMsg = level === 1 ? '请填写主品牌code' : '请选择主品牌';
 
         if(!value || !lenthOk || value === '00000') return;
         if(modalType === 'edit' && type === 'brand_name' && value === itemInfo.brand_name) {
@@ -116,10 +126,10 @@ class BrandModal extends Component {
         }
 
         if(type === 'brand_child_code') {
-            if(parentCode) {
-                payload.brand_parent_code = parentCode;
+            if(finalPCode) {
+                payload.brand_parent_code = finalPCode;
             }else {
-                this.setFormItemError(type, value, [new Error('请填写主品牌code')])
+                this.setFormItemError(type, value, [new Error(parentMsg)])
                 return;
             }
         }else if(type === 'brand_parent_code' && childCode && childCode.length === 5) {
@@ -135,10 +145,15 @@ class BrandModal extends Component {
         });
     }
 
-    handleChangeParenBrand = value => {
+    handleChangeParenBrand = parentCode => {
         const { mainBrandList = [], form } = this.props;
-        const selectMainBrand = mainBrandList.find(item => item.id === value) || {};
+        const selectMainBrand = mainBrandList.find(item => item.id === parentCode) || {};
+        const childCode = form.getFieldValue('brand_child_code');
 
+        if(childCode && childCode.length === 5) {
+            this.handleVerifyUnique('品牌序列号', 'brand_child_code', childCode, true, parentCode)
+        }
+        
         form.setFieldsValue({'industry_code': selectMainBrand.industry})
     }
 
@@ -155,7 +170,7 @@ class BrandModal extends Component {
             wrapperCol: {span: 19},
         };
         const levelInit = {
-            initialValue: this.getInitalValue('level') || level,
+            initialValue: level,
             rules: [{
                 required: true,
                 message: '请选择品牌类型'
@@ -172,14 +187,14 @@ class BrandModal extends Component {
             initialValue: this.getInitalValue('industry_code'),
             rules: [{
                 required: true,
-                message: '请选择所属行业'
+                message: '请选择品牌所属行业'
             }]
         };
         const signInit = {
             initialValue: this.getInitalValue('is_signed_available'),
             rules: [{
                 required: true,
-                message: '请选择是否标注可用'
+                message: '请选择该品牌是否可用于标注'
             }]
         };
         const getAddInfoItems = () => {
@@ -204,7 +219,7 @@ class BrandModal extends Component {
                             ]
                         })(
                             <Input 
-                                placeholder='请输入主品牌code' 
+                                placeholder='请输入5位数字主品牌code' 
                                 onFocus={() => {this.handleFocusInput('brand_parent_code')}}
                                 onBlur={
                                     ({target: {value}}) => 
@@ -218,6 +233,7 @@ class BrandModal extends Component {
                     <SelectFormItem
                         key='brandCodeItem'
                         showSearch
+                        placeholder='请输入主品牌名称查询'
                         getFieldDecorator={getFieldDecorator}
                         label={'选择主品牌'}
                         keyName={'brand_parent_code'}
@@ -235,7 +251,7 @@ class BrandModal extends Component {
                         rules: [{required: true, message: ' '},{validator: (_, value, callback) => {this.judgeCode('品牌序列号', value, callback)}}]
                     })(
                         <Input 
-                            placeholder='请输入品牌序列号' 
+                            placeholder='请输入5位数字品牌序列号' 
                             onFocus={() => {this.handleFocusInput('brand_child_code')}}
                             onBlur={
                                 ({target: {value}}) => 
@@ -254,7 +270,7 @@ class BrandModal extends Component {
                 visible
                 destroyOnClose
                 width={600}
-                title={ modalType === 'add' ? '添加' : '编辑' }
+                title={ modalType === 'add' ? '添加品牌' : '修改品牌' }
                 onOk={ this.handleSave }
                 onCancel={ () => { isShowModal() } }
             >
