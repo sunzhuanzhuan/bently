@@ -18,8 +18,8 @@ class BrandModal extends Component {
             { id: 2, value: '子品牌' },
         ];
         this.signOption = [
-            { id: 1, value: '可用' },
-            { id: 2, value: '不可用' },
+            { id: 1, value: '是' },
+            { id: 2, value: '否' },
         ];
     }
 

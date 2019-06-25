@@ -14,8 +14,8 @@ class BrandHeader extends Component {
         ];
         this.signOption = [
             { id: 'ALL_OPTION', value: '请选择' },
-            { id: 1, value: '可用' },
-            { id: 2, value: '不可用' },
+            { id: 1, value: '是' },
+            { id: 2, value: '否' },
         ];
     }
 
