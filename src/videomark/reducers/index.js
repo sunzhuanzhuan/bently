@@ -9,7 +9,6 @@ import {
     brandListForModal
 } from './task'
 
-
 export default combineReducers({
     platformList,
     saleList,
@@ -17,5 +16,5 @@ export default combineReducers({
     campaignList,
     industryList,
     brandList,
-    brandListForModal
+    brandListForModal,
 })
