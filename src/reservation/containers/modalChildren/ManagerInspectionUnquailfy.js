@@ -26,7 +26,8 @@ class ManagerInspectionUnquailfy extends Component {
 			previewImage: '',
 			historyDisplay: false,
 			flag: true,
-			historyLoading: false
+			historyLoading: false,
+			costAmount: 0
 		}
 	}
 	componentWillMount() {
@@ -218,6 +219,21 @@ class ManagerInspectionUnquailfy extends Component {
 	}
 	handleCancel = () => this.setState({ previewVisible: false })
 	//上传相关事件结束
+	// 改变扣款比例
+	changeCostRatio = (e) => {
+		const reg = /^(100(\.0{1,2})?|([1-9]\d|\d)(\.\d{1,2})?)$/
+		let ratio = e.target.value
+		let costAmountTotal = this.props.managerInspectionUnquilfyData.costAmount
+		if (reg.test(ratio)) {
+			this.setState({
+				costAmount: (costAmountTotal * (e.target.value / 100)).toFixed("2")
+			})
+		} else {
+			this.setState({
+				costAmount: '扣款比例输入不符合验证规则'
+			})
+		}
+	}
 	render() {
 		const { record, managerInspectionUnquilfyData, form, historyData, formItemLayout } = this.props;
 		const { getFieldDecorator } = form;
@@ -277,19 +293,42 @@ class ManagerInspectionUnquailfy extends Component {
 							</Modal>
 						</FormItem>
 					}
-					<FormItem label="扣款比例" {...formItemLayout}>
-						{getFieldDecorator("charge_ratio", {
-							rules: [{
-								required: true, message: '请输入扣款比例'
-							}, {
-								pattern: /^(100(\.0{1,2})?|([1-9]\d|\d)(\.\d{1,2})?)$/,
-								message: '扣款比例应该限制在0~100之间'
-							}]
-						})(
-							<label className='chargeRatioBoxContianer'>
-								<Input />
-							</label>
-						)}
+					<FormItem label="提示" {...formItemLayout}>
+						<span>本订单可质检的金额为：
+							{Object.keys(managerInspectionUnquilfyData).length != 0 ?
+								managerInspectionUnquilfyData.costAmount : "-"
+							}
+						</span>
+					</FormItem>
+					{
+						Object.keys(managerInspectionUnquilfyData).length != 0 &&
+							managerInspectionUnquilfyData.costAmount != 0 ?
+
+							<FormItem label="扣款比例" {...formItemLayout}>
+
+								{getFieldDecorator("charge_ratio", {
+									rules: [{
+										required: true, message: '请输入扣款比例'
+									}, {
+										pattern: /^(100(\.0{1,2})?|([1-9]\d|\d)(\.\d{1,2})?)$/,
+										message: '扣款比例应该限制在0~100之间'
+									}]
+								})(
+									<label className='chargeRatioBoxContianer'>
+										<Input onChange={this.changeCostRatio} />
+									</label>
+								)}
+							</FormItem> :
+							<FormItem label="扣款比例" {...formItemLayout}>
+								{getFieldDecorator("charge_ratio", {
+									initialValue: '0'
+								})(
+									<span>0%</span>
+								)}
+							</FormItem>
+					}
+					<FormItem label="扣款金额" {...formItemLayout}>
+						<span>{this.state.costAmount}</span>
 					</FormItem>
 					<Divider />
 					{
