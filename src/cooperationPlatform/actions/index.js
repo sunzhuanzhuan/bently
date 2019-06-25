@@ -42,11 +42,26 @@ export const {
 } = createHttpAction('getSkuTypeList', Interface.getSkuTypeList)
 //合作平台-所属媒体平台下拉框接口
 export const {
-	getPlatform,
-	getPlatform_success
-} = createHttpAction('getPlatform', Interface.getPlatform)
+	getExistTrinityPlatformList,
+	getExistTrinityPlatformList_success
+} = createHttpAction('getExistTrinityPlatformList', Interface.getExistTrinityPlatformList)
 //获取报价项列表
 export const {
 	getTrinitySkuTypeList,
 	getTrinitySkuTypeList_success
 } = createHttpAction('getTrinitySkuTypeList', Interface.getTrinitySkuTypeList)
+//获取平台id&&启用状态&&非默认状态
+export const {
+	getCooperationPlatform,
+	getCooperationPlatform_success
+} = createHttpAction('getCooperationPlatform', Interface.getCooperationPlatform)
+////获取未使用关联的抓取合作平台
+export const {
+	getUnusedCooperationPlatform,
+	getUnusedCooperationPlatform_success
+} = createHttpAction('getUnusedCooperationPlatform', Interface.getUnusedCooperationPlatform)
+//开户行-下拉框
+export const {
+	getPaymentTypeList,
+	getPaymentTypeList_success
+} = createHttpAction('getPaymentTypeList', Interface.getPaymentTypeList)

@@ -15,7 +15,7 @@ class PaymentCompany extends Component {
 					{getFieldDecorator('agentVo.paymentCompanyCode', {
 						initialValue: dataDefault && dataDefault.paymentCompanyCode,
 						rules: [
-							{ required: true, message: '请选择付款公司' },
+							{ required: true, message: '此项为必选项，请选择' },
 						],
 					})(
 						<RadioGroup>
