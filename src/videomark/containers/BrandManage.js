@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/brandManage'
-import { Table, Spin, Button, message } from 'antd';
+import { Table, Spin, Button, message, Popover } from 'antd';
 import BrandHeader from '../components/BrandManage/BrandHeader';
 import BrandModal from '../components/BrandManage/BrandModal';
 import './brandManage.less';
@@ -50,6 +50,7 @@ class BrandManage extends Component {
                 key: 'brand_parent_name',
                 width: 100,
                 align: 'center',
+                render: (data, record) => <div>{record.level == 1 ? '-' : data}</div>
             },
             {
                 title: '主品牌code',
@@ -73,12 +74,14 @@ class BrandManage extends Component {
                 align: 'center',
             },
             {
-                title: '标注可用',
+                title: <Popover content='该品牌是否可用于订单标注' trigger="click">
+                            <span style={{cursor: 'pointer'}}>标注可用 ？</span>
+                        </Popover>,
                 dataIndex: 'is_signed_available',
                 key: 'is_signed_available',
                 width: 100,
                 align: 'center',
-                render: data => <div>{data == 1 ? '可用' : '不可用'}</div>
+                render: data => <div>{data == 1 ? '是' : '否'}</div>
             },
             {
                 title: '添加/修改时间',

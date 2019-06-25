@@ -10,7 +10,8 @@ class BrandModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            level: 1
+            level: 1,
+            childErrMsg: '主品牌的序列号建议为00001'
         };
         this.levelOption = [
             { id: 1, value: '主品牌' },
@@ -52,7 +53,8 @@ class BrandModal extends Component {
         const isChildCodeErr = form.getFieldError('brand_child_code');
         const childCode = form.getFieldValue('brand_child_code');
         const errMsg = level === 1 ? '请填写主品牌code' : '请选择主品牌';
-        this.setState({ level });
+        const childErrMsg = level === 1 ? '主品牌的序列号建议为00001' : '';
+        this.setState({ level,  childErrMsg});
 
         if(childCode && childCode.length === 5 && isChildCodeErr) {
             this.setFormItemError('brand_child_code', childCode, [new Error(errMsg)])
@@ -79,23 +81,32 @@ class BrandModal extends Component {
     }
 
     judgeCode = (name, value, callback) => {
-        const { brand_parent_code, brand_child_code } = this.state;
+        const { brand_parent_code, brand_child_code, childErrMsg, level } = this.state;
         const isNum = /^\d+$/.test(value);
         const isRepeat = name === '主品牌code' ? brand_parent_code : brand_child_code;
         const repeatMsg = name === '主品牌code' ? `和现有${name}重复，请重新填写` : `和其他${name}重复，请重新填写`;
         const invalidVal = value === '00000';
+        let errMsg = '主品牌的序列号建议为00001';
         
         if(isNum && value.length === 5 && !isRepeat && !invalidVal) {
+            errMsg = level === 1 ? '主品牌的序列号建议为00001' : '';
             callback();
         }else if(!(value && value.length)){
-            callback(`请填写${name}`);
+            errMsg=`请填写${name}`;
+            callback(errMsg);
         }else if(!isNum || value.length !== 5) {
-            callback(`${name}必须为5位数字`)
+            errMsg=`${name}必须为5位数字`;
+            callback(errMsg);
         }else if(invalidVal) {
-            callback(`${name}不能全为0`)
+            errMsg=`${name}不能全为0`;
+            callback(errMsg);
         }else if(isRepeat) {
+            errMsg=repeatMsg;
             callback(repeatMsg)
         }
+
+        if(name === '品牌序列号' && childErrMsg !== errMsg)
+            this.setState({childErrMsg: errMsg})
     }
 
     getInitalValue = dataType => {
@@ -118,6 +129,8 @@ class BrandModal extends Component {
         const childCode = form.getFieldValue('brand_child_code');
         const finalPCode = form.getFieldValue('brand_parent_code') || parentCode;
         const parentMsg = level === 1 ? '请填写主品牌code' : '请选择主品牌';
+        const childErrMsg = level === 1 ? '主品牌的序列号建议为00001' : '';
+        let errMsg = `和现有${name}重复，请重新填写`;
 
         if(!value || !lenthOk || value === '00000') return;
         if(modalType === 'edit' && type === 'brand_name' && value === itemInfo.brand_name) {
@@ -128,8 +141,10 @@ class BrandModal extends Component {
         if(type === 'brand_child_code') {
             if(finalPCode) {
                 payload.brand_parent_code = finalPCode;
+                errMsg = `和其他${name}重复，请重新填写`;
             }else {
-                this.setFormItemError(type, value, [new Error(parentMsg)])
+                this.setFormItemError(type, value, [new Error(parentMsg)]);
+                this.setState({childErrMsg: parentMsg});
                 return;
             }
         }else if(type === 'brand_parent_code' && childCode && childCode.length === 5) {
@@ -138,8 +153,11 @@ class BrandModal extends Component {
         
         api.post(Interface.verifyUnique, payload).then(result => {
             const { data } = result;
-            const errorMsg = data ? [new Error(`和现有${name}重复，请重新填写`)] : null;
+            const errorMsg = data ? [new Error(errMsg)] : null;
 
+            if(type === 'brand_child_code') {
+                this.setState({childErrMsg: data ? errMsg : childErrMsg})
+            }
             this.setState({[type]: data});
             this.setFormItemError(type, value, errorMsg);
         });
@@ -163,7 +181,7 @@ class BrandModal extends Component {
 
     render() {
         const { modalType, mainBrandList, IndustryList, form, isShowModal } = this.props;
-        const { level } = this.state;
+        const { level, childErrMsg } = this.state;
         const { getFieldDecorator } = form;
         const formItemLayout = {
             labelCol: {span: 4},
@@ -245,7 +263,7 @@ class BrandModal extends Component {
                         }
                         onChange={this.handleChangeParenBrand}
                     />,
-                <FormItem  key='brandChildItem' label="品牌序列号" {...formItemLayout}>
+                <FormItem  key='brandChildItem' label="品牌序列号" help={childErrMsg} {...formItemLayout}>
                     {getFieldDecorator('brand_child_code', {
                         initialValue: this.getInitalValue('brand_child_code'),
                         rules: [{required: true, message: ' '},{validator: (_, value, callback) => {this.judgeCode('品牌序列号', value, callback)}}]
