@@ -151,7 +151,7 @@ class AccountResultList extends Component {
 					(
 						<span>
 							<em style={{ fontStyle: 'normal' }}>SNBT</em>
-							<Tooltip title="SNBT指的是社交媒体账号的影响力指数，是微博易独特的专利技术，数值范围：0~100，数值越高表示账号质量越好">
+							<Tooltip title="SNBT指的是社交媒体账号的影响力指数，是微播易独特的专利技术，数值范围：0~100，数值越高表示账号质量越好">
 								<Icon style={{ fontSize: 16, cursor: 'pointer', marginLeft: 6 }} type="question-circle" />
 							</Tooltip>
 						</span>
