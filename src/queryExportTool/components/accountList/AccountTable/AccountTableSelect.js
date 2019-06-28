@@ -174,8 +174,8 @@ class AccountTableSelect extends Component {
 	}
 	render() {
 		const { visible, modalContent, } = this.state
-		const { accountList, header, tableProps,
-			isShowNoFind, countNum, IsExactQuery,
+		const { accountList = {}, header, tableProps,
+			isShowNoFind, IsExactQuery,
 			isShowTypeByList, columnsTypeByList,
 			arrSelectExactQuery,//精确查询的数组
 			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
@@ -191,9 +191,9 @@ class AccountTableSelect extends Component {
 			} : {})
 		};
 		const pageConfig = {
-			pageSize: Number(accountList.pagination && accountList.pagination.page_size || 20),
-			current: Number(accountList.pagination && accountList.pagination.page || 1),
-			total: accountList && accountList.pagination && accountList.pagination.total,
+			pageSize: Number(accountList.pageSize || 20),
+			current: Number(accountList.pageNum || 1),
+			total: accountList.total,
 		}
 		const columns = [{
 			title: <div>
@@ -217,12 +217,12 @@ class AccountTableSelect extends Component {
 		}];
 		return (
 			<div >
-				{countNum <= 0 && isShowNoFind ?
+				{accountList.total <= 0 && isShowNoFind ?
 					<div>
 						<Row >{header}</Row>
 						<AllNoFind />
 					</div>
-					: accountList.accountList && accountList.accountList.length <= 0 && isShowNoFind ?
+					: accountList.list && accountList.list.length <= 0 && isShowNoFind ?
 						<div>
 							<Row >{header}</Row>
 							<NowNoFind />
@@ -230,7 +230,7 @@ class AccountTableSelect extends Component {
 						isShowTypeByList ? <Table
 							className="account-table-wxy-list account-table-disabled-none"
 							columns={columnsTypeByList}
-							dataSource={accountList.accountList}
+							dataSource={accountList.list}
 							rowKey={(record, index) => record.accountId && record.accountId || index}
 							pagination={false}
 							rowSelection={rowSelection}
@@ -245,7 +245,7 @@ class AccountTableSelect extends Component {
 									rowSelection={rowSelection}
 									{...tableProps}
 									columns={columns}
-									dataSource={accountList.accountList}
+									dataSource={accountList.list}
 									pagination={IsExactQuery ? false : {
 										...pageConfig,
 										showSizeChanger: true,

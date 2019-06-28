@@ -202,7 +202,7 @@ class SelectCarList extends Component {
 		const header = <div className="list-button">
 			<Button onClick={this.remove} disabled={selectedRowKeys.length <= 0}>批量删除</Button>
 			<Popconfirm placement="top" title={"你确定清空全部账号吗？"} onConfirm={this.cleanAll}>
-				<Button disabled={selectCarList.accountList && selectCarList.accountList.length <= 0}>清空全部</Button>
+				<Button disabled={selectCarList.list && selectCarList.list.length <= 0}>清空全部</Button>
 			</Popconfirm>
 			{search.isFamous > 0 ? <span style={{ marginLeft: 20, color: "#666" }}>
 				共{selectCarList.pagination && selectCarList.pagination.total}个账号

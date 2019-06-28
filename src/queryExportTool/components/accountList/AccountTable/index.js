@@ -154,7 +154,7 @@ class AccountTable extends Component {
 		const { visible, modalContent } = this.state
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { selectedRowKeys, isShowDisable = false, accountList = {},
-			header, tableProps, isShowNoFind, countNum,
+			header, tableProps, isShowNoFind,
 			accountIdsByQuotation = [], tablePageSize = 20 } = this.props;
 		const rowSelection = {
 			selectedRowKeys,
@@ -166,9 +166,9 @@ class AccountTable extends Component {
 			} : {})
 		};
 		const pageConfig = {
-			pageSize: Number(accountList.page_size || tablePageSize),
-			current: Number(accountList.pageNum || 1),
-			total: accountList.total,
+			pageSize: Number(accountList && accountList.pageSize || tablePageSize),
+			current: Number(accountList && accountList.pageNum || 1),
+			total: accountList && accountList && accountList.total,
 		}
 		const columns = [{
 			title: <div>
@@ -188,12 +188,12 @@ class AccountTable extends Component {
 
 		return (
 			<div >
-				{countNum <= 0 && isShowNoFind ?
+				{accountList.total <= 0 && isShowNoFind ?
 					<div>
 						<Row >{header}</Row>
 						<AllNoFind />
 					</div>
-					: accountList.accountList.length <= 0 && isShowNoFind ?
+					: accountList.list.length <= 0 && isShowNoFind ?
 						<div>
 							<Row >{header}</Row>
 							<NowNoFind />
@@ -204,7 +204,7 @@ class AccountTable extends Component {
 								rowSelection={rowSelection}
 								{...tableProps}
 								columns={columns}
-								dataSource={accountList.accountList}
+								dataSource={accountList.list}
 								pagination={{
 									...pageConfig,
 									onChange: this.onChangePageSize,

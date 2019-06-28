@@ -30,8 +30,10 @@ class TwoTable extends Component {
 		const { accountId } = this.props
 		this.isMount = true
 		if (accountId) {
+			console.log("TCL: TwoTable -> componentDidMount -> accountId", accountId)
 			api.get(Interface.getAccountPrice, { params: { accountId: accountId } }).then(({ data }) => {
 				if (!this.isMount) return
+
 				this.setState({
 					skuPrice: data.skuList,
 					avgData: data.itemData,

@@ -55,7 +55,7 @@ export const {
 	trackResult: (search, { task_id }) => {
 		return {
 			...search,
-			accounts: search.accountList.map(item => item.account_id + ''),
+			accounts: search.list.map(item => item.account_id + ''),
 			task_id
 		}
 	}

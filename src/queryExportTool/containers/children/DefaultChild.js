@@ -32,7 +32,7 @@ class DefaultChild extends Component {
 			groupType,
 			page: 1,
 			searchSource: searchSource || 1,
-			pageSize: search.page_size || 20,
+			pageSize: search.pageSize || 20,
 			keyword: search.keyword || '',
 		}).then(results => {
 			if (this._isMounted || changeTab) {
@@ -141,10 +141,9 @@ class DefaultChild extends Component {
 			4: "查看小红书下单规则"
 		}
 		const { statistic = {} } = accountList
-		const countNum = statistic && Object.values(statistic).reduce((total, one) => total + one, 0)
 		const header = <div className="table-title-wxy">
 			<div>
-				共<span>{countNum}</span>个账号
+				共<span>{accountList.total}</span>个账号
 				&nbsp;&nbsp;&nbsp;
 				{
 					ruleUrl[platformType] ?
@@ -186,7 +185,7 @@ class DefaultChild extends Component {
 							isObject={true}
 							accountIdsByQuotation={accountIdsByQuotation}
 							removeCartAccount={removeCartAccount}
-							countNum={countNum}
+
 							isShowNoFind={true}
 							isdBackUp={this.isdBackUp}
 						/> : <AccountTableSelect
@@ -194,7 +193,6 @@ class DefaultChild extends Component {
 							accountList={accountList}
 							serachAction={this.serachAction}
 							header={header}
-							countNum={countNum}
 							isShowNoFind={true}
 							isdBackUp={this.isdBackUp}
 							addLookDetailOrIndexList={addLookDetailOrIndexList} />}

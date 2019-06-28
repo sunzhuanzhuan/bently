@@ -76,7 +76,7 @@ class AccountList extends Component {
 	addSelectedRowKeysToCart = (object, selected, list) => {
 		console.log("TCL: addSelectedRowKeysToCart -> object", object)
 		const { quotationAccountList = {} } = this.props.queryExportToolReducer
-		const quotationAccountId = quotationAccountList && quotationAccountList.accountList.map(one => one.account_id)
+		const quotationAccountId = quotationAccountList && quotationAccountList.list.map(one => one.account_id)
 		this.setState({
 			...object
 		})

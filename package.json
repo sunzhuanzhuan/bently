@@ -93,10 +93,6 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"/api/operator-gateway/search/export": {
-			"target": "http://192.168.20.51:7300/mock/5d084914f82ced0021c9fd37",
-			"changeOrigin": true
-		},
 		"/api": {
 			"target": "http://nb.dev-weiboyi.com",
 			"changeOrigin": true

@@ -148,7 +148,7 @@ class AccountListBatch extends Component {
 					return {
 						data: {
 							result: {
-								accountList: [...prev.data.result.accountList, ...cur.data.result.accountList],
+								accountList: [...prev.data.result.list, ...cur.data.result.list],
 							},
 							statistic: {
 								aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
@@ -162,7 +162,7 @@ class AccountListBatch extends Component {
 					}
 				})
 				const exactQueryDataUpdate = {
-					accountList: exactQueryData.data.result.accountList,
+					accountList: exactQueryData.data.result.list,
 					...exactQueryData.data
 				}
 				console.log("TCL: batchSearch -> exactQueryDataUpdate", exactQueryDataUpdate)
@@ -172,7 +172,7 @@ class AccountListBatch extends Component {
 					exactQueryData: exactQueryDataUpdate,
 					searchValue: value
 				})
-				addSelectExactQuery(exactQueryData.data.result.accountList.filter(one => one.isSeleted == 1).map(one => one.accountId))
+				addSelectExactQuery(exactQueryData.data.result.list.filter(one => one.isSeleted == 1).map(one => one.accountId))
 			})
 		}
 	}
@@ -241,7 +241,7 @@ class AccountListBatch extends Component {
 									<div>
 										<div className="batch-search-middle-line">
 											<div className="button-export">
-												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.accountList && exactQueryData.accountList.length <= 0}>导出全部账号</Button>
+												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.list && exactQueryData.list.length <= 0}>导出全部账号</Button>
 											</div>
 											<div className="img-action">
 												<img src={showTypeList == 1 ? images.cardActivePng : images.cardPng} width="14" onClick={() => { this.setShowTypeList(1) }} />

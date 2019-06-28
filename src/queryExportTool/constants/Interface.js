@@ -13,7 +13,7 @@ export default {
 	//新浪
 	xinaSearch: baseUrl + 'xinaSearch',
 	//微信
-	weixinSearch: baseUrl + 'weixinSearch',
+	weixinSearch: baseUrl + 'weiXinSearch',
 	//批量查找账号列表
 	getBatchSearch: baseUrl + 'batchSearch',
 

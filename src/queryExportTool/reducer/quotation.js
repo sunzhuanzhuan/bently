@@ -75,7 +75,7 @@ export const quotationAccountList = handleActions({
 	},
 	[accoutActions.deleteFromCart_success]: (state, action) => {
 		const { type, data, follower_count, numberType } = action.payload
-		const accountsFilter = state.accountList.filter(one => !data.includes(one.account_id))
+		const accountsFilter = state.list.filter(one => !data.includes(one.account_id))
 		return {
 			...state,
 			tabList: {
@@ -94,7 +94,7 @@ export const quotationAccountList = handleActions({
 		const { account_count, result } = data
 		return {
 			...result,
-			is_select: result.accountList.filter(one => one.isSeleted == 1).map(one => one.accountId),
+			is_select: result.list.filter(one => one.isSeleted == 1).map(one => one.accountId),
 			tabList: data.statistic,
 			total: data.statistic.total,
 			pagination: data.pagination,
