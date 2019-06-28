@@ -140,7 +140,7 @@ class AccountListBatch extends Component {
 				promisesArr.push(value.accoutName.slice(total - lastNum, total))
 			}
 			const promises = promisesArr.map(function (arr) {
-				return getBatchSearch({ ...value, keyword: arr.map(one => one.trim()).join(","), accoutName: total })
+				return getBatchSearch({ ...value, accoutName: total })
 			});
 
 			Promise.all(promises).then((posts) => {
