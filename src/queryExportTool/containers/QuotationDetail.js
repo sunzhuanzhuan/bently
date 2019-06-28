@@ -17,6 +17,8 @@ import * as action from '../actions/index'
 import { Button, Row, Skeleton, Tabs, Modal, message, Icon } from 'antd';
 import qs from "qs";
 import ValueFormat from "@/queryExportTool/base/ValueFormat";
+import { getPostFrom } from '../util/javaPostConfig'
+
 const TabPane = Tabs.TabPane;
 class QuotationDetail extends Component {
 	constructor(props) {
@@ -40,7 +42,7 @@ class QuotationDetail extends Component {
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
 		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotation_id: quotation_id }).then((res) => {
+		getQuotationDetail({ quotationId: quotation_id }).then((res) => {
 			this.setState({
 				detailLoading: false,
 				isShowNoPermiss: 2
@@ -55,7 +57,9 @@ class QuotationDetail extends Component {
 				})
 			}
 		})
-		getQuotationAccountSearch({ quotation_id: quotation_id, currentPage: 1, pageSize: 20 }).then(results => {
+		getQuotationAccountSearch(
+			getPostFrom({ quotationId: parseInt(quotation_id) })
+		).then(results => {
 			this.setState({
 				isLoading: false,
 			})
@@ -122,7 +126,7 @@ class QuotationDetail extends Component {
 			isLoading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		const data = { ...search, page: 1, groupType: key, quotation_id: search.quotation_id }
+		const data = { ...search, groupType: key, quotationId: search.quotation_id }
 		this.props.history.push({
 			search: `?` + qs.stringify(data)
 		})
@@ -130,7 +134,7 @@ class QuotationDetail extends Component {
 		if (key == 10) {
 			delete data.groupType
 		}
-		this.props.actions.getQuotationAccountSearch(data).then(() => {
+		this.props.actions.getQuotationAccountSearch(getPostFrom(data)).then(() => {
 			this.setState({
 				isLoading: false
 			})
@@ -159,7 +163,7 @@ class QuotationDetail extends Component {
 					data.groupType = 0
 				}
 				//暂时搜索
-				this.props.actions.getQuotationAccountSearch(data)
+				this.props.actions.getQuotationAccountSearch(getPostFrom(data))
 			})
 
 	}
@@ -178,7 +182,7 @@ class QuotationDetail extends Component {
 			value.groupType = 0
 		}
 		this.setLoading()
-		this.props.actions.getQuotationAccountSearch(value).then(() => {
+		this.props.actions.getQuotationAccountSearch(getPostFrom(value)).then(() => {
 			this.setLoading()
 		})
 	}

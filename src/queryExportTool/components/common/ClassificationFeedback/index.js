@@ -11,7 +11,7 @@ import * as actions from "@/classificationManage/actions";
 import * as commonActions from "@/actions";
 import { bindActionCreators } from "redux";
 
-@connect(null,(dispatch) => ({
+@connect(null, (dispatch) => ({
 	actions: bindActionCreators({
 		...actions,
 		...commonActions
@@ -28,7 +28,7 @@ class ClassificationFeedback extends Component {
 
 	reload = () => {
 		const { data, actions } = this.props
-		actions.isExistClassify({ accountId: data.account_id }).then(({ data }) => {
+		actions.isExistClassify({ accountId: data.accountId }).then(({ data }) => {
 			this.setState({
 				classifyAuditInfoId: data.classifyAuditInfoId,
 				hasRecord: data.count
@@ -50,11 +50,11 @@ class ClassificationFeedback extends Component {
 		const { actions, data } = this.props
 		const { classifyAuditInfoId, hasRecord } = this.state;
 		const accountInfo = {
-			accountId: data.account_id,
-			snsName: data.base.sns_name,
-			platformId: data.platform_id,
-			url: data.base.url,
-			classificationList: data.base.classification
+			accountId: data.accountId,
+			snsName: data.snsName,
+			platformId: data.platformId,
+			url: data.url,
+			classificationList: data.classificationList
 		}
 		return <span>
 			{hasRecord ? <a
@@ -63,17 +63,17 @@ class ClassificationFeedback extends Component {
 			>
 				查看反馈进度
 			</a> : <a
-				className='category-feedback-btn'
-				onClick={() => this.setModal('create')}
-			>
-				分类错误?
+					className='category-feedback-btn'
+					onClick={() => this.setModal('create')}
+				>
+					分类错误?
 			</a>}
 			{this.state.feedback === 'create' &&
-			<FeedbackCreate setModal={this.setModal} reload={this.reload} accountInfo={accountInfo} actions={actions}/>}
+				<FeedbackCreate setModal={this.setModal} reload={this.reload} accountInfo={accountInfo} actions={actions} />}
 			{this.state.feedback === 'detail' &&
-			<FeedbackDetail setModal={this.setModal} actions={actions} classifyAuditInfoId={classifyAuditInfoId}/>}
+				<FeedbackDetail setModal={this.setModal} actions={actions} classifyAuditInfoId={classifyAuditInfoId} />}
 			{this.state.feedback === 'mini' &&
-			<FeedbackMini setModal={this.setModal} accountInfo={accountInfo} actions={actions}/>}
+				<FeedbackMini setModal={this.setModal} accountInfo={accountInfo} actions={actions} />}
 		</span>
 	}
 }

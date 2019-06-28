@@ -64,7 +64,7 @@ export default class MainItem extends PureComponent {
 		const { snsName = '', avatarUrl, verifiedStatus, level, introduction,
 			isLowQuality, url, isSupportTopicAndLink, isVerified,
 			canOriginWrite, areaName, ageGroup, originalName,
-			isPreventShielding, classification = [], qrCodeUrl,
+			isPreventShielding, classificationList = [], qrCodeUrl,
 			snsId, verificationInfo, mediaManager, isFamous,
 			operationTagList = [], followerCount, accountId, gender,
 			snbt, trueFansRate, trueReadRatio, mediaWeeklyGroupCount90d,
@@ -121,7 +121,7 @@ export default class MainItem extends PureComponent {
 							<div className='one-line-box-name-level' onClick={() => this.lookDetail(platformId, accountId)}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={snsName} trigger="hover"  >
-									<div className="snsNameTitle">{snsName}</div>
+									<div className="sns-name-title">{snsName}</div>
 								</Popover>
 								{/* 此处是账号平台认证图标、等级图标、蓝黄V图标 */}
 								<div>
@@ -181,8 +181,8 @@ export default class MainItem extends PureComponent {
 
 					<div className='footer-tages'>
 						{/* 此处是热门标签 */}
-						{classification && classification.slice(0, 1).map((one, index) => <CTag key={index}>{one.name}</CTag>)}
-						{(classification && classification.length) ? <LazyLoad once overflow>
+						{classificationList && classificationList.slice(0, 1).map((one, index) => <CTag key={index}>{one.name}</CTag>)}
+						{(classificationList && classificationList.length) ? <LazyLoad once overflow>
 							<ClassificationFeedback data={accountListItem} />
 						</LazyLoad> : null}
 					</div>

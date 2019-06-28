@@ -21,6 +21,7 @@ import * as publicActions from '@/actions'
 import Link from 'react-router-dom/Link';
 import { CreateTemplate } from "../../components/exportTemplate";
 import qs from 'qs'
+import { getPostFrom } from '../util/javaPostConfig'
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
@@ -62,7 +63,7 @@ class SelectCarList extends Component {
 	componentDidMount() {
 		this.setLoading()
 		const { getCartSearchAll, getFilters } = this.props.actions
-		getCartSearchAll({ page: 1, pageSize: 20 }).then(() => {
+		getCartSearchAll(getPostFrom()).then(() => {
 			this.setState({ isLoading: false })
 		})
 		getFilters({ groupType: 1 })
@@ -105,7 +106,9 @@ class SelectCarList extends Component {
 		this.props.history.push({
 			search: `?` + qs.stringify({ ...param, pageSize: search.pageSize || 20 })
 		})
-		this.props.actions.getCartSearchAll({ currentPage: 1, pageSize: 20, ...search, ...param }).then(() => {
+		this.props.actions.getCartSearchAll(
+			getPostFrom({ ...search, ...param })
+		).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}
@@ -120,7 +123,13 @@ class SelectCarList extends Component {
 			search: `?` + qs.stringify({ groupType: key == 10 ? 0 : key, pageSize: search.pageSize || 20, isFamous: 0 })
 		})
 		this.setLoading()
-		this.props.actions.getCartSearchAll({ currentPage: 1, pageSize: search.pageSize || 20, groupType: key == 10 ? 0 : key, isFamous: 0 }).then(() => {
+		this.props.actions.getCartSearchAll(
+			getPostFrom({
+				groupType: key == 10 ? 0 : key,
+				pageSize: search.pageSize,
+				isFamous: 0
+			})
+		).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}

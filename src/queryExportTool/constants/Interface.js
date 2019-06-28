@@ -22,7 +22,7 @@ export default {
 	//获取sku价格及平均价格
 	getAccountPrice: baseUrl + 'account/price',
 	//获取购物车列表
-	getCartSearchAll: baseUrl + "cartlist",
+	getCartSearchAll: baseUrl + 'cartList',
 
 	//批量查号下载
 	batchAccountExport: "export/account/batchAccountExport",
