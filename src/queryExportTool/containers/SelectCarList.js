@@ -163,7 +163,7 @@ class SelectCarList extends Component {
 	}
 	serachAction = (value) => {
 		this.setLoading()
-		this.props.actions.getCartSearchAll(value).then(() => {
+		this.props.actions.getCartSearchAll(getPostFrom(value)).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}

@@ -73,8 +73,8 @@ class AccountSearch extends React.Component {
 		const { searchSource } = this.state
 		const { skuPriceValid, followerCount } = params;
 		if (skuPriceValid && skuPriceValid.length > 0) {
-			params.skuPriceValidFrom = skuPriceValid[0].format('YYYY-MM-DD')
-			params.skuPriceValidTo = skuPriceValid[1].format('YYYY-MM-DD')
+			params.skuPriceValidFrom = skuPriceValid[0].format('YYYY-MM-DD 00:00:00')
+			params.skuPriceValidTo = skuPriceValid[1].format('YYYY-MM-DD 23:59:59')
 			delete params.skuPriceValid;
 		} else {
 			params.skuPriceValidFrom = params.skuPriceValidTo = null
@@ -138,7 +138,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
-		this.onFilterCommon&&this.onFilterCommon.reset()
+		this.onFilterCommon && this.onFilterCommon.reset()
 		this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {

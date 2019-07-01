@@ -42,7 +42,7 @@ class QuotationDetail extends Component {
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
 		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotationId: quotation_id }).then((res) => {
+		getQuotationDetail({ quotation_id: quotation_id }).then((res) => {
 			this.setState({
 				detailLoading: false,
 				isShowNoPermiss: 2
@@ -198,8 +198,8 @@ class QuotationDetail extends Component {
 		const { selectedRowKeys, visible, detailLoading,
 			isLoading, messageInfo, typeShow, isShowNoPermiss, selectKey } = this.state
 		const { codeCheck } = actions
-		const { yuyueNum, weiNum, follower_count } = quotationAccountList
-		const accountSum = yuyueNum + weiNum
+		const { followerCount, parkAccountCount, reservationAccountCount } = quotationAccountList
+		const accountSum = reservationAccountCount + parkAccountCount
 		const countSum = quotationAccountList.total || 0
 		const tabList = [
 			{ key: 10, tab: `全部${countSum}` },
@@ -260,8 +260,8 @@ class QuotationDetail extends Component {
 					<TitleLable title="账号信息" >
 						<div>
 							<div style={{ background: "#f5f5f5", padding: "8px 4px" }}>
-								<span>账号总数：<span style={{ color: "#33CC00" }}>{accountSum}</span> （预约：{yuyueNum}   微闪投：{weiNum}）    粉丝数：
-							<ValueFormat value={follower_count > 0 ? follower_count : 0} format='large' />
+								<span>账号总数：<span style={{ color: "#33CC00" }}>{accountSum}</span> （预约：{reservationAccountCount}   微闪投：{parkAccountCount}）    粉丝数：
+							<ValueFormat value={followerCount > 0 ? followerCount : 0} format='large' />
 									<span style={{ color: "#33CC00" }}>{quotationDetail.followers_count}</span></span>
 							</div>
 							<Tabs onChange={this.onChangeTab} defaultActiveKey="10">

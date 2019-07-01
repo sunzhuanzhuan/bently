@@ -165,14 +165,13 @@ class AccountListBatch extends Component {
 					accountList: exactQueryData.data.result.list,
 					...exactQueryData.data
 				}
-				console.log("TCL: batchSearch -> exactQueryDataUpdate", exactQueryDataUpdate)
 				this.setState({
 					loading: false,
 					showList: true,
 					exactQueryData: exactQueryDataUpdate,
 					searchValue: value
 				})
-				addSelectExactQuery(exactQueryData.data.result.list.filter(one => one.isSeleted == 1).map(one => one.accountId))
+				addSelectExactQuery(exactQueryData.data.result.list.filter(one => one.isSelected == 1).map(one => one.accountId))
 			})
 		}
 	}

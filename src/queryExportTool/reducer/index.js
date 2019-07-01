@@ -41,7 +41,7 @@ export const accountList = handleActions({
 	[accoutActions.getAccountList_success]: (state, action) => {
 		const data = { ...action.payload.data }
 		const { result, statistic } = data
-		const is_select = result.list.filter(one => one.isSeleted == 1).map(one => one.accountId)
+		const is_select = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
 		return {
 			...result,
 			statistic: statistic,
@@ -88,7 +88,7 @@ export const batchSearchList = handleActions({
 	[accoutActions.getBatchSearch_success]: (state, action) => {
 		const data = { ...action.payload.data }
 		const { result, statistic } = data
-		const is_select = result.list.filter(one => one.isSeleted == 1).map(one => one.accountId)
+		const is_select = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
 		return {
 			...result,
 			statistic: statistic,

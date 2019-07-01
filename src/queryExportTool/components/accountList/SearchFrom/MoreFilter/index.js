@@ -20,7 +20,7 @@ const isVerifiedOptions = [
 	{ name: '否', value: 2 }
 ]
 
-const RadioItem = ({ id, name, options, form, onChecked }) => {
+const RadioItem = ({ id, name, options = [], form, onChecked }) => {
 	const onChange = (e) => {
 		const map = options.reduce((obj, item) => {
 			obj[item.value || item.id] = item.name;
@@ -167,7 +167,7 @@ class MoreFilter extends Component {
 				sm: { span: 16 }
 			},
 		};
-		const { unitPlayPriceTypes, unitReadPriceTypes, verifiedStatus, industryListOptions } = filterMore;
+		const { unitPlayPriceTypes, unitReadPriceTypes, verified_status, industryListOptions } = filterMore;
 		return (
 			<div>
 				<Row>
@@ -225,7 +225,7 @@ class MoreFilter extends Component {
 				{mapFieldsToPlatform['latestPublishTime'].includes(platformType) &&
 					<RadioItem onChecked={onChange} name='最近一次内容发布时间' id='latestPublishTime' options={dateRangeOptions} form={form}></RadioItem>}
 				{mapFieldsToPlatform['verifiedStatus'].includes(platformType) &&
-					<RadioItem onChecked={onChange} options={verifiedStatus} name='认证类型' id='verifiedStatus' form={form}></RadioItem>}
+					<RadioItem onChecked={onChange} options={verified_status} name='认证类型' id='verifiedStatus' form={form}></RadioItem>}
 				{mapFieldsToPlatform['isVerified'].includes(platformType) &&
 					<RadioItem onChecked={onChange} options={isVerifiedOptions} name='是否认证' id='isVerified' form={form}></RadioItem>}
 				{mapFieldsToPlatform['gender'].includes(platformType) &&

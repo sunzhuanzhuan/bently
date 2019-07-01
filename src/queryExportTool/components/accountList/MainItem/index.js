@@ -71,7 +71,7 @@ export default class MainItem extends PureComponent {
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
 			onShelfStatus = {}, followerCountVerificationStatus,
 			followerCountScreenshotModifiedTime, userId,
-			avgData = {}, platformId = 0, groupType, agentInfo
+			avgData = {}, platformId = 0, groupType, agentInfo, followerCountGrowthRate28d
 		} = accountListItem
 
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
@@ -167,6 +167,7 @@ export default class MainItem extends PureComponent {
 					<div className="fans-count-box">
 						<FansCount value={followerCount > 0 ? followerCount : 0} status={followerCountVerificationStatus}
 							time={followerCountScreenshotModifiedTime} ISWEiXin={ISWEiXin} />
+						<div>{(IsWeibo || IsVidro || IsRed) && followerCountGrowthRate28d}</div>
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<LazyLoad once overflow>

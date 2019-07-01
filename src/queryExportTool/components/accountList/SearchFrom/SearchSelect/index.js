@@ -41,7 +41,6 @@ class UserRemoteSelect extends Component {
 	};
 
 	handleChange = value => {
-		console.log("TCL: value", value)
 		this.setState({
 			value,
 		});

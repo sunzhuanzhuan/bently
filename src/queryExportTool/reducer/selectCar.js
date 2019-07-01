@@ -80,10 +80,11 @@ export const selectCarList = handleActions({
 	[accoutActions.getCartSearchAll_success]: (state, action) => {
 		const data = { ...action.payload.data }
 		const { statistic = {}, result = {} } = data
+
 		return {
 			group_type_name: data.group_type_name,
 			tabList: { ...statistic },
-			total: Object.values(statistic).reduce((pre, next) => pre + next),
+			total: Object.values(statistic).length > 0 && Object.values(statistic).reduce((pre, next) => pre + next),
 			pagination: data.pagination,
 			...result
 		}
@@ -91,7 +92,7 @@ export const selectCarList = handleActions({
 }, {
 		total: 0,
 		tabList: {},
-		data: []
+		data: {}
 	})
 
 

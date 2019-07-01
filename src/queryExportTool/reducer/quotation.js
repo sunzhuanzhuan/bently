@@ -91,15 +91,16 @@ export const quotationAccountList = handleActions({
 	},
 	[accoutActions.getQuotationAccountSearch_success]: (state, action) => {
 		const { data } = { ...action.payload }
-		const { account_count, result } = data
+		const { account_count, result, followerCount, parkAccountCount, reservationAccountCount } = data
 		return {
 			...result,
-			is_select: result.list.filter(one => one.isSeleted == 1).map(one => one.accountId),
+			is_select: result.list.filter(one => one.isSelected == 1).map(one => one.accountId),
 			tabList: data.statistic,
 			total: data.statistic.total,
 			pagination: data.pagination,
-			yuyueNum: account_count && account_count[0] && account_count[0].account_id_count || 0,
-			weiNum: account_count && account_count[1] && account_count[1].account_id_count || 0
+			followerCount: followerCount || 0,
+			parkAccountCount: parkAccountCount || 0,
+			reservationAccountCount: reservationAccountCount || 0,
 		}
 	}
 }, {
@@ -107,7 +108,5 @@ export const quotationAccountList = handleActions({
 		tabList: {},
 		accountList: [],
 		is_select: [],
-		yuyueNum: 0,
-		weiNum: 0
 	})
 
