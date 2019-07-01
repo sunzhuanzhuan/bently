@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "./index.less";
-import Cookie from 'js-cookie'
 import { Button } from 'antd';
 class MaskBox extends Component {
 	constructor(props) {
@@ -10,11 +9,11 @@ class MaskBox extends Component {
 		};
 	}
 	componentDidMount = () => {
-		this.setState({ isLoginedHistoryQueryTool: Cookie.get('isLoginedHistoryQueryTool') })
+		this.setState({ isLoginedHistoryQueryTool: localStorage.getItem('isLoginedHistoryQueryTool') })
 	}
 	isLoginedSet = () => {
 		this.setState({ isLoginedHistoryQueryTool: true })
-		Cookie.set('isLoginedHistoryQueryTool', true)
+		localStorage.setItem('isLoginedHistoryQueryTool', true)
 	}
 	render() {
 		return this.state.isLoginedHistoryQueryTool ? null : <div className={'query-export-tool-mask'}>

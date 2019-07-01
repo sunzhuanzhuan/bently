@@ -19,7 +19,7 @@ class PaymentCompany extends Component {
 						],
 					})(
 						<RadioGroup>
-							<Radio value='ZF0002'>微博易</Radio>
+							<Radio value='ZF0002'>微播易</Radio>
 							<Radio value='ZF0001'>布谷鸟</Radio>
 						</RadioGroup>
 					)}

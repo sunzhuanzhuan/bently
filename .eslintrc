@@ -63,6 +63,7 @@
         "Set": true,
         "__dirname": true,
         "Reflect": true,
-        "Blob": true
+        "Blob": true,
+        "localStorage": true
     }
 }
