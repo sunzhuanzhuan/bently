@@ -84,7 +84,7 @@ export default class MainItem extends PureComponent {
 			snbt, true_fans_rate, true_read_ratio, media_weekly_group_count_90d,
 			weekly_order_num, reservation_order_num, media_count_7d, media_group_count_7d,
 			on_shelf_status = {}, follower_count_verification_status,
-			follower_count_screenshot_modified_time, user_id
+			follower_count_screenshot_modified_time, user_id, follower_count_growth_rate_28d
 		} = base
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
 		const IS_WEiXin = group_type == 1
@@ -179,14 +179,15 @@ export default class MainItem extends PureComponent {
 					<div className="fans-count-box">
 						<FansCount value={follower_count > 0 ? follower_count : 0} status={follower_count_verification_status}
 							time={follower_count_screenshot_modified_time} IS_WEiXin={IS_WEiXin} />
+						<div>{(Is_Weibo || Is_Red || Is_Vidro) && follower_count_growth_rate_28d}</div>
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<SimpleTables Is_wei={Is_wei} data={price && price.skus}
 						columsNum={this.getColumsNum(group_type, Is_wei)[0]}
 						dataTime={price && price.price_valid_to}
 						tableFooterText={Is_wei ? "" : "价格有效期"}
-						isLeft={true} platform_id={platform_id}/>
-					<SimpleTables Is_wei={Is_wei} data={avg_data && avg_data.items} columsNum={this.getColumsNum(group_type)[1]} dataTime={avg_data && avg_data.media_fetched_time} tableFooterText="抓取时间" platform_id={platform_id}/>
+						isLeft={true} platform_id={platform_id} />
+					<SimpleTables Is_wei={Is_wei} data={avg_data && avg_data.items} columsNum={this.getColumsNum(group_type)[1]} dataTime={avg_data && avg_data.media_fetched_time} tableFooterText="抓取时间" platform_id={platform_id} />
 
 				</main>
 				<footer className="content-footer">
@@ -199,7 +200,7 @@ export default class MainItem extends PureComponent {
 						{/* 此处是热门标签 */}
 						{classification && classification.slice(0, 1).map((one, index) => <CTag key={index}>{one.name}</CTag>)}
 						{(classification && classification.length) ? <LazyLoad once overflow>
-							<ClassificationFeedback data={accountListItem}/>
+							<ClassificationFeedback data={accountListItem} />
 						</LazyLoad> : null}
 					</div>
 					<div className='footer-info-status'>
