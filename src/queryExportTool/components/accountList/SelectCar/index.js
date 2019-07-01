@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Tabs, Button, Drawer, Popconfirm, List, Spin } from 'antd';
+import { Icon, Tabs, Button, Drawer, Popconfirm, message, Spin } from 'antd';
 import "./index.less"
 import AvatarType from "../../common/AvatarType";
 import { WBYPlatformIcon } from "wbyui"
@@ -198,9 +198,11 @@ export class CarContent extends Component {
 					</div>
 					<div className="footer-right">
 						{quotation_id > 0 ?
-							<Link to={`/accountList/quotationManage/detail?quotation_id=${quotation_id}`}>
-								<Button type="primary" onClick={() => { this.props.addQuotation() }}>确定</Button>
-							</Link>
+							<a>
+								<Button type="primary" onClick={() => {
+									this.props.addQuotation()
+								}}>确定</Button>
+							</a>
 							: <Link to="/accountList/selectCarList">
 								<Button type="primary" >查看并导出</Button>
 							</Link>}

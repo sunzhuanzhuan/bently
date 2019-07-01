@@ -5,6 +5,7 @@ import numeral from "numeral";
 import ValueStyle from "@/queryExportTool/base/ValueFormat/ValueStyle";
 import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
+import moment from 'moment'
 import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg } from "./unit";
 export default class SimpleTables extends Component {
 	componentWillMount() { }
@@ -185,7 +186,7 @@ export default class SimpleTables extends Component {
 			},]
 		}
 		const columns = cloumsMap[columsNum];
-		const dataTimeNew = dataTime && dataTime || ""
+		const dataTimeNew = dataTime && moment(dataTime).format('YYYY-MM-DD') || ""
 		return <div className={isLeft ? "simple-tables-container-left" : "simple-tables-container-right"}>
 			{columsNum ?
 				<div>

@@ -214,7 +214,7 @@ class SelectCarList extends Component {
 				<Button disabled={selectCarList.list && selectCarList.list.length <= 0}>清空全部</Button>
 			</Popconfirm>
 			{search.isFamous > 0 ? <span style={{ marginLeft: 20, color: "#666" }}>
-				共{selectCarList.pagination && selectCarList.pagination.total}个账号
+				共{selectCarList.total}个账号
 			</span> : null}
 		</div>
 		const headerDisable = <Row className="list-button">

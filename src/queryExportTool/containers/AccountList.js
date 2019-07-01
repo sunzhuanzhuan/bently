@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 // import { StickyContainer, Sticky } from 'react-sticky';
 import * as action from '../actions/index'
-import { Tabs, Spin, BackTop, Button } from "antd"
+import { Tabs, Spin, BackTop, message } from "antd"
 import qs from "qs";
 import DefaultChild from './children/DefaultChild'
 import "./AccountList.less"
@@ -61,10 +61,17 @@ class AccountList extends Component {
 		//是否是报价单
 		const urlAll = this.props.match.url
 		let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/" + activeKey
-		url += "?" + qs.stringify({
+		let queryParams = {
 			page_size: search.page_size,
-		})
-
+		}
+		const { quotation_id, quotation_name } = this.state
+		if (quotation_id > 0) {
+			queryParams = {
+				quotation_id: quotation_id,
+				quotation_name: quotation_name
+			}
+		}
+		url += "?" + qs.stringify(queryParams)
 		this.props.history.push(url);
 	}
 
@@ -75,7 +82,8 @@ class AccountList extends Component {
 	//报价单的选中添加账号逻辑
 	addSelectedRowKeysToCart = (object, selected, list) => {
 		const { quotationAccountList = {} } = this.props.queryExportToolReducer
-		const quotationAccountId = quotationAccountList && quotationAccountList.list.map(one => one.account_id)
+		const { accountList = [] } = quotationAccountList
+		const quotationAccountId = accountList.map(one => one.account_id)
 		this.setState({
 			...object
 		})
@@ -104,6 +112,8 @@ class AccountList extends Component {
 		if (accounts.length > 0) {
 			this.props.actions.addToQuotation({
 				quotation_id, accounts
+			}).then(() => {
+				window.location.href = `/accountList/quotationManage/detail?quotation_id=${quotation_id}`
 			})
 		}
 	}

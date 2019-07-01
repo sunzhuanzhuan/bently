@@ -193,7 +193,7 @@ class AccountTable extends Component {
 						<Row >{header}</Row>
 						<AllNoFind />
 					</div>
-					: accountList.list.length <= 0 && isShowNoFind ?
+					: accountList.list && accountList.list.length <= 0 && isShowNoFind ?
 						<div>
 							<Row >{header}</Row>
 							<NowNoFind />
