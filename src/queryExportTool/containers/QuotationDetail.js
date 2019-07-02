@@ -198,7 +198,7 @@ class QuotationDetail extends Component {
 		const { selectedRowKeys, visible, detailLoading,
 			isLoading, messageInfo, typeShow, isShowNoPermiss, selectKey } = this.state
 		const { codeCheck } = actions
-		const { followerCount, parkAccountCount, reservationAccountCount } = quotationAccountList
+		const { followerCount, parkAccountCount = 0, reservationAccountCount = 0 } = quotationAccountList
 		const accountSum = reservationAccountCount + parkAccountCount
 		const countSum = quotationAccountList.total || 0
 		const tabList = [

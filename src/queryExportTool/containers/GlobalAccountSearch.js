@@ -41,8 +41,8 @@ class GlobalAccountSearch extends Component {
 	render() {
 		const { queryExportToolReducer } = this.props;
 		const { filtersMetaMap, batchSearchList = {} } = queryExportToolReducer;
-		const { statistic = {}, pagination = {} } = batchSearchList
-		const { aOffShelf, bOffShelf, aOnShelf, bOnShelf, notExist } = statistic
+		const { statistic = {}, pagination = {}, total, pageSize, pageNum } = batchSearchList
+		const { aOffShelf = 0, bOffShelf = 0, aOnShelf = 0, bOnShelf = 0, notExist = 0 } = statistic
 		return (
 			<div>
 				<h2 className="globalAccountSearch-title">全库账号搜索</h2>
@@ -61,10 +61,12 @@ class GlobalAccountSearch extends Component {
 									this.state.value.query_type == 1 ?
 										<Pagination className="globalAccountSearch-statistic-pagination"
 											simple
-											current={pagination.page}
-											total={pagination.total}
+											pageSizeConfig={{
+												pageSize: Number(pageSize || 20),
+												current: Number(pageNum || 1),
+												total: total,
+											}}
 											onChange={(page) => this.batchSearch(this.state.value, page)}
-											pageSize={20}
 										/> : null
 								}
 							</div>
