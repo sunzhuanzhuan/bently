@@ -8,12 +8,21 @@ import { parseUrlQuery } from '@/util/parseUrl'
 export default class SortGroup extends Component {
 	dataToParams = (key, sort) => {
 		const { onSort } = this.props
+		let params = {
+			order: sort
+		}
 		if (/:/i.test(key)) {
 			let [w, f] = key.split(/:/i)
 			key = w
-			sort = f + ":" + sort
+			params = {
+				...params,
+				filter: {
+					skuTypeId: f
+				}
+			}
 		}
-		onSort && onSort({ sort: sort && { [key]: sort } })
+
+		onSort && onSort({ accountSort: sort && { [key]: params } })
 	}
 	handleChange = (field, sort) => {
 		this.setState({ sort: { [field]: sort }, moreText: '更多排序' })

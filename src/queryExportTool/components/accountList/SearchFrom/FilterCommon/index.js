@@ -144,7 +144,7 @@ export default class FilterCommon extends React.Component {
 			"industryId": [],  //账号行业
 			"verifiedStatus": [],
 			"liveLatestPublishTime": [4, 5],
-			"areaId": [1, 2, 3, 4, 5],
+			"areaIds": [1, 2, 3, 4, 5],
 			"readPrice": [1],
 			"playPrice": [3]
 		}
@@ -255,11 +255,11 @@ export default class FilterCommon extends React.Component {
 					}
 
 					{
-						mapFieldsToPlatform['areaId'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='账号地域' className='dropdown-menu'>
-							{getFieldDecorator("areaId", {
+						mapFieldsToPlatform['areaIds'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='账号地域' className='dropdown-menu'>
+							{getFieldDecorator("areaIds", {
 								// initialValue: '0'
 							})(
-								<TreeTransfer options={default_hot_cities} onOkClick={(values) => { onChange('areaId', '账号地域', values) }} onClickCancel={this.onClickCancel}></TreeTransfer>
+								<TreeTransfer options={default_hot_cities} onOkClick={(values) => { onChange('areaIds', '账号地域', values) }} onClickCancel={this.onClickCancel}></TreeTransfer>
 							)}
 						</DropdownMenuNew>
 					}

@@ -110,8 +110,8 @@ class BatchTable extends Component {
 				const { onShelfStatus = {} } = record
 				//const { bOffShelfReasonStrings = [], aOffShelfReasonStrings = [], bOnShelfStatus, aOnShelfStatus } = onShelfStatus
 				return <span>
-					<StatusAB status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStrings || []} title="A" />
-					&nbsp;&nbsp;<StatusAB status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStrings || []} title="B" />
+					<StatusAB status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStringList || []} title="A" />
+					&nbsp;&nbsp;<StatusAB status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStringList || []} title="B" />
 				</span>
 			}
 		}, {

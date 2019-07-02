@@ -149,7 +149,7 @@ class AccountListBatch extends Component {
 						data: {
 							result: {
 								list: [...prev.data.result.list, ...cur.data.result.list],
-								total: prev.data.result.total + cur.data.result.total
+
 							},
 							statistic: {
 								aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
@@ -157,7 +157,7 @@ class AccountListBatch extends Component {
 								bOnShelf: (prev.data.statistic && prev.data.statistic.bOnShelf) + (cur.data.statistic && cur.data.statistic.bOnShelf),
 								bOffShelf: (prev.data.statistic && prev.data.statistic.bOffShelf) + (cur.data.statistic && cur.data.statistic.bOffShelf),
 								notExist: (prev.data.statistic && prev.data.statistic.notExist) + (cur.data.statistic && cur.data.statistic.notExist),
-
+								total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
 							}
 						}
 					}
@@ -207,9 +207,12 @@ class AccountListBatch extends Component {
 		const { showTypeList, visible, loading, showList, searchValue, showModalType, buttonLoaing, exactQueryData = {} } = this.state
 		const { queryExportToolReducer, actions } = this.props;
 		const { batchSearchList, filtersMetaMap, arrSelectExactQuery, addLookDetailOrIndexList } = queryExportToolReducer;
+		//精确查询使用exactQueryData拼接数据，模糊查询直接使用batchSearchList
 		const { statistic = {}, result = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
 		const { aOffShelf = 0, aOnShelf = 0, bOffShelf = 0, bOnShelf = 0, notExist = 0 } = statistic
-		const { total } = result
+		//精确查询在statistic取，模糊查询在result里取
+		const { total } = searchValue.query_type == 1 ? result : statistic
+		//
 		const header = <div style={{ marginTop: 2, color: "#666", float: "left" }}>
 			一共匹配到了符合条件的账号 <a>{total}</a> 个，
 		其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
