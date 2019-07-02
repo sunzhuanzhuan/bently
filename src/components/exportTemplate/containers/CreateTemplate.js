@@ -78,8 +78,9 @@ export default class CreateTemplate extends Component {
 		const { actions, templateAllColumns, templateInfos } = this.props
 		const { id: template_id } = templateInfos
 		const { saveTemplateStyle } = actions
-		let data = Object.values(templateAllColumns).map(({ group_type, selected, sources }) => ({
+		let data = Object.values(templateAllColumns).map(({ group_type, selected, sources, priceTypes }) => ({
 			group_type,
+			priceTypes,
 			"columns": selected.map(id => {
 				let column = sources[id]
 				let obj = {}
@@ -111,7 +112,7 @@ export default class CreateTemplate extends Component {
 		this.state = {
 			saving: false,
 			createLoading: false,
-			current: 0,
+			current: 1,
 			modalType: props.type || 'create'
 		}
 	}

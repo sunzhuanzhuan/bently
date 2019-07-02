@@ -2,6 +2,7 @@ import React, { Component, PureComponent } from "react"
 import { Checkbox, Popover } from 'antd'
 import CollapseSwitch from "@/components/exportTemplate/base/CollapseSwitch";
 import './FieldsCheckboxGroup.less'
+import PriceGroupType from "@/components/exportTemplate/base/PriceGroupType";
 
 
 export default class FieldsCheckboxGroup extends Component {
@@ -14,16 +15,23 @@ export default class FieldsCheckboxGroup extends Component {
 			showFields: !this.state.showFields
 		})
 	}
-
+	onPriceTypeChange = (priceTypes) => {
+		const { data, actions } = this.props
+		actions.selectPriceType({
+			groupId: data['group_type'],
+			priceTypes: priceTypes
+		})
+	}
 
 	componentWillMount() { }
 
 	render() {
 		const { showFields } = this.state
-		const { title, fields = [], sources } = this.props
+		const { title, fields = [], sources, data } = this.props
 		return <div className='fields-checkbox-group-container'>
 			<header className='group-head-title'>
 				<h4>{title}</h4>
+				{title === "账号价格信息" && <PriceGroupType onChange={this.onPriceTypeChange} selected={data.priceTypes}/>}
 				<CollapseSwitch status={showFields} onClick={this.handleClick} />
 			</header>
 			<div className={'group-content-list' + (showFields ? ' show' : '')}>
@@ -44,7 +52,8 @@ class Label extends PureComponent {
 	render() {
 		const { name, content } = this.props
 		return content ?
-			<Popover placement="topLeft" content={<div style={{ maxWidth: '260px' }}>{content}</div>}>
+			<Popover placement="topLeft" content={
+				<div style={{ maxWidth: '260px' }}>{content}</div>}>
 				{name}
 			</Popover> : <span>{name}</span>
 	}
