@@ -148,7 +148,8 @@ class AccountListBatch extends Component {
 					return {
 						data: {
 							result: {
-								accountList: [...prev.data.result.list, ...cur.data.result.list],
+								list: [...prev.data.result.list, ...cur.data.result.list],
+								total: prev.data.result.total + cur.data.result.total
 							},
 							statistic: {
 								aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
@@ -156,13 +157,13 @@ class AccountListBatch extends Component {
 								bOnShelf: (prev.data.statistic && prev.data.statistic.bOnShelf) + (cur.data.statistic && cur.data.statistic.bOnShelf),
 								bOffShelf: (prev.data.statistic && prev.data.statistic.bOffShelf) + (cur.data.statistic && cur.data.statistic.bOffShelf),
 								notExist: (prev.data.statistic && prev.data.statistic.notExist) + (cur.data.statistic && cur.data.statistic.notExist),
-								total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
+
 							}
 						}
 					}
 				})
 				const exactQueryDataUpdate = {
-					accountList: exactQueryData.data.result.list,
+					list: exactQueryData.data.result.list,
 					...exactQueryData.data
 				}
 				this.setState({
@@ -206,8 +207,9 @@ class AccountListBatch extends Component {
 		const { showTypeList, visible, loading, showList, searchValue, showModalType, buttonLoaing, exactQueryData = {} } = this.state
 		const { queryExportToolReducer, actions } = this.props;
 		const { batchSearchList, filtersMetaMap, arrSelectExactQuery, addLookDetailOrIndexList } = queryExportToolReducer;
-		const { statistic = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
-		const { aOffShelf, aOnShelf, bOffShelf, bOnShelf, notExist, total } = statistic
+		const { statistic = {}, result = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
+		const { aOffShelf = 0, aOnShelf = 0, bOffShelf = 0, bOnShelf = 0, notExist = 0 } = statistic
+		const { total } = result
 		const header = <div style={{ marginTop: 2, color: "#666", float: "left" }}>
 			一共匹配到了符合条件的账号 <a>{total}</a> 个，
 		其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
@@ -258,16 +260,16 @@ class AccountListBatch extends Component {
 													</div>
 												</div>
 											</Col>
-											{statistic.total ? <Col span={6} style={{ textAlign: "right" }}>
+											{total ? <Col span={6} style={{ textAlign: "right" }}>
 												<Pagination
 													simple
-													total={statistic.total}
+													total={total}
 													onChange={this.onChangePageSize}
 													defaultPageSize={200}
 													pageSizeOptions={["20", "50", "100"]} />
 											</Col> : null}
 										</Row>
-										{statistic.total ? <div>
+										{total ? <div>
 											<BatchTable
 												addLookDetailOrIndexList={addLookDetailOrIndexList}
 												accountList={exactQueryData}

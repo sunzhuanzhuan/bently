@@ -37,6 +37,7 @@ class BatchTable extends Component {
 		const { visible, modalContent } = this.state
 		const { accountList = {}, type = 1, actions, arrSelectExactQuery,
 			addLookDetailOrIndexList } = this.props
+		console.log("TCL: BatchTable -> render -> accountList", accountList)
 		const columns = [{
 			title: '账号昵称',
 			dataIndex: 'name',

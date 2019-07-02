@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { message, Form, Pagination } from 'antd';
-import { default as BatchSearchCode} from '../components/accountList/SearchFrom/BatchSearchCode'
+import { default as BatchSearchCode } from '../components/accountList/SearchFrom/BatchSearchCode'
 import { getFiltersMeta } from '../actions/filter.js'
 import { getBatchSearch } from '../actions/index.js'
 import { SearchResultTable } from '../components/accountList/SearchResultTable'
@@ -27,7 +27,7 @@ class GlobalAccountSearch extends Component {
 			show: true
 		})
 		const total = value.accoutName.length
-		this.props.actions.getBatchSearch({ ...value, page_size: 20, page: page ? page : 1, accoutName: total }).then(() => {
+		this.props.actions.getBatchSearch({ ...value, pageSize: 20, page: page ? page : 1, accoutName: total }).then(() => {
 			this.setState({
 				loading: false
 			})
@@ -42,7 +42,7 @@ class GlobalAccountSearch extends Component {
 		const { queryExportToolReducer } = this.props;
 		const { filtersMetaMap, batchSearchList = {} } = queryExportToolReducer;
 		const { statistic = {}, pagination = {} } = batchSearchList
-		const { a = {}, b = {} } = statistic
+		const { aOffShelf, bOffShelf, aOnShelf, bOnShelf, notExist } = statistic
 		return (
 			<div>
 				<h2 className="globalAccountSearch-title">全库账号搜索</h2>
@@ -53,14 +53,15 @@ class GlobalAccountSearch extends Component {
 							< div className="globalAccountSearch-statistic">
 								<span>
 									共查询账号 <a>{statistic.total}</a>个，
-									其中在A端上架 <a>{a.on_shelf}</a>个/下架 <a>{a.off_shelf}</a>个，
-									B端上架 <a>{b.on_shelf}</a>个/下架 <a>{b.off_shelf}</a>个，
-									不在库：<a>{statistic.not_exist}</a>个
+									其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
+									B端上架 <a>{bOnShelf}</a>个/下架 <a>{bOffShelf}</a>个，
+									不在库：<a>{notExist}</a>个
 								</span>
 								{
 									this.state.value.query_type == 1 ?
 										<Pagination className="globalAccountSearch-statistic-pagination"
-											simple current={pagination.page}
+											simple
+											current={pagination.page}
 											total={pagination.total}
 											onChange={(page) => this.batchSearch(this.state.value, page)}
 											pageSize={20}
