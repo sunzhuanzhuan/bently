@@ -178,8 +178,8 @@ export default class MainItem extends PureComponent {
 					{/* 此处是粉丝数，微信没有粉丝数认证*/}
 					<div className="fans-count-box">
 						<FansCount value={follower_count > 0 ? follower_count : 0} status={follower_count_verification_status} isfollowerCount={isfollowerCount}
-							time={follower_count_screenshot_modified_time} IS_WEiXin={IS_WEiXin} />
-						<div>{isfollowerCount && numeral(follower_count_growth_rate_28d).format("0.0%")}</div>
+							time={follower_count_screenshot_modified_time} IS_WEiXin={IS_WEiXin}
+							followerCountGrowthRate28d={follower_count_growth_rate_28d} />
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<SimpleTables Is_wei={Is_wei} data={price && price.skus}
