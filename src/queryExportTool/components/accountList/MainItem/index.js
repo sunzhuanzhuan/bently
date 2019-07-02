@@ -179,7 +179,8 @@ export default class MainItem extends PureComponent {
 					<div className="fans-count-box">
 						<FansCount value={follower_count > 0 ? follower_count : 0} status={follower_count_verification_status}
 							time={follower_count_screenshot_modified_time} IS_WEiXin={IS_WEiXin} />
-						<div>{(Is_Weibo || Is_Red || Is_Vidro) && follower_count_growth_rate_28d}</div>
+						<div>{(Is_Weibo || Is_Red || Is_Vidro) && follower_count_growth_rate_28d &&
+							numeral(follower_count_growth_rate_28d).format("0.0%")}</div>
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<SimpleTables Is_wei={Is_wei} data={price && price.skus}
