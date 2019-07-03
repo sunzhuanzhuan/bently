@@ -156,7 +156,7 @@ export default class MainItem extends PureComponent {
 							</div>
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为是否提前打款标示 */}
-								<LazyLoad once overflow>
+								<LazyLoad once overflow height={20}>
 									<PayAdvanced account_id={accountId} />
 								</LazyLoad>
 							</div>
@@ -170,7 +170,7 @@ export default class MainItem extends PureComponent {
 						<div>{(IsWeibo || IsVidro || IsRed) && followerCountGrowthRate28d}</div>
 					</div>
 					{/* 此处是右侧两个小表格*/}
-					<LazyLoad once overflow>
+					<LazyLoad once overflow height={80}>
 						<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} />
 					</LazyLoad>
 				</main>
@@ -183,7 +183,7 @@ export default class MainItem extends PureComponent {
 					<div className='footer-tages'>
 						{/* 此处是热门标签 */}
 						{classificationList && classificationList.slice(0, 1).map((one, index) => <CTag key={index}>{one.name}</CTag>)}
-						{(classificationList && classificationList.length) ? <LazyLoad once overflow>
+						{(classificationList && classificationList.length) ? <LazyLoad once overflow height='20'>
 							<ClassificationFeedback data={accountListItem} />
 						</LazyLoad> : null}
 					</div>

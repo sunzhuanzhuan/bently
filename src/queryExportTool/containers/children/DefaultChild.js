@@ -156,11 +156,11 @@ class DefaultChild extends Component {
 				}
 			</div>
 			{search.keyword && <div>
-				<div>微信公众号<span><a href="javascript:void(0)" onClick={() => this.onCountClick(1)}>{statistic[1]}</a></span>个</div>
-				<div>新浪微博<span><a href="javascript:void(0)" onClick={() => this.onCountClick(2)}>{statistic[2]}</a></span>个</div>
-				<div>视频/直播<span><a href="javascript:void(0)" onClick={() => this.onCountClick(3)}>{statistic[3]}</a></span>个</div>
-				<div>小红书<span><a href="javascript:void(0)" onClick={() => this.onCountClick(4)}>{statistic[4]}</a></span>个</div>
-				<div>其他平台<span><a href="javascript:void(0)" onClick={() => this.onCountClick(5)}>{statistic[5]}</a></span>个</div>
+				<div>微信公众号<span><a href="javascript:void(0)" onClick={() => this.onCountClick(1)}>{statistic[1] || 0}</a></span>个</div>
+				<div>新浪微博<span><a href="javascript:void(0)" onClick={() => this.onCountClick(2)}>{statistic[2] || 0}</a></span>个</div>
+				<div>视频/直播<span><a href="javascript:void(0)" onClick={() => this.onCountClick(3)}>{statistic[3] || 0}</a></span>个</div>
+				<div>小红书<span><a href="javascript:void(0)" onClick={() => this.onCountClick(4)}>{statistic[4] || 0}</a></span>个</div>
+				<div>其他平台<span><a href="javascript:void(0)" onClick={() => this.onCountClick(5)}>{statistic[5] || 0}</a></span>个</div>
 			</div>}
 		</div>
 		return <div >
