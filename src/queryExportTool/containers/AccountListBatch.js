@@ -208,11 +208,10 @@ class AccountListBatch extends Component {
 		const { queryExportToolReducer, actions } = this.props;
 		const { batchSearchList, filtersMetaMap, arrSelectExactQuery, addLookDetailOrIndexList } = queryExportToolReducer;
 		//精确查询使用exactQueryData拼接数据，模糊查询直接使用batchSearchList
-		const { statistic = {}, result = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
+		const { statistic = {}, } = searchValue.queryType == 1 ? batchSearchList : exactQueryData
 		const { aOffShelf = 0, aOnShelf = 0, bOffShelf = 0, bOnShelf = 0, notExist = 0 } = statistic
 		//精确查询在statistic取，模糊查询在result里取
-		const { total } = searchValue.query_type == 1 ? result : statistic
-		//
+		let total = searchValue.queryType == 1 ? batchSearchList.total : statistic.total
 		const header = <div style={{ marginTop: 2, color: "#666", float: "left" }}>
 			一共匹配到了符合条件的账号 <a>{total}</a> 个，
 		其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
@@ -226,7 +225,7 @@ class AccountListBatch extends Component {
 			<div >
 				<BatchSearchCode batchSearch={this.batchSearch} filtersMetaMap={filtersMetaMap} />
 				<Row>
-					{searchValue.query_type == 1 ?
+					{searchValue.queryType == 1 ?
 						<Spin spinning={loading} >
 							<AccountTableSelect
 								addLookDetailOrIndexList={addLookDetailOrIndexList}
@@ -315,6 +314,7 @@ const mapStateToProps = (state) => {
 		queryExportToolReducer: state.queryExportToolReducer,
 	}
 }
+
 
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators(action, dispatch)
