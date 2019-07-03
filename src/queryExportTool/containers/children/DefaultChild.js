@@ -141,9 +141,10 @@ class DefaultChild extends Component {
 			4: "查看小红书下单规则"
 		}
 		const { statistic = {} } = accountList
+		const count = Object.values(statistic).reduce((prev, cur) => { return prev + cur }, 0)
 		const header = <div className="table-title-wxy">
 			<div>
-				共<span>{accountList.total}</span>个账号
+				共<span>{count}</span>个账号
 				&nbsp;&nbsp;&nbsp;
 				{
 					ruleUrl[platformType] ?

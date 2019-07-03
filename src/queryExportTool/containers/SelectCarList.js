@@ -120,14 +120,13 @@ class SelectCarList extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		this.props.history.push({
-			search: `?` + qs.stringify({ groupType: key == 10 ? 0 : key, pageSize: search.pageSize || 20, isFamous: 0 })
+			search: `?` + qs.stringify({ groupType: key == 10 ? 0 : key, pageSize: search.pageSize || 20 })
 		})
 		this.setLoading()
 		this.props.actions.getCartSearchAll(
 			getPostFrom({
 				groupType: key == 10 ? 0 : key,
 				pageSize: search.pageSize,
-				isFamous: 0
 			})
 		).then(() => {
 			this.setState({ isLoading: false })

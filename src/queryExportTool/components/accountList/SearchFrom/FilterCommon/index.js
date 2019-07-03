@@ -137,7 +137,7 @@ export default class FilterCommon extends React.Component {
 			"kolVisitorProvinceDraw": [1, 2, 3],
 			"kolVisitorInterestDraw": [1, 2, 3],
 			"trueReadRatio": [1],
-			"mediaIndex1AvgReadNum": [1],
+			"mediaIndexOneAvgReadNum": [1],
 			"directMediaInteractionAvg": [2],
 			"trueFansRate": [2],
 			"gender": [4, 5],
@@ -212,14 +212,14 @@ export default class FilterCommon extends React.Component {
 							)}</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['mediaIndex1AvgReadNum'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='多一阅读量' className='dropdown-menu'>
-							{getFieldDecorator("mediaIndex1AvgReadNum", {
+						mapFieldsToPlatform['mediaIndexOneAvgReadNum'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='多一阅读量' className='dropdown-menu'>
+							{getFieldDecorator("mediaIndexOneAvgReadNum", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<IndexButton id='mediaIndex1AvgReadNum' onOkClick={(values) => { onChange('mediaIndex1AvgReadNum', '多一阅读量', values) }} inputLableAfter=""></IndexButton>
+								<IndexButton id='mediaIndexOneAvgReadNum' onOkClick={(values) => { onChange('mediaIndexOneAvgReadNum', '多一阅读量', values) }} inputLableAfter=""></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{/* 新浪微博 */}
