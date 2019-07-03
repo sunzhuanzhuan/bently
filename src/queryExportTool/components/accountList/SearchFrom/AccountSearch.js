@@ -232,9 +232,9 @@ class AccountSearch extends React.Component {
 		></Search>
 		const allSearch = <div>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
-				{getFieldDecorator('classificationId')(
+				{getFieldDecorator('classificationIds')(
 					<ItemLable
-						onClick={(names) => this.onItemLableChange('classificationId', '常见分类', names)}
+						onClick={(names) => this.onItemLableChange('classificationIds', '常见分类', names)}
 						// id='category'
 						tagsArray={category.options}
 					/>
@@ -243,18 +243,18 @@ class AccountSearch extends React.Component {
 			}
 			{
 				grouped_platforms.length > 0 && <LayoutSearch name='平台名称'>
-					{getFieldDecorator('platformId')(
+					{getFieldDecorator('platformIds')(
 						<ItemLable
-							onClick={(names) => this.onItemLableChange('platformId', '平台名称', names)}
-							tagsArray={grouped_platforms.map(item => { item.id = item.platformId; return item })}
+							onClick={(names) => this.onItemLableChange('platformIds', '平台名称', names)}
+							tagsArray={grouped_platforms.map(item => { item.id = item.platform_id; return item })}
 						/>
 					)}
 				</LayoutSearch>
 			}
 			{operation_tag && <LayoutSearch name={'运营标签'}>
-				{getFieldDecorator('operationTagId')(
+				{getFieldDecorator('operationTagIds')(
 					<ItemLable
-						onClick={(names) => this.onItemLableChange('operationTagId', '运营标签', names)}
+						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
 						// id='operationTag'
 						tagsArray={operation_tag}
 					/>

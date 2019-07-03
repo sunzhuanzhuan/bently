@@ -121,7 +121,7 @@ class AccountListBatch extends Component {
 		this.setLoading()
 		const { getBatchSearch, addSelectExactQuery } = this.props.actions
 		if (value.queryType == 1) {
-			this.props.actions.getBatchSearch({ ...value, pageSize: 20, page: 1, accoutName: total }).then((data) => {
+			this.props.actions.getBatchSearch({ ...value, pageSize: 20, currentPage: 1, accoutName: total }).then((data) => {
 				this.setState({
 					loading: false,
 					showList: true,

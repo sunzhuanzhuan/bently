@@ -30,7 +30,7 @@ class DefaultChild extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		getAccountList({
 			groupType,
-			page: 1,
+			currentPage: 1,
 			searchSource: searchSource || 1,
 			pageSize: search.pageSize || 20,
 			keyword: search.keyword || '',

@@ -126,7 +126,7 @@ class QuotationDetail extends Component {
 			isLoading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		const data = { ...search, groupType: key, quotationId: search.quotation_id }
+		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotation_id }
 		this.props.history.push({
 			search: `?` + qs.stringify(data)
 		})
