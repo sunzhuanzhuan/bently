@@ -208,7 +208,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<IndexButton id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }}></IndexButton>
+								<SelectAndInput id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }}></SelectAndInput>
 							)}</DropdownMenuNew>
 					}
 					{
@@ -242,7 +242,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<IndexButton id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }}></IndexButton>
+								<SelectAndInput id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }}></SelectAndInput>
 							)}</DropdownMenuNew>
 					}
 

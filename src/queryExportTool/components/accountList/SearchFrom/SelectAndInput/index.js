@@ -27,7 +27,8 @@ class SelectAndInput extends Component {
 		const value = props.value || {};
 		this.state = {
 			name: value.name,
-			weight: value.weight || []
+			weight: value.weight || [],
+			weightDecimal: 0
 		};
 	}
 	componentWillReceiveProps(nextProps) {
@@ -36,7 +37,8 @@ class SelectAndInput extends Component {
 		if ("value" in nextProps) {
 			this.setState({
 				name: value.name,
-				weight: value.weight || []
+				weight: value.weight || [],
+				weightDecimal: [value.weight && value.weight[0] / 100] || []
 			})
 		}
 	}
@@ -50,7 +52,9 @@ class SelectAndInput extends Component {
 	//最小值变化
 	changeInputNumberMin = (min) => {
 		const { weight = [] } = this.state;
-		const state = { weight: weight[1] ? [min, weight[1]] : [min] };
+		const { inputLableAfter = "%" } = this.props
+		const weightDecimal = inputLableAfter == '%' ? { weightDecimal: [min / 100] } : {}
+		const state = { weight: weight[1] ? [min, weight[1]] : [min], ...weightDecimal };
 		if (!("value" in this.props)) {
 			this.setState(state);
 		}
