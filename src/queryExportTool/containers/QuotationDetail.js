@@ -42,7 +42,10 @@ class QuotationDetail extends Component {
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
 		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotation_id: quotation_id }).then((res) => {
+		getQuotationDetail({ quotation_id: quotation_id }).then(({ data }) => {
+			this.props.history.push({
+				search: `?` + qs.stringify({ ...search, companyId: data.company_id })
+			})
 			this.setState({
 				detailLoading: false,
 				isShowNoPermiss: 2
@@ -127,9 +130,7 @@ class QuotationDetail extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotation_id }
-		this.props.history.push({
-			search: `?` + qs.stringify(data)
-		})
+
 		this.setLoading()
 		if (key == 10) {
 			delete data.groupType

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './index.less'
 import api from "../../../api";
 import SimpleTables from "./index";
+import qs from "qs";
 import Interface from "../../constants/Interface";
 class TwoTable extends Component {
 	constructor(props) {
@@ -29,8 +30,9 @@ class TwoTable extends Component {
 	componentDidMount = () => {
 		const { accountId } = this.props
 		this.isMount = true
+		const search = qs.parse(window.location.search.substring(1))
 		if (accountId) {
-			api.get(Interface.getAccountPrice, { params: { accountId: accountId } }).then(({ data }) => {
+			api.get(Interface.getAccountPrice, { params: { accountId: accountId, companyId: search.companyId } }).then(({ data }) => {
 				if (!this.isMount) return
 
 				this.setState({

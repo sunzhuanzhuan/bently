@@ -46,6 +46,7 @@ class AccountTable extends Component {
 	}
 
 	onChangePageSize = (pagination, pageSize) => {
+		console.log("TCL: AccountTable -> onChangePageSize -> pageSize", pageSize)
 		const { isdBackUp } = this.props
 		isdBackUp && isdBackUp()
 		const param = { currentPage: pagination, pageSize: pageSize }
@@ -55,6 +56,7 @@ class AccountTable extends Component {
 		this.searchList(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
+		console.log("TCL: AccountTable -> onShowSizeChange -> pageSize", pageSize)
 		const { isdBackUp } = this.props
 		isdBackUp && isdBackUp()
 		const param = { currentPage: pagination, pageSize: pageSize }

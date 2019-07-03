@@ -62,7 +62,7 @@ class AccountList extends Component {
 		const urlAll = this.props.match.url
 		let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/" + activeKey
 		let queryParams = {
-			page_size: search.page_size,
+			pageSize: search.pageSize,
 		}
 		const { quotation_id, quotation_name } = this.state
 		if (quotation_id > 0) {
