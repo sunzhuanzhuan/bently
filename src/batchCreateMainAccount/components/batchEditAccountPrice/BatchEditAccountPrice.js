@@ -2,10 +2,14 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Steps, message } from 'antd';
-import { batchEditAccountPrice_steps, operateClass } from '../../constants/config.js'
+import {
+	batchEditAccountPrice_steps,
+	operateClass
+} from '../../constants/config.js'
 import * as batchActions from '../../actions/batchOptions'
 import * as commonActions from '../../../actions/index'
 import './BatchEditAccountPrice.less'
+
 const Step = Steps.Step;
 
 class BatchEditAccountPrice extends Component {
@@ -18,6 +22,7 @@ class BatchEditAccountPrice extends Component {
 			productionLineId: ""
 		}
 	}
+
 	//跳转到选择平台
 	jumpToStep1 = () => {
 		this.props.actions.resetdownloadLink()
@@ -50,16 +55,44 @@ class BatchEditAccountPrice extends Component {
 			step: "step3",
 			current: 2
 		}, () => {
-			this.props.actions.getNewDownloadLink({
-				platformId: this.state.platformId,
-				operateKey: `updateSkuPrice_${productionLineId}_${this.state.platformId}`,
-				productionLineId: productionLineId
-			})
+			console.log(this.props,'=====>');
+			if (this.props.type === 'tab5') {
+				this.props.actions.getNewDownloadLink({
+					platformId: this.state.platformId,
+					operateKey: "updatePublicationPrice",
+					productionLineId: productionLineId
+				})
+			}else {
+				this.props.actions.getNewDownloadLink({
+					platformId: this.state.platformId,
+					operateKey: `updateSkuPrice_${productionLineId}_${this.state.platformId}`,
+					productionLineId: productionLineId
+				})
+			}
 		})
 	}
 	//上传之后的解析
 	uploadFile = (file, originFile) => {
 		if (file.length !== 0) {
+			if(this.props.type === "tab5"){
+				let value = {
+					uploadUrl: file[0].url,
+					operateType: "updatePublicationPrice",
+					originalFileName: originFile.name,
+					platformId: this.state.platformId,
+					productionLineId: this.state.productionLineId,
+					operateClass: "updatePublicationPrice"
+				}
+				this.props.actions.savePublication(value).then(() => {
+					this.setState({
+						step: "step4",
+						current: 3
+					})
+				}).catch(() => {
+					message.error("请求失败")
+				})
+				return
+			}
 			let value = {
 				uploadUrl: file[0].url,
 				operateType: `updateSkuPrice_${this.state.productionLineId}_${this.state.platformId}`,
@@ -78,6 +111,7 @@ class BatchEditAccountPrice extends Component {
 			})
 		}
 	}
+
 	render() {
 		const Content = batchEditAccountPrice_steps[this.state.step]
 		const { downloadLink, batchSkuPlatformList } = this.props
@@ -102,6 +136,7 @@ class BatchEditAccountPrice extends Component {
 						jumpToStep2={this.jumpToStep2}
 						returnStep2={this.returnStep2}
 						batchSkuPlatformList={batchSkuPlatformList}
+						type={this.props.type}
 					/>
 				</div>
 			</div>

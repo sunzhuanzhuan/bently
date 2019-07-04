@@ -27,7 +27,8 @@ export const typeConfig = {
 	"tab1": ChooseType,
 	"tab2": BatchCreateMainAccount,
 	"tab3": AccountPutAttribute,
-	"tab4": BatchEditAccountPrice
+	"tab4": BatchEditAccountPrice,
+	"tab5": BatchEditAccountPrice
 }
 
 export const statusDotColor = {

@@ -46,6 +46,12 @@ export const ChooseType = (props) => {
 									onClick={() => props.editAccountPrice()}
 								>修改账号报价</Button> : null
 						}
+						{
+							props.authVisibleList['batch.operate.edit.account.price'] == true ?
+								<Button type="primary" className="accountPutAttribute-btn"
+									onClick={() => props.editAccountPriceFull()}
+								>更新刊例价</Button> : null
+						}
 					</section> : null
 			}
 		</div>
