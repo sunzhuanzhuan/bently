@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 
 const GetQcHistory = (props) => {
 	const content = props.content.data;
+	const auth = props.auth
 	let complaint = content.complaint ? <div className="quality-box">
 		<h1>{content.complaint.module_title}</h1>
 		<table className="quality-box-Table">
@@ -282,6 +284,13 @@ const GetQcHistory = (props) => {
 				<td>扣款比例:</td>
 				<td>{content.complaint_rejection_refused.charge_ratio + "%"}</td>
 			</tr>
+			{
+				auth["reservationOrderQc.qc.getQcHistory.amount"] ?
+					<tr>
+						<td>扣款金额:</td>
+						<td>{((content.complaint_rejection_refused.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
+					</tr> : null
+			}
 			<tr>
 				<td>质检时间:</td>
 				<td>{content.complaint_rejection_refused.created_at}</td>
@@ -799,6 +808,13 @@ const GetQcHistory = (props) => {
 				<td>扣款比例:</td>
 				<td>{content.inspector_manager_qc_unqualified.charge_ratio + "%"}</td>
 			</tr>
+			{
+				auth["reservationOrderQc.qc.getQcHistory.amount"] ?
+					<tr>
+						<td>扣款金额:</td>
+						<td>{((content.inspector_manager_qc_unqualified.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
+					</tr> : null
+			}
 			<tr>
 				<td>质检时间:</td>
 				<td>{content.entry_at}</td>
@@ -817,6 +833,13 @@ const GetQcHistory = (props) => {
 				<td>扣款比例:</td>
 				<td>{content.final_qc_expired.charge_ratio + "%"}</td>
 			</tr>
+			{
+				auth["reservationOrderQc.qc.getQcHistory.amount"] ?
+					<tr>
+						<td>扣款金额:</td>
+						<td>{((content.final_qc_expired.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
+					</tr> : null
+			}
 			<tr>
 				<td>质检时间:</td>
 				<td>{content.final_qc_expired.created_at}</td>
@@ -931,6 +954,13 @@ const GetQcHistory = (props) => {
 				<td>扣款比例:</td>
 				<td>{content.second_qc_expired_unqualified.charge_ratio + "%"}</td>
 			</tr>
+			{
+				auth["reservationOrderQc.qc.getQcHistory.amount"] ?
+					<tr>
+						<td>扣款金额:</td>
+						<td>{((content.second_qc_expired_unqualified.charge_ratio) / 100 * content.cost_amount).toFixed(2)}</td>
+					</tr> : null
+			}
 			<tr>
 				<td>质检时间:</td>
 				<td>{content.second_qc_expired_unqualified.created_at}</td>
@@ -1021,4 +1051,12 @@ const GetQcHistory = (props) => {
 	)
 };
 
-export default GetQcHistory
+const mapStateToProps = (state) => {
+	return {
+		auth: state.authorizationsReducers.authVisibleList
+	}
+}
+
+export default connect(
+	mapStateToProps,//redux和react连接起来
+)(GetQcHistory)
