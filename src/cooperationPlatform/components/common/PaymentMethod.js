@@ -14,13 +14,10 @@ class PaymentMethod extends Component {
 	accountVali = (rule, value, callback) => {
 		const reg = /^[0-9]+$/;
 		if (reg.test(value)) {
-			if (16 > value.length || value.length > 19) {
-				callback("仅可输入16-19位数字")
-			} else {
-				callback()
-			}
+
+			callback()
 		} else {
-			callback("仅可输入16-19位数字")
+			callback("仅可输入数字")
 		}
 
 	}
@@ -144,7 +141,7 @@ class PaymentMethod extends Component {
 								{ validator: this.accountVali },
 							],
 						})(
-							<Input placeholder="请输入16-19位卡号" />
+							<Input placeholder="请输入卡号" />
 
 						)}
 					</Form.Item>
