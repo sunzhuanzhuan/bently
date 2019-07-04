@@ -7,6 +7,12 @@ import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
 import moment from 'moment'
 import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg } from "./unit";
+const Shielding = ({ isShielding }) => {
+	return <MarkMessage {...messageInfo['isShielding']} text={<span className='shielding-box'>
+		防
+</span>} />
+
+}
 export default class SimpleTables extends Component {
 	componentWillMount() { }
 

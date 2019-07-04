@@ -16,32 +16,43 @@ class Agent extends Component {
 		this.state = {
 			visible: false,
 			showModal: { title: "", content: "" },
-			isLoading: true
+			isLoading: true,
+			searchParams: qs.parse(window.location.search.substring(1)),
+			cooperationPlatformInfoDetail: {},
+			pageParam: {}
 		};
 		this.setShowModal = this.setShowModal.bind(this)
 	}
-	componentDidMount = () => {
-		const { actions: { getAgentByPage } } = this.props
-		const data = qs.parse(window.location.search.substring(1))
+	componentDidMount = async () => {
+		const { actions: { getAgentByPage, getCooperationPlatformInfoById } } = this.props
+		const { searchParams } = this.state
+		const { data } = await getCooperationPlatformInfoById({ id: searchParams.id })
 		getAgentByPage({
 			page: { currentPage: 1, pageSize: 10 },
-			form: { cooperationPlatformCode: data.code }
+			form: { cooperationPlatformCode: searchParams.code }
 		}).then(() => {
 			this.setState({
+				cooperationPlatformInfoDetail: data,
 				isLoading: false
 			})
 		})
 	}
 	//查询
-	seachAgentByPage = (params = pageDefault) => {
-		const data = qs.parse(window.location.search.substring(1))
+	seachAgentByPage = (params, operate) => {
+		const { searchParams, pageParam } = this.state
 		this.setState({
 			isLoading: true
 		})
-		const { actions: { getAgentByPage } } = this.props
-		getAgentByPage({ ...pageDefault, form: { cooperationPlatformCode: data.code }, ...params }).then(() => {
+		const { actions: { getAgentByPage }, cooperationPlatformReducer: { agentByPageList } } = this.props
+		const paramsAll = { ...pageDefault, ...pageParam, form: { cooperationPlatformCode: searchParams.code }, ...params }
+
+		if (operate == 'delete' && (agentByPageList && agentByPageList.total) % paramsAll.page.pageSize == 1) {
+			paramsAll.page.currentPage = paramsAll.page.currentPage - 1
+		}
+		getAgentByPage(paramsAll).then(() => {
 			this.setState({
-				isLoading: false
+				isLoading: false,
+				pageParam: paramsAll
 			})
 		})
 	}
@@ -68,7 +79,7 @@ class Agent extends Component {
 		const { actions: { updateAgentStatus } } = this.props
 		updateAgentStatus({ id: id, agentStatus: status })
 			.then(() => {
-				message.success(`改平台已经${status == 1 ? '启用' : '停用'}`);
+				message.success(`该平台已经${status == 1 ? '启用' : '停用'}`);
 				this.seachAgentByPage()
 			})
 
@@ -76,26 +87,31 @@ class Agent extends Component {
 	//删除代理商
 	deleteAgent = (id) => {
 		const { actions: { delAgent } } = this.props
-		delAgent({ id: id })
+		delAgent({ id: id, })
 			.then(() => {
 				message.success(`删除成功`);
-				this.seachAgentByPage()
+				this.seachAgentByPage(null, 'delete')
 			})
 
 	}
 	render() {
-		const { showModal, visible, isLoading } = this.state
+		const { showModal, visible, isLoading, searchParams, cooperationPlatformInfoDetail } = this.state
 		const { actions, cooperationPlatformReducer } = this.props
 		const { insertAgent } = actions
 		const { agentByPageList, } = cooperationPlatformReducer
+		const { platformName, cooperationPlatformName, captureCooperationPlatformName } = cooperationPlatformInfoDetail
+		const titleModal = `【下单平台：${captureCooperationPlatformName}  所属媒体平台：${platformName}】`
 		const listProps = {
 			setShowModal: this.setShowModal,
 			agentByPageList,
 			deleteAgent: this.deleteAgent,
 			editAgentStatus: this.editAgentStatus,
 			seachAgentByPage: this.seachAgentByPage,
-			actions
+			actions,
+			searchParams,
+			titleModal
 		}
+
 		return (
 
 			<div className="agent-info">
@@ -104,18 +120,18 @@ class Agent extends Component {
 					<DividingBox text="下单平台基本信息" />
 					<div className="agent-base-info">
 						<div>
-							下单平台编号：asda12312
+							下单平台编号：{searchParams.code}
 						</div>
 						<div>
-							下单平台名称：快手所属
+							下单平台名称：{cooperationPlatformName}
 						</div>
 						<div>
-							所属媒体平台：快手
+							所属媒体平台：{platformName}
 						</div>
 					</div>
 					<DividingBox text="代理商信息" />
 					<a onClick={() => this.setShowModal(true, {
-						title: '新增代理商',
+						title: `新增代理商 ${titleModal}`,
 						content: <AgentEdit setShowModal={this.setShowModal}
 							insertAgent={insertAgent} seachAgentByPage={this.seachAgentByPage} />, width: 800
 					})}>新增代理商</a>
@@ -132,6 +148,7 @@ class Agent extends Component {
 						onOk={this.hideModal}
 						footer={null}
 						width={showModal.width}
+						maskClosable={false}
 						onCancel={this.hideModal}>
 						{showModal && showModal.content}
 					</Modal>

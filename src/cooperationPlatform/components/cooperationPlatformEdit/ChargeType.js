@@ -3,6 +3,8 @@ import { Table } from 'antd';
 import ChargeTypeEdit from "./ChargeTypeEdit";
 import { DeleteModal } from "../common"
 import qs from "qs";
+import numeral from "numeral";
+
 class ChargeType extends Component {
 	constructor(props) {
 		super(props);
@@ -18,7 +20,8 @@ class ChargeType extends Component {
 			updateList,
 			deleteList,
 			noLast,//查看详情不显示操作列
-			isEdit//修改时显示编号和时间
+			cooperationPlatformKey,
+			titleModal
 		} = this.props
 		const id = qs.parse(window.location.search.substring(1)).id
 		const columns = [{
@@ -36,6 +39,7 @@ class ChargeType extends Component {
 			dataIndex: 'serviceRatio',
 			align: 'center',
 			key: 'serviceRatio',
+			render: (text) => numeral(text || 0).format('0.00')
 		}, {
 			title: '描述',
 			dataIndex: 'tollDescribe',
@@ -59,7 +63,7 @@ class ChargeType extends Component {
 			render: (text, record, index) => {
 				return <div>
 					<a onClick={() => setShowModal(true, {
-						title: <div>修改报价项</div>,
+						title: <div>修改收费类型{titleModal}</div>,
 						content: <ChargeTypeEdit
 							formLayoutModal={formLayoutModal}
 							setShowModal={setShowModal}
@@ -68,9 +72,10 @@ class ChargeType extends Component {
 							isEdit={true}
 							item={record}
 							actions={actions}
-							updateBaseInfoState={updateBaseInfoState} />
+							updateBaseInfoState={updateBaseInfoState}
+							cooperationPlatformKey={cooperationPlatformKey} />
 					})} style={{ marginRight: 4 }}>修改</a>
-					{record.isAddItem ? <DeleteModal onDelete={() => deleteList(record.id, 'trinityTollTypeVOS')} /> : null}
+					{record.tollTypeCode ? null : <DeleteModal onDelete={() => deleteList(record.idAdd, 'trinityTollTypeVOS')} />}
 
 				</div>
 

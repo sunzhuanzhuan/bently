@@ -20,6 +20,7 @@ class DeleteModal extends Component {
 			cancelText: '取消',
 			icon: "exclamation-circle",
 			iconType: "exclamation-circle",
+			theme: "filled",
 			onOk() {
 				onDelete && onDelete()
 			},

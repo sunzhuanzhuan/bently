@@ -157,6 +157,7 @@ export const groupBySorter = {
 				{
 					'title': '防屏蔽',
 					'name': 'skuIsPreventShielding'
+					//'name': 'trinity_is_prevent_shielding'
 				},
 				{
 					'title': '可带@/话题/链接',
@@ -217,6 +218,10 @@ export const groupBySorter = {
 			],
 			check: [
 				{
+					'title': '防屏蔽',
+					'name': 'trinity_is_prevent_shielding'
+				},
+				{
 					'title': '原创',
 					'name': 'canOriginWrite'
 				}
@@ -266,7 +271,12 @@ export const groupBySorter = {
 					'field': 'isFamous'
 				}
 			],
-			check: []
+			check: [
+				{
+					'title': '防屏蔽',
+					'name': 'trinity_is_prevent_shielding'
+				},
+			]
 		},
 		sorter: {
 			buttons: [
@@ -301,7 +311,12 @@ export const groupBySorter = {
 					'field': 'isFamous'
 				}
 			],
-			check: []
+			check: [
+				{
+					'title': '防屏蔽',
+					'name': 'trinity_is_prevent_shielding'
+				},
+			]
 		},
 		sorter: {
 			buttons: [
