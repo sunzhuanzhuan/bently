@@ -70,7 +70,7 @@ export default class MainItem extends PureComponent {
 			snbt, trueFansRate, trueReadRatio, mediaWeeklyGroupCount90d,
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
 			onShelfStatus = {}, followerCountVerificationStatus,
-			followerCountScreenshotModifiedTime, userId,
+			followerCountScreenshotModifiedTime, trinityIsPreventShielding,
 			avgData = {}, platformId = 0, groupType, agentInfo, followerCountGrowthRate28d
 		} = accountListItem
 
@@ -146,7 +146,7 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 根据平台不同展示不同的标签 */}
 								{originalName && originalName.split(',').map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}
-								{isPreventShielding == 1 && IsWeibo ? <CTag color='green'>防屏蔽</CTag> : null}
+								{!ISWEiXin && trinityIsPreventShielding == 1 ? <CTag color='green'>防屏蔽</CTag> : null}
 								{isSupportTopicAndLink == 1 && IsWeibo ? <CTag color='green'>可带@/话题/链接</CTag> : null}
 								{canOriginWrite == 1 ? <CTag color='green'>原创</CTag> : null}
 							</div>
@@ -171,7 +171,7 @@ export default class MainItem extends PureComponent {
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<LazyLoad once overflow height={80}>
-						<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} />
+						<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} />
 					</LazyLoad>
 				</main>
 				<footer className="content-footer">

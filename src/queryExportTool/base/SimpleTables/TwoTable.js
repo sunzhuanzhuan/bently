@@ -49,7 +49,7 @@ class TwoTable extends Component {
 		this.isMount = false
 	}
 	render() {
-		const { IsWei, groupType, platformId } = this.props
+		const { IsWei, groupType, platformId, isShielding } = this.props
 		const { skuPrice, avgData, dataSku, dataAvg } = this.state
 		return (
 			<div style={{ display: 'flex', flex: 5 }}>
@@ -59,7 +59,8 @@ class TwoTable extends Component {
 					columsNum={this.getColumsNum(groupType, IsWei)[0]}
 					tableFooterText={IsWei ? "" : "价格有效期"}
 					isLeft={true}
-					platformId={platformId} />
+					platformId={platformId}
+					isShielding={isShielding} />
 				<SimpleTables IsWei={IsWei}
 					data={avgData}
 					dataTime={dataAvg}

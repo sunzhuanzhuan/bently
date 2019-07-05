@@ -17,7 +17,8 @@ export default class SimpleTables extends Component {
 	componentWillMount() { }
 
 	render() {
-		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft, platformId } = this.props
+		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft,
+			isShielding, platformId } = this.props
 		const config = {
 			pagination: false,
 			size: "middle",
@@ -86,7 +87,7 @@ export default class SimpleTables extends Component {
 				align: 'center',
 				width: "50%",
 			}, {
-				title: '价格',
+				title: <span>价格	{isShielding ? <Shielding /> : null}</span>,
 				dataIndex: 'price1',
 				key: 'price1',
 				align: 'center',
@@ -97,13 +98,13 @@ export default class SimpleTables extends Component {
 			}],
 			//包含报价和价格，价格有平均数据列（视频）
 			'baojiatwo': [{
-				title: <span>报价/播放单价</span>,
+				title: <span>报价/播放单价<MarkMessage {...messageInfo['zhuanfa']} /></span>,
 				dataIndex: 'skuTypeName',
 				key: "skuTypeName",
 				align: 'center',
 				width: "60%",
 			}, {
-				title: <span>价格<MarkMessage {...messageInfo['zhuanfa']} /></span>,
+				title: <span>价格{isShielding ? <Shielding /> : null}</span>,
 				dataIndex: 'price1',
 				key: 'price1',
 				align: 'center',
