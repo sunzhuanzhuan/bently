@@ -166,9 +166,10 @@ export default class MainItem extends PureComponent {
 					{/* 此处是粉丝数，微信没有粉丝数认证*/}
 					<div className="fans-count-box">
 						<FansCount value={followerCount > 0 ? followerCount : 0} status={followerCountVerificationStatus}
-							time={followerCountScreenshotModifiedTime} ISWEiXin={ISWEiXin}
-							isfollowerCount={isfollowerCount} />
-						<div>{(IsWeibo || IsVidro || IsRed) && followerCountGrowthRate28d}</div>
+							time={followerCountScreenshotModifiedTime}
+							followerCountGrowthRate28d={followerCountGrowthRate28d}
+							isfollowerCount={isfollowerCount}
+						/>
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<LazyLoad once overflow height={80}>
