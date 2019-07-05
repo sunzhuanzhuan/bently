@@ -81,7 +81,7 @@ export default class MainItem extends PureComponent {
 		const IsRed = groupType == 4
 		const IsOther = groupType == 5
 		const IsWei = isFamous == 2
-
+		const isfollowerCount = (IsWeibo || IsRed || IsVidro) && followerCountGrowthRate28d
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
 			{/* {checkNode} */}
 			{isDeleteAction ?
@@ -166,7 +166,8 @@ export default class MainItem extends PureComponent {
 					{/* 此处是粉丝数，微信没有粉丝数认证*/}
 					<div className="fans-count-box">
 						<FansCount value={followerCount > 0 ? followerCount : 0} status={followerCountVerificationStatus}
-							time={followerCountScreenshotModifiedTime} ISWEiXin={ISWEiXin} />
+							time={followerCountScreenshotModifiedTime} ISWEiXin={ISWEiXin}
+							isfollowerCount={isfollowerCount} />
 						<div>{(IsWeibo || IsVidro || IsRed) && followerCountGrowthRate28d}</div>
 					</div>
 					{/* 此处是右侧两个小表格*/}
