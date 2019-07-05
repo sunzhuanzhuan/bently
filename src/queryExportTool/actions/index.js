@@ -51,14 +51,7 @@ export const {
 	batchAccountExport,
 	batchAccountExport_success
 } = createHttpAction('batchAccountExport', Interface.batchAccountExport, {
-	method: 'post', isTrack: true,
-	trackResult: (search, { task_id }) => {
-		return {
-			...search,
-			accounts: search.list.map(item => item.account_id + ''),
-			task_id
-		}
-	}
+	method: 'post'
 })
 
 //账号详情

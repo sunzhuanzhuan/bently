@@ -229,6 +229,8 @@ class SelectCarList extends Component {
 			selectedRowKeys,
 			tablePageSize: 20
 		}
+		console.log("TCL: selectCarList", selectCarList)
+
 		const showTypeMap = {
 			1: <ExportAllAccout handleCancel={this.handleCancel}
 				saveQuota={this.saveQuota}

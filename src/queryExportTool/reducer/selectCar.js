@@ -81,8 +81,9 @@ export const selectCarList = handleActions({
 		const data = { ...action.payload.data }
 		const { statistic = {}, result = {} } = data
 
+		console.log("TCL: data", data)
 		return {
-			group_type_name: data.group_type_name,
+			group_type_name: data.groupTypeName,
 			tabList: { ...statistic },
 			total: Object.values(statistic).length > 0 && Object.values(statistic).reduce((pre, next) => pre + next),
 			pagination: data.pagination,
