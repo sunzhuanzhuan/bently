@@ -196,7 +196,7 @@ class SelectCarList extends Component {
 		const { selectCarList } = this.props.queryExportToolReducer;
 		const { codeCheck, getCompanyList, getStencilList } = this.props.actions
 		const { visible, selectedRowKeys, typeShow, messageInfo, createTemplateData, cheackedKey } = this.state
-		const countSum = selectCarList.total || 0
+		const countSum = getStencilList.statistic.total || 0
 		const search = qs.parse(this.props.location.search.substring(1))
 
 		const tabList = [
