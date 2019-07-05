@@ -79,6 +79,28 @@ function handleMoreList(list) {
 		}
 	})
 }
+function priceGoodBadList(list) {
+	return list.map(id => {
+		return {
+			value: 'skuOpenQuotePrice:' + id,
+			label: skyType[id] + '价格',
+			children: [{
+				value: '1',
+				label: '优势从大到小'
+			}, {
+				value: '2',
+				label: '优势从小到大'
+			}, {
+				value: '3',
+				label: '劣势从大到小'
+			}, {
+				value: '4',
+				label: '劣势从小到大'
+			},]
+		}
+	})
+}
+
 export const groupBySorter = {
 	'1': {
 		filter: {
@@ -136,6 +158,9 @@ export const groupBySorter = {
 				},
 				...handleMoreList([1, 2, 3, 4, 5, 6, 7, 8])
 			],
+			priceGoodBadList: {
+				...priceGoodBadList([1, 2, 3, 4, 5, 6, 7, 8])
+			},
 			default: { snbt: 'desc' }
 		}
 	},
@@ -198,6 +223,9 @@ export const groupBySorter = {
 				},
 				...handleMoreList([9, 10, 11, 12, 13, 14])
 			],
+			priceGoodBadList: {
+				...priceGoodBadList([9, 10, 11, 12, 13, 14])
+			},
 			default: { snbt: 'desc' }
 		}
 	},
@@ -253,6 +281,9 @@ export const groupBySorter = {
 				},
 				...handleMoreList([16, 15, 19, 17, 26, 27])
 			],
+			priceGoodBadList: {
+				...priceGoodBadList([16, 15, 19, 17, 26, 27])
+			},
 			default: { snbt: 'desc' }
 		}
 	},
