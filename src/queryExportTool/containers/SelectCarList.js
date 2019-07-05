@@ -196,9 +196,10 @@ class SelectCarList extends Component {
 		const { selectCarList } = this.props.queryExportToolReducer;
 		const { codeCheck, getCompanyList, getStencilList } = this.props.actions
 		const { visible, selectedRowKeys, typeShow, messageInfo, createTemplateData, cheackedKey } = this.state
-		const countSum = getStencilList.statistic.total || 0
+		const countSum = selectCarList.tabList && selectCarList.tabList.total || 0
 		const search = qs.parse(this.props.location.search.substring(1))
 
+		console.log("TCL: render -> countSum", selectCarList)
 		const tabList = [
 			{ key: 10, tab: `全部 ${countSum}` },
 			{ key: 1, tab: `微信公众号 ${selectCarList.tabList && selectCarList.tabList[1] || 0}` },

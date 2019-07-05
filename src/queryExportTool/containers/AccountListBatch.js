@@ -60,8 +60,8 @@ class AccountListBatch extends Component {
 	onExportOperate = (value) => {
 		const { searchValue } = this.state
 		const { exactQueryData } = this.state
-		const { accounts = [] } = exactQueryData
-		const exportArr = accounts.map(one => {
+		const { result } = exactQueryData
+		const exportArr = result.list.map(one => {
 			const { accountId = "", platformId = "", snsName = "", snsId = "", accountId: accountNone = "" } = one
 			return {
 				account_id: accountId ? accountId : accountNone,

@@ -144,7 +144,7 @@ class DefaultChild extends Component {
 		const count = Object.values(statistic).reduce((prev, cur) => { return prev + cur }, 0)
 		const header = <div className="table-title-wxy">
 			<div>
-				共<span>{count}</span>个账号
+				共<span>{search.keyword ? count : accountList.total}</span>个账号
 				&nbsp;&nbsp;&nbsp;
 				{
 					ruleUrl[platformType] ?
