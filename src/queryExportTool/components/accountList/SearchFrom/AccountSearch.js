@@ -174,8 +174,7 @@ class AccountSearch extends React.Component {
 			searchSource: value
 		}, () => {
 			//清空数据
-			this.resetFilter(null, this.accountListort.reset())
-
+			this.resetFilter(null, this.accountListort.reset(true))
 		})
 
 	}

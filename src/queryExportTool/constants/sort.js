@@ -82,7 +82,7 @@ function handleMoreList(list) {
 function priceGoodBadList(list) {
 	return list.map(id => {
 		return {
-			value: 'skuOpenQuotePrice:' + id,
+			value: 'goodBadPrice:' + id,
 			label: skyType[id] + '价格',
 			children: [{
 				value: '1',
@@ -158,9 +158,10 @@ export const groupBySorter = {
 				},
 				...handleMoreList([1, 2, 3, 4, 5, 6, 7, 8])
 			],
-			priceGoodBadList: {
+			priceGoodBadList: [
 				...priceGoodBadList([1, 2, 3, 4, 5, 6, 7, 8])
-			},
+
+			],
 			default: { snbt: 'desc' }
 		}
 	},
@@ -223,9 +224,7 @@ export const groupBySorter = {
 				},
 				...handleMoreList([9, 10, 11, 12, 13, 14])
 			],
-			priceGoodBadList: {
-				...priceGoodBadList([9, 10, 11, 12, 13, 14])
-			},
+			priceGoodBadList: [...priceGoodBadList([9, 10, 11, 12, 13, 14])],
 			default: { snbt: 'desc' }
 		}
 	},
