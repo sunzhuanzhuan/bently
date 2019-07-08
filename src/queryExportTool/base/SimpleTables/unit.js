@@ -1,4 +1,4 @@
-
+import numeral from "numeral";
 export const getQuoteNumber = (value) => {
 	if (value) {
 		if (value > 99) {
@@ -71,3 +71,17 @@ export const getOtherAllAvg = (value) => {
 		return "-"
 	}
 }
+export const getPriceGoodBad = (value) => {
+	let text = ""
+	if (value < 1) {
+		text = `${numeral(value).format('0')}折`
+	}
+	else if (value == 1) {
+		text = '平价'
+
+	} else if (value > 1 || value == 1) {
+		text = value % 100 > 1000 ? `高999+%` : '高'
+	}
+	return text
+}
+
