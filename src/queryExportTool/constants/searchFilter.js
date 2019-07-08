@@ -126,7 +126,7 @@ export const kolVisitorAgeDrawOptions = [
 
 export const priceMarks = {
 	'default': [
-		{ id: '2000-10000', name: '2000-1万元' },
+		{ id: '0-10000', name: '1万元以下' },
 		{ id: '10000-30000', name: '1-3万元' },
 		{ id: '30000-50000', name: '3-5万元' },
 		{ id: '50000-70000', name: '5-7万元' },
