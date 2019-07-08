@@ -28,9 +28,14 @@ export default class SortGroup extends Component {
 	constructor(props) {
 		super(props)
 		let keyword = parseUrlQuery()['keyword'];
+		//包装数据
+		const defaultObject = props.sorter.default
+		const key = Object.keys(defaultObject)[0]
+		const sort = { [key]: { order: defaultObject[key] }, ...defaultObject }
 		this.state = {
-			sort: keyword ? {} : (props.sorter.default || {}),
+			sort: keyword ? {} : (sort || {}),
 		}
+		console.log("TCL: SortGroup -> constructor -> sort", sort)
 		this.setSort.bind(this)
 		this.dataToParams.bind(this)
 		this.handleChange.bind(this)
@@ -43,11 +48,14 @@ export default class SortGroup extends Component {
 		this.setState(sort)
 	}
 	reset = (clear) => {
-		console.log("TCL: SortGroup -> reset -> clear", clear)
+		//包装数据
+		const defaultObject = this.props.sorter.default
+		const key = Object.keys(defaultObject)[0]
+		const sort = { [key]: { order: defaultObject[key] } }
 		this.setState({
-			sort: (clear ? undefined : this.props.sorter.default) || {},
+			sort: (clear ? undefined : sort) || {},
 		})
-		return { accountSort: (clear ? undefined : this.props.sorter.default) }
+		return { accountSort: (clear ? undefined : sort) }
 	}
 	render() {
 		const { sorter = {} } = this.props

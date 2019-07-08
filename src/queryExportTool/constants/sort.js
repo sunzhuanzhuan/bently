@@ -162,7 +162,7 @@ export const groupBySorter = {
 				...priceGoodBadList([1, 2, 3, 4, 5, 6, 7, 8])
 
 			],
-			default: { snbt: { order: 'desc' } }
+			default: { snbt: 'desc' }
 		}
 	},
 	'2': {
@@ -225,7 +225,7 @@ export const groupBySorter = {
 				...handleMoreList([9, 10, 11, 12, 13, 14])
 			],
 			priceGoodBadList: [...priceGoodBadList([9, 10, 11, 12, 13, 14])],
-			default: { snbt: { order: 'desc' } }
+			default: { snbt: 'desc' }
 		}
 	},
 	'3': {
@@ -283,7 +283,7 @@ export const groupBySorter = {
 			priceGoodBadList: {
 				...priceGoodBadList([16, 15, 19, 17, 26, 27])
 			},
-			default: { snbt: { order: 'desc' } }
+			default: { snbt: 'desc' }
 		}
 	},
 	'4': {
@@ -323,7 +323,7 @@ export const groupBySorter = {
 					title: '入库时间'
 				}
 			],
-			default: { order: { followerCount: 'desc' } }
+			default: { followerCount: 'desc' }
 		}
 	},
 	'5': {
@@ -363,7 +363,7 @@ export const groupBySorter = {
 					title: '入库时间'
 				}
 			],
-			default: { followerCount: { order: 'desc' } }
+			default: { followerCount: 'desc' }
 		}
 	}
 }
