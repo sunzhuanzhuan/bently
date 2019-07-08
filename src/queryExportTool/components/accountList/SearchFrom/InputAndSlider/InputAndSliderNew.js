@@ -61,7 +61,8 @@ class InputAndSliderNew extends Component {
 		}
 		this.setState({ isShowOK: false, number: newNumber })
 		this.triggerChange({ newNumber })
-		this.onItemLableChange({ optionsNames: [newNumber.join('-')] })
+		const { unit } = this.props
+		this.onItemLableChange({ optionsNames: [newNumber.join('-') + unit] })
 	}
 	//滑块的变化
 	onChangeSlider = (number) => {

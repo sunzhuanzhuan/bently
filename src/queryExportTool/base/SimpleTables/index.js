@@ -6,6 +6,7 @@ import ValueStyle from "@/queryExportTool/base/ValueFormat/ValueStyle";
 import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
 import moment from 'moment'
+import ExampleTable from './ExampleTable'
 import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg } from "./unit";
 const Shielding = ({ isShielding }) => {
 	return <MarkMessage {...messageInfo['isShielding']} text={<span className='shielding-box'>
@@ -198,7 +199,12 @@ export default class SimpleTables extends Component {
 			{columsNum ?
 				<div>
 					<Table {...config} columns={columns} dataSource={data} rowKey={(record, index) => index} />
-					<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}</div>
+
+					<div className='bottom-two' >
+						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
+						</div>
+						{/* <ExampleTable /> */}
+					</div>
 				</div> :
 				<div className='no-columns-text'>暂无数据</div>}
 
