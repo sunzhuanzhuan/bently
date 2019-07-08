@@ -12,6 +12,19 @@ const getVideo = (isStart) => {
 		</div>
 	}
 }
+const getLine = (title, content) => {
+	const styleLine = {
+		width: 100,
+		textAlign: 'right'
+	}
+	const flexDisplay = {
+		display: 'flex',
+	}
+	return < div style={flexDisplay}>
+		<div style={styleLine}>{title}</div>
+		{content}
+	</div >
+}
 export default {
 	snbt: { title: "SNBT值", content: "SNBT指的是社交媒体账号的影响力指数，是微播易的发明专利（专利名称：广告精准投放方法和系统、专利号：ZL2015 1 0958772.0）的简称，数值范围：0~100，数值越高表示账号质量越好。" },
 	yudu: { title: "真实阅读率", content: "指的是账号真实阅读比例，数值范围：0~100%，数值越高表示账号质量越好。" },
@@ -111,5 +124,15 @@ export default {
 		title: "",
 		content: '该参考报价为含防屏蔽的报价'
 
+	},
+	exampleTable: {
+		title: "名词说明",
+		content: <div>
+			{getLine('【参考报价】：', '微播易参考报价')}
+			{getLine('【刊例价】：', '博主给三方平台的低价')}
+			{getLine('【渠道价】：', '博主授权渠道方，给与渠道方的低价')}
+
+		</div>
 	}
 }
+
