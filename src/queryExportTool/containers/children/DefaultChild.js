@@ -71,9 +71,11 @@ class DefaultChild extends Component {
 				params.skuOpenQuotePrice[1] = ""
 			}
 		}
-		params.skuOpenPrice = {
-			openQuotePrices: skuOpenQuotePrice,
-			skuTypeId: params.skuTypeId
+		if (skuOpenQuotePrice[0] || skuOpenQuotePrice[1]) {
+			params.skuOpenPrice = {
+				openQuotePrices: skuOpenQuotePrice,
+				skuTypeId: params.skuTypeId
+			}
 		}
 		//阅读单价和播放单价（java重构要求修改数据格式）
 		if (params.skuUnitReadPrice) {
