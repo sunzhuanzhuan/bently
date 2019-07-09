@@ -1,6 +1,6 @@
 const defaultUrl = 'operator-gateway/trinityPlatform/v1/'
-const skuUrl = '/operator-gateway/trinitySku/v1/'
-const agent = '/operator-gateway/trinityAgent/v1/'
+const skuUrl = 'operator-gateway/trinitySku/v1/'
+const agent = 'operator-gateway/trinityAgent/v1/'
 export default {
 	'getCooperationPlatformByPage': defaultUrl + 'getCooperationPlatformByPage',//合作平台-管理列表接口
 	'insertCooperationPlatform': defaultUrl + 'insertCooperationPlatform',//合作平台-新增接口
@@ -9,18 +9,19 @@ export default {
 	'updateCooperationPlatform': defaultUrl + 'updateCooperationPlatform',//合作平台-修改接口
 	'updatePlatformStatus': defaultUrl + 'updatePlatformStatus',//合作平台-启用/禁用合作平台
 	'updatePlatformDefault': defaultUrl + 'updatePlatformDefault',//合作平台-设置默认报价项
-	'getPlatform': defaultUrl + 'getPlatform',//合作平台-所属媒体平台下拉框接口
-	'': defaultUrl + '',//合作平台-开户行下拉框接口
+	'getExistTrinityPlatformList': defaultUrl + 'getExistTrinityPlatformList',//合作平台-所属媒体平台下拉框接口
+	'getCooperationPlatform': defaultUrl + 'getCooperationPlatform',//获取除当前启用平台外是否还有其他启用平台
 
+	'getPaymentTypeList': 'finance/payment/paymentTypeList',//合作平台-开户行下拉框接口
 	'': defaultUrl + '',//合作平台-获取合作平台是否有启用的报价项
-	'': defaultUrl + '',//获取除当前启用平台外是否还有其他启用平台
-
+	'getUnusedCooperationPlatform': defaultUrl + 'getUnusedCooperationPlatform',//获取未使用关联的抓取合作平台
 	'getAgentByPage': agent + 'getAgentByPage',//代理商列表
 	'insertAgent': agent + 'insertAgent',//新增代理商
 	'updateAgent': agent + 'updateAgent',//修改代理商
 	'getAgentById': agent + 'getAgentById',//查看代理商
 	'updateAgentStatus': agent + 'updateAgentStatus',//启用/停用代理商
 	'delAgent': agent + 'delAgent',//删除代理商
+	'existsAgentName': agent + 'existsAgentName',//删除代理商
 
 	'addOrUpdateTrinitySkuType': skuUrl + 'addOrUpdateTrinitySkuType',//添加或修改三方报价类型:通过id存在即修改，不存在即添加，编号唯一
 	'addOrUpdateTollType': skuUrl + 'addOrUpdateTollType',//添加或修改服务类型

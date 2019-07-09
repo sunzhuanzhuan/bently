@@ -13,6 +13,7 @@ class AgentEdit extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
+			searchParams: qs.parse(window.location.search.substring(1)),
 			agentByIdDetail: {},
 		};
 	}
@@ -39,11 +40,28 @@ class AgentEdit extends Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				values.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
-				const search = qs.parse(window.location.search.substring(1))
-				const data = { ...values, ...values.agentVo, cooperationPlatformCode: search.code }
+				//判断付款方式穿值
+				if (values.agentVo.paymentType == 1) {
+					values.agentVo.alipayAccountName = ""
+					values.agentVo.alipayAccount = ""
+				} else {
+					values.agentVo.bankAgency = ""
+					values.agentVo.bankAgencyProvince = ""
+					values.agentVo.bankAgencyCity = ""
+					values.agentVo.realName = ""
+					values.agentVo.bank = ""
+					values.agentVo.cardNumber = ""
+				}
+				if (values.agentVo.cooperationType == 1) {
+					values.agentVo.cooperationRemark = ""
+				} else {
+					values.agentVo.refundRate = ""
+				}
+				const { searchParams } = this.state
+				const data = { ...values, ...values.agentVo, cooperationPlatformCode: searchParams.code }
 				//付款公司
-
 				if (agentId) {
+
 					updateAgent(data).then(() => {
 						this.commEditAction()
 					})
@@ -58,25 +76,35 @@ class AgentEdit extends Component {
 	commEditAction = () => {
 		const { seachAgentByPage } = this.props
 		seachAgentByPage()
-		message.success('操作成功')
+		message.success('您的操作已保存成功！')
 		this.onClean()
 	}
 	onClean = () => {
 		const { setShowModal } = this.props
 		setShowModal(false, null)
 	}
+	//代理商名称验证
 	agentVali = (rule, value, callback) => {
+		const { actions: { existsAgentName }, agentName } = this.props
+		const { searchParams } = this.state
 		const reg = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
 		if (reg.test(value)) {
-			callback()
 			//'代理商名称不可重复'
+			existsAgentName({ cooperationPlatformCode: searchParams.code, agentName: value }).then(({ data }) => {
+				if (!data || agentName == value) {
+					callback()
+				} else {
+					callback('代理商名称不可重复')
+				}
+			})
+
 		} else {
 			callback('最多可输入40个以内的中英文及数字！')
 		}
 	}
 
 	render() {
-		const { form, agentId } = this.props
+		const { form, agentId, actions, cooperationPlatformReducer } = this.props
 		const { agentByIdDetail } = this.state
 		const { getFieldDecorator } = form
 		const formLayout = {
@@ -86,7 +114,9 @@ class AgentEdit extends Component {
 		const commonProps = {
 			form,
 			formLayout,
-			dataDefault: agentByIdDetail
+			dataDefault: agentByIdDetail,
+			actions,
+			cooperationPlatformReducer
 		}
 		return (
 			<Spin spinning={this.state.isLoading}>
@@ -95,12 +125,13 @@ class AgentEdit extends Component {
 						{getFieldDecorator('id', {
 							initialValue: agentByIdDetail && agentByIdDetail.id,
 						})(
-							<Input placeholder="请输入代理商名称" />
+							<Input />
 						)}
 					</Form.Item> : null}
 					<Form.Item label="代理商名称"{...formLayout}>
 						{getFieldDecorator('agentName', {
 							initialValue: agentByIdDetail && agentByIdDetail.agentName,
+							validateFirst: true,
 							rules: [
 								{ required: true, message: '本项为必填项，请输入！' },
 								{ max: 40, message: "最多可输入40个以内的中英文及数字！" },
