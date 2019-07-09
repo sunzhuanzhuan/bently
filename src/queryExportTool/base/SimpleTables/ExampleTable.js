@@ -25,28 +25,52 @@ class ExampleTable extends Component {
 		})
 	}
 	render() {
-		const { isFamous, ISWEiXin } = this.props
+		const { isFamous, ISWEiXin, data, dataTimeNew } = this.props
 		const childrenColumns = [
 
 			{
 				title: '参考价',
-				dataIndex: 'street1',
-				key: 'street1',
-				width: 200,
+				dataIndex: 'price1',
+				key: 'price1',
+				align: 'center'
 
 			},
 			{
 				title: '渠道价',
-				dataIndex: 'street2',
-				key: 'street2',
-				width: 200,
+				dataIndex: 'channelPrice1',
+				key: 'channelPrice1',
+				align: 'center'
 
 			},
 			{
 				title: '刊例价',
-				dataIndex: 'street3',
-				key: 'street3',
-				width: 200,
+				dataIndex: 'publicationPrice1',
+				key: 'publicationPrice1',
+				align: 'center'
+
+			},
+		]
+		const childrenColumns2 = [
+
+			{
+				title: '参考价',
+				dataIndex: 'price2',
+				key: 'price2',
+				align: 'center'
+
+			},
+			{
+				title: '渠道价',
+				dataIndex: 'channelPrice2',
+				key: 'channelPrice2',
+				align: 'center'
+
+			},
+			{
+				title: '刊例价',
+				dataIndex: 'publicationPrice2',
+				key: 'publicationPrice2',
+				align: 'center'
 
 			},
 		]
@@ -57,10 +81,10 @@ class ExampleTable extends Component {
 				children: [
 					{
 						title: '',
-						dataIndex: 'name',
-						key: 'name',
-						width: 200,
-
+						dataIndex: 'skuTypeName',
+						key: 'skuTypeName',
+						width: 120,
+						align: 'center'
 					},
 					...childrenColumns
 				]
@@ -70,21 +94,10 @@ class ExampleTable extends Component {
 		const WeixinIsFamous1 = [...WeixinIsFamous2, {
 			title: '原创+发布',
 			children: [
-				...childrenColumns
+				...childrenColumns2
 			]
 		},]
 
-		const data = [];
-		for (let i = 0; i < 3; i++) {
-			data.push({
-				key: i,
-				name: 'John Brown' + i,
-				age: i + 1,
-				street1: 'street1' + i,
-				street2: 'street2' + i,
-				street3: 'street3' + i,
-			});
-		}
 		const { visible, loading } = this.state
 		const columns = ISWEiXin && isFamous == 1 ? WeixinIsFamous1 : WeixinIsFamous2
 
@@ -99,7 +112,7 @@ class ExampleTable extends Component {
 					footer={null}
 				>
 					<Spin spinning={loading}>
-						<div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：222222<MarkMessage {...messageInfo['exampleTable']} /></div>
+						<div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：{dataTimeNew}<MarkMessage {...messageInfo['exampleTable']} /></div>
 						<Table
 							columns={columns}
 							dataSource={data}

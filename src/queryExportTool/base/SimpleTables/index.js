@@ -203,7 +203,9 @@ export default class SimpleTables extends Component {
 					<div className='bottom-two' >
 						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
 						</div>
-						{/* {data.length > 0 && isFamous ? < ExampleTable isFamous={isFamous}
+						{/* {data.length > 0 && isFamous ? < ExampleTable
+							dataTimeNew={dataTimeNew}
+							data={data} isFamous={isFamous}
 							ISWEiXin={ISWEiXin} /> : null} */}
 					</div>
 				</div> :
