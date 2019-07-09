@@ -25,9 +25,35 @@ class ExampleTable extends Component {
 		})
 	}
 	render() {
-		const columns = [
+		const { isFamous, ISWEiXin } = this.props
+		const childrenColumns = [
+
 			{
-				title: '发布',
+				title: '参考价',
+				dataIndex: 'street1',
+				key: 'street1',
+				width: 200,
+
+			},
+			{
+				title: '渠道价',
+				dataIndex: 'street2',
+				key: 'street2',
+				width: 200,
+
+			},
+			{
+				title: '刊例价',
+				dataIndex: 'street3',
+				key: 'street3',
+				width: 200,
+
+			},
+		]
+
+		const WeixinIsFamous2 = [
+			{
+				title: ISWEiXin ? '发布' : '价格',
 				children: [
 					{
 						title: '',
@@ -36,56 +62,17 @@ class ExampleTable extends Component {
 						width: 200,
 
 					},
-					{
-						title: '参考价',
-						dataIndex: 'street1',
-						key: 'street1',
-						width: 200,
-
-					},
-					{
-						title: '渠道价',
-						dataIndex: 'street2',
-						key: 'street2',
-						width: 200,
-
-					},
-					{
-						title: '刊例价',
-						dataIndex: 'street3',
-						key: 'street3',
-						width: 200,
-
-					},
-				],
+					...childrenColumns
+				]
 			},
-			{
-				title: '原创+发布',
-				children: [
-					{
-						title: '参考价',
-						dataIndex: 'street1',
-						key: 'street1',
-						width: 200,
 
-					},
-					{
-						title: '渠道价',
-						dataIndex: 'street2',
-						key: 'street2',
-						width: 200,
-
-					},
-					{
-						title: '刊例价',
-						dataIndex: 'street3',
-						key: 'street3',
-						width: 200,
-
-					},
-				],
-			},
 		];
+		const WeixinIsFamous1 = [...WeixinIsFamous2, {
+			title: '原创+发布',
+			children: [
+				...childrenColumns
+			]
+		},]
 
 		const data = [];
 		for (let i = 0; i < 3; i++) {
@@ -99,8 +86,10 @@ class ExampleTable extends Component {
 			});
 		}
 		const { visible, loading } = this.state
+		const columns = ISWEiXin && isFamous == 1 ? WeixinIsFamous1 : WeixinIsFamous2
+
 		return (
-			<div style={{ paddingTop: 6 }}>
+			<div style={{ paddingTop: 6, flex: 'none' }}>
 				<a onClick={this.onOK} >查看渠道刊例</a>
 				<Modal
 					title="渠道刊例"

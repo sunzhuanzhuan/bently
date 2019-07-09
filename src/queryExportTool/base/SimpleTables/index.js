@@ -19,7 +19,7 @@ export default class SimpleTables extends Component {
 
 	render() {
 		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft,
-			isShielding, platformId } = this.props
+			isShielding, platformId, ISWEiXin, isFamous } = this.props
 		const config = {
 			pagination: false,
 			size: "middle",
@@ -203,7 +203,8 @@ export default class SimpleTables extends Component {
 					<div className='bottom-two' >
 						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
 						</div>
-						{/* {data.length > 0 ? < ExampleTable /> : null} */}
+						{/* {data.length > 0 && isFamous ? < ExampleTable isFamous={isFamous}
+							ISWEiXin={ISWEiXin} /> : null} */}
 					</div>
 				</div> :
 				<div className='no-columns-text'>暂无数据</div>}
