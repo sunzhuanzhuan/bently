@@ -1,4 +1,5 @@
 import numeral from "numeral";
+import React, { Component } from 'react';
 export const getQuoteNumber = (value) => {
 	if (value) {
 		if (value > 99) {
@@ -74,13 +75,13 @@ export const getOtherAllAvg = (value) => {
 export const getPriceGoodBad = (value) => {
 	let text = ""
 	if (value < 1) {
-		text = `${numeral(value).format('0')}折`
+		text = `${numeral(value * 10).format('0')}折`
 	}
 	else if (value == 1) {
 		text = '平价'
 
 	} else if (value > 1 || value == 1) {
-		text = value % 100 > 1000 ? `高999+%` : '高'
+		text = <div>高{value * 100 > 1000 ? '999%+' : numeral(value).format('0%')}</div>
 	}
 	return text
 }

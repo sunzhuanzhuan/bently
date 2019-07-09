@@ -7,7 +7,7 @@ import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
 import moment from 'moment'
 import ExampleTable from './ExampleTable'
-import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg } from "./unit";
+import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg, getPriceGoodBad } from "./unit";
 const Shielding = ({ isShielding }) => {
 	return <MarkMessage {...messageInfo['isShielding']} text={<span className='shielding-box'>
 		防
@@ -38,7 +38,13 @@ export default class SimpleTables extends Component {
 			key: 'price1',
 			align: 'center',
 			render: (text, record) => {
-				return <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='oneUnivalent' /></span>
+				return <div className='flex-around'>
+					<div><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='oneUnivalent' />
+					</div>
+					{/* <div className='price-good-bad'>
+						{getPriceGoodBad(0.4)}
+					</div> */}
+				</div>
 			}
 		}]
 		const cloumsMap = {
@@ -51,7 +57,14 @@ export default class SimpleTables extends Component {
 				key: 'price2',
 				align: 'center',
 				render: (text, record) => {
-					return <span><ValueStyle value={IsWei ? numeral(record.price2).format('0,0') : getQuoteNumber(record.price2)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' /></span>
+					return <div className='flex-around'>
+						<div>
+							<ValueStyle value={IsWei ? numeral(record.price2).format('0,0') : getQuoteNumber(record.price2)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' />
+						</div>
+						{/* <div className='price-good-bad'>
+							{getPriceGoodBad(2)}
+						</div> */}
+					</div>
 				}
 			}],
 			//微信平台-阅读点赞量列
