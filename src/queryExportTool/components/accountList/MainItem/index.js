@@ -173,7 +173,7 @@ export default class MainItem extends PureComponent {
 					</div>
 					{/* 此处是右侧两个小表格*/}
 					<LazyLoad once overflow height={80}>
-						<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin}/>
+						<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />
 					</LazyLoad>
 				</main>
 				<footer className="content-footer">
