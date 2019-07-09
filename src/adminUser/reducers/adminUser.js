@@ -137,6 +137,14 @@ const userRoleAssignments = (state = [], action) => {
 			return state
 	}
 }
+const supportSeller = (state = [], action) => {
+	switch( action.type){
+		case types.GET_SUPPORT_SELLER:
+			return action.payload.data && action.payload.data.rows || []
+		default:
+			return state;
+	}
+}
 export default combineReducers({
 	byId,
 	visibleIds,
@@ -146,6 +154,7 @@ export default combineReducers({
 	departmentList,
 	jobList,
 	jobTypeList,
+	supportSeller,
 	userRoleAssignments
 })
 
