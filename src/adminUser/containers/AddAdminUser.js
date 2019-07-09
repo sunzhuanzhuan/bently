@@ -70,7 +70,6 @@ class AddAdminUser extends Component {
 	}
 	//部门类型字段
 	jobTypeChange = (value) => {
-		debugger;
 		const { deptvalue } = this.state
 		this.setState({
 			jobvalue: undefined
@@ -149,7 +148,6 @@ class AddAdminUser extends Component {
 		const { serchMemberParams } = this.state;
 		const SaleSupportGroupId = 30;
 		const isSaleSupport = value == SaleSupportGroupId;
-		console.log("onselectMember", value)
 		if (type === 'group') {
 			this.setState({
 				serchMemberParams: { user_group_id: value },
@@ -402,6 +400,7 @@ class AddAdminUser extends Component {
 							})(
 								<Select
 									showSearch
+									optionFilterProp='children'
 									style={{ width: '100%' }}
 									placeholder="请选择销售所属大区"
 									onChange={this.onselectMember.bind(null, 'region')}
@@ -422,6 +421,7 @@ class AddAdminUser extends Component {
 							})(
 								<Select
 									showSearch
+									optionFilterProp='children'
 									style={{ width: '100%' }}
 									placeholder="请选择销售所属分组"
 								>
@@ -436,7 +436,9 @@ class AddAdminUser extends Component {
 								initialValue: deptvalue,
 								rules: [{ required: true, message: '请选择部门' }],
 							})(
-								<TreeSelect {...deptProps} multiple allowClear className='tree-admin-select'>
+								<TreeSelect 
+									{...deptProps} multiple allowClear showSearch treeNodeFilterProp='title' className='tree-admin-select'
+								>
 									{this.renderTreeNodes(departmentList)}
 								</TreeSelect>
 							)}
@@ -447,6 +449,8 @@ class AddAdminUser extends Component {
 								rules: [{ required: true, message: '请选择岗位类型' }],
 							})(
 								<Select
+									showSearch
+									optionFilterProp='children'
 									mode="multiple"
 									style={{ width: '100%' }}
 									placeholder="请选择岗位类型"
@@ -475,7 +479,7 @@ class AddAdminUser extends Component {
 								rules: [{ required: true, message: '请选择岗位' }],
 							})(
 
-								<TreeSelect {...jobProps} multiple className='tree-admin-select'>
+								<TreeSelect {...jobProps} multiple showSearch treeNodeFilterProp='title' className='tree-admin-select'>
 									{this.renderTreeNodes(jobList)}
 								</TreeSelect>
 							)}
@@ -580,6 +584,7 @@ class AddAdminUser extends Component {
 
 									<Select
 										showSearch
+										optionFilterProp='children'
 										style={{ width: '100%' }}
 									>
 										{data_for_parent_user.map(one => {
@@ -598,12 +603,14 @@ class AddAdminUser extends Component {
 									rules: [{ required: true, message: '请选择支持的销售' }],
 								})(
 									<Select
+										showSearch
 										mode="multiple"
 										style={{ width: '100%' }}
 										placeholder="请选择支持的销售"
 										// onChange={this.jobTypeChange}
 										className='tree-admin-select'
 										allowClear
+										optionFilterProp='children'
 									>
 										{supportSeller && supportSeller.map(one => <Option key={one.id} value={one.id}>{one.real_name}</Option>)}
 									</Select>

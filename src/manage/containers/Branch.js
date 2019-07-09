@@ -354,7 +354,7 @@ class BranchForm extends Component {
 							// treeDefaultExpandAll
 							onFocus={this.onChangeBranch}
 							// onSelect={this.onChangeDataBranch}
-							treeNodeFilterProp='zh_name'
+							treeNodeFilterProp='title'
 							allowClear={true}
 						/>
 					)}

@@ -512,7 +512,7 @@ class JobForm extends Component {
 						rules: [{ required: true, message: '请选择岗位类型!' }],
 						initialValue: type == 'edit' ? jobTypeName : ''
 					})(
-						<Select>
+						<Select showSearch optionFilterProp='children'>
 							{jobTypeListAll ? jobTypeListAll.map(d => <Option key={d.id} value={d.id}>{d.zh_name}</Option>) : null}
 						</Select>
 					)}
@@ -528,12 +528,14 @@ class JobForm extends Component {
 
 						})(
 							<TreeSelect
+								showSearch
 								labelInValue={true}
 								dropdownStyle={{ maxHeight: 500, overflow: 'auto' }}
 								placeholder="部门"
 								treeData={dataBranch}
 								// treeDefaultExpandAll
 								onSelect={this.onChangeBranchFromJob}
+								treeNodeFilterProp='title'
 							/>
 						)}
 					</FormItem> : null
@@ -546,12 +548,14 @@ class JobForm extends Component {
 							}
 						})(
 							<TreeSelect
+								showSearch
 								labelInValue={true}
 								dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
 								treeData={data}
 								placeholder="选择上级岗位"
 								allowClear={true}
 								onFocus={this.onChangeJob}
+								treeNodeFilterProp='title'
 							/>
 						)}
 					</FormItem> : null
