@@ -347,12 +347,14 @@ class BranchForm extends Component {
 						}
 					})(
 						<TreeSelect
+							showSearch
 							labelInValue={true}
 							dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
 							treeData={data}
 							// treeDefaultExpandAll
 							onFocus={this.onChangeBranch}
 							// onSelect={this.onChangeDataBranch}
+							treeNodeFilterProp='zh_name'
 							allowClear={true}
 						/>
 					)}

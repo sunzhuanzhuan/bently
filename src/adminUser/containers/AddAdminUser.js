@@ -14,11 +14,11 @@ const TreeNode = TreeSelect.TreeNode;
  * 本js的修改数据是通过list的record获取过来的
  */
 
-const selectFilterOption = (inputValue, option, type='en')=>{
-	const _optionsName = option.props.children.toLowerCase();
-	inputValue = inputValue.toLowerCase();
-	return _optionsName.indexOf(inputValue) !== -1
-}
+// const selectFilterOption = (inputValue, option, type='en')=>{
+// 	const _optionsName = option.props.children.toLowerCase();
+// 	inputValue = inputValue.toLowerCase();
+// 	return _optionsName.indexOf(inputValue) !== -1
+// }
 
 class AddAdminUser extends Component {
 	constructor(props) {
@@ -380,7 +380,8 @@ class AddAdminUser extends Component {
 									style={{ width: '100%' }}
 									onChange={this.onselectMember.bind(null, 'group')}
 									placeholder='请选择用户组'
-									filterOption={selectFilterOption}
+									// filterOption={selectFilterOption}
+									optionFilterProp='children'
 								>
 									{userGroupOption.map(one => {
 										const desc = one.user_group_name_desc
