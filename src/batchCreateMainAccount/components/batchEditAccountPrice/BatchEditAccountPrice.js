@@ -55,26 +55,21 @@ class BatchEditAccountPrice extends Component {
 			step: "step3",
 			current: 2
 		}, () => {
-			console.log(this.props,'=====>');
+			let key = 'updateSkuPrice'
 			if (this.props.type === 'tab5') {
-				this.props.actions.getNewDownloadLink({
-					platformId: this.state.platformId,
-					operateKey: "updatePublicationPrice",
-					productionLineId: productionLineId
-				})
-			}else {
-				this.props.actions.getNewDownloadLink({
-					platformId: this.state.platformId,
-					operateKey: `updateSkuPrice_${productionLineId}_${this.state.platformId}`,
-					productionLineId: productionLineId
-				})
+				key = 'updatePublicationPrice'
 			}
+			this.props.actions.getNewDownloadLink({
+				platformId: this.state.platformId,
+				operateKey: `${key}_${productionLineId}_${this.state.platformId}`,
+				productionLineId: productionLineId
+			})
 		})
 	}
 	//上传之后的解析
 	uploadFile = (file, originFile) => {
 		if (file.length !== 0) {
-			if(this.props.type === "tab5"){
+			if (this.props.type === "tab5") {
 				let value = {
 					uploadUrl: file[0].url,
 					operateType: "updatePublicationPrice",
