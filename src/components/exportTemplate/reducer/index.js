@@ -59,7 +59,7 @@ function handleColumnsWrapToMap(data) {
 			...group,
 			...handleColumns([...group['all_columns']]),
 			selected: group['choosed_ids'],
-			priceTypes: group['price_type_choosed'] || [1]
+			priceTypes: group['sku_price_type'] || [1]
 		}
 		return obj
 	}, {})
