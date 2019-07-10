@@ -56,7 +56,7 @@ class TableByType extends Component {
 			key: 'requirement_name',
 			render: (text, record) => <a
 				target="_blank"
-				href={urlPathMap(old_b_host, record.order_id).reservationUrl}>
+				href={urlPathMap(old_b_host, record.requirement_id).reservationUrl}>
 				{record.requirement_name}
 			</a>
 		}, {
