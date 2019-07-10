@@ -82,7 +82,7 @@ function handleMoreList(list) {
 function priceGoodBadList(list) {
 	return list.map(id => {
 		return {
-			value: 'goodBadPrice:' + id,
+			value: 'defaultQuotePriceDiscount:' + id,
 			label: skyType[id] + '价格',
 			children: [{
 				value: '1',

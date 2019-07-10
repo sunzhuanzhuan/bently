@@ -41,8 +41,9 @@ export default class SortGroup extends Component {
 		this.handleChange.bind(this)
 	}
 	handleChange = (field, sort) => {
-		this.setState({ sort: { [field]: sort } })
+		this.setState({ sort: { [field]: sort, } })
 		this.dataToParams(field, sort)
+		this.SortCascader.setMoreText()
 	}
 	setSort = (sort) => {
 		this.setState(sort)
@@ -70,7 +71,8 @@ export default class SortGroup extends Component {
 			{buttons.map(({ field, title, tip }) =>
 				<SortBtn key={field} tip={tip} field={field} title={title} sort={sort[field]} onChange={this.handleChange} />)}
 			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} /> */}
-			<SortCascader list={more} seletedText='更多排序' {...propsSortCascader} />
+			<SortCascader list={more} seletedText='更多排序' {...propsSortCascader}
+				ref={e => this.SortCascader = e} />
 		</div>
 	}
 }

@@ -16,6 +16,12 @@ export default class SortCascader extends Component {
 			isDrop: false
 		}
 	}
+	setMoreText = (moreText) => {
+		this.setState({
+			moreText: this.props.seletedText,
+			isDrop: false
+		})
+	}
 	changeMoreText = (value, selectedOptions) => {
 		const { seletedText } = this.props
 		let nameArray = selectedOptions.map(o => o.label)
