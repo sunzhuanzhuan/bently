@@ -64,6 +64,10 @@ const shelfType = {
 		name: '仅B端上架'
 	}
 }
+const defaultQuotePriceDiscount = {
+	'title': <span>价格优劣<MarkMessage {...messageInfo['defaultQuotePriceDiscount']} /></span>,
+	'name': 'defaultQuotePriceDiscount',
+}
 function handleMoreList(list) {
 	return list.map(id => {
 		return {
@@ -118,7 +122,8 @@ export const groupBySorter = {
 				{
 					'title': '原创',
 					'name': 'canOriginWrite'
-				}
+				},
+				//defaultQuotePriceDiscount
 			]
 		},
 		sorter: {
@@ -182,6 +187,7 @@ export const groupBySorter = {
 					'title': '可带@/话题/链接',
 					'name': 'isSupportTopicAndLink'
 				},
+				//defaultQuotePriceDiscount
 				// {
 				// 	'title': '原创',
 				// 	'name': 'canOrigin'
@@ -244,7 +250,8 @@ export const groupBySorter = {
 				{
 					'title': '原创',
 					'name': 'canOriginWrite'
-				}
+				},
+				//defaultQuotePriceDiscount
 			]
 		},
 		sorter: {
@@ -299,6 +306,7 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
+				//defaultQuotePriceDiscount
 			]
 		},
 		sorter: {
@@ -339,6 +347,8 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
+				//defaultQuotePriceDiscount
+
 			]
 		},
 		sorter: {

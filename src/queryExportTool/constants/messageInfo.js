@@ -110,14 +110,14 @@ export default {
 	descriptionDiscoun: {
 		title: '',
 		content: <div>
-			<b>规则说明：</b>
-			{`【参考报价】<【刊例价】则标记【优势（例：7折）】
-			【参考报价】>【刊例价】则标记【劣势（例：高10%）】
-			【参考报价】=【刊例价】则标记【平价】`}
-			<b>名词说明：</b>
-			【{`参考报价】：微播易参考报价
-			【刊例价】：博主给三方平台的底价`}
-			ps：以上报价均为参考价
+			<div><b>&nbsp;&nbsp;规则说明：</b></div>
+			<div>{`【参考报价】<【刊例价】则标记【优势（例：7折）】`}</div>
+			<div>{`【参考报价】>【刊例价】则标记【劣势（例：高10%）】`}</div>
+			<div>【参考报价】=【刊例价】则标记【平价】</div>
+			<div><b>&nbsp;&nbsp;名词说明：</b></div>
+			<div>【参考报价】：微播易参考报价</div>
+			<div>【刊例价】：博主给三方平台的底价</div>
+			<div> &nbsp;&nbsp;ps：以上报价均为参考价</div>
 		</div>
 	},
 	isShielding: {
@@ -131,8 +131,18 @@ export default {
 			{getLine('【参考报价】：', '微播易参考报价')}
 			{getLine('【刊例价】：', '博主给三方平台的低价')}
 			{getLine('【渠道价】：', '博主授权渠道方，给与渠道方的低价')}
-
 		</div>
-	}
+	},
+	defaultQuotePriceDiscount: {
+		title: '',
+		content: <div>
+			<div>【参考价】＜【刊例价】则为优势报价</div>
+			<div><b>&nbsp;&nbsp;名词说明：</b></div>
+			<div>【参考报价】：微播易参考报价</div>
+			<div>【刊例价】：博主给三方平台的底价</div>
+			<div> &nbsp;&nbsp;ps：以上报价均为参考价</div>
+		</div>
+	},
+
 }
 

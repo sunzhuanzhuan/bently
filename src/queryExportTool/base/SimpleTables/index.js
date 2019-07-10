@@ -131,8 +131,8 @@ export default class SimpleTables extends Component {
 					return <div className='flex-around'>
 						<div><span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' /></span></div>
 						{/* 
-							{getPriceGoodBad(record.defaultQuotePriceDiscount2)}
-						 */}
+						{getPriceGoodBad(record.defaultQuotePriceDiscount2)} */}
+
 					</div>
 				}
 			}],
