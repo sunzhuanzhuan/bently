@@ -85,18 +85,12 @@ function priceGoodBadList(list) {
 			value: 'defaultQuotePriceDiscount:' + id,
 			label: skyType[id] + '价格',
 			children: [{
-				value: '1',
+				value: 'asc',
 				label: '优势从大到小'
 			}, {
-				value: '2',
+				value: 'desc',
 				label: '优势从小到大'
-			}, {
-				value: '3',
-				label: '劣势从大到小'
-			}, {
-				value: '4',
-				label: '劣势从小到大'
-			},]
+			}]
 		}
 	})
 }

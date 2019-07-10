@@ -83,6 +83,6 @@ export const getPriceGoodBad = (value) => {
 	} else if (value > 1 || value == 1) {
 		text = <div>高{value * 100 > 1000 ? '999%+' : numeral(value).format('0%')}</div>
 	}
-	return text
+	return value ? <div className='price-good-bad'>{text}</div> : null
 }
 

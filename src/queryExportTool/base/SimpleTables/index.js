@@ -41,9 +41,7 @@ export default class SimpleTables extends Component {
 				return <div className='flex-around'>
 					<div><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='oneUnivalent' />
 					</div>
-					{/* <div className='price-good-bad'>
-						{getPriceGoodBad(0.4)}
-					</div> */}
+					{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1)} */}
 				</div>
 			}
 		}]
@@ -61,9 +59,9 @@ export default class SimpleTables extends Component {
 						<div>
 							<ValueStyle value={IsWei ? numeral(record.price2).format('0,0') : getQuoteNumber(record.price2)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' />
 						</div>
-						{/* <div className='price-good-bad'>
-							{getPriceGoodBad(2)}
-						</div> */}
+						{/* 
+							{getPriceGoodBad(record.defaultQuotePriceDiscount2)}
+						 */}
 					</div>
 				}
 			}],
@@ -107,7 +105,13 @@ export default class SimpleTables extends Component {
 				align: 'center',
 				width: "50%",
 				render: (text, record) => {
-					return <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" /></span>
+					return <div className='flex-around'>
+						<div> <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" /></span>
+						</div>
+						{/* 
+							{getPriceGoodBad(record.defaultQuotePriceDiscount2)}
+						 */}
+					</div>
 				}
 			}],
 			//包含报价和价格，价格有平均数据列（视频）
@@ -124,7 +128,12 @@ export default class SimpleTables extends Component {
 				align: 'center',
 				width: "40%",
 				render: (text, record) => {
-					return <span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' /></span>
+					return <div className='flex-around'>
+						<div><span><ValueStyle value={IsWei ? numeral(record.price1).format('0,0') : getQuoteNumber(record.price1)} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' /></span></div>
+						{/* 
+							{getPriceGoodBad(record.defaultQuotePriceDiscount2)}
+						 */}
+					</div>
 				}
 			}],
 			//新浪直发
