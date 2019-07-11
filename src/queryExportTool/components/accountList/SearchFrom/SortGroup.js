@@ -58,7 +58,7 @@ export default class SortGroup extends Component {
 		return { accountSort: (clear ? undefined : sort) }
 	}
 	isHighlight = (sort, type) => {
-		return Object.keys(sort)[0].split(':')[0] == type
+		return Object.keys(sort) && Object.keys(sort)[0] && Object.keys(sort)[0].split(':')[0] == type
 	}
 	render() {
 		const { sorter = {} } = this.props
