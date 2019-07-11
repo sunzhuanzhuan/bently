@@ -3,10 +3,10 @@ const formatStart = "YYYY-MM-DD 00:00:00"
 const formatEnd = "YYYY-MM-DD 23:59:59"
 
 const getDayBefore = (number) => {
-	return [moment().subtract(number, 'days').format(formatEnd), moment().format(formatStart)]
+	return [moment().subtract(number, 'days').format(formatStart), moment().format(formatEnd)]
 }
 const getMonthBefore = (number) => {
-	return [moment().subtract(number, 'month').format(formatEnd), moment().format(formatStart)]
+	return [moment().subtract(number, 'month').format(formatStart), moment().format(formatEnd)]
 }
 export const dateRangeOptions = [
 	{
