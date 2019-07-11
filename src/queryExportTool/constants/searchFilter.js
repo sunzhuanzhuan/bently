@@ -1,3 +1,13 @@
+import moment from 'moment'
+const formatStart = "YYYY-MM-DD 00:00:00"
+const formatEnd = "YYYY-MM-DD 23:59:59"
+
+const getDayBefore = (number) => {
+	return [moment().format(formatStart), moment().subtract(number, 'days').format(formatEnd)]
+}
+const getMonthBefore = (number) => {
+	return [moment().format(formatStart), moment().subtract(number, 'month').format(formatEnd)]
+}
 export const dateRangeOptions = [
 	{
 		"name": "不限",
@@ -5,22 +15,22 @@ export const dateRangeOptions = [
 	},
 	{
 		"name": "近7天",
-		"value": "1"
+		"value": getDayBefore(7)
 	}, {
 		"name": "近15天",
-		"value": "2"
+		"value": getDayBefore(15)
 	}, {
 		"name": "近20天",
-		"value": "3"
+		"value": getDayBefore(20)
 	}, {
 		"name": "近1个月",
-		"value": "4"
+		"value": getMonthBefore(1)
 	}, {
 		"name": "近2个月",
-		"value": "5"
+		"value": getMonthBefore(2)
 	}, {
 		"name": "近3个月",
-		"value": "6"
+		"value": getMonthBefore(3)
 	}];
 
 export const verificationTypeOptions = [
