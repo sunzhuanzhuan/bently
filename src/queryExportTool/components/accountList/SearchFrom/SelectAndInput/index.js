@@ -27,7 +27,8 @@ class SelectAndInput extends Component {
 		const value = props.value || {};
 		this.state = {
 			name: value.name,
-			weight: value.weight || []
+			weight: value.weight || [],
+			weightDecimal: 0
 		};
 	}
 	componentWillReceiveProps(nextProps) {
@@ -36,25 +37,30 @@ class SelectAndInput extends Component {
 		if ("value" in nextProps) {
 			this.setState({
 				name: value.name,
-				weight: value.weight || []
+				weight: value.weight || [],
+				weightDecimal: [value.weight && value.weight[0] / 100] || []
 			})
 		}
 	}
+	//下拉框选择后变化
 	selectChange = (selectValue) => {
 		if (!("value" in this.props)) {
 			this.setState({ name: selectValue });
 		}
 		this.triggerChange({ name: selectValue });
 	}
-
+	//最小值变化
 	changeInputNumberMin = (min) => {
 		const { weight = [] } = this.state;
-		const state = { weight: weight[1] ? [min, weight[1]] : [min] };
+		const { inputLableAfter = "%" } = this.props
+		const weightDecimal = inputLableAfter == '%' ? { weightDecimal: [min / 100] } : {}
+		const state = { weight: weight[1] ? [min, weight[1]] : [min], ...weightDecimal };
 		if (!("value" in this.props)) {
 			this.setState(state);
 		}
 		this.triggerChange(state);
 	}
+	//最大值变化
 	changeInputNumberMax = (max) => {
 		const { weight = [] } = this.state;
 		const state = { weight: [weight[0], max] };
@@ -63,6 +69,7 @@ class SelectAndInput extends Component {
 		}
 		this.triggerChange(state);
 	}
+	//数据每次变化调用函数
 	triggerChange = changedValue => {
 		// Should provide an event to pass value to Form.
 		const onChange = this.props.onChange;
@@ -70,7 +77,7 @@ class SelectAndInput extends Component {
 			onChange(Object.assign({}, this.state, changedValue));
 		}
 	};
-
+	//设置确定后的已选内容
 	onClickOkButton = () => {
 		const { name, weight } = this.state
 		const min = weight[0] || '';
@@ -111,6 +118,7 @@ class SelectAndInput extends Component {
 		const [min, max] = weight;
 		//下拉框选择是否为空
 		const emptyName = (options.length !== 0 && !state.name);
+		//判断确定按钮是否可用
 		let okBtnDisabled = emptyName || !min ||
 			showType != "three" && inputLableAfter == '%' && min >= 100 ||   //如果一个输入框，并且是百分比，
 			showType == "three" && (!max || min >= max);

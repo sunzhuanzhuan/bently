@@ -1,3 +1,13 @@
+import moment from 'moment'
+const formatStart = "YYYY-MM-DD 00:00:00"
+const formatEnd = "YYYY-MM-DD 23:59:59"
+
+const getDayBefore = (number) => {
+	return [moment().subtract(number, 'days').format(formatStart), moment().format(formatEnd)]
+}
+const getMonthBefore = (number) => {
+	return [moment().subtract(number, 'month').format(formatStart), moment().format(formatEnd)]
+}
 export const dateRangeOptions = [
 	{
 		"name": "不限",
@@ -5,22 +15,22 @@ export const dateRangeOptions = [
 	},
 	{
 		"name": "近7天",
-		"value": "1"
+		"value": getDayBefore(7)
 	}, {
 		"name": "近15天",
-		"value": "2"
+		"value": getDayBefore(15)
 	}, {
 		"name": "近20天",
-		"value": "3"
+		"value": getDayBefore(20)
 	}, {
 		"name": "近1个月",
-		"value": "4"
+		"value": getMonthBefore(1)
 	}, {
 		"name": "近2个月",
-		"value": "5"
+		"value": getMonthBefore(2)
 	}, {
 		"name": "近3个月",
-		"value": "6"
+		"value": getMonthBefore(3)
 	}];
 
 export const verificationTypeOptions = [
@@ -43,7 +53,7 @@ export const verificationTypeOptions = [
 		"value": "4"
 	}
 ]
-export const kol_visitor_gender_options = [
+export const kolVisitorGenderOptions = [
 	{
 		"name": "不限",
 		"value": ""
@@ -99,7 +109,7 @@ export const mediaTypeOptions = [
 	}
 ]
 
-export const kol_visitor_age_draw_options = [
+export const kolVisitorAgeDrawOptions = [
 	{
 		"name": "0-18岁",
 		"value": "501"
@@ -115,7 +125,7 @@ export const kol_visitor_age_draw_options = [
 	}, {
 		"name": "36-40岁",
 		"value": "505"
-	},{
+	}, {
 		"name": "41-45岁",
 		"value": "506"
 	}, {
@@ -126,7 +136,7 @@ export const kol_visitor_age_draw_options = [
 
 export const priceMarks = {
 	'default': [
-		{ id: '2000-10000', name: '2000-1万元' },
+		{ id: '0-10000', name: '1万元以下' },
 		{ id: '10000-30000', name: '1-3万元' },
 		{ id: '30000-50000', name: '3-5万元' },
 		{ id: '50000-70000', name: '5-7万元' },
@@ -136,7 +146,7 @@ export const priceMarks = {
 	],
 	1: [
 		{ id: '0-50', name: '50元以下' },
-		{ id: '50-100', name: '50-100元' },
+		{ id: '50-200', name: '50-200元' },
 		{ id: '200-500', name: '200-500元' },
 		{ id: '500-1000', name: '500-1000元' },
 		{ id: '1000-3000', name: '1000-3000元' },
@@ -180,7 +190,7 @@ export const followersCountMarks = {
 		{ id: '200-', name: '200万以上' }
 	],
 	3: [
-		{ id: '0.1-0.5', name: '1000-5000' },
+		{ id: '0-0.5', name: '5000以下' },
 		{ id: '0.5-1', name: '5000-1万' },
 		{ id: '1-2', name: '1-2万' },
 		{ id: '2-5', name: '2-5万' },
@@ -188,7 +198,8 @@ export const followersCountMarks = {
 		{ id: '10-', name: '10万以上' },
 	],
 	5: [
-		{ id: '0-50', name: '50万以下' },
+		{ id: '0-20', name: '20万以下' },
+		{ id: '20-50', name: '20-50万' },
 		{ id: '50-100', name: '50-100万' },
 		{ id: '150-300', name: '150-300万' },
 		{ id: '300-500', name: '300-500万' },

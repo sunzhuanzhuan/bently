@@ -3,10 +3,10 @@ import Interface from '../constants/Interface'
 import createHttpAction from '@/store/createHttpAction'
 import api from '../../api/index'
 //获取账号列表信息
-const getGroupById = (groups, group_id) => {
-	return groups.find(group => group.group_id == group_id)
+const getGroupById = (groups, groupType) => {
+	return groups.find(group => group.group_id == groupType)
 }
-const getCategory = (grouped_categories, group_id) => {
+const getCategory = (grouped_categories, groupType) => {
 	return grouped_categories.map(item => ({
 		id: item.itemKey,
 		name: item.itemValue
@@ -20,24 +20,24 @@ const getOrderIndustryCategory = (order_industry_category = []) => {
 }
 // let version = 0;
 export const getFilters = (params) => (dispatch) => {
-	const { group_id } = params;
+	const { groupType } = params;
 	// version = params.version;
 	return api.get(Interface.getFilters).then((data) => {
 		data = data.data;
 		const { groups, grouped_categories, order_industry_category, grouped_sku_types, kol_province_list, kol_interest_list, default_hot_cities } = data;
 		const category = {
 			name: '常见分类',
-			options: getCategory(grouped_categories, group_id)
+			options: getCategory(grouped_categories, groupType)
 		}
 		const operation_tag = data.operation_tags
-		const group = getGroupById(groups, group_id)
+		const group = getGroupById(groups, groupType)
 		// if (version !== params.version) {
 		// 	return;
 		// }
 		dispatch({
 			type: getFilters_success,
 			payload: {
-				[group_id]: {
+				[groupType]: {
 					category,
 					operation_tag,
 					group,

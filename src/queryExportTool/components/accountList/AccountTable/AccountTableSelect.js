@@ -56,7 +56,7 @@ class AccountTableSelect extends Component {
 	onChangePageSize = (pagination, pageSize) => {
 		const { isdBackUp } = this.props
 		isdBackUp && isdBackUp()
-		const param = { page: pagination, page_size: pageSize }
+		const param = { currentPage: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize,
 		})
@@ -65,7 +65,7 @@ class AccountTableSelect extends Component {
 	onShowSizeChange = (pagination, pageSize) => {
 		const { isdBackUp } = this.props
 		isdBackUp && isdBackUp()
-		const param = { page: pagination, page_size: pageSize }
+		const param = { currentPage: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize,
 		})
@@ -104,34 +104,34 @@ class AccountTableSelect extends Component {
 		const { IsExactQuery, isShowTypeByList, actions, addLookDetailOrIndexList = {} } = this.props
 
 		this.setState({
-			selecedTable: [key.account_id]
+			selecedTable: [key.accountId]
 		})
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
 		this.track(
-			detali.includes(key.account_id) ? key.account_id : '',
-			index.includes(key.account_id) ? key.account_id : '',
+			detali.includes(key.accountId) ? key.accountId : '',
+			index.includes(key.accountId) ? key.accountId : '',
 			seleced ? '加入' : '取消',
 			'single',
-			[key.account_id]
+			[key.accountId]
 		)
 		if (seleced) {
 			//同步发一个立刻选中
-			this.props.actions.addSelectStatic([key.account_id])
+			this.props.actions.addSelectStatic([key.accountId])
 			//精确查询选中添加
-			IsExactQuery && actions.addSelectExactQuery([key.account_id])
+			IsExactQuery && actions.addSelectExactQuery([key.accountId])
 			//仅批量查号使用
 			this.props.actions.addToCart({ item_type_id: 1, accounts: this.getSaveCart([key]) })
 				.catch(() => {
-					this.props.actions.removeFromCart({ staging_ids: [key.account_id] })
-					IsExactQuery && actions.removeSelectExactQuery([key.account_id])
+					this.props.actions.removeFromCart({ staging_ids: [key.accountId] })
+					IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 				})
 		} else {
-			this.props.actions.removeFromCart({ staging_ids: [key.account_id] })
-			IsExactQuery && actions.removeSelectExactQuery([key.account_id])
+			this.props.actions.removeFromCart({ staging_ids: [key.accountId] })
+			IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 		}
 		if (seleced) {
-			let faceImg = $("#avatar_" + (isShowTypeByList ? "list" : "") + key.account_id);
+			let faceImg = $(`#avatar_${isShowTypeByList ? "list_" : ""}${key.accountId}`);
 			CartFly.show({
 				start: faceImg,
 				image: faceImg.data("src")
@@ -139,12 +139,12 @@ class AccountTableSelect extends Component {
 		}
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.account_id, platform_id: one.platform_id }))
+		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
 	}
 	//全选/取消全选
 	onSelectAllChange = (seleced, list, changeRows) => {
 		const { IsExactQuery, actions, addLookDetailOrIndexList = {} } = this.props
-		const staging_ids = changeRows.map(one => one.account_id)
+		const staging_ids = changeRows.map(one => one.accountId)
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
 		this.track(
@@ -166,7 +166,7 @@ class AccountTableSelect extends Component {
 					IsExactQuery && actions.removeSelectExactQuery(staging_ids)
 				})
 		} else {
-			const staging_ids = changeRows.map(one => one.account_id)
+			const staging_ids = changeRows.map(one => one.accountId)
 			this.props.actions.removeFromCart({ staging_ids })
 			IsExactQuery && actions.removeSelectExactQuery(staging_ids)
 		}
@@ -174,8 +174,8 @@ class AccountTableSelect extends Component {
 	}
 	render() {
 		const { visible, modalContent, } = this.state
-		const { accountList, header, tableProps,
-			isShowNoFind, countNum, IsExactQuery,
+		const { accountList = {}, header, tableProps,
+			isShowNoFind, IsExactQuery,
 			isShowTypeByList, columnsTypeByList,
 			arrSelectExactQuery,//精确查询的数组
 			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
@@ -186,14 +186,14 @@ class AccountTableSelect extends Component {
 			onSelect: this.onSelectChange,
 			onSelectAll: this.onSelectAllChange,
 			getCheckboxProps: record => (IsExactQuery ? {
-				disabled: record.base.not_exist == 1,
+				disabled: record.notExist == 1,
 				name: record.name,
 			} : {})
 		};
 		const pageConfig = {
-			pageSize: Number(accountList.pagination && accountList.pagination.page_size || 20),
-			current: Number(accountList.pagination && accountList.pagination.page || 1),
-			total: accountList && accountList.pagination && accountList.pagination.total,
+			pageSize: Number(accountList.pageSize || 20),
+			current: Number(accountList.pageNum || 1),
+			total: accountList.total,
 		}
 		const columns = [{
 			title: <div>
@@ -210,21 +210,19 @@ class AccountTableSelect extends Component {
 			dataIndex: 'name',
 
 			render: (text, record) => {
-				const { base } = record
-				return base.not_exist == 1 ?
-					<NoExist name={base.sns_name || base.account_id || base.sns_id} />
+				return record.not_exist == 1 ?
+					<NoExist name={record.sns_name || record.account_id || record.sns_id} />
 					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} actions={actions} />
-
 			}
 		}];
 		return (
 			<div >
-				{countNum <= 0 && isShowNoFind ?
+				{accountList.total <= 0 && isShowNoFind ?
 					<div>
 						<Row >{header}</Row>
 						<AllNoFind />
 					</div>
-					: accountList.accounts.length <= 0 && isShowNoFind ?
+					: accountList.list && accountList.list.length <= 0 && isShowNoFind ?
 						<div>
 							<Row >{header}</Row>
 							<NowNoFind />
@@ -232,23 +230,22 @@ class AccountTableSelect extends Component {
 						isShowTypeByList ? <Table
 							className="account-table-wxy-list account-table-disabled-none"
 							columns={columnsTypeByList}
-							dataSource={accountList.accounts}
-							rowKey={(record, index) => record.base.account_id && record.base.account_id || index}
+							dataSource={accountList.list}
+							rowKey={(record, index) => record.accountId && record.accountId || index}
 							pagination={false}
 							rowSelection={rowSelection}
 							rowClassName={(record, index) => {
-								const { base } = record
-								return base.not_exist == 1 ? "no-not-exist-row-color" : ""
+								return record.notExist == 1 ? "no-not-exist-row-color" : ""
 							}}
 						/> :
 							<div className="account-table-wxy">
 								<Table
-									rowKey={record => record.base.account_id}
+									rowKey={record => record.accountId}
 									className="account-table-wxy-title account-table-disabled-none"
 									rowSelection={rowSelection}
 									{...tableProps}
 									columns={columns}
-									dataSource={accountList.accounts}
+									dataSource={accountList.list}
 									pagination={IsExactQuery ? false : {
 										...pageConfig,
 										showSizeChanger: true,
@@ -258,8 +255,7 @@ class AccountTableSelect extends Component {
 										pageSizeOptions: ["20", "50", "100"]
 									}}
 									rowClassName={(record, index) => {
-										const { base } = record
-										return base.not_exist == 1 ? "no-not-exist-row-color" : ""
+										return record.notExist == 1 ? "no-not-exist-row-color" : ""
 									}}
 								/>
 							</div>}

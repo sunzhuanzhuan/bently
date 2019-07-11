@@ -10,6 +10,7 @@ import * as quotation from "./quotation";
 export const accountList = handleActions({
 	[accoutActions.addSelectStatic]: (state, action) => {
 		const { is_select } = state
+
 		if (is_select) {
 			let is_select = [...state.is_select, ...action.payload]
 			return { ...state, is_select }
@@ -38,8 +39,13 @@ export const accountList = handleActions({
 		}
 	},
 	[accoutActions.getAccountList_success]: (state, action) => {
+		const data = { ...action.payload.data }
+		const { result, statistic } = data
+		const is_select = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
 		return {
-			...action.payload.data
+			...result,
+			statistic: statistic,
+			is_select: is_select
 		}
 	}
 }, {})
@@ -80,8 +86,13 @@ export const batchSearchList = handleActions({
 		return { ...state, is_select: [] }
 	},
 	[accoutActions.getBatchSearch_success]: (state, action) => {
+		const data = { ...action.payload.data }
+		const { result, statistic } = data
+		const is_select = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
 		return {
-			...action.payload.data
+			...result,
+			statistic: statistic,
+			is_select: is_select
 		}
 	}
 }, {})

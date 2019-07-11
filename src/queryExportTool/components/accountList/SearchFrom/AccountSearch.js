@@ -29,7 +29,7 @@ const LayoutSearch = ({ name, children, width }) => {
 		</Row>
 	)
 }
-const followers_count = {
+const followersCount = {
 	"name": "粉丝数",
 	"bar": {
 		"min": 0,
@@ -50,13 +50,13 @@ class AccountSearch extends React.Component {
 		super(props);
 
 		this.state = {
-			category_value: [],
-			grouped_platforms_value: [],
-			operation_tag_value: [],
-			followers_count_value: {
-				value: [followers_count.bar.min, followers_count.bar.max]
+			categoryValue: [],
+			groupedPlatformsValue: [],
+			operationTagValue: [],
+			followersCountValue: {
+				value: [followersCount.bar.min, followersCount.bar.max]
 			},
-			price_value: {
+			priceValue: {
 				value: [price.bar.min, price.bar.max],
 				selectValue: -1
 			},
@@ -71,34 +71,34 @@ class AccountSearch extends React.Component {
 	onFilterSearch = (values = {}, ischangTab) => {
 		const params = this.props.form.getFieldsValue();
 		const { searchSource } = this.state
-		const { sku_price_valid, follower_count } = params;
-		if (sku_price_valid && sku_price_valid.length > 0) {
-			params.sku_price_valid_from = sku_price_valid[0].format('YYYY-MM-DD')
-			params.sku_price_valid_to = sku_price_valid[1].format('YYYY-MM-DD')
-			delete params.sku_price_valid;
+		const { skuPriceValid, followerCount } = params;
+		if (skuPriceValid && skuPriceValid.length > 0) {
+			params.skuPriceValidFrom = skuPriceValid[0].format('YYYY-MM-DD 00:00:00')
+			params.skuPriceValidTo = skuPriceValid[1].format('YYYY-MM-DD 23:59:59')
+			delete params.skuPriceValid;
 		} else {
-			params.sku_price_valid_from = params.sku_price_valid_to = null
+			params.skuPriceValidFrom = params.skuPriceValidTo = null
 		}
-		if (follower_count) {
-			const number = params.follower_count.number || [];
-			params.follower_count = number.map(item => item * 10000);
+		if (followerCount) {
+			const number = params.followerCount.number || [];
+			params.followerCount = number.map(item => item * 10000);
 		}
 		if (params.price) {
-			params.sku_type_id = params.price.selectValue > 0 ? params.price.selectValue : null;
-			params.sku_open_quote_price = params.price.number;
+			params.skuTypeId = params.price.selectValue > 0 ? params.price.selectValue : null;
+			params.skuOpenQuotePrice = params.price.number;
 			delete params.price
 		}
-		if (params.follower_count && !params.follower_count[1]) {
-			params.follower_count[1] = null;
+		if (params.followerCount && !params.followerCount[1]) {
+			params.followerCount[1] = null;
 		}
 
-		if (params.sku_open_quote_price && !params.sku_open_quote_price[1]) {
-			params.sku_open_quote_price[1] = null;
+		if (params.skuOpenQuotePrice && !params.skuOpenQuotePrice[1]) {
+			params.skuOpenQuotePrice[1] = null;
 		}
-		if (!params.sku_open_quote_price) {
-			params.sku_open_quote_price = undefined;
+		if (!params.skuOpenQuotePrice) {
+			params.skuOpenQuotePrice = undefined;
 		}
-		this.props.onFilterSearch({ search_source: searchSource, ...params, ...values })
+		this.props.onFilterSearch({ searchSource: searchSource, ...params, ...values })
 	}
 	batchUpdateSelectedItems = (selectedItems) => {
 		this.setState({
@@ -117,7 +117,7 @@ class AccountSearch extends React.Component {
 		}
 		this.setState({ selectedItems })
 		if (needReset) {
-			params = this.accountSort.reset(clear)
+			params = this.accountListort.reset(clear)
 		}
 
 		this.onFilterSearch(params);
@@ -126,9 +126,9 @@ class AccountSearch extends React.Component {
 	resetFilter = (id, params) => {
 		const urlAll = this.props.match.url
 		if (id) {
-			const _selectedItems = this.state.selectedItems
-			delete _selectedItems[id];
-			this.setState({ selectedItems: _selectedItems })
+			const SelectedItems = this.state.selectedItems
+			delete SelectedItems[id];
+			this.setState({ selectedItems: SelectedItems })
 			this.props.form.resetFields([id]);
 		} else {
 			this.props.form.resetFields();
@@ -138,7 +138,7 @@ class AccountSearch extends React.Component {
 			pathname: urlAll,
 			search: "",
 		});
-		this.onFilterCommon&&this.onFilterCommon.reset()
+		this.onFilterCommon && this.onFilterCommon.reset()
 		this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {
@@ -152,14 +152,14 @@ class AccountSearch extends React.Component {
 	}
 	onFollowerChange = (params) => {
 		this.onChange({
-			follower_count: params.value
+			followerCount: params.value
 		})
 	}
 	onPriceChange = (params) => {
 		this.onChange({
 			sku: {
-				sku_type_id: params.type,
-				open_quote_price: params.value
+				skuTypeId: params.type,
+				openQuotePrice: params.value
 			}
 		})
 	}
@@ -174,8 +174,7 @@ class AccountSearch extends React.Component {
 			searchSource: value
 		}, () => {
 			//清空数据
-			this.resetFilter(null, this.accountSort.reset())
-
+			this.resetFilter(null, this.accountListort.reset(true))
 		})
 
 	}
@@ -194,8 +193,8 @@ class AccountSearch extends React.Component {
 		const { params } = match;
 		const platformType = params.platformType;
 		if (!filterOptions[platformType]) return null;
-		const _priceMarks = priceMarks[platformType] || priceMarks['default'];
-		const _followersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
+		const PriceMarks = priceMarks[platformType] || priceMarks['default'];
+		const FollowersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
 		const {
 			category, group, operation_tag, grouped_sku_types = {}, order_industry_category
 		} = filterOptions[platformType] || {};
@@ -215,11 +214,11 @@ class AccountSearch extends React.Component {
 					</Tooltip>
 				</span>
 				} width='115px'>
-				{getFieldDecorator('order_industry_category')(
+				{getFieldDecorator('orderIndustryCategory')(
 					<ItemLable
 						isTooltip={true}
-						onClick={(names) => this.onItemLableChange('order_industry_category', '历史推广行业', names)}
-						// id='operation_tag'
+						onClick={(names) => this.onItemLableChange('orderIndustryCategory', '历史推广行业', names)}
+						// id='operationTag'
 						tagsArray={order_industry_category}
 					/>
 				)}
@@ -232,9 +231,9 @@ class AccountSearch extends React.Component {
 		></Search>
 		const allSearch = <div>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
-				{getFieldDecorator('classification_id')(
+				{getFieldDecorator('classificationIds')(
 					<ItemLable
-						onClick={(names) => this.onItemLableChange('classification_id', '常见分类', names)}
+						onClick={(names) => this.onItemLableChange('classificationIds', '常见分类', names)}
 						// id='category'
 						tagsArray={category.options}
 					/>
@@ -243,35 +242,35 @@ class AccountSearch extends React.Component {
 			}
 			{
 				grouped_platforms.length > 0 && <LayoutSearch name='平台名称'>
-					{getFieldDecorator('platform_id')(
+					{getFieldDecorator('platformIds')(
 						<ItemLable
-							onClick={(names) => this.onItemLableChange('platform_id', '平台名称', names)}
+							onClick={(names) => this.onItemLableChange('platformIds', '平台名称', names)}
 							tagsArray={grouped_platforms.map(item => { item.id = item.platform_id; return item })}
 						/>
 					)}
 				</LayoutSearch>
 			}
 			{operation_tag && <LayoutSearch name={'运营标签'}>
-				{getFieldDecorator('operation_tag_id')(
+				{getFieldDecorator('operationTagIds')(
 					<ItemLable
-						onClick={(names) => this.onItemLableChange('operation_tag_id', '运营标签', names)}
-						// id='operation_tag'
+						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
+						// id='operationTag'
 						tagsArray={operation_tag}
 					/>
 				)}
 			</LayoutSearch>}
-			{followers_count && <LayoutSearch name={followers_count.name} >
-				{getFieldDecorator('follower_count', {
+			{followersCount && <LayoutSearch name={followersCount.name} >
+				{getFieldDecorator('followerCount', {
 					// initialValue: {
 					// 	number: [0, 200]
 					// }
 				})(
 					<InputAndSlider unit={"万"}
-						onNameChange={(names) => this.onItemLableChange('follower_count', followers_count.name, names)}
+						onNameChange={(names) => this.onItemLableChange('followerCount', followersCount.name, names)}
 						onFilter={this.onFilterSearch}
-						marks={_followersCountMarks}
-						// id='followers_count'
-						sliderMin={+(followers_count.bar.min)} sliderMax={+(followers_count.bar.max)}
+						marks={FollowersCountMarks}
+						// id='followersCount'
+						sliderMin={+(followersCount.bar.min)} sliderMax={+(followersCount.bar.max)}
 					/>
 				)}
 			</LayoutSearch>}
@@ -286,7 +285,7 @@ class AccountSearch extends React.Component {
 							onNameChange={(names) => this.onItemLableChange('price', price.name, names)}
 							onFilter={this.onFilterSearch}
 							// id='price'
-							marks={_priceMarks}
+							marks={PriceMarks}
 							sliderMin={+(price.bar.min)} sliderMax={+(price.bar.max)}
 							isShowSelect={isShowSelectForPrice}
 							selectList={[{ id: -1, name: '请选择报价类型' }, ...price.options]} />
@@ -349,7 +348,7 @@ class AccountSearch extends React.Component {
 				</div>
 			</div> : null}
 			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
-			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountSort = node} onChange={this.onFilterSearch} group={params.platformType} />
+			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
 }
