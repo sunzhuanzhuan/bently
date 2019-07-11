@@ -72,7 +72,7 @@ class BatchEditAccountPrice extends Component {
 			if (this.props.type === "tab5") {
 				let value = {
 					uploadUrl: file[0].url,
-					operateType: "updatePublicationPrice",
+					operateType: `updatePublicationPrice_${this.state.productionLineId}_${this.state.platformId}`,
 					originalFileName: originFile.name,
 					platformId: this.state.platformId,
 					productionLineId: this.state.productionLineId,
