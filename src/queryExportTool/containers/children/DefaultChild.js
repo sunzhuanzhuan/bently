@@ -77,11 +77,6 @@ class DefaultChild extends Component {
 				skuTypeId: params.skuTypeId
 			}
 		}
-		if (params.accountSort && params.accountSort.defaultQuotePriceDiscount) {
-			params.defaultQuotePriceDiscount = 1
-		} else {
-			params.defaultQuotePriceDiscount = null
-		}
 		//阅读单价和播放单价（java重构要求修改数据格式）
 		if (params.skuUnitReadPrice) {
 			params.skuUnitReadPrice = {
