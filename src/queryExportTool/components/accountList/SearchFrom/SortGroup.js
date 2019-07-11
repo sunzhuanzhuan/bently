@@ -43,7 +43,6 @@ export default class SortGroup extends Component {
 	handleChange = (field, sort) => {
 		this.setState({ sort: { [field]: sort, } })
 		this.dataToParams(field, sort)
-		this.SortCascader.setMoreText()
 	}
 	setSort = (sort) => {
 		this.setState(sort)
@@ -58,21 +57,26 @@ export default class SortGroup extends Component {
 		})
 		return { accountSort: (clear ? undefined : sort) }
 	}
+	isHighlight = (sort, type) => {
+		return Object.keys(sort)[0].split(':')[0] == type
+	}
 	render() {
 		const { sorter = {} } = this.props
 		const { buttons = [], more = [], priceGoodBadList = [] } = sorter
 		const { sort, } = this.state
 		const propsSortCascader = {
 			sorter: sorter,
+			sort: sort,
 			setSort: this.setSort,
 			dataToParams: this.dataToParams,
 		}
+
 		return <div className='sorter-container'>
 			{buttons.map(({ field, title, tip }) =>
 				<SortBtn key={field} tip={tip} field={field} title={title} sort={sort[field]} onChange={this.handleChange} />)}
-			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} /> */}
+			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} isHighlight={this.isHighlight(sort, 'defaultQuotePriceDiscount')} /> */}
 			<SortCascader list={more} seletedText='更多排序' {...propsSortCascader}
-				ref={e => this.SortCascader = e} />
+				isHighlight={this.isHighlight(sort, 'skuOpenQuotePrice')} />
 		</div>
 	}
 }

@@ -9,33 +9,19 @@ export default class SortCascader extends Component {
 
 	constructor(props) {
 		super(props)
-		let keyword = parseUrlQuery()['keyword'];
 		this.state = {
-			sort: keyword ? {} : (props.sorter.default || {}),
-			moreText: props.seletedText,
 			isDrop: false
 		}
 	}
-	setMoreText = (moreText) => {
-		this.setState({
-			moreText: this.props.seletedText,
-			isDrop: false
-		})
-	}
+
 	changeMoreText = (value, selectedOptions) => {
-		const { seletedText } = this.props
-		let nameArray = selectedOptions.map(o => o.label)
 		let valueArray = selectedOptions.map(o => o.value)
-		this.setState({
-			moreText: selectedOptions.length ? nameArray.join('') : seletedText,
-		})
 		this.props.setSort({ sort: { [valueArray[0]]: valueArray[1] } })
 		this.props.dataToParams(valueArray[0], valueArray[1])
 	}
 
 	render() {
-		const { seletedText, list = [] } = this.props
-		const { sort, moreText } = this.state
+		const { seletedText, list = [], sort, isHighlight } = this.props
 		const selectOption = <span title={seletedText} className='sorter-more-sort'><span>{seletedText}</span> <Icon type={this.state.isDrop ? "up" : "down"} /></span>
 		return <div className='sorter-container'>
 			{list.length ? <Cascader
@@ -50,7 +36,7 @@ export default class SortCascader extends Component {
 					// value && setTimeout(() => document.querySelector('.pop-more-sort').style.left = 'auto')
 				}}
 			>
-				{moreText != seletedText ? <a>{selectOption}</a> : selectOption}
+				{isHighlight ? <a>{selectOption}</a> : selectOption}
 			</Cascader> : null}
 		</div>
 	}
