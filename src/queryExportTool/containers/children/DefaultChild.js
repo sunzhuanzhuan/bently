@@ -63,19 +63,24 @@ class DefaultChild extends Component {
 		//添加了空数组不穿给后台
 		if (!skuOpenQuotePrice[0]) {
 			if (params.skuOpenQuotePrice) {
-				params.skuOpenQuotePrice[0] = ""
+				params.skuOpenQuotePrice[0] = 0
 			}
 		}
 		if (!skuOpenQuotePrice[1]) {
 			if (params.skuOpenQuotePrice) {
-				params.skuOpenQuotePrice[1] = ""
+				params.skuOpenQuotePrice = [params.skuOpenQuotePrice[0]]
 			}
 		}
 		if (skuOpenQuotePrice[0] || skuOpenQuotePrice[1]) {
 			params.skuOpenPrice = {
-				openQuotePrices: skuOpenQuotePrice,
+				openQuotePrices: params.skuOpenQuotePrice,
 				skuTypeId: params.skuTypeId
 			}
+		}
+		if (params.accountSort && params.accountSort.defaultQuotePriceDiscount) {
+			params.defaultQuotePriceDiscount = 1
+		} else {
+			delete params.defaultQuotePriceDiscount
 		}
 		//阅读单价和播放单价（java重构要求修改数据格式）
 		if (params.skuUnitReadPrice) {
