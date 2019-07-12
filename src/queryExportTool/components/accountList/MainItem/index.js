@@ -60,7 +60,7 @@ export default class MainItem extends PureComponent {
 		actions && actions.addLookDetailOrIndexList({ index: [accountId] });
 	}
 	render() {
-		const { accountListItem = {}, isDeleteAction, batchRemove } = this.props
+		const { accountListItem = {},isPreloading, isDeleteAction, batchRemove } = this.props
 		const { snsName = '', avatarUrl, verifiedStatus, level, introduction,
 			isLowQuality, url, isSupportTopicAndLink, isVerified,
 			canOriginWrite, areaName, ageGroup, originalName,
@@ -71,7 +71,7 @@ export default class MainItem extends PureComponent {
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
 			onShelfStatus = {}, followerCountVerificationStatus,
 			followerCountScreenshotModifiedTime, trinityIsPreventShielding,
-			avgData = {}, platformId = 0, groupType, agentInfo, followerCountGrowthRate28d
+			avgData = {}, platformId = 0, groupType, agentInfo, followerCountGrowthRate28d,
 		} = accountListItem
 
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
@@ -82,6 +82,9 @@ export default class MainItem extends PureComponent {
 		const IsOther = groupType == 5
 		const IsWei = isFamous == 2
 		const isfollowerCount = (IsWeibo || IsRed || IsVidro) && followerCountGrowthRate28d
+
+
+
 		return <section className={`account-list-main-item ${isDeleteAction ? "main-item-hover" : ""}`} >
 			{/* {checkNode} */}
 			{isDeleteAction ?
@@ -172,9 +175,10 @@ export default class MainItem extends PureComponent {
 						/>
 					</div>
 					{/* 此处是右侧两个小表格*/}
-					<LazyLoad once overflow height={80}>
-						<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />
-					</LazyLoad>
+					{isPreloading?<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />:
+					<LazyLoad once overflow>
+					<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />
+					</LazyLoad>}
 				</main>
 				<footer className="content-footer">
 

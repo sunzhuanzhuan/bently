@@ -128,11 +128,11 @@ class BatchTable extends Component {
 			title: '',
 			dataIndex: 'existStatus',
 			key: 'existStatus',
-			render: (text, record) => {
+			render: (text, record,index) => {
 				const { base } = record
 				return base.notExist == 1 ?
 					<NoExist name={base.snsName || base.accountId || base.snsId} />
-					: <MainItem key={record.accountId} accountListItem={record} setModalContent={this.setModalContent} />
+					: <MainItem key={record.accountId} accountListItem={record} setModalContent={this.setModalContent} isPreloading={index < 4}/>
 			}
 		}]
 		return (
