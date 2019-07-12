@@ -26,6 +26,7 @@ class ExampleTable extends Component {
 	}
 	render() {
 		const { isFamous, ISWEiXin, data, dataTimeNew } = this.props
+		const isShow = data.filter(one => (one.defaultQuotePriceDiscount1 > 0) || (one.defaultQuotePriceDiscount2 > 0))
 		const childrenColumns = [
 
 			{
@@ -102,7 +103,7 @@ class ExampleTable extends Component {
 		const columns = ISWEiXin && isFamous == 1 ? WeixinIsFamous1 : WeixinIsFamous2
 
 		return (
-			<div style={{ paddingTop: 6, flex: 'none' }}>
+			isShow.length > 0 ? <div style={{ paddingTop: 6, flex: 'none' }}>
 				<a onClick={this.onOK} >查看【渠道价】【刊例价】</a>
 				<Modal
 					title="渠道刊例"
@@ -125,7 +126,7 @@ class ExampleTable extends Component {
 					<div style={{ textAlign: "center", marginTop: 10 }}><Button type='primary' onClick={this.onClose}>知道了</Button></div>
 				</Modal>
 
-			</div>
+			</div> : null
 
 
 		)
