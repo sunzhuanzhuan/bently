@@ -103,7 +103,7 @@ class ExampleTable extends Component {
 
 		return (
 			<div style={{ paddingTop: 6, flex: 'none' }}>
-				<a onClick={this.onOK} >查看渠道刊例</a>
+				<a onClick={this.onOK} >查看【渠道价】【刊例价】</a>
 				<Modal
 					title="渠道刊例"
 					visible={visible}

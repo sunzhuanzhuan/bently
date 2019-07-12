@@ -78,7 +78,7 @@ export const getOtherAllAvg = (value) => {
 export const getPriceGoodBad = (value) => {
 	let text = ""
 	if (value < 1) {
-		text = `${numeral(value * 10).format('0')}折`
+		text = `${numeral(value * 10).format('0.0')}折`
 	}
 	else if (value == 1) {
 		text = '平价'
