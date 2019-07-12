@@ -52,7 +52,7 @@ class TwoTable extends Component {
 		const { IsWei, groupType, platformId, isShielding, ISWEiXin, isFamous } = this.props
 		const { skuPrice, avgData, dataSku, dataAvg } = this.state
 		return (
-			<div style={{ display: 'flex', flex: 5,minWidth:'30%' }}>
+			<div style={{ display: 'flex', flex: 5 }}>
 				<SimpleTables IsWei={IsWei}
 					data={skuPrice}
 					dataTime={dataSku}
