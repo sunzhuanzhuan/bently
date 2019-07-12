@@ -322,7 +322,7 @@ export const groupBySorter = {
 				},
 				// {
 				// 	field: 'defaultQuotePriceDiscount',
-				// 	title: '价格优劣参考报价'
+				// 	title: '参考报价价格优劣'
 				// }
 				// ,
 				{
@@ -371,7 +371,7 @@ export const groupBySorter = {
 				// ,
 				// {
 				// 	field: 'defaultQuotePriceDiscount',
-				// 	title: '价格优劣参考报价'
+				// 	title: '参考报价价格优劣'
 				// }
 				, {
 					field: 'createdAt',
