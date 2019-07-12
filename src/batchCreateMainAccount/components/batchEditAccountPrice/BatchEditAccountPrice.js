@@ -110,15 +110,16 @@ class BatchEditAccountPrice extends Component {
 	render() {
 		const Content = batchEditAccountPrice_steps[this.state.step]
 		const { downloadLink, batchSkuPlatformList } = this.props
+		let text = this.props.type === 'tab5' ? '【刊例价】' : '报价'
 		return (
 			<div>
-				<h4>批量修改账号报价</h4>
+				<h4>{`批量修改账号${text}`}</h4>
 				{/* 步骤条 */}
 				<Steps current={this.state.current} className="batchEditAccountPrice-stepBox">
-					<Step title="选择平台" description="选择修改报价账号所属的平台" />
-					<Step title="选择账号类型" description="选择修改报价账号的类型" />
-					<Step title="上传账号信息" description="上传需要修改报价的账号account_id和报价" />
-					<Step title="完成" description="账号信息上传成功" />
+					<Step title="选择平台" description={`选择修改${text}的账号所属的平台`} />
+					<Step title="选择账号类型" description={`选择修改${text}的账号的类型`} />
+					<Step title="上传账号信息" description={`上传需要修改${text}的账号account_id和报价`} />
+					<Step title="完成" description={`账号信息上传成功`} />
 				</Steps>
 				<div className="batchEditAccountPrice-platformBox">
 					<Content
@@ -132,6 +133,7 @@ class BatchEditAccountPrice extends Component {
 						returnStep2={this.returnStep2}
 						batchSkuPlatformList={batchSkuPlatformList}
 						type={this.props.type}
+						text={text}
 					/>
 				</div>
 			</div>
