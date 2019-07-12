@@ -319,7 +319,13 @@ export const groupBySorter = {
 				}, {
 					field: 'skuOpenQuotePrice',
 					title: '参考报价'
-				}, {
+				},
+				// {
+				// 	field: 'defaultQuotePriceDiscount',
+				// 	title: '价格优劣参考报价'
+				// }
+				// ,
+				{
 					field: 'createdAt',
 					title: '入库时间'
 				}
@@ -361,7 +367,13 @@ export const groupBySorter = {
 				}, {
 					field: 'skuOpenQuotePrice',
 					title: '参考报价'
-				}, {
+				}
+				// ,
+				// {
+				// 	field: 'defaultQuotePriceDiscount',
+				// 	title: '价格优劣参考报价'
+				// }
+				, {
 					field: 'createdAt',
 					title: '入库时间'
 				}

@@ -112,7 +112,8 @@ class ExampleTable extends Component {
 					footer={null}
 				>
 					<Spin spinning={loading}>
-						<div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：{dataTimeNew}<MarkMessage {...messageInfo['exampleTable']} /></div>
+						{isFamous == 1 ? <div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：{dataTimeNew}<MarkMessage {...messageInfo['exampleTable']} />
+						</div> : null}
 						<Table
 							columns={columns}
 							dataSource={data}

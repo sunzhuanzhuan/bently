@@ -36,12 +36,14 @@ class BatchSearchCode extends Component {
 		e.preventDefault();
 		const { accoutName } = this.state
 		this.props.form.validateFields((err, values) => {
+			const platformId = values.platformId[values.platformId.length - 1]
 			delete values.vailAccoutName
 			delete values.keyword
+
 			if (!err) {
 				const allValue = {
 					fieldType: values.fieldType,
-					platformId: values.platformId[values.platformId.length - 1],
+					platformId: platformId ? platformId : null,
 					queryType: values.queryType,
 					[searchMap[values.fieldType].key]: accoutName,
 					accoutName: accoutName
@@ -63,11 +65,17 @@ class BatchSearchCode extends Component {
 	//
 	//个数验证
 	vailAccoutName = (rule, value, callback) => {
+		const { selectValue } = this.state
 		const accoutName = (value.split(/[\n]/)).filter(one => one && one.replace(/(^\s*)|(\s*$)/g, ""))
+
+		const parent = /^[\r\s\n0-9]+$/
 		if (accoutName)
 			if (accoutName.length > 200) {
 				callback("最多可输入200个账号")
-			} else {
+			} else if (!parent.test(value) && selectValue == 3) {
+				callback("只能输入数字")
+			}
+			else {
 				callback()
 			}
 
