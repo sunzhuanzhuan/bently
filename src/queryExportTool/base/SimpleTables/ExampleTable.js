@@ -33,21 +33,28 @@ class ExampleTable extends Component {
 				title: '参考价',
 				dataIndex: 'price1',
 				key: 'price1',
-				align: 'center'
-
+				align: 'center',
+				render: (text, record) => {
+					return record.productOnShelfStatus == 1 ? text : '-'
+				}
 			},
 			{
 				title: '渠道价',
 				dataIndex: 'channelPrice1',
 				key: 'channelPrice1',
-				align: 'center'
-
+				align: 'center',
+				render: (text, record) => {
+					return record.productOnShelfStatus == 1 ? text : '-'
+				}
 			},
 			{
 				title: '刊例价',
 				dataIndex: 'publicationPrice1',
 				key: 'publicationPrice1',
-				align: 'center'
+				align: 'center',
+				render: (text, record) => {
+					return record.productOnShelfStatus == 1 ? text : '-'
+				}
 
 			},
 		]
@@ -57,21 +64,28 @@ class ExampleTable extends Component {
 				title: '参考价',
 				dataIndex: 'price2',
 				key: 'price2',
-				align: 'center'
-
+				align: 'center',
+				render: (text, record) => {
+					return record.productOnShelfStatus == 1 ? text : '-'
+				}
 			},
 			{
 				title: '渠道价',
 				dataIndex: 'channelPrice2',
 				key: 'channelPrice2',
-				align: 'center'
-
+				align: 'center',
+				render: (text, record) => {
+					return record.productOnShelfStatus == 1 ? text : '-'
+				}
 			},
 			{
 				title: '刊例价',
 				dataIndex: 'publicationPrice2',
 				key: 'publicationPrice2',
-				align: 'center'
+				align: 'center',
+				render: (text, record) => {
+					return record.productOnShelfStatus == 1 ? text : '-'
+				}
 
 			},
 		]
