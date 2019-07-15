@@ -130,41 +130,42 @@ class AccountListBatch extends Component {
 			})
 		} else {
 
-			const pageSize = 40
-			const lastNum = total % pageSize
-			const promisesArr = []
-			for (var i = 0; i < parseInt(total / pageSize); i++) {
-				promisesArr.push(value.accoutName.slice(i * pageSize, (i + 1) * pageSize))
-			}
-			if (lastNum) {
-				promisesArr.push(value.accoutName.slice(total - lastNum, total))
-			}
-			const promises = promisesArr.map(function (arr) {
-				return getBatchSearch({ ...value, accoutName: total })
-			});
+			// const pageSize = 40
+			// const lastNum = total % pageSize
+			// const promisesArr = []
+			// for (var i = 0; i < parseInt(total / pageSize); i++) {
+			// 	promisesArr.push(value.accoutName.slice(i * pageSize, (i + 1) * pageSize))
+			// }
+			// if (lastNum) {
+			// 	promisesArr.push(value.accoutName.slice(total - lastNum, total))
+			// }
+			// const promises = promisesArr.map(function (arr) {
+			// 	return getBatchSearch({ ...value, accoutName: total })
+			// });
 
-			Promise.all(promises).then((posts) => {
-				const exactQueryData = posts.reduce((prev, cur, index) => {
-					return {
-						data: {
-							result: {
-								list: [...prev.data.result.list, ...cur.data.result.list],
+			// Promise.all(promises).then((posts) => {
+			// 	const exactQueryData = posts.reduce((prev, cur, index) => {
+			// 		return {
+			// 			data: {
+			// 				result: {
+			// 					list: [...prev.data.result.list, ...cur.data.result.list],
 
-							},
-							statistic: {
-								aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
-								aOffShelf: (prev.data.statistic && prev.data.statistic.aOffShelf) + (cur.data.statistic && cur.data.statistic.aOffShelf),
-								bOnShelf: (prev.data.statistic && prev.data.statistic.bOnShelf) + (cur.data.statistic && cur.data.statistic.bOnShelf),
-								bOffShelf: (prev.data.statistic && prev.data.statistic.bOffShelf) + (cur.data.statistic && cur.data.statistic.bOffShelf),
-								notExist: (prev.data.statistic && prev.data.statistic.notExist) + (cur.data.statistic && cur.data.statistic.notExist),
-								total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
-							}
-						}
-					}
-				})
+			// 				},
+			// 				statistic: {
+			// 					aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
+			// 					aOffShelf: (prev.data.statistic && prev.data.statistic.aOffShelf) + (cur.data.statistic && cur.data.statistic.aOffShelf),
+			// 					bOnShelf: (prev.data.statistic && prev.data.statistic.bOnShelf) + (cur.data.statistic && cur.data.statistic.bOnShelf),
+			// 					bOffShelf: (prev.data.statistic && prev.data.statistic.bOffShelf) + (cur.data.statistic && cur.data.statistic.bOffShelf),
+			// 					notExist: (prev.data.statistic && prev.data.statistic.notExist) + (cur.data.statistic && cur.data.statistic.notExist),
+			// 					total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
+			// 				}
+			// 			}
+			// 		}
+			// 	})})
+			getBatchSearch({ ...value, accoutName: total }).then(({ data }) => {
 				const exactQueryDataUpdate = {
-					list: exactQueryData.data.result.list,
-					...exactQueryData.data
+					list: data.result.list,
+					...data
 				}
 				this.setState({
 					loading: false,
@@ -172,7 +173,7 @@ class AccountListBatch extends Component {
 					exactQueryData: exactQueryDataUpdate,
 					searchValue: value
 				})
-				addSelectExactQuery(exactQueryData.data.result.list.filter(one => one.isSelected == 1).map(one => one.accountId))
+				addSelectExactQuery(data.result.list.filter(one => one.isSelected == 1).map(one => one.accountId))
 			})
 		}
 	}
