@@ -35,7 +35,6 @@ export default class SortGroup extends Component {
 		this.state = {
 			sort: keyword ? {} : (sort || {}),
 		}
-		console.log("TCL: SortGroup -> constructor -> sort", sort)
 		this.setSort.bind(this)
 		this.dataToParams.bind(this)
 		this.handleChange.bind(this)
@@ -58,7 +57,7 @@ export default class SortGroup extends Component {
 		return { accountSort: (clear ? undefined : sort) }
 	}
 	isHighlight = (sort, type) => {
-		return Object.keys(sort) && Object.keys(sort)[0] && Object.keys(sort)[0].split(':')[0] == type
+		return Object.values(type).filter(one => Object.keys(sort)[0] == one.value).length > 0
 	}
 	render() {
 		const { sorter = {} } = this.props
@@ -74,9 +73,9 @@ export default class SortGroup extends Component {
 		return <div className='sorter-container'>
 			{buttons.map(({ field, title, tip }) =>
 				<SortBtn key={field} tip={tip} field={field} title={title} sort={sort[field]} onChange={this.handleChange} />)}
-			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} isHighlight={this.isHighlight(sort, 'defaultQuotePriceDiscount')} /> */}
+			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} isHighlight={this.isHighlight(sort, priceGoodBadList)} /> */}
 			<SortCascader list={more} seletedText='更多排序' {...propsSortCascader}
-				isHighlight={this.isHighlight(sort, 'skuOpenQuotePrice')} />
+				isHighlight={this.isHighlight(sort, more)} />
 		</div>
 	}
 }
