@@ -78,13 +78,13 @@ export const getOtherAllAvg = (value) => {
 export const getPriceGoodBad = (value) => {
 	let text = ""
 	if (value < 1) {
-		text = `${numeral(value * 10).format('0.0')}折`
+		text = <div className='red-pink'>{numeral(value * 10).format('0.0')}折</div>
 	}
 	else if (value == 1) {
-		text = '平价'
+		text = <div className='gray-ping'>平价</div>
 
 	} else if (value > 1 || value == 1) {
-		text = <div>高{value * 100 > 1000 ? '999%+' : numeral(value - 1).format('0%')}</div>
+		text = <div className='green-yellow'>高{value * 100 > 1000 ? '999%+' : numeral(value - 1).format('0%')}</div>
 	}
 	return value ? <MarkMessage text={<div className='price-good-bad'>{text}</div>}  {...messageInfo['descriptionDiscoun']} /> : null
 }
