@@ -124,7 +124,7 @@ class ExampleTable extends Component {
 			isShow && isUP ? <div className='example-table'>
 				<a onClick={this.onOK} ><span className='bold-font'>查看[渠道价][刊例价]</span></a>
 				<Modal
-					title="渠道刊例"
+					title="查看[渠道价][刊例价]"
 					visible={visible}
 					onOk={this.onClose}
 					onCancel={this.onClose}
