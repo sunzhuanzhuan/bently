@@ -27,7 +27,8 @@ class ExampleTable extends Component {
 	}
 	render() {
 		const { isFamous, ISWEiXin, data, dataTimeNew } = this.props
-		const isShow = data.filter(one => (one.defaultQuotePriceDiscount1 > 0) || (one.defaultQuotePriceDiscount2 > 0))
+		const isShow = data.filter(one => (one.defaultQuotePriceDiscount1 > 0) || (one.defaultQuotePriceDiscount2 > 0)).length > 0
+		const isUP = data.filter(one => one.productOnShelfStatus == 1).length > 0
 		const childrenColumns = [
 
 			{
@@ -37,7 +38,7 @@ class ExampleTable extends Component {
 				align: 'center',
 				render: (text, record) => {
 					return (record.productOnShelfStatus == 1 ? <div className='flex-betwwen'>{text}
-						{getPriceGoodBad(record.defaultQuotePriceDiscount1)}</div> : '-')
+						{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}</div> : '-')
 				}
 			},
 			{
@@ -69,7 +70,7 @@ class ExampleTable extends Component {
 				align: 'center',
 				render: (text, record) => {
 					return record.productOnShelfStatus == 1 ? <div className='flex-betwwen'>{text}
-						{getPriceGoodBad(record.defaultQuotePriceDiscount2)}</div> : '-'
+						{getPriceGoodBad(record.defaultQuotePriceDiscount2, record.productOnShelfStatus == 1)}</div> : '-'
 				}
 			},
 			{
@@ -120,7 +121,7 @@ class ExampleTable extends Component {
 		const columns = ISWEiXin && isFamous == 1 ? WeixinIsFamous1 : WeixinIsFamous2
 
 		return (
-			isShow.length > 0 ? <div className='example-table'>
+			isShow && isUP ? <div className='example-table'>
 				<a onClick={this.onOK} ><span className='bold-font'>查看[渠道价][刊例价]</span></a>
 				<Modal
 					title="渠道刊例"
