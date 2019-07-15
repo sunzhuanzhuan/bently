@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Modal, Button, Spin } from 'antd';
 import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
+import { getPriceGoodBad } from "./unit";
 class ExampleTable extends Component {
 	constructor(props) {
 		super(props);
@@ -35,7 +36,8 @@ class ExampleTable extends Component {
 				key: 'price1',
 				align: 'center',
 				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? text : '-'
+					return (record.productOnShelfStatus == 1 ? <div className='flex-betwwen'>{text}
+						{getPriceGoodBad(record.defaultQuotePriceDiscount1)}</div> : '-')
 				}
 			},
 			{
@@ -66,7 +68,8 @@ class ExampleTable extends Component {
 				key: 'price2',
 				align: 'center',
 				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? text : '-'
+					return record.productOnShelfStatus == 1 ? <div className='flex-betwwen'>{text}
+						{getPriceGoodBad(record.defaultQuotePriceDiscount2)}</div> : '-'
 				}
 			},
 			{
@@ -117,14 +120,15 @@ class ExampleTable extends Component {
 		const columns = ISWEiXin && isFamous == 1 ? WeixinIsFamous1 : WeixinIsFamous2
 
 		return (
-			isShow.length > 0 ? <div style={{ paddingTop: 6, flex: 'none' }}>
-				<a onClick={this.onOK} >查看【渠道价】【刊例价】</a>
+			isShow.length > 0 ? <div className='example-table'>
+				<a onClick={this.onOK} ><span className='bold-font'>查看[渠道价][刊例价]</span></a>
 				<Modal
 					title="渠道刊例"
 					visible={visible}
 					onOk={this.onClose}
 					onCancel={this.onClose}
 					footer={null}
+					width={700}
 				>
 					<Spin spinning={loading}>
 						{isFamous == 1 ? <div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：{dataTimeNew}<MarkMessage {...messageInfo['exampleTable']} />
