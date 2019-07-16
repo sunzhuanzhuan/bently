@@ -166,7 +166,7 @@ class TreeTransfer extends Component {
 		if (selectedKeys.length > 10) {
 			message.error("不能超过10个条件")
 		} else {
-			onChange && onChange([...checkedKeys])
+			onChange && onChange([...selectedKeys])
 			onOkClick && onOkClick({ optionsNames })
 		}
 
