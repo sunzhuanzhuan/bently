@@ -10,19 +10,26 @@ export default class SortCascader extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			isDrop: false
+			isDrop: false,
+			moreText: props.seletedText
 		}
 	}
 
 	changeMoreText = (value, selectedOptions) => {
+
+		const text = selectedOptions[0].label + selectedOptions[1].label
 		let valueArray = selectedOptions.map(o => o.value)
+		this.setState({
+			moreText: text
+		})
 		this.props.setSort({ sort: { [valueArray[0]]: valueArray[1] } })
 		this.props.dataToParams(valueArray[0], valueArray[1])
 	}
 
 	render() {
-		const { seletedText, list = [], sort, isHighlight } = this.props
-		const selectOption = <span title={seletedText} className='sorter-more-sort'><span>{seletedText}</span> <Icon type={this.state.isDrop ? "up" : "down"} /></span>
+		const { list = [], sort, isHighlight, seletedText } = this.props
+		const { moreText } = this.state
+		const selectOption = <span title={isHighlight ? moreText : seletedText} className='sorter-more-sort'><span>{isHighlight ? moreText : seletedText}</span> <Icon type={this.state.isDrop ? "up" : "down"} /></span>
 		return <div className='sorter-container'>
 			{list.length ? <Cascader
 				onChange={this.changeMoreText}

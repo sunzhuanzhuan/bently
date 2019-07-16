@@ -8,10 +8,28 @@
     font-size: 12px;
 }
 
+.flex-betwwen {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.example-table {
+    padding-top: 6;
+    flex: none
+}
+
+.bold-font {
+    font-weight: 500;
+    color: #108EE9;
+}
+
 .simple-tables-container-left,
 .simple-tables-container-right {
     vertical-align: top;
     display: block;
+    //transform: scale(0.9);
+    //min-width: 60%;
 
     .ant-table-wrapper {
         display: block;
@@ -124,8 +142,28 @@
 
 
 .price-good-bad {
-    border: 1px solid #ccc;
-    padding: 3px 2px 0px;
     font-size: 12px;
+    padding: 4px 0px 0px 2px;
     margin-left: auto;
+}
+
+.red-pink {
+    .price-good-bad;
+    padding: 0px 2px;
+    background: rgba(232, 22, 22, 0.14);
+    color: #D0021B;
+}
+
+.green-yellow {
+    .price-good-bad;
+    padding: 0px 2px;
+    color: #417505;
+    background: rgba(126, 211, 33, 0.29);
+}
+
+.gray-ping {
+    .price-good-bad;
+    padding: 0px 2px;
+    color: #666666;
+    background: rgba(119, 119, 119, 0.29);
 }

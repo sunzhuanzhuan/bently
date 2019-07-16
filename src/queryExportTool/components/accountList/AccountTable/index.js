@@ -183,8 +183,8 @@ class AccountTable extends Component {
 				</div>
 			</div>,
 			dataIndex: 'name',
-			render: (text, record) => {
-				return <MainItem accountListItem={record} setModalContent={this.setModalContent} />
+			render: (text, record,index) => {
+				return <MainItem accountListItem={record} setModalContent={this.setModalContent} isPreloading={index < 4} />
 			}
 		}];
 

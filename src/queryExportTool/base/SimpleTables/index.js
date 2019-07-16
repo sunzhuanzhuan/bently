@@ -39,9 +39,11 @@ export default class SimpleTables extends Component {
 			align: 'center',
 			render: (text, record) => {
 				return <div className='flex-around'>
-					<div><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='oneUnivalent' />
+					<div><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)}
+						type="1" productOnShelfStatus={record.productOnShelfStatus}
+						format='oneUnivalent' />
 					</div>
-					{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1)} */}
+					{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
 				</div>
 			}
 		}]
@@ -57,11 +59,11 @@ export default class SimpleTables extends Component {
 				render: (text, record) => {
 					return <div className='flex-around'>
 						<div>
-							<ValueStyle value={numeral(record.price2).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' />
+							<ValueStyle value={numeral(record.price2).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' type="1" productOnShelfStatus={record.productOnShelfStatus} />
 						</div>
-						{/* 
-							{getPriceGoodBad(record.defaultQuotePriceDiscount2)}
-						 */}
+
+						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount2, record.productOnShelfStatus == 1)} */}
+
 					</div>
 				}
 			}],
@@ -108,9 +110,9 @@ export default class SimpleTables extends Component {
 					return <div className='flex-around'>
 						<div> <span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" /></span>
 						</div>
-						{/* 
-							{getPriceGoodBad(record.defaultQuotePriceDiscount2)}
-						 */}
+
+						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
+
 					</div>
 				}
 			}],
@@ -129,9 +131,9 @@ export default class SimpleTables extends Component {
 				width: "40%",
 				render: (text, record) => {
 					return <div className='flex-around'>
-						<div><span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' /></span></div>
-						{/* 
-						{getPriceGoodBad(record.defaultQuotePriceDiscount2)} */}
+						<div><span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' type="1" productOnShelfStatus={record.productOnShelfStatus} /></span></div>
+
+						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
 
 					</div>
 				}

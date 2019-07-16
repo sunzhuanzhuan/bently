@@ -208,11 +208,10 @@ class AccountTableSelect extends Component {
 				</div>
 			</div>,
 			dataIndex: 'name',
-
-			render: (text, record) => {
+			render: (text, record, index) => {
 				return record.not_exist == 1 ?
 					<NoExist name={record.sns_name || record.account_id || record.sns_id} />
-					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} actions={actions} />
+					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} actions={actions} isPreloading={index < 4} />
 			}
 		}];
 		return (

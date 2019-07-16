@@ -25,7 +25,7 @@ export const getQuoteNumber = (value) => {
 export const getUnitPrice = (value) => {
 	if (value) {
 		if (0 < value && value < 0.1) {
-			return "不足0.1"
+			return <div style={{ fontSize: 12, transform: "scale(0.9)" }}>不足0.1</div>
 		} else {
 			return value.toFixed(1)
 		}
@@ -75,17 +75,17 @@ export const getOtherAllAvg = (value) => {
 		return "-"
 	}
 }
-export const getPriceGoodBad = (value) => {
+export const getPriceGoodBad = (value, isShow) => {
 	let text = ""
 	if (value < 1) {
-		text = `${numeral(value * 10).format('0')}折`
+		text = <div className='red-pink'>{numeral(value * 10).format('0.0')}折</div>
 	}
 	else if (value == 1) {
-		text = '平价'
+		text = <div className='gray-ping'>平价</div>
 
 	} else if (value > 1 || value == 1) {
-		text = <div>高{value * 100 > 1000 ? '999%+' : numeral(value).format('0%')}</div>
+		text = <div className='green-yellow'>高{value * 100 > 1000 ? '999%+' : numeral(value - 1).format('0%')}</div>
 	}
-	return value ? <MarkMessage text={<div className='price-good-bad'>{text}</div>}  {...messageInfo['descriptionDiscoun']} /> : null
+	return value && isShow ? <MarkMessage text={<div className='price-good-bad'>{text}</div>}  {...messageInfo['descriptionDiscoun']} /> : null
 }
 
