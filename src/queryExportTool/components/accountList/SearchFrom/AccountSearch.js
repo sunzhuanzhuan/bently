@@ -177,9 +177,9 @@ class AccountSearch extends React.Component {
 			search: "",
 		});
 		await this.onFilterCommon && this.onFilterCommon.reset()
-		await this.accountListort.reset(true)
+
 		//查询数据
-		this.onFilterSearch({}, value)
+		this.onFilterSearch(this.accountListort.reset(true), value)
 	}
 	isShowMoresSet = () => {
 		const { isShowMore } = this.state
