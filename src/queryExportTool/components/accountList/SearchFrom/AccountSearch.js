@@ -103,7 +103,7 @@ class AccountSearch extends React.Component {
 				selectedItems: {}
 			})
 		}
-		this.props.onFilterSearch({ ...params, ...values, searchSource: searchSource })
+		this.props.onFilterSearch({ ...params, ...values, searchSource: searchSource || 1 })
 	}
 
 	batchUpdateSelectedItems = (selectedItems) => {
