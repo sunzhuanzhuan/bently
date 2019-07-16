@@ -346,6 +346,7 @@ export default class FilterCommon extends React.Component {
 					overlayStyle={{ width: 600, height: 500 }}
 					onVisibleChange={this.onVisibleChange}
 					visible={this.state.moreFilterVisible}
+					key={JSON.stringify(selectedItems)}
 					content={
 						<MoreFilter
 							autoAdjustOverflow={false}
