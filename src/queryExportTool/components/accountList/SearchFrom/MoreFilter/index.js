@@ -119,7 +119,6 @@ class MoreFilter extends Component {
 		delete this.selectedItems[id]
 	}
 	reset = () => {
-		console.log('=======进来溜溜==');
 		this.selectedItems = {};
 	}
 
