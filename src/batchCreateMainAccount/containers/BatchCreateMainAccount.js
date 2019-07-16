@@ -182,12 +182,12 @@ class BatchCreateMainAccount extends Component {
 							type={this.state.type}
 						></Content>
 					</TabPane>
-					<TabPane tab="主账号批量处理结果" key="2">
+					{this.props.authVisibleList['batch.operate.edit.account.publicationPrice'] == true ? null : <TabPane tab="主账号批量处理结果" key="2">
 						<DealResult
 							tab2Update={this.state.tab2Update}
 							cancelTab2Update={this.cancelTab2Update}
 						/>
-					</TabPane>
+					</TabPane>}
 					<TabPane tab="账号批量处理结果" key="3">
 						<NewDealResult
 							tab3Update={this.state.tab3Update}
