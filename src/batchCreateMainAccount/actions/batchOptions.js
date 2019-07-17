@@ -50,6 +50,12 @@ export const {
 } = createHttpAction('saveBatchOperate', Interface.saveBatchOperate, {
 	method: 'post'
 });
+// 刊例价提交接口
+export const {
+	savePublication
+} = createHttpAction('savePublication', Interface.savePublication, {
+	method: 'post'
+});
 
 //获取批量入库平台列表
 export const {

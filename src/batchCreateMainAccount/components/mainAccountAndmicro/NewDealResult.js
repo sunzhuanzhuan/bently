@@ -246,7 +246,7 @@ class NewDealResult extends Component {
 				title: '操作',
 				align: 'center',
 				render: (text, record) => {
-					return record.status == "3" ?
+					return record.downloadUrl ?
 						<a onClick={() => this.downloadDealResult(record.downloadUrl)}>下载处理结果</a> : null
 				}
 			}
