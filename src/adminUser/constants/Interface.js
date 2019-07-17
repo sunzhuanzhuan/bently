@@ -17,6 +17,6 @@ export default {
 		resetAuthorizations: '/rbac/resetAuthorizations',//清空缓存
 		getUserRoleAssignments: '/rbac/getUserRoleAssignments',//查看权限
 		getUser: '/user/changeUser', //切换用户信息
-		getSupportSeller: 'user/getUserList' //获取支持的销售
+		getSupportSeller: 'user/getSupportSeller' //获取支持的销售
 	}
 }

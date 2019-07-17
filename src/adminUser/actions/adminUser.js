@@ -217,6 +217,7 @@ export const getUserRoleAssignments = (values) => (dispatch) => {
 //get 当岗位类型选择了销售支持，获取支持的销售列表
 export const getSupportSeller = (values) => (dispatch) => {
 	return api.get(Interface.adminUser.getSupportSeller, { params : values}).then((response) => {
+		console.log(response)
 		const { data = []} = response;
 		dispatch({
 			type : types.GET_SUPPORT_SELLER,

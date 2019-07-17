@@ -109,18 +109,21 @@ class AddAdminUser extends Component {
 		//actions.getJobTypeList()
 		if (isEditAciton) {
 			//修改查询岗位
-			const { department_id, job_type_id, jobs_id } = adminUserOne
+			const { department_id=[], job_type_id=[], jobs_id, support_seller_id=[],user_group_id } = adminUserOne
 
-			if (JSON.stringify(department_id) !== '[]' && JSON.stringify(job_type_id) !== '[]') {
+			if (department_id.length !== 0 && job_type_id.length !== 0) {
 				actions.getJobList({ ownership_id: department_id, is_show_department: 1, job_type_id: job_type_id, unused: adminUserOne && adminUserOne.user_id || 0, }).then(() => {
 					this.setState({
 						deptvalue: department_id,
 						jobvalue: jobs_id,
-						serchMemberParams: { user_group_id: adminUserOne.user_group_id }
+						serchMemberParams: { user_group_id }
 					})
 				}).catch((error) => {
 					message.error(error.errorMsg)
 				})
+			}
+			if(support_seller_id.length > 0){
+				this.props.actions.getSupportSeller({user_group_id})
 			}
 			const selectData = { user_group_id: adminUserOne.user_group_id }
 			await actions.getSelectMemberp(selectData)
@@ -254,7 +257,9 @@ class AddAdminUser extends Component {
 		}
 	}
 	render() {
-		const { form, adminUserOne,
+		let { isSaleSupport } = this.state;
+		
+		const { form, adminUserOne={},
 			isEditAciton,
 			departmentList,
 			jobList,
@@ -264,7 +269,10 @@ class AddAdminUser extends Component {
 			selectMemberpList } = this.props;
 		const { getFieldDecorator } = form;
 		//isTrue
-		const { result, isTrue, deptvalue, jobvalue, isSaleSupport } = this.state;
+		let {support_seller_id = [] } = adminUserOne;
+		
+
+		const { result, isTrue, deptvalue, jobvalue } = this.state;
 		const children = result.map((email) => {
 			return <Option key={email}>{email}</Option>;
 		});
@@ -285,6 +293,7 @@ class AddAdminUser extends Component {
 			onChange: this.jobChange,
 			searchPlaceholder: '请选择岗位',
 		}
+		isSaleSupport = isSaleSupport || support_seller_id.length > 0
 		return (
 			<span>
 				{isEditAciton ?
@@ -598,7 +607,7 @@ class AddAdminUser extends Component {
 						{
 							/*isSaleSupport 如果用户组为销售支持，增加选择支持的销售列表*/
 							isSaleSupport && <FormItem label="支持销售" {...formItemLayout}>
-								{getFieldDecorator('support_seller', {
+								{getFieldDecorator('support_seller_id', {
 									initialValue: adminUserOne && adminUserOne.support_seller_id,
 									rules: [{ required: true, message: '请选择支持的销售' }],
 								})(
@@ -612,7 +621,7 @@ class AddAdminUser extends Component {
 										allowClear
 										optionFilterProp='children'
 									>
-										{supportSeller && supportSeller.map(one => <Option key={one.id} value={one.id}>{one.real_name}</Option>)}
+										{supportSeller && supportSeller.map(one => <Option key={one.user_id} value={one.user_id}>{one.real_name}</Option>)}
 									</Select>
 								)}
 							</FormItem>

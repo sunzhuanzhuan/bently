@@ -140,7 +140,7 @@ const userRoleAssignments = (state = [], action) => {
 const supportSeller = (state = [], action) => {
 	switch( action.type){
 		case types.GET_SUPPORT_SELLER:
-			return action.payload.data && action.payload.data.rows || []
+			return action.payload.data
 		default:
 			return state;
 	}
