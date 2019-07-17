@@ -73,7 +73,7 @@ export default class SortGroup extends Component {
 		return <div className='sorter-container'>
 			{buttons.map(({ field, title, tip }) =>
 				<SortBtn key={field} tip={tip} field={field} title={title} sort={sort[field]} onChange={this.handleChange} />)}
-			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} isHighlight={this.isHighlight(sort, priceGoodBadList)} /> */}
+			<SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} isHighlight={this.isHighlight(sort, priceGoodBadList)} />
 			<SortCascader list={more} seletedText='更多排序' {...propsSortCascader}
 				isHighlight={this.isHighlight(sort, more)} />
 		</div>
