@@ -44,7 +44,7 @@ export const ChooseType = (props) => {
 						}
 						{
 							props.authVisibleList['batch.operate.edit.account.price'] == true ?
-								<Button type="primary" className="accountPutAttribute-btn"
+								<Button style={{marginRight: 10}} type="primary" className="accountPutAttribute-btn"
 									onClick={() => props.editAccountPrice()}
 								>修改账号报价</Button> : null
 						}
