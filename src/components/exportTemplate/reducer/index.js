@@ -9,6 +9,7 @@ import {
 	changeColumnsAlias,
 	resetColumnsToDefault,
 	clearColumns,
+	selectPriceType,
 	getTemplateInfo_success
 } from '../actions'
 
@@ -39,9 +40,9 @@ function resetColumns(data) {
 			"sources": {
 				$apply: sources => {
 					return Object.entries(sources).reduce((obj, [key, item]) => {
-						obj[key] = {...item, alias: undefined}
+						obj[key] = { ...item, alias: undefined }
 						return obj
-					},{})
+					}, {})
 				}
 			},
 			"choosed_ids": { $set: default_ids },
@@ -57,7 +58,8 @@ function handleColumnsWrapToMap(data) {
 		obj[group['group_type']] = {
 			...group,
 			...handleColumns([...group['all_columns']]),
-			selected: group['choosed_ids']
+			selected: group['choosed_ids'],
+			priceTypes: group['sku_price_type'] || [1]
 		}
 		return obj
 	}, {})
@@ -92,6 +94,14 @@ export const templateAllColumns = handleActions({
 			[groupId]: {
 				"choosed_ids": { $set: [...value] },
 				"selected": { $set: [...value] }
+			}
+		})
+	},
+	[selectPriceType]: (state, action) => {
+		let { groupId, priceTypes } = action.payload
+		return update(state, {
+			[groupId]: {
+				"priceTypes": { $set: [...priceTypes] }
 			}
 		})
 	},

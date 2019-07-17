@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import './ChooseType.less'
 
 export const ChooseType = (props) => {
+	console.log(props.authVisibleList, '====????');
 	return (
 		<div>
 			{
@@ -15,7 +16,8 @@ export const ChooseType = (props) => {
 			{
 				props.authVisibleList['batch.operate.add.micro.put'] == true ||
 					props.authVisibleList['batch.operate.add.account'] == true ||
-					props.authVisibleList['batch.operate.is.online'] == true ?
+					props.authVisibleList['batch.operate.is.online'] == true ||
+				props.authVisibleList['batch.operate.edit.account.publicationPrice'] == true ?
 					<section>
 						<h4 className="main-account-batch-option main-account-batch-option-marginTop">账号批量操作</h4>
 						{
@@ -42,9 +44,15 @@ export const ChooseType = (props) => {
 						}
 						{
 							props.authVisibleList['batch.operate.edit.account.price'] == true ?
-								<Button type="primary" className="accountPutAttribute-btn"
+								<Button style={{marginRight: 10}} type="primary" className="accountPutAttribute-btn"
 									onClick={() => props.editAccountPrice()}
 								>修改账号报价</Button> : null
+						}
+						{
+							(props.authVisibleList['batch.operate.edit.account.price'] == true || props.authVisibleList['batch.operate.edit.account.publicationPrice'] == true) ?
+								<Button type="primary" className={props.authVisibleList['batch.operate.edit.account.publicationPrice'] == true ? "" : "accountPutAttribute-btn"}
+									onClick={() => props.editAccountPriceFull()}
+								>更新刊例价</Button> : null
 						}
 					</section> : null
 			}

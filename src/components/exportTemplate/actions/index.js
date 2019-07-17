@@ -36,6 +36,8 @@ export const {
 export const selectColumns = createAction('selectColumns')
 // 修改别名
 export const changeColumnsAlias = createAction('changeColumnsAlias')
+// 修改价格类型
+export const selectPriceType = createAction('selectPriceType')
 
 // 重置
 export const resetColumnsToDefault = createAction('resetColumnsToDefault')
