@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Input, Form, Select, Modal, Button, AutoComplete, TreeSelect, message } from 'antd';
 import { addAdminUserList, editAdminUserList, getUserGroup, getSelectMemberp, getJobList, getJobTypeList, cleanJobList, cleanSelectMemberp, getSupportSeller } from '../actions/adminUser'
+import { SaleSupportGroupId } from '../constants'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TreeNode = TreeSelect.TreeNode;
@@ -23,6 +24,7 @@ const TreeNode = TreeSelect.TreeNode;
 class AddAdminUser extends Component {
 	constructor(props) {
 		super(props)
+		const { adminUserOne={} } = props;
 		this.state = {
 			visible: false,
 			parentUserData: [],
@@ -31,9 +33,8 @@ class AddAdminUser extends Component {
 			isTrue: false,
 			deptvalue: undefined,
 			jobvalue: undefined,
-			isSaleSupport: false,  //用户组是否是销售支持
+			isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId,  //用户组是否是销售支持
 		}
-
 	}
 	//确认按钮提交数据
 	handleOk = () => {
@@ -149,7 +150,6 @@ class AddAdminUser extends Component {
 	//用户组带的下拉选项
 	onselectMember = async (type, value) => {
 		const { serchMemberParams } = this.state;
-		const SaleSupportGroupId = 30;
 		const isSaleSupport = value == SaleSupportGroupId;
 		if (type === 'group') {
 			this.setState({
@@ -293,7 +293,7 @@ class AddAdminUser extends Component {
 			onChange: this.jobChange,
 			searchPlaceholder: '请选择岗位',
 		}
-		isSaleSupport = isSaleSupport || support_seller_id.length > 0
+		// isSaleSupport = isSaleSupport || support_seller_id.length > 0
 		return (
 			<span>
 				{isEditAciton ?

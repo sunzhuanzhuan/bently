@@ -6,6 +6,7 @@ const CommonModal = (props) => {
 	return (
 		<Modal
 			visible={visible}
+			destroyOnClose={true}
 			title={title}
 			okText={okText}
 			cancelText={"取消"}

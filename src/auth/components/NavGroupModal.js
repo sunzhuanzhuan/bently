@@ -6,6 +6,7 @@ const NavGroupModal = (props) => {
 	return (
 		<Modal
 			visible={visible}
+			destroyOnClose={true}
 			title={type === "add" ? '添加导航' : '修改导航'}
 			okText={type === "add" ? '确认添加' : '确认修改'}
 			width='380px'
