@@ -12,6 +12,7 @@ const getVideo = (isStart) => {
 		</div>
 	}
 }
+
 const getLine = (title, content) => {
 	const styleLine = {
 		width: 100,
@@ -25,6 +26,14 @@ const getLine = (title, content) => {
 		{content}
 	</div >
 }
+
+const nounDescription = <div>
+	<div><b>&nbsp;&nbsp;名词说明：</b></div>
+	<div>【参考报价】：微播易参考报价</div>
+	<div>【渠道价】：博主给某个渠道方的底价</div>
+	<div>【刊例价】：博主公开的底价 </div>
+	<div> &nbsp;&nbsp;ps：以上报价均为参考价</div>
+</div>
 export default {
 	snbt: { title: "SNBT值", content: "SNBT指的是社交媒体账号的影响力指数，是微播易的发明专利（专利名称：广告精准投放方法和系统、专利号：ZL2015 1 0958772.0）的简称，数值范围：0~100，数值越高表示账号质量越好。" },
 	yudu: { title: "真实阅读率", content: "指的是账号真实阅读比例，数值范围：0~100%，数值越高表示账号质量越好。" },
@@ -107,40 +116,29 @@ export default {
 			差评：响应速度+配合度+效果满意度 评分求和  小于等于6分<br />
 		</div>
 	},
+	isShielding: {
+		title: "",
+		content: '该参考报价为含防屏蔽的报价'
+	},
+	exampleTable: {
+		title: "",
+		content: nounDescription
+	},
 	descriptionDiscoun: {
 		title: '',
 		content: <div>
 			<div><b>&nbsp;&nbsp;规则说明：</b></div>
-			<div>{`【参考报价】<【刊例价】则标记【优势（例：7折）】`}</div>
-			<div>{`【参考报价】>【刊例价】则标记【劣势（例：高10%）】`}</div>
-			<div>【参考报价】=【刊例价】则标记【平价】</div>
-			<div><b>&nbsp;&nbsp;名词说明：</b></div>
-			<div>【参考报价】：微播易参考报价</div>
-			<div>【刊例价】：博主给三方平台的底价</div>
-			<div> &nbsp;&nbsp;ps：以上报价均为参考价</div>
-		</div>
-	},
-	isShielding: {
-		title: "",
-		content: '该参考报价为含防屏蔽的报价'
-
-	},
-	exampleTable: {
-		title: "名词说明",
-		content: <div>
-			{getLine('【参考报价】：', '微播易参考报价')}
-			{getLine('【刊例价】：', '博主给三方平台的低价')}
-			{getLine('【渠道价】：', '博主授权渠道方，给与渠道方的低价')}
+			<div>{`【参考报价】<【渠道价/刊例价】则标记【优势（例：7折）】`}</div>
+			<div>{`【参考报价】>【渠道价/刊例价】则标记【劣势（例：高10%）】`}</div>
+			<div>【参考报价】=【渠道价/刊例价】则标记【平价】</div>
+			{nounDescription}
 		</div>
 	},
 	defaultQuotePriceDiscount: {
 		title: '',
 		content: <div>
-			<div>【参考价】＜【刊例价】则为优势报价</div>
-			<div><b>&nbsp;&nbsp;名词说明：</b></div>
-			<div>【参考报价】：微播易参考报价</div>
-			<div>【刊例价】：博主给三方平台的底价</div>
-			<div> &nbsp;&nbsp;ps：以上报价均为参考价</div>
+			<div>【参考价】＜【渠道价/刊例价】则为优势报价</div>
+			{nounDescription}
 		</div>
 	},
 
