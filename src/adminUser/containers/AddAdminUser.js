@@ -14,13 +14,6 @@ const TreeNode = TreeSelect.TreeNode;
  * 本js的用户组下拉框，选择不同项会返回不同数据，根据数据返回显示上级用户 销售大区什么的 （估计2期要给本js销掉本js就能瘦好多哈哈哈）
  * 本js的修改数据是通过list的record获取过来的
  */
-
-// const selectFilterOption = (inputValue, option, type='en')=>{
-// 	const _optionsName = option.props.children.toLowerCase();
-// 	inputValue = inputValue.toLowerCase();
-// 	return _optionsName.indexOf(inputValue) !== -1
-// }
-
 class AddAdminUser extends Component {
 	constructor(props) {
 		super(props)
@@ -35,6 +28,12 @@ class AddAdminUser extends Component {
 			jobvalue: undefined,
 			isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId,  //用户组是否是销售支持
 		}
+	}
+	componentWillReceiveProps(nextProps){
+		const { adminUserOne = {} } = nextProps;
+		this.setState({
+			isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId
+		})
 	}
 	//确认按钮提交数据
 	handleOk = () => {
@@ -110,7 +109,7 @@ class AddAdminUser extends Component {
 		//actions.getJobTypeList()
 		if (isEditAciton) {
 			//修改查询岗位
-			const { department_id=[], job_type_id=[], jobs_id, support_seller_id=[],user_group_id } = adminUserOne
+			const { department_id = [], job_type_id = [], jobs_id, support_seller_id = [],user_group_id } = adminUserOne
 
 			if (department_id.length !== 0 && job_type_id.length !== 0) {
 				actions.getJobList({ ownership_id: department_id, is_show_department: 1, job_type_id: job_type_id, unused: adminUserOne && adminUserOne.user_id || 0, }).then(() => {
@@ -268,10 +267,7 @@ class AddAdminUser extends Component {
 			supportSeller,
 			selectMemberpList } = this.props;
 		const { getFieldDecorator } = form;
-		//isTrue
-		let {support_seller_id = [] } = adminUserOne;
 		
-
 		const { result, isTrue, deptvalue, jobvalue } = this.state;
 		const children = result.map((email) => {
 			return <Option key={email}>{email}</Option>;
@@ -283,17 +279,14 @@ class AddAdminUser extends Component {
 		const { data_for_parent_user = [], data_for_region, data_for_team } = selectMemberpList
 		//部门树形图参数
 		const deptProps = {
-			//value: deptvalue,
 			onChange: this.deptonChange,
 			searchPlaceholder: '请选择部门',
 		};
 		//岗位树形图参数
 		const jobProps = {
-			//value: jobvalue,
 			onChange: this.jobChange,
 			searchPlaceholder: '请选择岗位',
 		}
-		// isSaleSupport = isSaleSupport || support_seller_id.length > 0
 		return (
 			<span>
 				{isEditAciton ?
@@ -472,16 +465,6 @@ class AddAdminUser extends Component {
 							)}
 						</FormItem>
 						
-						{/* <Select
-								mode="multiple"
-								style={{ width: '100%' }}
-								placeholder="请选择部门"
-								onChange={this.deptChange}
-							>
-								{departmentList && departmentList.map(one => {
-										return <Option key={one.id} value={one.id}>{one.zh_name}</Option>
-									})} 
-							</Select>*/}
 						<FormItem label="岗位" {...formItemLayout}>
 							{getFieldDecorator('job_id', {
 								initialValue: jobvalue,
