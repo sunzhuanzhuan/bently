@@ -78,7 +78,8 @@ class FilterAdminUser extends Component {
 		// //添加按钮的可见权限
 		const admin_check_user = authVisibleList['admin.check.user']
 		const deptProps = {
-
+			showSearch:true,
+			treeNodeFilterProp:'title',
 			value: deptvalue,
 			onChange: this.deptonChange,
 			searchPlaceholder: '请选择部门',
@@ -137,6 +138,8 @@ class FilterAdminUser extends Component {
 					<FormItem label="岗位类型">
 						{getFieldDecorator('job_type_id')(
 							<Select
+								showSearch
+								optionFilterProp='children'
 								mode="multiple"
 								style={{ width: 240 }}
 								placeholder="请选择岗位类型"
