@@ -316,13 +316,13 @@ export const groupBySorter = {
 				}, {
 					field: 'followerCount',
 					title: '粉丝数'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
 				},
 				{
 					field: 'createdAt',
 					title: '入库时间'
+				}, {
+					field: 'skuOpenQuotePrice',
+					title: '参考报价'
 				}
 			],
 			priceGoodBadList: [
@@ -372,13 +372,13 @@ export const groupBySorter = {
 				}, {
 					field: 'followerCount',
 					title: '粉丝数'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
 				},
 				{
 					field: 'createdAt',
 					title: '入库时间'
+				}, {
+					field: 'skuOpenQuotePrice',
+					title: '参考报价'
 				}
 			],
 			priceGoodBadList: [
