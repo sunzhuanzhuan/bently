@@ -47,7 +47,7 @@ class ExampleTable extends Component {
 				key: 'channelPrice1',
 				align: 'center',
 				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? text : '-'
+					return record.productOnShelfStatus == 1 && text ? text : text === 0 ? text : '-'
 				}
 			},
 			{
@@ -56,7 +56,7 @@ class ExampleTable extends Component {
 				key: 'publicationPrice1',
 				align: 'center',
 				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? text : '-'
+					return record.productOnShelfStatus == 1 && text ? text : text === 0 ? text : '-'
 				}
 
 			},
@@ -79,7 +79,7 @@ class ExampleTable extends Component {
 				key: 'channelPrice2',
 				align: 'center',
 				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? text : '-'
+					return record.productOnShelfStatus == 1 && text ? text : text === 0 ? text : '-'
 				}
 			},
 			{
@@ -88,7 +88,7 @@ class ExampleTable extends Component {
 				key: 'publicationPrice2',
 				align: 'center',
 				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? text : '-'
+					return record.productOnShelfStatus == 1 && text ? text : text === 0 ? text : '-'
 				}
 
 			},
