@@ -84,7 +84,7 @@ export const getPriceGoodBad = (value, isShow) => {
 		text = <div className='gray-ping'>平价</div>
 
 	} else if (value > 1 || value == 1) {
-		text = <div className='green-yellow'>高{value * 100 > 1000 ? '999%+' : numeral(value - 1).format('0%')}</div>
+		text = <div className='green-yellow'>高{value * 100 > 1099 ? '999%+' : numeral(value - 1).format('0%')}</div>
 	}
 	return value && isShow ? <MarkMessage text={<div className='price-good-bad'>{text}</div>}  {...messageInfo['descriptionDiscoun']} /> : null
 }
