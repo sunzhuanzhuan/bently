@@ -31,9 +31,12 @@ class AddAdminUser extends Component {
 	}
 	componentWillReceiveProps(nextProps){
 		const { adminUserOne = {} } = nextProps;
-		this.setState({
-			isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId
-		})
+		const { user_group_id } = this.state;
+		if(adminUserOne.user_group_id === user_group_id){
+			this.setState({
+				isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId
+			})
+		}
 	}
 	//确认按钮提交数据
 	handleOk = () => {
@@ -92,7 +95,9 @@ class AddAdminUser extends Component {
 	}
 	//关闭弹窗
 	closeModal = () => {
-		this.setState({ visible: false, jobvalue: undefined, deptvalue: undefined, isSaleSupport:false })
+		const { adminUserOne={} } = this.props
+		const { user_group_id } = adminUserOne;
+		this.setState({ visible: false, jobvalue: undefined, deptvalue: undefined, isSaleSupport:false, user_group_id })
 		//this.props.actions.getJobList({ is_show_department: 1 })
 		this.props.form.resetFields()
 	}
@@ -162,7 +167,7 @@ class AddAdminUser extends Component {
 				parentId: '',
 				salesmanTeam: '',
 			});
-			this.setState({ isSaleSupport })
+			this.setState({ isSaleSupport, user_group_id:value })
 			isSaleSupport && this.props.actions.getSupportSeller({user_group_id: value});
 			
 		}
