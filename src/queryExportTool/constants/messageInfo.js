@@ -30,7 +30,7 @@ const getLine = (title, content) => {
 const nounDescription = <div>
 	<div><b>&nbsp;&nbsp;名词说明：</b></div>
 	<div>【参考价】：微播易参考报价</div>
-	<div>【渠道价】：博主授权渠道方，给渠道方底价</div>
+	<div>【渠道价】：博主授权渠道方，给渠道方的底价</div>
 	<div>【刊例价】：博主公开的底价 </div>
 	<div> &nbsp;&nbsp;ps：以上报价均为参考价</div>
 </div>
