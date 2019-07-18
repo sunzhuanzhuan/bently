@@ -64,12 +64,7 @@ export const SearchResultTable = (props) => {
 		align: "center",
 		key: 'mediaManager',
 		render: (text, record) => {
-			return <span>
-				<LazyLoad once overflow>
-					<MediaInfo userId={record.userId} isShowPopover={false} />
-				</LazyLoad>
-				{/* <MediaInfo userId={record.userId} isShowPopover={false} /> */}
-			</span>
+			return <MediaInfo userId={record.userId} agentInfo={record.agentInfo} isShowPopover={false} />
 		}
 	}, {
 		title: '上下架状态',
@@ -80,9 +75,9 @@ export const SearchResultTable = (props) => {
 			const { onShelfStatus = {} } = record
 			//const { bOffShelfReasonStrings = [], aOffShelfReasonStrings = [], bOnShelfStatus, aOnShelfStatus } = onShelfStatus
 			return <span>
-					<StatusAB status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStringList || []} title="A" />
-					&nbsp;&nbsp;<StatusAB status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStringList || []} title="B" />
-				</span>
+				<StatusAB status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStringList || []} title="A" />
+				&nbsp;&nbsp;<StatusAB status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStringList || []} title="B" />
+			</span>
 		}
 	}, {
 		title: '是否在库',
