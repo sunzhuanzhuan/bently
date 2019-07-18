@@ -49,6 +49,12 @@ class BatchCreateMainAccount extends Component {
 			type: "tab4"
 		})
 	}
+	//跳转Tab5-修改刊例价
+	jumpToTab5 = () => {
+		this.setState({
+			type: "tab5"
+		})
+	}
 	//创建主账号点击事件
 	createMainAccount = () => {
 		this.props.actions.resetdownloadLink()
@@ -84,6 +90,10 @@ class BatchCreateMainAccount extends Component {
 	//修改账号报价
 	editAccountPrice = () => {
 		this.jumpToTab4()
+	}
+	//更新刊例价
+	editAccountPriceFull = () => {
+		this.jumpToTab5()
 	}
 	//获取下载模板地址
 	getdownloadLink = () => {
@@ -166,16 +176,18 @@ class BatchCreateMainAccount extends Component {
 							changeMainAccount={this.changeMainAccount}
 							getNewDownloadLink={this.getNewDownloadLink}
 							editAccountPrice={this.editAccountPrice}
+							editAccountPriceFull={this.editAccountPriceFull}
 							instockPlatformList={instockPlatformList}
 							batchSkuPlatformList={batchSkuPlatformList}
+							type={this.state.type}
 						></Content>
 					</TabPane>
-					<TabPane tab="主账号批量处理结果" key="2">
+					{this.props.authVisibleList['batch.operate.edit.account.publicationPrice'] == true ? null : <TabPane tab="主账号批量处理结果" key="2">
 						<DealResult
 							tab2Update={this.state.tab2Update}
 							cancelTab2Update={this.cancelTab2Update}
 						/>
-					</TabPane>
+					</TabPane>}
 					<TabPane tab="账号批量处理结果" key="3">
 						<NewDealResult
 							tab3Update={this.state.tab3Update}

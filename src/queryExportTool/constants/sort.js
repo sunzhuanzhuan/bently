@@ -123,7 +123,7 @@ export const groupBySorter = {
 					'title': '原创',
 					'name': 'canOriginWrite'
 				},
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 			]
 		},
 		sorter: {
@@ -186,7 +186,7 @@ export const groupBySorter = {
 					'title': '可带@/话题/链接',
 					'name': 'isSupportTopicAndLink'
 				},
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 				// {
 				// 	'title': '原创',
 				// 	'name': 'canOrigin'
@@ -250,7 +250,7 @@ export const groupBySorter = {
 					'title': '原创',
 					'name': 'canOriginWrite'
 				},
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 			]
 		},
 		sorter: {
@@ -305,7 +305,7 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 			]
 		},
 		sorter: {
@@ -316,18 +316,26 @@ export const groupBySorter = {
 				}, {
 					field: 'followerCount',
 					title: '粉丝数'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
 				},
-				// {
-				// 	field: 'defaultQuotePriceDiscount',
-				// 	title: '参考报价价格优劣'
-				// }
-				// ,
 				{
 					field: 'createdAt',
 					title: '入库时间'
+				}, {
+					field: 'skuOpenQuotePrice',
+					title: '参考报价'
+				}
+			],
+			priceGoodBadList: [
+				{
+					value: 'defaultQuotePriceDiscount',
+					label: '参考报价',
+					children: [{
+						value: 'asc',
+						label: '优势从大到小'
+					}, {
+						value: 'desc',
+						label: '优势从小到大'
+					}]
 				}
 			],
 			default: { followerCount: 'desc' }
@@ -352,7 +360,7 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 
 			]
 		},
@@ -364,18 +372,26 @@ export const groupBySorter = {
 				}, {
 					field: 'followerCount',
 					title: '粉丝数'
+				},
+				{
+					field: 'createdAt',
+					title: '入库时间'
 				}, {
 					field: 'skuOpenQuotePrice',
 					title: '参考报价'
 				}
-				// ,
-				// {
-				// 	field: 'defaultQuotePriceDiscount',
-				// 	title: '参考报价价格优劣'
-				// }
-				, {
-					field: 'createdAt',
-					title: '入库时间'
+			],
+			priceGoodBadList: [
+				{
+					value: 'defaultQuotePriceDiscount',
+					label: '参考报价',
+					children: [{
+						value: 'asc',
+						label: '优势从大到小'
+					}, {
+						value: 'desc',
+						label: '优势从小到大'
+					}]
 				}
 			],
 			default: { followerCount: 'desc' }
