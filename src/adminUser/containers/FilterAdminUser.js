@@ -124,6 +124,11 @@ class FilterAdminUser extends Component {
 							<Input placeholder='请输入用户名' />
 						)}
 					</FormItem>
+					<FormItem label="真实姓名">
+						{getFieldDecorator('real_name')(
+							<Input placeholder='请输入真实姓名' />
+						)}
+					</FormItem>
 					<FormItem label="部门">
 						{getFieldDecorator('ownership_id')(
 							<TreeAdminSelect treeProps={deptProps} treelist={departmentList} />
