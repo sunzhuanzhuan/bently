@@ -124,7 +124,7 @@ class ExampleTable extends Component {
 			isShow && isUP ? <div className='example-table'>
 				<a onClick={this.onOK} ><span className='bold-font'>查看[渠道价][刊例价]</span></a>
 				<Modal
-					title="查看[渠道价][刊例价]"
+					title={<span>查看[渠道价][刊例价]<MarkMessage {...messageInfo['exampleTable']} /></span>}
 					visible={visible}
 					onOk={this.onClose}
 					onCancel={this.onClose}
@@ -132,7 +132,7 @@ class ExampleTable extends Component {
 					width={700}
 				>
 					<Spin spinning={loading}>
-						{isFamous == 1 ? <div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：{dataTimeNew}<MarkMessage {...messageInfo['exampleTable']} />
+						{isFamous == 1 ? <div style={{ textAlign: "center", margin: '0px 0px 10px ' }}>价格有效期至：{dataTimeNew}
 						</div> : null}
 						<Table
 							columns={columns}
