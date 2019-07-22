@@ -5,6 +5,7 @@ const CommonModal = (props) => {
 	const { visible, onCancel, onNew, type, onEdit, title, okText } = props;
 	return (
 		<Modal
+			maskClosable={false}
 			visible={visible}
 			destroyOnClose={true}
 			title={title}

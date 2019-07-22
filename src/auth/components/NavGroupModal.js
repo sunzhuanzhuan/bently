@@ -5,6 +5,7 @@ const NavGroupModal = (props) => {
 	const { visible, onCancel, onAdd, type, onEdit } = props;
 	return (
 		<Modal
+			maskClosable={false}
 			visible={visible}
 			destroyOnClose={true}
 			title={type === "add" ? '添加导航' : '修改导航'}
