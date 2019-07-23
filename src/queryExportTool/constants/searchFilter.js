@@ -91,21 +91,17 @@ export const mediaTypeOptions = [
 		"value": ""
 	},
 	{
-		"name": "草根",
+		"name": "未知",
 		"value": "1"
 	}, {
-		"name": "名人",
+		"name": "个人号",
 		"value": "2"
 	}, {
-		"name": "未知",
+		"name": "企业号",
 		"value": "3"
 	}, {
-		"name": "媒体",
+		"name": "内容号",
 		"value": "4"
-	},
-	{
-		"name": "个人",
-		"value": "5"
 	}
 ]
 
