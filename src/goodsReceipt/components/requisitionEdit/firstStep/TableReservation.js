@@ -47,7 +47,7 @@ class TableByType extends Component {
 			key: 'gr_order_status',
 			render: (text, record) => <div>
 				<div>{selectMap.applystateGR[(record.gr_order_status && record.gr_order_status || 0).toString()]}</div>
-				{record.gr_order_status == 2 ? <PopoverPure cannot_gr_reason={record.cannot_gr_reason} /> : null}
+				{record.gr_order_status == 2 ? <PopoverPure cannot_gr_reason={record.cannot_gr_reason || ['订单数据尚未内审通过，或未创建数据单']} /> : null}
 			</div>
 
 		}, {
