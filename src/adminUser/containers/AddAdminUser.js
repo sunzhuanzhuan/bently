@@ -597,7 +597,7 @@ class AddAdminUser extends Component {
 							isSaleSupport && <FormItem label="支持销售" {...formItemLayout}>
 								{getFieldDecorator('support_seller_id', {
 									initialValue: adminUserOne && adminUserOne.support_seller_id,
-									rules: [{ required: true, message: '请选择支持的销售' }],
+									rules: [{ required: false, message: '请选择支持的销售' }],
 								})(
 									<Select
 										showSearch
