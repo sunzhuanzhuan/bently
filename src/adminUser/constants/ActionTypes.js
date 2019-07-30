@@ -14,6 +14,7 @@ export const CLEAN_JOB_LIST = 'CLEAN_JOB_LIST'//清除岗位信息
 export const CLEAN_SELECT_MEMBERP = 'CLEAN_SELECT_MEMBERP'//清除销售大区列表
 export const GET_JOB_TYPE_LIST = 'GET_JOB_TYPE_LIST'//岗位类型列表
 export const USER_ROLE_ASSIGNMENTS = 'USER_ROLE_ASSIGNMENTS'
+export const GET_SUPPORT_SELLER = 'GET_SUPPORT_SELLER'
 
 
 export const USER_CHANGE = 'USER_CHANGE'

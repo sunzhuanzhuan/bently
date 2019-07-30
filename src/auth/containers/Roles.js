@@ -328,8 +328,8 @@ class Roles extends Component {
 
 			<div className="roles_box">
 				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} />
-				<Button type="primary" style={{ marginRight: '20px' }} onClick={this.addRoleBatch.bind(this)}>批量新增</Button>
-				<Button type="primary" style={{ marginBottom: '10px' }} onClick={this.addRole.bind(this)}>新增</Button>
+				<Button type="primary" style={{ marginRight: '20px' }} onClick={this.addRoleBatch.bind(this)}>批量添加权限</Button>
+				<Button type="primary" style={{ marginBottom: '10px' }} onClick={this.addRole.bind(this)}>添加角色</Button>
 				<Table
 					dataSource={roleList}
 					columns={columns}
