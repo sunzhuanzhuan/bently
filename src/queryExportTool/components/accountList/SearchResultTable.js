@@ -7,7 +7,7 @@ import { Table } from 'antd';
 import './AccountTable/index.less'
 
 export const SearchResultTable = (props) => {
-	const { pagination = {}, accounts } = props.accountList
+	const { current, list } = props.accountList
 	const columns = [{
 		title: '账号昵称',
 		dataIndex: 'name',
@@ -15,7 +15,7 @@ export const SearchResultTable = (props) => {
 		key: 'name',
 		render: (text, record) => {
 			return <span>
-				{record.base.sns_name}
+				{record.snsName}
 			</span>
 		}
 	}, {
@@ -25,73 +25,68 @@ export const SearchResultTable = (props) => {
 		key: 'age',
 		render: (text, record) => {
 			return <span >
-				{platform.platformView[record.platform_id && record.platform_id.toString()]}
+				{platform.platformView[record.platformId && record.platformId.toString()]}
 			</span>
 		}
 	}, {
 		title: '账号ID',
-		dataIndex: 'sns_id',
+		dataIndex: 'snsId',
 		align: "center",
-		key: 'sns_id',
+		key: 'snsId',
 		render: (text, record) => {
 			return <span>
-				{record.base.sns_id}
+				{record.snsId}
 			</span>
 		}
 	}, {
-		title: 'account_id',
-		dataIndex: 'account_id',
+		title: 'accountId',
+		dataIndex: 'accountId',
 		align: "center",
-		key: 'account_id',
+		key: 'accountId',
 		render: (text, record) => {
 			return <span>
-				{record.base.account_id}
+				{record.accountId}
 			</span>
 		}
 	}, {
 		title: '执行类型',
-		dataIndex: 'is_famous',
+		dataIndex: 'isFamous',
 		align: "center",
-		key: 'is_famous',
+		key: 'isFamous',
 		render: (text, record) => {
 			return <span>
-				{record.base.is_famous == 1 ? "预约" : record.base.is_famous == 2 ? "微闪投" : ""}
+				{record.isFamous == 1 ? "预约" : record.isFamous == 2 ? "微闪投" : ""}
 			</span>
 		}
 	}, {
 		title: '媒介经理',
-		dataIndex: 'media_manager',
+		dataIndex: 'mediaManager',
 		align: "center",
-		key: 'media_manager',
+		key: 'mediaManager',
 		render: (text, record) => {
-			return <span>
-				<LazyLoad once overflow>
-					<MediaInfo user_id={record.base.user_id} isShowPopover={false} />
-				</LazyLoad>
-				{/* <MediaInfo user_id={record.base.user_id} isShowPopover={false} /> */}
-			</span>
+			return <MediaInfo userId={record.userId} agentInfo={record.agentInfo} isShowPopover={false} />
 		}
 	}, {
 		title: '上下架状态',
-		dataIndex: 'a_status',
+		dataIndex: 'aStatus',
 		align: "center",
-		key: 'a_status',
+		key: 'aStatus',
 		render: (text, record) => {
-			const { on_shelf_status = {} } = record.base
-			//const { b_off_shelf_reason_strings = [], a_off_shelf_reason_strings = [], b_on_shelf_status, a_on_shelf_status } = on_shelf_status
+			const { onShelfStatus = {} } = record
+			//const { bOffShelfReasonStrings = [], aOffShelfReasonStrings = [], bOnShelfStatus, aOnShelfStatus } = onShelfStatus
 			return <span>
-				<StatusAB status={on_shelf_status && on_shelf_status.a_on_shelf_status} reason={on_shelf_status && on_shelf_status.a_off_shelf_reason_strings || []} title="A" />
-				&nbsp;&nbsp;<StatusAB status={on_shelf_status && on_shelf_status.b_on_shelf_status} reason={on_shelf_status && on_shelf_status.b_off_shelf_reason_strings || []} title="B" />
+				<StatusAB status={onShelfStatus && onShelfStatus.aOnShelfStatus} reason={onShelfStatus && onShelfStatus.aOffShelfReasonStringList || []} title="A" />
+				&nbsp;&nbsp;<StatusAB status={onShelfStatus && onShelfStatus.bOnShelfStatus} reason={onShelfStatus && onShelfStatus.bOffShelfReasonStringList || []} title="B" />
 			</span>
 		}
 	}, {
 		title: '是否在库',
-		dataIndex: 'exist_status',
+		dataIndex: 'existStatus',
 		align: "center",
-		key: 'exist_status',
+		key: 'existStatus',
 		render: (text, record) => {
 			return <span>
-				{record.base.not_exist == 1 ? <span style={{ color: "#e46c09" }}>不在库</span> : "在库"}
+				{record.notExist == 1 ? <span style={{ color: "#e46c09" }}>不在库</span> : "在库"}
 			</span>
 		}
 	}];
@@ -99,13 +94,11 @@ export const SearchResultTable = (props) => {
 		<Table
 			className="account-table-wxy-list searchResultTable"
 			columns={columns}
-			dataSource={accounts}
-			rowKey={(record, index) => record.account_id && record.account_id || index}
-			pagination={props.searchParams.query_type == 1 ? {
-				current: pagination.page,
-				total: pagination.total,
+			dataSource={list}
+			rowKey={(record, index) => record.accountId && record.accountId || index}
+			pagination={props.searchParams.queryType == 1 ? {
+				...current,
 				onChange: (page) => props.batchSearch(props.searchParams, page),
-				pageSize: 20
 			} : false}
 			loading={props.loading}
 		/>

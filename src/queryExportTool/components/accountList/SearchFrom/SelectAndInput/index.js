@@ -27,50 +27,30 @@ class SelectAndInput extends Component {
 		const value = props.value || {};
 		this.state = {
 			name: value.name,
-			weight: value.weight || []
+			weight: value.weight || [],
+			weightDecimal: 0
 		};
 	}
-	componentWillReceiveProps(nextProps) {
-		// Should be a controlled component.
-		const value = nextProps.value || {};
-		if ("value" in nextProps) {
-			this.setState({
-				name: value.name,
-				weight: value.weight || []
-			})
-		}
-	}
+	//下拉框选择后变化
 	selectChange = (selectValue) => {
-		if (!("value" in this.props)) {
-			this.setState({ name: selectValue });
-		}
-		this.triggerChange({ name: selectValue });
+		this.setState({ name: selectValue });
 	}
-
+	//最小值变化
 	changeInputNumberMin = (min) => {
 		const { weight = [] } = this.state;
-		const state = { weight: weight[1] ? [min, weight[1]] : [min] };
-		if (!("value" in this.props)) {
-			this.setState(state);
-		}
-		this.triggerChange(state);
+		const { inputLableAfter = "%" } = this.props
+		const weightDecimal = inputLableAfter == '%' ? { weightDecimal: [min / 100] } : {}
+		const state = { weight: weight[1] ? [min, weight[1]] : [min], ...weightDecimal };
+		this.setState(state);
 	}
+	//最大值变化
 	changeInputNumberMax = (max) => {
 		const { weight = [] } = this.state;
 		const state = { weight: [weight[0], max] };
-		if (!("value" in this.props)) {
-			this.setState(state);
-		}
-		this.triggerChange(state);
+		this.setState(state);
 	}
-	triggerChange = changedValue => {
-		// Should provide an event to pass value to Form.
-		const onChange = this.props.onChange;
-		if (onChange) {
-			onChange(Object.assign({}, this.state, changedValue));
-		}
-	};
 
+	//设置确定后的已选内容
 	onClickOkButton = () => {
 		const { name, weight } = this.state
 		const min = weight[0] || '';
@@ -90,7 +70,10 @@ class SelectAndInput extends Component {
 			optionsValues.weight = [min, max]
 		}
 		onOkClick && onOkClick({ optionsValues, optionsNames })
-
+		const onChange = this.props.onChange;
+		if (onChange) {
+			onChange(this.state);
+		}
 	}
 	getWidthPx = (Text) => {
 		return Text.length * 14 + 20
@@ -111,6 +94,7 @@ class SelectAndInput extends Component {
 		const [min, max] = weight;
 		//下拉框选择是否为空
 		const emptyName = (options.length !== 0 && !state.name);
+		//判断确定按钮是否可用
 		let okBtnDisabled = emptyName || !min ||
 			showType != "three" && inputLableAfter == '%' && min >= 100 ||   //如果一个输入框，并且是百分比，
 			showType == "three" && (!max || min >= max);
@@ -124,18 +108,17 @@ class SelectAndInput extends Component {
 						placeholder={placeholder || '请选择'}
 						allowClear
 						dropdownMatchSelectWidth={false}
-						value={state.name}
 						className="group-select" onChange={this.selectChange}>
 						{options.map((one, index) => {
 							return <Option key={index} value={one.id || one.value}>{one.name}</Option>
 						})}
 					</Select>}
 					<Input className="middle-input-lable" style={{ backgroundColor: '#fff', width: this.getWidthPx(inputLableBefore) }} placeholder={inputLableBefore} disabled />
-					<CInputNumber min={0} value={weight[0]} className="group-input-number" onChange={this.changeInputNumberMin} />
+					<CInputNumber min={0} className="group-input-number" onChange={this.changeInputNumberMin} />
 					{showType == "three" ?
 						<span>
 							<Input className="middle-input-lable" style={{ backgroundColor: '#fff', width: this.getWidthPx(inputLableMiddle) }} placeholder={inputLableMiddle} disabled />
-							<CInputNumber min={0} value={weight[1]} className="group-input-number" onChange={this.changeInputNumberMax} />
+							<CInputNumber min={0} className="group-input-number" onChange={this.changeInputNumberMax} />
 						</span> : null}
 					<Input className="middle-input-lable" style={{ backgroundColor: '#fff', width: this.getWidthPx(inputLableAfter) }} placeholder={inputLableAfter} disabled />
 					{showBtn && <Button disabled={okBtnDisabled} type="primary" onClick={this.onClickOkButton}>确定</Button>}

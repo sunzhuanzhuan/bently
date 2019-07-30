@@ -75,7 +75,7 @@ export const quotationAccountList = handleActions({
 	},
 	[accoutActions.deleteFromCart_success]: (state, action) => {
 		const { type, data, follower_count, numberType } = action.payload
-		const accountsFilter = state.accounts.filter(one => !data.includes(one.account_id))
+		const accountsFilter = state.list.filter(one => !data.includes(one.account_id))
 		return {
 			...state,
 			tabList: {
@@ -83,7 +83,7 @@ export const quotationAccountList = handleActions({
 				[type]: state.tabList[type] - 1
 
 			},
-			accounts: accountsFilter,
+			accountList: accountsFilter,
 			total: state.total - 1,
 			[numberType]: state[numberType] - 1,
 			follower_count: state.follower_count - follower_count
@@ -91,23 +91,22 @@ export const quotationAccountList = handleActions({
 	},
 	[accoutActions.getQuotationAccountSearch_success]: (state, action) => {
 		const { data } = { ...action.payload }
-		const { account_count } = data
+		const { account_count, result, followerCount, parkAccountCount, reservationAccountCount } = data
 		return {
-			...action.payload.data,
-			accounts: [...data.accounts],
-			tabList: { ...data.statistic },
+			...result,
+			is_select: result.list.filter(one => one.isSelected == 1).map(one => one.accountId),
+			tabList: data.statistic,
 			total: data.statistic.total,
 			pagination: data.pagination,
-			yuyueNum: account_count && account_count[0] && account_count[0].account_id_count || 0,
-			weiNum: account_count && account_count[1] && account_count[1].account_id_count || 0
+			followerCount: followerCount || 0,
+			parkAccountCount: parkAccountCount || 0,
+			reservationAccountCount: reservationAccountCount || 0,
 		}
 	}
 }, {
 		total: 0,
 		tabList: {},
-		accounts: [],
+		accountList: [],
 		is_select: [],
-		yuyueNum: 0,
-		weiNum: 0
 	})
 

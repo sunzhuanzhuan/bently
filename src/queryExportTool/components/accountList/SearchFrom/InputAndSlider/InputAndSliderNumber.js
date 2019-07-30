@@ -3,7 +3,7 @@ import "./index.less"
 import { Input, Slider, Select } from 'antd';
 import PropTypes from 'prop-types'
 import ItemLable from '../ItemLable';
-
+import CInputNumber from "@/queryExportTool/base/CInputNumber";
 const InputGroup = Input.Group;
 const Option = Select.Option
 
@@ -13,7 +13,7 @@ const Option = Select.Option
  * sliderMax最大值/默认值
  * unit文本框后的单位
  */
-class InputAndSliderNew extends Component {
+class InputAndSliderNumber extends Component {
 	static propTypes = {
 		sliderMin: PropTypes.number.isRequired,
 		sliderMax: PropTypes.number.isRequired,
@@ -38,7 +38,8 @@ class InputAndSliderNew extends Component {
 	}
 	//修改输入框内容
 	changedInputFilter = (index) => (e) => {
-		let val = e.target.value.trim()
+		console.log("TCL: changedInputFilter -> (e", (e))
+		let val = `${e}`.trim()
 		// let val = e.target.value.trim() || (index ? this.props.sliderMax : 0)
 		// 非负整数校验
 		if (val && !/^\d+$/.test(val)) return
@@ -106,14 +107,14 @@ class InputAndSliderNew extends Component {
 
 	render() {
 		const { isShowOK, number = [], selectValue } = this.state;
-		const { selectList = [], isShowSelect = false, marks } = this.props
+		const { selectList = [], isShowSelect = false, marks, maxNumber } = this.props
 		const { unit } = this.props
 		return (
 			<div className="item-lable">
 				<div className="item-lable-right">
-					<Input value={number[0]} onChange={this.changedInputFilter(0)} className="lable-input" />
+					<CInputNumber value={number[0]} max={maxNumber} onChange={this.changedInputFilter(0)} className="lable-input" />
 					<Input className="middle-line" style={{ backgroundColor: 'transparent' }} value="-" disabled />
-					<Input value={number[1]} onChange={this.changedInputFilter(1)} className="lable-input" />
+					<CInputNumber value={number[1]} max={maxNumber} onChange={this.changedInputFilter(1)} className="lable-input" />
 					<Input className="middle-line" style={{
 						backgroundColor: 'transparent',
 						width: 42
@@ -146,4 +147,4 @@ class InputAndSliderNew extends Component {
 	}
 }
 
-export default InputAndSliderNew;
+export default InputAndSliderNumber;

@@ -64,6 +64,7 @@
         "__dirname": true,
         "Reflect": true,
         "Blob": true,
+        "fetch": true,
         "localStorage": true
     }
 }

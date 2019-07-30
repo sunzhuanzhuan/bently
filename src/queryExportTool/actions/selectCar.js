@@ -23,7 +23,9 @@ export const {
 export const {
 	getCartSearchAll,
 	getCartSearchAll_success
-} = createHttpAction('getCartSearchAll', Interface.getCartSearchAll)
+} = createHttpAction('getCartSearchAll', Interface.getCartSearchAll, {
+	method: 'post'
+})
 //清空购物车
 export const {
 	clearCart,

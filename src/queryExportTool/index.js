@@ -14,6 +14,7 @@ const QuotationDetail = lazyLoadComponent(() => import('./containers/QuotationDe
 const DownloadList = lazyLoadComponent(() => import('./containers/DownloadList'))
 const AccountDetails = lazyLoadComponent(() => import('./containers/AccountDetails'))
 const GlobalAccountSearch = lazyLoadComponent(() => import('./containers/GlobalAccountSearch'))
+import Test from './containers/Test'
 
 const TempMenu = () => {
 	return <div style={{ height: '30px', background: '#fff', textAlign: 'center' }}>
@@ -56,7 +57,7 @@ class AccountEnterIndex extends Component {
 				{/* 下载中心 */}
 				<Route exact path='/accountList/downloadCenter' component={DownloadList} />
 				{/* lzb测试组件 */}
-				{/* <Route exact path='/accountList/test' component={Test} /> */}
+				<Route exact path='/accountList/test' component={Test} />
 				{/* 账号详情 */}
 				<Route exact path='/accountList/accountDetails' component={AccountDetails} />
 				{/* 全局账号搜索 */}

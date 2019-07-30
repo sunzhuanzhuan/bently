@@ -63,7 +63,7 @@ class TableByType extends Component {
 			width: 80,
 			render: (text, record) => tableType == 1 ? <a
 				target="_blank"
-				href={urlPathMap(old_b_host, record.order_id).reservationUrl}
+				href={urlPathMap(old_b_host, record.requirement_id).reservationUrl}
 			>{record.requirement_name} </a> :
 				<a
 					target="_blank"
@@ -158,7 +158,7 @@ class TableByType extends Component {
 					itemId={record.item_id}
 					itemType='purchase_price_with_service_fee'
 					onChange={this.onCellChange(record.item_id, 'purchase_price_with_service_fee')}
-					isOperated={record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)}
+					isOperated={record.purchase_price_with_service_fee != Math.round((service_fee_rate / 100 + 1) * record.purchase_price)}
 				/>
 			}, {
 				title: '采购价+服务费+税',
