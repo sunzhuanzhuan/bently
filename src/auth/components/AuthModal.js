@@ -12,6 +12,7 @@ const AuthModal = (props) => {
 			width='50%'
 			onCancel={onCancel}
 			onOk={type === "new" ? onNew : onEdit}
+			maskClosable={false}
 		>
 			{props.children}
 		</Modal>
