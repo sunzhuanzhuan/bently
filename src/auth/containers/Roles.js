@@ -82,8 +82,9 @@ class Roles extends Component {
 		this.closeModal();
 	}
 	closeModal() {
-		this.setState({ modalType: '' });
 		this.form.resetFields();
+		this.setState({ modalType: '' });
+
 	}
 	handleAdd() {
 		this.form.validateFields((err, values) => {
@@ -192,8 +193,6 @@ class Roles extends Component {
 				} else {
 					message.error(response.message)
 				}
-			}).catch((error) => {
-				message.error(error.errorMsg)
 			});
 
 		} else {
