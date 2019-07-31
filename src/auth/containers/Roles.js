@@ -328,7 +328,7 @@ class Roles extends Component {
 				)
 			}
 		];
-		const { selectedRowKeys } = this.state;
+		const { selectedRowKeys, roleID } = this.state;
 		const rowSelection = {
 			selectedRowKeys,
 			onChange: this.onTableSelectChange,
@@ -337,7 +337,9 @@ class Roles extends Component {
 
 			<div className="roles_box">
 				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} />
-				<Button type="primary" style={{ marginRight: '20px' }} onClick={this.addRoleBatch.bind(this)}>批量添加权限</Button>
+				<Button type="primary" style={{ margin: '0px 20px' }}
+					disabled={!roleID.length > 0}//选中才可添加
+					onClick={this.addRoleBatch.bind(this)}>批量添加权限</Button>
 				<Button type="primary" style={{ marginBottom: '10px' }} onClick={this.addRole.bind(this)}>添加角色</Button>
 				<Table
 					dataSource={roleList}
