@@ -42,12 +42,16 @@ class Roles extends Component {
 				loading: false,
 				applist: response.data,
 			});
-		}).catch((error)=>{
+		}).catch((error) => {
 			this.setState({
 				loading: false
 			});
 			message.error(error.errorMsg)
 		});
+		//修复路由类型Bug，添加Push
+		this.props.history.push({
+			search: '?' + qs.stringify({ app_id: 1 })
+		})
 	}
 
 	addRole() {
@@ -66,7 +70,7 @@ class Roles extends Component {
 				detail: record
 			});
 			this.showModal('AuthModal');
-		}).catch((error)=>{
+		}).catch((error) => {
 			message.error(error.errorMsg)
 		});
 	}
@@ -78,8 +82,9 @@ class Roles extends Component {
 		this.closeModal();
 	}
 	closeModal() {
-		this.setState({ modalType: '' });
 		this.form.resetFields();
+		this.setState({ modalType: '' });
+
 	}
 	handleAdd() {
 		this.form.validateFields((err, values) => {
@@ -87,10 +92,10 @@ class Roles extends Component {
 				return;
 			}
 			this.setState({ loading: true })
-			this.props.actions.addRoleAction(values).then(()=>{
+			this.props.actions.addRoleAction(values).then(() => {
 				this.setState({ loading: false })
 				this.props.actions.getRoleList({ app_id: '', page: 1 });
-			}).catch((error)=>{
+			}).catch((error) => {
 				this.setState({ loading: false })
 				message.error(error.errorMsg)
 			});
@@ -103,9 +108,9 @@ class Roles extends Component {
 				return;
 			}
 			values.id = this.state.detail.id;
-			this.props.actions.updateRoleAction(values).then(()=>{
+			this.props.actions.updateRoleAction(values).then(() => {
 
-			}).catch((error)=>{
+			}).catch((error) => {
 				message.error(error.errorMsg)
 			});
 		});
@@ -124,8 +129,13 @@ class Roles extends Component {
 	}
 	handleAppChange(value) {
 		this.setState({
-			appId: value,
+			//修复路由类型Bug，修改appId->app_id
+			app_id: value,
 		});
+		//修复路由类型Bug，添加路径push
+		this.props.history.push({
+			search: '?' + qs.stringify({ app_id: value })
+		})
 		this.props.actions.getRoleList({ app_id: value, page: 1 });
 	}
 	//批量添加
@@ -133,9 +143,10 @@ class Roles extends Component {
 		if (this.state.roleID.length != 0) {
 			let arr_id_role = []
 			for (let value of this.state.roleID) {
-				arr_id_role.push(value.id)
+				arr_id_role.push(value && value.id)
 			}
-			this.setState({ app_id: 1, roleID: arr_id_role })
+			//修复路由类型Bug删除默认值app_id:1的设置
+			this.setState({ roleID: arr_id_role })
 			api.get('/rbac/getResourceTypeList').then((response) => {
 				this.setState({
 					type: 'add',
@@ -182,8 +193,6 @@ class Roles extends Component {
 				} else {
 					message.error(response.message)
 				}
-			}).catch((error)=>{
-				message.error(error.errorMsg)
 			});
 
 		} else {
@@ -208,7 +217,7 @@ class Roles extends Component {
 							message.error(response.message)
 						}
 
-					}).catch((error)=>{
+					}).catch((error) => {
 						message.error(error.errorMsg)
 					});
 				} else {
@@ -229,7 +238,7 @@ class Roles extends Component {
 							message.error(response.message)
 						}
 
-					}).catch((error)=>{
+					}).catch((error) => {
 						message.error(error.errorMsg)
 					});
 				}
@@ -372,7 +381,7 @@ class Roles extends Component {
 								checkedFields={this.state.checkedFields}
 								permissionFields={this.state.permissionFields}
 								typeList={this.state.typeList}
-								app_id={this.state.app_id}
+								app_id={this.state.app_id || 1}
 								handlePermise={this.handlePermise.bind(this)}
 								handleFlag={this.handleFlag.bind(this)}
 							>
