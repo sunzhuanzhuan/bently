@@ -193,6 +193,8 @@ class Roles extends Component {
 				} else {
 					message.error(response.message)
 				}
+			}).catch((error) => {
+				message.error(error.errorMsg)
 			});
 
 		} else {
