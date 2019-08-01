@@ -43,7 +43,7 @@ export default class SimpleTables extends Component {
 						type="1" productOnShelfStatus={record.productOnShelfStatus}
 						format='oneUnivalent' />
 					</div>
-					{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
+					{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
 				</div>
 			}
 		}]
@@ -62,7 +62,7 @@ export default class SimpleTables extends Component {
 							<ValueStyle value={numeral(record.price2).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' type="1" productOnShelfStatus={record.productOnShelfStatus} />
 						</div>
 
-						{getPriceGoodBad(record.defaultQuotePriceDiscount2, record.productOnShelfStatus == 1)}
+						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount2, record.productOnShelfStatus == 1)} */}
 
 					</div>
 				}
@@ -111,7 +111,7 @@ export default class SimpleTables extends Component {
 						<div> <span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" /></span>
 						</div>
 
-						{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
+						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
 
 					</div>
 				}
@@ -133,7 +133,7 @@ export default class SimpleTables extends Component {
 					return <div className='flex-around'>
 						<div><span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' type="1" productOnShelfStatus={record.productOnShelfStatus} /></span></div>
 
-						{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
+						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
 
 					</div>
 				}
@@ -227,10 +227,10 @@ export default class SimpleTables extends Component {
 					<div className='bottom-two' >
 						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
 						</div>
-						{data.length > 0 && isFamous ? < ExampleTable
+						{/* {data.length > 0 && isFamous ? < ExampleTable
 							dataTimeNew={dataTimeNew}
 							data={data} isFamous={isFamous}
-							ISWEiXin={ISWEiXin} /> : null}
+							ISWEiXin={ISWEiXin} /> : null} */}
 					</div>
 				</div> :
 				<div className='no-columns-text'>暂无数据</div>}
