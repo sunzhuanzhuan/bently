@@ -3,7 +3,7 @@ import './index.less'
 import { Button } from "antd";
 
 const types = [
-	{
+	/*{
 		id: 1,
 		name: '参考价'
 	},
@@ -14,7 +14,7 @@ const types = [
 	{
 		id: 3,
 		name: '刊例价'
-	}
+	}*/
 ]
 
 
@@ -50,7 +50,7 @@ const PriceGroupType = ({ selected = [1], onChange }) => {
 				</Button>
 			})
 		}
-		<span className='gray-text'>请选择导出的报价类型(至少一项)</span>
+		{/*<span className='gray-text'>请选择导出的报价类型(至少一项)</span>*/}
 	</div>
 }
 
