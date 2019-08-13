@@ -134,15 +134,6 @@ class TreeTransfer extends Component {
 			autoExpandParent: true,
 		});
 	}
-	//判断是否有子集,并返回子集key
-	getChildKey = (id, preKey) => {
-		let childrenKey = []
-		const item = cityData.filter((one) => one.key = id)
-		if (item.length > 0 && item.children) {
-			childrenKey = item.children.map((one) => one.key)
-		}
-		return childrenKey
-	}
 	//删除已选择方法
 	onCloseKeys = (id) => () => {
 		const { checkedKeys, selectedKeys } = this.state
