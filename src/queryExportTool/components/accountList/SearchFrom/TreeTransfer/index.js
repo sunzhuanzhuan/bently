@@ -134,11 +134,23 @@ class TreeTransfer extends Component {
 			autoExpandParent: true,
 		});
 	}
+	//判断是否有子集,并返回子集key
+	getChildKey = (id, preKey) => {
+		let childrenKey = []
+		const item = cityData.filter((one) => one.key = id)
+		if (item.length > 0 && item.children) {
+			childrenKey = item.children.map((one) => one.key)
+		}
+		console.log("TCL: getChildKey -> childrenKey", childrenKey)
+		return childrenKey
+	}
 	//删除已选择方法
 	onCloseKeys = (id) => () => {
-		const { checkedKeys } = this.state
+		const { checkedKeys, selectedKeys } = this.state
+		//删除右侧，数据同步左侧
 		this.setState({
-			checkedKeys: checkedKeys.filter(one => one != id)
+			checkedKeys: selectedKeys.filter(one => one != id),
+			selectedKeys: selectedKeys.filter(one => one != id),
 		})
 	}
 	//热门城市点击事件
@@ -186,6 +198,8 @@ class TreeTransfer extends Component {
 	render() {
 		const { options } = this.props
 		const { searchValue, expandedKeys, autoExpandParent, checkedKeys, selectedKeys } = this.state;
+		console.log("TCL: render -> checkedKeys", checkedKeys)
+		console.log("TCL: render -> selectedKeys", selectedKeys)
 		//渲染属性图
 		const loop = data => data.map((item, i) => {
 			const index = item.title.indexOf(searchValue);
