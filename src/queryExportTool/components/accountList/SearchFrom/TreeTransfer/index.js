@@ -141,7 +141,6 @@ class TreeTransfer extends Component {
 		if (item.length > 0 && item.children) {
 			childrenKey = item.children.map((one) => one.key)
 		}
-		console.log("TCL: getChildKey -> childrenKey", childrenKey)
 		return childrenKey
 	}
 	//删除已选择方法
@@ -198,8 +197,6 @@ class TreeTransfer extends Component {
 	render() {
 		const { options } = this.props
 		const { searchValue, expandedKeys, autoExpandParent, checkedKeys, selectedKeys } = this.state;
-		console.log("TCL: render -> checkedKeys", checkedKeys)
-		console.log("TCL: render -> selectedKeys", selectedKeys)
 		//渲染属性图
 		const loop = data => data.map((item, i) => {
 			const index = item.title.indexOf(searchValue);
