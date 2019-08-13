@@ -12,7 +12,7 @@ import LoginForm from '../components/LoginForm'
 import LoginQrCode from '../components/LoginQrCode'
 
 import { LoginType } from '../constants'
-import { getUrlParam } from '../../util'
+import { getUrlParam, domain } from '../../util'
 import { notification } from 'antd'
 import BrowserJudge from '../../browserJudge/showBrowserJudge'
 import './login.less'
@@ -34,19 +34,7 @@ class NormalLoginForm extends React.Component {
 	}
 	setTokenCookie = (data = {}) => {
 		const { expires_in_days } = data;
-		if (window.location.host === 'nb.weiboyi.com') {
-			Cookie.set('token', data['X-Access-Token'], { domain: '.weiboyi.com', expires: expires_in_days, path: '/' })
-		} else {
-			let domain;
-			// 判断是否为IP
-			if(/^(\d+\.\d+\.\d+\.\d+)$/.test(window.location.hostname)){
-				domain = window.location.hostname
-			}else {
-				// 截取主域名
-				domain = '.' + window.location.hostname.split('.').slice(-2).join('.')
-			}
-			Cookie.set('token', data['X-Access-Token'], { expires: expires_in_days, path: '/', domain })
-		}
+		Cookie.set('token', data['X-Access-Token'], { expires: expires_in_days, path: '/', domain })
 	}
 	componentDidMount() {
 		// this.loginForm.form.validateFields();
