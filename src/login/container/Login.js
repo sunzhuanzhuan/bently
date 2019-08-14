@@ -37,6 +37,7 @@ class NormalLoginForm extends React.Component {
 		Cookie.set('token', data['X-Access-Token'], { expires: expires_in_days, path: '/', domain })
 	}
 	componentDidMount() {
+		Cookie.remove('token', { domain })
 		// this.loginForm.form.validateFields();
 	}
 
