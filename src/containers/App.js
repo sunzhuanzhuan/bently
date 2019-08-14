@@ -9,10 +9,10 @@ import SiderMenu from '../components/SiderMenu'
 import { getUserLoginInfo, getUserConfigKey } from '../login/actions'
 import { resetSiderAuth, getAuthorizations } from '../actions'
 import BrowserJudge from '../browserJudge/showBrowserJudge'
-import { sensors } from '../util/sensor/sensors.js'
+import { domain } from '../util'
 const { Header, Content } = Layout;
-const Cookies = require('js-cookie');
-window.Cookies = Cookies;
+const Cookie = require('js-cookie');
+window.Cookie = Cookie;
 
 class App extends Component {
 	state = {
@@ -25,7 +25,8 @@ class App extends Component {
 	}
 	logout = () => {
 		this.props.history.push('/login');
-		this.props.actions.resetSiderAuth()
+		this.props.actions.resetSiderAuth();
+		Cookie.remove('token', { domain });
 	}
 	async componentWillMount() {
 
@@ -33,15 +34,8 @@ class App extends Component {
 		//重新获取页面尺寸，以防继承前一浏览页面的滚动条
 		window.onresize = null
 		await this.props.actions.getAuthorizations();
-		let Info = await this.props.actions.getUserLoginInfo();
-		let userInfoId = Info.data.user_info.user_id
-		//神策的代码不应该阻塞，去掉await, 使用then的成功回调。
-		this.props.actions.getUserConfigKey({ keys: 'shence_base_url_for_b,babysitter_host' }).then((res) => {
-			let userResult = res.data.shence_base_url_for_b
-			window.bentleyConfig = res.data || {}
-			sensors(userInfoId, userResult.value, 101)
-		});
-
+		await this.props.actions.getUserLoginInfo();
+		
 		this.setState({
 			isLoaded: true
 		})
@@ -53,7 +47,6 @@ class App extends Component {
 		})
 	}
 	componentWillUnmount() {
-		Cookies.remove('token');
 		window.removeEventListener('resize', this.setHeight);
 	}
 	render() {
