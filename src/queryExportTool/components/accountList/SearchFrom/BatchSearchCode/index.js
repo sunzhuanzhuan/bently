@@ -84,7 +84,12 @@ class BatchSearchCode extends Component {
 	handleSelectChange = (value) => {
 		this.setState({
 			selectValue: value
-		})
+		},
+			() => {
+				//查询条件变化时强行校验keyword的值（解决切换查询条件时，不校验keyword的值）
+				const { validateFields, getFieldValue } = this.props.form;
+				getFieldValue('keyword') && validateFields(['keyword'], { force: true })
+			})
 	}
 
 	onChangeCascader = (value) => {
