@@ -28,7 +28,7 @@ class BatchSearchCode extends Component {
 		super(props);
 		this.state = {
 			accoutName: [],
-			selectValue: 1,
+			selectValue: 2,//需求变更：模糊匹配删除账号昵称查询
 			cascaderValue: 1,
 		};
 	}
@@ -104,14 +104,9 @@ class BatchSearchCode extends Component {
 			}
 		})
 	}
-	/* 查询条件为模糊时不能选择accountId */
+	/* 修改查询方式时，查询条件默认为2:账号ID */
 	queryTypeChange = (value) => {
-		const { getFieldValue } = this.props.form;
-		if (getFieldValue("fieldType") == 2 && value == 1) {
-			this.props.form.setFieldsValue({ fieldType: 2 })
-		} else {
-			this.props.form.setFieldsValue({ fieldType: 1 })
-		}
+		this.props.form.setFieldsValue({ fieldType: 2 })
 	}
 	render() {
 		const { selectValue, cascaderValue } = this.state
@@ -175,9 +170,8 @@ class BatchSearchCode extends Component {
 									onChange={this.handleSelectChange}
 									disabled={cascaderValue == 0}
 								>
-									<Option value={1} key={1}>账号昵称</Option>
 									<Option value={2} key={2}>账号ID</Option>
-									{getFieldValue('queryType') == 2 ? <Option value={3} key={3}>账号accountId</Option> : null}
+									{getFieldValue('queryType') == 2 ? <Option value={3} key={3}>账号accountId</Option> : <Option value={1} key={1}>账号昵称</Option>}
 								</Select>
 							)}
 						</FormItem>
