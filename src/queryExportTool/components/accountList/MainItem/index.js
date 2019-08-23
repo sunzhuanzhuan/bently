@@ -45,7 +45,7 @@ export default class MainItem extends PureComponent {
 	lookDetail = (platformId, accountId) => {
 		//神策统计
 		this.track('AccountListClick', '详情');
-		[103, 110, 115].includes(platformId) ?
+		[24, 25, 103, 110, 115, 116].includes(platformId) ?
 			window.open(`/account/view/detail?accountId=${accountId}`, "_blank")
 			: this.props.setModalContent(<AccountDetails account_id={accountId}
 			/>)
@@ -60,7 +60,7 @@ export default class MainItem extends PureComponent {
 		actions && actions.addLookDetailOrIndexList({ index: [accountId] });
 	}
 	render() {
-		const { accountListItem = {},isPreloading, isDeleteAction, batchRemove } = this.props
+		const { accountListItem = {}, isPreloading, isDeleteAction, batchRemove } = this.props
 		const { snsName = '', avatarUrl, verifiedStatus, level, introduction,
 			isLowQuality, url, isSupportTopicAndLink, isVerified,
 			canOriginWrite, areaName, ageGroup, originalName,
@@ -175,10 +175,10 @@ export default class MainItem extends PureComponent {
 						/>
 					</div>
 					{/* 此处是右侧两个小表格*/}
-					{isPreloading?<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />:
-					<LazyLoad once overflow>
-					<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />
-					</LazyLoad>}
+					{isPreloading ? <TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} /> :
+						<LazyLoad once overflow>
+							<TwoTable IsWei={IsWei} groupType={groupType} platformId={platformId} accountId={accountId} isShielding={isPreventShielding == 1} isFamous={isFamous} ISWEiXin={ISWEiXin} />
+						</LazyLoad>}
 				</main>
 				<footer className="content-footer">
 
