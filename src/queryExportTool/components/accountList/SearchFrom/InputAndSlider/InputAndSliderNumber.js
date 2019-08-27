@@ -107,14 +107,14 @@ class InputAndSliderNumber extends Component {
 
 	render() {
 		const { isShowOK, number = [], selectValue } = this.state;
-		const { selectList = [], isShowSelect = false, marks, maxNumber } = this.props
+		const { selectList = [], isShowSelect = false, marks, maxNumber, showFalseMessage } = this.props
 		const { unit } = this.props
 		return (
 			<div className="item-lable">
 				<div className="item-lable-right">
-					<CInputNumber value={number[0]} max={maxNumber} onChange={this.changedInputFilter(0)} className="lable-input" />
+					<CInputNumber value={number[0]} max={maxNumber} onChange={this.changedInputFilter(0)} className="lable-input" showFalseMessage={showFalseMessage} />
 					<Input className="middle-line" style={{ backgroundColor: 'transparent' }} value="-" disabled />
-					<CInputNumber value={number[1]} max={maxNumber} onChange={this.changedInputFilter(1)} className="lable-input" />
+					<CInputNumber value={number[1]} max={maxNumber} onChange={this.changedInputFilter(1)} className="lable-input" showFalseMessage={showFalseMessage} />
 					<Input className="middle-line" style={{
 						backgroundColor: 'transparent',
 						width: 42

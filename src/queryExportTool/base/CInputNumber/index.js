@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import { InputNumber } from 'antd'
-
+import { InputNumber, Popover } from 'antd'
+import './index.less'
 export default class CInputNumber extends Component {
 	formatter = (value) => {
 		if (/^(0?|[1-9][0-9]*)+(\.[0-9]*)?$/.test(value)) {
@@ -10,10 +10,14 @@ export default class CInputNumber extends Component {
 		return this.preValue
 	}
 	onChange = value => {
+
+		const { max } = this.props
+		this.setState({ isShowFalse: value > max });
+		const _value = value > max ? max : value
 		if (!('value' in this.props)) {
-			this.setState({ value });
+			this.setState({ value: _value });
 		}
-		this.props.onChange && this.props.onChange(value);
+		this.props.onChange && this.props.onChange(_value);
 
 	}
 
@@ -22,7 +26,8 @@ export default class CInputNumber extends Component {
 		const value = props.value || 0
 		this.preValue = value
 		this.state = {
-			value
+			value,
+			isShowFalse: false
 		}
 	}
 
@@ -33,6 +38,12 @@ export default class CInputNumber extends Component {
 	}
 
 	render() {
-		return <InputNumber {...this.props} formatter={this.formatter} onChange={this.onChange} value={this.state.value} />
+		const { showFalseMessage } = this.props
+		const { isShowFalse } = this.state
+		return showFalseMessage && isShowFalse ?
+			<Popover content={showFalseMessage} defaultVisible={true} overlayClassName='red-color'>
+				<InputNumber {...this.props} formatter={this.formatter} onChange={this.onChange} value={this.state.value} />
+			</Popover>
+			: <InputNumber {...this.props} formatter={this.formatter} onChange={this.onChange} value={this.state.value} />
 	}
 }
