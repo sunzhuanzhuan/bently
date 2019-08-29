@@ -197,3 +197,17 @@ export * from './objectToArray'
 String.prototype.toUpperCaseFirst = function () {
 	return this.slice(0, 1).toUpperCase() + this.slice(1)
 }
+
+//export getDomain
+export const domain = (function(hostname){
+	let domain;
+	// 判断是否为IP
+	if(/^(\d+\.\d+\.\d+\.\d+)$/.test(hostname)){
+		domain = hostname
+	}else {
+		// 截取主域名
+		domain = '.' + hostname.split('.').slice(-2).join('.')
+	}
+	return domain;
+})(window.location.hostname)
+

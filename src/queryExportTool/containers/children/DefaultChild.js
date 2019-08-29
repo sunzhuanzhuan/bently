@@ -47,7 +47,7 @@ class DefaultChild extends Component {
 	}
 
 	onFilterSearch = (params) => {
-		const { skuOpenQuotePrice = [], follower_count = [] } = params;
+		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [] } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		// const searchParamsString = qs.stringify(params);
@@ -60,6 +60,9 @@ class DefaultChild extends Component {
 		this.setState({
 			loading: true
 		})
+		if (operationTagIds.length == 0) {
+			params.operationTagIds = null
+		}
 		//添加了空数组不穿给后台
 		if (!skuOpenQuotePrice[0]) {
 			if (params.skuOpenQuotePrice) {

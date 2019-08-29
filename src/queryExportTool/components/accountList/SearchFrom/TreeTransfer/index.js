@@ -136,9 +136,11 @@ class TreeTransfer extends Component {
 	}
 	//删除已选择方法
 	onCloseKeys = (id) => () => {
-		const { checkedKeys } = this.state
+		const { checkedKeys, selectedKeys } = this.state
+		//删除右侧，数据同步左侧
 		this.setState({
-			checkedKeys: checkedKeys.filter(one => one != id)
+			checkedKeys: selectedKeys.filter(one => one != id),
+			selectedKeys: selectedKeys.filter(one => one != id),
 		})
 	}
 	//热门城市点击事件
