@@ -29,6 +29,8 @@ import queryExportToolReducer from '../queryExportTool/reducer'
 import exportTemplateReducer from '../components/exportTemplate/reducer'
 import videoMark from '../videomark/reducers'
 import cooperationPlatformReducer from "../cooperationPlatform/reducers";
+import websiteReducer from '../website/reducers';
+
 export default combineReducers({
 	commonReducers,
 	routing: routerReducer,
@@ -60,5 +62,6 @@ export default combineReducers({
 	queryExportToolReducer,
 	exportTemplateReducer,
 	videoMark,
-	cooperationPlatformReducer//三方合作平台
+	cooperationPlatformReducer,//三方合作平台
+	websiteReducer
 });
