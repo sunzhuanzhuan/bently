@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Input, Form, Select, Modal, Button, AutoComplete, TreeSelect, message } from 'antd';
-import { addAdminUserList, editAdminUserList, getUserGroup, getSelectMemberp, getJobList, getJobTypeList, cleanJobList, cleanSelectMemberp } from '../actions/adminUser'
+import { addAdminUserList, editAdminUserList, getUserGroup, getSelectMemberp, getJobList, getJobTypeList, cleanJobList, cleanSelectMemberp, getSupportSeller } from '../actions/adminUser'
+import { SaleSupportGroupId } from '../constants'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TreeNode = TreeSelect.TreeNode;
@@ -13,10 +14,10 @@ const TreeNode = TreeSelect.TreeNode;
  * 本js的用户组下拉框，选择不同项会返回不同数据，根据数据返回显示上级用户 销售大区什么的 （估计2期要给本js销掉本js就能瘦好多哈哈哈）
  * 本js的修改数据是通过list的record获取过来的
  */
-
 class AddAdminUser extends Component {
 	constructor(props) {
 		super(props)
+		const { adminUserOne={} } = props;
 		this.state = {
 			visible: false,
 			parentUserData: [],
@@ -25,8 +26,17 @@ class AddAdminUser extends Component {
 			isTrue: false,
 			deptvalue: undefined,
 			jobvalue: undefined,
+			isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId,  //用户组是否是销售支持
 		}
-
+	}
+	componentWillReceiveProps(nextProps){
+		const { adminUserOne = {} } = nextProps;
+		const { user_group_id } = this.state;
+		if(adminUserOne.user_group_id === user_group_id){
+			this.setState({
+				isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId
+			})
+		}
 	}
 	//确认按钮提交数据
 	handleOk = () => {
@@ -51,7 +61,6 @@ class AddAdminUser extends Component {
 						message.error(error.errorMsg)
 					})
 				}
-
 			}
 		})
 	}
@@ -86,7 +95,9 @@ class AddAdminUser extends Component {
 	}
 	//关闭弹窗
 	closeModal = () => {
-		this.setState({ visible: false, jobvalue: undefined, deptvalue: undefined })
+		const { adminUserOne={} } = this.props
+		const { user_group_id } = adminUserOne;
+		this.setState({ visible: false, jobvalue: undefined, deptvalue: undefined, isSaleSupport:false, user_group_id })
 		//this.props.actions.getJobList({ is_show_department: 1 })
 		this.props.form.resetFields()
 	}
@@ -103,18 +114,21 @@ class AddAdminUser extends Component {
 		//actions.getJobTypeList()
 		if (isEditAciton) {
 			//修改查询岗位
-			const { department_id, job_type_id, jobs_id } = adminUserOne
+			const { department_id = [], job_type_id = [], jobs_id, support_seller_id = [],user_group_id } = adminUserOne
 
-			if (JSON.stringify(department_id) !== '[]' && JSON.stringify(job_type_id) !== '[]') {
+			if (department_id.length !== 0 && job_type_id.length !== 0) {
 				actions.getJobList({ ownership_id: department_id, is_show_department: 1, job_type_id: job_type_id, unused: adminUserOne && adminUserOne.user_id || 0, }).then(() => {
 					this.setState({
 						deptvalue: department_id,
 						jobvalue: jobs_id,
-						serchMemberParams: { user_group_id: adminUserOne.user_group_id }
+						serchMemberParams: { user_group_id }
 					})
 				}).catch((error) => {
 					message.error(error.errorMsg)
 				})
+			}
+			if(support_seller_id.length > 0){
+				this.props.actions.getSupportSeller({user_group_id})
 			}
 			const selectData = { user_group_id: adminUserOne.user_group_id }
 			await actions.getSelectMemberp(selectData)
@@ -139,7 +153,8 @@ class AddAdminUser extends Component {
 
 	//用户组带的下拉选项
 	onselectMember = async (type, value) => {
-		const { serchMemberParams } = this.state
+		const { serchMemberParams } = this.state;
+		const isSaleSupport = value == SaleSupportGroupId;
 		if (type === 'group') {
 			this.setState({
 				serchMemberParams: { user_group_id: value },
@@ -152,6 +167,9 @@ class AddAdminUser extends Component {
 				parentId: '',
 				salesmanTeam: '',
 			});
+			this.setState({ isSaleSupport, user_group_id:value })
+			isSaleSupport && this.props.actions.getSupportSeller({user_group_id: value});
+			
 		}
 		if (type === 'region') {
 			await this.props.actions.getSelectMemberp({ ...serchMemberParams, region_id: value })
@@ -243,17 +261,18 @@ class AddAdminUser extends Component {
 		}
 	}
 	render() {
-		//
-
-		const { form, adminUserOne,
+		let { isSaleSupport } = this.state;
+		
+		const { form, adminUserOne={},
 			isEditAciton,
 			departmentList,
 			jobList,
 			userGroupOption,
 			jobTypeList,
+			supportSeller,
 			selectMemberpList } = this.props;
 		const { getFieldDecorator } = form;
-		//isTrue
+		
 		const { result, isTrue, deptvalue, jobvalue } = this.state;
 		const children = result.map((email) => {
 			return <Option key={email}>{email}</Option>;
@@ -265,13 +284,11 @@ class AddAdminUser extends Component {
 		const { data_for_parent_user = [], data_for_region, data_for_team } = selectMemberpList
 		//部门树形图参数
 		const deptProps = {
-			//value: deptvalue,
 			onChange: this.deptonChange,
 			searchPlaceholder: '请选择部门',
 		};
 		//岗位树形图参数
 		const jobProps = {
-			//value: jobvalue,
 			onChange: this.jobChange,
 			searchPlaceholder: '请选择岗位',
 		}
@@ -368,10 +385,14 @@ class AddAdminUser extends Component {
 									style={{ width: '100%' }}
 									onChange={this.onselectMember.bind(null, 'group')}
 									placeholder='请选择用户组'
+									// filterOption={selectFilterOption}
+									optionFilterProp='children'
 								>
 									{userGroupOption.map(one => {
 										const desc = one.user_group_name_desc
-										return <Option key={one.user_group_id} value={one.user_group_id}>{one.user_group_name}{desc == null ? "" : `(${desc})`}</Option>
+										return <Option key={one.user_group_id} value={one.user_group_id}>
+											{`${one.user_group_name} ${desc == null ? "": desc}`}
+										</Option>
 									})}
 								</Select>
 							)}
@@ -386,6 +407,7 @@ class AddAdminUser extends Component {
 							})(
 								<Select
 									showSearch
+									optionFilterProp='children'
 									style={{ width: '100%' }}
 									placeholder="请选择销售所属大区"
 									onChange={this.onselectMember.bind(null, 'region')}
@@ -406,6 +428,7 @@ class AddAdminUser extends Component {
 							})(
 								<Select
 									showSearch
+									optionFilterProp='children'
 									style={{ width: '100%' }}
 									placeholder="请选择销售所属分组"
 								>
@@ -420,7 +443,9 @@ class AddAdminUser extends Component {
 								initialValue: deptvalue,
 								rules: [{ required: true, message: '请选择部门' }],
 							})(
-								<TreeSelect {...deptProps} multiple allowClear className='tree-admin-select'>
+								<TreeSelect 
+									{...deptProps} multiple allowClear showSearch treeNodeFilterProp='title' className='tree-admin-select'
+								>
 									{this.renderTreeNodes(departmentList)}
 								</TreeSelect>
 							)}
@@ -431,6 +456,8 @@ class AddAdminUser extends Component {
 								rules: [{ required: true, message: '请选择岗位类型' }],
 							})(
 								<Select
+									showSearch
+									optionFilterProp='children'
 									mode="multiple"
 									style={{ width: '100%' }}
 									placeholder="请选择岗位类型"
@@ -442,23 +469,14 @@ class AddAdminUser extends Component {
 								</Select>
 							)}
 						</FormItem>
-						{/* <Select
-								mode="multiple"
-								style={{ width: '100%' }}
-								placeholder="请选择部门"
-								onChange={this.deptChange}
-							>
-								{departmentList && departmentList.map(one => {
-										return <Option key={one.id} value={one.id}>{one.zh_name}</Option>
-									})} 
-							</Select>*/}
+						
 						<FormItem label="岗位" {...formItemLayout}>
 							{getFieldDecorator('job_id', {
 								initialValue: jobvalue,
 								rules: [{ required: true, message: '请选择岗位' }],
 							})(
 
-								<TreeSelect {...jobProps} multiple className='tree-admin-select'>
+								<TreeSelect {...jobProps} multiple showSearch treeNodeFilterProp='title' className='tree-admin-select'>
 									{this.renderTreeNodes(jobList)}
 								</TreeSelect>
 							)}
@@ -563,6 +581,7 @@ class AddAdminUser extends Component {
 
 									<Select
 										showSearch
+										optionFilterProp='children'
 										style={{ width: '100%' }}
 									>
 										{data_for_parent_user.map(one => {
@@ -571,7 +590,30 @@ class AddAdminUser extends Component {
 									</Select>
 
 								)}
-							</FormItem> : ''}
+							</FormItem> : ''
+						}
+						{
+							/*isSaleSupport 如果用户组为销售支持，增加选择支持的销售列表*/
+							isSaleSupport && <FormItem label="支持销售" {...formItemLayout}>
+								{getFieldDecorator('support_seller_id', {
+									initialValue: adminUserOne && adminUserOne.support_seller_id,
+									rules: [{ required: false, message: '请选择支持的销售' }],
+								})(
+									<Select
+										showSearch
+										mode="multiple"
+										style={{ width: '100%' }}
+										placeholder="请选择支持的销售"
+										// onChange={this.jobTypeChange}
+										className='tree-admin-select'
+										allowClear
+										optionFilterProp='children'
+									>
+										{supportSeller && supportSeller.map(one => <Option key={one.user_id} value={one.user_id}>{one.real_name}</Option>)}
+									</Select>
+								)}
+							</FormItem>
+						}
 					</Form>
 				</Modal>
 			</span>
@@ -586,6 +628,7 @@ const mapStateToProps = (state) => ({
 	jobList: state.adminUserList.jobList,
 	departmentList: state.adminUserList.departmentList,
 	jobTypeList: state.adminUserList.jobTypeList,
+	supportSeller: state.adminUserList.supportSeller
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -597,7 +640,8 @@ const mapDispatchToProps = (dispatch) => ({
 		getJobList,
 		cleanJobList,
 		cleanSelectMemberp,
-		getJobTypeList
+		getJobTypeList,
+		getSupportSeller
 	}, dispatch)
 })
 export default (connect(

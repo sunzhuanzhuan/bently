@@ -129,7 +129,8 @@ export const modifyComplainData = handleActions({
 		reasons: [...action.payload.data.complaint.data_execution_results],
 		comment: action.payload.data.complaint.comment,
 		attachments: [...action.payload.data.complaint.attachments],
-		upload_info: action.payload.data.upload_info
+		upload_info: action.payload.data.upload_info,
+		cost_amount: action.payload.data.cost_amount
 	}),
 	[RESETACTIVEINSPECTIONDATA]: () => {
 		return {}

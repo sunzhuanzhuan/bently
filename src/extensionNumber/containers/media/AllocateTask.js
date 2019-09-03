@@ -53,7 +53,10 @@ class AllocateTask extends Component {
                 // 处理发送数据
                 let body = {
                     ...values,
-                    ext_account_ids: this.state.selectedRowKeys.map(key => map[key]['ext_account_id'])
+                    ids: this.state.selectedRowKeys.map(key => ({
+						ext_account_id : map[key]['ext_account_id'],
+						requirement_id : map[key]['requirement_id']
+					}))
                 };
                 this.setState({ submitAllocateLoading: true })
                 // 发送请求
@@ -202,7 +205,7 @@ class AllocateTask extends Component {
                         }
                     }
                     return (
-                         showUrl() 
+                         showUrl()
                         //靠链接抓取，并且抓取成功或者不成功的，都需要显示链接
                         //不靠链接抓取，如果抓取失败的情况下，显示'-'
                     )

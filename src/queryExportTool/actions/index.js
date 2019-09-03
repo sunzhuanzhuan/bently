@@ -2,6 +2,8 @@ import Interface from '../constants/Interface'
 // import { createHttpAction } from 'redux-action-extend'
 import createHttpAction from '@/store/createHttpAction'
 import { createAction } from 'redux-actions'
+import api from "../../api";
+
 export * from './filter'
 export * from './selectCar'
 export * from './quotation'
@@ -12,34 +14,34 @@ export * from './download'
 	getCompanyList_success
 } = createHttpAction('getCompanyList', Interface.getCompanyList)*/
 //获取账号列表信息
-export const {
-	getAccountList,
-	getAccountList_success
-} = createHttpAction('getAccountList', Interface.getAccountList, {
-	isTrack: true,
-	trackResult: (search, { accounts, statistic = {}, pagination = {} }) => {
-		return {
-			total: pagination.total || 0,
-			statistic,
-			search,
-			accounts: accounts.map(item => item.account_id + ''),
-			weibo_type: isNaN(parseInt(search.group_id)) ? '' : search.group_id
-		}
+export const getAccountList = (params) => (dispatch) => {
+	const interfaceKey = {
+		1: Interface.weixinSearch,//微信
+		2: Interface.xinaSearch,//微博
+		3: Interface.videoSearch,//视频
+		4: Interface.smallRedBookSearch,//小红书
+		5: Interface.otherPlatformSearch//其他平台
 	}
-})
+
+	return api.post(interfaceKey[params.groupType], params).then((response) => {
+		const { data, } = response
+		dispatch({
+			type: getAccountList_success,
+			payload: {
+				data,
+				...params,
+			}
+		})
+		return { data }
+	})
+}
+export const getAccountList_success = "getAccountList_success"
+
 //批量查号列表
 export const {
 	getBatchSearch,
 	getBatchSearch_success
-} = createHttpAction('getBatchSearch', Interface.getBatchSearch, {
-	isTrack: true, method: 'post',
-	trackResult: (search, { pagination }) => {
-		return {
-			...search,
-			total: pagination.total
-		}
-	}
-})
+} = createHttpAction('getBatchSearch', Interface.getBatchSearch, { method: 'post' })
 //清空查询数据
 export const cleanBatchSearch = createAction('cleanBatchSearch', () => {
 	return {};
@@ -49,14 +51,7 @@ export const {
 	batchAccountExport,
 	batchAccountExport_success
 } = createHttpAction('batchAccountExport', Interface.batchAccountExport, {
-	method: 'post', isTrack: true,
-	trackResult: (search, { task_id }) => {
-		return {
-			...search,
-			accounts: search.accounts.map(item => item.account_id + ''),
-			task_id
-		}
-	}
+	method: 'post'
 })
 
 //账号详情

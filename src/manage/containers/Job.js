@@ -172,7 +172,12 @@ class Job extends Component {
 				title: '岗位名称',
 				dataIndex: 'zh_name',
 				align: 'center',
-			}, {
+			},
+			{
+				title: '用户',
+				dataIndex: 'user_real_name'
+			}, 
+			{
 				title: '岗位所属部门名称',
 				dataIndex: 'department_zh_name',
 				align: 'center',
@@ -267,6 +272,8 @@ class Job extends Component {
 			<div className='jobBox'>
 				<div style={{ marginBottom: '20px' }}>部门名称：
 					<TreeSelect
+						showSearch
+						treeNodeFilterProp='title'
 						style={{ width: 300 }}
 						placeholder="搜索部门"
 						dropdownStyle={{ maxHeight: 500, overflow: 'auto' }}
@@ -278,6 +285,8 @@ class Job extends Component {
 					/>
 					<Input onChange={this.handleChangeJob} placeholder='请查询岗位名称' style={{ width: '200px', marginLeft: '20px', marginRight: '10px' }} />
 					岗位类型：<Select
+						showSearch
+						optionFilterProp='children'
 						onChange={this.handleJobQuery.bind(this)}
 						style={{ width: '200px', marginLeft: '10px', marginRight: '20px' }}
 						allowClear={true}
@@ -512,7 +521,7 @@ class JobForm extends Component {
 						rules: [{ required: true, message: '请选择岗位类型!' }],
 						initialValue: type == 'edit' ? jobTypeName : ''
 					})(
-						<Select>
+						<Select showSearch optionFilterProp='children'>
 							{jobTypeListAll ? jobTypeListAll.map(d => <Option key={d.id} value={d.id}>{d.zh_name}</Option>) : null}
 						</Select>
 					)}
@@ -528,12 +537,14 @@ class JobForm extends Component {
 
 						})(
 							<TreeSelect
+								showSearch
 								labelInValue={true}
 								dropdownStyle={{ maxHeight: 500, overflow: 'auto' }}
 								placeholder="部门"
 								treeData={dataBranch}
 								// treeDefaultExpandAll
 								onSelect={this.onChangeBranchFromJob}
+								treeNodeFilterProp='title'
 							/>
 						)}
 					</FormItem> : null
@@ -546,12 +557,14 @@ class JobForm extends Component {
 							}
 						})(
 							<TreeSelect
+								showSearch
 								labelInValue={true}
 								dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
 								treeData={data}
 								placeholder="选择上级岗位"
 								allowClear={true}
 								onFocus={this.onChangeJob}
+								treeNodeFilterProp='title'
 							/>
 						)}
 					</FormItem> : null

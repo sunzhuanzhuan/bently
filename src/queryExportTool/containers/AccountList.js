@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 // import { StickyContainer, Sticky } from 'react-sticky';
 import * as action from '../actions/index'
-import { Tabs, Spin, BackTop } from "antd"
+import { Tabs, Spin, BackTop, message } from "antd"
 import qs from "qs";
 import DefaultChild from './children/DefaultChild'
 import "./AccountList.less"
@@ -12,6 +12,8 @@ import AccountListBatch from "./AccountListBatch"
 import { default as SelectCar, CarContent } from '../components/accountList/SelectCar';
 import platform from "../constants/platform";
 import debounce from 'lodash/debounce';
+import MaskBox from "../base/MaskBox";
+
 const TabPane = Tabs.TabPane;
 // const renderTabBar = (props, DefaultTabBar) => (
 // 	<Sticky bottomOffset={80}>
@@ -33,7 +35,7 @@ class AccountList extends Component {
 		selectCartInterimList: {},
 		selectLoading: false,
 		quotation_id: 0,
-		quotation_name: ""
+		quotation_name: "",
 	}
 	componentDidMount = () => {
 		const { getAccountListFromCart } = this.props.actions
@@ -59,10 +61,17 @@ class AccountList extends Component {
 		//是否是报价单
 		const urlAll = this.props.match.url
 		let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/" + activeKey
-		url += "?" + qs.stringify({
-			page_size: search.page_size,
-		})
-
+		let queryParams = {
+			pageSize: search.pageSize,
+		}
+		const { quotation_id, quotation_name } = this.state
+		if (quotation_id > 0) {
+			queryParams = {
+				quotation_id: quotation_id,
+				quotation_name: quotation_name
+			}
+		}
+		url += "?" + qs.stringify(queryParams)
 		this.props.history.push(url);
 	}
 
@@ -73,11 +82,12 @@ class AccountList extends Component {
 	//报价单的选中添加账号逻辑
 	addSelectedRowKeysToCart = (object, selected, list) => {
 		const { quotationAccountList = {} } = this.props.queryExportToolReducer
-		const quotationAccountId = quotationAccountList && quotationAccountList.accounts.map(one => one.account_id)
+		const { accountList = [] } = quotationAccountList
+		const quotationAccountId = accountList.map(one => one.account_id)
 		this.setState({
 			...object
 		})
-		const filterData = object.selectedRowKeysObject.filter(one => !quotationAccountId.includes(one.account_id))
+		const filterData = object.selectedRowKeysObject.filter(one => !quotationAccountId.includes(one.accountId))
 		this.setState({
 			selectedRowKeysObject: filterData
 		}, () => {
@@ -92,7 +102,7 @@ class AccountList extends Component {
 		// })
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.account_id, platform_id: one.platform_id }))
+		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
 	}
 	//报价单的保存
 	addQuotation = () => {
@@ -102,6 +112,8 @@ class AccountList extends Component {
 		if (accounts.length > 0) {
 			this.props.actions.addToQuotation({
 				quotation_id, accounts
+			}).then(() => {
+				window.location.href = `/accountList/quotationManage/detail?quotation_id=${quotation_id}`
 			})
 		}
 	}
@@ -111,7 +123,7 @@ class AccountList extends Component {
 		const { selectedRowKeysObject, selectedRowKeys } = this.state
 		if (isQuotation) {
 			this.setState({
-				selectedRowKeysObject: selectedRowKeysObject.filter(one => one.account_id != ids),
+				selectedRowKeysObject: selectedRowKeysObject.filter(one => one.accountId != ids),
 				selectedRowKeys: selectedRowKeys.filter(one => one != ids)
 			}, () => {
 				this.getSelectCartInterimList(group_type)
@@ -142,7 +154,7 @@ class AccountList extends Component {
 			this.getSelectCartInterimList(group_type)
 		}
 	}
-	//处理临时数据
+	//处理临时数据（报价单添加账号选号车数据）
 	getSelectCartInterimList = (type) => {
 		const { selectedRowKeysObject = [] } = this.state
 		//微信
@@ -166,14 +178,14 @@ class AccountList extends Component {
 		const total = { total: selectedRowKeysObject.length }
 		//此处是处理选好车需要的数据项
 		const data = (type > 0 ? dataList[type] : selectedRowKeysObject).map(one => ({
-			"id": one.account_id,
-			"account_id": one.account_id,
-			"staging_id": one.account_id,
-			"sns_name": one.base && one.base.sns_name,
-			"follower_count": one.base && one.base.follower_count,
-			"platform_id": one.platform_id,
-			"avatar_url": one.base && one.base.avatar_url,
-			"is_famous": one.base && one.base.is_famous
+			"id": one.accountId,
+			"account_id": one.accountId,
+			"staging_id": one.accountId,
+			"sns_name": one.snsName,
+			"follower_count": one.followerCount,
+			"platform_id": one.platformId,
+			"avatar_url": one.avatarUrl,
+			"is_famous": one.isFamous
 		}))
 		const selectCartInterimList = {
 			...total, data: data, tabList: tabList
@@ -182,7 +194,7 @@ class AccountList extends Component {
 	}
 	//根据全量数据过滤接口传递数据
 	getWeiboTypeList = (type, list, isInclude) => {
-		const data = list.filter(item => type.includes(item.platform_id))
+		const data = list.filter(item => type.includes(item.platformId))
 		return data.length > 0 ? data : []
 	}
 
@@ -237,6 +249,7 @@ class AccountList extends Component {
 
 		const heardText = <h2>{quotation_id > 0 ? `请为【${quotation_name}】报价单，选择您心仪的账号` : "账号列表"}</h2>
 		return <div >
+			<MaskBox />
 			<div id="Js-select-car-no-click-id">
 				<BackTop />
 				{heardText}
@@ -246,7 +259,11 @@ class AccountList extends Component {
 							return <TabPane tab={item.name} key={item.group_type} style={index == 0 ? { minHeight: 1000 } : null}>
 								{
 									item.group_type != 6 && platformType == item.group_type ?
-										<DefaultChild {...this.props} {...tableProps} setAccountState={this.setAccountState} />
+										<DefaultChild
+											{...this.props}
+											{...tableProps}
+											setAccountState={this.setAccountState}
+										/>
 										: platformType == 6 ? <AccountListBatch {...tableProps} /> : null
 								}
 							</TabPane>

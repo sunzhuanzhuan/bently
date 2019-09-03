@@ -2,7 +2,12 @@ import { createHttpAction } from '../../store/ajaxMiddleware'
 import { createAction } from 'redux-actions';
 import Interface from "../constants/Interface";
 import api from "../../api";
+//代理商名称唯一性
 
+export const {
+	existsAgentName,
+	existsAgentName_success
+} = createHttpAction('existsAgentName', Interface.existsAgentName)
 //代理商列表
 export const {
 	getAgentByPage,

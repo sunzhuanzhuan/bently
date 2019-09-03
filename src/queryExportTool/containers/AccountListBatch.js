@@ -60,12 +60,22 @@ class AccountListBatch extends Component {
 	onExportOperate = (value) => {
 		const { searchValue } = this.state
 		const { exactQueryData } = this.state
-		const { accounts = [] } = exactQueryData
-		const exportArr = accounts.map(one => {
-			const { account_id = "", platform_id = "", base: { sns_name = "", sns_id = "", account_id: accountNone = "" } } = one
-			return { account_id: account_id ? account_id : accountNone, platform_id: platform_id, sns_name: sns_name, sns_id: sns_id }
+		const { result: { list = [] } } = exactQueryData
+		const exportArr = list.map(one => {
+			const { accountId = "", platformId = "", snsName = "", snsId = "", accountId: accountNone = "" } = one
+			return {
+				account_id: accountId ? accountId : accountNone,
+				platform_id: platformId,
+				sns_name: snsName,
+				sns_id: snsId
+			}
 		})
-		const data = { ...value, accounts: exportArr, search_field: searchValue.field_type, platform_id: searchValue.platform_id }
+		const data = {
+			...value,
+			accounts: exportArr,
+			search_field: searchValue.fieldType,
+			platform_id: searchValue.platformId
+		}
 		this.setState({
 			buttonLoaing: true
 		})
@@ -110,8 +120,8 @@ class AccountListBatch extends Component {
 		const total = value.accoutName.length
 		this.setLoading()
 		const { getBatchSearch, addSelectExactQuery } = this.props.actions
-		if (value.query_type == 1) {
-			this.props.actions.getBatchSearch({ ...value, page_size: 20, page: 1, accoutName: total }).then((data) => {
+		if (value.queryType == 1) {
+			this.props.actions.getBatchSearch({ ...value, pageSize: 20, currentPage: 1, accoutName: total }).then((data) => {
 				this.setState({
 					loading: false,
 					showList: true,
@@ -120,48 +130,50 @@ class AccountListBatch extends Component {
 			})
 		} else {
 
-			const pageSize = 40
-			const lastNum = total % pageSize
-			const promisesArr = []
-			for (var i = 0; i < parseInt(total / pageSize); i++) {
-				promisesArr.push(value.accoutName.slice(i * pageSize, (i + 1) * pageSize))
-			}
-			if (lastNum) {
-				promisesArr.push(value.accoutName.slice(total - lastNum, total))
-			}
-			const promises = promisesArr.map(function (arr) {
-				return getBatchSearch({ ...value, keyword: arr.map(one => one.trim()).join(","), accoutName: total })
-			});
+			// const pageSize = 40
+			// const lastNum = total % pageSize
+			// const promisesArr = []
+			// for (var i = 0; i < parseInt(total / pageSize); i++) {
+			// 	promisesArr.push(value.accoutName.slice(i * pageSize, (i + 1) * pageSize))
+			// }
+			// if (lastNum) {
+			// 	promisesArr.push(value.accoutName.slice(total - lastNum, total))
+			// }
+			// const promises = promisesArr.map(function (arr) {
+			// 	return getBatchSearch({ ...value, accoutName: total })
+			// });
 
-			Promise.all(promises).then((posts) => {
-				const exactQueryData = posts.reduce((prev, cur, index) => {
-					return {
-						data: {
-							accounts: [...prev.data.accounts, ...cur.data.accounts],
-							is_select: [...(prev.data.is_select && prev.data.is_select || []), ...(cur.data.is_select && cur.data.is_select || [])],
-							statistic: {
-								a: {
-									on_shelf: (prev.data.statistic && prev.data.statistic.a.on_shelf) + (cur.data.statistic && cur.data.statistic.a.on_shelf),
-									off_shelf: (prev.data.statistic && prev.data.statistic.a.off_shelf) + (cur.data.statistic && cur.data.statistic.a.off_shelf)
+			// Promise.all(promises).then((posts) => {
+			// 	const exactQueryData = posts.reduce((prev, cur, index) => {
+			// 		return {
+			// 			data: {
+			// 				result: {
+			// 					list: [...prev.data.result.list, ...cur.data.result.list],
 
-								},
-								b: {
-									on_shelf: (prev.data.statistic && prev.data.statistic.b.on_shelf) + (cur.data.statistic && cur.data.statistic.b.on_shelf),
-									off_shelf: (prev.data.statistic && prev.data.statistic.b.off_shelf) + (cur.data.statistic && cur.data.statistic.b.off_shelf)
-								},
-								not_exist: (prev.data.statistic && prev.data.statistic.not_exist) + (cur.data.statistic && cur.data.statistic.not_exist),
-								total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
-							}
-						}
-					}
-				})
+			// 				},
+			// 				statistic: {
+			// 					aOnShelf: (prev.data.statistic && prev.data.statistic.aOnShelf) + (cur.data.statistic && cur.data.statistic.aOnShelf),
+			// 					aOffShelf: (prev.data.statistic && prev.data.statistic.aOffShelf) + (cur.data.statistic && cur.data.statistic.aOffShelf),
+			// 					bOnShelf: (prev.data.statistic && prev.data.statistic.bOnShelf) + (cur.data.statistic && cur.data.statistic.bOnShelf),
+			// 					bOffShelf: (prev.data.statistic && prev.data.statistic.bOffShelf) + (cur.data.statistic && cur.data.statistic.bOffShelf),
+			// 					notExist: (prev.data.statistic && prev.data.statistic.notExist) + (cur.data.statistic && cur.data.statistic.notExist),
+			// 					total: (prev.data.statistic && prev.data.statistic.total) + (cur.data.statistic && cur.data.statistic.total)
+			// 				}
+			// 			}
+			// 		}
+			// 	})})
+			getBatchSearch({ ...value, accoutName: total }).then(({ data }) => {
+				const exactQueryDataUpdate = {
+					list: data.result.list,
+					...data
+				}
 				this.setState({
 					loading: false,
 					showList: true,
-					exactQueryData: exactQueryData.data,
+					exactQueryData: exactQueryDataUpdate,
 					searchValue: value
 				})
-				addSelectExactQuery(exactQueryData.data.is_select && exactQueryData.data.is_select || [])
+				addSelectExactQuery(data.result.list.filter(one => one.isSelected == 1).map(one => one.accountId))
 			})
 		}
 	}
@@ -195,13 +207,16 @@ class AccountListBatch extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { showTypeList, visible, loading, showList, searchValue, showModalType, buttonLoaing, exactQueryData = {} } = this.state
 		const { queryExportToolReducer, actions } = this.props;
-		const { batchSearchList, filtersMetaMap, arrSelectExactQuery } = queryExportToolReducer;
-		const { statistic = {} } = searchValue.query_type == 1 ? batchSearchList : exactQueryData
-		const { a = {}, b = {} } = statistic
+		const { batchSearchList, filtersMetaMap, arrSelectExactQuery, addLookDetailOrIndexList } = queryExportToolReducer;
+		//精确查询使用exactQueryData拼接数据，模糊查询直接使用batchSearchList
+		const { statistic = {}, } = searchValue.queryType == 1 ? batchSearchList : exactQueryData
+		const { aOffShelf = 0, aOnShelf = 0, bOffShelf = 0, bOnShelf = 0, notExist = 0 } = statistic
+		//精确查询在statistic取，模糊查询在result里取
+		let total = searchValue.queryType == 1 ? batchSearchList.total : statistic.total
 		const header = <div style={{ marginTop: 2, color: "#666", float: "left" }}>
-			一共匹配到了符合条件的账号 <a>{statistic.total}</a> 个，
-		其中在A端上架 <a>{a.on_shelf}</a>个/下架 <a>{a.off_shelf}</a>个，
-		B端上架 <a>{b.on_shelf}</a>个/下架 <a>{b.off_shelf}</a> 个
+			一共匹配到了符合条件的账号 <a>{total}</a> 个，
+		其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
+		B端上架 <a>{bOnShelf}</a>个/下架 <a>{bOffShelf}</a> 个
 		</div>
 		const modalMap = {
 			1: <CreateTask onExportOperate={this.onExportOperate} buttonLoaing={buttonLoaing} />,
@@ -211,14 +226,16 @@ class AccountListBatch extends Component {
 			<div >
 				<BatchSearchCode batchSearch={this.batchSearch} filtersMetaMap={filtersMetaMap} />
 				<Row>
-					{searchValue.query_type == 1 ?
+					{searchValue.queryType == 1 ?
 						<Spin spinning={loading} >
 							<AccountTableSelect
+								addLookDetailOrIndexList={addLookDetailOrIndexList}
 								isdBackUp={this.isdBackUp}
 								accountList={batchSearchList}
 								header={header}
 								actions={actions}
 								serachAction={this.serachAction}
+
 							/>
 						</Spin>
 						:
@@ -228,7 +245,7 @@ class AccountListBatch extends Component {
 									<div>
 										<div className="batch-search-middle-line">
 											<div className="button-export">
-												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.accounts.length <= 0}>导出全部账号</Button>
+												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.list && exactQueryData.list.length <= 0}>导出全部账号</Button>
 											</div>
 											<div className="img-action">
 												<img src={showTypeList == 1 ? images.cardActivePng : images.cardPng} width="14" onClick={() => { this.setShowTypeList(1) }} />
@@ -240,23 +257,24 @@ class AccountListBatch extends Component {
 											<Col span={18} >
 												<div className="title">
 													<div style={{ marginTop: 2, color: "#666" }}>
-														共查询账号 <a>{statistic.total}</a> 个，
-														其中在A端上架 <a>{a.on_shelf}</a>个/下架 <a>{a.off_shelf}</a>个，
-														B端上架 <a>{b.on_shelf}</a>个/下架 <a>{b.off_shelf}</a> 个，不在库：<a>{statistic.not_exist}</a>个
+														共查询账号 <a>{total}</a> 个，
+														其中在A端上架 <a>{aOnShelf}</a>个/下架 <a>{aOffShelf}</a>个，
+														B端上架 <a>{bOnShelf}</a>个/下架 <a>{bOffShelf}</a> 个，不在库：<a>{notExist}</a>个
 													</div>
 												</div>
 											</Col>
-											{statistic.total ? <Col span={6} style={{ textAlign: "right" }}>
+											{total ? <Col span={6} style={{ textAlign: "right" }}>
 												<Pagination
 													simple
-													total={statistic.total}
+													total={total}
 													onChange={this.onChangePageSize}
 													defaultPageSize={200}
 													pageSizeOptions={["20", "50", "100"]} />
 											</Col> : null}
 										</Row>
-										{statistic.total ? <div>
+										{total ? <div>
 											<BatchTable
+												addLookDetailOrIndexList={addLookDetailOrIndexList}
 												accountList={exactQueryData}
 												type={showTypeList}
 												actions={actions}
@@ -297,6 +315,7 @@ const mapStateToProps = (state) => {
 		queryExportToolReducer: state.queryExportToolReducer,
 	}
 }
+
 
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators(action, dispatch)

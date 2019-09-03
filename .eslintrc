@@ -62,6 +62,9 @@
         "clearTimeout": true,
         "Set": true,
         "__dirname": true,
-        "Reflect": true
+        "Reflect": true,
+        "Blob": true,
+        "fetch": true,
+        "localStorage": true
     }
 }

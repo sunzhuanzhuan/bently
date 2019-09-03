@@ -32,7 +32,7 @@ export const batchEditAccountPriceStep3 = (props) => {
 						tok={props.getNewToken}
 						uploadUrl="/api/common-file/file/v1/uploadPriBucket"
 						len={1}
-						size={50}
+						size={1}
 						listType="text"
 						uploadText="上传账号信息"
 						onChange={(file, originFile) => props.uploadFile(file, originFile)}
@@ -50,7 +50,7 @@ export const batchEditAccountPriceStep3 = (props) => {
 			>
 				<ul className="option-function">
 					<li>1、点击【下载模板】按钮，下载模板</li>
-					<li>2、按要求将需要修改报价的账号信息填写在模板表格中</li>
+					<li>{`2、按要求将需要修改${props.text}的账号信息填写在模板表格中`}</li>
 					<li>3、点击【上传账号信息】按钮，上传填写好的模板</li>
 				</ul>
 			</FormItem>
@@ -59,7 +59,7 @@ export const batchEditAccountPriceStep3 = (props) => {
 				label="提示"
 			>
 				<ul className="option-function">
-					<li>单文件需≤50MB，格式需为xls或xlsx</li>
+					<li>单文件需≤1MB，格式需为xls或xlsx</li>
 				</ul>
 			</FormItem>
 			<FormItem>

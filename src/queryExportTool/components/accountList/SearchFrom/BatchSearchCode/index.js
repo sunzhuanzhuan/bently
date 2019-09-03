@@ -9,9 +9,9 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 const searchMap = {
-	1: "账号昵称",
-	2: "账号ID",
-	3: "账号account_id",
+	1: { name: "账号昵称", key: 'snsNames' },
+	2: { name: "账号ID", key: 'snsIds' },
+	3: { name: "账号accountId", key: 'accountIds' },
 }
 const formItemLayout = {
 	labelCol: {
@@ -28,7 +28,7 @@ class BatchSearchCode extends Component {
 		super(props);
 		this.state = {
 			accoutName: [],
-			selectValue: 1,
+			selectValue: 2,//需求变更：模糊匹配删除账号昵称查询
 			cascaderValue: 1,
 		};
 	}
@@ -36,13 +36,16 @@ class BatchSearchCode extends Component {
 		e.preventDefault();
 		const { accoutName } = this.state
 		this.props.form.validateFields((err, values) => {
+			const platformId = values.platformId[values.platformId.length - 1]
 			delete values.vailAccoutName
+			delete values.keyword
+
 			if (!err) {
 				const allValue = {
-					...values,
-					platform_id: values.platform_id[values.platform_id.length - 1],
-					query_type: values.query_type,
-					keyword: accoutName.map(one => one.trim()).join(","),
+					fieldType: values.fieldType,
+					platformId: platformId ? platformId : null,
+					queryType: values.queryType,
+					[searchMap[values.fieldType].key]: accoutName,
 					accoutName: accoutName
 				}
 				this.props.batchSearch({ ...allValue })
@@ -62,11 +65,17 @@ class BatchSearchCode extends Component {
 	//
 	//个数验证
 	vailAccoutName = (rule, value, callback) => {
+		const { selectValue } = this.state
 		const accoutName = (value.split(/[\n]/)).filter(one => one && one.replace(/(^\s*)|(\s*$)/g, ""))
+
+		const parent = /^[\r\s\n0-9]+$/
 		if (accoutName)
 			if (accoutName.length > 200) {
 				callback("最多可输入200个账号")
-			} else {
+			} else if (!parent.test(value) && selectValue == 3) {
+				callback("只能输入数字")
+			}
+			else {
 				callback()
 			}
 
@@ -75,29 +84,29 @@ class BatchSearchCode extends Component {
 	handleSelectChange = (value) => {
 		this.setState({
 			selectValue: value
-		})
+		},
+			() => {
+				//查询条件变化时强行校验keyword的值（解决切换查询条件时，不校验keyword的值）
+				const { validateFields, getFieldValue } = this.props.form;
+				getFieldValue('keyword') && validateFields(['keyword'], { force: true })
+			})
 	}
 
 	onChangeCascader = (value) => {
 		this.setState({
 			cascaderValue: value
 		}, () => {
-			/* 当选择不限时，查询方式只能是精确，只能查询account_id */
+			/* 当选择不限时，查询方式只能是精确，只能查询accountId */
 			if (value == 0) {
 				this.setState({ selectValue: 3 })
-				this.props.form.setFieldsValue({ field_type: 3 })
-				this.props.form.setFieldsValue({ query_type: 2 })
+				this.props.form.setFieldsValue({ fieldType: 3 })
+				this.props.form.setFieldsValue({ queryType: 2 })
 			}
 		})
 	}
-	/* 查询条件为模糊时不能选择account_id */
+	/* 修改查询方式时，查询条件默认为2:账号ID */
 	queryTypeChange = (value) => {
-		const { getFieldValue } = this.props.form;
-		if (getFieldValue("field_type") == 2 && value == 1) {
-			this.props.form.setFieldsValue({ field_type: 2 })
-		} else {
-			this.props.form.setFieldsValue({ field_type: 1 })
-		}
+		this.props.form.setFieldsValue({ fieldType: 2 })
 	}
 	render() {
 		const { selectValue, cascaderValue } = this.state
@@ -115,13 +124,13 @@ class BatchSearchCode extends Component {
 							label="平台"
 							{...formItemLayout}
 						>
-							{getFieldDecorator('platform_id', {
+							{getFieldDecorator('platformId', {
 								initialValue: [9],
 							})(
 								<Cascader
 									popupClassName="batch-serach-code-cascader"
 									fieldNames={{ label: 'name', value: 'platform_id', children: 'grouped_platforms' }}
-									options={filtersMetaMap && filtersMetaMap.groups_batch}
+									options={filtersMetaMap && filtersMetaMap.groups}
 									expandTrigger="click"
 									displayRender={displayRender}
 									onChange={this.onChangeCascader}
@@ -136,12 +145,12 @@ class BatchSearchCode extends Component {
 							label="查询方式"
 							{...formItemLayout}
 						>
-							{getFieldDecorator('query_type', {
+							{getFieldDecorator('queryType', {
 								initialValue: 2,
 							})(
 								<Select placeholder="请选择"
 									onChange={this.queryTypeChange}
-									disabled={getFieldValue('platform_id') == 0}>
+									disabled={getFieldValue('platformId') == 0}>
 									<Option value={1} >模糊匹配</Option>
 									<Option value={2} >精确查询</Option>
 								</Select>
@@ -153,7 +162,7 @@ class BatchSearchCode extends Component {
 							label="查询条件"
 							{...formItemLayout}
 						>
-							{getFieldDecorator('field_type', {
+							{getFieldDecorator('fieldType', {
 								initialValue: selectValue,
 							})(
 								<Select
@@ -161,16 +170,15 @@ class BatchSearchCode extends Component {
 									onChange={this.handleSelectChange}
 									disabled={cascaderValue == 0}
 								>
-									<Option value={1} key={1}>账号昵称</Option>
 									<Option value={2} key={2}>账号ID</Option>
-									{getFieldValue('query_type') == 2 ? <Option value={3} key={3}>账号account_id</Option> : null}
+									{getFieldValue('queryType') == 2 ? <Option value={3} key={3}>账号accountId</Option> : <Option value={1} key={1}>账号昵称</Option>}
 								</Select>
 							)}
 						</FormItem>
 					</Col>
 				</Row>
 				<div className="account-name">
-					<div className="text">请输入<span style={{ color: "red" }}>{searchMap[getFieldValue('field_type')]}</span>，一行一个，最多200个</div>
+					<div className="text">请输入<span style={{ color: "red" }}>{searchMap[getFieldValue('fieldType')].name}</span>，一行一个，最多200个</div>
 					<FormItem>
 						{getFieldDecorator('keyword', {
 							rules: [{ validator: this.vailAccoutName }],

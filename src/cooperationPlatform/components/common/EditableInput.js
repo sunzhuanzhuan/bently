@@ -42,7 +42,7 @@ class EditableInput extends Component {
 					{getFieldDecorator('price', {
 						initialValue: value,
 						validateFirst: true,
-						rules: [{ required: true, message: '请输入微播易展示报价项名称!' },
+						rules: [{ required: true, message: '本项为必选项，请选择!' },
 						{ validator: this.chinaAndNumberVali },
 						{ max: 30, message: "最多可输入30个字！" }
 						],

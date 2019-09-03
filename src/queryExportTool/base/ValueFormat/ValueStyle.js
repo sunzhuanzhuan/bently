@@ -3,7 +3,8 @@ import './index.less'
 
 
 
-const ValueStyle = ({ value: val = null, unit, type = 2, product_on_shelf_status }) => {
+const ValueStyle = ({ value: val = null, unit, type = 2, productOnShelfStatus }) => {
+	//productOnShelfStatus  下架的Sku==2时显示为' — '
 	const classNameMap = {
 		1: "price-value-red",
 		2: "large-value-dark",
@@ -12,8 +13,8 @@ const ValueStyle = ({ value: val = null, unit, type = 2, product_on_shelf_status
 	const hasUnit = !!(unit && val && val != 0 && val != "-")
 
 	return <div className={'value-format-display-container ' + classNameMap[type]}>
-		<div className='value-format-display-value' style={{ fontSize: "13px" }}>{type == 1 && product_on_shelf_status != 1 ? "-" : val ? val : "-"}</div>
-		{hasUnit && <div className='value-format-display-unit'>{type == 1 && product_on_shelf_status != 1 ? "" : unit}</div>}
+		<div className='value-format-display-value' style={{ fontSize: "13px" }}>{type == 1 && productOnShelfStatus != 1 ? "-" : val ? val : "-"}</div>
+		{hasUnit && <div className='value-format-display-unit'>{type == 1 && productOnShelfStatus != 1 ? "" : unit}</div>}
 	</div>
 }
 

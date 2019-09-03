@@ -17,6 +17,8 @@ import * as action from '../actions/index'
 import { Button, Row, Skeleton, Tabs, Modal, message, Icon } from 'antd';
 import qs from "qs";
 import ValueFormat from "@/queryExportTool/base/ValueFormat";
+import { getPostFrom } from '../util/javaPostConfig'
+
 const TabPane = Tabs.TabPane;
 class QuotationDetail extends Component {
 	constructor(props) {
@@ -40,7 +42,10 @@ class QuotationDetail extends Component {
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
 		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotation_id: quotation_id }).then((res) => {
+		getQuotationDetail({ quotation_id: quotation_id }).then(({ data }) => {
+			this.props.history.push({
+				search: `?` + qs.stringify({ ...search, companyId: data.company_id })
+			})
 			this.setState({
 				detailLoading: false,
 				isShowNoPermiss: 2
@@ -55,7 +60,9 @@ class QuotationDetail extends Component {
 				})
 			}
 		})
-		getQuotationAccountSearch({ quotation_id: quotation_id, page: 1, page_size: 20 }).then(results => {
+		getQuotationAccountSearch(
+			getPostFrom({ quotationId: parseInt(quotation_id) })
+		).then(results => {
 			this.setState({
 				isLoading: false,
 			})
@@ -122,15 +129,13 @@ class QuotationDetail extends Component {
 			isLoading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		const data = { ...search, page: 1, group_type: key, quotation_id: search.quotation_id }
-		this.props.history.push({
-			search: `?` + qs.stringify(data)
-		})
+		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotation_id }
+
 		this.setLoading()
 		if (key == 10) {
-			delete data.group_type
+			delete data.groupType
 		}
-		this.props.actions.getQuotationAccountSearch(data).then(() => {
+		this.props.actions.getQuotationAccountSearch(getPostFrom(data)).then(() => {
 			this.setState({
 				isLoading: false
 			})
@@ -154,12 +159,12 @@ class QuotationDetail extends Component {
 				follower_count: follower_count
 			}).then((res) => {
 				message.success('删除成功', 2);
-				let data = { group_type: selectKey, ...search }
+				let data = { groupType: selectKey, ...search }
 				if (selectKey == 10) {
-					data.group_type = 0
+					data.groupType = 0
 				}
 				//暂时搜索
-				this.props.actions.getQuotationAccountSearch(data)
+				this.props.actions.getQuotationAccountSearch(getPostFrom(data))
 			})
 
 	}
@@ -175,10 +180,10 @@ class QuotationDetail extends Component {
 	serachAction = (value) => {
 		const { selectKey } = this.state
 		if (selectKey == 10) {
-			value.group_type = 0
+			value.groupType = 0
 		}
 		this.setLoading()
-		this.props.actions.getQuotationAccountSearch(value).then(() => {
+		this.props.actions.getQuotationAccountSearch(getPostFrom(value)).then(() => {
 			this.setLoading()
 		})
 	}
@@ -194,8 +199,8 @@ class QuotationDetail extends Component {
 		const { selectedRowKeys, visible, detailLoading,
 			isLoading, messageInfo, typeShow, isShowNoPermiss, selectKey } = this.state
 		const { codeCheck } = actions
-		const { yuyueNum, weiNum, follower_count } = quotationAccountList
-		const accountSum = yuyueNum + weiNum
+		const { followerCount, parkAccountCount = 0, reservationAccountCount = 0 } = quotationAccountList
+		const accountSum = reservationAccountCount + parkAccountCount
 		const countSum = quotationAccountList.total || 0
 		const tabList = [
 			{ key: 10, tab: `全部${countSum}` },
@@ -214,7 +219,8 @@ class QuotationDetail extends Component {
 			accountList: quotationAccountList,
 			isDeleteAction: true,
 			tablePageSize: 20,
-			batchRemove: this.batchRemove
+			batchRemove: this.batchRemove,
+			serachAction: this.serachAction
 		}
 		const exportUrl = `/accountList/downloadCenter`
 		const modelTypeMap = {
@@ -255,8 +261,8 @@ class QuotationDetail extends Component {
 					<TitleLable title="账号信息" >
 						<div>
 							<div style={{ background: "#f5f5f5", padding: "8px 4px" }}>
-								<span>账号总数：<span style={{ color: "#33CC00" }}>{accountSum}</span> （预约：{yuyueNum}   微闪投：{weiNum}）    粉丝数：
-							<ValueFormat value={follower_count > 0 ? follower_count : 0} format='large' />
+								<span>账号总数：<span style={{ color: "#33CC00" }}>{accountSum}</span> （预约：{reservationAccountCount}   微闪投：{parkAccountCount}）    粉丝数：
+							<ValueFormat value={followerCount > 0 ? followerCount : 0} format='large' />
 									<span style={{ color: "#33CC00" }}>{quotationDetail.followers_count}</span></span>
 							</div>
 							<Tabs onChange={this.onChangeTab} defaultActiveKey="10">

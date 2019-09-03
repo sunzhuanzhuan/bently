@@ -241,7 +241,7 @@ class RequisitionDetail extends Component {
 						title: "需求名称",
 						dataIndex: 'requirement_name',
 						align: 'center',
-						render: (name, { requirement_name_id: id }) =>
+						render: (name, { requirement_id: id }) =>
 							<a target="_blank" href={reservationLink.name + id}>
 								{name}
 							</a>
@@ -285,7 +285,7 @@ class RequisitionDetail extends Component {
 						dataIndex: 'purchase_price_with_service_fee',
 						align: 'center',
 						render: (text, record) => {
-							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)
+							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate / 100 + 1) * record.purchase_price)
 
 							return <span className={isYellow ? "is-yellow-box" : ""}>
 								<NumeralFormat value={text} />
@@ -357,11 +357,12 @@ class RequisitionDetail extends Component {
 						dataIndex: 'purchase_price_with_service_fee',
 						align: 'center',
 						render: (text, record) => {
-							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)
+							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate / 100 + 1) * record.purchase_price)
 
 							return <span className={isYellow ? "is-yellow-box" : ""}>
 								<NumeralFormat value={text} />
-							</span>}
+							</span>
+						}
 					}, {
 						title: "采购价+服务费+税",
 						dataIndex: 'purchase_price_with_service_fee_and_tax',
@@ -422,11 +423,12 @@ class RequisitionDetail extends Component {
 						dataIndex: 'purchase_price_with_service_fee',
 						align: 'center',
 						render: (text, record) => {
-							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate/100 + 1) * record.purchase_price)
+							const isYellow = record.purchase_price_with_service_fee != Math.round((service_fee_rate / 100 + 1) * record.purchase_price)
 
 							return <span className={isYellow ? "is-yellow-box" : ""}>
 								<NumeralFormat value={text} />
-							</span>}
+							</span>
+						}
 					}, {
 						title: "采购价+服务费+税",
 						dataIndex: 'purchase_price_with_service_fee_and_tax',

@@ -1,16 +1,16 @@
 import React from "react"
 import './Secondary.less'
 
-const Secondary = ({ genderName, area_name, age_group }) => {
+const Secondary = ({ genderName, areaName, ageGroup }) => {
 	const data = []
 	if (genderName) {
 		data.push(genderName)
 	}
-	if (area_name) {
-		data.push(area_name)
+	if (areaName) {
+		data.push(areaName)
 	}
-	if (age_group) {
-		data.push(age_group + '后')
+	if (ageGroup) {
+		data.push(ageGroup)
 	}
 
 	return <ul className='account-secondary-wrapper' >

@@ -4,17 +4,20 @@ import { Tag, DatePicker, Button, Popover, Icon, message } from 'antd';
 import DropdownMenuNew from '../../../dropdownMenu/dropdownMenuNew'
 import MoreFilter from '../MoreFilter/index'
 import SelectAndInput from '../SelectAndInput'
+import IndexButton from '../SelectAndInput/indexButton'
+
 import SelectMenu from '../SelectMenu'
 import TreeTransfer from '../TreeTransfer'
 import './FilterCommon.less'
 import { objectToArray } from '../../../../../util'
+// import SelectedItem from '../SelectedItems'
 const { RangePicker } = DatePicker;
 // const FilterNumberRangePicker = DropdownMenu.FilterNumberRangePicker
 import {
 	// dateRangeOptions,
 	genderOptions,
-	kol_visitor_age_draw_options,
-	kol_visitor_gender_options,
+	kolVisitorAgeDrawOptions,
+	kolVisitorGenderOptions,
 	// mediaTypeOptions
 } from '@/queryExportTool/constants/searchFilter'
 
@@ -33,7 +36,7 @@ export default class FilterCommon extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
-			selectedItems: {},
+			// selectedItems: {},
 			moreFilterVisible: false
 		}
 	}
@@ -42,30 +45,28 @@ export default class FilterCommon extends React.Component {
 			this.setState({ dropdownMenuShow: undefined })
 		})
 	}
-	onChange = (id, name, { optionsNames: names }) => {
-		const selectedItems = {
-			...this.state.selectedItems,
-			[id]: name + ':' + names
-		}
-		this.setState({ selectedItems, dropdownMenuShow: false }, () => {
+	onChange = (...params) => {
+		this.props.onChange(...params);
+
+		//这里是为了隐藏下拉菜单，有待优化；
+		this.setState({ dropdownMenuShow: false }, () => {
 			this.setState({ dropdownMenuShow: undefined })
 		})
-		this.props.onFilter()
 	}
 	onFilter = () => {
 		this.props.onFilter();
 	}
-	onSelectMenuChange = (id, name, value) => {
-		const { filterOptions = {} } = this.props.queryExportToolReducer;
-		const { params } = this.props.match;
-		const { filter_commonArray = {} } = filterOptions[params.platformType] || {};
-		const options = filter_commonArray[id].options || [];
-		const map = options.reduce((obj, item) => {
-			obj[item.value || item.id] = item.name;
-			return obj;
-		}, {})
-		this.onChange(id, name, { optionsNames: map[value] })
-	}
+	// onSelectMenuChange = (id, name, value) => {
+	// 	const { filterOptions = {} } = this.props.queryExportToolReducer;
+	// 	const { params } = this.props.match;
+	// 	const { filterCommonArray = {} } = filterOptions[params.platformType] || {};
+	// 	const options = filterCommonArray[id].options || [];
+	// 	const map = options.reduce((obj, item) => {
+	// 		obj[item.value || item.id] = item.name;
+	// 		return obj;
+	// 	}, {})
+	// 	this.onChange(id, name, { optionsNames: map[value] })
+	// }
 
 	onMoreFilterCancel = () => {
 		this.onVisibleChange(false)
@@ -76,41 +77,48 @@ export default class FilterCommon extends React.Component {
 		})
 	}
 	onMoreFilterOk = (selectedItems) => {
-		const stateSelectedItems = this.state.selectedItems;
-		const maxLength = Object.keys(selectedItems).length + Object.keys(stateSelectedItems).length;
-		if (maxLength > 10) {
-			message.error('搜索不能超过十个条件')
-			return false;
-		}
-		const _selectedItems = { ...stateSelectedItems, ...selectedItems }
-		this.setState({
-			selectedItems: _selectedItems
-		})
+		const { batchUpdateSelectedItems } = this.props;
+		batchUpdateSelectedItems(selectedItems);
+
+		console.log("onMoreFilterOk", selectedItems)
+		// const stateSelectedItems = this.state.selectedItems;
+		// const maxLength = Object.keys(selectedItems).length + Object.keys(stateSelectedItems).length;
+		// if (maxLength > 10) {
+		// 	message.error('搜索不能超过十个条件')
+		// 	return false;
+		// }
+		// const SelectedItems = { ...stateSelectedItems, ...selectedItems }
+		// this.setState({
+		// 	selectedItems: SelectedItems
+		// })
 		this.onVisibleChange(false)
 		this.props.onFilter();
 	}
-	remove = (id) => {
-		const _selectedItems = this.state.selectedItems;
-		delete _selectedItems[id];
-		this.MoreFilterNode && this.MoreFilterNode.remove(id);
-		this.setState({ selectedItems: _selectedItems })
-		this.props.resetFilter(id);
-		this.props.onFilter();
+	// remove = (id) => {
+	// 	const SelectedItems = this.state.selectedItems;
+	// 	delete SelectedItems[id];
+	// 	this.MoreFilterNode && this.MoreFilterNode.remove(id);
+	// 	this.setState({ selectedItems: SelectedItems })
+	// 	this.props.resetFilter(id);
+	// 	this.props.onFilter();
+	// }
+	// resetFilter = () => {
+	// 	this.setState({
+	// 		selectedItems: {}
+	// 	})
+	// 	this.MoreFilterNode && this.MoreFilterNode.reset();
+	// 	this.props.resetFilter();
+	// 	this.props.onFilter();
+	// }
+	reset = () => {
+		this.MoreFilterNode && this.MoreFilterNode.reset()
 	}
-	resetFilter = () => {
-		this.setState({
-			selectedItems: {}
-		})
-		this.MoreFilterNode && this.MoreFilterNode.reset();
-		this.props.resetFilter();
-		this.props.onFilter();
-	}
-
 	render() {
-		const { form, selectedItems: selectedItemsFromProps } = this.props;
+		const { form, selectedItems } = this.props;
 		const { getFieldDecorator } = form;
 		const { filterOptions = {} } = this.props.queryExportToolReducer;
 		const { params } = this.props.match;
+		const { onChange } = this;
 		const {
 			unit_play_price_types,
 			unit_read_price_types,
@@ -121,120 +129,120 @@ export default class FilterCommon extends React.Component {
 			kol_interest_list_options,	//账号兴趣
 		} = filterOptions[params.platformType] || {};
 
-		const { selectedItems, dropdownMenuShow } = this.state;
-		const selectedItemsArray = objectToArray({ ...selectedItems, ...selectedItemsFromProps });
+		const { dropdownMenuShow } = this.state;
+		const selectedItemsArray = objectToArray({ ...selectedItems });
 		const mapFieldsToPlatform = {
-			"kol_visitor_gender_draw_type": [1, 2, 3], //受众性别
-			"kol_visitor_age_draw": [1, 2, 3],	//受众年龄
-			"kol_visitor_province_draw": [1, 2, 3],
-			"kol_visitor_interest_draw": [1, 2, 3],
-			"true_read_ratio": [1],
-			"media_index1_avg_read_num": [1],
-			"direct_media_interaction_avg": [2],
-			"true_fans_rate": [2],
+			"kolVisitorGenderDrawType": [1, 2, 3], //受众性别
+			"kolVisitorAgeDraw": [1, 2, 3],	//受众年龄
+			"kolVisitorProvinceDraw": [1, 2, 3],
+			"kolVisitorInterestDraw": [1, 2, 3],
+			"trueReadRatio": [1],
+			"mediaIndexOneAvgReadNum": [1],
+			"directMediaInteractionAvg": [2],
+			"trueFansRate": [2],
 			"gender": [4, 5],
-			"industry_id": [],  //账号行业
-			"verified_status": [],
-			"live_latest_publish_time": [4, 5],
-			"area_id": [1, 2, 3, 4, 5],
-			"read_price": [1],
-			"play_price": [3]
+			"industryId": [],  //账号行业
+			"verifiedStatus": [],
+			"liveLatestPublishTime": [4, 5],
+			"areaIds": [1, 2, 3, 4, 5],
+			"readPrice": [1],
+			"playPrice": [3]
 		}
 		const platformType = parseInt(params.platformType, 10);
 		return (
 			<div className='filter-common'>
 				<div className="filter-common-items">
 					{
-						mapFieldsToPlatform['kol_visitor_gender_draw_type'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众性别' className='dropdown-menu'>
-							{getFieldDecorator("kol_visitor_gender_draw_type", {
+						mapFieldsToPlatform['kolVisitorGenderDrawType'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众性别' className='dropdown-menu'>
+							{getFieldDecorator("kolVisitorGenderDrawType", {
 								// initialValue: "0"
 							})(
 								<SelectMenu
-									options={kol_visitor_gender_options}
-									onSelect={values => this.onChange('kol_visitor_gender_draw_type', '受众性别', values)}
+									options={kolVisitorGenderOptions}
+									onSelect={values => onChange('kolVisitorGenderDrawType', '受众性别', values)}
 								></SelectMenu>
 							)}
 						</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['kol_visitor_age_draw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众年龄' className='dropdown-menu' >
-							{getFieldDecorator("kol_visitor_age_draw", {
+						mapFieldsToPlatform['kolVisitorAgeDraw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众年龄' className='dropdown-menu' >
+							{getFieldDecorator("kolVisitorAgeDraw", {
 								// initialValue: {
 								// 	name: '19-24',
 								// 	weight: [30, 100]
 								// }
-							})(<SelectAndInput promptMessage="可以选择占比大于某个值的年龄段" options={kol_visitor_age_draw_options} onOkClick={(values) => { this.onChange('kol_visitor_age_draw', '受众年龄', values) }}></SelectAndInput>
+							})(<SelectAndInput promptMessage="可以选择占比大于某个值的年龄段" options={kolVisitorAgeDrawOptions} onOkClick={(values) => { onChange('kolVisitorAgeDraw', '受众年龄', values) }}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['kol_visitor_province_draw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众地域' className='dropdown-menu'>
-							{getFieldDecorator("kol_visitor_province_draw", {
+						mapFieldsToPlatform['kolVisitorProvinceDraw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众地域' className='dropdown-menu'>
+							{getFieldDecorator("kolVisitorProvinceDraw", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput promptMessage="可以选择占比大于某个值的地域" options={kol_province_list_options} onOkClick={(values) => { this.onChange('kol_visitor_province_draw', '受众地域', values) }}></SelectAndInput>
+								<SelectAndInput promptMessage="可以选择占比大于某个值的地域" options={kol_province_list_options} onOkClick={(values) => { onChange('kolVisitorProvinceDraw', '受众地域', values) }}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['kol_visitor_interest_draw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众兴趣' className='dropdown-menu'>
-							{getFieldDecorator("kol_visitor_interest_draw", {
+						mapFieldsToPlatform['kolVisitorInterestDraw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众兴趣' className='dropdown-menu'>
+							{getFieldDecorator("kolVisitorInterestDraw", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput promptMessage="可以选择占比大于某个值的兴趣" options={kol_interest_list_options} onOkClick={(values) => { this.onChange('kol_visitor_interest_draw', '受众兴趣', values) }}></SelectAndInput>
+								<SelectAndInput promptMessage="可以选择占比大于某个值的兴趣" options={kol_interest_list_options} onOkClick={(values) => { onChange('kolVisitorInterestDraw', '受众兴趣', values) }}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
 					{/* 微信公众号 */}
 					{
-						mapFieldsToPlatform['true_read_ratio'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='真实阅读率' className='dropdown-menu'>
-							{getFieldDecorator("true_read_ratio", {
+						mapFieldsToPlatform['trueReadRatio'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='真实阅读率' className='dropdown-menu'>
+							{getFieldDecorator("trueReadRatio", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput id='true_read_ratio' onOkClick={(values) => { this.onChange('true_read_ratio', '真实阅读率', values) }}></SelectAndInput>
+								<SelectAndInput id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }}></SelectAndInput>
 							)}</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['media_index1_avg_read_num'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='多一阅读量' className='dropdown-menu'>
-							{getFieldDecorator("media_index1_avg_read_num", {
+						mapFieldsToPlatform['mediaIndexOneAvgReadNum'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='多一阅读量' className='dropdown-menu'>
+							{getFieldDecorator("mediaIndexOneAvgReadNum", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput id='media_index1_avg_read_num' onOkClick={(values) => { this.onChange('media_index1_avg_read_num', '多一阅读量', values) }} inputLableAfter=""></SelectAndInput>
+								<IndexButton id='mediaIndexOneAvgReadNum' onOkClick={(values) => { onChange('mediaIndexOneAvgReadNum', '多一阅读量', values) }} inputLableAfter=""></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{/* 新浪微博 */}
 					{
-						mapFieldsToPlatform['direct_media_interaction_avg'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='直发互动量' className='dropdown-menu'>
-							{getFieldDecorator("direct_media_interaction_avg", {
+						mapFieldsToPlatform['directMediaInteractionAvg'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='直发互动量' className='dropdown-menu'>
+							{getFieldDecorator("directMediaInteractionAvg", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput promptMessage="直发类型微博的平均转发、评论、点赞之和" id='direct_media_interaction_avg' onOkClick={(values) => { this.onChange('direct_media_interaction_avg', '直发互动量', values) }} inputLableAfter=""></SelectAndInput>
+								<IndexButton promptMessage="直发类型微博的平均转发、评论、点赞之和" id='directMediaInteractionAvg' onOkClick={(values) => { onChange('directMediaInteractionAvg', '直发互动量', values) }} inputLableAfter=""></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['true_fans_rate'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='真粉率' className='dropdown-menu'>
-							{getFieldDecorator("true_fans_rate", {
+						mapFieldsToPlatform['trueFansRate'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='真粉率' className='dropdown-menu'>
+							{getFieldDecorator("trueFansRate", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput id='true_fans_rate' onOkClick={(values) => { this.onChange('true_fans_rate', '真粉率', values) }}></SelectAndInput>
+								<SelectAndInput id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }}></SelectAndInput>
 							)}</DropdownMenuNew>
 					}
 
@@ -247,11 +255,11 @@ export default class FilterCommon extends React.Component {
 					}
 
 					{
-						mapFieldsToPlatform['area_id'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='账号地域' className='dropdown-menu'>
-							{getFieldDecorator("area_id", {
+						mapFieldsToPlatform['areaIds'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='账号地域' className='dropdown-menu'>
+							{getFieldDecorator("areaIds", {
 								// initialValue: '0'
 							})(
-								<TreeTransfer options={default_hot_cities} onOkClick={(values) => { this.onChange('area_id', '账号地域', values) }} onClickCancel={this.onClickCancel}></TreeTransfer>
+								<TreeTransfer options={default_hot_cities} onOkClick={(values) => { onChange('areaIds', '账号地域', values) }} onClickCancel={this.onClickCancel}></TreeTransfer>
 							)}
 						</DropdownMenuNew>
 					}
@@ -263,38 +271,38 @@ export default class FilterCommon extends React.Component {
 								// initialValue: '0'
 							})(
 								<SelectMenu
-									onSelect={(values) => { this.onChange('gender', '账号性别', values) }}
+									onSelect={(values) => { onChange('gender', '账号性别', values) }}
 									options={genderOptions}
 								></SelectMenu>
 							)}</DropdownMenuNew>
 					}
 					{
 						//这个暂时使用受众兴趣的options
-						mapFieldsToPlatform['industry_id'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='账号行业' className='dropdown-menu'>
-							{getFieldDecorator("industry_id", {
+						mapFieldsToPlatform['industryId'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='账号行业' className='dropdown-menu'>
+							{getFieldDecorator("industryId", {
 								// initialValue: '0'
 							})(
 								<SelectMenu
-									onSelect={(values) => { this.onChange('industry_id', '账号行业', values) }}
+									onSelect={(values) => { onChange('industryId', '账号行业', values) }}
 									options={industry_list_options}></SelectMenu>
 							)}</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['verified_status'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='认证类型' className='dropdown-menu'>
-							{getFieldDecorator("verified_status", {
+						mapFieldsToPlatform['verifiedStatus'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='认证类型' className='dropdown-menu'>
+							{getFieldDecorator("verifiedStatus", {
 								// initialValue: '0'
 							})(
 								<SelectMenu
-									onSelect={(values) => { this.onChange('verified_status', '认证类型', values) }}
+									onSelect={(values) => { onChange('verifiedStatus', '认证类型', values) }}
 									options={verified_status}
 								></SelectMenu>
 							)}</DropdownMenuNew>
 					}
-					{mapFieldsToPlatform['read_price'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='阅读单价' className='dropdown-menu'>
+					{mapFieldsToPlatform['readPrice'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='阅读单价' className='dropdown-menu'>
 						<div className='' style={{ 'overflow': 'hidden', marginBottom: '20px' }}>
-							{getFieldDecorator('sku_unit_read_price', {})(
+							{getFieldDecorator('skuUnitReadPrice', {})(
 								<SelectAndInput
-									onOkClick={(values) => { this.onChange('sku_unit_read_price', '阅读单价', values) }}
+									onOkClick={(values) => { onChange('skuUnitReadPrice', '阅读单价', values) }}
 									inputLableBefore='阅读单价'
 									inputLableAfter=''
 									showType='three'
@@ -304,11 +312,11 @@ export default class FilterCommon extends React.Component {
 						</div></DropdownMenuNew>
 					}
 
-					{mapFieldsToPlatform['play_price'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='播放单价' className='dropdown-menu'>
+					{mapFieldsToPlatform['playPrice'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='播放单价' className='dropdown-menu'>
 						<div className='' style={{ 'overflow': 'hidden', marginBottom: '20px' }}>
-							{getFieldDecorator('sku_unit_play_price', {})(
+							{getFieldDecorator('skuUnitPlayPrice', {})(
 								<SelectAndInput
-									onOkClick={(values) => { this.onChange('sku_unit_play_price', '播放单价', values) }}
+									onOkClick={(values) => { onChange('skuUnitPlayPrice', '播放单价', values) }}
 									inputLableBefore='播放单价'
 									inputLableAfter=''
 									showType='three'
@@ -318,12 +326,12 @@ export default class FilterCommon extends React.Component {
 						</div></DropdownMenuNew>
 					}
 					{/* {
-						mapFieldsToPlatform['live_latest_publish_time'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='最近一次内容发布时间' className='dropdown-menu'>
-							{getFieldDecorator("live_latest_publish_time", {
+						mapFieldsToPlatform['liveLatestPublishTime'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='最近一次内容发布时间' className='dropdown-menu'>
+							{getFieldDecorator("liveLatestPublishTime", {
 								// initialValue: '0'
 							})(
-								<SelectMenu id='live_latest_publish_time'
-									onSelect={(values) => { this.onChange('live_latest_publish_time', '最近一次内容发布时间', values) }}
+								<SelectMenu id='liveLatestPublishTime'
+									onSelect={(values) => { onChange('liveLatestPublishTime', '最近一次内容发布时间', values) }}
 									options={dateRangeOptions}
 								></SelectMenu>
 							)}
@@ -358,25 +366,7 @@ export default class FilterCommon extends React.Component {
 					<Button>更多筛选<Icon type={this.state.moreFilterVisible ? "up" : "down"} /></Button>
 
 				</Popover>
-
-				{
-					selectedItemsArray.length > 0 && <div className="filter-common-selected-items">
-						已选：{
-							selectedItemsArray.map(item => {
-								return item.value ? <Tag
-									className='ant-tag-theme-thin ant-tag-checkable-checked'
-									key={item.id}
-									closable
-									onClose={() => this.remove(item.id)}
-								>{item.value}</Tag> : null
-							})
-						}
-						<a href="javascript:void(0)"
-							style={{ marginLeft: '10px' }}
-							onClick={this.resetFilter}
-						>清空</a>
-					</div>
-				}
+				{/* <SelectedItem selectedItemsArray={selectedItemsArray} resetFilter={this.resetFilter} remove={this.remove}></SelectedItem> */}
 			</div >
 		)
 	}

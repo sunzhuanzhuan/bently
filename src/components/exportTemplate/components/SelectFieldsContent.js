@@ -56,7 +56,7 @@ export default class SelectFieldsContent extends Component {
 				}} value={selected}>
 					{
 						result.map(({ name, columns }) => {
-							return <FieldsCheckboxGroup key={name} title={name} fields={columns} sources={sources} />
+							return <FieldsCheckboxGroup key={name} title={name} fields={columns} sources={sources} data={templateAllColumns[groupId]} actions={actions}/>
 						})
 					}
 				</CheckboxGroup>

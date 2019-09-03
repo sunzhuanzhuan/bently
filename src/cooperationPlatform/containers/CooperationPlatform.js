@@ -15,6 +15,10 @@ class CooperationPlatform extends Component {
 			isLoading: true,
 			oldParams: {}
 		};
+		this.setStatusCO = this.setStatusCO.bind(this)
+		this.setDefaultCO = this.setDefaultCO.bind(this)
+		this.deleteCO = this.deleteCO.bind(this)
+
 	}
 	componentDidMount = () => {
 		const { actions: { getCooperationPlatformByPage } } = this.props
@@ -24,17 +28,20 @@ class CooperationPlatform extends Component {
 			})
 		})
 	}
-	searchByPageOrOther = (params = { page: { currentPage: 1, pageSize: 10 }, form: {} }) => {
+	searchByPageOrOther = (params = { page: { currentPage: 1, pageSize: 10 } }) => {
 		const { oldParams } = this.state
 		this.setState({
 			isLoading: true
 		})
 		const { actions: { getCooperationPlatformByPage } } = this.props
-		getCooperationPlatformByPage({ ...oldParams, ...params }).then(() => {
+		//数据替换
+		const lastParam = { form: {}, ...oldParams, ...params }
+		getCooperationPlatformByPage(lastParam).then(({ data }) => {
 			this.setState({
 				isLoading: false,
-				oldParams: params
+				oldParams: lastParam
 			})
+			if (!data.total) message.warning('没有符合条件的记录！')
 		})
 	}
 	hideModal = () => {
@@ -55,6 +62,7 @@ class CooperationPlatform extends Component {
 		const { actions: { delPlatform } } = this.props
 		delPlatform({ id: id }).then(() => {
 			this.searchByPageOrOther()
+			message.success(`删除成功！`)
 		})
 	}
 	//设置默认报价项
@@ -110,6 +118,7 @@ class CooperationPlatform extends Component {
 					visible={visable}
 					width={showModal.width}
 					onCancel={this.hideModal}
+					destroyOnClose={true}
 					footer={null}>
 					{showModal.content}
 				</Modal>

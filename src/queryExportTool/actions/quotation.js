@@ -30,7 +30,9 @@ export const {
 export const {
 	getQuotationAccountSearch,
 	getQuotationAccountSearch_success
-} = createHttpAction('getQuotationAccountSearch', Interface.getQuotationAccountSearch)
+} = createHttpAction('getQuotationAccountSearch', Interface.getQuotationAccountSearch, {
+	method: 'post'
+})
 //报价单详情删除
 export const deleteFromCart = (params) => (dispatch) => {
 	return api.post(Interface.deleteFromCart, params).then((response) => {

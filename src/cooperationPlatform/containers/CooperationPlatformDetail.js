@@ -23,7 +23,7 @@ class CooperationPlatformDetail extends Component {
 			getTrinityTollTypeList } } = this.props
 		const data = qs.parse(window.location.search.substring(1))
 		const coRes = await getCooperationPlatformInfoById({ id: data.id })
-		const tsRes = await getTrinitySkuTypeList({ trinityPlatformCode: data.code })
+		const tsRes = await getTrinitySkuTypeList({ trinityPlatformCode: data.code, platformId: data.platformId })
 		const ttRes = await getTrinityTollTypeList({ trinityPlatformCode: data.code })
 		this.setState({
 			isLoading: false,
@@ -34,17 +34,19 @@ class CooperationPlatformDetail extends Component {
 	}
 	render() {
 		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
-		const { settleType, isNeedScreenshot,
-			returnInvoiceType, agentVo = {} } = cooperationPlatformInfoDetail
+		const { isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
+			agentVo = {}, platformId } = cooperationPlatformInfoDetail
+		const { settleType, returnInvoiceType } = agentVo
 		const { paymentCompanyName } = agentVo
 		const baseInfo = [
-			{ title: "所属媒体平台", content: "131" },
-			{ title: "下单平台名称", content: '下单平台名称' },
-			{ title: "下单截图是否必填", content: isNeedScreenshot },
+			{ title: "所属媒体平台", content: platformName },
+			{ title: "下单平台", content: captureCooperationPlatformName },
+			{ title: "微播易展示下单平台名称", content: cooperationPlatformName },
+			{ title: "下单截图是否必填", content: isNeedScreenshot == 1 ? '是' : '否' },
 			{ title: "付款公司", content: paymentCompanyName },
 		]
 		const payInfo = [
-			{ title: "结算方式", content: settleType == 1 ? '预付款' : '周期结算' },
+			{ title: "结算方式", content: settleType == 1 ? '预付' : '周期结算' },
 			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
 		]
 		const { isLoading } = this.state
@@ -55,7 +57,7 @@ class CooperationPlatformDetail extends Component {
 					<ShowDetailArr arr={baseInfo} />
 					<ShowDetailArr arr={[{ title: "平台报价项", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
-						<Quotation isEdit={true} noLast={true} trinitySkuTypeVOS={trinitySkuTypeList} />
+						<Quotation isEdit={true} noLast={true} platformId={platformId} trinitySkuTypeVOS={trinitySkuTypeList} />
 					</div>
 					<ShowDetailArr arr={[{ title: "收费类型", content: "" }]} />
 					<div style={{ marginLeft: 70 }}>
