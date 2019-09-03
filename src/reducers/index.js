@@ -66,6 +66,6 @@ export default combineReducers({
 	videoMark,
 	brandManageReducer,
 	cooperationPlatformReducer,//三方合作平台
-  classificationManageReducer, // 分类管理
-  websiteReducer
+	classificationManageReducer, // 分类管理
+	websiteReducer
 });

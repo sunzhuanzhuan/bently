@@ -4,7 +4,8 @@ import './WebsiteInformation.less';
 import { bindActionCreators } from "redux";
 import * as WebsiteActions from '../actions';
 import { Table, Spin } from 'antd';
-import ClueForm from '../components/form/ClueForm'
+import ClueForm from '../components/form/ClueForm';
+import moment from 'moment';
 
 class WebsiteInformation extends Component {
 	constructor(props) {
@@ -14,9 +15,9 @@ class WebsiteInformation extends Component {
 			queryParams: {
 				page: {
 					currentPage: 1,
-					pageSize: 2
+					pageSize: 20
 				},
-				from: {
+				form: {
 					name: '',
 					cellPhone: '',
 					startCreatedAt: '',
@@ -38,7 +39,10 @@ class WebsiteInformation extends Component {
 			}, {
 				title: '提交时间',
 				key: 'createdAt',
-				dataIndex: 'createdAt'
+				dataIndex: 'createdAt',
+				render: (text, record) => {
+					return moment(text).format('YYYY-MM-DD')
+				}
 
 			}]
 		}
@@ -90,9 +94,9 @@ class WebsiteInformation extends Component {
 			</div>
 			<div>
 				<Spin spinning={this.state.loading}>
-					<div>
+					<div className='total-wrap'>
 						共
-						{total}
+						<span className="total-num">{total}</span>
 						条线索
 					</div>
 					<Table columns={this.state.columns}

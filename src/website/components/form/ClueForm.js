@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Form, Input, DatePicker, Button } from 'antd';
 import moment from 'moment';
+import apiDownload from "@/api/apiDownload";
+import Interface from "../../constants/Interface";
+import qs from 'qs';
 
 const { RangePicker } = DatePicker;
 
@@ -37,7 +40,7 @@ class ClueForm extends Component {
 					currentPage: 1,
 					pageSize: 20
 				},
-				from: {
+				form: {
 					name: fieldsValue.name,
 					cellPhone: fieldsValue.cellPhone,
 					startCreatedAt: fieldsValue.createdAt && moment(fieldsValue.createdAt[0]).format(dateFormat),
@@ -45,7 +48,7 @@ class ClueForm extends Component {
 				}
 			};
 			const params = {
-				...queryParams,
+				queryParams: { ...queryParams },
 				loading: true
 			};
 
@@ -64,7 +67,12 @@ class ClueForm extends Component {
 	 * @param e
 	 */
 	exportData = (e) => {
+		const { queryParams } = this.props;
 		e.preventDefault();
+		apiDownload({
+			url: Interface.exportWebsiteClueList + '?' + qs.stringify(queryParams.form),
+			method: 'get'
+		}, '导出结果.xlsx')
 	}
 
 	render() {
@@ -108,7 +116,7 @@ class ClueForm extends Component {
 				>搜索</Button>
 			</FormItem>
 			<FormItem>
-				<Button type="primary" onClick={this.exportData}>导出</Button>
+				<Button onClick={this.exportData.bind(this)}>导出</Button>
 			</FormItem>
 		</Form>
 	}
