@@ -121,12 +121,13 @@ class AccountListBatch extends Component {
 		this.setLoading()
 		const { getBatchSearch, addSelectExactQuery } = this.props.actions
 		if (value.queryType == 1) {
-			this.props.actions.getBatchSearch({ ...value, pageSize: 20, currentPage: 1, accoutName: total }).then((data) => {
+			this.props.actions.getBatchSearch({ ...value, pageSize: 20, currentPage: 1, accoutName: total }).then(({ data }) => {
 				this.setState({
 					loading: false,
 					showList: true,
 					searchValue: value
 				})
+				addSelectExactQuery(data.result.list.filter(one => one.isSelected == 1).map(one => one.accountId))
 			})
 		} else {
 
@@ -174,6 +175,7 @@ class AccountListBatch extends Component {
 					searchValue: value
 				})
 				addSelectExactQuery(data.result.list.filter(one => one.isSelected == 1).map(one => one.accountId))
+
 			})
 		}
 	}
@@ -228,14 +230,32 @@ class AccountListBatch extends Component {
 				<Row>
 					{searchValue.queryType == 1 ?
 						<Spin spinning={loading} >
-							<AccountTableSelect
+							<div>
+								<div className="batch-search-middle-line">
+									<div className="img-action">
+										<img src={showTypeList == 1 ? images.cardActivePng : images.cardPng} width="14" onClick={() => { this.setShowTypeList(1) }} />
+										<img src={showTypeList == 2 ? images.listActivePng : images.listPng} width="14" onClick={() => { this.setShowTypeList(2) }} />
+									</div>
+
+								</div>
+								<div className='batch-search-title-message '>
+									<div className='title' style={{ marginTop: 2, color: "#666" }}>
+										{header}
+									</div>
+
+								</div>
+
+							</div>
+
+							<BatchTable
 								addLookDetailOrIndexList={addLookDetailOrIndexList}
 								isdBackUp={this.isdBackUp}
 								accountList={batchSearchList}
-								header={header}
+
 								actions={actions}
 								serachAction={this.serachAction}
-
+								type={showTypeList}
+								arrSelectExactQuery={arrSelectExactQuery}
 							/>
 						</Spin>
 						:

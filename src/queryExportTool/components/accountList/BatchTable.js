@@ -36,7 +36,7 @@ class BatchTable extends Component {
 	render() {
 		const { visible, modalContent } = this.state
 		const { accountList = {}, type = 1, actions, arrSelectExactQuery,
-			addLookDetailOrIndexList } = this.props
+			addLookDetailOrIndexList, header } = this.props
 		const columns = [{
 			title: '账号昵称',
 			dataIndex: 'name',
@@ -128,11 +128,11 @@ class BatchTable extends Component {
 			title: '',
 			dataIndex: 'existStatus',
 			key: 'existStatus',
-			render: (text, record,index) => {
+			render: (text, record, index) => {
 				const { base } = record
 				return base.notExist == 1 ?
 					<NoExist name={base.snsName || base.accountId || base.snsId} />
-					: <MainItem key={record.accountId} accountListItem={record} setModalContent={this.setModalContent} isPreloading={index < 4}/>
+					: <MainItem key={record.accountId} accountListItem={record} setModalContent={this.setModalContent} isPreloading={index < 4} />
 			}
 		}]
 		return (
