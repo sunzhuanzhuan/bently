@@ -251,7 +251,6 @@ class AccountListBatch extends Component {
 								addLookDetailOrIndexList={addLookDetailOrIndexList}
 								isdBackUp={this.isdBackUp}
 								accountList={batchSearchList}
-
 								actions={actions}
 								serachAction={this.serachAction}
 								type={showTypeList}

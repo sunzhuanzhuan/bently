@@ -36,7 +36,7 @@ class BatchTable extends Component {
 	render() {
 		const { visible, modalContent } = this.state
 		const { accountList = {}, type = 1, actions, arrSelectExactQuery,
-			addLookDetailOrIndexList, header } = this.props
+			addLookDetailOrIndexList } = this.props
 		const columns = [{
 			title: '账号昵称',
 			dataIndex: 'name',
