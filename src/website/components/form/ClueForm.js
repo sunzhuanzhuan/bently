@@ -43,8 +43,10 @@ class ClueForm extends Component {
 				form: {
 					name: fieldsValue.name,
 					cellPhone: fieldsValue.cellPhone,
-					startCreatedAt: fieldsValue.createdAt && moment(fieldsValue.createdAt[0]).format(dateFormat),
-					endCreatedAt: fieldsValue.createdAt && moment(fieldsValue.createdAt[1]).format(dateFormat)
+					startCreatedAt: fieldsValue.createdAt && fieldsValue.createdAt.length
+						? moment(fieldsValue.createdAt[0]).format(dateFormat) : '',
+					endCreatedAt: fieldsValue.createdAt && fieldsValue.createdAt.length
+						? moment(fieldsValue.createdAt[1]).format(dateFormat) : ''
 				}
 			};
 			const params = {
@@ -86,7 +88,7 @@ class ClueForm extends Component {
 		return <Form layout='inline' onSubmit={this.handleSubmit}>
 			<FormItem {...formItemLayout} label="姓名">
 				{
-					getFieldDecorator('name')(<Input allowClear />)
+					getFieldDecorator('name')(<Input />)
 				}
 			</FormItem>
 			<FormItem {...formItemLayout} label="手机号">
@@ -96,7 +98,7 @@ class ClueForm extends Component {
 							pattern: /^[1-9][0-9]{0,10}$/,
 							message: '请输入正确的手机号'
 						}]
-					})(<Input allowClear />)
+					})(<Input />)
 				}
 			</FormItem>
 			<FormItem label="提交时间">
