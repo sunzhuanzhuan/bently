@@ -43,6 +43,7 @@ class ClueForm extends Component {
 				form: {
 					name: fieldsValue.name,
 					cellPhone: fieldsValue.cellPhone,
+					companyName: fieldsValue.companyName,
 					startCreatedAt: fieldsValue.createdAt && fieldsValue.createdAt.length
 						? moment(fieldsValue.createdAt[0]).format(dateFormat) : '',
 					endCreatedAt: fieldsValue.createdAt && fieldsValue.createdAt.length
@@ -110,6 +111,11 @@ class ClueForm extends Component {
 						>
 						</RangePicker>
 					)
+				}
+			</FormItem>
+			<FormItem {...formItemLayout} label="公司名称">
+				{
+					getFieldDecorator('companyName')(<Input />)
 				}
 			</FormItem>
 			<FormItem>

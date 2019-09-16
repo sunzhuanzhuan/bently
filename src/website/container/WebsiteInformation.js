@@ -21,7 +21,8 @@ class WebsiteInformation extends Component {
 					name: '',
 					cellPhone: '',
 					startCreatedAt: '',
-					endCreatedAt: ''
+					endCreatedAt: '',
+					companyName: ''
 				}
 			},
 			columns: [{
@@ -44,6 +45,10 @@ class WebsiteInformation extends Component {
 					return moment(text).format('YYYY-MM-DD')
 				}
 
+			}, {
+				title: '公司名称',
+				key: 'companyName',
+				dataIndex: 'companyName'
 			}]
 		}
 	}
