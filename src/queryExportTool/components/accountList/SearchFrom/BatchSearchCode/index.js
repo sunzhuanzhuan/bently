@@ -171,7 +171,8 @@ class BatchSearchCode extends Component {
 									disabled={cascaderValue == 0}
 								>
 									<Option value={2} key={2}>账号ID</Option>
-									{getFieldValue('queryType') == 2 ? <Option value={3} key={3}>账号accountId</Option> : <Option value={1} key={1}>账号昵称</Option>}
+									{getFieldValue('queryType') == 2 ? <Option value={3} key={3}>账号accountId</Option> : null}
+									<Option value={1} key={1}>账号昵称</Option>
 								</Select>
 							)}
 						</FormItem>
