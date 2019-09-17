@@ -38,6 +38,10 @@ class WebsiteInformation extends Component {
 				key: 'cellPhone',
 				dataIndex: 'cellPhone'
 			}, {
+				title: '公司名称',
+				key: 'companyName',
+				dataIndex: 'companyName'
+			}, {
 				title: '提交时间',
 				key: 'createdAt',
 				dataIndex: 'createdAt',
@@ -45,10 +49,6 @@ class WebsiteInformation extends Component {
 					return moment(text).format('YYYY-MM-DD')
 				}
 
-			}, {
-				title: '公司名称',
-				key: 'companyName',
-				dataIndex: 'companyName'
 			}]
 		}
 	}
