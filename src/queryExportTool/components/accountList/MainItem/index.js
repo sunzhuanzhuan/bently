@@ -10,7 +10,7 @@ import LazyLoad from 'react-lazyload';
 import numeral from "numeral";
 import MultiClamp from 'react-multi-clamp';
 import { Icon } from "antd";
-
+import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 import AccountInfos, {
 	Avatar,
 	AvatarType,
@@ -135,9 +135,9 @@ export default class MainItem extends PureComponent {
 								</div>
 								{IsRed || IsVidro ? <LevalImg leval={level} platformId={platformId} /> : null}
 							</div>
-							<div>
-								{/* 需要在 【视频/直播】、【小红书】、【其他平台】增加 账号ID的展示 */}
-								{snsId ? IsRed || IsVidro || IsOther ? `ID：${snsId}` : null : null}
+							<div className='sns-account'>
+								{ISWEiXin ? null : `ID：${snsId}`}
+								<div>accountId：{accountId}</div>
 							</div>
 							{/* 性别|地域|年龄 */}
 							<Secondary genderName={genderName} areaName={areaName} ageGroup={ageGroup} />
@@ -189,9 +189,11 @@ export default class MainItem extends PureComponent {
 					<div className='footer-tages'>
 						{/* 此处是热门标签 */}
 						{classificationList && classificationList.slice(0, 1).map((one, index) => <CTag key={index}>{one.name}</CTag>)}
-						{(classificationList && classificationList.length) ? <LazyLoad once overflow height='20'>
-							<ClassificationFeedback data={accountListItem} />
-						</LazyLoad> : null}
+						{(classificationList && classificationList.length) ?
+							<AuthVisbleIsBP isComponent={null} noComponent={<LazyLoad once overflow height='20'>
+								<ClassificationFeedback data={accountListItem} />
+							</LazyLoad>} />
+							: null}
 					</div>
 					<div className='footer-info-status'>
 						{/* 此处为右下角展示统计信息 */}
