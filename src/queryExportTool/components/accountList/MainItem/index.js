@@ -66,7 +66,7 @@ export default class MainItem extends PureComponent {
 			canOriginWrite, areaName, ageGroup, originalName,
 			isPreventShielding, classificationList = [], qrCodeUrl,
 			snsId, verificationInfo, mediaManager, isFamous,
-			operationTagList = [], followerCount, accountId, gender,
+			operationTagList = [], followerCount, accountId, gender, snsUniqueId,
 			snbt, trueFansRate, trueReadRatio, mediaWeeklyGroupCount90d,
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
 			onShelfStatus = {}, followerCountVerificationStatus,
@@ -136,7 +136,10 @@ export default class MainItem extends PureComponent {
 								{IsRed || IsVidro ? <LevalImg leval={level} platformId={platformId} /> : null}
 							</div>
 							<div className='sns-account'>
-								{ISWEiXin ? null : snsId ? `ID：${snsId}` : null}
+								{ISWEiXin || IsWeibo ? null : snsId ? `ID：${snsId}` : null}
+								{IsWeibo ? snsUniqueId ? `ID：${snsUniqueId}` : null : null}
+
+
 								<div>accountId：{accountId}</div>
 							</div>
 							{/* 性别|地域|年龄 */}
