@@ -136,7 +136,7 @@ export default class MainItem extends PureComponent {
 								{IsRed || IsVidro ? <LevalImg leval={level} platformId={platformId} /> : null}
 							</div>
 							<div className='sns-account'>
-								{ISWEiXin ? null : `ID：${snsId}`}
+								{ISWEiXin ? null : snsId ? `ID：${snsId}` : null}
 								<div>accountId：{accountId}</div>
 							</div>
 							{/* 性别|地域|年龄 */}
