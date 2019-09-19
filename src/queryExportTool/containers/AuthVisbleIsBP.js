@@ -8,7 +8,7 @@ class AuthVisbleIsBP extends Component {
 	render() {
 		const { authorizationsReducers, noComponent, isComponent } = this.props;
 		//是否BP角色
-		const authVisble = authorizationsReducers.authVisibleList['is-bp']
+		const authVisble = authorizationsReducers.authVisibleList['is.bp']
 		return (
 			authVisble ? isComponent : noComponent
 		);
