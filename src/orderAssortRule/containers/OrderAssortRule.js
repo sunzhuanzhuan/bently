@@ -28,20 +28,20 @@ class OrderAssortRule extends Component {
 		const dataSource = [
 			{
 				key: '1',
-				name: '胡彦斌',
+				bpName: '胡彦斌',
 				age: 32,
 				address: '西湖区湖底公园1号',
 			},
 			{
 				key: '2',
-				name: '胡彦祖',
+				bpName: '胡彦祖',
 				age: 42,
 				address: '西湖区湖底公园1号',
 			},
 		];
 		return (
 			<div className='order-assort-rule'>
-				<h1>BP/订单分配规则</h1>
+				<h2>BP/订单分配规则</h2>
 				<SearchForm changeSearchParam={this.changeSearchParam} />
 				<TableList data={dataSource} pagination={{ onChange: this.changePage }} />
 			</div>

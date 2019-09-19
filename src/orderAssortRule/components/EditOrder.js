@@ -40,11 +40,11 @@ class SearchForm extends Component {
 					onCancel={this.handleCancel}
 				>
 					<Form layout='horizontal' className='search-from'>
-						<Form.Item label='BP' {...formItemLayout} >
+						<Form.Item label='bpName' {...formItemLayout} >
 							小李（萨达收到）
 						</Form.Item>
 						<Form.Item label='是否参与随机分配'{...formItemLayout} >
-							{getFieldDecorator('isc', {
+							{getFieldDecorator('is_random', {
 								initialValue: 2,
 							})(
 								<Radio.Group placeholder='请选择' disabled={!isEdit}>
@@ -55,7 +55,7 @@ class SearchForm extends Component {
 						</Form.Item>
 
 						<Form.Item label='是否指定接单品牌'{...formItemLayout} >
-							{getFieldDecorator('is', {
+							{getFieldDecorator('is_point', {
 								initialValue: 2,
 							})(
 								<Radio.Group placeholder='请选择' disabled={!isEdit}>
@@ -64,7 +64,7 @@ class SearchForm extends Component {
 								</Radio.Group>
 							)}
 						</Form.Item>
-						{getFieldValue('is') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
+						{getFieldValue('is_point') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
 							{getFieldDecorator('brand', {
 								initialValue: [{
 									key: "redwolf679"

@@ -11,21 +11,21 @@ const TableList = props => {
 	const columns = [
 		{
 			title: 'BP',
-			dataIndex: 'name',
+			dataIndex: 'bpName',
 			align: 'center',
-			key: 'BP',
+			key: 'bpName',
 		},
 		{
 			title: '所属大区',
-			dataIndex: 'age',
+			dataIndex: 'region',
 			align: 'center',
-			key: 'age',
+			key: 'region',
 		},
 		{
 			title: '是否参与随机分配',
-			dataIndex: 'ccc2',
+			dataIndex: 'is_random',
 			align: 'center',
-			key: 'ccc2',
+			key: 'is_random',
 			render: (text, record) => text ? '是' : '否'
 		},
 		{

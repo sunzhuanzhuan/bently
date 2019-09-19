@@ -17,21 +17,23 @@ class SearchForm extends Component {
 		return (
 			<Form layout="inline" className='search-from'>
 				<Form.Item label='BP'>
-					{getFieldDecorator('username')(
+					{getFieldDecorator('bpName')(
 						<Select placeholder='请输入并选择BP' style={{ width: 200 }}>
 							<Option key='1' value={2}>BP1</Option>
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item label='所属大区'>
-					{getFieldDecorator('username')(
+					{getFieldDecorator('region')(
 						<Select placeholder='请选择大区' style={{ width: 200 }}>
-							<Option value={2}>BP1</Option>
+							<Option value={2}>大区1</Option>
+							<Option value={2}>大区2</Option>
+							<Option value={2}>大区3</Option>
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'>
-					{getFieldDecorator('username')(
+					{getFieldDecorator('is_random')(
 						<Select placeholder='请选择' style={{ width: 90 }}>
 							<Option value={1}>是</Option>
 							<Option value={2}>否</Option>
@@ -40,7 +42,7 @@ class SearchForm extends Component {
 				</Form.Item>
 
 				<Form.Item label='是否指定接单品牌'>
-					{getFieldDecorator('username')(
+					{getFieldDecorator('is_point')(
 						<Select placeholder='请选择' style={{ width: 90 }}>
 							<Option value={1}>是</Option>
 							<Option value={2}>否</Option>
