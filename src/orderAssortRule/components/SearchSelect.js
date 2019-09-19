@@ -46,7 +46,8 @@ class UserRemoteSelect extends Component {
 	};
 
 	render() {
-		const { fetching, data, value } = this.state;
+		const { fetching, data, value, } = this.state;
+		const { isEdit } = this.props
 		return (
 			<Select
 				mode="multiple"
@@ -58,6 +59,7 @@ class UserRemoteSelect extends Component {
 				onSearch={this.fetchUser}
 				onChange={this.handleChange}
 				style={{ width: '100%' }}
+				disabled={!isEdit}
 			>
 				{data.map(d => (
 					<Option key={d.value}>{d.text}</Option>

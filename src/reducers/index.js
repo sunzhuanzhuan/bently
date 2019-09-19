@@ -31,7 +31,7 @@ import videoMark from '../videomark/reducers'
 import cooperationPlatformReducer from "../cooperationPlatform/reducers";
 import classificationManageReducer from "../classificationManage/reducers";
 import { brandManageReducer } from '@/videomark/reducers/brandManage';
-
+import orderAssortRule from '@/orderAssortRule/reducers'
 export default combineReducers({
 	commonReducers,
 	routing: routerReducer,
@@ -65,5 +65,6 @@ export default combineReducers({
 	videoMark,
 	brandManageReducer,
 	cooperationPlatformReducer,//三方合作平台
-	classificationManageReducer // 分类管理
+	classificationManageReducer, // 分类管理
+	orderAssortRule//订单分配原则
 });

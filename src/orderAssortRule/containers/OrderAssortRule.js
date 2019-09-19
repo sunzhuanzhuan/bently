@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import SearchForm from '../components/SearchForm'
 import TableList from '../components/TableList'
-
 import './OrderAssortRule.less'
+import { connect } from 'react-redux'
+import { bindActionCreators } from "redux";
+import * as action from "../actions";
 class OrderAssortRule extends Component {
 	state = {
 		searchParam: {}
@@ -46,5 +48,14 @@ class OrderAssortRule extends Component {
 		);
 	}
 }
+const mapStateToProps = (state) => {
+	return {
+		orderAssortRule: state.orderAssortRule
+	}
+}
 
-export default OrderAssortRule;
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators(action, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(OrderAssortRule);
+

@@ -24,7 +24,7 @@ class SearchForm extends Component {
 		});
 	};
 	render() {
-		const { text, form } = this.props
+		const { text, form, isEdit } = this.props
 		const { getFieldDecorator, getFieldValue } = form;
 		const formItemLayout = {
 			labelCol: { span: 8 },
@@ -34,7 +34,7 @@ class SearchForm extends Component {
 			<span>
 				<a onClick={this.showModal}>{text}</a>
 				<Modal
-					title="Basic Modal"
+					title={text + 'BP/订单分配规则'}
 					footer={null}
 					visible={this.state.visible}
 					onCancel={this.handleCancel}
@@ -47,7 +47,7 @@ class SearchForm extends Component {
 							{getFieldDecorator('isc', {
 								initialValue: 2,
 							})(
-								<Radio.Group placeholder='请选择'>
+								<Radio.Group placeholder='请选择' disabled={!isEdit}>
 									<Radio value={1}>是</Radio>
 									<Radio value={2}>否</Radio>
 								</Radio.Group>
@@ -58,7 +58,7 @@ class SearchForm extends Component {
 							{getFieldDecorator('is', {
 								initialValue: 2,
 							})(
-								<Radio.Group placeholder='请选择'>
+								<Radio.Group placeholder='请选择' disabled={!isEdit}>
 									<Radio value={1}>是</Radio>
 									<Radio value={2}>否</Radio>
 								</Radio.Group>
@@ -66,7 +66,10 @@ class SearchForm extends Component {
 						</Form.Item>
 						{getFieldValue('is') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
 							{getFieldDecorator('brand', {
-								initialValue: 2,
+								initialValue: [{
+									key: "redwolf679"
+									, label: "itat"
+								}],
 								rules: [
 									{
 										required: true,
@@ -74,11 +77,11 @@ class SearchForm extends Component {
 									},
 								],
 							})(
-								<SearchSelect />
+								<SearchSelect isEdit={isEdit} />
 							)}
 						</Form.Item>}
 						<div style={{ textAlign: 'center', marginTop: 40 }}>
-							<Button type='primary' style={{ width: 150 }} onClick={this.handleSubmit}>提交</Button>
+							{isEdit ? <Button type='primary' style={{ width: 150 }} onClick={this.handleSubmit}>提交</Button> : <Button type='primary' style={{ width: 150 }} onClick={this.handleCancel}>好的</Button>}
 						</div>
 					</Form>
 				</Modal>

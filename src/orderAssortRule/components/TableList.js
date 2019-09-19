@@ -5,13 +5,13 @@ const TableList = props => {
 	const { data, pagination } = props
 	const paginationConfig = {
 		current: 1,
-		pageSize: 1,
+		pageSize: 50,
 		...pagination,
 	}
 	const columns = [
 		{
 			title: 'BP',
-			dataIndex: 'BP',
+			dataIndex: 'name',
 			align: 'center',
 			key: 'BP',
 		},
@@ -35,11 +35,11 @@ const TableList = props => {
 			key: 'address2',
 		}, {
 			title: '操作',
-			dataIndex: 'address',
+			dataIndex: 'operate',
 			align: 'center',
-			key: 'address',
+			key: 'operate',
 			render: (text, record) => <div className='table-operate'>
-				<EditOrder text={'查看'} /> | <EditOrder text={'操作'} />
+				<EditOrder text={'查看'} /> | <EditOrder text={'编辑'} isEdit={true} />
 			</div>
 		},
 	];
