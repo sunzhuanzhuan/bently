@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Row, Divider, Col, Checkbox, Radio, Button, Select, DatePicker } from "antd";
 import SelectAndInput from '../SelectAndInput'
+import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 import './index.less'
 import {
 	dateRangeOptions,
@@ -174,16 +175,17 @@ class MoreFilter extends Component {
 			<div>
 				<Row>
 					<h4 >关键字</h4>
-					{mapFieldsToPlatform['mainAccountName'].includes(platformType) && <Col span={12}>
-						<FormItem
-							{...formItemLayout}
-							label={'主账号名称'}>
-							{getFieldDecorator('mainAccountName')(
-								<Input placeholder='请输入主账号名称'
-									onChange={(e) => onChange('mainAccountName', '主账号名称', { optionsNames: e.target.value })} />
-							)}
-						</FormItem>
-					</Col>}
+					<AuthVisbleIsBP
+						isComponent={mapFieldsToPlatform['mainAccountName'].includes(platformType) && <Col span={12}>
+							<FormItem
+								{...formItemLayout}
+								label={'主账号名称'}>
+								{getFieldDecorator('mainAccountName')(
+									<Input placeholder='请输入主账号名称'
+										onChange={(e) => onChange('mainAccountName', '主账号名称', { optionsNames: e.target.value })} />
+								)}
+							</FormItem>
+						</Col>} />
 					{mapFieldsToPlatform['introduction'].includes(platformType) && <Col span={12}>
 						<FormItem
 							{...formItemLayout}
