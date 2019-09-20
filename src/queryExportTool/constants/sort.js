@@ -98,7 +98,10 @@ function priceGoodBadList(list) {
 		}
 	})
 }
-
+const isLowQuality = {
+	'title': '含劣质号',
+	'name': 'isLowQuality'
+}
 export const groupBySorter = {
 	'1': {
 		filter: {
@@ -123,9 +126,11 @@ export const groupBySorter = {
 					'title': '原创',
 					'name': 'canOriginWrite'
 				},
+				isLowQuality
 				//价格优劣
 				//defaultQuotePriceDiscount
-			]
+			],
+			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -187,13 +192,15 @@ export const groupBySorter = {
 					'title': '可带@/话题/链接',
 					'name': 'isSupportTopicAndLink'
 				},
+				isLowQuality
 				//价格优劣
 				//defaultQuotePriceDiscount
 				// {
 				// 	'title': '原创',
 				// 	'name': 'canOrigin'
 				// }
-			]
+			],
+			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -252,9 +259,11 @@ export const groupBySorter = {
 					'title': '原创',
 					'name': 'canOriginWrite'
 				},
+				isLowQuality
 				//价格优劣
 				//defaultQuotePriceDiscount
-			]
+			],
+			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -286,7 +295,7 @@ export const groupBySorter = {
 			priceGoodBadList: [
 				...priceGoodBadList([16, 15, 19, 17, 26, 27])
 			],
-			default: { snbt: 'desc' }
+			default: { snbt: 'desc', }
 		}
 	},
 	'4': {
@@ -308,9 +317,11 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
+				isLowQuality
 				//价格优劣
 				//defaultQuotePriceDiscount
-			]
+			],
+			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -364,10 +375,12 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
+				isLowQuality
 				//价格优劣
 				//defaultQuotePriceDiscount
 
-			]
+			],
+			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
