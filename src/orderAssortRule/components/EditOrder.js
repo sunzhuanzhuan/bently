@@ -22,7 +22,7 @@ class SearchForm extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				const designBrandList = values.brandList.map(one => ({ brandId: one.key, brandName: one.label }))
+				const designBrandList = (values.brandList || []).map(one => ({ brandId: one.key, brandName: one.label }))
 				this.props.actions.saveBpAllocation({
 					...values, designBrandList: designBrandList
 				}).then(() => {

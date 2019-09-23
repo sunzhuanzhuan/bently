@@ -9,7 +9,7 @@ class SearchForm extends Component {
 		form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
-				changeSearchParam(values)
+				changeSearchParam({ ...values, bpId: values.bpName.key })
 			}
 		});
 	};
