@@ -7,4 +7,30 @@ export const {
 	getBPList_success
 } = createHttpAction('getBPList', Interface.getBPList)
 
+//获取详情BP
+export const {
+	getBpDetail,
+	getBpDetail_success
+} = createHttpAction('getBpDetail', Interface.getBpDetail, {
+	method: 'post'
+})
+export const {
+	getAllBpList,
+	getAllBpList_success
+} = createHttpAction('getAllBpList', Interface.getAllBpList)
+//查询品牌列表
+export const {
+	queryBrandList,
+	queryBrandList_success
+} = createHttpAction('queryBrandList', Interface.queryBrandList)
+
+export const {
+	saveBpAllocation,
+	saveBpAllocation_success
+} = createHttpAction('saveBpAllocation', Interface.saveBpAllocation, {
+	method: 'post'
+}
+)
+
+
 

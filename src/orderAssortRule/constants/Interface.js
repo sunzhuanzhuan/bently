@@ -1,9 +1,13 @@
-const baseUrl = 'operator-gateway/search/export/'//java重构接口
+const baseUrl = '/order-allocate/order/allocate/'//java重构接口
 export default {
-	//获取公司列表
-	getBPList: "/export/account/getCompanyList",
-	//获取大区
-	getAreaList: "/export/account/getCompanyList",
-	//查看BP
+	//获取所有
+	getAllBpList: baseUrl + 'getAllBpList',
+	//查询品牌列表
+	queryBrandList: baseUrl + "queryBrandList",
+	//获取BP列表
+	getBPList: baseUrl + "getBpAllocationRuleList",
+	//获取BP详情
+	getBpDetail: baseUrl + "getBpAllocationRuleDetail",
 	//设置BP
+	saveBpAllocation: baseUrl + "saveBpAllocationRule",
 }

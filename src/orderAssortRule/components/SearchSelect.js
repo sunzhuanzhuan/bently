@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
-
+import api from '../../api'
+import Interface from '../constants/Interface'
 const { Option } = Select;
 
 class UserRemoteSelect extends Component {
@@ -20,19 +21,14 @@ class UserRemoteSelect extends Component {
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ data: [], fetching: true });
-		fetch('https://randomuser.me/api/?results=5')
-			.then(response => response.json())
-			.then(body => {
-				if (fetchId !== this.lastFetchId) {
-					// for fetch callback order
-					return;
-				}
-				const data = body.results.map(user => ({
-					text: `${user.name.first} ${user.name.last}`,
-					value: user.login.username,
-				}));
-				this.setState({ data, fetching: false });
-			});
+		api.get(Interface.queryBrandList, { params: { name: value } }).then(({ result }) => {
+			if (fetchId !== this.lastFetchId) {
+				// for fetch callback order
+				return;
+			}
+			this.setState({ data: result.list || [], fetching: false });
+		}
+		)
 	};
 
 	handleChange = value => {
@@ -62,7 +58,7 @@ class UserRemoteSelect extends Component {
 				disabled={!isEdit}
 			>
 				{data.map(d => (
-					<Option key={d.value}>{d.text}</Option>
+					<Option key={d.brandId}>{d.brandName}</Option>
 				))}
 			</Select>
 		);

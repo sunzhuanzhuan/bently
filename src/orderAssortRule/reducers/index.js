@@ -5,7 +5,7 @@ import * as orderAssortRule from '../actions'
 
 export const listBP = handleActions({
 	[orderAssortRule.getBPList_success]: (state, action) => {
-		return { ...action.payload.data }
+		return { ...action.payload.result }
 	}
 }, {})
 

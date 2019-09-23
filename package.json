@@ -93,6 +93,10 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
+		"/api/order-allocate": {
+			"target": "http://192.168.20.51:7300/mock/5d88219c613da40021a02b95",
+			"changeOrigin": true
+		},
 		"/api": {
 			"target": "http://nb.dev-weiboyi.com",
 			"changeOrigin": true

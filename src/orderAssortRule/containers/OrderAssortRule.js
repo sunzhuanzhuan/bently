@@ -5,10 +5,31 @@ import './OrderAssortRule.less'
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import * as action from "../actions";
+import { Modal } from 'antd';
 class OrderAssortRule extends Component {
 	state = {
-		searchParam: {}
+		visible: false,
+		searchParam: {},
+		modelConfig: {
+			title: '',
+			content: ''
+		}
 	}
+	componentDidMount() {
+		this.searchAsync()
+	}
+	setModal = (visible, modelConfig) => {
+		this.setState({
+			visible: visible,
+			modelConfig: modelConfig ? modelConfig : this.state.modelConfig
+		});
+	};
+	handleCancel = () => {
+		this.setState({
+			visible: false,
+		});
+	}
+
 	changeSearchParam = (params) => {
 		const searchParam = { current: 1, pageSize: 50, ...params }
 		this.setState({
@@ -22,28 +43,39 @@ class OrderAssortRule extends Component {
 	}
 
 	searchAsync = (searchParam) => {
-		console.log("TCL: OrderAssortRule -> searchAsync -> searchParam", searchParam)
+		this.props.actions.getBPList(searchParam)
 	}
 	render() {
-		const dataSource = [
-			{
-				key: '1',
-				bpName: '胡彦斌',
-				age: 32,
-				address: '西湖区湖底公园1号',
-			},
-			{
-				key: '2',
-				bpName: '胡彦祖',
-				age: 42,
-				address: '西湖区湖底公园1号',
-			},
-		];
+		const { orderAssortRule, actions } = this.props
+		const { listBP } = orderAssortRule
+		const { modelConfig } = this.state
+		const searchParam = {
+			changeSearchParam: this.changeSearchParam
+		}
+		const commomParam = {
+			actions: actions,
+		}
+		const tableProps = {
+			listBP, actions,
+			setModal: this.setModal,
+			pagination: { onChange: this.changePage },
+		}
 		return (
 			<div className='order-assort-rule'>
 				<h2>BP/订单分配规则</h2>
-				<SearchForm changeSearchParam={this.changeSearchParam} />
-				<TableList data={dataSource} pagination={{ onChange: this.changePage }} />
+				<SearchForm  {...searchParam} {...commomParam} />
+				<TableList  {...tableProps} {...commomParam} />
+
+				<Modal
+					title={modelConfig.title + 'BP/订单分配规则'}
+					footer={null}
+					visible={this.state.visible}
+					onCancel={this.handleCancel}
+					destroyOnClose={true}
+					width={666}
+				>
+					{modelConfig.content}
+				</Modal>
 			</div>
 		);
 	}
