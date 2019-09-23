@@ -21,7 +21,7 @@ export default class SearchSelect extends Component {
 		searchIng: false,
 	}
 	search = (value) => {
-		let { searchDataList, keyWord, dataToList, pageSizeKey = 'page_size', size = 20 } = this.props
+		let { searchDataList, keyWord, dataToList, pageSizeKey = 'pageSize', size = 20 } = this.props
 
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;

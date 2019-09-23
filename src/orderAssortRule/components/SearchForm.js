@@ -8,13 +8,17 @@ class SearchForm extends Component {
 		const { changeSearchParam, form } = this.props
 		form.validateFields((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
-				changeSearchParam({ ...values, bpId: values.bpName.key })
+				changeSearchParam({
+					regionId: values.regionId,
+					bpId: values.bpName.key,
+					isDesignBrand: values.isDesignBrand,
+					isRandomAllocation: values.isRandomAllocation
+				})
 			}
 		});
 	};
 	render() {
-		const { actions, form } = this.props
+		const { actions, form, regionList } = this.props
 		const { getFieldDecorator } = form;
 
 		return (
@@ -31,9 +35,7 @@ class SearchForm extends Component {
 				<Form.Item label='所属大区'>
 					{getFieldDecorator('regionId')(
 						<Select placeholder='请选择大区' style={{ width: 200 }}>
-							<Option value={2}>大区1</Option>
-							<Option value={2}>大区2</Option>
-							<Option value={2}>大区3</Option>
+							{regionList.map(one => <Option key={one.regionId} value={one.regionId}>{one.regionName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>

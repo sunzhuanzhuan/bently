@@ -17,6 +17,7 @@ class OrderAssortRule extends Component {
 	}
 	componentDidMount() {
 		this.searchAsync()
+		this.props.actions.getRegionList()
 	}
 	setModal = (visible, modelConfig) => {
 		this.setState({
@@ -31,26 +32,26 @@ class OrderAssortRule extends Component {
 	}
 
 	changeSearchParam = (params) => {
-		const searchParam = { current: 1, pageSize: 50, ...params }
 		this.setState({
-			searchParam: searchParam
+			searchParam: params
 		})
-		this.searchAsync(searchParam)
+		this.searchAsync(params)
 	}
-	changePage = (current, pageSize) => {
+	changePage = (page, pageSize) => {
 		const { searchParam } = this.state
-		this.searchAsync({ searchParam, current, pageSize })
+		this.searchAsync({ ...searchParam, page: page, pageSize })
 	}
 
 	searchAsync = (searchParam) => {
-		this.props.actions.getBPList(searchParam)
+		this.props.actions.getBPList({ page: 1, pageSize: 50, ...searchParam })
 	}
 	render() {
 		const { orderAssortRule, actions } = this.props
-		const { listBP } = orderAssortRule
+		const { listBP, regionList } = orderAssortRule
 		const { modelConfig } = this.state
 		const searchParam = {
-			changeSearchParam: this.changeSearchParam
+			changeSearchParam: this.changeSearchParam,
+			regionList
 		}
 		const commomParam = {
 			actions: actions,
@@ -58,7 +59,11 @@ class OrderAssortRule extends Component {
 		const tableProps = {
 			listBP, actions,
 			setModal: this.setModal,
-			pagination: { onChange: this.changePage },
+			pagination: {
+				onChange: this.changePage,
+				current: listBP.page || 1,
+				pageSize: listBP.pageSize || 50,
+			},
 		}
 		return (
 			<div className='order-assort-rule'>

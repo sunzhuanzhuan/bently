@@ -6,6 +6,11 @@ export const {
 	getBPList,
 	getBPList_success
 } = createHttpAction('getBPList', Interface.getBPList)
+//查询品牌列表
+export const {
+	getRegionList,
+	getRegionList_success
+} = createHttpAction('getRegionList', Interface.getRegionList)
 
 //获取详情BP
 export const {

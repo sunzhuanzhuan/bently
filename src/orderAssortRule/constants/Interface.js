@@ -2,6 +2,8 @@ const baseUrl = '/order-allocate/order/allocate/'//java重构接口
 export default {
 	//获取所有
 	getAllBpList: baseUrl + 'getAllBpList',
+	//获取大区
+	getRegionList: baseUrl + 'getRegionList',
 	//查询品牌列表
 	queryBrandList: baseUrl + "queryBrandList",
 	//获取BP列表
@@ -10,4 +12,5 @@ export default {
 	getBpDetail: baseUrl + "getBpAllocationRuleDetail",
 	//设置BP
 	saveBpAllocation: baseUrl + "saveBpAllocationRule",
+
 }

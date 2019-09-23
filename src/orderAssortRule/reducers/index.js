@@ -9,7 +9,13 @@ export const listBP = handleActions({
 	}
 }, {})
 
+export const regionList = handleActions({
+	[orderAssortRule.getRegionList_success]: (state, action) => {
+		return [...action.payload.result.list]
+	}
+}, [])
+
 
 export default combineReducers({
-	listBP,
+	listBP, regionList
 })
