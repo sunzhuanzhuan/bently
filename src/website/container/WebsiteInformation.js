@@ -88,7 +88,7 @@ class WebsiteInformation extends Component {
 		const { clubInfo = {}, actions } = this.props;
 		const { total = 0, pageNum, pageSize, list = [] } = clubInfo
 		return <div className='website-information-wrap'>
-			<h3>运营管理-官网线索列表</h3>
+			<h2>运营管理-官网线索列表</h2>
 			<div className='filter-wrap'>
 				<ClueForm
 					queryParams={this.state.queryParams}
