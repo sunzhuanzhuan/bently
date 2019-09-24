@@ -29,6 +29,7 @@ import queryExportToolReducer from '../queryExportTool/reducer'
 import exportTemplateReducer from '../components/exportTemplate/reducer'
 import videoMark from '../videomark/reducers'
 import cooperationPlatformReducer from "../cooperationPlatform/reducers";
+import websiteReducer from '../website/reducers';
 import classificationManageReducer from "../classificationManage/reducers";
 import { brandManageReducer } from '@/videomark/reducers/brandManage';
 
@@ -65,5 +66,6 @@ export default combineReducers({
 	videoMark,
 	brandManageReducer,
 	cooperationPlatformReducer,//三方合作平台
-	classificationManageReducer // 分类管理
+	classificationManageReducer, // 分类管理
+	websiteReducer
 });
