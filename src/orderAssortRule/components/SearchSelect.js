@@ -58,7 +58,7 @@ class UserRemoteSelect extends Component {
 				disabled={!isEdit}
 			>
 				{data.map(d => (
-					<Option key={d.brandId}>{d.brandName}</Option>
+					<Option key={d.companyBrandId}>{d.brandName}</Option>
 				))}
 			</Select>
 		);

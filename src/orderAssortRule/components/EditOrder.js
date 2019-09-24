@@ -11,7 +11,7 @@ class SearchForm extends Component {
 		const { data } = await actions.getBpDetail({ bpId: bpId })
 		const designBrandList = (data.designBrandList || []).map(one => (
 			{
-				key: one.brandId,
+				key: one.companyBrandId,
 				label: one.brandName
 			}))
 		this.setState({
@@ -22,7 +22,7 @@ class SearchForm extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				const designBrandList = (values.brandList || []).map(one => ({ brandId: one.key, brandName: one.label }))
+				const designBrandList = (values.brandList || []).map(one => ({ companyBrandId: one.key, brandName: one.label }))
 				this.props.actions.saveBpAllocation({
 					...values, designBrandList: designBrandList
 				}).then(() => {
@@ -44,7 +44,7 @@ class SearchForm extends Component {
 		return (
 			<Form layout='horizontal' className='search-from'>
 				<Form.Item label='BP' {...formItemLayout} >
-					{bpDetail.bpName}
+					{bpDetail.bpName}（{bpDetail.regionName}）
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'{...formItemLayout} >
 					{getFieldDecorator('isDesignBrand', {
