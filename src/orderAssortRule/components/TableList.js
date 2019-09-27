@@ -17,22 +17,24 @@ const TableList = props => {
 		},
 		{
 			title: '所属大区',
-			dataIndex: 'regionName',
+			dataIndex: 'regionNames',
 			align: 'center',
-			key: 'regionName',
+			key: 'regionNames',
+			render: (text = []) => text.map((one, index) => `${one}${index < text.length - 1 ? '、' : ''}`)
 		},
 		{
 			title: '是否参与随机分配',
-			dataIndex: 'isRandomAllocation',
+			dataIndex: 'isCanDistributionInAll',
 			align: 'center',
-			key: 'isRandomAllocation',
+			key: 'isCanDistributionInAll',
 			render: (text, record) => text == 1 ? '是' : '否'
 		},
 		{
 			title: '接单品牌范围',
-			dataIndex: 'designBrandName',
+			dataIndex: 'brandRelations',
 			align: 'center',
-			key: 'designBrandName',
+			key: 'brandRelations',
+			render: (text = [], record) => text.map((one, index) => text ? `${one.brandName}（${one.companyName}）${index < text.length - 1 ? '、' : ''}` : '-')
 		}, {
 			title: '操作',
 			dataIndex: 'operate',

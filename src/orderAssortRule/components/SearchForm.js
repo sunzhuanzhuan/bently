@@ -11,8 +11,8 @@ class SearchForm extends Component {
 				changeSearchParam({
 					regionId: values.regionId,
 					bpId: values.bpName.key,
-					isDesignBrand: values.isDesignBrand,
-					isRandomAllocation: values.isRandomAllocation
+					isCanDistributionInBrand: values.isCanDistributionInBrand,
+					isCanDistributionInAll: values.isCanDistributionInAll
 				})
 			}
 		});
@@ -40,7 +40,7 @@ class SearchForm extends Component {
 					)}
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'>
-					{getFieldDecorator('isRandomAllocation')(
+					{getFieldDecorator('isCanDistributionInAll')(
 						<Select placeholder='请选择' style={{ width: 90 }}>
 							<Option value={1}>是</Option>
 							<Option value={2}>否</Option>
@@ -49,7 +49,7 @@ class SearchForm extends Component {
 				</Form.Item>
 
 				<Form.Item label='是否指定接单品牌'>
-					{getFieldDecorator('isDesignBrand')(
+					{getFieldDecorator('isCanDistributionInBrand')(
 						<Select placeholder='请选择' style={{ width: 90 }}>
 							<Option value={1}>是</Option>
 							<Option value={2}>否</Option>

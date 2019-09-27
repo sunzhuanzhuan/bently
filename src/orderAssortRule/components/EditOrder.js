@@ -9,7 +9,7 @@ class SearchForm extends Component {
 	componentDidMount = async () => {
 		const { actions, bpId } = this.props
 		const { data } = await actions.getBpDetail({ bpId: bpId })
-		const designBrandList = (data.designBrandList || []).map(one => (
+		const designBrandList = (data.brand || []).map(one => (
 			{
 				key: one.companyBrandId,
 				label: one.brandName
@@ -35,6 +35,7 @@ class SearchForm extends Component {
 	};
 	render() {
 		const { bpDetail } = this.state
+		const { regionNames = [] } = bpDetail
 		const { form, isEdit, setModal, } = this.props
 		const { getFieldDecorator, getFieldValue } = form;
 		const formItemLayout = {
@@ -44,11 +45,11 @@ class SearchForm extends Component {
 		return (
 			<Form layout='horizontal' className='search-from'>
 				<Form.Item label='BP' {...formItemLayout} >
-					{bpDetail.bpName}（{bpDetail.regionName}）
+					{bpDetail.bpName}（{regionNames.map((one, index) => `${one}${index < regionNames.length - 1 ? '、' : ''}`)}）
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'{...formItemLayout} >
-					{getFieldDecorator('isDesignBrand', {
-						initialValue: bpDetail.isDesignBrand || 2,
+					{getFieldDecorator('isCanDistributionInBrand', {
+						initialValue: bpDetail.isCanDistributionInBrand || 2,
 					})(
 						<Radio.Group placeholder='请选择' disabled={!isEdit}>
 							<Radio value={1}>是</Radio>
@@ -58,8 +59,8 @@ class SearchForm extends Component {
 				</Form.Item>
 
 				<Form.Item label='是否指定接单品牌'{...formItemLayout} >
-					{getFieldDecorator('isRandomAllocation', {
-						initialValue: bpDetail.isRandomAllocation || 2,
+					{getFieldDecorator('isCanDistributionInAll', {
+						initialValue: bpDetail.isCanDistributionInAll || 2,
 					})(
 						<Radio.Group placeholder='请选择' disabled={!isEdit}>
 							<Radio value={1}>是</Radio>
@@ -67,7 +68,7 @@ class SearchForm extends Component {
 						</Radio.Group>
 					)}
 				</Form.Item>
-				{JSON.stringify(bpDetail) != '{}' ? getFieldValue('isRandomAllocation') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
+				{JSON.stringify(bpDetail) != '{}' ? getFieldValue('isCanDistributionInAll') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
 					{getFieldDecorator('brandList', {
 						initialValue: bpDetail.designBrandList || undefined,
 						rules: [

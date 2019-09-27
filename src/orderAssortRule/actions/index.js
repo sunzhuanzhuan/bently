@@ -16,9 +16,7 @@ export const {
 export const {
 	getBpDetail,
 	getBpDetail_success
-} = createHttpAction('getBpDetail', Interface.getBpDetail, {
-	method: 'post'
-})
+} = createHttpAction('getBpDetail', Interface.getBpDetail)
 export const {
 	getAllBpList,
 	getAllBpList_success
