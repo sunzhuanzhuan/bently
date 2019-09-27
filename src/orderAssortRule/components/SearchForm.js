@@ -28,7 +28,7 @@ class SearchForm extends Component {
 						<SearchSelect
 							searchDataList={actions.getAllBpList}
 							desc='请输入并选择BP'
-							keyWord='name'
+							keyWord='bpName'
 							item={['bpId', 'bpName']} />
 					)}
 				</Form.Item>

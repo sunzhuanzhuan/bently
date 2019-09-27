@@ -9,22 +9,24 @@ class SearchForm extends Component {
 	componentDidMount = async () => {
 		const { actions, bpId } = this.props
 		const { data } = await actions.getBpDetail({ bpId: bpId })
-		const designBrandList = (data.brand || []).map(one => (
+		const brandRelations = (data.brandRelations || []).map(one => (
 			{
 				key: one.companyBrandId,
-				label: one.brandName
+				label: one.brandName + `（${one.companyName}）`
 			}))
 		this.setState({
-			bpDetail: { ...data, designBrandList: designBrandList }
+			bpDetail: { ...data, brandRelations: brandRelations }
 		})
 	}
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+			const { bpDetail } = this.state
 			if (!err) {
-				const designBrandList = (values.brandList || []).map(one => ({ companyBrandId: one.key, brandName: one.label }))
+				const brandRelations = (values.brandList || []).map(one => ({ companyBrandId: one.key, }))
 				this.props.actions.saveBpAllocation({
-					...values, designBrandList: designBrandList
+					bpId: bpDetail.bpId,
+					...values, brandRelations: brandRelations
 				}).then(() => {
 					message.success('保存成功！')
 					this.props.setModal()
@@ -35,7 +37,8 @@ class SearchForm extends Component {
 	};
 	render() {
 		const { bpDetail } = this.state
-		const { regionNames = [] } = bpDetail
+		const { regionNames = [], brandRelations = [] } = bpDetail
+		console.log("TCL: SearchForm -> render -> brandRelations", brandRelations)
 		const { form, isEdit, setModal, } = this.props
 		const { getFieldDecorator, getFieldValue } = form;
 		const formItemLayout = {
@@ -44,7 +47,7 @@ class SearchForm extends Component {
 		};
 		return (
 			<Form layout='horizontal' className='search-from'>
-				<Form.Item label='BP' {...formItemLayout} >
+				<Form.Item label='bp' {...formItemLayout} >
 					{bpDetail.bpName}（{regionNames.map((one, index) => `${one}${index < regionNames.length - 1 ? '、' : ''}`)}）
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'{...formItemLayout} >
@@ -70,7 +73,7 @@ class SearchForm extends Component {
 				</Form.Item>
 				{JSON.stringify(bpDetail) != '{}' ? getFieldValue('isCanDistributionInAll') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
 					{getFieldDecorator('brandList', {
-						initialValue: bpDetail.designBrandList || undefined,
+						initialValue: brandRelations,
 						rules: [
 							{
 								required: true,
@@ -78,7 +81,7 @@ class SearchForm extends Component {
 							},
 						],
 					})(
-						<SearchSelect isEdit={isEdit} />
+						<SearchSelect isEdit={isEdit} bpId={bpDetail.bpId} />
 					)}
 				</Form.Item> : null}
 				<div style={{ textAlign: 'center', marginTop: 40 }}>

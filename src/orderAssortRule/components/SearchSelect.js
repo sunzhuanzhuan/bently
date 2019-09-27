@@ -17,11 +17,17 @@ class UserRemoteSelect extends Component {
 		};
 	}
 	fetchUser = value => {
-		console.log('fetching user', value);
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ data: [], fetching: true });
-		api.get(Interface.queryBrandList, { params: { name: value } }).then(({ result }) => {
+		api.get(Interface.queryBrandList, {
+			params: {
+				queryBrandName: value,
+				bpId: this.props.bpId,
+				page: 1,
+				pageSize: 50
+			}
+		}).then(({ result }) => {
 			if (fetchId !== this.lastFetchId) {
 				// for fetch callback order
 				return;
