@@ -10,7 +10,7 @@ class SearchForm extends Component {
 			if (!err) {
 				changeSearchParam({
 					regionId: values.regionId,
-					bpId: values.bpName.key,
+					bpId: values.bpName && values.bpName.key,
 					isCanDistributionInBrand: values.isCanDistributionInBrand,
 					isCanDistributionInAll: values.isCanDistributionInAll
 				})

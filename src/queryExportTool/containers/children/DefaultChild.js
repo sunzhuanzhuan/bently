@@ -34,7 +34,6 @@ class DefaultChild extends Component {
 			searchSource: searchSource || 1,
 			pageSize: search.pageSize || 20,
 			keyword: search.keyword || '',
-			isLowQuality: 1,
 		}).then(results => {
 			if (this._isMounted || changeTab) {
 				this.setState({

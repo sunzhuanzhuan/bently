@@ -98,7 +98,7 @@
 			"changeOrigin": true
 		},
 		"/api": {
-			"target": "http://nb.dev-weiboyi.com",
+			"target": "http://nb.fat-weiboyi.com",
 			"changeOrigin": true
 		}
 	},
