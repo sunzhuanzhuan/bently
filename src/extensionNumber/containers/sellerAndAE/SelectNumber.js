@@ -109,7 +109,7 @@ class SelectNumber extends Component {
 		this.thisCurrent = 0
 	}
 	feedBack(selectedAccount) {
-		
+
 		let flag = true
 		this.percentNum= 0
 		this._index = 0;
@@ -126,7 +126,7 @@ class SelectNumber extends Component {
 					weibo_type: selectedAccount[this._index].weibo_type,
 					ext_account_id: selectedAccount[this._index].ext_account_id
 				}).then((data) => {
-					
+
 					if (flag == true && data.rows.length > 0) {
 						this.setState({ checkSameAccount: true, Modalinfo: false, similarAcccountLoading: false, createModalShow: false })
 						flag = false;
@@ -138,7 +138,7 @@ class SelectNumber extends Component {
 							Modalinfo: false,
 							checkSameAccount: false,
 							restNun: 1000
-						})	
+						})
 						flag = false;
 						this.num = 0;
 					}
@@ -159,7 +159,7 @@ class SelectNumber extends Component {
 				this._index++;
 				// this.percentNum++
 				this.cardLoading = true
-				
+
 			}, 200);
 		}else{
 			//
@@ -168,7 +168,7 @@ class SelectNumber extends Component {
 	}
 	// 处理创建需求
 	handleCreateModal = () => {
-		// 其他处理	
+		// 其他处理
 		//判断数据请求回来的有没有相似账号
 		// this.props.sendTotalAccount(this.fetchRowSelectedTotal)
 		this._index = 0;
@@ -225,14 +225,14 @@ class SelectNumber extends Component {
 			importAccountList
 		} = this.props
 		let { map, list } = importAccountList || {}
-	
+
 		const selectedRowKeys = this.state.selectedRowKeys;
 		let selectedAccount = selectedRowKeys.map(item => {
 			return map[item];
 		}).filter((item) => {
 			if(!item){debugger;}
 			//5是抓取失败，1 未入库,3 // 已下架
-			return ((item.status == 5 || item.status == 1) && item.account_name !='' )	
+			return ((item.status == 5 || item.status == 1) && item.account_name !='' )
 		});
 		return selectedAccount
 	}
@@ -254,7 +254,7 @@ class SelectNumber extends Component {
 			const _a = similarAccount[item.ext_account_id];
 			return _a && _a.length > 0;
 		})
-		
+
 		return selectedAccountHasSimilar;
 	}
 	//获取未更新账号的长度
@@ -264,15 +264,15 @@ class SelectNumber extends Component {
 		const updatedAccountLength = Object.keys(this.updatedAccount).length;
 		const updatingAccountLength = selectedAccountHasSimilar.length - updatedAccountLength;
 
-		
+
 		return {
-			updatedAccountLength, 
-			updatingAccountLength, 
+			updatedAccountLength,
+			updatingAccountLength,
 			selectedAccountHasSimilarLength:selectedAccountHasSimilar.length,
 			selectedAccountHasSimilar
 		}
 	}
-	
+
 	closeCheckSimilar = () => {
 		const selectedAccountHasSimilar = this.getSelectedAccountHasSimilar();
 		let { importAccountList } = this.props;
@@ -305,7 +305,7 @@ class SelectNumber extends Component {
 		})
 		let getSelectedAccountAll = this.getSelectedAccountAll()
 		this.selectedAccount = this.getSelectedAccount();
-		const { 
+		const {
 			updatedAccountLength,
 			updatingAccountLength,
 			selectedAccountHasSimilarLength
@@ -314,7 +314,7 @@ class SelectNumber extends Component {
 		if (this.state.actionNum!=0){
 			message.warning(`还有${this.state.actionNum}个数据加载中~`)
 			return
-		}		
+		}
 		if (updatingAccountLength > 0) {
 			//系统未处理完所有数据的时候
 			message.warning(`还有${updatingAccountLength}个账号未处理呢~`);
@@ -361,9 +361,9 @@ class SelectNumber extends Component {
 		this.setState({ tableLoading: true })
 		let { filter } = this.state
 		if(this.currentPage == 0){
-			await getImportAccountList({ page: 1, ...filter, ...query})	
+			await getImportAccountList({ page: 1, ...filter, ...query})
 		}else{
-			await getImportAccountList({ page: this.thisCurrent, ...filter, ...query})	
+			await getImportAccountList({ page: this.thisCurrent, ...filter, ...query})
 		}
 		this.setState({
 			tableLoading: false,
@@ -391,7 +391,7 @@ class SelectNumber extends Component {
 		// 获取已导入账号列表
 		this.getList()
 	}
-	
+
 
 	render() {
 		let {
@@ -408,7 +408,7 @@ class SelectNumber extends Component {
 				this.setState({ selectedRowKeys })
 			},
 		};
-		//获取选中的选中的数据 
+		//获取选中的选中的数据
 		const selectedAccount = this.getSelectedAccount();
 		let pagination = {
 			position: 'top',
@@ -515,13 +515,13 @@ class SelectNumber extends Component {
 		// 	// id.push(dataMap[item].account_id);
 		// });
 		// console.log("selectedAccount", this.props)
-		
+
 		// const selectedAccountHasSimilar = selectedAccount.filter(item => {
 		// 	const _a = similarAccount[item.ext_account_id];
 		// 	return _a && _a.length > 0;
 		// })
 
-		const { 
+		const {
 			updatedAccountLength,
 			updatingAccountLength,
 			selectedAccountHasSimilar,
@@ -531,14 +531,14 @@ class SelectNumber extends Component {
 			<div className='extension-number select-number-page' style={{paddingBottom:80}}>
 
 
-				<Modalinfo visible={this.state.Modalinfo} 
+				<Modalinfo visible={this.state.Modalinfo}
 					rest={this.state.actionNum}
 					total={selectedAccount.length} />
 
 				<header className='page-content'>
 					<FilterContainer>
-						<FilterForm tableLoading={this.state.tableLoading} getList={this.getList} 
-						
+						<FilterForm tableLoading={this.state.tableLoading} getList={this.getList}
+
 						/>
 					</FilterContainer>
 				</header>
@@ -568,12 +568,12 @@ class SelectNumber extends Component {
 								createModalShow: false,
 								step: 1
 							})
-							
-							
+
+
 							// this.getList()
 						}}
 					>
-						<CreateForm 
+						<CreateForm
 							selected={this.state.selectedRowKeys}
 							queryRequirement={queryRequirement}
 							validateName={validateRequirementName}
@@ -581,7 +581,7 @@ class SelectNumber extends Component {
 							dataMap={map}
 
 							// onlineStatusNumberRest={onlineStatusNumberRest}
-							
+
 						/>
 					</Modal> : null}
 				{
@@ -611,7 +611,7 @@ class SelectNumber extends Component {
 								updatingAccountLength={updatingAccountLength}
 								resetHasSimilarAccount={this.resetHasSimilarAccount}
 							/>
-	
+
 						</Modal>
 					: null
 				}
@@ -692,7 +692,7 @@ class FilterForm extends Component {
 				<Button type='primary' style={{ width: '100px' }}
 					htmlType="submit"
 					loading={this.props.tableLoading}
-					
+
 					className='filter-button'>查询</Button>
 			</FormItem>
 		</Form>)
@@ -768,7 +768,7 @@ class CreateForm extends Component {
 					title: '提示',
 					content: '因提交需求时间过晚，最晚上架时间可能会顺延一个工作日哟~',
 				}) : null
-			
+
 				this.props.postCreateDemand({
 					...body,
 					account_name,
@@ -832,7 +832,7 @@ class CreateForm extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form
-		let areaKeys = [1, 2, 3, 4],
+		let areaKeys = [1, 2, 3, 4, 5],
 			requirementPlanKeys = [1, 2],
 			sourceKeys = [1, 2],
 			areaAry = areaKeys.map(key => areaMap[key])
