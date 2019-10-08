@@ -20,16 +20,19 @@ class SearchForm extends Component {
 	}
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
+		const { setOrderState, actions, form } = this.props
+		form.validateFields((err, values) => {
 			const { bpDetail } = this.state
 			if (!err) {
+				setOrderState({ isLoading: true })
 				const brandRelations = (values.brandList || []).map(one => ({ companyBrandId: one.key, }))
-				this.props.actions.saveBpAllocation({
+				actions.saveBpAllocation({
 					bpId: bpDetail.bpId,
 					...values, brandRelations: brandRelations
 				}).then(() => {
 					message.success('保存成功！')
 					this.props.setModal()
+					setOrderState({ isLoading: false })
 				})
 
 			}
