@@ -24,7 +24,7 @@ class MediaInfo extends Component {
 		return (
 			isShowPopover ? <Popover placement="topLeft" content={content}>
 				<div className='media-info'>
-					媒介：{name} <AuthVisbleIsBP isComponent={userName ? <span><Divider type="vertical" /> 主账号：<a>{userName}</a></span> : null} noComponent={null} />
+					媒介：{name} <AuthVisbleIsBP isComponent={userName ? <span><Divider type="vertical" /> 主账号：<span>{userName}</span></span> : null} noComponent={null} />
 				</div>
 			</Popover> : <span>{name}</span>
 		);
