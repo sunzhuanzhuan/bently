@@ -13,7 +13,7 @@ export default class AccountSort extends Component {
 	}
 	checked = e => {
 		let key = e.target.name
-		let val = e.target.checked ? 1 : key === 'isLowQuality' ? 2 : 0//判断是否含优劣号
+		let val = e.target.checked ? 1 : 0
 		this.setState({ [key]: val })
 		this.sendParams({ [key]: val })
 	}

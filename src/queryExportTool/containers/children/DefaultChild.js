@@ -47,7 +47,7 @@ class DefaultChild extends Component {
 	}
 
 	onFilterSearch = (params) => {
-		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality } = params;
+		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [] } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		// const searchParamsString = qs.stringify(params);
@@ -60,9 +60,6 @@ class DefaultChild extends Component {
 		this.setState({
 			loading: true
 		})
-		if (isLowQuality == 1) {
-			params.isLowQuality = null
-		}
 		if (operationTagIds.length == 0) {
 			params.operationTagIds = null
 		}

@@ -99,7 +99,7 @@ function priceGoodBadList(list) {
 	})
 }
 const isLowQuality = {
-	'title': '含劣质号',
+	'title': '不含劣质号',
 	'name': 'isLowQuality'
 }
 export const groupBySorter = {
@@ -130,7 +130,6 @@ export const groupBySorter = {
 				//价格优劣
 				//defaultQuotePriceDiscount
 			],
-			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -200,7 +199,6 @@ export const groupBySorter = {
 				// 	'name': 'canOrigin'
 				// }
 			],
-			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -263,7 +261,6 @@ export const groupBySorter = {
 				//价格优劣
 				//defaultQuotePriceDiscount
 			],
-			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -321,7 +318,6 @@ export const groupBySorter = {
 				//价格优劣
 				//defaultQuotePriceDiscount
 			],
-			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
@@ -380,7 +376,6 @@ export const groupBySorter = {
 				//defaultQuotePriceDiscount
 
 			],
-			default: { isLowQuality: 1 }
 		},
 		sorter: {
 			buttons: [
