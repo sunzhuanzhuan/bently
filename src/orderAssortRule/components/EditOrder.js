@@ -32,9 +32,8 @@ class SearchForm extends Component {
 				}).then(() => {
 					message.success('保存成功！')
 					this.props.setModal()
-					setOrderState({ isLoading: false })
 				})
-
+				setOrderState({ isLoading: false })
 			}
 		});
 	};
@@ -55,22 +54,22 @@ class SearchForm extends Component {
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'{...formItemLayout} >
 					{getFieldDecorator('isCanDistributionInBrand', {
-						initialValue: bpDetail.isCanDistributionInBrand || 2,
+						initialValue: String(bpDetail.isCanDistributionInBrand) || "2",
 					})(
 						<Radio.Group placeholder='请选择' disabled={!isEdit}>
-							<Radio value={1}>是</Radio>
-							<Radio value={2}>否</Radio>
+							<Radio value="1">是</Radio>
+							<Radio value="2">否</Radio>
 						</Radio.Group>
 					)}
 				</Form.Item>
 
 				<Form.Item label='是否指定接单品牌'{...formItemLayout} >
 					{getFieldDecorator('isCanDistributionInAll', {
-						initialValue: bpDetail.isCanDistributionInAll || 2,
+						initialValue: String(bpDetail.isCanDistributionInAll) || "2",
 					})(
 						<Radio.Group placeholder='请选择' disabled={!isEdit}>
-							<Radio value={1}>是</Radio>
-							<Radio value={2}>否</Radio>
+							<Radio value="1">是</Radio>
+							<Radio value="2">否</Radio>
 						</Radio.Group>
 					)}
 				</Form.Item>

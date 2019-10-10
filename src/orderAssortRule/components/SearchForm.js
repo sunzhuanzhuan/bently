@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Select } from 'antd';
+import { Form, Button, Select, Divider } from 'antd';
 import SearchSelect from './SelectSearch'
 const { Option } = Select;
 class SearchForm extends Component {
@@ -17,6 +17,12 @@ class SearchForm extends Component {
 			}
 		});
 	};
+	onClean = () => {
+		const { changeSearchParam, form } = this.props
+		const { resetFields } = form;
+		changeSearchParam({ searchParam: {} })
+		resetFields()
+	}
 	render() {
 		const { actions, form, regionList } = this.props
 		const { getFieldDecorator } = form;
@@ -57,6 +63,8 @@ class SearchForm extends Component {
 					)}
 				</Form.Item>
 				<Button type='primary' className='search-button' onClick={this.handleSubmit}>查询</Button>
+				<Divider type='vertical' />
+				<Button onClick={this.onClean}>重置</Button>
 			</Form>
 		);
 	}
