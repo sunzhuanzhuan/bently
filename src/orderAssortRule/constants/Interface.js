@@ -1,4 +1,4 @@
-const baseUrl = '/order-allocate/order/allocate/'//java重构接口
+const baseUrl = 'order/allocate/'//java重构接口
 export default {
 	//获取所有
 	getAllBpList: baseUrl + 'getAllBpList',
