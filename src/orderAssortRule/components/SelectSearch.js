@@ -28,12 +28,12 @@ export default class SearchSelect extends Component {
 		this.setState({ data: [], searchIng: true });
 		searchDataList({ [keyWord]: value, [pageSizeKey]: size })
 			.then(dataToList)
-			.then(({ result }) => {
+			.then(({ data }) => {
 
 				if (fetchId !== this.lastFetchId) {
 					return;
 				}
-				this.setState({ data: result.list, searchIng: false });
+				this.setState({ data: data.list, searchIng: false });
 			});
 	}
 	handleChange = (value) => {

@@ -27,12 +27,12 @@ class UserRemoteSelect extends Component {
 				page: 1,
 				pageSize: 50
 			}
-		}).then(({ result }) => {
+		}).then(({ data }) => {
 			if (fetchId !== this.lastFetchId) {
 				// for fetch callback order
 				return;
 			}
-			this.setState({ data: result.list || [], fetching: false });
+			this.setState({ data: data.list || [], fetching: false });
 		}
 		)
 	};

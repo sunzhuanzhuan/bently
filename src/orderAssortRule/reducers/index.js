@@ -5,13 +5,13 @@ import * as orderAssortRule from '../actions'
 
 export const listBP = handleActions({
 	[orderAssortRule.getBPList_success]: (state, action) => {
-		return { ...action.payload.result }
+		return { ...action.payload.data }
 	}
 }, {})
 
 export const regionList = handleActions({
 	[orderAssortRule.getRegionList_success]: (state, action) => {
-		return [...action.payload.result.list]
+		return [...action.payload.data.list]
 	}
 }, [])
 
