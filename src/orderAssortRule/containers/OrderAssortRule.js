@@ -66,6 +66,8 @@ class OrderAssortRule extends Component {
 	render() {
 		const { orderAssortRule, actions } = this.props
 		const { listBP, regionList } = orderAssortRule
+		const { pagination = {} } = listBP
+		console.log("TCL: OrderAssortRule -> render -> pagination", pagination)
 		const { modelConfig, isLoading } = this.state
 		const searchParam = {
 			changeSearchParam: this.changeSearchParam,
@@ -79,8 +81,9 @@ class OrderAssortRule extends Component {
 			setModal: this.setModal,
 			pagination: {
 				onChange: this.changePage,
-				current: listBP.page || 1,
-				pageSize: listBP.pageSize || 50,
+				current: pagination.page,
+				pageSize: pagination.pageSize,
+				total: pagination.total
 			},
 			saveBpAsync: this.saveBpAsync
 		}
