@@ -20,20 +20,15 @@ class SearchForm extends Component {
 	}
 	handleSubmit = e => {
 		e.preventDefault();
-		const { setOrderState, actions, form } = this.props
+		const { form, saveBpAsync } = this.props
 		form.validateFields((err, values) => {
 			const { bpDetail } = this.state
 			if (!err) {
-				setOrderState({ isLoading: true })
-				const brandRelations = (values.brandList || []).map(one => ({ companyBrandId: one.key, }))
-				actions.saveBpAllocation({
+				const brandRelations = (values.brandList || []).map(one => one.key).join(',')
+				saveBpAsync({
 					bpId: bpDetail.bpId,
 					...values, brandRelations: brandRelations
-				}).then(() => {
-					message.success('保存成功！')
-					this.props.setModal()
 				})
-				setOrderState({ isLoading: false })
 			}
 		});
 	};
@@ -53,8 +48,8 @@ class SearchForm extends Component {
 					{bpDetail.bpName}（{regionNames.map((one, index) => `${one}${index < regionNames.length - 1 ? '、' : ''}`)}）
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'{...formItemLayout} >
-					{getFieldDecorator('isCanDistributionInBrand', {
-						initialValue: String(bpDetail.isCanDistributionInBrand) || "2",
+					{getFieldDecorator('isCanDistributionInAll', {
+						initialValue: String(bpDetail.isCanDistributionInAll) || "2",
 					})(
 						<Radio.Group placeholder='请选择' disabled={!isEdit}>
 							<Radio value="1">是</Radio>
@@ -64,8 +59,8 @@ class SearchForm extends Component {
 				</Form.Item>
 
 				<Form.Item label='是否指定接单品牌'{...formItemLayout} >
-					{getFieldDecorator('isCanDistributionInAll', {
-						initialValue: String(bpDetail.isCanDistributionInAll) || "2",
+					{getFieldDecorator('isCanDistributionInBrand', {
+						initialValue: String(bpDetail.isCanDistributionInBrand) || "2",
 					})(
 						<Radio.Group placeholder='请选择' disabled={!isEdit}>
 							<Radio value="1">是</Radio>

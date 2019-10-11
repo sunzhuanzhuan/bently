@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from "antd"
 import EditOrder from './EditOrder'
 const TableList = props => {
-	const { listBP, pagination, setModal, actions, setOrderState } = props
+	const { listBP, pagination, setModal, actions, saveBpAsync } = props
 	const paginationConfig = {
 		current: 1,
 		pageSize: 50,
@@ -47,7 +47,7 @@ const TableList = props => {
 				})}>查看</a>	|
 				<a onClick={() => setModal(true, {
 					title: '编辑',
-					content: <EditOrder isEdit={true} setModal={setModal} actions={actions} bpId={record.bpId} setOrderState={setOrderState} />
+					content: <EditOrder saveBpAsync={saveBpAsync} isEdit={true} setModal={setModal} actions={actions} bpId={record.bpId} />
 				})}> 编辑</a>
 			</div>
 		},

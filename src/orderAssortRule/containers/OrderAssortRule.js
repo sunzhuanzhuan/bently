@@ -5,7 +5,7 @@ import './OrderAssortRule.less'
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import * as action from "../actions";
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, message } from 'antd';
 class OrderAssortRule extends Component {
 	constructor(props) {
 		super(props);
@@ -18,10 +18,7 @@ class OrderAssortRule extends Component {
 			},
 			isLoading: true
 		}
-		this.setOrderState = this.setOrderState.bind(this)
-	}
-	setOrderState(params) {
-		this.setState(params)
+		this.saveBpAsync = this.saveBpAsync.bind(this)
 	}
 	componentDidMount() {
 		this.searchAsync()
@@ -59,6 +56,13 @@ class OrderAssortRule extends Component {
 			isLoading: false
 		})
 	}
+	saveBpAsync = (params) => {
+		this.props.actions.saveBpAllocation(params).then(() => {
+			message.success('保存成功！')
+			this.searchAsync(this.state.searchParam)
+			this.setModal(false)
+		})
+	}
 	render() {
 		const { orderAssortRule, actions } = this.props
 		const { listBP, regionList } = orderAssortRule
@@ -78,7 +82,7 @@ class OrderAssortRule extends Component {
 				current: listBP.page || 1,
 				pageSize: listBP.pageSize || 50,
 			},
-			setOrderState: this.setOrderState
+			saveBpAsync: this.saveBpAsync
 		}
 		return (
 			<div className='order-assort-rule'>
