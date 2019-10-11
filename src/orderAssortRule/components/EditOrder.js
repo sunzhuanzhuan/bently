@@ -68,7 +68,7 @@ class SearchForm extends Component {
 						</Radio.Group>
 					)}
 				</Form.Item>
-				{JSON.stringify(bpDetail) != '{}' ? getFieldValue('isCanDistributionInAll') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
+				{JSON.stringify(bpDetail) != '{}' ? getFieldValue('isCanDistributionInBrand') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
 					{getFieldDecorator('brandList', {
 						initialValue: brandRelations,
 						rules: [
