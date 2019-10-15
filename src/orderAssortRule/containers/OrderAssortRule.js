@@ -67,7 +67,6 @@ class OrderAssortRule extends Component {
 		const { orderAssortRule, actions } = this.props
 		const { listBP, regionList } = orderAssortRule
 		const { pagination = {} } = listBP
-		console.log("TCL: OrderAssortRule -> render -> pagination", pagination)
 		const { modelConfig, isLoading } = this.state
 		const searchParam = {
 			changeSearchParam: this.changeSearchParam,
