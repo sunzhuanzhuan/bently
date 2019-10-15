@@ -65,7 +65,7 @@ export default class MainItem extends PureComponent {
 			isLowQuality, url, isSupportTopicAndLink, isVerified,
 			canOriginWrite, areaName, ageGroup, originalName,
 			isPreventShielding, classificationList = [], qrCodeUrl,
-			snsId, verificationInfo, mediaManager, isFamous,
+			snsId, verificationInfo, mediaManager, isFamous, userId,
 			operationTagList = [], followerCount, accountId, gender, snsUniqueId,
 			snbt, trueFansRate, trueReadRatio, mediaWeeklyGroupCount90d,
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
@@ -185,7 +185,7 @@ export default class MainItem extends PureComponent {
 				</main>
 				<footer className="content-footer">
 
-					<MediaInfo agentInfo={agentInfo} />
+					<MediaInfo agentInfo={agentInfo} userId={userId} />
 
 					{/* <MediaInfo {...mediaManager} userId={userId} /> */}
 
