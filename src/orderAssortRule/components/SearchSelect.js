@@ -55,7 +55,7 @@ class UserRemoteSelect extends Component {
 				mode="multiple"
 				labelInValue
 				value={value}
-				placeholder="Select users"
+				placeholder="请输入品牌名称"
 				notFoundContent={fetching ? <Spin size="small" /> : null}
 				filterOption={false}
 				onSearch={this.fetchUser}

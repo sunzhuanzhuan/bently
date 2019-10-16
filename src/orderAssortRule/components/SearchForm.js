@@ -40,14 +40,20 @@ class SearchForm extends Component {
 				</Form.Item>
 				<Form.Item label='所属大区'>
 					{getFieldDecorator('regionId')(
-						<Select placeholder='请选择大区' style={{ width: 200 }}>
+						<Select
+							placeholder='请选择大区'
+							allowClear={true}
+							style={{ width: 200 }}>
 							{regionList.map(one => <Option key={one.regionId} value={one.regionId}>{one.regionName}</Option>)}
 						</Select>
 					)}
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'>
 					{getFieldDecorator('isCanDistributionInAll')(
-						<Select placeholder='请选择' style={{ width: 90 }}>
+						<Select
+							placeholder='请选择'
+							allowClear={true}
+							style={{ width: 90 }}>
 							<Option value={1}>是</Option>
 							<Option value={2}>否</Option>
 						</Select>
@@ -56,7 +62,8 @@ class SearchForm extends Component {
 
 				<Form.Item label='是否指定接单品牌'>
 					{getFieldDecorator('isCanDistributionInBrand')(
-						<Select placeholder='请选择' style={{ width: 90 }}>
+						<Select
+							allowClear={true} placeholder='请选择' style={{ width: 90 }}>
 							<Option value={1}>是</Option>
 							<Option value={2}>否</Option>
 						</Select>

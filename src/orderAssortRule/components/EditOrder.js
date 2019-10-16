@@ -44,7 +44,7 @@ class SearchForm extends Component {
 		};
 		return (
 			<Form layout='horizontal' className='search-from'>
-				<Form.Item label='bp' {...formItemLayout} >
+				<Form.Item label='BP' {...formItemLayout} >
 					{bpDetail.bpName}（{regionNames.map((one, index) => `${one}${index < regionNames.length - 1 ? '、' : ''}`)}）
 				</Form.Item>
 				<Form.Item label='是否参与随机分配'{...formItemLayout} >

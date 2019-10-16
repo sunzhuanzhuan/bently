@@ -101,6 +101,7 @@ class OrderAssortRule extends Component {
 					onCancel={this.handleCancel}
 					destroyOnClose={true}
 					width={666}
+					maskClosable={false}
 				>
 					{modelConfig.content}
 				</Modal>

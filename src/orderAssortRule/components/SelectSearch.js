@@ -21,7 +21,7 @@ export default class SearchSelect extends Component {
 		searchIng: false,
 	}
 	search = (value) => {
-		let { searchDataList, keyWord, dataToList, pageSizeKey = 'pageSize', size = 50 } = this.props
+		let { searchDataList, keyWord, dataToList, pageSizeKey = 'pageSize', size = 50, } = this.props
 
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
@@ -59,6 +59,7 @@ export default class SearchSelect extends Component {
 				onSearch={this.search}
 				onChange={this.handleChange}
 				style={{ width: '140px' }}
+				onFocus={this.search}
 				{...this.props}
 			>
 				{data.map(d => <Option key={d[id]}>{d[text]}</Option>)}
