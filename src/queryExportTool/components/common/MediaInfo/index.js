@@ -28,7 +28,7 @@ class MediaInfo extends Component {
 				<div className='media-info'>
 					媒介：{name} <AuthVisbleIsBP isComponent={userName ? <span className='info-user-name'>
 						<Divider type="vertical" /> 主账号：
-						<a href={`${oldBUrl}/user/update/user_id/${userId}`}
+						<a href={`${oldBUrl}/user/updatebp/user_id/${userId}`}
 							target="_blank"
 						>
 							<b>{userName}</b>
