@@ -5,7 +5,7 @@ const InfoDIsplay = ({ title, value, suffix, afterLable, textColor, isString, fo
 
 	return <div className='item-footer-info-diaplay'>
 		<span className='title'>{title}</span> :
-		{isString ? <strong className='info-value'>{value > 0 || value == 1 ? <span>{numeral(value).format(format)}{afterLable}</span> : " - "}</strong> :
+		{isString ? <strong className='info-value'>{value > 0 || value == 0 ? <span>{numeral(value).format(format)}{afterLable}</span> : " - "}</strong> :
 			<strong className='info-value'>{value > 0 || value == 0 ? <span>{value}{afterLable}</span> : " - "}</strong>
 		}
 	</div>
