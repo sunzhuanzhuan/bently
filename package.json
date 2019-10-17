@@ -94,7 +94,7 @@
 	},
 	"proxy": {
 		"/api": {
-			"target": "http://nb.tst-weiboyi.com",
+			"target": "http://nb.weiboyi.com",
 			"changeOrigin": true
 		}
 	},
