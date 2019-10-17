@@ -3,13 +3,13 @@ import MarkMessage from '../MarkMessage'
 import messageInfo from "../../constants/messageInfo"
 
 import './index.less'
-
-const InfoDIsplay = ({ title, value, suffix, afterLable, textColor, isString, messageInfoKey }) => {
+import numeral from "numeral";
+const InfoDIsplay = ({ title, value, suffix, afterLable, format }) => {
 
 	return <div className='item-footer-info-diaplay'>
-		<span className='title'>{title}<MarkMessage {...messageInfo[messageInfoKey]} /></span> :
-		{isString ? <strong className='info-value'>{value ? <span>{value}{afterLable}</span> : " - "}</strong> :
-			<strong className='info-value'>{value > 0 ? <span>{value}{afterLable}</span> : " - "}</strong>
+		<span className='title'>{title}</span> :
+		{format ? <strong className='info-value'>{value > 0 || value == 0 ? <span>{numeral(value).format(format)}{afterLable}</span> : " - "}</strong> :
+			<strong className='info-value'>{value > 0 || value == 0 ? <span>{value}{afterLable}</span> : " - "}</strong>
 		}
 	</div>
 }

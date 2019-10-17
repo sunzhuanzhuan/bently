@@ -29,6 +29,7 @@ import queryExportToolReducer from '../queryExportTool/reducer'
 import exportTemplateReducer from '../components/exportTemplate/reducer'
 import videoMark from '../videomark/reducers'
 import cooperationPlatformReducer from "../cooperationPlatform/reducers";
+import websiteReducer from '../website/reducers';
 import classificationManageReducer from "../classificationManage/reducers";
 import { brandManageReducer } from '@/videomark/reducers/brandManage';
 import orderAssortRule from '@/orderAssortRule/reducers'
@@ -66,5 +67,6 @@ export default combineReducers({
 	brandManageReducer,
 	cooperationPlatformReducer,//三方合作平台
 	classificationManageReducer, // 分类管理
-	orderAssortRule//订单分配原则
+	orderAssortRule,//订单分配原则
+	websiteReducer
 });
