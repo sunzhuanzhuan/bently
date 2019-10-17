@@ -200,13 +200,13 @@ export default class MainItem extends PureComponent {
 					</div>
 					<div className='footer-info-status'>
 						{/* 此处为右下角展示统计信息 */}
-						{IsOther ? null : <InfoDIsplay title={<span>SNBT值 <MarkMessage {...messageInfo['snbt']} /></span>} value={snbt ? numeral(snbt).format("0.0") : ""} textColor="#3db389" afterLable=" " />}
-						{IsWeibo ? <InfoDIsplay title={<span>真粉率<MarkMessage {...messageInfo['zhenfen']} /></span>} value={trueFansRate ? numeral(trueFansRate).format("0.0%") : ""} isString={true} /> : null}
-						{ISWEiXin ? <InfoDIsplay title={<span>真实阅读率<MarkMessage {...messageInfo['yudu']} /></span>} value={trueReadRatio ? numeral(trueReadRatio).format("0.0") : ""} afterLable="%" /> : null}
-						{ISWEiXin ? <InfoDIsplay title={<span>周平均推送<MarkMessage {...messageInfo['week']} /></span>} value={mediaWeeklyGroupCount90d} afterLable="次" /> : null}
-						{IsOther ? null : <InfoDIsplay title={<span>近7天推送<MarkMessage {...messageInfo['day']} /></span>} value={ISWEiXin ? mediaGroupCount7d : mediaCount7d} afterLable="次" />}
-						{IsWei ? <InfoDIsplay title={<span>周订单<MarkMessage {...messageInfo['weekdan']} /></span>} value={weeklyOrderNum} afterLable="次" /> : null}
-						{IsWei ? null : <InfoDIsplay title={<span>被约次数<MarkMessage {...messageInfo['some']} /></span>} value={reservationOrderNum} afterLable="次" />}
+						{IsOther ? null : <InfoDIsplay title='SNBT值' messageInfoKey='snbt' value={snbt ? numeral(snbt).format("0.0") : ""} textColor="#3db389" afterLable=" " />}
+						{IsWeibo ? <InfoDIsplay title="真粉率" messageInfoKey='zhenfen' value={trueFansRate ? numeral(trueFansRate).format("0.0%") : ""} isString={true} /> : null}
+						{ISWEiXin ? <InfoDIsplay title="真实阅读率" messageInfoKey='yudu' value={trueReadRatio ? numeral(trueReadRatio).format("0.0") : ""} afterLable="%" /> : null}
+						{ISWEiXin ? <InfoDIsplay title="周平均推送" messageInfoKey='week' value={mediaWeeklyGroupCount90d} afterLable="次" /> : null}
+						{IsOther ? null : <InfoDIsplay title="近7天推送" messageInfoKey='day' value={ISWEiXin ? mediaGroupCount7d : mediaCount7d} afterLable="次" />}
+						{IsWei ? <InfoDIsplay title="周订单" messageInfoKey='weekdan' value={weeklyOrderNum} afterLable="次" /> : null}
+						{IsWei ? null : <InfoDIsplay title="被约次数" messageInfoKey='some' value={reservationOrderNum} afterLable="次" />}
 					</div>
 				</footer>
 
