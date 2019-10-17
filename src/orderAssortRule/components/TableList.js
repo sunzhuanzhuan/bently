@@ -34,12 +34,13 @@ const TableList = props => {
 			dataIndex: 'brandRelations',
 			align: 'center',
 			key: 'brandRelations',
-			render: (text = [], record) => text.map((one, index) => text ? `${one.brandName}（${one.companyName}）${index < text.length - 1 ? '、' : ''}` : '-')
+			render: (text = [], record) => text.length > 0 ? text.map((one, index) => `${one.brandName}（${one.companyName}）${index < text.length - 1 ? '、' : ''}`) : '-'
 		}, {
 			title: '操作',
 			dataIndex: 'operate',
 			align: 'center',
 			key: 'operate',
+			width: '100px',
 			render: (text, record) => <div className='table-operate'>
 				<a onClick={() => setModal(true, {
 					title: '查看',
