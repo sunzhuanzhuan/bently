@@ -379,7 +379,7 @@ class FilterForm extends Component {
 	handleDownload = async () => {
 		let { getDemandHistory } = this.props
 		let { filter } = this.props
-		await api.get('/extentionAccount/requirement', { params: filter })
+		await api.get('/extentionAccount/allotDerive', { params: filter })
 	}
 
     render() {
