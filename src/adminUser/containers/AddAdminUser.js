@@ -180,12 +180,23 @@ class AddAdminUser extends Component {
 		}
 		const { adminUserOne = {} } = this.props
 		const { user_group_id, salesman_region } = adminUserOne
-		//BP用户修改大区，提示警告
+		//BP用户修改大区，提示
 		if (user_group_id == 78 || user_group_id == 79) {
 			if (this.props.adminUserOne.salesman_region != value) {
 				Modal.warning({
 					title: '警告',
-					content: '如果BP绑定了公司，请先找BP主管做解绑操作之后再更换大区，否则会导致原大区部分订单无BP处理',
+					okText: '确认',
+					content: '如果BP绑定了公司，请先找BP主管做解绑操作之后再更换大区，否则会导致原大区部分订单无BP处理！',
+				});
+			}
+		}
+		//销售用户修改大区，提示
+		if (user_group_id == 32 || user_group_id == 33 || user_group_id == 34) {
+			if (this.props.adminUserOne.salesman_region != value) {
+				Modal.warning({
+					title: '警告',
+					okText: '确认',
+					content: '请确保名下的公司和原大区BP之间的关系已解绑，否则订单还会分配给原大区BP，导致新大区BP无法处理！',
 				});
 			}
 		}
