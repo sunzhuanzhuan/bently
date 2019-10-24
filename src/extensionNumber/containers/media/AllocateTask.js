@@ -465,9 +465,9 @@ class FilterForm extends Component {
                     htmlType="submit"
                     loading={this.props.tableLoading}
                     className='filter-button'>查询</Button>
-                <Button type='primary' style={{ width: '80px' }}
+                {/*<Button type='primary' style={{ width: '80px' }}
                     onClick={this.handleDownload}
-                    className='filter-button' ghost>导出结果</Button>
+                    className='filter-button' ghost>导出结果</Button>*/}
             </FormItem>
         </Form>
         </div>)
