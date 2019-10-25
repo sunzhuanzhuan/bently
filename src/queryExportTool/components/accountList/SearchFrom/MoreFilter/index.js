@@ -176,6 +176,7 @@ class MoreFilter extends Component {
 				<Row>
 					<h4 >关键字</h4>
 					<AuthVisbleIsBP
+						noComponent={null}
 						isComponent={mapFieldsToPlatform['mainAccountName'].includes(platformType) && <Col span={12}>
 							<FormItem
 								{...formItemLayout}
