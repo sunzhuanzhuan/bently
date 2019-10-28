@@ -1,3 +1,5 @@
+@import (reference) '../indexNbTheme';
+
 // 样式库
 .l {float: left;}
 .r {float: right;}
@@ -94,7 +96,7 @@
 .lh22 {line-height: 22px;}
 .lh24 {line-height: 24px;}
 .w120 {width: 120px}
-.bgc-main {background-color: #1da57a;}
+.bgc-main {background-color: @primary-color;}
 .z {_zoom: 1;}
 .fix {
   *zoom: 1;
@@ -133,7 +135,7 @@
       }
       span:first-child {
         margin-right: 12px;
-        color: tint(#1da57a, 20%);
+        color: tint(@primary-color, 20%);
       }
     }
     .dashboard-badge-count {
@@ -142,7 +144,7 @@
       border-radius: 3px;
       margin-right: 12px;
       padding: 0 12px;
-      background: tint(#1da57a, 6%);
+      background: tint(@primary-color, 6%);
     }
   }
   .modal-info-title {
@@ -185,7 +187,7 @@
   .w170 {width: 170px}
   .tar {text-align: right}
   .ant-modal-header {
-    background: #1da57a;
+    background: @primary-color;
     .ant-modal-title {color: #fff}
 
   }

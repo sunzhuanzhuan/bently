@@ -24,11 +24,11 @@ import FilterContainer from "../../components/FilterContainer";
 import './allocateTask.less';
 import PlatformSelect from "../../base/PlatformSelect";
 import {
-    accountStatusMap,
-    dashboardAccountMap,
-    finishStatusMap,
-    progressMap,
-    sourceMap
+	accountStatusMap, areaMap,
+	dashboardAccountMap,
+	finishStatusMap,
+	progressMap,
+	sourceMap
 } from "../../constants/config";
 import StausView from "../../base/StatusView";
 import debounce from 'lodash/debounce';
@@ -186,7 +186,7 @@ class AllocateTask extends Component {
         let C = null;
         if (data) {
             C = <SearchInput {...data} getUserList={this.props.getUserList} />
- 
+
             this.setState({
                 storeModalShow: true,
                 storeForm: C
@@ -750,7 +750,9 @@ class FilterForm extends Component {
             finishStatusKeys = [0, 1, 2],
             requirementPlanKeys = [1, 2],
             accountStatusAry = accountStatusKeys.map(key => accountStatusMap[key]),
-            finishStatusAry = finishStatusKeys.map(key => finishStatusMap[key])
+            finishStatusAry = finishStatusKeys.map(key => finishStatusMap[key]),
+			areaKeys = [1, 2, 3, 4, 5],
+			areaAry = areaKeys.map(key => areaMap[key])
         //requirementPlanAry = requirementPlanKeys.map(key => requirementPlanMap[key])
         let exist_mediaSelect = search_flag && Object.keys(mediaManagerList).length !== 0
         let sourceMediaListArray = mediaManagerList[this.props.group2]
@@ -780,6 +782,20 @@ class FilterForm extends Component {
                             }} />)
                     }
                 </FormItem>
+				<FormItem label="区域">
+					{
+						getFieldDecorator('creator_area', {
+						})(
+							<Select
+								className='w120'
+								allowClear
+								placeholder='选择区域'
+							>
+								{areaAry.map(({ id, text }) =>
+									<Option key={id}>{text}</Option>)}
+							</Select>)
+					}
+				</FormItem>
                 {exist_mediaSelect && authVisibleList['extention.orientationlist.resource.search.select'] === true ?
                     <FormItem label="资源媒介">
                         {

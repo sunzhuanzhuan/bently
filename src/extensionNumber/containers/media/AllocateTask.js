@@ -13,7 +13,7 @@ import {
     Table
 } from "antd";
 
-import { requirementPlanMap, sourceMap } from "../../constants/config";
+import { areaMap, requirementPlanMap, sourceMap } from "../../constants/config";
 import { connect } from "react-redux";
 import * as actions from '../../actions'
 
@@ -24,6 +24,7 @@ import './allocateTask.less';
 import MediaManagerSelect from "../../base/MediaManagerSelect";
 import ViewMoreText from "../../base/ViewMoreText";
 import moment from 'moment';
+import api from "@/api";
 
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item
@@ -288,7 +289,7 @@ class AllocateTask extends Component {
             <div className='extension-number allocate-task-page'>
                 <header className='page-content'>
                     <FilterContainer>
-                        <FilterForm tableLoading={this.state.tableLoading} getList={this.getList} />
+                        <FilterForm tableLoading={this.state.tableLoading} filter={this.state.filter} getList={this.getList} />
                     </FilterContainer>
                 </header>
                 <main>
@@ -375,12 +376,19 @@ class FilterForm extends Component {
             }
         });
     }
+	handleDownload = async () => {
+		let { getDemandHistory } = this.props
+		let { filter } = this.props
+		await api.get('/extentionAccount/allotDerive', { params: filter })
+	}
 
     render() {
         let requirementPlanKeys = [1, 2],
             // finishStatusKeys = [1],
             // finishStatusAry = finishStatusKeys.map(key => finishStatusMap[key]),
-            requirementPlanAry = requirementPlanKeys.map(key => requirementPlanMap[key])
+            requirementPlanAry = requirementPlanKeys.map(key => requirementPlanMap[key]),
+			areaKeys = [1, 2, 3, 4, 5],
+			areaAry = areaKeys.map(key => areaMap[key])
         const { getFieldDecorator } = this.props.form;
         return (<div><Form layout="inline" onSubmit={this.submitQuery}>
             <FormItem label="平台">
@@ -406,6 +414,20 @@ class FilterForm extends Component {
                     getFieldDecorator('creator', {})(
                         <Input placeholder='填写销售/AE' />)
                 }
+            </FormItem>
+            <FormItem label="区域">
+				{
+					getFieldDecorator('creator_area', {
+					})(
+						<Select
+							className='w120'
+							allowClear
+							placeholder='选择区域'
+						>
+							{areaAry.map(({ id, text }) =>
+								<Option key={id}>{text}</Option>)}
+						</Select>)
+				}
             </FormItem>
             {/*<FormItem label="拓号状态">
                 {
@@ -439,10 +461,13 @@ class FilterForm extends Component {
             </FormItem>
 
             <FormItem>
-                <Button type='primary' style={{ width: '80px' }}
+                <Button type='primary' style={{ width: '80px', marginRight: 10 }}
                     htmlType="submit"
                     loading={this.props.tableLoading}
                     className='filter-button'>查询</Button>
+                {/*<Button type='primary' style={{ width: '80px' }}
+                    onClick={this.handleDownload}
+                    className='filter-button' ghost>导出结果</Button>*/}
             </FormItem>
         </Form>
         </div>)
