@@ -29,7 +29,7 @@ class Tree extends Component {
 	}
 	render() {
 		const { treeProps, treelist = [] } = this.props
-		return <TreeSelect {...treeProps} multiple className='tree-admin-select'>
+		return <TreeSelect {...treeProps} multiple className='tree-admin-select mt4' >
 			{this.renderTreeNodes(treelist)}
 		</TreeSelect>
 

@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import qs from "qs";
 import images from '../images'
 import "./AccountListBatch.less";
+import AuthVisbleIsBP from './AuthVisbleIsBP'
 // import {
 // 	BatchTable, BatchSearchCode,
 // 	CreateTask, AccountTableSelect, ToDownLoadCenter
@@ -264,7 +265,9 @@ class AccountListBatch extends Component {
 									<div>
 										<div className="batch-search-middle-line">
 											<div className="button-export">
-												<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.list && exactQueryData.list.length <= 0}>导出全部账号</Button>
+												<AuthVisbleIsBP noComponent={<Button type="primary" onClick={() => this.showModal(1)} disabled={exactQueryData && exactQueryData.list && exactQueryData.list.length <= 0}>导出全部账号</Button>}
+													isComponent={null} />
+
 											</div>
 											<div className="img-action">
 												<img src={showTypeList == 1 ? images.cardActivePng : images.cardPng} width="14" onClick={() => { this.setShowTypeList(1) }} />

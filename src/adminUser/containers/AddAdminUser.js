@@ -17,7 +17,7 @@ const TreeNode = TreeSelect.TreeNode;
 class AddAdminUser extends Component {
 	constructor(props) {
 		super(props)
-		const { adminUserOne={} } = props;
+		const { adminUserOne = {} } = props;
 		this.state = {
 			visible: false,
 			parentUserData: [],
@@ -29,10 +29,10 @@ class AddAdminUser extends Component {
 			isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId,  //用户组是否是销售支持
 		}
 	}
-	componentWillReceiveProps(nextProps){
+	componentWillReceiveProps(nextProps) {
 		const { adminUserOne = {} } = nextProps;
 		const { user_group_id } = this.state;
-		if(adminUserOne.user_group_id === user_group_id){
+		if (adminUserOne.user_group_id === user_group_id) {
 			this.setState({
 				isSaleSupport: adminUserOne.user_group_id === SaleSupportGroupId
 			})
@@ -95,9 +95,9 @@ class AddAdminUser extends Component {
 	}
 	//关闭弹窗
 	closeModal = () => {
-		const { adminUserOne={} } = this.props
+		const { adminUserOne = {} } = this.props
 		const { user_group_id } = adminUserOne;
-		this.setState({ visible: false, jobvalue: undefined, deptvalue: undefined, isSaleSupport:false, user_group_id })
+		this.setState({ visible: false, jobvalue: undefined, deptvalue: undefined, isSaleSupport: false, user_group_id })
 		//this.props.actions.getJobList({ is_show_department: 1 })
 		this.props.form.resetFields()
 	}
@@ -114,7 +114,7 @@ class AddAdminUser extends Component {
 		//actions.getJobTypeList()
 		if (isEditAciton) {
 			//修改查询岗位
-			const { department_id = [], job_type_id = [], jobs_id, support_seller_id = [],user_group_id } = adminUserOne
+			const { department_id = [], job_type_id = [], jobs_id, support_seller_id = [], user_group_id } = adminUserOne
 
 			if (department_id.length !== 0 && job_type_id.length !== 0) {
 				actions.getJobList({ ownership_id: department_id, is_show_department: 1, job_type_id: job_type_id, unused: adminUserOne && adminUserOne.user_id || 0, }).then(() => {
@@ -127,8 +127,8 @@ class AddAdminUser extends Component {
 					message.error(error.errorMsg)
 				})
 			}
-			if(support_seller_id.length > 0){
-				this.props.actions.getSupportSeller({user_group_id})
+			if (support_seller_id.length > 0) {
+				this.props.actions.getSupportSeller({ user_group_id })
 			}
 			const selectData = { user_group_id: adminUserOne.user_group_id }
 			await actions.getSelectMemberp(selectData)
@@ -167,9 +167,9 @@ class AddAdminUser extends Component {
 				parentId: '',
 				salesmanTeam: '',
 			});
-			this.setState({ isSaleSupport, user_group_id:value })
-			isSaleSupport && this.props.actions.getSupportSeller({user_group_id: value});
-			
+			this.setState({ isSaleSupport, user_group_id: value })
+			isSaleSupport && this.props.actions.getSupportSeller({ user_group_id: value });
+
 		}
 		if (type === 'region') {
 			await this.props.actions.getSelectMemberp({ ...serchMemberParams, region_id: value })
@@ -178,6 +178,29 @@ class AddAdminUser extends Component {
 				salesmanTeam: '',
 			});
 		}
+		const { adminUserOne = {} } = this.props
+		const { user_group_id, salesman_region } = adminUserOne
+		//BP用户修改大区，提示
+		if (user_group_id == 78 || user_group_id == 79) {
+			if (this.props.adminUserOne.salesman_region != value) {
+				Modal.warning({
+					title: '警告',
+					okText: '确认',
+					content: '如果BP绑定了公司，请先找BP主管做解绑操作之后再更换大区，否则会导致原大区部分订单无BP处理！',
+				});
+			}
+		}
+		//销售用户修改大区，提示
+		if (user_group_id == 32 || user_group_id == 33 || user_group_id == 34) {
+			if (this.props.adminUserOne.salesman_region != value) {
+				Modal.warning({
+					title: '警告',
+					okText: '确认',
+					content: '请确保名下的公司和原大区BP之间的关系已解绑，否则订单还会分配给原大区BP，导致新大区BP无法处理！',
+				});
+			}
+		}
+
 	}
 	//邮箱支持
 	handleSearch = (value) => {
@@ -262,8 +285,8 @@ class AddAdminUser extends Component {
 	}
 	render() {
 		let { isSaleSupport } = this.state;
-		
-		const { form, adminUserOne={},
+
+		const { form, adminUserOne = {},
 			isEditAciton,
 			departmentList,
 			jobList,
@@ -272,7 +295,7 @@ class AddAdminUser extends Component {
 			supportSeller,
 			selectMemberpList } = this.props;
 		const { getFieldDecorator } = form;
-		
+
 		const { result, isTrue, deptvalue, jobvalue } = this.state;
 		const children = result.map((email) => {
 			return <Option key={email}>{email}</Option>;
@@ -391,25 +414,25 @@ class AddAdminUser extends Component {
 									{userGroupOption.map(one => {
 										const desc = one.user_group_name_desc
 										return <Option key={one.user_group_id} value={one.user_group_id}>
-											{`${one.user_group_name} ${desc == null ? "": desc}`}
+											{`${one.user_group_name} ${desc == null ? "" : desc}`}
 										</Option>
 									})}
 								</Select>
 							)}
 						</FormItem>
-						{data_for_region && (isTrue || adminUserOne && adminUserOne.salesman_region) ? <FormItem label="销售所属大区" {...formItemLayout}>
+						{data_for_region && (isTrue || adminUserOne && adminUserOne.salesman_region) ? <FormItem label="所属大区" {...formItemLayout}>
 							{getFieldDecorator('salesmanRegion', {
 								initialValue: adminUserOne && adminUserOne.salesman_region,
 								rules: [{
 									required: true,
-									message: '请选择销售所属大区',
+									message: '请选择所属大区',
 								}],
 							})(
 								<Select
 									showSearch
 									optionFilterProp='children'
 									style={{ width: '100%' }}
-									placeholder="请选择销售所属大区"
+									placeholder="请选择所属大区"
 									onChange={this.onselectMember.bind(null, 'region')}
 								>
 									{data_for_region.map(one => {
@@ -443,7 +466,7 @@ class AddAdminUser extends Component {
 								initialValue: deptvalue,
 								rules: [{ required: true, message: '请选择部门' }],
 							})(
-								<TreeSelect 
+								<TreeSelect
 									{...deptProps} multiple allowClear showSearch treeNodeFilterProp='title' className='tree-admin-select'
 								>
 									{this.renderTreeNodes(departmentList)}
@@ -469,7 +492,7 @@ class AddAdminUser extends Component {
 								</Select>
 							)}
 						</FormItem>
-						
+
 						<FormItem label="岗位" {...formItemLayout}>
 							{getFieldDecorator('job_id', {
 								initialValue: jobvalue,

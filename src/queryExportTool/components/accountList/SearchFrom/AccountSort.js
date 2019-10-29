@@ -46,7 +46,7 @@ export default class AccountSort extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = { ...groupBySorter[props.group || 1].filter.default }
 		this.child = {}
 		window.TEST = this.resetState
 	}

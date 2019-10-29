@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { WBYPlatformIcon } from "wbyui"
-import { Row, Col, } from 'antd';
+import { Row, Col, Icon, } from 'antd';
 import AccountInfos, {
 	Avatar,
 	AvatarType,
 	Secondary,
 	WeiboVip, PlatformVerified
 } from "@/queryExportTool/components/common/AccountInfos";
+import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 class Heard extends Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +18,7 @@ class Heard extends Component {
 		const { base = {}, account_id } = baseInfoList
 		const { avatar_url, sns_name, verification_info,
 			media_fetched_time, cooperation_tips, platform_id,
-			is_famous, gender, area_name, age_group, is_verified, verified_status } = base
+			is_famous, gender, area_name, age_group, is_verified, verified_status, url, sns_id } = base
 		const Is_wei = is_famous == 2
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
 		return (
@@ -34,15 +35,27 @@ class Heard extends Component {
 							<Col span={2} style={{ width: 18, marginTop: -2 }}>
 								<WBYPlatformIcon weibo_type={platform_id} widthSize={14} />
 							</Col>
-							<Col span={22}>
+							<Col span={16}>
 								<div style={{ float: "left", marginRight: 10 }} >{sns_name}
 									<WeiboVip platform_id={platform_id} verified_status={verified_status} marginTop={0} />
 									<PlatformVerified is_verified={is_verified} platform_id={platform_id} />
 								</div>
 								<div style={{ marginTop: -4 }}>
 									<Secondary genderName={genderName} area_name={area_name} age_group={age_group} />
-
 								</div>
+							</Col>
+							<Col span={6}>
+								<AuthVisbleIsBP isComponent={<div>
+									<a href={platform_id == 9 ? `https://weixin.sogou.com/weixin?query=${sns_id}` : url} target="Blank">
+										<Icon type="home" /> 去主页
+									</a>
+									<span style={{ padding: '0px 5px', color: '#999' }}>|</span>
+									<a
+										target='_blank'
+										href={`/account/manage/view/${platform_id}?account_id=${account_id}`}><Icon type='search' />
+										账号维护页
+									</a>
+								</div>} noComponent={null} />
 							</Col>
 						</Row>
 						<Row style={{ marginTop: 10 }}>

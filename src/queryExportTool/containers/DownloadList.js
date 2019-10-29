@@ -3,7 +3,7 @@ import { default as DownLoadBatchSearch } from "../components/downloadList/Batch
 import { default as DownLoadBatchSearchTable } from "../components/downloadList/BatchSearchTable"
 import { default as DownloadTable } from "../components/downloadList"
 import { default as DownLoadSearch } from "../components/downloadList/Search"
-
+import AuthVisbleIsBP from './AuthVisbleIsBP'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as action from '../actions/index'
@@ -95,7 +95,8 @@ class DownloadList extends Component {
 		window.open(download_url)
 	}
 	render() {
-		const { downloadList, companyList } = this.props.queryExportToolReducer;
+		const { authorizationsReducers, queryExportToolReducer } = this.props
+		const { downloadList, companyList } = queryExportToolReducer
 		const { getDownloadList, getCompanyList } = this.props.actions
 		const searchProps = {
 			getDownloadList,
@@ -103,6 +104,8 @@ class DownloadList extends Component {
 			companyList,
 			getCompanyList
 		}
+		//是否BP角色
+		const isBPAuthVisble = authorizationsReducers.authVisibleList['is.bp']
 		const { loading, selectKey } = this.state
 		const search = qs.parse(this.props.location.search.substring(1))
 		const paginationConfig = {
@@ -121,6 +124,7 @@ class DownloadList extends Component {
 						{selectKey == 1 ? <div>
 							<DownLoadSearch {...searchProps} />
 							<DownloadTable
+								isBPAuthVisble={isBPAuthVisble}
 								downloadList={downloadList.rows}
 								operateDownload={this.operateDownload}
 								loading={loading}
@@ -130,7 +134,7 @@ class DownloadList extends Component {
 							/>
 						</div> : null}
 					</TabPane>
-					<TabPane tab="批量查号结果下载" key="2">
+					{isBPAuthVisble ? null : <TabPane tab="批量查号结果下载" key="2">
 						{selectKey == 2 ? <div>
 							<DownLoadBatchSearch {...searchProps} />
 							<DownLoadBatchSearchTable
@@ -142,7 +146,8 @@ class DownloadList extends Component {
 								downLoadById={this.downLoadById}
 							/>
 						</div> : null}
-					</TabPane>
+					</TabPane>}
+
 				</Tabs>
 			</div>
 		);
@@ -151,6 +156,7 @@ class DownloadList extends Component {
 const mapStateToProps = (state) => {
 	return {
 		queryExportToolReducer: state.queryExportToolReducer,
+		authorizationsReducers: state.authorizationsReducers
 	}
 }
 
