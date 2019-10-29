@@ -33,6 +33,7 @@ class App extends Component {
 		window.myHistory = this.props.history
 		//重新获取页面尺寸，以防继承前一浏览页面的滚动条
 		window.onresize = null
+		//获取老b端host配置。
 		this.props.actions.getUserConfigKey({ keys: 'babysitter_host' }).then((res) => {
 			window.bentleyConfig = res.data || {}
 		});
