@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
 import ItemLable from './ItemLable';
 import InputAndSlider from './InputAndSlider/InputAndSliderNew'
+import InputAndSliderNumber from './InputAndSlider/InputAndSliderNumber'
 import Search from './Search'
 import debounce from 'lodash/debounce';
 import './index.less';
@@ -262,11 +263,13 @@ class AccountSearch extends React.Component {
 					// 	number: [0, 200]
 					// }
 				})(
-					<InputAndSlider unit={"万"}
+					<InputAndSliderNumber unit={"万"}
 						onNameChange={(names) => this.onItemLableChange('followerCount', followersCount.name, names)}
 						onFilter={this.onFilterSearch}
 						marks={FollowersCountMarks}
 						// id='followersCount'
+						maxNumber={100000}//10亿
+						showFalseMessage={'粉丝数不能超过10亿'}
 						sliderMin={+(followersCount.bar.min)} sliderMax={+(followersCount.bar.max)}
 					/>
 				)}
@@ -278,11 +281,13 @@ class AccountSearch extends React.Component {
 						// 	number: [2000, 1000000]
 						// }
 					})(
-						<InputAndSlider unit={"元"}
+						<InputAndSliderNumber unit={"元"}
 							onNameChange={(names) => this.onItemLableChange('price', price.name, names)}
 							onFilter={this.onFilterSearch}
 							// id='price'
 							marks={PriceMarks}
+							maxNumber={100000000}//1亿
+							showFalseMessage={'价格不能超过1亿'}
 							sliderMin={+(price.bar.min)} sliderMax={+(price.bar.max)}
 							isShowSelect={isShowSelectForPrice}
 							selectList={[{ id: -1, name: '请选择报价类型' }, ...price.options]} />

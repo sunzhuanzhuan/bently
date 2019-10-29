@@ -252,7 +252,7 @@ class MyDemandHistory extends Component {
                                 return <a href={record.url} target='_blank'>URL</a>
                             }else{
                                 if(linkList.indexOf(record.weibo_type) == -1 && record.status !== 5){
-                                   
+
                                     return <a href={record.url} target='_blank'>URL</a>
                                 }else{
                                     return '-'
@@ -640,9 +640,7 @@ class FilterForm extends Component {
                     loading={this.props.tableLoading}
                     style={{ width: '80px' }}
                     className='filter-button mr10'>查询</Button>
-                <Button type='dashed'
-                    style={{ color: '#1da57a' }}
-                    onClick={this.handleDownload}
+                <Button type='primary' ghost onClick={this.handleDownload}
                 >导出结果</Button>
             </FormItem>
         </Form>)
