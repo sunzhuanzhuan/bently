@@ -171,7 +171,8 @@ export const areaMap = {
     '1': { id: 1, text: '北京' },
     '2': { id: 2, text: '上海' },
     '3': { id: 3, text: '广州' },
-    '4': { id: 4, text: '深圳' }
+    '4': { id: 4, text: '深圳' },
+    '5': { id: 5, text: 'GESG' }
 }
 // 需求计划
 export const requirementPlanMap = {

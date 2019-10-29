@@ -33,9 +33,13 @@ class App extends Component {
 		window.myHistory = this.props.history
 		//重新获取页面尺寸，以防继承前一浏览页面的滚动条
 		window.onresize = null
+		//获取老b端host配置。
+		this.props.actions.getUserConfigKey({ keys: 'babysitter_host' }).then((res) => {
+			window.bentleyConfig = res.data || {}
+		});
 		await this.props.actions.getAuthorizations();
 		await this.props.actions.getUserLoginInfo();
-		
+
 		this.setState({
 			isLoaded: true
 		})
@@ -88,7 +92,7 @@ class App extends Component {
 					{userLoginInfo.user_info.real_name}
 				</div>
 				<Button type="primary" className="old-platform"
-					href={babysitter_host.value || "http://toufang.weiboyi.com:8080/"} 
+					href={babysitter_host.value || "http://toufang.weiboyi.com:8080/"}
 					icon="logout"
 				>老平台</Button>
 				<Button type="primary" onClick={this.logout.bind(this)} style={btnStyle}>退出</Button>
