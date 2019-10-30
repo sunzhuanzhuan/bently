@@ -21,18 +21,19 @@ export default class SearchSelect extends Component {
 		searchIng: false,
 	}
 	search = (value) => {
-		let { searchDataList, keyWord, dataToList, pageSizeKey = 'page_size', size = 20 } = this.props
+		let { searchDataList, keyWord, dataToList, pageSizeKey = 'pageSize', size = 50, } = this.props
+
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ data: [], searchIng: true });
 		searchDataList({ [keyWord]: value, [pageSizeKey]: size })
 			.then(dataToList)
-			.then((list) => {
-				console.log("TCL: SearchSelect -> search -> list", list)
+			.then(({ data }) => {
+
 				if (fetchId !== this.lastFetchId) {
 					return;
 				}
-				this.setState({ data: list, searchIng: false });
+				this.setState({ data: data.list, searchIng: false });
 			});
 	}
 	handleChange = (value) => {
@@ -57,7 +58,8 @@ export default class SearchSelect extends Component {
 				notFoundContent={searchIng ? <Spin size="small" /> : null}
 				onSearch={this.search}
 				onChange={this.handleChange}
-				style={{ width: '120px' }}
+				style={{ width: '140px' }}
+				onFocus={this.search}
 				{...this.props}
 			>
 				{data.map(d => <Option key={d[id]}>{d[text]}</Option>)}

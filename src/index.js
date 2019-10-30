@@ -47,7 +47,7 @@ import ErrorIndex from './containers/error'
 import Login from './login/container/Login'
 import videoDispatch from "./videoDispatch";
 import CooperationPlatform from "./cooperationPlatform";
-
+import OrderAssortRule from './orderAssortRule'
 //404错误页面
 // import AccountManage from './accountManage'
 import GoodsReceipt from "./goodsReceipt";
@@ -112,6 +112,7 @@ render(
 							<Route path='/salesAuditManage' component={SalesAuditManage} />
 							<Route path='/config' component={CooperationPlatform} />
 							<Route path='/classificationManage' component={ClassificationManage} />
+							<Route path='/assortOrder' component={OrderAssortRule} />
 							{/* <Redirect to={'/error'} /> */}
 							<Route render={redirectToOtherProjects} />
 						</Switch>

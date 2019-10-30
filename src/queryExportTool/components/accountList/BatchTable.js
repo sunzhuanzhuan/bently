@@ -97,7 +97,7 @@ class BatchTable extends Component {
 			key: 'mediaManager',
 			render: (text, record) => {
 				return <span>
-					<MediaInfo agentInfo={record.agentInfo} />
+					<MediaInfo agentInfo={record.agentInfo} userId={record.userId} />
 				</span>
 			}
 		}, {

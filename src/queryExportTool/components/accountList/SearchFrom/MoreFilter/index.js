@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Row, Divider, Col, Checkbox, Radio, Button, Select, DatePicker } from "antd";
 import SelectAndInput from '../SelectAndInput'
+import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 import './index.less'
 import {
 	dateRangeOptions,
@@ -94,6 +95,7 @@ const PriceValid = ({ id, name, form, onChange }) => {
 }
 
 const mapFieldsToPlatform = {
+	"mainAccountName": [1, 2, 3, 4, 5],
 	"introduction": [1, 2, 3, 4, 5],
 	"verificationInfo": [1, 2, 3, 4, 5],
 	"cooperationTips": [1, 2, 3, 4, 5],
@@ -123,6 +125,7 @@ class MoreFilter extends Component {
 	}
 
 	onChange = (id, name, { optionsNames: names }) => {
+		console.log("TCL: MoreFilter -> onChange -> id, name, { optionsNames: names }", id, name, { optionsNames: names })
 		// if (!names) {
 		// 	// delete this.selectedItems[id]
 		// } else {
@@ -172,6 +175,18 @@ class MoreFilter extends Component {
 			<div>
 				<Row>
 					<h4 >关键字</h4>
+					<AuthVisbleIsBP
+						noComponent={null}
+						isComponent={mapFieldsToPlatform['mainAccountName'].includes(platformType) && <Col span={12}>
+							<FormItem
+								{...formItemLayout}
+								label={'主账号名称'}>
+								{getFieldDecorator('mainAccountName')(
+									<Input placeholder='请输入主账号名称'
+										onChange={(e) => onChange('mainAccountName', '主账号名称', { optionsNames: e.target.value })} />
+								)}
+							</FormItem>
+						</Col>} />
 					{mapFieldsToPlatform['introduction'].includes(platformType) && <Col span={12}>
 						<FormItem
 							{...formItemLayout}

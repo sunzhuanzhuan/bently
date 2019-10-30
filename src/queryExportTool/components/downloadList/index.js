@@ -7,7 +7,7 @@ class DownloadList extends Component {
 		this.state = {};
 	}
 	render() {
-		const { downloadList, paginationConfig, loading, operateDownload } = this.props
+		const { downloadList, paginationConfig, loading, operateDownload, isBPAuthVisble } = this.props
 		const columns = [{
 			title: '下载ID',
 			dataIndex: 'id',
@@ -70,7 +70,7 @@ class DownloadList extends Component {
 
 				</div>
 			}
-		}]
+		}].filter(one => !(isBPAuthVisble && one.key == 'company_name'))
 		return (
 			<Table dataSource={downloadList}
 				columns={columns}

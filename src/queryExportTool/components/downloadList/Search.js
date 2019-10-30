@@ -5,6 +5,7 @@ import moment from 'moment';
 import { withRouter } from "react-router-dom";
 import qs from 'qs'
 import SelectCompany from "@/components/exportTemplate/components/SelectCompany";
+import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
 const FormItem = Form.Item
@@ -46,7 +47,7 @@ class SearchDown extends Component {
 		};
 		return (
 			<Form layout="inline">
-				<FormItem
+				<AuthVisbleIsBP noComponent={<FormItem
 					{...formItemLayout}
 					label="所属公司"
 					style={{ width: "30%" }}
@@ -56,7 +57,7 @@ class SearchDown extends Component {
 					})(
 						<SelectCompany style={{ width: '100%' }} action={getCompanyList} />
 					)}
-				</FormItem>
+				</FormItem>} isComponent={null} />
 				<FormItem
 					{...formItemLayout}
 					label="报价单名称"
@@ -71,7 +72,7 @@ class SearchDown extends Component {
 				<FormItem
 					{...formItemLayout3}
 					label="状态"
-					style={{ width: "30%" }}
+					style={{ width: "25%" }}
 				>
 					{getFieldDecorator('process_status', {
 						initialValue: searchValue.process_status

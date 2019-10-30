@@ -63,7 +63,8 @@ class BatchSearchTable extends Component {
 			}
 		}]
 		return (
-			<Table dataSource={downloadList}
+			<Table
+				dataSource={downloadList}
 				columns={columns}
 				rowKey={record => record.id}
 				pagination={paginationConfig}

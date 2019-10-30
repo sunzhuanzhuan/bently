@@ -9,6 +9,7 @@ import api from '../../../api'
 import debounce from 'lodash/debounce';
 import { countstrlen } from "../../../util/verification";
 import { sensors } from '../../../util/sensor/sensors'
+import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -20,6 +21,7 @@ class EditQuotation extends Component {
 	}
 	saveAndExport = () => {
 		this.props.form.validateFields((err, values) => {
+			console.log("TCL: EditQuotation -> saveAndExport -> values", values)
 			if (!err) {
 				values.template_id = values.template_id.key
 				values.company_id = values.company_id.key
@@ -85,41 +87,43 @@ class EditQuotation extends Component {
 		};
 		return (
 			<Form className="export-all-accout">
-				<Row style={{ height: 60 }}>
-					<Col span={20}>
-						<FormItem
-							{...formItemLayoutOne}
-							label="选择报价单模板"
-						>
-							{getFieldDecorator('template_id', {
-								initialValue: templateId ? { key: templateId, label: name } : { key: 1, label: "默认模板" },
-								rules: [
-									{ required: true, message: '请选择报价单模板' },
-								],
-							})(
-								<TempleSelect style={{ width: '100%' }} action={getStencilList} setTempleName={this.setTempleName} />
-							)}
-						</FormItem>
-					</Col>
-					<Col span={4}>
-						<Button type="primary" onClick={this.props.addTemplate}>新建模版</Button>
-					</Col>
-				</Row>
+				<AuthVisbleIsBP isComponent={null} noComponent={[
+					<Row style={{ height: 60 }} key='template_id'>
+						<Col span={20}>
+							<FormItem
+								{...formItemLayoutOne}
+								label="选择报价单模板"
+							>
+								{getFieldDecorator('template_id', {
+									initialValue: templateId ? { key: templateId, label: name } : { key: 1, label: "默认模板" },
+									rules: [
+										{ required: true, message: '请选择报价单模板' },
+									],
+								})(
+									<TempleSelect style={{ width: '100%' }} action={getStencilList} setTempleName={this.setTempleName} />
+								)}
+							</FormItem>
+						</Col>
+						<Col span={4}>
+							<Button type="primary" onClick={this.props.addTemplate}>新建模版</Button>
+						</Col>
+					</Row>,
+					<FormItem
+						key='company_id'
+						{...formItemLayout}
+						label="指定公司使用"
+						{...(getFieldError('company_id') ? {} : { help: "选择指定公司后，报价单详情页、最终导出EXCLE中的报价是按照该公司计算公式计算得出；且报价单对所有能看到该公司的AE、销售可见。" })}
+					>
+						{getFieldDecorator('company_id', {
+							initialValue: company_id && company_id.key ? { ...company_id } : { key: 0, label: "不限" },
+							rules: [
+								{ required: true, message: '指定公司不能为空' },
+							],
+						})(
+							<CompanySelect style={{ width: '100%' }} action={getCompanyList} />
+						)}
+					</FormItem>]} />
 
-				<FormItem
-					{...formItemLayout}
-					label="指定公司使用"
-					{...(getFieldError('company_id') ? {} : { help: "选择指定公司后，报价单详情页、最终导出EXCLE中的报价是按照该公司计算公式计算得出；且报价单对所有能看到该公司的AE、销售可见。" })}
-				>
-					{getFieldDecorator('company_id', {
-						initialValue: company_id && company_id.key ? { ...company_id } : { key: 0, label: "不限" },
-						rules: [
-							{ required: true, message: '指定公司不能为空' },
-						],
-					})(
-						<CompanySelect style={{ width: '100%' }} action={getCompanyList} />
-					)}
-				</FormItem>
 				<FormItem
 					{...formItemLayout}
 					label="报价单名称"
