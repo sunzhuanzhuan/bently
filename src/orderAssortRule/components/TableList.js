@@ -33,7 +33,8 @@ const TableList = props => {
 			title: '接单品牌范围',
 			dataIndex: 'brandRelations',
 			align: 'center',
-			key: 'brandRelations',
+      key: 'brandRelations',
+      width: 400,
 			render: (text = [], record) => text.length > 0 ? text.map((one, index) => `${one.brandName}（${one.companyName}）${index < text.length - 1 ? '、' : ''}`) : '-'
 		}, {
 			title: '操作',
