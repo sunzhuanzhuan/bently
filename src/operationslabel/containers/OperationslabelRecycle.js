@@ -73,7 +73,10 @@ class OperationslabelRecycle extends Component {
 					dataIndex: 'modified_at',
 					key: 'modified_at',
 					width: 200
-				}, {
+				},
+				// 增加空留一列不设宽度以适应弹性布局
+				{},
+				{
 					title: '操作',
 					dataIndex: 'operating',
 					key: 'operating',

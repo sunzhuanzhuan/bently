@@ -240,7 +240,8 @@ class AccountListTable extends Component {
 				width = 1512;
 			}
 			if (add_account_mode === 1 && url === -1) { //手导入 和 不是回收站也
-				title = [...title, operating]
+				// 增加空留一列不设宽度以适应弹性布局
+				title = [...title, {}, operating]
 			} else { //去复选框和删除列的宽度
 				width = width - 162
 			}
