@@ -218,7 +218,9 @@ class AccountListTable extends Component {
 
 			if (parseInt(platform) === 9) {
 				title = title.concat(weixinarr);
-				width = 1550;
+				if (window.screen.width > 1600) {
+					width = 1850;
+				}
 			}
 			if (parseInt(platform) === 23) {
 				title = title.concat(penyouquanArr);
