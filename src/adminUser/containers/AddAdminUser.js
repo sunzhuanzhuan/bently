@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Input, Form, Select, Modal, Button, AutoComplete, TreeSelect, message } from 'antd';
 import { addAdminUserList, editAdminUserList, getUserGroup, getSelectMemberp, getJobList, getJobTypeList, cleanJobList, cleanSelectMemberp, getSupportSeller } from '../actions/adminUser'
 import { SaleSupportGroupId } from '../constants'
+import ContactInfoForm from '../components/ContactInfoForm'
+import BaseForm from '../components/BaseForm'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TreeNode = TreeSelect.TreeNode;
@@ -22,7 +24,6 @@ class AddAdminUser extends Component {
 			visible: false,
 			parentUserData: [],
 			serchMemberParams: {},
-			result: [],
 			isTrue: false,
 			deptvalue: undefined,
 			jobvalue: undefined,
@@ -202,16 +203,7 @@ class AddAdminUser extends Component {
 		}
 
 	}
-	//邮箱支持
-	handleSearch = (value) => {
-		let result;
-		if (!value || value.indexOf('@') >= 0) {
-			result = [];
-		} else {
-			result = ['qq.com', 'gmail.com', 'aliyun.com', '163.com', '126.com', 'tom.com', '139.com'].map(domain => `${value}@${domain}`);
-		}
-		this.setState({ result });
-	}
+
 	//构建数据
 	renderTreeNodes = (data) => {
 		return data.map((item) => {
@@ -233,56 +225,7 @@ class AddAdminUser extends Component {
 				value={item.id} />;
 		});
 	}
-	//确认密码判断
-	REPassword = (rule, value, callback) => {
-		var re = this.props.form.getFieldValue('pwd');
-		var relpassword = this.props.form.getFieldValue('relpassword');
-		if (re === relpassword) {
-			callback();
-		} else {
-			callback("两次密码输入不符请重新输入");
-		}
-	}
-	//判断是否是中文
-	isChinese(str) {
-		var lst = /[\u4E00-\u9FA5]/i;
-		return lst.test(str);
-	}
-	//计算字符串个数
-	countstrlen(str) {
-		var strlength = 0;
-		for (var i = 0; i < str.length; i++) {
-			if (this.isChinese(str.charAt(i)) == true)
-				strlength = strlength + 2;
-			else
-				strlength = strlength + 1;
-		}
-		return strlength;
-	}
-	//汉字验证长度
-	validatorLength = (rule, value, callback) => {
-		if (value) {
-			if (this.countstrlen(value) < 4 || this.countstrlen(value) > 20) {
-				callback('字符长度4~20');
-			} else {
-				callback();
-			}
-		} else {
-			callback();
-		}
-	}
-	//密码验证长度
-	passwordVali = (rule, value, callback) => {
-		if (value) {
-			if (value.length < 6 || value.length > 32) {
-				callback('字符长度6~32');
-			} else {
-				callback();
-			}
-		} else {
-			callback();
-		}
-	}
+
 	render() {
 		let { isSaleSupport } = this.state;
 
@@ -296,10 +239,8 @@ class AddAdminUser extends Component {
 			selectMemberpList } = this.props;
 		const { getFieldDecorator } = form;
 
-		const { result, isTrue, deptvalue, jobvalue } = this.state;
-		const children = result.map((email) => {
-			return <Option key={email}>{email}</Option>;
-		});
+		const { isTrue, deptvalue, jobvalue } = this.state;
+
 		const formItemLayout = {
 			labelCol: { span: 6 },
 			wrapperCol: { span: 18 },
@@ -314,6 +255,9 @@ class AddAdminUser extends Component {
 		const jobProps = {
 			onChange: this.jobChange,
 			searchPlaceholder: '请选择岗位',
+		}
+		const formItemProps = {
+			formItemLayout, getFieldDecorator, adminUserOne, isEditAciton, form
 		}
 		return (
 			<span>
@@ -333,71 +277,11 @@ class AddAdminUser extends Component {
 					width='700px'
 					destroyOnClose={true}
 				>
-					{isEditAciton ? <FormItem label="用户ID" style={{ display: 'none' }}>
-						{getFieldDecorator('user_id', {
-							initialValue: adminUserOne && adminUserOne.user_id,
-						})(
-							<Input />
-						)}
-					</FormItem> : ''}
-					<Form layout='horizontal'>
-						<FormItem label="用户名" {...formItemLayout}>
 
-							{getFieldDecorator('username', {
-								initialValue: adminUserOne && adminUserOne.username,
-								rules: [{
-									required: true,
-									message: '请输入正确的用户名(4~32字符)',
-									pattern: /^\w{4,32}$/
-								}],
-							})(
-								<Input placeholder="请输入用户名" />
-							)}
-						</FormItem>
-						<FormItem label="真实姓名" {...formItemLayout}>
-							{getFieldDecorator('realName', {
-								initialValue: adminUserOne && adminUserOne.real_name,
-								rules: [{ required: true, message: '请输入真实姓名' }, {
-									validator: this.validatorLength,
-								}],
-							})(
-								<Input placeholder="请输入真实姓名" />
-							)}
-						</FormItem>
-						<FormItem label="对外展示姓名" {...formItemLayout}>
-							{getFieldDecorator('contacts', {
-								initialValue: adminUserOne && adminUserOne.contacts,
-								rules: [{ required: false }, {
-									validator: this.validatorLength,
-								}],
-							})(
-								<Input placeholder="请输入对外展示姓名" />
-							)}
-						</FormItem>
-						{isEditAciton ? '' :
-							<FormItem label="密码" {...formItemLayout}>
-								{getFieldDecorator('pwd', {
-									initialValue: adminUserOne && adminUserOne.password,
-									rules: [{
-										required: true, message: '请输入密码',
-									}, {
-										validator: this.passwordVali,
-									}],
-								})(
-									<Input type='password' placeholder="请输入密码" />
-								)}
-							</FormItem>}
-						{isEditAciton ? '' :
-							<FormItem label="确认密码" {...formItemLayout}>
-								{getFieldDecorator('relpassword', {
-									initialValue: adminUserOne && adminUserOne.relpassword,
-									rules: [{ required: true, message: '请输入确认密码' }, {
-										validator: this.REPassword,
-									}],
-								})(
-									<Input type='password' placeholder="请输入确认密码" />
-								)}
-							</FormItem>}
+					<Form layout='horizontal'>
+
+						{/* 用户基本信息 */}
+						<BaseForm {...formItemProps} />
 						<FormItem label="用户组" {...formItemLayout}>
 							{getFieldDecorator('userGroupId', {
 								initialValue: adminUserOne && adminUserOne.user_group_id,
@@ -504,94 +388,9 @@ class AddAdminUser extends Component {
 								</TreeSelect>
 							)}
 						</FormItem>
-						<FormItem label="登录用手机号：" {...formItemLayout}>
-							{getFieldDecorator('cell_phone', {
-								initialValue: adminUserOne && adminUserOne.cell_phone,
-								rules: [{
-									message: '请输入正确格式的手机号码(如：17000000000)',
-									pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
-								}],
-							})(
-								<Input placeholder="请输入登录用手机号：" maxLength="11" />
-							)}
-						</FormItem>
-						<FormItem label="对外展示手机号" {...formItemLayout}>
-							{getFieldDecorator('contacts_phone', {
-								initialValue: adminUserOne && adminUserOne.contacts_phone,
-								rules: [{
-									message: '请输入正确格式的手机号码(如：17000000000)',
-									pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
-								}],
-							})(
-								<Input placeholder="请输入对外展示手机号" maxLength="11" />
-							)}
-						</FormItem>
-						<FormItem label="电话" {...formItemLayout}>
-							{getFieldDecorator('phone', {
-								initialValue: adminUserOne && adminUserOne.phone,
-								rules: [{
-									message: '请输入正确格式的电话(如：010-88888888/01088888888)',
-									pattern: /^0\d{2,3}-?\d{7,8}$/
-								}],
-							})(
-								<Input placeholder="请输入电话" />
-							)}
-						</FormItem>
-						<FormItem label="QQ" {...formItemLayout}>
-							{getFieldDecorator('qq', {
-								initialValue: adminUserOne && adminUserOne.qq && adminUserOne.qq.split(",")[0],
-								rules: [{
-									message: '请输入正确格式的QQ号(5-12位数字)',
-									pattern: /^[1-9]\d{4,12}$/
-								}]
-							})(
-								<Input placeholder="请输入QQ" maxLength={12} />
-							)}
-						</FormItem>
-						<FormItem label="企业QQ端口" {...formItemLayout}>
-							{getFieldDecorator('qqPort', {
-								initialValue: adminUserOne && adminUserOne.qq && adminUserOne.qq.split(",")[1],
-								// rules: [{
-								// 	message: '请输入正确格式的端口',
-								// 	pattern: /^ ([0 - 9] | [1 - 9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
-								// }],
-							}
-							)(
-								<Input placeholder="请输入企业QQ端口" />
-							)}
-						</FormItem>
-						<FormItem label="Email" {...formItemLayout}>
-							{getFieldDecorator('email', {
-								initialValue: adminUserOne && adminUserOne.email,
-								rules: [{
-									message: '请输入正确格式的Email(xxx@xxx.xx)',
-									pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
-								}],
-							})(
-								<AutoComplete
-									style={{ width: '100%' }}
-									onSearch={this.handleSearch}
-									placeholder="请输入Email"
-								>
-									{children}
-								</AutoComplete>
-							)}
-						</FormItem>
-						<FormItem label="旺旺" {...formItemLayout}>
-							{getFieldDecorator('wangwang', {
-								initialValue: adminUserOne && adminUserOne.wangwang,
-							})(
-								<Input placeholder="请输入旺旺" />
-							)}
-						</FormItem>
-						<FormItem label="微信" {...formItemLayout}>
-							{getFieldDecorator('wechat_account', {
-								initialValue: adminUserOne && adminUserOne.wechat_account,
-							})(
-								<Input placeholder="请输入微信" />
-							)}
-						</FormItem>
 
+						{/* 用户联系方式 */}
+						<ContactInfoForm  {...formItemProps} />
 						{data_for_parent_user && (isTrue || adminUserOne && adminUserOne.parent_id) && (JSON.stringify(data_for_parent_user) !== '[]') ?
 							<FormItem label="上级用户" {...formItemLayout}>
 								{getFieldDecorator('parentId', {
