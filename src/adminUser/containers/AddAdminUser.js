@@ -304,7 +304,7 @@ class AddAdminUser extends Component {
 			labelCol: { span: 6 },
 			wrapperCol: { span: 18 },
 		}
-		const { data_for_parent_user = [], data_for_region, data_for_team } = selectMemberpList
+		const { data_for_parent_user = [], data_for_region, data_for_team, sales_region_tag } = selectMemberpList
 		//部门树形图参数
 		const deptProps = {
 			onChange: this.deptonChange,
@@ -637,6 +637,24 @@ class AddAdminUser extends Component {
 								)}
 							</FormItem>
 						}
+						{sales_region_tag ? <FormItem
+							label="用户大区" {...formItemLayout}>
+							{getFieldDecorator('salesRegionTag', {
+								initialValue: adminUserOne && adminUserOne.sales_region_tag || undefined,
+								rules: [{
+									required: true,
+									message: '请选择用户所在大区',
+								}],
+							})(
+
+								<Select style={{ width: '100%' }} placeholder='请选择用户所在大区'>
+									{sales_region_tag.map(one => {
+										return <Option key={one.id} value={one.id}>{one.region_tag}</Option>
+									})}
+								</Select>
+
+							)}
+						</FormItem> : null}
 					</Form>
 				</Modal>
 			</span>
