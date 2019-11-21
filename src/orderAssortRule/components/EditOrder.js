@@ -9,14 +9,29 @@ class SearchForm extends Component {
 	componentDidMount = async () => {
 		const { actions, bpId } = this.props
 		const { data } = await actions.getBpDetail({ bpId: bpId })
-		const brandRelations = (data.brandRelations || []).map(one => (
+		this.setState({
+			bpDetail: {
+				...data,
+				brandRelations: this.getBrandRelations(data.brandRelations),
+				companyRelations: this.getCompanyRelations(data.companyRelations)
+			}
+		})
+	}
+	//处理品牌信息
+	getBrandRelations = (list = []) => {
+		return list.map(one => (
 			{
 				key: one.companyBrandId,
 				label: one.brandName + `（${one.companyName}）`
 			}))
-		this.setState({
-			bpDetail: { ...data, brandRelations: brandRelations }
-		})
+	}
+	//处理厂商信息
+	getCompanyRelations = (list = []) => {
+		return list.map(one => (
+			{
+				key: one.companyId,
+				label: one.companyName + `（ID：${one.companyId}，销售：${one.saleName}）`
+			}))
 	}
 	handleSubmit = e => {
 		e.preventDefault();
@@ -24,19 +39,23 @@ class SearchForm extends Component {
 		form.validateFields((err, values) => {
 			const { bpDetail } = this.state
 			if (!err) {
-				const brandRelations = (values.brandList || []).map(one => one.key).join(',')
 				saveBpAsync({
 					bpId: bpDetail.bpId,
-					...values, brandRelations: brandRelations
+					...values,
+					brandRelations: this.getListKey(values.brandList),
+					companyRelations: this.getListKey(values.companyList),
 				})
 			}
 		});
 	};
+	//获取数组的ID
+	getListKey = (list = []) => {
+		return list.map(one => one.key).join(',')
+	}
 	render() {
 		const { bpDetail } = this.state
-		const { regionNames = [], brandRelations = [] } = bpDetail
-		console.log("TCL: SearchForm -> render -> brandRelations", brandRelations)
-		const { form, isEdit, setModal, } = this.props
+		const { regionNames = [], brandRelations = [], companyRelations = [] } = bpDetail
+		const { form, isEdit, setModal } = this.props
 		const { getFieldDecorator, getFieldValue } = form;
 		const formItemLayout = {
 			labelCol: { span: 8 },
@@ -57,7 +76,19 @@ class SearchForm extends Component {
 						</Radio.Group>
 					)}
 				</Form.Item>
-
+				<Form.Item label='支持厂商'{...formItemLayout} >
+					{getFieldDecorator('companyList', {
+						initialValue: companyRelations,
+					})(
+						<SearchSelect
+							isEdit={isEdit}
+							searchKey={'queryCompanyName'}
+							bpId={bpDetail.bpId}
+							placeholder='请输入厂商简称'
+							InterfaceName="queryCompanyList"
+						/>
+					)}
+				</Form.Item>
 				<Form.Item label='是否指定接单品牌'{...formItemLayout} >
 					{getFieldDecorator('isCanDistributionInBrand', {
 						initialValue: String(bpDetail.isCanDistributionInBrand) || "2",

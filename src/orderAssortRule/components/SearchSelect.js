@@ -17,12 +17,14 @@ class UserRemoteSelect extends Component {
 		};
 	}
 	fetchUser = value => {
+		const { InterfaceName = 'queryBrandList',
+			searchKey = 'queryBrandName' } = this.props
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ data: [], fetching: true });
-		api.get(Interface.queryBrandList, {
+		api.get(Interface[InterfaceName], {
 			params: {
-				queryBrandName: value,
+				[searchKey]: value,
 				bpId: this.props.bpId,
 				page: 1,
 				pageSize: 50
@@ -49,13 +51,13 @@ class UserRemoteSelect extends Component {
 
 	render() {
 		const { fetching, data, value, } = this.state;
-		const { isEdit } = this.props
+		const { isEdit, placeholder = "请输入品牌名称" } = this.props
 		return (
 			<Select
 				mode="multiple"
 				labelInValue
 				value={value}
-				placeholder="请输入品牌名称"
+				placeholder={placeholder}
 				notFoundContent={fetching ? <Spin size="small" /> : null}
 				filterOption={false}
 				onSearch={this.fetchUser}
