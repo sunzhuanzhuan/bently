@@ -58,6 +58,7 @@ const TableList = props => {
 			align: 'center',
 			key: 'companyRelations',
 			render: (text, record) => text ? <PopoverList
+				title={`${record.bpName}支持厂商`}
 				com={<CompanyList list={text} />}
 			/> : '-'
 		},
@@ -68,6 +69,7 @@ const TableList = props => {
 			key: 'brandRelations',
 			width: 400,
 			render: (text, record) => text ? <PopoverList
+				title={`${record.bpName}接单品牌范围`}
 				com={<BrandList list={text} />}
 			/> : '-'
 		}, {
