@@ -85,7 +85,7 @@ class SearchForm extends Component {
 							searchKey={'queryCompanyName'}
 							bpId={bpDetail.bpId}
 							placeholder='请输入厂商简称'
-							InterfaceName="queryCompanyList"
+							interfaceName="queryCompanyList"
 						/>
 					)}
 				</Form.Item>

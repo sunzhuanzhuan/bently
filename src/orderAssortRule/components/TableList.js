@@ -3,7 +3,7 @@ import { Table, Popover } from "antd"
 import MultiClamp from 'react-multi-clamp';
 import EditOrder from './EditOrder'
 const CompanyList = ({ list = [] }) => {
-	return list.map((item, index) => <div key={index}>{`${item.companyName}（ID：${item.companyId}，销售：${item.saleName}）`}</div>)
+	return list.map((item, index) => `${item.companyName}（ID：${item.companyId}，销售：${item.saleName}）${index < list.length - 1 ? '、' : ''}`)
 }
 const BrandList = ({ list = [] }) => {
 	return list.map((one, index) => `${one.brandName}（${one.companyName}）${index < list.length - 1 ? '、' : ''}`)
@@ -57,9 +57,9 @@ const TableList = props => {
 			dataIndex: 'companyRelations',
 			align: 'center',
 			key: 'companyRelations',
-			render: (text, record) => {
-				return text ? <CompanyList list={text} /> : '-'
-			}
+			render: (text, record) => text ? <PopoverList
+				com={<CompanyList list={text} />}
+			/> : '-'
 		},
 		{
 			title: '接单品牌范围',
@@ -67,7 +67,9 @@ const TableList = props => {
 			align: 'center',
 			key: 'brandRelations',
 			width: 400,
-			render: (text, record) => text ? <BrandList list={text} /> : '-'
+			render: (text, record) => text ? <PopoverList
+				com={<BrandList list={text} />}
+			/> : '-'
 		}, {
 			title: '操作',
 			dataIndex: 'operate',

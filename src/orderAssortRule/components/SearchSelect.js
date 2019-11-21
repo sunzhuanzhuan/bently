@@ -17,12 +17,12 @@ class UserRemoteSelect extends Component {
 		};
 	}
 	fetchUser = value => {
-		const { InterfaceName = 'queryBrandList',
+		const { interfaceName = 'queryBrandList',
 			searchKey = 'queryBrandName' } = this.props
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ data: [], fetching: true });
-		api.get(Interface[InterfaceName], {
+		api.get(Interface[interfaceName], {
 			params: {
 				[searchKey]: value,
 				bpId: this.props.bpId,
@@ -51,7 +51,7 @@ class UserRemoteSelect extends Component {
 
 	render() {
 		const { fetching, data, value, } = this.state;
-		const { isEdit, placeholder = "请输入品牌名称" } = this.props
+		const { isEdit, placeholder = "请输入品牌名称", interfaceName } = this.props
 		return (
 			<Select
 				mode="multiple"
@@ -65,8 +65,9 @@ class UserRemoteSelect extends Component {
 				style={{ width: '100%' }}
 				disabled={!isEdit}
 			>
-				{data.map(d => (
-					<Option key={d.companyBrandId}>{d.brandName}（{d.companyName}）</Option>
+				{data.map(d => (interfaceName == 'queryCompanyList'
+					? <Option key={d.companyId}>{d.companyName}（ID：{d.companyId}，销售：{d.saleName}）</Option>
+					: <Option key={d.companyBrandId}>{d.brandName}（{d.companyName}）</Option>
 				))}
 			</Select>
 		);
