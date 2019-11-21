@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Button, Select, Radio, message, } from 'antd';
+import { Form, Button, Radio, } from 'antd';
 import SearchSelect from './SearchSelect'
-const { Option } = Select;
 class SearchForm extends Component {
 	state = {
 		bpDetail: {}
@@ -61,6 +60,7 @@ class SearchForm extends Component {
 			labelCol: { span: 8 },
 			wrapperCol: { span: 12 },
 		};
+		const dataIsLoaded = Object.keys(bpDetail).length > 0
 		return (
 			<Form layout='horizontal' className='search-from'>
 				<Form.Item label='BP' {...formItemLayout} >
@@ -76,7 +76,7 @@ class SearchForm extends Component {
 						</Radio.Group>
 					)}
 				</Form.Item>
-				<Form.Item label='支持厂商'{...formItemLayout} >
+				{isEdit && dataIsLoaded || companyRelations.length > 0 ? <Form.Item label='支持厂商'{...formItemLayout} >
 					{getFieldDecorator('companyList', {
 						initialValue: companyRelations,
 					})(
@@ -88,7 +88,7 @@ class SearchForm extends Component {
 							interfaceName="queryCompanyList"
 						/>
 					)}
-				</Form.Item>
+				</Form.Item> : null}
 				<Form.Item label='是否指定接单品牌'{...formItemLayout} >
 					{getFieldDecorator('isCanDistributionInBrand', {
 						initialValue: String(bpDetail.isCanDistributionInBrand) || "2",
@@ -99,7 +99,7 @@ class SearchForm extends Component {
 						</Radio.Group>
 					)}
 				</Form.Item>
-				{JSON.stringify(bpDetail) != '{}' ? getFieldValue('isCanDistributionInBrand') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
+				{dataIsLoaded ? getFieldValue('isCanDistributionInBrand') == 2 ? null : <Form.Item label='添加接单品牌'{...formItemLayout} >
 					{getFieldDecorator('brandList', {
 						initialValue: brandRelations,
 						rules: [
