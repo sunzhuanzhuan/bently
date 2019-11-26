@@ -94,6 +94,11 @@ const filterConfig = [
 		name: 'order_execution_review_status'
 	},
 	{
+		label: '回款状态',
+		type: 'select',
+		name: 'is_payback'
+	},
+	{
 		label: '执行监测结果',
 		type: 'select',
 		name: 'monitor_status'
