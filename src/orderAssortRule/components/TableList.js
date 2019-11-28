@@ -1,6 +1,26 @@
 import React from 'react';
-import { Table } from "antd"
+import { Table, Popover } from "antd"
+import MultiClamp from 'react-multi-clamp';
 import EditOrder from './EditOrder'
+const CompanyList = ({ list = [] }) => {
+	return list.map((item, index) => `${item.companyName}（ID：${item.companyId}，销售：${item.saleName}）${index < list.length - 1 ? '、' : ''}`)
+}
+const BrandList = ({ list = [] }) => {
+	return list.map((one, index) => `${one.brandName}（${one.companyName}）${index < list.length - 1 ? '、' : ''}`)
+}
+//多行隐藏
+const PopoverList = ({ title, com }) => {
+	return <Popover
+		content={com}
+		title={title}
+		overlayStyle={{ maxWidth: 400 }}
+		getPopupContainer={() => document.querySelector('.order-assort-rule')}
+	>
+		<MultiClamp ellipsis="..." clamp={3}>
+			{com}
+		</MultiClamp>
+	</Popover>
+}
 const TableList = props => {
 	const { listBP, pagination, setModal, actions, saveBpAsync } = props
 	const paginationConfig = {
@@ -14,12 +34,14 @@ const TableList = props => {
 			dataIndex: 'bpName',
 			align: 'center',
 			key: 'bpName',
+			width: 150
 		},
 		{
 			title: '所属大区',
 			dataIndex: 'regionNames',
 			align: 'center',
 			key: 'regionNames',
+			width: 150,
 			render: (text = []) => text.map((one, index) => `${one}${index < text.length - 1 ? '、' : ''}`)
 		},
 		{
@@ -27,15 +49,29 @@ const TableList = props => {
 			dataIndex: 'isCanDistributionInAll',
 			align: 'center',
 			key: 'isCanDistributionInAll',
+			width: 140,
 			render: (text, record) => text == 1 ? '是' : '否'
+		},
+		{
+			title: '支持厂商',
+			dataIndex: 'companyRelations',
+			align: 'center',
+			key: 'companyRelations',
+			render: (text, record) => text ? <PopoverList
+				title={`${record.bpName}支持厂商`}
+				com={<CompanyList list={text} />}
+			/> : '-'
 		},
 		{
 			title: '接单品牌范围',
 			dataIndex: 'brandRelations',
 			align: 'center',
-      key: 'brandRelations',
-      width: 400,
-			render: (text = [], record) => text.length > 0 ? text.map((one, index) => `${one.brandName}（${one.companyName}）${index < text.length - 1 ? '、' : ''}`) : '-'
+			key: 'brandRelations',
+			width: 400,
+			render: (text, record) => text ? <PopoverList
+				title={`${record.bpName}接单品牌范围`}
+				com={<BrandList list={text} />}
+			/> : '-'
 		}, {
 			title: '操作',
 			dataIndex: 'operate',
@@ -62,3 +98,5 @@ const TableList = props => {
 	/>
 }
 export default TableList
+
+
