@@ -57,6 +57,8 @@ class AgentEdit extends Component {
 				} else {
 					values.agentVo.refundRate = ""
 				}
+				if(values.agentVo.invoiceType == 1)
+					values.agentVo.agentTaxRate = 0.00
 				const { searchParams } = this.state
 				const data = { ...values, ...values.agentVo, cooperationPlatformCode: searchParams.code }
 				//付款公司
