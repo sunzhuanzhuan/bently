@@ -47,13 +47,13 @@ class SettlementMethod extends Component {
 						],
 					})(
 						<RadioGroup>
-							<Radio value={1}>增值税普通发票</Radio>
-							<Radio value={2}>增值税专用发票</Radio>
+							<Radio value={2}>增值税普通发票</Radio>
+							<Radio value={1}>增值税专用发票</Radio>
 						</RadioGroup>
 					)}
 				</Form.Item>
 				{
-					getFieldValue('agentVo.invoiceType') == 2 ? 
+					getFieldValue('agentVo.invoiceType') == 1 ? 
 					<Form.Item label="发票税率"{...formLayout}>
 						{getFieldDecorator('agentVo.agentTaxRate', {
 							initialValue: dataDefault && dataDefault.agentTaxRate || undefined,

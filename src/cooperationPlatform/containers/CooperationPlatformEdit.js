@@ -43,7 +43,7 @@ class CooperationPlatformEdit extends Component {
 			//付款公司
 			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
 			if (!err) {
-				if(values.agentVo.invoiceType == 1)
+				if(values.agentVo.invoiceType == 2)
 					values.agentVo.agentTaxRate = 0.00
 				this.editOprate(values)
 			}
