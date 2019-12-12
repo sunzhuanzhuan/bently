@@ -43,7 +43,7 @@ class SettlementMethod extends Component {
 					{getFieldDecorator('agentVo.invoiceType', {
 						initialValue: dataDefault && dataDefault.invoiceType || undefined,
 						rules: [
-							{ required: true, message: '请选择回票类型' },
+							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
 						<RadioGroup>
@@ -58,7 +58,7 @@ class SettlementMethod extends Component {
 						{getFieldDecorator('agentVo.agentTaxRate', {
 							initialValue: dataDefault && dataDefault.agentTaxRate || undefined,
 							rules: [
-								{ required: true, message: '请选择发票税率' },
+								{ required: true, message: '本项为必选项，请选择！' },
 							],
 						})(
 							<RadioGroup>

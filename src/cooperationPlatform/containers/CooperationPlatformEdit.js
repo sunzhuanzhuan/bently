@@ -37,12 +37,12 @@ class CooperationPlatformEdit extends Component {
 	onEditSave = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			const { cooperationPlatformReducer: { platformSelect } } = this.props
-			//平台名称
-			values.platformName = platformSelect.map[values.platformId].platformName
-			//付款公司
-			values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
 			if (!err) {
+				const { cooperationPlatformReducer: { platformSelect } } = this.props
+				//平台名称
+				values.platformName = platformSelect.map[values.platformId].platformName
+				//付款公司
+				values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
 				if(values.agentVo.invoiceType == 2)
 					values.agentVo.agentTaxRate = 0.00
 				this.editOprate(values)
