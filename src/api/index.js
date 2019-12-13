@@ -63,7 +63,9 @@ instance.interceptors.response.use(function (response) {
 	if (data.code == 200 || data.code == 1000 || data.code == 999) {
 		return data;
 	} else if ((data.code === 401 || data.code === "5005")) {
-		window.myHistory && window.myHistory.push('/login' + '?fromUrlInner=' + encodeURIComponent(location.pathname + location.search));
+		if(window.location.pathname !== '/login'){
+			window.myHistory && window.myHistory.push('/login' + '?fromUrlInner=' + encodeURIComponent(location.pathname + location.search));
+		}
 		// window.location.href = decodeURIComponent(urlParam.fromUrl);
 		return Promise.reject({ errorMsg: data.message || data.msg });
 	} else {

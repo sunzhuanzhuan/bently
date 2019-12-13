@@ -45,39 +45,20 @@ class UploadAccountMessage extends Component {
 							)
 					}
 					<div className="upload-box">
-						{
-							this.props.operateKey == "addSelfmediaUser" ?
-								<WBYUploadFile
-									tok={{
-										token: this.props.uploadInfo.token,
-										upload_url: this.props.uploadInfo.upload_uri
-									}}
-									len={1}
-									size={50}
-									listType="text"
-									uploadText={uploadAccountMessage[this.props.operateKey].uploadBtn}
-									onChange={(file) => this.props.upload(file)}
-									accept=".xlsx,.xls"
-									btnProps={{
-										type: 'primary'
-									}}
-								/> :
-								<NewUpload
-									tok={getNewToken}
-									uploadUrl="/api/common-file/file/v1/uploadPriBucket"
-									len={1}
-									size={50}
-									listType="text"
-									uploadText={uploadAccountMessage[this.props.operateKey].uploadBtn}
-									onChange={(file, originFile) => this.props.upload(file, originFile)}
-									accept=".xlsx,.xls"
-									btnProps={{
-										type: 'primary'
-									}}
-									bizzCode={bizzCode[this.props.operateKey]}
-								/>
-						}
-
+						<NewUpload
+							tok={getNewToken}
+							uploadUrl="/api/common-file/file/v1/uploadPriBucket"
+							len={1}
+							size={50}
+							listType="text"
+							uploadText={uploadAccountMessage[this.props.operateKey].uploadBtn}
+							onChange={(file, originFile) => this.props.upload(file, originFile)}
+							accept=".xlsx,.xls"
+							btnProps={{
+								type: 'primary'
+							}}
+							bizzCode={bizzCode[this.props.operateKey]}
+						/>
 					</div>
 				</FormItem>
 				<FormItem

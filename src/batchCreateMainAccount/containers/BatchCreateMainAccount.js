@@ -180,12 +180,13 @@ class BatchCreateMainAccount extends Component {
 							instockPlatformList={instockPlatformList}
 							batchSkuPlatformList={batchSkuPlatformList}
 							type={this.state.type}
-						></Content>
+						/>
 					</TabPane>
 					{this.props.authVisibleList['batch.operate.edit.account.publicationPrice'] == true ? null : <TabPane tab="主账号批量处理结果" key="2">
-						<DealResult
+						<NewDealResult
 							tab2Update={this.state.tab2Update}
 							cancelTab2Update={this.cancelTab2Update}
+							hideType
 						/>
 					</TabPane>}
 					<TabPane tab="账号批量处理结果" key="3">
