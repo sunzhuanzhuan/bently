@@ -36,7 +36,7 @@ class CooperationPlatformDetail extends Component {
 		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
 		const { isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
 			agentVo = {}, platformId } = cooperationPlatformInfoDetail
-		const { settleType, returnInvoiceType } = agentVo
+		const { settleType, returnInvoiceType, invoiceType, agentTaxRate } = agentVo
 		const { paymentCompanyName } = agentVo
 		const baseInfo = [
 			{ title: "所属媒体平台", content: platformName },
@@ -45,9 +45,15 @@ class CooperationPlatformDetail extends Component {
 			{ title: "下单截图是否必填", content: isNeedScreenshot == 1 ? '是' : '否' },
 			{ title: "付款公司", content: paymentCompanyName },
 		]
+		const invoiceArr = {
+			1: '增值税专用发票',
+			2: '增值税普通发票'
+		}
 		const payInfo = [
 			{ title: "结算方式", content: settleType == 1 ? '预付' : '周期结算' },
 			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
+			{ title: "回票类型", content: invoiceArr[invoiceType] },
+			{ title: "发票税率", content: `${Number(agentTaxRate || 0) * 100} %`, isHide: invoiceType != 1  },
 		]
 		const { isLoading } = this.state
 		return (
@@ -67,7 +73,7 @@ class CooperationPlatformDetail extends Component {
 				<DividingBox text="平台合作信息" />
 				<div style={{ margin: "30px 0px" }}>
 					<CooperationMethodDetail detailData={agentVo} />
-					<ShowDetailArr arr={payInfo} />
+					<ShowDetailArr arr={payInfo.filter(item => !(item.isHide))} />
 					<PaymentMethodDetail detailData={agentVo} />
 				</div>
 				<div style={{ textAlign: "center", marginBottom: 20 }}>

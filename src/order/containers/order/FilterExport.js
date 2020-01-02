@@ -143,14 +143,14 @@ const filterConfig = [
 	},
 	{
 		label: '所属品牌',
-		type: 'select',
+		type: 'selectByLocalSearch',
 		multiple: true,
 		name: 'brand_id',
 		supportSearch: true
 	},
 	{
 		label: '所属项目',
-		type: 'select',
+		type: 'selectByLocalSearch',
 		multiple: true,
 		name: 'project_id',
 		supportSearch: true
@@ -220,6 +220,8 @@ class FilterExport extends Component {
 					} else {
 						return { ...item, options: [{ id: "0", name: "请选择" }, ...optionsList] }
 					}
+				case 'selectByLocalSearch':
+					return { ...item, sourcesOptions: options[item.name] || [] }
 				case 'defaultSelect':
 					return { ...item, options: options[item.name] }
 				case 'dateSelect':

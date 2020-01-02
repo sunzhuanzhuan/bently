@@ -16,6 +16,7 @@ class CooperationMethodDetail extends Component {
 			{ title: "合作方式", content: "其他" },
 			{ title: "说明", content: cooperationRemark },
 		]
+
 		return (
 			<ShowDetailArr arr={cooperationType == 1 ? weekArr : otherArr} />
 		);
