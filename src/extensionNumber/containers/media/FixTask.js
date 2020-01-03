@@ -39,6 +39,7 @@ import numeral from "numeral";
 import NumberInfo from "../../base/NumberInfo";
 import { ExpandProgressModal } from "../../components/ExpandProgressModal"
 import { withRouter } from "react-router-dom";
+import api from '@/api';
 
 
 const RadioGroup = Radio.Group;
@@ -525,6 +526,7 @@ class AllocateTask extends Component {
                             mediaManagerList={this.props.mediaManagerList}
                             queryRequirement={this.props.queryRequirement}
                             search_flag={search_flag}
+                            filter={this.state.filter}
                             list={list}
                             group1='1'
                             group2='2'
@@ -710,6 +712,26 @@ class ProgressTips extends Component {
 }), actions)
 @Form.create({})
 class FilterForm extends Component {
+
+    handleDownload = async () => {
+        if(this.isDownloading) return
+        this.isDownloading = true
+        this.timer = null
+        const { filter } = this.props
+        const hide = message.loading('处理中....')
+        await api.get('/extentionAccount/orientationDerive', { params: { ...filter } }).then(() => {
+            this.timer = setTimeout(() => {
+                hide()
+                this.isDownloading = false
+                clearTimeout(this.timer)
+            },2000);
+        }, ({errorMsg}) => {
+            hide()
+            message.error('导出失败: ' + errorMsg)
+            this.isDownloading = false
+        })
+    }
+
     submitQuery = (e) => {
         let { getList } = this.props
         e.preventDefault();
@@ -882,7 +904,9 @@ class FilterForm extends Component {
                     <Button type='primary' style={{ width: '80px' }}
                         htmlType="submit"
                         loading={this.props.tableLoading}
-                        className='filter-button'>查询</Button>
+                        className='filter-button mr10'>查询</Button>
+                    <Button type='primary' ghost onClick={this.handleDownload}
+                    >导出结果</Button>
                 </FormItem>
             </Form>)
     }
