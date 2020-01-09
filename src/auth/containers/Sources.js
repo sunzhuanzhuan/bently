@@ -5,14 +5,14 @@ import { connect } from 'react-redux'
 
 import AuthModal from '../components/AuthModal'
 import SourcesForm from '../components/Sources'
-import { Table, Button, Popconfirm, Input,message } from 'antd';
+import { Table, Button, Popconfirm, Input, message, Select } from 'antd';
 import * as sourceAction from '../actions/source'
 import { getVisibleSourceRule } from '../reducers/source'
 import AppInfo from '../components/AppInfo'
 import api from '../../api/index'
-
+import SearchSelect from '@/base/SearchSelect'
 import './auth.less'
-
+import qs from 'qs'
 const Search = Input.Search;
 
 
@@ -24,27 +24,35 @@ class Sources extends Component {
 			modalType: '',
 			appId: '',
 			search_value: '',
-			loading: false
+			loading: false,
+			resourceTypeSelect: [],
+			selectValue: ''
 		}
 	}
 	async componentWillMount() {
 		this.setState({ loading: true })
 		await this.props.actions.getSourceList({ app_id: '', page: 1, value: this.state.search_value });
 		await this.props.actions.getSourceTypeList();
+		this.getResourceTypeSelect()
 		api.get('/rbac/getAppInfo').then((response) => {
 			this.setState({
 				loading: false,
 				applist: response.data,
 			});
-		}).catch((error)=>{
+		}).catch((error) => {
 			this.setState({ loading: false });
 			message.error(error.errorMsg)
 		})
 	}
+	//资源类型查询
+	getResourceTypeSelect = async () => {
+		const { data } = await api.get('/rbac/getResourceTypeList')
+		this.setState({ resourceTypeSelect: data.rows })
+	}
 	async edit(id) {
 		this.props.actions.getSourceDetail(id).then(() => {
 			this.showModal('AuthModal');
-		}).catch((error)=>{
+		}).catch((error) => {
 			message.error(error.errorMsg)
 		});
 		this.setState({ loading: true })
@@ -78,7 +86,7 @@ class Sources extends Component {
 					document.getElementById('search').value = ''
 					this.props.actions.getSourceList({ app_id: '', page: 1, value: '' });
 				}
-			}).catch((error)=>{
+			}).catch((error) => {
 				this.setState({ loading: false });
 				message.error(error.errorMsg)
 			})
@@ -93,16 +101,16 @@ class Sources extends Component {
 				values.type_id = this.props.sourceDetail.type_id
 			}
 			values.id = this.props.sourceParam.editId;
-			this.props.actions.updateSource(values).then((res)=>{
-				if(res.code === 200){
+			this.props.actions.updateSource(values).then((res) => {
+				if (res.code === 200) {
 					this.closeModal();
 					this.props.actions.getSourceList({ app_id: this.state.appId, page: 1, value: this.state.search_value });
 				}
-				
-			}).catch((error)=>{
+
+			}).catch((error) => {
 				message.error(error.errorMsg)
 			});
-			
+
 		});
 	}
 	// 删除
@@ -112,17 +120,28 @@ class Sources extends Component {
 		this.setState({ loading: false })
 	}
 	async handleAppChange(value) {
+		const { selectValue, search_value } = this.state
 		this.setState({
 			appId: value,
 		});
 		this.setState({ loading: true })
-		await this.props.actions.getSourceList({ app_id: value, page: 1, value: this.state.search_value });
+		await this.props.actions.getSourceList({ app_id: value, page: 1, value: search_value, type_id: selectValue });
+		this.setState({ loading: false })
+	}
+	//修改资源类型
+	async searchSourceList(value) {
+		const { appId, search_value } = this.state
+		this.setState({ loading: true, selectValue: value })
+		await this.props.actions.getSourceList({
+			app_id: appId, page: 1, value: search_value, type_id: value
+		});
 		this.setState({ loading: false })
 	}
 	//搜索的方法
 	async search(value) {
 		this.setState({ loading: true })
-		await this.props.actions.getSourceList({ app_id: this.state.appId, page: 1, value: value });
+		const { appId, selectValue } = this.state
+		await this.props.actions.getSourceList({ app_id: appId, page: 1, value: value, type_id: selectValue });
 		this.setState({ loading: false })
 	}
 	//搜索
@@ -135,6 +154,7 @@ class Sources extends Component {
 		this.search(e.target.value);
 		this.setState({ search_value: e.target.value })
 	}
+
 	render() {
 		const columns = [
 			{
@@ -191,7 +211,8 @@ class Sources extends Component {
 		}
 		return (
 			<div className="sourceRules_box">
-				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} style={{ width: 200 }} />
+				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} style={{ width: 200 }} searchSourceList={this.searchSourceList}
+					resourceTypeSelect={this.state.resourceTypeSelect} />
 				<Search
 					id='search'
 					placeholder="搜索地址"

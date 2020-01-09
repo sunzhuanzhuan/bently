@@ -7,12 +7,13 @@ import AuthModal from '../components/AuthModal'
 import RoleForm from '../components/RoleForm'
 import { getVisibleRoles } from '../reducers/roles'
 import * as rolesAction from '../actions/roles'
-import { Table, Button, message } from 'antd';
+import { Table, Button, message, Row, Col } from 'antd';
 import AppInfo from '../components/AppInfo'
 import './auth.less'
 import CommonModal from '../components/CommonModal';
 import AuthorityForm from "../components/authority/AuthorityForm";
 import qs from "qs";
+import SearchResourcesForm from '../components/SearchResourcesForm'
 class Roles extends Component {
 	constructor(props) {
 		super(props)
@@ -336,13 +337,19 @@ class Roles extends Component {
 			onChange: this.onTableSelectChange,
 		};
 		return (
-
 			<div className="roles_box">
-				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} />
-				<Button type="primary" style={{ margin: '0px 20px' }}
-					disabled={!roleID.length > 0}//选中才可添加
-					onClick={this.addRoleBatch.bind(this)}>批量添加权限</Button>
-				<Button type="primary" style={{ marginBottom: '10px' }} onClick={this.addRole.bind(this)}>添加角色</Button>
+				<Row>
+					<Col span={12}>
+						<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} />
+						<Button type="primary" style={{ margin: '0px 20px' }}
+							disabled={!roleID.length > 0}//选中才可添加
+							onClick={this.addRoleBatch.bind(this)}>批量添加权限</Button>
+						<Button type="primary" style={{ marginBottom: '10px' }} onClick={this.addRole.bind(this)}>添加角色</Button>
+					</Col>
+					<Col span={12} >
+						<SearchResourcesForm />
+					</Col>
+				</Row>
 				<Table
 					dataSource={roleList}
 					columns={columns}
