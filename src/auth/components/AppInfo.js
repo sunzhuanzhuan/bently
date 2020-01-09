@@ -13,7 +13,7 @@ class AppInfo extends Component {
 	}
 
 	render() {
-		const { applist = [], searchSourceList, resourceTypeSelect } = this.props;
+		const { applist = [] } = this.props;
 
 		return (
 			<div style={{ marginBottom: 10, display: 'inline-block' }}>
@@ -27,11 +27,6 @@ class AppInfo extends Component {
 					{applist.map(d =>
 						<Option value={d.app_id} key={d.app_id}>{d.app_name}</Option>
 					)}
-				</Select>
-				资源类型：<Select style={{ width: 200, }} onChange={searchSourceList} placeholder='请选择资源'>
-					{resourceTypeSelect.map(one => <Select.Option key={one.id} value={one.id}>
-						{one.name}
-					</Select.Option>)}
 				</Select>
 			</div>
 		)

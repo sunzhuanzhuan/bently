@@ -13,7 +13,6 @@ class SearchResourcesForm extends Component {
 	submitForm = () => {
 		const search = qs.parse(this.props.location.search.substring(1))
 		this.props.form.validateFields((err, values) => {
-			console.log("TCL: SearchResourcesForm -> submitForm -> values", values)
 			this.props.actions.getRoleList({
 				app_id: search.app_id,
 				resourceName: values.resourceName,

@@ -347,7 +347,7 @@ class Roles extends Component {
 						<Button type="primary" style={{ marginBottom: '10px' }} onClick={this.addRole.bind(this)}>添加角色</Button>
 					</Col>
 					<Col span={12} >
-						<SearchResourcesForm />
+						<SearchResourcesForm actions={this.props.actions} />
 					</Col>
 				</Row>
 				<Table

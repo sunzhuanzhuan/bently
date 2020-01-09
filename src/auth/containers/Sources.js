@@ -93,6 +93,7 @@ class Sources extends Component {
 		});
 	}
 	handleEdit() {
+		const { appId, search_value, selectValue } = this.state
 		this.form.validateFields((err, values) => {
 			if (err) {
 				return;
@@ -104,7 +105,7 @@ class Sources extends Component {
 			this.props.actions.updateSource(values).then((res) => {
 				if (res.code === 200) {
 					this.closeModal();
-					this.props.actions.getSourceList({ app_id: this.state.appId, page: 1, value: this.state.search_value });
+					this.props.actions.getSourceList({ app_id: appId, page: 1, value: search_value, type_id: selectValue });
 				}
 
 			}).catch((error) => {
@@ -201,9 +202,10 @@ class Sources extends Component {
 			}
 		];
 		const { sourceList, sourceTypeList, sourceDetail = {}, sourceParam = {}, pagination } = this.props;
+		const { appId, search_value, selectValue, resourceTypeSelect } = this.state
 		let paginationObj = {
 			onChange: (current) => {
-				this.props.actions.getSourceList({ app_id: this.state.appId, page: current, value: this.state.search_value });
+				this.props.actions.getSourceList({ app_id: appId, page: current, value: search_value, type_id: selectValue });
 			},
 			total: pagination.totalCount,
 			pageSize: pagination.perPage,
@@ -211,8 +213,16 @@ class Sources extends Component {
 		}
 		return (
 			<div className="sourceRules_box">
-				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} style={{ width: 200 }} searchSourceList={this.searchSourceList}
-					resourceTypeSelect={this.state.resourceTypeSelect} />
+				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} style={{ width: 200 }}
+				/>
+				<span>
+					资源类型：
+					<Select style={{ width: 200, }} onChange={this.searchSourceList.bind(this)} placeholder='请选择资源'>
+						{resourceTypeSelect.map(one => <Select.Option key={one.id} value={one.id}>
+							{one.name}
+						</Select.Option>)}
+					</Select>
+				</span>
 				<Search
 					id='search'
 					placeholder="搜索地址"
