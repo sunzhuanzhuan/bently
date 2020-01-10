@@ -202,7 +202,7 @@ String.prototype.toUpperCaseFirst = function () {
 export const domain = (function(hostname){
 	let domain;
 	// 判断是否为IP
-	if(/^(\d+\.\d+\.\d+\.\d+)$/.test(hostname)){
+	if (/^((\d+\.\d+\.\d+\.\d+)|localhost)$/.test(hostname)) {
 		domain = hostname
 	}else {
 		// 截取主域名

@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import './ChooseType.less'
 
 export const ChooseType = (props) => {
-	console.log(props.authVisibleList, '====????');
 	return (
 		<div>
 			{
