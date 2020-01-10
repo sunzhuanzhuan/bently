@@ -217,7 +217,7 @@ class Sources extends Component {
 				/>
 				<span>
 					资源类型：
-					<Select style={{ width: 200, }} onChange={this.searchSourceList.bind(this)} placeholder='请选择资源'>
+					<Select style={{ width: 200, }} onChange={this.searchSourceList.bind(this)} placeholder='请选择资源' allowClear={true}>
 						{resourceTypeSelect.map(one => <Select.Option key={one.id} value={one.id}>
 							{one.name}
 						</Select.Option>)}
