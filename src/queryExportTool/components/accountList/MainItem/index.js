@@ -28,6 +28,7 @@ import { Popover, Row, Col, Button } from "antd";
 import { sensors } from '@/util/sensor/sensors'
 import ClassificationFeedback from "../../common/ClassificationFeedback";
 import PayAdvanced from "../../common/AccountInfos/PayAdvanced";
+import qs from 'qs'
 const { location } = window;
 
 export default class MainItem extends PureComponent {
@@ -42,11 +43,13 @@ export default class MainItem extends PureComponent {
 		});
 	}
 	//查看详情
-	lookDetail = (platformId, accountId) => {
+	lookDetail = (platformId, accountId, groupType) => {
+		const urlPrapm = qs.stringify({ platformId, accountId, groupType })
+
 		//神策统计
 		this.track('AccountListClick', '详情');
-		[24, 25, 103, 110, 115, 116].includes(platformId) ?
-			window.open(`/account/view/detail?accountId=${accountId}`, "_blank")
+		[1, 9, 93, 24, 25, 103, 110, 115, 116].includes(platformId) ?
+			window.open(`/account/view/detail?${urlPrapm}`, "_blank")
 			: this.props.setModalContent(<AccountDetails account_id={accountId}
 			/>)
 		//添加打开详情
@@ -121,7 +124,7 @@ export default class MainItem extends PureComponent {
 							</div>
 						</div>
 						<AccountInfos>
-							<div className='one-line-box-name-level' onClick={() => this.lookDetail(platformId, accountId)}>
+							<div className='one-line-box-name-level' onClick={() => this.lookDetail(platformId, accountId, groupType)}>
 								{/* 此处是账号名称的判断 */}
 								<Popover content={snsName} trigger="hover"  >
 									<div className="sns-name-title">{snsName}</div>

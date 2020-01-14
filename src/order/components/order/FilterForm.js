@@ -16,6 +16,7 @@ import { serializeValue, processValue } from '../../util/serializeValue'
 
 import api from '../../../api/index'
 import './FilterForm.less'
+import FormSelectByLocalSearch from '@/order/components/customField/FormSelectByLocalSearch';
 const FormItem = Form.Item;
 
 // function hasErrors(fieldsError) {
@@ -195,6 +196,8 @@ class FilterForm extends Component {
 					{customField.map(item => {
 						if (item.type == 'select') {
 							return <FormSelect form={form} key={item.name} {...item} />
+						} else if (item.type == 'selectByLocalSearch') {
+							return <FormSelectByLocalSearch form={form} key={item.name} {...item} />
 						} else if (item.type == 'dateSelect') {
 							return <FormDate form={form} key={item.name} {...item} />
 						} else if (item.type == 'input') {
