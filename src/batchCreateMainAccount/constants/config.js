@@ -260,6 +260,8 @@ export const platformIcon = {
 }
 
 export const bizzCode = {
+	//批量创建主账号
+	"addSelfmediaUser": "B_EXCEL_0006",
 	//创建微闪投
 	"addMicroPutAttribute": "B_EXCEL_0001",
 	//账号批量上下架

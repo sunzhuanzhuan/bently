@@ -1,8 +1,8 @@
 import api from '../../api/index'
 import { GET_SOURCELIST, DELETE_SOURCE, GET_SOURCETYPE_LIST, ADD_SOURCE, UPDATE_SOURCE, GET_SOURCE_DETAIL, TRANS_SOURCE_PARAM } from "../constants/ActionTypes";
-
+import qs from 'qs'
 export const getSourceList = (params) => (dispatch) => {
-	api.get('/rbac/getResourceList?app_id=' + params.app_id + '&page=' + params.page + '&value=' + params.value)
+	api.get('/rbac/getResourceList?' + qs.stringify(params))
 		.then((response) => {
 			dispatch({
 				type: GET_SOURCELIST,

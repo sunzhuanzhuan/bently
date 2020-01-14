@@ -38,24 +38,32 @@ const Filter = (props) => {
 					</Select>
 				)}
 			</FormItem>
-			<FormItem
-				{...formItemLayout}
-				label="批量操作类型"
-				className="form-item-marginLeft"
-			>
-				{getFieldDecorator('operateClass', {
-					initialValue: '0'
-				})(
-					<Select style={{ width: 210 }}>
-						<Option value='0' key='0'>请选择</Option>
-						{
-							props.selectionList.map(item =>
-								<Option value={item.classNameKey} key={item.classNameKey}>{item.classNameValue}</Option>
-							)
-						}
-					</Select>
-				)}
-			</FormItem>
+			{
+				props.hideType ? <FormItem>
+					{getFieldDecorator('operateClass', {
+						initialValue: "BatchOperateAddSelfmediaUser"
+					})(
+						<input type='hidden'/>
+					)}
+				</FormItem>:<FormItem
+					{...formItemLayout}
+					label="批量操作类型"
+					className="form-item-marginLeft"
+				>
+					{getFieldDecorator('operateClass', {
+						initialValue: '0'
+					})(
+						<Select style={{ width: 210 }}>
+							<Option value='0' key='0'>请选择</Option>
+							{
+								props.selectionList.map(item =>
+									<Option value={item.classNameKey} key={item.classNameKey}>{item.classNameValue}</Option>
+								)
+							}
+						</Select>
+					)}
+				</FormItem>
+			}
 			<FormItem
 				label="提交时间"
 				className="startTime"
@@ -143,8 +151,9 @@ class NewDealResult extends Component {
 		})
 	}
 	componentWillReceiveProps(props) {
-		if (props.tab3Update == true) {
-			this.props.cancelTab3Update()
+		if (props.tab3Update == true || props.tab2Update == true) {
+			this.props.cancelTab2Update && this.props.cancelTab2Update()
+			this.props.cancelTab3Update && this.props.cancelTab3Update()
 			this.props.form.resetFields()
 			this.setState({
 				tableLoading: true
@@ -265,6 +274,7 @@ class NewDealResult extends Component {
 						onStartChange={this.onStartChange}
 						onEndChange={this.onEndChange}
 						loading={this.state.searchLoading}
+						hideType={this.props.hideType}
 					></Filter>
 				</Form>
 				<Table dataSource={Object.keys(newDealResultList).length !== 0 ?
