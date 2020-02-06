@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, DatePicker, Button } from 'antd';
+import { Form, Input, DatePicker, Button, Select } from 'antd';
 import moment from 'moment';
 import apiDownload from "@/api/apiDownload";
 import Interface from "../../constants/Interface";
@@ -8,7 +8,11 @@ import qs from 'qs';
 const { RangePicker } = DatePicker;
 
 const FormItem = Form.Item;
-
+const sourceList = [
+	{ name: '非外部推广', value: 1 },
+	{ name: '外部推广-移动端', value: 2 },
+	{ name: '外部推广-非移动端', value: 3 }
+]
 class ClueForm extends Component {
 	constructor(props) {
 		super(props);
@@ -44,6 +48,7 @@ class ClueForm extends Component {
 					name: fieldsValue.name,
 					cellPhone: fieldsValue.cellPhone,
 					companyName: fieldsValue.companyName,
+					clueSource: fieldsValue.clueSource,
 					startCreatedAt: fieldsValue.createdAt && fieldsValue.createdAt.length
 						? moment(fieldsValue.createdAt[0]).format(dateFormat) : '',
 					endCreatedAt: fieldsValue.createdAt && fieldsValue.createdAt.length
@@ -89,7 +94,7 @@ class ClueForm extends Component {
 		return <Form layout='inline' onSubmit={this.handleSubmit}>
 			<FormItem {...formItemLayout} label="姓名">
 				{
-					getFieldDecorator('name')(<Input />)
+					getFieldDecorator('name')(<Input placeholder='请输入' />)
 				}
 			</FormItem>
 			<FormItem {...formItemLayout} label="手机号">
@@ -99,7 +104,7 @@ class ClueForm extends Component {
 							pattern: /^[1-9][0-9]{0,10}$/,
 							message: '请输入正确的手机号'
 						}]
-					})(<Input />)
+					})(<Input placeholder='请输入' />)
 				}
 			</FormItem>
 			<FormItem label="提交时间">
@@ -115,7 +120,17 @@ class ClueForm extends Component {
 			</FormItem>
 			<FormItem {...formItemLayout} label="公司名称">
 				{
-					getFieldDecorator('companyName')(<Input />)
+					getFieldDecorator('companyName')(<Input placeholder='请输入' />)
+				}
+			</FormItem>
+			<FormItem {...formItemLayout} label="线索来源">
+				{
+					getFieldDecorator('clueSource')(<Select
+						style={{ width: 170 }}
+						placeholder='请选择'
+						allowClear>
+						{sourceList.map(one => <Select.Option key={one.value} value={one.value}>{one.name}</Select.Option>)}
+					</Select>)
 				}
 			</FormItem>
 			<FormItem>
