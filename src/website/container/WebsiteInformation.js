@@ -6,7 +6,7 @@ import * as WebsiteActions from '../actions';
 import { Table, Spin } from 'antd';
 import ClueForm from '../components/form/ClueForm';
 import moment from 'moment';
-const cureSourceMap = {
+const clueSourceMap = {
 	1: '非外部推广',
 	2: '外部推广-移动端',
 	3: '外部推广-非移动端',
@@ -54,9 +54,9 @@ class WebsiteInformation extends Component {
 				}
 			}, {
 				title: '线索来源',
-				key: 'cureSource',
-				dataIndex: 'cureSource',
-				render: (text) => <div>{cureSourceMap[text]}</div>
+				key: 'clueSource',
+				dataIndex: 'clueSource',
+				render: (text) => <div>{clueSourceMap[text]}</div>
 			}]
 		}
 	}
