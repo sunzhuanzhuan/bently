@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, DatePicker, Button, Select } from 'antd';
 import moment from 'moment';
-import apiDownload from "@/api/apiDownload";
+import apiDownload from "@/api/apiDownloadWebsite";
 import Interface from "../../constants/Interface";
 import qs from 'qs';
 
