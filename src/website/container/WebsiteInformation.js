@@ -6,7 +6,11 @@ import * as WebsiteActions from '../actions';
 import { Table, Spin } from 'antd';
 import ClueForm from '../components/form/ClueForm';
 import moment from 'moment';
-
+const clueSourceMap = {
+	1: '非外部推广',
+	2: '外部推广-移动端',
+	3: '外部推广-非移动端',
+}
 class WebsiteInformation extends Component {
 	constructor(props) {
 		super(props);
@@ -48,7 +52,11 @@ class WebsiteInformation extends Component {
 				render: (text, record) => {
 					return moment(text).format('YYYY-MM-DD')
 				}
-
+			}, {
+				title: '线索来源',
+				key: 'clueSource',
+				dataIndex: 'clueSource',
+				render: (text) => <div>{clueSourceMap[text]}</div>
 			}]
 		}
 	}
