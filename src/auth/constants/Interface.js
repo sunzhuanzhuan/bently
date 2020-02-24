@@ -2,7 +2,9 @@ export default {
     sourceRulesUrl: {
         add: '/sourceRule/add',
         delete: '/rbac/deleteResourceRule',
-        get: '/sourceRule/getSourceRules'
+        get: '/sourceRule/getSourceRules',
+        export: '/rbac/exportResource',
+        import: '/api/rbac/importResource'
     },
     roleUrl: {
         add: '/rbac/addRoles',

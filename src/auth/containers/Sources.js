@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import AuthModal from '../components/AuthModal'
 import SourcesForm from '../components/Sources'
-import { Table, Button, Popconfirm, Input, message, Select } from 'antd';
+import { Table, Button, Popconfirm, Input, message, Select, Alert , Divider, Upload} from 'antd';
 import * as sourceAction from '../actions/source'
 import { getVisibleSourceRule } from '../reducers/source'
 import AppInfo from '../components/AppInfo'
@@ -13,7 +13,10 @@ import api from '../../api/index'
 import SearchSelect from '@/base/SearchSelect'
 import './auth.less'
 import qs from 'qs'
+import apiDownload from '@/api/apiDownload';
+import Interface from '../constants/Interface';
 const Search = Input.Search;
+const Cookie = require('js-cookie');
 
 
 class Sources extends Component {
@@ -26,7 +29,8 @@ class Sources extends Component {
 			search_value: '',
 			loading: false,
 			resourceTypeSelect: [],
-			selectValue: ''
+			selectValue: '',
+			selected: []
 		}
 	}
 	async componentWillMount() {
@@ -155,6 +159,18 @@ class Sources extends Component {
 		this.search(e.target.value);
 		this.setState({ search_value: e.target.value })
 	}
+	// 导出
+	exportExcel = () => {
+		const ids = this.state.selected
+		if(ids.length === 0 ){
+			return message.warning("请先选择资源!")
+		}
+		message.loading('正在导出...', 3)
+		apiDownload({
+			url: Interface.sourceRulesUrl.export + '?' + qs.stringify({resourceIds: this.state.selected}),
+			method: 'GET',
+		}, '导出资源.xlsx')
+	}
 
 	render() {
 		const columns = [
@@ -211,6 +227,42 @@ class Sources extends Component {
 			pageSize: pagination.perPage,
 			current: pagination.currentPage,
 		}
+		const rowSelection = {
+			selectedRowKeys: this.state.selected,
+			onChange: (selectedRowKeys, selectedRows) => {
+				console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+				this.setState({
+					selected: selectedRowKeys
+				});
+			},
+			getCheckboxProps: record => ({
+				disabled: record.name === 'Disabled User', // Column configuration not to be checked
+				name: record.name,
+			}),
+		};
+		const props = {
+			name: 'file',
+			action: Interface.sourceRulesUrl.import,
+			headers: {
+				"X-Access-Token" : Cookie.get('token') || '',
+				"Content-Type" : 'charset=utf-8',
+			},
+			onChange(info) {
+				let hide = () => {};
+				if (info.file.status !== 'uploading') {
+					hide = message.loading('Loading...')
+				}
+				if (info.file.status === 'done') {
+					console.log('2');
+					hide()
+					message.success(`${info.file.name} file uploaded successfully` );
+				} else if (info.file.status === 'error') {
+					hide()
+					message.error( `上传失败`);
+				}
+			},
+			showUploadList: false
+		};
 		return (
 			<div className="sourceRules_box">
 				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} style={{ width: 200 }}
@@ -223,16 +275,39 @@ class Sources extends Component {
 						</Select.Option>)}
 					</Select>
 				</span>
-				<Search
-					id='search'
-					placeholder="搜索地址"
-					onSearch={this.handleSearch.bind(this)}
-					onPressEnter={this.handleSearchEnter.bind(this)}
-					style={{ width: 200, float: 'right', marginBottom: '10px' }}
-					enterButton
+				<div style={{ float: 'right', marginBottom: '10px' }}>
+					<Button type="primary" style={{ marginRight: 10 }} onClick={this.newSourceRules.bind(this)}>新增</Button>
+					<Search
+						id='search'
+						placeholder="搜索地址"
+						onSearch={this.handleSearch.bind(this)}
+						onPressEnter={this.handleSearchEnter.bind(this)}
+						style={{ width: 200 }}
+						enterButton
+					/>
+				</div>
+				<Alert message={
+					<div>
+						已选 <b><a>{this.state.selected.length}</a></b> 项
+						<span style={{float: 'right'}}>
+							<a style={{marginRight: 10}} onClick={() => this.setState({selected: []})} >取消选择</a>
+							<Divider type="vertical" />
+							<Upload {...props}>
+								<a style={{margin: "0 10px"}}  >导入</a>
+								{}
+							</Upload>
+							<a onClick={this.exportExcel} >导出</a>
+						</span>
+					</div>
+				} style={{marginBottom: 10}}/>
+				<Table
+					rowSelection={rowSelection}
+					rowKey={record => record.id}
+					dataSource={sourceList}
+					columns={columns}
+					pagination={paginationObj}
+					loading={this.state.loading}
 				/>
-				<Button type="primary" className="sourceRules_new" onClick={this.newSourceRules.bind(this)}>新增</Button>
-				<Table rowKey={record => record.id} dataSource={sourceList} columns={columns} pagination={paginationObj} loading={this.state.loading} />
 				<AuthModal
 					visible={this.state.modalType === 'AuthModal'}
 					onCancel={this.handleCancel.bind(this)}
