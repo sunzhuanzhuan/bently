@@ -207,7 +207,7 @@ class NormalLoginForm extends React.Component {
 					}
 				</div>
 				<div className="login-footer">
-					版权所有 © 北京微播易科技股份有限公司 2011-2020. <a target="_blank" href="http://www.beian.miit.gov.cn">京ICP备09047853号.</a>
+					版权所有 © 北京微播易科技股份有限公司 2011-2020. <a id="js_beian" target="_blank" href="http://www.beian.miit.gov.cn">京ICP备09047853号</a>
 				</div>
 			</div>)
 	}
