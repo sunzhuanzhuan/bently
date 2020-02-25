@@ -32,6 +32,7 @@ class Sources extends Component {
 			selectValue: '',
 			selected: []
 		}
+		this.uploadMessage = null
 	}
 	async componentWillMount() {
 		this.setState({ loading: true })
@@ -230,34 +231,33 @@ class Sources extends Component {
 		const rowSelection = {
 			selectedRowKeys: this.state.selected,
 			onChange: (selectedRowKeys, selectedRows) => {
-				console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
 				this.setState({
 					selected: selectedRowKeys
 				});
-			},
-			getCheckboxProps: record => ({
-				disabled: record.name === 'Disabled User', // Column configuration not to be checked
-				name: record.name,
-			}),
+			}
 		};
 		const props = {
 			name: 'file',
 			action: Interface.sourceRulesUrl.import,
 			headers: {
 				"X-Access-Token" : Cookie.get('token') || '',
-				"Content-Type" : 'charset=utf-8',
 			},
-			onChange(info) {
-				let hide = () => {};
-				if (info.file.status !== 'uploading') {
-					hide = message.loading('Loading...')
+			onChange:  (info) => {
+				if (info.file.status === 'uploading' && !this.uploadMessage) {
+					this.uploadMessage = message.loading('Loading...')
 				}
 				if (info.file.status === 'done') {
-					console.log('2');
-					hide()
-					message.success(`${info.file.name} file uploaded successfully` );
+					this.uploadMessage()
+					this.uploadMessage = null
+					if(info.file.response.code === 1000){
+						message.success(`上传成功!` );
+						this.search()
+					}else {
+						message.error(info.file.response.msg || '上传失败');
+					}
 				} else if (info.file.status === 'error') {
-					hide()
+					this.uploadMessage()
+					this.uploadMessage = null
 					message.error( `上传失败`);
 				}
 			},
@@ -294,7 +294,6 @@ class Sources extends Component {
 							<Divider type="vertical" />
 							<Upload {...props}>
 								<a style={{margin: "0 10px"}}  >导入</a>
-								{}
 							</Upload>
 							<a onClick={this.exportExcel} >导出</a>
 						</span>

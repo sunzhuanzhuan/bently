@@ -28,7 +28,9 @@ export default {
         get: '/rbac/getNavigationAssembly',
         add: '/rbac/addNavigationCombinations',
         update: '/rbac/updateNavigationCombinations',
-        delete: '/rbac/deleteNavigationCombinations'
+        delete: '/rbac/deleteNavigationCombinations',
+        export: '/rbac/exportNavigationCate',
+        import: '/api/rbac/importNavigationCate'
     }
 
 }

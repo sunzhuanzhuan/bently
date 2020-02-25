@@ -4,13 +4,17 @@ import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import AuthModal from '../components/AuthModal'
 import NavTypeForm from '../components/NavType'
-import { Table, Button, Popconfirm, message } from 'antd';
+import { Table, Button, Popconfirm, message, Divider, Upload, Alert } from 'antd';
 import * as navTypeAction from '../actions/navType'
 import { getVisibleSourceRule } from '../reducers/navType'
 import api from '../../api/index'
 import AppInfo from '../components/AppInfo'
 import qs from "qs";
 import './auth.less'
+import Interface from '../constants/Interface';
+import apiDownload from '@/api/apiDownload';
+const Cookie = require('js-cookie');
+
 
 class NavType extends Component {
 	constructor(props) {
@@ -19,8 +23,10 @@ class NavType extends Component {
 			visible: false,
 			modalType: '',
 			loading: false,
-			appId: ''
+			appId: '',
+			selected:[]
 		}
+		this.uploadMessage = null
 	}
 	async componentWillMount() {
 		this.setState({ loading: true })
@@ -93,7 +99,7 @@ class NavType extends Component {
 			}
 			values.id = this.props.getNavTypeParam.editId;
 			this.setState({ loading: true })
-			
+
 			this.props.actions.updateNavType(values).then((response) => {
 				if (response.code == 200) {
 					message.success(response.message)
@@ -134,13 +140,25 @@ class NavType extends Component {
 			this.setState({ loading: false });
 			message.error(error.errorMsg)
 		});
-		
+
 	}
 	handleAppChange(value) {
 		this.setState({
 			appId: value,
 		});
 		this.props.actions.getNavTypeList({ app_id: value, page: 1 });
+	}
+	// 导出
+	exportExcel = () => {
+		const ids = this.state.selected
+		if(ids.length === 0 ){
+			return message.warning("请先选择导航!")
+		}
+		message.loading('正在导出...', 3)
+		apiDownload({
+			url: Interface.navGroupUrl.export + '?' + qs.stringify({navigationCateIds: this.state.selected}),
+			method: 'GET',
+		}, '导出导航分类.xlsx')
 	}
 	render() {
 		const columns = [
@@ -189,11 +207,61 @@ class NavType extends Component {
 			pageSize: pagination.perPage,
 			current: pagination.currentPage || 1,
 		}
+
+		const props = {
+			name: 'file',
+			action: Interface.navGroupUrl.import,
+			headers: {
+				"X-Access-Token" : Cookie.get('token') || '',
+			},
+			onChange:  (info) => {
+				if (info.file.status === 'uploading' && !this.uploadMessage) {
+					this.uploadMessage = message.loading('Loading...')
+				}
+				if (info.file.status === 'done') {
+					this.uploadMessage()
+					this.uploadMessage = null
+					if(info.file.response.code === 1000){
+						message.success(`上传成功!` );
+					}else {
+						message.error(info.file.response.msg || '上传失败');
+					}
+				} else if (info.file.status === 'error') {
+					this.uploadMessage()
+					this.uploadMessage = null
+					message.error( `上传失败`);
+				}
+			},
+			showUploadList: false
+		};
+		const rowSelection = {
+			selectedRowKeys: this.state.selected,
+			onChange: (selectedRowKeys, selectedRows) => {
+				this.setState({
+					selected: selectedRowKeys
+				});
+			}
+		};
+
 		return (
 			<div className="sourceRules_box">
 				<AppInfo applist={this.state.applist} onChange={this.handleAppChange.bind(this)} />
-				<Button type="primary" className="sourceRules_new" onClick={this.newSourceRules.bind(this)}>新增</Button>
-				<Table rowKey={record => record.id} dataSource={navTypeList} columns={columns} pagination={paginationObj} loading={this.state.loading} />
+				<Button type="primary" style={{top: 0}} className="sourceRules_new" onClick={this.newSourceRules.bind(this)}>新增</Button>
+				<Alert message={
+					<div>
+						已选 <b><a>{this.state.selected.length}</a></b> 项
+						<span style={{float: 'right'}}>
+							<a style={{marginRight: 10}} onClick={() => this.setState({selected: []})} >取消选择</a>
+							<Divider type="vertical" />
+							<Upload {...props}>
+								<a style={{margin: "0 10px"}}  >导入</a>
+							</Upload>
+							<a onClick={this.exportExcel} >导出</a>
+						</span>
+					</div>
+				} style={{marginBottom: 10}}/>
+				<Table rowKey={record => record.id} dataSource={navTypeList} columns={columns} pagination={paginationObj} loading={this.state.loading} rowSelection={rowSelection}
+				/>
 				<AuthModal
 					visible={this.state.modalType === 'AuthModal'}
 					onCancel={this.handleCancel.bind(this)}
