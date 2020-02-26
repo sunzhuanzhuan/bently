@@ -1,3 +1,4 @@
+@import (reference) "../../indexNbTheme";
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
 }
@@ -90,6 +91,12 @@
 .login-footer {
   padding: 10px;
   text-align: center;
+  a {
+    color: #333333;
+    &:hover{
+      color: @primary-color;
+    }
+  }
 }
 .scan_box{
   position: absolute;
