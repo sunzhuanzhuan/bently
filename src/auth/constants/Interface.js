@@ -2,7 +2,9 @@ export default {
     sourceRulesUrl: {
         add: '/sourceRule/add',
         delete: '/rbac/deleteResourceRule',
-        get: '/sourceRule/getSourceRules'
+        get: '/sourceRule/getSourceRules',
+        export: '/rbac/exportResource',
+        import: '/api/rbac/importResource'
     },
     roleUrl: {
         add: '/rbac/addRoles',
@@ -26,7 +28,9 @@ export default {
         get: '/rbac/getNavigationAssembly',
         add: '/rbac/addNavigationCombinations',
         update: '/rbac/updateNavigationCombinations',
-        delete: '/rbac/deleteNavigationCombinations'
+        delete: '/rbac/deleteNavigationCombinations',
+        export: '/rbac/exportNavigationCate',
+        import: '/api/rbac/importNavigationCate'
     }
 
 }
