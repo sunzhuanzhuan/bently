@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
 import ItemLable from './ItemLable';
-import InputAndSlider from './InputAndSlider/InputAndSliderNew'
+import OperationTag from './ItemLable/OperationTags'
 import InputAndSliderNumber from './InputAndSlider/InputAndSliderNumber'
 import Search from './Search'
 import debounce from 'lodash/debounce';
@@ -250,7 +250,7 @@ class AccountSearch extends React.Component {
 			}
 			{operation_tag && <LayoutSearch name={'运营标签'}>
 				{getFieldDecorator('operationTagIds')(
-					<ItemLable
+					<OperationTag
 						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
 						// id='operationTag'
 						tagsArray={operation_tag}
