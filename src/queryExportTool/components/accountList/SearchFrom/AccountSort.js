@@ -1,3 +1,8 @@
+/*
+ * @Descripttion: 
+ * @Author: wangxinyue
+ * @Date: 2019-11-11 11:23:55
+ */
 import React, { Component } from "react"
 import { Dropdown, Cascader, Checkbox, Divider, Icon } from 'antd'
 import './AccountSort.less'
@@ -17,9 +22,25 @@ export default class AccountSort extends Component {
 		this.setState({ [key]: val })
 		this.sendParams({ [key]: val })
 	}
+	//点击其他排序操作
 	sort = (a) => {
-		this.setState(a)
-		this.sendParams(a)
+		//defaultSort==1其他查询 --U+新增
+		const params = { ...a, defaultSort: 1 }
+		this.setState(params)
+		this.sendParams(params)
+	}
+	//点击默认排序操作
+	checkDefult = () => {
+		//0：默认选项，1：其他查询 --U+新增
+		const { defaultSort } = this.state
+		let params = { defaultSort: defaultSort == 1 ? 0 : 1 }
+		//默认排序,清空其他排序
+		if (defaultSort) {
+			params = { ...params, accountSort: {} }
+			this.reset()
+		}
+		this.setState(params)
+		this.sendParams(params)
 	}
 	sendParams = params => {
 		const { onChange } = this.props
@@ -54,11 +75,10 @@ export default class AccountSort extends Component {
 	render() {
 		const { group = '1', changTabNumber } = this.props
 		const { filter, sorter } = groupBySorter[group]
-		const changeSorter = changTabNumber == 1 ? sorter : {
-			...sorter,
-			default: {},
-		}
+		const changeSorter = sorter
+		//changTabNumber == 1 ? sorter : { ...sorter, default: {},}
 		const { drop, check } = filter
+		const { defaultSort } = this.state
 		return <div className='account-header-sort-container'>
 			<section className='sort-base-items'>
 				{drop.map(item =>
@@ -69,6 +89,13 @@ export default class AccountSort extends Component {
 			</section>
 			<Divider type="vertical" />
 			<section className='sort-diff-items'>
+				<a onClick={this.checkDefult}
+					style={{
+						minWidth: 28, paddingTop: 1,
+						color: defaultSort ? '#666' : ''
+					}}>
+					默认
+				</a>
 				<SortGroup ref={node => this.child.sortGroup = node} sorter={changeSorter} onSort={this.sort} />
 			</section>
 		</div>

@@ -34,6 +34,7 @@ class DefaultChild extends Component {
 			searchSource: searchSource || 1,
 			pageSize: search.pageSize || 20,
 			keyword: search.keyword || '',
+			defaultSort: 0,
 		}).then(results => {
 			if (this._isMounted || changeTab) {
 				this.setState({
@@ -47,7 +48,7 @@ class DefaultChild extends Component {
 	}
 
 	onFilterSearch = (params) => {
-		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality } = params;
+		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality, defaultSort } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		// const searchParamsString = qs.stringify(params);
@@ -60,6 +61,10 @@ class DefaultChild extends Component {
 		this.setState({
 			loading: true
 		})
+		//判断默认是否为默认排序0：默认选项，1：其他查询
+		if (defaultSort != 1) {
+			params.defaultSort = 0
+		}
 		if (isLowQuality == 1) {
 			params.isLowQuality = 2
 		}
