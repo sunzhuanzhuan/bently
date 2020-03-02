@@ -34,7 +34,7 @@ class DefaultChild extends Component {
 			searchSource: searchSource || 1,
 			pageSize: search.pageSize || 20,
 			keyword: search.keyword || '',
-			defaultSort: 0,
+			defaultSort: search.keyword && search.keyword.length > 0 ? 1 : 0,
 		}).then(results => {
 			if (this._isMounted || changeTab) {
 				this.setState({
@@ -64,6 +64,8 @@ class DefaultChild extends Component {
 		//判断默认是否为默认排序0：默认选项，1：其他查询
 		if (defaultSort != 1) {
 			params.defaultSort = 0
+			delete params.accountSort
+			delete this.paramsAll.accountSort
 		}
 		if (isLowQuality == 1) {
 			params.isLowQuality = 2

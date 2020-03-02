@@ -159,7 +159,7 @@ export default class MainItem extends PureComponent {
 							</div>
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为运营标签 */}
-								{operationTagList && operationTagList.map((one, index) => <Tooltip
+								{operationTagList && operationTagList.map((one, index) => one.name && <Tooltip
 									key={one.id}
 									title={one.tagDescription} getPopupContainer={() => document.querySelector('.query-export-tool')}>
 									<Tag color="blue">{one.name}</Tag>

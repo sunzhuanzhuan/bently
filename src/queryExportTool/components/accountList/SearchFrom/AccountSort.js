@@ -1,15 +1,10 @@
-/*
- * @Descripttion: 
- * @Author: wangxinyue
- * @Date: 2019-11-11 11:23:55
- */
 import React, { Component } from "react"
 import { Dropdown, Cascader, Checkbox, Divider, Icon } from 'antd'
 import './AccountSort.less'
 import SortDrop from "@/queryExportTool/components/accountList/SearchFrom/SortDrop";
 import SortGroup from "@/queryExportTool/components/accountList/SearchFrom/SortGroup";
 import { groupBySorter } from '../../../constants/sort'
-
+import qs from 'qs'
 
 export default class AccountSort extends Component {
 	selectDrop = (key, val) => {
@@ -42,6 +37,9 @@ export default class AccountSort extends Component {
 		this.setState(params)
 		this.sendParams(params)
 	}
+	changeDefaultSort = (defaultSort) => {
+		this.setState({ defaultSort: defaultSort })
+	}
 	sendParams = params => {
 		const { onChange } = this.props
 		let newParams = { ...this.state, ...params }
@@ -67,7 +65,8 @@ export default class AccountSort extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { ...groupBySorter[props.group || 1].filter.default }
+		const keyword = qs.parse(window.location.search.substring(1)).keyword
+		this.state = { ...groupBySorter[props.group || 1].filter.default, defaultSort: keyword && keyword.length > 0 ? 1 : 0 }
 		this.child = {}
 		window.TEST = this.resetState
 	}
