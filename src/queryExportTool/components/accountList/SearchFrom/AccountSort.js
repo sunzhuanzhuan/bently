@@ -20,7 +20,7 @@ export default class AccountSort extends Component {
 	//点击其他排序操作
 	sort = (a) => {
 		//defaultSort==1其他查询 --U+新增
-		const params = { ...a, defaultSort: 1 }
+		const params = { ...a, defaultSort: 2 }
 		this.setState(params)
 		this.sendParams(params)
 	}
@@ -28,7 +28,7 @@ export default class AccountSort extends Component {
 	checkDefult = () => {
 		//0：默认选项，1：其他查询 --U+新增
 		const { defaultSort } = this.state
-		let params = { defaultSort: defaultSort == 1 ? 0 : 1 }
+		let params = { defaultSort: defaultSort == 1 ? 2 : 1 }
 		//默认排序,清空其他排序
 		if (defaultSort) {
 			params = { ...params, accountSort: {} }
@@ -66,7 +66,7 @@ export default class AccountSort extends Component {
 	constructor(props) {
 		super(props);
 		const keyword = qs.parse(window.location.search.substring(1)).keyword
-		this.state = { ...groupBySorter[props.group || 1].filter.default, defaultSort: keyword && keyword.length > 0 ? 1 : 0 }
+		this.state = { ...groupBySorter[props.group || 1].filter.default, defaultSort: keyword && keyword.length > 0 ? 2 : 1 }
 		this.child = {}
 		window.TEST = this.resetState
 	}
@@ -91,7 +91,7 @@ export default class AccountSort extends Component {
 				<a onClick={this.checkDefult}
 					style={{
 						minWidth: 28, paddingTop: 1,
-						color: defaultSort ? '#666' : ''
+						color: defaultSort == 2 ? '#666' : ''
 					}}>
 					默认
 				</a>

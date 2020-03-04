@@ -122,7 +122,7 @@ class AccountSearch extends React.Component {
 			params = this.accountListort.reset(clear)
 			//如果输入了关键词则取消选择默认排序
 			if (id === 'keyword') {
-				const defaultSort = names && names.length > 0 ? 1 : 0
+				const defaultSort = names && names.length > 0 ? 2 : 1
 				this.accountListort.changeDefaultSort(defaultSort)
 				params.defaultSort = defaultSort
 			}
