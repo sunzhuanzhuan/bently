@@ -172,7 +172,7 @@ class AccountSearch extends React.Component {
 		})
 	}
 	changeTab = (value) => {
-		const params = { ...this.accountListort.reset(true), searchSource: value }
+		const params = { ...this.accountListort.reset(true), searchSource: value, defaultSort: 1 }
 		this.resetFilter(null, params)
 		//查询数据(暂时做异步处理)
 		setTimeout(() => {
