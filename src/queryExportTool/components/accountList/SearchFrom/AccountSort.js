@@ -90,7 +90,7 @@ export default class AccountSort extends Component {
 			<section className='sort-diff-items'>
 				<a onClick={this.checkDefult}
 					style={{
-						minWidth: 28, paddingTop: 1,
+						minWidth: 28,
 						color: defaultSort == 2 ? '#666' : ''
 					}}>
 					默认
