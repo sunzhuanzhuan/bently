@@ -1,8 +1,13 @@
+/*
+ * @Descripttion: 
+ * @Author: wangxinyue
+ * @Date: 2020-03-04 15:56:23
+ */
 import React from 'react';
 // import moment from 'moment';
 import { Tag, DatePicker, Button, Popover, Icon, message } from 'antd';
 import { objectToArray } from '@/util'
-
+import qs from 'qs'
 class SelectedItems extends React.Component {
 	constructor(props) {
 		super(props);
@@ -12,14 +17,23 @@ class SelectedItems extends React.Component {
 		}
 	}
 	clear = (id = '') => {
-		const { clear } = this.props;
+		const { clear, changeDefaultSort } = this.props;
 		// const _selectedItems = this.state.selectedItems;
 		// delete _selectedItems[id];
 		// this.setState({ selectedItems: _selectedItems })
 		// this.MoreFilterNode && this.MoreFilterNode.clear(id);
 		// this.props.resetFilter(id);
 		// this.props.onFilter();
-		clear && clear(id);
+		const search = qs.parse(window.location.search.substring(1))
+
+		if (id == 'keyword' || (!id && search.keyword)) {
+			changeDefaultSort(1)
+			clear && clear(id, { defaultSort: 1 });
+		}
+		else {
+			clear && clear(id);
+		}
+
 	}
 	// clear = () => {
 	// 	const { clear } = this.props;

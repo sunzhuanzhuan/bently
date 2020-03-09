@@ -355,7 +355,11 @@ class AccountSearch extends React.Component {
 					<div><Icon type={isShowMore ? 'up' : "down"} className='search-more-icon' /></div>
 				</div>
 			</div> : null}
-			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
+			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}
+				changeDefaultSort={
+					this.accountListort && this.accountListort.changeDefaultSort
+				}
+			></SelectedItem>
 			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}
