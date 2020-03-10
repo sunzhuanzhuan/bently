@@ -17,23 +17,14 @@ class SelectedItems extends React.Component {
 		}
 	}
 	clear = (id = '') => {
-		const { clear, changeDefaultSort } = this.props;
+		const { clear } = this.props;
 		// const _selectedItems = this.state.selectedItems;
 		// delete _selectedItems[id];
 		// this.setState({ selectedItems: _selectedItems })
 		// this.MoreFilterNode && this.MoreFilterNode.clear(id);
 		// this.props.resetFilter(id);
 		// this.props.onFilter();
-		const search = qs.parse(window.location.search.substring(1))
-
-		if (id == 'keyword' || (!id && search.keyword)) {
-			changeDefaultSort(1)
-			clear && clear(id, { defaultSort: 1 });
-		}
-		else {
-			clear && clear(id);
-		}
-
+		clear && clear(id);
 	}
 	// clear = () => {
 	// 	const { clear } = this.props;
