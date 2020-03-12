@@ -4,7 +4,7 @@ import './AccountSort.less'
 import SortDrop from "@/queryExportTool/components/accountList/SearchFrom/SortDrop";
 import SortGroup from "@/queryExportTool/components/accountList/SearchFrom/SortGroup";
 import { groupBySorter } from '../../../constants/sort'
-
+import qs from 'qs'
 
 export default class AccountSort extends Component {
 	selectDrop = (key, val) => {
@@ -17,9 +17,28 @@ export default class AccountSort extends Component {
 		this.setState({ [key]: val })
 		this.sendParams({ [key]: val })
 	}
+	//点击其他排序操作
 	sort = (a) => {
-		this.setState(a)
-		this.sendParams(a)
+		//defaultSort==1其他查询 --U+新增
+		const params = { ...a, defaultSort: 2 }
+		this.setState(params)
+		this.sendParams(params)
+	}
+	//点击默认排序操作
+	checkDefult = () => {
+		//0：默认选项，1：其他查询 --U+新增
+		const { defaultSort } = this.state
+		let params = { defaultSort: defaultSort == 1 ? 2 : 1 }
+		//默认排序,清空其他排序
+		if (defaultSort) {
+			params = { ...params, accountSort: {} }
+			this.reset()
+		}
+		this.setState(params)
+		this.sendParams(params)
+	}
+	changeDefaultSort = (defaultSort) => {
+		this.setState({ defaultSort: defaultSort })
 	}
 	sendParams = params => {
 		const { onChange } = this.props
@@ -46,7 +65,8 @@ export default class AccountSort extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { ...groupBySorter[props.group || 1].filter.default }
+		const keyword = qs.parse(window.location.search.substring(1)).keyword
+		this.state = { ...groupBySorter[props.group || 1].filter.default, defaultSort: keyword && keyword.length > 0 ? 2 : 1 }
 		this.child = {}
 		window.TEST = this.resetState
 	}
@@ -54,11 +74,10 @@ export default class AccountSort extends Component {
 	render() {
 		const { group = '1', changTabNumber } = this.props
 		const { filter, sorter } = groupBySorter[group]
-		const changeSorter = changTabNumber == 1 ? sorter : {
-			...sorter,
-			default: {},
-		}
+		const changeSorter = sorter
+		//changTabNumber == 1 ? sorter : { ...sorter, default: {},}
 		const { drop, check } = filter
+		const { defaultSort } = this.state
 		return <div className='account-header-sort-container'>
 			<section className='sort-base-items'>
 				{drop.map(item =>
@@ -69,6 +88,13 @@ export default class AccountSort extends Component {
 			</section>
 			<Divider type="vertical" />
 			<section className='sort-diff-items'>
+				<a onClick={this.checkDefult}
+					style={{
+						minWidth: 28,
+						color: defaultSort == 2 ? '#666' : ''
+					}}>
+					默认
+				</a>
 				<SortGroup ref={node => this.child.sortGroup = node} sorter={changeSorter} onSort={this.sort} />
 			</section>
 		</div>

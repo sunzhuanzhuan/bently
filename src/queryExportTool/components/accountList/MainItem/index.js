@@ -9,7 +9,7 @@ import MarkMessage from "../../../base/MarkMessage";
 import LazyLoad from 'react-lazyload';
 import numeral from "numeral";
 import MultiClamp from 'react-multi-clamp';
-import { Icon } from "antd";
+import { Icon, Tooltip, Tag } from "antd";
 import AuthVisbleIsBP from '@/queryExportTool/containers/AuthVisbleIsBP'
 import AccountInfos, {
 	Avatar,
@@ -141,8 +141,6 @@ export default class MainItem extends PureComponent {
 							<div className='sns-account'>
 								{ISWEiXin || IsWeibo ? null : snsId ? `ID：${snsId}` : null}
 								{IsWeibo ? snsUniqueId ? `ID：${snsUniqueId}` : null : null}
-
-
 								<div>accountId：{accountId}</div>
 							</div>
 							{/* 性别|地域|年龄 */}
@@ -161,7 +159,11 @@ export default class MainItem extends PureComponent {
 							</div>
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为运营标签 */}
-								{operationTagList && operationTagList.map((one, index) => <CTag key={one.id} color='blue'>{one.name}</CTag>)}
+								{operationTagList && operationTagList.map((one, index) => one.name && <Tooltip
+									key={one.id}
+									title={one.tagDescription} getPopupContainer={() => document.querySelector('.query-export-tool')}>
+									<Tag color="blue">{one.name}</Tag>
+								</Tooltip>)}
 							</div>
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为是否提前打款标示 */}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
 import ItemLable from './ItemLable';
-import InputAndSlider from './InputAndSlider/InputAndSliderNew'
+import OperationTag from './ItemLable/OperationTags'
 import InputAndSliderNumber from './InputAndSlider/InputAndSliderNumber'
 import Search from './Search'
 import debounce from 'lodash/debounce';
@@ -120,6 +120,12 @@ class AccountSearch extends React.Component {
 		this.setState({ selectedItems })
 		if (needReset) {
 			params = this.accountListort.reset(clear)
+			//如果输入了关键词则取消选择默认排序
+			if (id === 'keyword') {
+				const defaultSort = names && names.length > 0 ? 2 : 1
+				this.accountListort.changeDefaultSort(defaultSort)
+				params.defaultSort = defaultSort
+			}
 		}
 
 		this.onFilterSearch(params);
@@ -166,7 +172,7 @@ class AccountSearch extends React.Component {
 		})
 	}
 	changeTab = (value) => {
-		const params = { ...this.accountListort.reset(true), searchSource: value }
+		const params = { ...this.accountListort.reset(true), searchSource: value, defaultSort: 1 }
 		this.resetFilter(null, params)
 		//查询数据(暂时做异步处理)
 		setTimeout(() => {
@@ -250,7 +256,7 @@ class AccountSearch extends React.Component {
 			}
 			{operation_tag && <LayoutSearch name={'运营标签'}>
 				{getFieldDecorator('operationTagIds')(
-					<ItemLable
+					<OperationTag
 						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
 						// id='operationTag'
 						tagsArray={operation_tag}
@@ -349,7 +355,8 @@ class AccountSearch extends React.Component {
 					<div><Icon type={isShowMore ? 'up' : "down"} className='search-more-icon' /></div>
 				</div>
 			</div> : null}
-			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}></SelectedItem>
+			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}
+			></SelectedItem>
 			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType} />
 		</div >
 	}

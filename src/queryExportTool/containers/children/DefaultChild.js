@@ -28,12 +28,15 @@ class DefaultChild extends Component {
 		const { getFilters, getAccountList } = this.props.actions
 		const { params: { platformType: groupType } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
+		const basePath = { defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, }
+		this.paramsAll = basePath
 		getAccountList({
 			groupType,
 			currentPage: 1,
 			searchSource: searchSource || 1,
 			pageSize: search.pageSize || 20,
 			keyword: search.keyword || '',
+			...basePath
 		}).then(results => {
 			if (this._isMounted || changeTab) {
 				this.setState({
@@ -41,13 +44,14 @@ class DefaultChild extends Component {
 				})
 			}
 		});
+
 	}
 	componentWillUnmount() {
 		this._isMounted = false;
 	}
 
 	onFilterSearch = (params) => {
-		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality } = params;
+		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality, defaultSort } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
 		// const searchParamsString = qs.stringify(params);
@@ -60,6 +64,11 @@ class DefaultChild extends Component {
 		this.setState({
 			loading: true
 		})
+		//判断默认是否为默认排序1：默认选项，2：其他查询
+		if (defaultSort == 1) {
+			delete params.accountSort
+			delete this.paramsAll.accountSort
+		}
 		if (isLowQuality == 1) {
 			params.isLowQuality = 2
 		}
