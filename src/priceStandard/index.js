@@ -9,6 +9,8 @@ import lazyLoadComponent from '../components/LazyLoadComponent'
 import LinkTabs from './base/LinkTabs'
 // 懒加载路由级组件
 const SkuType = lazyLoadComponent(() => import('./containers/SkuType'))
+const PlatformConfig = lazyLoadComponent(() => import('./containers/PlatformConfig'))
+const SystemConfig = lazyLoadComponent(() => import('./containers/SystemConfig'))
 class PriceStandard extends Component {
 	state = {}
 
@@ -18,8 +20,8 @@ class PriceStandard extends Component {
 			<div>
 				<LinkTabs />
 				<Route path='/priceStandard/skuType' component={SkuType} />
-				<Route path='/priceStandard/platform' component={SkuType} />
-				<Route path='/priceStandard/system' component={SkuType} />
+				<Route path='/priceStandard/platform' component={PlatformConfig} />
+				<Route path='/priceStandard/system' component={SystemConfig} />
 			</div>
 		);
 	}
