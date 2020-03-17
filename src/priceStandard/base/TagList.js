@@ -13,7 +13,7 @@ function TagList(props) {
 		<div className='tag-list'>
 			{
 				listDefault.map(item =>
-					<Tag color="rgba(65,139,249,0.1)" key={item.id} className='item'>
+					<div key={item.id} className='item'>
 						<RequiredRed />
 						<span>{item.name}</span>
 						{isOperate ?
@@ -23,7 +23,7 @@ function TagList(props) {
 								className='icon-close'
 								style={{ color: item.isClose ? '#418BF9' : '#BBBBBB' }} />
 							: null}
-					</Tag>)
+					</div>)
 			}
 			{/* {isOperate ?  : null} */}
 		</div>
@@ -32,7 +32,7 @@ function TagList(props) {
 
 export default TagList
 
-export function RequiredRed({ isRequired }) {
+export function RequiredRed({ isRequired = true }) {
 	return isRequired ? <span className='required-box'>
 		<span className='start'>*</span>
 	</span> : null
