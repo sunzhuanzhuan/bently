@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Tag, Icon, Popover, Form, Input } from 'antd';
+import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 const listDefault = [
 	{ id: 1, name: '带京东链接', isClose: true },
 	{ id: 2, name: '带天猫链接', isClose: false },
 ]
 function TagList(props) {
-	console.log("useState----", React)
-
+	const [list, setList] = useState(listDefault)
 	const { isOperate = true } = props
+	function addList(item) {
+		setList([...list, item])
+	}
 	return (
 		<div className='tag-list'>
 			{
-				listDefault.map(item =>
+				list.map(item =>
 					<div key={item.id} className='item'>
 						<RequiredRed />
 						<span>{item.name}</span>
@@ -25,48 +27,68 @@ function TagList(props) {
 							: null}
 					</div>)
 			}
-			{/* {isOperate ?  : null} */}
+			{isOperate ? <AddOperate addList={addList} /> : null}
 		</div>
 	)
 }
 
 export default TagList
-
+//红色必填
 export function RequiredRed({ isRequired = true }) {
 	return isRequired ? <span className='required-box'>
 		<span className='start'>*</span>
 	</span> : null
 }
-function AddOperate() {
-	<Popover
+//添加权益
+function AddOperate(props) {
+	const [visible, setVisible] = useState(false)
+	return <Popover
 		content={
-			<AddContentForm />
+			<AddContentForm setVisible={setVisible}
+				addList={props.addList} />
 		}
-		title="Title"
+		overlayStyle={{ width: 300 }}
 		trigger="click"
-		visible={this.state.visible}
-		onVisibleChange={this.handleVisibleChange}
+		visible={visible}
+		onVisibleChange={() => setVisible(!visible)}
 	>
-		<a>+ 添加权益</a>
+		<a className='box-config'>+ 添加权益</a>
 	</Popover>
 }
+//弹窗内容
 function AddContent(props) {
-	const { getFieldDecorator } = props.form;
+	const { getFieldDecorator, validateFields, resetFields } = props.form;
+	function onOk() {
+		validateFields((err, values) => {
+			if (!err) {
+				props.addList(values)
+				onCancel()
+			}
+		});
+	}
+	function onCancel() {
+		props.setVisible(false)
+		resetFields()
+	}
 	return <Form>
 		<Form.Item label="权益名称" >
-			{getFieldDecorator('confirm', {
+			{getFieldDecorator('name', {
 				rules: [
 					{
 						required: true,
-						message: '请填写权益名称',
+						message: '请填写权益名称!',
 					},
 					{
 						max: 20,
-						message: '1-20字的权益名称'
+						message: '请输入1-20字的权益名称!'
 					},
 				],
-			})(<Input />)}
+			})(<Input placeholder='请输入1-20字的权益名称' />)}
 		</Form.Item>
+		<div className='add-form-btn'>
+			<Button size='small' onClick={onCancel}>取消</Button>
+			<Button onClick={onOk} type='primary' size='small'>确定</Button>
+		</div>
 	</Form>
 }
 const AddContentForm = Form.create()(AddContent)

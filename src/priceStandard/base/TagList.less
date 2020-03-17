@@ -1,12 +1,16 @@
 .tag-list {
     display: flex;
 
+    .box-config {
+        padding: 5px 10px;
+        margin: 10px 6px;
+    }
+
     .item {
         background: rgba(65, 139, 249, 0.1);
         border-radius: 3px;
         color: #333;
-        padding: 5px 10px;
-        margin: 10px 6px;
+        .box-config;
 
         .icon-close {
             padding-left: 4px;
@@ -26,5 +30,14 @@
         top: -6px;
         color: #FF0000;
         font-size: 26px;
+    }
+}
+
+.add-form-btn {
+    text-align: right;
+    margin: 20px 0px 6px;
+
+    &>:first-child {
+        margin-right: 10px;
     }
 }
