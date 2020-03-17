@@ -2,12 +2,14 @@ import React from 'react'
 import { bindActionCreators } from "redux";
 import * as actions from "../actions";
 import { connect } from "react-redux";
-import TagList from '../base/TagList'
+import TagList from '../components/TagList'
+import CardType from '../components/CardType'
+
 function SkuType() {
 	return (
 		<div>
 			<TagList />
-			<TagList isOperate={false} />
+			<CardType />
 
 			权益类型页面asdasd
 		</div>
