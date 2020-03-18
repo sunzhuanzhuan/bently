@@ -5,13 +5,12 @@ import { connect } from "react-redux";
 import TagList from '../components/TagList'
 import CardType from '../components/CardType'
 
-function SkuType() {
+function SystemConfig() {
 	return (
 		<div>
+			<h2>系统权益池管理</h2>
 			<TagList />
 			<CardType />
-
-			权益类型页面asdasd
 		</div>
 	)
 }
@@ -23,4 +22,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({ ...actions }, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(SkuType)
+export default connect(mapStateToProps, mapDispatchToProps)(SystemConfig)

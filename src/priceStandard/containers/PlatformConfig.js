@@ -2,10 +2,10 @@ import React from 'react'
 import { bindActionCreators } from "redux";
 import * as actions from "../actions";
 import { connect } from "react-redux";
-function SkuType() {
+function PlatformConfig() {
 	return (
 		<div>
-			权益类型页面asdasd
+			<h2>平台权益池配置</h2>
 		</div>
 	)
 }
@@ -17,4 +17,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({ ...actions }, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(SkuType)
+export default connect(mapStateToProps, mapDispatchToProps)(PlatformConfig)
