@@ -5,9 +5,13 @@ import { connect } from "react-redux";
 import PlatformHeader from '../base/PlatformHeader'
 import SkuTypeList from '../components/SkuTypeList'
 import TitleBox from '../base/TitleBox'
+import SkuTypeEdit from '../components/SkuTypeEdit'
 import { Icon, Modal } from 'antd';
 function SkuType() {
-	const [modalProps, setModalProps] = useState({ title: '', content: '' })
+	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
+	const commonProps = {
+		setModalProps, modalProps
+	}
 	return (
 		<div>
 			<h2>平台SKU配置</h2>
@@ -19,13 +23,15 @@ function SkuType() {
 					注：带<span className='red-start'></span>为博主必选项
 				</div>
 			</div>} />
-			<SkuTypeList />
+			<SkuTypeList {...commonProps} />
 			<TitleBox title='其他类' />
-			<SkuTypeList />
+			{/* <SkuTypeList {...commonProps} /> */}
 			<Modal
-
+				footer={null}
+				{...modalProps}
+				onCancel={() => setModalProps({ visible: false })}
 			>
-				{modalProps.content}
+				{modalProps.content && modalProps.content(commonProps)}
 			</Modal>
 		</div>
 	)
