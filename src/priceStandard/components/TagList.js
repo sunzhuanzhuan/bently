@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 const listDefault = [
-	{ id: 1, name: '带京东链接', isClose: true },
+	{ id: 1, name: '带京东链接', isClose: true, isRequired: true },
 	{ id: 2, name: '带天猫链接', isClose: false },
 ]
 function TagList(props) {
@@ -16,14 +16,14 @@ function TagList(props) {
 			{
 				list.map(item =>
 					<div key={item.id} className='item'>
-						<RequiredRed />
+						{item.isRequired ? <span className='red-start'></span > : null}
 						<span>{item.name}</span>
 						{isOperate ?
 							<Icon
 								type="close-circle"
 								theme="filled"
 								className='icon-close'
-								style={{ color: item.isClose ? '#418BF9' : '#BBBBBB' }} />
+								style={{ color: item.isClose ? '#418BF9' : '#BBBBBB', paddingTop: 3 }} />
 							: null}
 					</div>)
 			}
@@ -33,12 +33,7 @@ function TagList(props) {
 }
 
 export default TagList
-//红色必填
-export function RequiredRed({ isRequired = true }) {
-	return isRequired ? <span className='required-box'>
-		<span className='start'>*</span>
-	</span> : null
-}
+
 //添加权益
 function AddOperate(props) {
 	const [visible, setVisible] = useState(false)

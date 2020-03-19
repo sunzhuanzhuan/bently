@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './PlatformHeader.less'
+
 const defaultList = [
 	{ name: '微信公众号', platformId: '9' },
 	{ name: '新浪微博', platformId: '1' }

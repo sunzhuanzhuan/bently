@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import lazyLoadComponent from '../components/LazyLoadComponent'
 import LinkTabs from './base/LinkTabs'
+import './index.less'
 // 懒加载路由级组件
 const SkuType = lazyLoadComponent(() => import('./containers/SkuType'))
 const PlatformConfig = lazyLoadComponent(() => import('./containers/PlatformConfig'))
