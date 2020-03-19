@@ -1,9 +1,20 @@
 import React from 'react'
-import TagList from './TagList'
+import CardType from './CardType'
+const listDefault = [
+	{
+		name: 'SKU类型',
+		value: 'ddd',
+		type: 'text'
+	}, {
+		name: '权益',
+		value: [],
+		type: 'tags'
+	}
+]
 function SkuTypeList() {
 	return (
 		<div>
-			<TagList />
+			<CardType showDelete={false} data={{ list: listDefault }} />
 		</div>
 	)
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
+import HCPopover from '../base/HCPopover'
 const listDefault = [
 	{ id: 1, name: '带京东链接', isClose: true, isRequired: true },
 	{ id: 2, name: '带天猫链接', isClose: false },
@@ -11,6 +12,11 @@ function TagList(props) {
 	function addList(item) {
 		setList([...list, item])
 	}
+	const iconClose = {
+		type: "close-circle",
+		theme: "filled",
+		className: 'icon-close'
+	}
 	return (
 		<div className='tag-list'>
 			{
@@ -19,11 +25,14 @@ function TagList(props) {
 						{item.isRequired ? <span className='red-start'></span > : null}
 						<span>{item.name}</span>
 						{isOperate ?
-							<Icon
-								type="close-circle"
-								theme="filled"
-								className='icon-close'
-								style={{ color: item.isClose ? '#418BF9' : '#BBBBBB', paddingTop: 3 }} />
+							item.isClose ?
+								<Icon
+									{...iconClose}
+									style={{ color: '#418BF9', paddingTop: 3 }} />
+								: <HCPopover content='123'><Icon
+									{...iconClose}
+									style={{ color: '#BBBBBB', paddingTop: 3 }} />
+								</HCPopover>
 							: null}
 					</div>)
 			}

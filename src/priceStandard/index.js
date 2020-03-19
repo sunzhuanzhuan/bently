@@ -18,7 +18,7 @@ class PriceStandard extends Component {
 	render() {
 		console.log();
 		return (
-			<div>
+			<div className='price-standard-container'>
 				{/* <LinkTabs /> */}
 				<Route path='/priceStandard/skuType' component={SkuType} />
 				<Route path='/priceStandard/platform' component={PlatformConfig} />

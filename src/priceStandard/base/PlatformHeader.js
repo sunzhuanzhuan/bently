@@ -9,7 +9,7 @@ function PlatformHeader({ list = defaultList, onSearch }) {
 	const [checkedPlat, setCheckedPlat] = useState('9')
 	function clickPlat(plat) {
 		setCheckedPlat(plat)
-		onSearch(plat)
+		onSearch && onSearch(plat)
 	}
 	return (
 		<div className='platform-header'>
