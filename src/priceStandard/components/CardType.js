@@ -1,7 +1,7 @@
 import React from 'react'
 import TagList from './TagList'
 import './CardType.less'
-import { Icon } from 'antd'
+import { Icon, Popconfirm } from 'antd'
 import HCPopover from '../base/HCPopover'
 const listDefault = [
 	{
@@ -17,11 +17,13 @@ const listDefault = [
 function CardType(props) {
 	const {
 		showDelete = true,
-		isDelete,
+		isDelete = true,
 		reason = 'xxx',
 		data = {},
 		onEdit,
-		onDelete } = props
+		onDelete,
+		deleteText = <div>确定删除权益类型吗？<br /><br />删除后此类型下权益都将删除</div>
+	} = props
 	const { list = listDefault } = data
 	return (
 		<div className='card-type'>
@@ -40,9 +42,12 @@ function CardType(props) {
 					<Icon type="form" /> 修改</span>
 				{showDelete ?
 					isDelete ?
-						<span className='active' onClick={() => onDelete && onDelete(data)}>
-							<Icon type="delete" /> 删除
-						</span>
+						<Popconfirm title={deleteText} okText="确定" cancelText="取消"
+							onConfirm={() => onDelete && onDelete(data)}>
+							<span className='active' >
+								<Icon type="delete" /> 删除
+							</span>
+						</Popconfirm>
 						:
 						<HCPopover content={reason}>
 							<span className='disable'>
