@@ -43,6 +43,9 @@ export default class EditSelectedFieldsContent extends Component {
 	handleDelete = (deleteIndex) => {
 		console.log("EditSelectedFieldsContent -> handleDelete -> deleteIndex", deleteIndex)
 	}
+	onEdit = () => {
+		this.props.showEdit(2)
+	}
 	render() {
 		// 搜索筛选
 		return <div className='fields-selected-area-container'>
@@ -55,6 +58,7 @@ export default class EditSelectedFieldsContent extends Component {
 							data={item}
 							drag={this.handleDrag}
 							del={this.handleDelete}
+							onEdit={this.onEdit}
 						/>)}
 				</div>
 			</div>

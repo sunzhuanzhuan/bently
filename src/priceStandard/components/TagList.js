@@ -8,14 +8,20 @@ const listDefault = [
 ]
 function TagList(props) {
 	const [list, setList] = useState(listDefault)
-	const { isOperate = true } = props
+	const { isOperate, onChange } = props
 	function addList(item) {
 		setList([...list, item])
 	}
+	useEffect(() => {
+		onChange && onChange(list)
+	}, [list])
 	const iconClose = {
 		type: "close-circle",
 		theme: "filled",
 		className: 'icon-close'
+	}
+	function deleteList(item) {
+		setList(list.filter(one => one.name != item.name))
 	}
 	return (
 		<div className='tag-list'>
@@ -28,7 +34,8 @@ function TagList(props) {
 							item.isClose ?
 								<Icon
 									{...iconClose}
-									style={{ color: '#418BF9', paddingTop: 3 }} />
+									style={{ color: '#418BF9', paddingTop: 3 }}
+									onClick={() => deleteList(item)} />
 								: <HCPopover content='123'><Icon
 									{...iconClose}
 									style={{ color: '#BBBBBB', paddingTop: 3 }} />
@@ -65,6 +72,7 @@ function AddContent(props) {
 	function onOk() {
 		validateFields((err, values) => {
 			if (!err) {
+				values.isClose = true
 				props.addList(values)
 				onCancel()
 			}
