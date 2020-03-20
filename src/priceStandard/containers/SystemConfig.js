@@ -30,6 +30,7 @@ function SystemConfig() {
 			<Modal
 				footer={null}
 				{...modalProps}
+				maskClosable={false}
 				onCancel={() => setModalProps({ visible: false })}
 			>
 				{modalProps.content && modalProps.content(commonProps)}
