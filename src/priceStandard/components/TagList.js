@@ -36,9 +36,12 @@ function TagList(props) {
 									{...iconClose}
 									style={{ color: '#418BF9', paddingTop: 3 }}
 									onClick={() => deleteList(item)} />
-								: <HCPopover content='123'><Icon
-									{...iconClose}
-									style={{ color: '#BBBBBB', paddingTop: 3 }} />
+								: <HCPopover content={<div>
+									该权益已在以下平台权益池中进行配置，不可删除。
+									<div className='plat-gray-type-no-delete'>{['微信公众号', '新浪微博', '抖音'].join('；')}</div>
+								</div>}><Icon
+										{...iconClose}
+										style={{ color: '#BBBBBB', paddingTop: 3 }} />
 								</HCPopover>
 							: null}
 					</div>)
