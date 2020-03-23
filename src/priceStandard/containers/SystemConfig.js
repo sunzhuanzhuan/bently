@@ -1,16 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { bindActionCreators } from "redux";
 import * as actions from "../actions";
 import { connect } from "react-redux";
 import SystemEdit from '../components/SystemEdit'
 import SystemList from '../components/SystemList'
-import { Button, Icon, Modal } from 'antd';
+import { Button, Icon, Modal, Spin, message } from 'antd';
 
-function SystemConfig() {
+function SystemConfig(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
-	const commonProps = {
-		setModalProps, modalProps, showEdit
+	const [isLoading, setIsLoading] = useState(true)
+	useEffect(() => {
+		getSystemEquitiesAsync()
+	}, [])
+	//查询列表
+	async function getSystemEquitiesAsync() {
+		await props.actions.getSystemEquities()
+		setIsLoading(false)
 	}
+	//添加修改接口
+	async function systemEditEquities(isUpdate, data) {
+		if (isUpdate) {
+			await props.actions.systemUpdateEquities(data)
+		} else {
+			await props.actions.systemAddEquities(data)
+		}
+		getSystemEquitiesAsync()
+		message.success('操作成功')
+	}
+	const { priceStandard = {} } = props
+	const { systemEquitiesList } = priceStandard
+	const commonProps = {
+		setModalProps, modalProps, showEdit, systemEditEquities, systemEquitiesList
+	}
+	//修改添加弹窗触发
 	function showEdit(isDefault) {
 		setModalProps({
 			visible: true,
@@ -19,14 +41,17 @@ function SystemConfig() {
 			content: (props) => <SystemEdit {...props} />
 		})
 	}
+
 	return (
 		<div>
 			<h2>系统权益池管理</h2>
-			<div>
-				<Button type='primary' onClick={showEdit}>+ 添加权益类型</Button>
-				<span style={{ marginLeft: 31 }}><Icon type="info-circle" theme="filled" className='warning-info' /> 注：若权益已被平台SKU配置，则不可删除。</span>
-			</div>
-			<SystemList {...commonProps} />
+			<Spin spinning={isLoading}>
+				<div>
+					<Button type='primary' onClick={showEdit}>+ 添加权益类型</Button>
+					<span style={{ marginLeft: 31 }}><Icon type="info-circle" theme="filled" className='warning-info' /> 注：若权益已被平台SKU配置，则不可删除。</span>
+				</div>
+				<SystemList {...commonProps} key={systemEquitiesList.length} />
+			</Spin>
 			<Modal
 				footer={null}
 				{...modalProps}

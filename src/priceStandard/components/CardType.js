@@ -3,17 +3,8 @@ import TagList from './TagList'
 import './CardType.less'
 import { Icon, Popconfirm } from 'antd'
 import HCPopover from '../base/HCPopover'
-const listDefault = [
-	{
-		name: 'SKU类型',
-		value: 'ddd',
-		type: 'text'
-	}, {
-		name: 'SKU类型2',
-		value: [],
-		type: 'tags'
-	}
-]
+
+
 function CardType(props) {
 	const {
 		showDelete = true,
@@ -24,10 +15,9 @@ function CardType(props) {
 		onDelete,
 		deleteText = <div>确定删除权益类型吗？<br /><br />删除后此类型下权益都将删除</div>
 	} = props
-	const { list = listDefault } = data
 	return (
 		<div className='card-type'>
-			{list.map(item => <div key={item.name} className='card-item'>
+			{data.map(item => <div key={item.name} className='card-item'>
 				<div className='name'>{item.name}：</div>
 				{
 					item.type === 'tags' ?

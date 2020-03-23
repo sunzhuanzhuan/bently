@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 import HCPopover from '../base/HCPopover'
-const listDefault = [
-	{ id: 1, equitiesName: '带京东链接', isUsed: 2 },
-	{ id: 2, equitiesName: '带天猫链接', isUsed: 2 },
-]
+
 function TagList(props) {
-	const [list, setList] = useState(listDefault)
+	const [list, setList] = useState(props.list || [])
 	const { isOperate, onChange } = props
 	function addList(item) {
 		setList([...list, item])
