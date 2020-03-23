@@ -15,13 +15,14 @@ function CardType(props) {
 		onDelete,
 		deleteText = <div>确定删除权益类型吗？<br /><br />删除后此类型下权益都将删除</div>
 	} = props
+	const { list = [] } = data
 	return (
 		<div className='card-type'>
-			{data.map(item => <div key={item.name} className='card-item'>
+			{list.map(item => <div key={item.name} className='card-item'>
 				<div className='name'>{item.name}：</div>
 				{
 					item.type === 'tags' ?
-						<TagList list={item.value} isOperate={false} />
+						<TagList value={item.value} isOperate={false} />
 						: <div className='value'>{item.value}</div>
 				}
 
@@ -31,7 +32,7 @@ function CardType(props) {
 				<span className='active' onClick={() => onEdit && onEdit(data)}>
 					<Icon type="form" /> 修改</span>
 				{showDelete ?
-					isDelete ?
+					data.isUsed == 1 ?
 						<Popconfirm title={deleteText} okText="确定" cancelText="取消"
 							onConfirm={() => onDelete && onDelete(data)}>
 							<span className='active' >

@@ -23,12 +23,6 @@ export default class EditSelectedFieldsContent extends Component {
 		this.setState(data)
 	}
 
-	handleDelete = (deleteIndex) => {
-		console.log("EditSelectedFieldsContent -> handleDelete -> deleteIndex", deleteIndex)
-	}
-	onEdit = () => {
-		this.props.showEdit(2)
-	}
 	render() {
 		const { data } = this.state
 		// 搜索筛选
@@ -42,7 +36,8 @@ export default class EditSelectedFieldsContent extends Component {
 							data={item}
 							drag={this.handleDrag}
 							del={this.handleDelete}
-							onEdit={this.onEdit}
+							onEdit={(data) => this.props.showEdit(2, data)}
+							onDelete={() => this.props.systemDeleteEquitiesAsync(item.id)}
 						/>)}
 				</div>
 			</div>

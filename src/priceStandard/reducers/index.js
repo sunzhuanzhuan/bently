@@ -3,21 +3,24 @@ import { handleActions, handleAction } from 'redux-actions';
 import * as priceStandard from '../actions'
 
 function objToList(data = {}) {
-	return [
-		{
-			name: '权益类型：',
-			value: data.equitiesTypeName,
-			type: 'text'
-		}, {
-			name: '权益单/复选设置',
-			value: data.equitiesTypeAttribute == 1 ? '单选' : '复选',
-			type: 'text'
-		}, {
-			name: '权益单',
-			value: data.equitiesList,
-			type: 'tags'
-		}
-	]
+	return {
+		...data,
+		list: [
+			{
+				name: '权益类型：',
+				value: data.equitiesTypeName,
+				type: 'text'
+			}, {
+				name: '权益单/复选设置',
+				value: data.equitiesTypeAttribute == 1 ? '单选' : '复选',
+				type: 'text'
+			}, {
+				name: '权益单',
+				value: data.equitiesList,
+				type: 'tags'
+			}
+		]
+	}
 }
 
 //获取系统权益池权益类型及权益

@@ -3,7 +3,8 @@ import { Form, Input, Radio, Button } from 'antd'
 import TagList from './TagList'
 
 function SystemEdit(props) {
-	const { setModalProps } = props
+	const { setModalProps, equitiesTypeName, id, equitiesTypeAttribute, equitiesList = [] } = props
+	console.log("SystemEdit -> equitiesList", equitiesList)
 	const formLayout = {
 		labelCol: { span: 5 },
 		wrapperCol: { span: 19 },
@@ -12,7 +13,7 @@ function SystemEdit(props) {
 		e.preventDefault();
 		props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
+				props.systemEditEquities({ ...values, id: id })
 				handleCancel()
 			}
 		});
@@ -21,30 +22,29 @@ function SystemEdit(props) {
 		setModalProps({ visible: false })
 	}
 	const { getFieldDecorator } = props.form
-	const { data = {} } = props
 	return (
 		<div>
 			<Form layout='horizontal'>
 				<Form.Item label="权益类型名称" {...formLayout}>
 					{getFieldDecorator('equitiesTypeName', {
-						initialValue: data.equitiesTypeName,
+						initialValue: equitiesTypeName,
 						rules: [{ required: true, message: '请输入权益类型名称' }],
 					})(<Input placeholder='请输入' />)}
 				</Form.Item>
 				<Form.Item label="权益单/复选设置" {...formLayout}>
 					{getFieldDecorator('equitiesTypeAttribute', {
-						initialValue: data.phone || '1',
+						initialValue: equitiesTypeAttribute || 2,
 						rules: [{ required: true, message: '请选择权益单/复选设置' }],
 					})(<Radio.Group >
-						<Radio value="1">复选</Radio>
-						<Radio value="2">单选</Radio>
+						<Radio value={2}>复选</Radio>
+						<Radio value={1}>单选</Radio>
 					</Radio.Group>
 					)}
 				</Form.Item>
 				<Form.Item label="权益" {...formLayout}>
 					<div style={{ marginTop: 9 }}>
 						{getFieldDecorator('equitiesList', {
-							initialValue: data.list || [],
+							initialValue: equitiesList || [],
 							rules: [{ required: true, message: '请添加权益' }],
 						})(
 							<TagList isOperate={true} />

@@ -4,7 +4,7 @@ import './TagList.less'
 import HCPopover from '../base/HCPopover'
 
 function TagList(props) {
-	const [list, setList] = useState(props.list || [])
+	const [list, setList] = useState(props.value || [])
 	const { isOperate, onChange } = props
 	function addList(item) {
 		setList([...list, item])
@@ -18,7 +18,6 @@ function TagList(props) {
 		className: 'icon-close'
 	}
 	function deleteList(item) {
-		console.log("deleteList -> item", item)
 		let deleteList = list.filter(one => one.equitiesName != item.equitiesName)
 		if (item.id) {
 			deleteList.push({ ...item, isDeleted: 2 })
@@ -33,7 +32,7 @@ function TagList(props) {
 						{item.isRequired ? <span className='red-start'></span > : null}
 						<span>{item.equitiesName}</span>
 						{isOperate ?
-							item.isUsed == 2 ?
+							item.isUsed == 1 ?
 								<Icon
 									{...iconClose}
 									style={{ color: '#418BF9', paddingTop: 3 }}

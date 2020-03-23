@@ -18,8 +18,8 @@ function SystemConfig(props) {
 		setIsLoading(false)
 	}
 	//添加修改接口
-	async function systemEditEquities(isUpdate, data) {
-		if (isUpdate) {
+	async function systemEditEquities(data) {
+		if (data.id) {
 			await props.actions.systemUpdateEquities(data)
 		} else {
 			await props.actions.systemAddEquities(data)
@@ -27,18 +27,25 @@ function SystemConfig(props) {
 		getSystemEquitiesAsync()
 		message.success('操作成功')
 	}
+	//删除操作
+	async function systemDeleteEquitiesAsync(id) {
+		await props.actions.systemDeleteEquities({ id: id })
+		getSystemEquitiesAsync()
+		message.success('操作成功')
+	}
 	const { priceStandard = {} } = props
 	const { systemEquitiesList } = priceStandard
 	const commonProps = {
-		setModalProps, modalProps, showEdit, systemEditEquities, systemEquitiesList
+		setModalProps, modalProps, showEdit, systemEditEquities, systemEquitiesList,
+		systemDeleteEquitiesAsync
 	}
 	//修改添加弹窗触发
-	function showEdit(isDefault) {
+	function showEdit(isDefault, data) {
 		setModalProps({
 			visible: true,
 			width: '700px',
 			title: `${isDefault == 2 ? '修改' : '添加'}权益类型`,
-			content: (props) => <SystemEdit {...props} />
+			content: (props) => <SystemEdit {...props} {...data} />
 		})
 	}
 

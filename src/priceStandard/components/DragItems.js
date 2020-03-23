@@ -70,15 +70,15 @@ export default class DragItems extends Component {
 			connectDragSource,
 			connectDropTarget,
 			data = {},
-			onEdit
+			onEdit,
+			onDelete
 		} = this.props
 		const opacity = isDragging ? 0 : 1
-		console.log("DragItems -> render -> data", data)
 
 		return connectDragSource && connectDropTarget &&
 			connectDragSource(connectDropTarget(
 				<div>
-					<CardType data={data} onEdit={onEdit} />
+					<CardType data={data} onEdit={onEdit} onDelete={onDelete} />
 				</div>
 			))
 	}
