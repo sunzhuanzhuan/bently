@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import './PlatformHeader.less'
 
-const defaultList = [
-	{ name: '微信公众号', platformId: '9' },
-	{ name: '新浪微博', platformId: '1' }
+const groupTypeId = [
+	{ name: '微信公众号', platformId: '1' },
+	{ name: '新浪微博', platformId: '2' },
+	{ name: '视频/直播', platformId: '3' },
+	{ name: '小红书', platformId: '4' },
+	{ name: '其他平台', platformId: '5' },
 ]
-function PlatformHeader({ list = defaultList, onSearch }) {
-	const [checkedPlat, setCheckedPlat] = useState('9')
+function PlatformHeader({ list = groupTypeId, setId }) {
+	const [checkedPlat, setCheckedPlat] = useState('1')
 	function clickPlat(plat) {
 		setCheckedPlat(plat)
-		onSearch && onSearch(plat)
+		setId && setId(plat)
 	}
 	return (
 		<div className='platform-header'>
