@@ -3,8 +3,8 @@ import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 import HCPopover from '../base/HCPopover'
 const listDefault = [
-	{ id: 1, name: '带京东链接', isClose: true, isRequired: true },
-	{ id: 2, name: '带天猫链接', isClose: false },
+	{ id: 1, equitiesName: '带京东链接', isUsed: 2 },
+	{ id: 2, equitiesName: '带天猫链接', isUsed: 2 },
 ]
 function TagList(props) {
 	const [list, setList] = useState(listDefault)
@@ -21,17 +21,22 @@ function TagList(props) {
 		className: 'icon-close'
 	}
 	function deleteList(item) {
-		setList(list.filter(one => one.name != item.name))
+		console.log("deleteList -> item", item)
+		let deleteList = list.filter(one => one.equitiesName != item.equitiesName)
+		if (item.id) {
+			deleteList.push({ ...item, isDeleted: 2 })
+		}
+		setList(deleteList)
 	}
 	return (
 		<div className='tag-list'>
 			{
-				list.map(item =>
-					<div key={item.id} className='item'>
+				list.map((item, index) =>
+					item.isDeleted == 2 ? null : <div key={item.equitiesName} className='item'>
 						{item.isRequired ? <span className='red-start'></span > : null}
-						<span>{item.name}</span>
+						<span>{item.equitiesName}</span>
 						{isOperate ?
-							item.isClose ?
+							item.isUsed == 2 ?
 								<Icon
 									{...iconClose}
 									style={{ color: '#418BF9', paddingTop: 3 }}
@@ -75,7 +80,7 @@ function AddContent(props) {
 	function onOk() {
 		validateFields((err, values) => {
 			if (!err) {
-				values.isClose = true
+				values.isUsed = 2
 				props.addList(values)
 				onCancel()
 			}
@@ -87,7 +92,7 @@ function AddContent(props) {
 	}
 	return <Form>
 		<Form.Item label="权益名称" >
-			{getFieldDecorator('name', {
+			{getFieldDecorator('equitiesName', {
 				rules: [
 					{
 						required: true,

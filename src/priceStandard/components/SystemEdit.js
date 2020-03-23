@@ -26,13 +26,13 @@ function SystemEdit(props) {
 		<div>
 			<Form layout='horizontal'>
 				<Form.Item label="权益类型名称" {...formLayout}>
-					{getFieldDecorator('name', {
-						initialValue: data.name,
+					{getFieldDecorator('equitiesTypeName', {
+						initialValue: data.equitiesTypeName,
 						rules: [{ required: true, message: '请输入权益类型名称' }],
 					})(<Input placeholder='请输入' />)}
 				</Form.Item>
 				<Form.Item label="权益单/复选设置" {...formLayout}>
-					{getFieldDecorator('phone', {
+					{getFieldDecorator('equitiesTypeAttribute', {
 						initialValue: data.phone || '1',
 						rules: [{ required: true, message: '请选择权益单/复选设置' }],
 					})(<Radio.Group >
@@ -43,7 +43,7 @@ function SystemEdit(props) {
 				</Form.Item>
 				<Form.Item label="权益" {...formLayout}>
 					<div style={{ marginTop: 9 }}>
-						{getFieldDecorator('list', {
+						{getFieldDecorator('equitiesList', {
 							initialValue: data.list || [],
 							rules: [{ required: true, message: '请添加权益' }],
 						})(
