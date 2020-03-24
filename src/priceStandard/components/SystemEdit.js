@@ -4,7 +4,6 @@ import TagList from './TagList'
 
 function SystemEdit(props) {
 	const { setModalProps, equitiesTypeName, id, equitiesTypeAttribute, equitiesList = [] } = props
-	console.log("SystemEdit -> equitiesList", equitiesList)
 	const formLayout = {
 		labelCol: { span: 5 },
 		wrapperCol: { span: 19 },
