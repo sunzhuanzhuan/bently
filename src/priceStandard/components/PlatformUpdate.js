@@ -15,7 +15,6 @@ function PlatformUpdate(props) {
 			id: data.id,
 			isDelete: 1
 		}
-		console.log("changeCheckbox -> newItem", newItem)
 		if (isCheck) {
 			setList([...list, newItem])
 		} else {
@@ -45,7 +44,7 @@ function PlatformUpdate(props) {
 				<div>
 					{equitiesList.map(item => <div key={item.id}><Checkbox
 						defaultChecked={item.isUsed == 1}
-						onChange={e => changeCheckbox(e.target.value, item)}>
+						onChange={e => changeCheckbox(e.target.checked, item)}>
 						{item.equitiesName}
 					</Checkbox></div>)}
 				</div>

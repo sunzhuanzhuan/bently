@@ -43,6 +43,11 @@ export const {
 	getEquitiesByGroupTypeId,
 	getEquitiesByGroupTypeId_success
 } = createHttpAction('getEquitiesByGroupTypeId', Interface.getEquitiesByGroupTypeId)
+//通过groupTypeId获取平台组权益未使用
+export const {
+	getEquitiesNoUsed,
+	getEquitiesNoUsed_success
+} = createHttpAction('getEquitiesNoUsed', Interface.getEquitiesByGroupTypeId)
 
 //修改媒体平台sku与权益的配置
 export const {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Checkbox, Radio, Button } from 'antd'
+import { Checkbox, Radio, Button, Modal } from 'antd'
+const { confirm } = Modal;
 import './SkuTypeEdit.less'
 const listData = [
 	{
@@ -43,9 +44,24 @@ const listData = [
 ]
 
 function SkuTypeEdit(props) {
-	const [list, setList] = useState({})
+	const [list, setList] = useState([])
 	function onOk() {
-		console.log(list);
+		console.log("onOk -> list.length", list.length)
+
+		if (list.length > 0) {
+			confirm({
+				title: '您修改SKU配置，是否确认修改？',
+				onOk() {
+					props.platformSkuUpdateEquitiesAsync({
+						skuTypeId: props.skuTypeId,
+						platformId: props.platformId,
+						equitiesList: list
+					})
+				},
+			});
+		} else {
+			props.onCancel()
+		}
 	}
 	function changeList(newList) {
 		setList([...list, ...newList])
@@ -61,7 +77,7 @@ function SkuTypeEdit(props) {
 				}
 			</div>
 			<div style={{ textAlign: 'right', marginTop: 20 }}>
-				<Button>取消</Button>
+				<Button onClick={props.onCancel}>取消</Button>
 				<Button type='primary' style={{ marginLeft: 20 }} onClick={onOk}>确认</Button>
 			</div>
 		</div>
@@ -89,17 +105,16 @@ function TypeList({ list, changeList }) {
 function TypeItem(props) {
 	const [checkState, setCheckState] = useState(props.isRequired == 2 || props.isRequired == 1)
 	const [isRequired, setIsRequired] = useState(props.isRequired)
-	//监听isRequired变化
-	useEffect(() => {
-		props.changeRequired(isRequired, props.equitiesId)
-	}, [isRequired])
 	function changeRadio(e) {
 		const value = e.target.value
 		setIsRequired(value)
+		props.changeRequired(value, props.equitiesId)
 	}
 	function changeCheck(checked) {
-		setIsRequired(checked ? 1 : 0)
+		const isRequired = checked ? 1 : 0
+		setIsRequired(isRequired)
 		setCheckState(checked)
+		props.changeRequired(isRequired, props.equitiesId)
 	}
 	return (
 		<div className='type-item'>

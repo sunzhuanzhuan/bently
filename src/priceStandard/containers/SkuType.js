@@ -6,7 +6,7 @@ import PlatformHeader from '../base/PlatformHeader'
 import CardType from '../components/CardType'
 import TitleBox from '../base/TitleBox'
 import SkuTypeEdit from '../components/SkuTypeEdit'
-import { Icon, Modal, Spin } from 'antd';
+import { Icon, Modal, Spin, message } from 'antd';
 const titleStyle = {
 	color: '#666',
 	fontWeight: '400'
@@ -14,7 +14,7 @@ const titleStyle = {
 function SkuType(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
 	const [platformId, setPlatformId] = useState('9')
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
 		getEquitiesByPlatformIdAsync()
@@ -22,6 +22,7 @@ function SkuType(props) {
 
 	//查询
 	async function getEquitiesByPlatformIdAsync() {
+		setIsLoading(true)
 		await props.actions.getEquitiesByPlatformId({ platformId: platformId })
 		setIsLoading(false)
 	}
@@ -41,14 +42,23 @@ function SkuType(props) {
 			content: (props) => <SkuTypeEdit data={data} {...props} />
 		})
 	}
+	//修改接口
+	async function platformSkuUpdateEquitiesAsync(data) {
+		await props.actions.platformSkuUpdateEquities(data)
+		message.success('操作成功')
+		onCancel()
+		getEquitiesByPlatformIdAsync()
+	}
+	function onCancel() {
+		setModalProps({ visible: false })
+	}
 	const { priceStandard = {} } = props
 	const { skuList = [], skuBaseList = [] } = priceStandard
 	const commonProps = {
 		setModalProps, modalProps
-		, skuList, skuBaseList
-
+		, skuList, skuBaseList, platformSkuUpdateEquitiesAsync, onCancel
 	}
-	console.log("skuList", skuList)
+
 	return (
 		<div>
 			<h2>平台SKU配置</h2>
@@ -76,7 +86,7 @@ function SkuType(props) {
 				footer={null}
 				{...modalProps}
 				maskClosable={false}
-				onCancel={() => setModalProps({ visible: false })}
+				onCancel={onCancel}
 			>
 				{modalProps.content && modalProps.content(commonProps)}
 			</Modal>

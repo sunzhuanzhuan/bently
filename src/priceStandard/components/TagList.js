@@ -29,7 +29,7 @@ function TagList(props) {
 			{
 				list.map((item, index) =>
 					item.isDeleted == 2 ? null : <div key={item.equitiesName} className='item'>
-						{item.isRequired ? <span className='red-start'></span > : null}
+						{item.isRequired == 1 ? <span className='red-start'></span > : null}
 						<span>{item.equitiesName}</span>
 						{isOperate ?
 							item.isUsed == 1 ?

@@ -87,16 +87,19 @@ export const platformList = handleActions({
 		return data.map(item => objToListPlatform(item))
 	}
 }, [])
-
-
-
-
-
+//通过groupTypeId获取平台组权益未使用
+export const platformNoUsedList = handleActions({
+	[priceStandard.getEquitiesNoUsed_success]: (state, action) => {
+		const data = [...action.payload.data]
+		return data.map(item => objToListPlatform(item))
+	}
+}, [])
 
 export default combineReducers({
 	systemEquitiesList,
 	systemEquities,
 	platformList,
 	skuList,
-	skuBaseList
+	skuBaseList,
+	platformNoUsedList
 })

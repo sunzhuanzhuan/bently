@@ -21,9 +21,10 @@ function PlatformConfig(props) {
 	}, [groupTypeId])
 	//查询
 	async function getEquitiesByGroupTypeIdAsync() {
-		await props.actions.getEquitiesByGroupTypeId(groupTypeId)
+		await props.actions.getEquitiesByGroupTypeId({ groupTypeId: groupTypeId, isUsed: 1 })
 		setIsLoading(false)
 	}
+	//添加弹窗
 	function onAdd(data) {
 		setModalProps({
 			visible: true,
@@ -36,6 +37,18 @@ function PlatformConfig(props) {
 			content: (props) => <PlatformAdd data={data} {...props} />
 		})
 	}
+	//获取添加弹窗选中内容
+	async function getEquitiesNoUsedAsync() {
+		await props.actions.getEquitiesNoUsed({ groupTypeId: groupTypeId, isUsed: 2 })
+	}
+	//添加接口
+	async function groupTypeAddEquitiesAsync(params) {
+		await props.actions.groupTypeAddEquities(params)
+		message.success('操作成功')
+		onCancel()
+		getEquitiesByGroupTypeIdAsync()
+	}
+	//修改弹窗
 	function onUpdate(data) {
 		setModalProps({
 			visible: true,
@@ -70,9 +83,11 @@ function PlatformConfig(props) {
 		setModalProps({ visible: false })
 	}
 	const { priceStandard = {} } = props
-	const { platformList } = priceStandard
+	const { platformList, platformNoUsedList } = priceStandard
 	const commonProps = {
-		setModalProps, modalProps, onAdd, platformList, groupTypeUpdateEquitiesAsync, groupTypeId, onCancel
+		setModalProps, modalProps, onAdd, platformList,
+		groupTypeUpdateEquitiesAsync, groupTypeId, onCancel,
+		getEquitiesNoUsedAsync, platformNoUsedList, groupTypeAddEquitiesAsync
 	}
 	return (
 		<div>
