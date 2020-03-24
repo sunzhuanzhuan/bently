@@ -50,10 +50,15 @@ function PlatformConfig(props) {
 	}
 	//修改
 	async function groupTypeUpdateEquitiesAsync(params) {
-		console.log("groupTypeUpdateEquitiesAsync -> params", params)
 		await props.actions.groupTypeUpdateEquities(params)
 		message.success('操作成功')
 		onCancel()
+		getEquitiesByGroupTypeIdAsync()
+	}
+	//删除
+	async function deleteEquitiesTypeByGroupTypeIdAsync(id) {
+		await props.actions.deleteEquitiesTypeByGroupTypeId({ id: id })
+		message.success('操作成功')
 		getEquitiesByGroupTypeIdAsync()
 	}
 	//查询列表
@@ -79,7 +84,11 @@ function PlatformConfig(props) {
 					<span style={{ marginLeft: 31 }}><Icon type="info-circle" theme="filled" className='warning-info' /> 注：若权益已被平台SKU配置，则不可删除。</span>
 				</div>
 				<div>
-					{platformList.map(item => <CardType onEdit={onUpdate} data={item} key={item.id} />)}
+					{platformList.map(item => <CardType
+						onEdit={onUpdate}
+						onDelete={() => deleteEquitiesTypeByGroupTypeIdAsync(item.id)}
+						data={item}
+						key={item.id} />)}
 				</div>
 			</Spin>
 

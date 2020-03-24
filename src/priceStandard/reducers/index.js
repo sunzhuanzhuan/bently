@@ -38,7 +38,22 @@ function objToListPlatform(data = {}) {
 		]
 	}
 }
-
+function objToListSku(data = {}) {
+	return {
+		...data,
+		list: [
+			{
+				name: 'SKU类型',
+				value: data.skuTypeName,
+				type: 'text'
+			}, {
+				name: '权益',
+				value: data.equitiesList,
+				type: 'tags'
+			}
+		]
+	}
+}
 //获取系统权益池权益类型及权益
 export const systemEquitiesList = handleActions({
 	[priceStandard.getSystemEquities_success]: (state, action) => {
@@ -55,7 +70,14 @@ export const systemEquities = handleActions({
 //获取媒体平台下sku权益配置
 export const skuList = handleActions({
 	[priceStandard.getEquitiesByPlatformId_success]: (state, action) => {
-		return [...action.payload.data]
+		const data = [...action.payload.data]
+		return data.filter(item => item.isBasic != 1).map(item => objToListSku(item))
+	}
+}, [])
+export const skuBaseList = handleActions({
+	[priceStandard.getEquitiesByPlatformId_success]: (state, action) => {
+		const data = [...action.payload.data]
+		return data.filter(item => item.isBasic == 1).map(item => objToListSku(item))
 	}
 }, [])
 //通过groupTypeId获取平台组权益
@@ -75,5 +97,6 @@ export default combineReducers({
 	systemEquitiesList,
 	systemEquities,
 	platformList,
-	skuList
+	skuList,
+	skuBaseList
 })
