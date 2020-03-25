@@ -23,7 +23,7 @@ export default class SimpleTables extends Component {
 
 	render() {
 		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft,
-			isShielding, platformId, ISWEiXin, isFamous } = this.props
+			isShielding, platformId, accountId, isFamous } = this.props
 		const config = {
 			pagination: false,
 			size: "middle",
@@ -190,13 +190,14 @@ export default class SimpleTables extends Component {
 		}
 		const columns = cloumsMap[columsNum];
 		const dataTimeNew = dataTime && moment(dataTime).format('YYYY-MM-DD') || ""
+		const jsId = `js-table-fold-id-${accountId}`
 		return <div className={isLeft ? "simple-tables-container-left" : "simple-tables-container-right"}>
 			{columsNum ?
 				<div>
-					<FoldBox height={143} isFold={isLeft && data.length > 4 ? true : false} foldId={'js-table-fold-id'}>
+					<FoldBox height={143} isFold={isLeft && data.length > 4 ? true : false} foldId={jsId}>
 						<Table {...config} columns={columns} dataSource={data}
 							rowKey={(record, index) => index}
-							id='js-table-fold-id'
+							id={jsId}
 						/>
 					</FoldBox>
 					<div className='bottom-two' >
