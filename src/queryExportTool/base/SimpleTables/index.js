@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, useEffect } from "react"
 import { Table, Tag } from 'antd'
 import './index.less'
 import numeral from "numeral";
@@ -8,19 +8,17 @@ import messageInfo from "../../constants/messageInfo"
 import moment from 'moment'
 import ExampleTable from './ExampleTable'
 import FoldBox from '../FoldBox'
+import Equity from './Equity'
+
+
 import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg, getPriceGoodBad } from "./unit";
 const Shielding = ({ isShielding }) => {
 	return <MarkMessage {...messageInfo['isShielding']} text={<span className='shielding-box'>
 		防
 </span>} />
 }
-function Equity() {
-	const text = <img src={require('./equity.png')} height='18px' style={{ marginTop: 4, marginLeft: 2 }} />
-	const content = <div>
-		<Tag color="blue">带话题</Tag>
-	</div>
-	return <MarkMessage text={text} content={content} />
-}
+
+
 export default class SimpleTables extends Component {
 
 	render() {
@@ -33,47 +31,54 @@ export default class SimpleTables extends Component {
 		}
 		const videoKey = platformId == 115 ? 'videoStart' : 'video'
 		//微信平台-公共列项
-		const WeChat = [{
-			title: <span>报价/阅读单价</span>,
-			dataIndex: 'skuTypeName',
-			key: "skuTypeName",
-			align: 'center',
-		}, {
-			title: <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布<MarkMessage {...messageInfo['fabu']} />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
-			dataIndex: 'price1',
-			key: 'price1',
-			align: 'center',
-			render: (text, record) => {
-				return <div className='flex-around'>
-					<div><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)}
-						type="1" productOnShelfStatus={record.productOnShelfStatus}
-						format='oneUnivalent' />
-					</div>
-					{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
-					<Equity />
-				</div>
-			}
-		}]
+		function getPriceColumn(title, messageInfoKey, isShowUnitPrice = true) {
+			return [
+				{
+					title: title,
+					dataIndex: 'skuTypeName',
+					key: "skuTypeName",
+					align: 'center',
+					render: (text, record) => {
+						return <span>	{text}
+							{record.isSpecial == 1 ? <img src={require('./isSpecial.png')} width='16px' style={{ marginLeft: 5 }} /> : null}
+						</span>
+					}
+				}, {
+					title: <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格
+						{messageInfoKey ?
+							<MarkMessage {...messageInfo[messageInfoKey]} />
+							: null}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+					dataIndex: 'price1',
+					key: 'price1',
+					align: 'center',
+					render: (text, record) => {
+						const { equitiesIdList = [] } = record
+						return <div className='flex-around'>
+							<div>
+								<ValueStyle
+									value={numeral(record.price1).format('0,0')}
+									type="1"
+									productOnShelfStatus={record.productOnShelfStatus}
+									unit="元" />
+								{isShowUnitPrice ? <span>
+									/ <ValueStyle
+										value={getUnitPrice(record.avgPrice1)}
+										type="1"
+										productOnShelfStatus={record.productOnShelfStatus}
+									/>
+								</span> : null}
+							</div>
+							{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
+							{equitiesIdList.length > 0 ? <Equity equitiesIdList={equitiesIdList} /> : null}
+						</div>
+					}
+				}
+			]
+		}
 		const cloumsMap = {
 			//微信平台-微闪投数据项
-			"fabu-wei": [...WeChat],
-			//微信平台-预约数据项
-			"fabu-yuyue": [...WeChat, {
-				title: <span>原创+发布<MarkMessage {...messageInfo['yuanchuangFabu']} /></span>,
-				dataIndex: 'price2',
-				key: 'price2',
-				align: 'center',
-				render: (text, record) => {
-					return <div className='flex-around'>
-						<div>
-							<ValueStyle value={numeral(record.price2).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice2)} format='oneUnivalent' type="1" productOnShelfStatus={record.productOnShelfStatus} />
-						</div>
-
-						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount2, record.productOnShelfStatus == 1)} */}
-
-					</div>
-				}
-			}],
+			"fabu-wei": getPriceColumn('报价/阅读单价', 'fabu'),
 			//微信平台-阅读点赞量列
 			"yuedu": [{
 				title: <span>数据<MarkMessage {...messageInfo['yuduTable']} /></span>,
@@ -101,50 +106,9 @@ export default class SimpleTables extends Component {
 				}
 			}],
 			//包含报价和价格，价格无平均数据列（新浪，视频）
-			'baojia': [{
-				title: '报价',
-				dataIndex: 'skuTypeName',
-				key: 'skuTypeName',
-				align: 'center',
-				width: "50%",
-			}, {
-				title: <span>价格	{isShielding ? <Shielding /> : null}</span>,
-				dataIndex: 'price1',
-				key: 'price1',
-				align: 'center',
-				width: "50%",
-				render: (text, record) => {
-					return <div className='flex-around'>
-						<div> <span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" /></span>
-						</div>
-
-						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
-
-					</div>
-				}
-			}],
+			'baojia': getPriceColumn('报价', '', false),
 			//包含报价和价格，价格有平均数据列（视频）
-			'baojiatwo': [{
-				title: <span>报价/播放单价<MarkMessage {...messageInfo['zhuanfa']} /></span>,
-				dataIndex: 'skuTypeName',
-				key: "skuTypeName",
-				align: 'center',
-				width: "60%",
-			}, {
-				title: <span>价格{isShielding ? <Shielding /> : null}</span>,
-				dataIndex: 'price1',
-				key: 'price1',
-				align: 'center',
-				width: "40%",
-				render: (text, record) => {
-					return <div className='flex-around'>
-						<div><span><ValueStyle value={numeral(record.price1).format('0,0')} type="1" productOnShelfStatus={record.productOnShelfStatus} unit="元" />/<ValueStyle value={getUnitPrice(record.avgPrice1)} format='univalent' type="1" productOnShelfStatus={record.productOnShelfStatus} /></span></div>
-
-						{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
-
-					</div>
-				}
-			}],
+			'baojiatwo': getPriceColumn('报价/播放单价', 'zhuanfa'),
 			//新浪直发
 			'zhifa': [{
 				title: <span>数据<MarkMessage {...messageInfo['xinlang']} /></span>,

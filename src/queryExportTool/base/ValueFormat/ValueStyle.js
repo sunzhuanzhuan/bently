@@ -11,10 +11,13 @@ const ValueStyle = ({ value: val = null, unit, type = 2, productOnShelfStatus })
 		3: "price-value-dark"
 	}
 	const hasUnit = !!(unit && val && val != 0 && val != "-")
-
+	const isEffect = type == 1 && productOnShelfStatus != 1//是否是有效数据
 	return <div className={'value-format-display-container ' + classNameMap[type]}>
-		<div className='value-format-display-value' style={{ fontSize: "13px" }}>{type == 1 && productOnShelfStatus != 1 ? "-" : val ? val : "-"}</div>
-		{hasUnit && <div className='value-format-display-unit'>{type == 1 && productOnShelfStatus != 1 ? "" : unit}</div>}
+		<div className='value-format-display-value' style={{ fontSize: "13px" }}>
+			{isEffect ? "-" :
+				val ? val : "-"
+			}</div>
+		{hasUnit && <div className='value-format-display-unit'>{isEffect ? "" : unit}</div>}
 	</div>
 }
 
