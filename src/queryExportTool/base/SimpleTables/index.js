@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Table } from 'antd'
+import { Table, Tag } from 'antd'
 import './index.less'
 import numeral from "numeral";
 import ValueStyle from "@/queryExportTool/base/ValueFormat/ValueStyle";
@@ -7,15 +7,21 @@ import MarkMessage from "../MarkMessage";
 import messageInfo from "../../constants/messageInfo"
 import moment from 'moment'
 import ExampleTable from './ExampleTable'
+import FoldBox from '../FoldBox'
 import { getUnitPrice, getQuoteNumber, getWeixinAvg, getOtherAllAvg, getPriceGoodBad } from "./unit";
 const Shielding = ({ isShielding }) => {
 	return <MarkMessage {...messageInfo['isShielding']} text={<span className='shielding-box'>
 		防
 </span>} />
-
+}
+function Equity() {
+	const text = <img src={require('./equity.png')} height='18px' style={{ marginTop: 4, marginLeft: 2 }} />
+	const content = <div>
+		<Tag color="blue">带话题</Tag>
+	</div>
+	return <MarkMessage text={text} content={content} />
 }
 export default class SimpleTables extends Component {
-	componentWillMount() { }
 
 	render() {
 		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft,
@@ -44,6 +50,7 @@ export default class SimpleTables extends Component {
 						format='oneUnivalent' />
 					</div>
 					{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
+					<Equity />
 				</div>
 			}
 		}]
@@ -222,8 +229,10 @@ export default class SimpleTables extends Component {
 		return <div className={isLeft ? "simple-tables-container-left" : "simple-tables-container-right"}>
 			{columsNum ?
 				<div>
-					<Table {...config} columns={columns} dataSource={data} rowKey={(record, index) => index} />
-
+					<FoldBox height='145px' isFold={isLeft && data.length > 4 ? true : false}>
+						<Table {...config} columns={columns} dataSource={data}
+							rowKey={(record, index) => index} />
+					</FoldBox>
 					<div className='bottom-two' >
 						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
 						</div>
@@ -238,3 +247,4 @@ export default class SimpleTables extends Component {
 		</div>
 	}
 }
+
