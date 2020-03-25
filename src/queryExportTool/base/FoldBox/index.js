@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import './index.less'
 import { Icon } from 'antd'
-function FoldBox({ isFold = true, height, children }) {
+function FoldBox({ isFold = true, height, children, foldId }) {
 	const [isShow, setIsShow] = useState(false)
+	const showStyle = { height:height + 24 }
+	function getHeight() {
+		const foldDiv = document.getElementById(foldId)
+		return foldDiv.offsetHeight;
+	}
+
 	return (
-		<div className='fold-box'>
-			{isFold ? <div className={isShow ? 'fold-container' : ''}>
-				<div className='fold-content' style={{ height: isShow ? '' : height }}>
+		<div className={`fold-box ${isShow ? 'z-index-up' : ''}`} style={ showStyle }  >
+			{isFold ? <div className='fold-container'>
+				<div className='fold-content' style={{ height: isShow ? getHeight():height }} >
 					{children}
 				</div>
 				<div onClick={() => setIsShow(!isShow)}>

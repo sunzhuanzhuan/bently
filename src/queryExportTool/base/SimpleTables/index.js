@@ -193,9 +193,11 @@ export default class SimpleTables extends Component {
 		return <div className={isLeft ? "simple-tables-container-left" : "simple-tables-container-right"}>
 			{columsNum ?
 				<div>
-					<FoldBox height='145px' isFold={isLeft && data.length > 4 ? true : false}>
+					<FoldBox height={143} isFold={isLeft && data.length > 4 ? true : false} foldId={'js-table-fold-id'}>
 						<Table {...config} columns={columns} dataSource={data}
-							rowKey={(record, index) => index} />
+							rowKey={(record, index) => index}
+							id='js-table-fold-id'
+						/>
 					</FoldBox>
 					<div className='bottom-two' >
 						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
