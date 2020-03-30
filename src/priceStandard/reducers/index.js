@@ -54,6 +54,13 @@ function objToListSku(data = {}) {
 		]
 	}
 }
+function objToSkuUpdate(data = {}) {
+	const isRequiredIds = data.equitiesList.filter(one => one.isRequired > 0).map(item => item.equitiesId)
+	return {
+		...objToListSku(data),
+		isRequiredIds: isRequiredIds
+	}
+}
 //获取系统权益池权益类型及权益
 export const systemEquitiesList = handleActions({
 	[priceStandard.getSystemEquities_success]: (state, action) => {
@@ -84,7 +91,7 @@ export const skuBaseList = handleActions({
 export const skuUpdateList = handleActions({
 	[priceStandard.getCanUpdateSkuTypeEquities_success]: (state, action) => {
 		const data = [...action.payload.data]
-		return data.filter(item => item.isBasic != 1).map(item => objToListSku(item))
+		return data.map(item => objToSkuUpdate(item))
 	}
 }, [])
 //通过groupTypeId获取平台组权益

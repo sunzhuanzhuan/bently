@@ -28,8 +28,19 @@ function SkuTypeEdit(props) {
 			props.onCancel()
 		}
 	}
-	function changeList(newList) {
-		setList([...list, ...newList])
+
+	function changeRequired(required, id, isRequiredIds = []) {
+		console.log("changeRequired -> isRequiredIds", required, isRequiredIds)
+		let item = {
+			equitiesId: id,
+			isRequired: required
+		}
+		if (isRequiredIds.includes(id) && required == 0) {
+			item.isDelete = 2
+		}
+		const nowList = [...list.filter(item => item.equitiesId != id), item]
+		console.log("changeRequired -> nowList", nowList)
+		setList(nowList)
 	}
 	return (
 		<div>
@@ -38,7 +49,12 @@ function SkuTypeEdit(props) {
 					{
 						skuUpdateList.map(one => <div key={one.id} className='sku-type-card-item'>
 							<strong>{one.skuTypeName}</strong>
-							<TypeList list={one.equitiesList} changeList={changeList} />
+							{one.equitiesList.map(item => <TypeItem
+								{...item}
+								isRequiredIds={one.isRequiredIds}
+								key={item.key}
+								changeRequired={changeRequired} />
+							)}
 						</div>)
 					}
 				</div>
@@ -50,25 +66,7 @@ function SkuTypeEdit(props) {
 		</div>
 	)
 }
-function TypeList({ list, changeList }) {
-	const [updateList, setUpdateList] = useState([])
-	const isRequiredIds = list.filter(one => one.isRequired > 0).map(item => item.equitiesId)
-	function changeRequired(required, id) {
-		console.log("changeRequired -> required, id", required, id)
-		let item = {
-			equitiesId: id,
-			isRequired: required
-		}
-		if (isRequiredIds.includes(id) && required == 0) {
-			item.isDelete = 2
-		}
-		const nowList = [...updateList.filter(item => item.equitiesId != id), item]
-		console.log("changeRequired -> nowList", nowList)
-		setUpdateList(nowList)
-		changeList(nowList)
-	}
-	return list.map(item => <TypeItem {...item} key={item.key} changeRequired={changeRequired} />)
-}
+
 function TypeItem(props) {
 	const [checkState, setCheckState] = useState(props.isRequired == 2 || props.isRequired == 1)
 	const [isRequired, setIsRequired] = useState(props.isRequired)
@@ -81,7 +79,7 @@ function TypeItem(props) {
 		const isRequired = checked ? 1 : 0
 		setIsRequired(isRequired)
 		setCheckState(checked)
-		props.changeRequired(isRequired, props.equitiesId)
+		props.changeRequired(isRequired, props.equitiesId, props.isRequiredIds)
 	}
 	return (
 		<div className='type-item'>
