@@ -8,7 +8,7 @@ function PlatformAdd(props) {
 	const [data, setData] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
 	useEffect(() => {
-		props.getEquitiesNoUsedAsync()
+		props.getUnUseEquitiesByGroupTypeIdAsync()
 		setIsLoading(false)
 	}, [])
 

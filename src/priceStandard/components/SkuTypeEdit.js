@@ -1,60 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { Checkbox, Radio, Button, Modal } from 'antd'
+import { Checkbox, Radio, Button, Modal, Spin } from 'antd'
 const { confirm } = Modal;
 import './SkuTypeEdit.less'
-const listData = [
-	{
-		"equitiesList": [
-			{
-				"equitiesId": 333,
-				"equitiesName": "sint anim incididunt",
-				"isRequired": 1
-			},
-			{
-				"equitiesId": 168,
-				"equitiesName": "minim cillum amet",
-				"isRequired": 0
-			}
-		],
-		"skuTypeId": -3881745.3354853094,
-		"platformId": 4313418.584537759,
-		"skuTypeCode": "Lorem non ut",
-		"skuTypeName": "eiusmod Excepteur deserunt",
-		"isBasic": "eu culpa labore anim elit"
-	},
-	{
-		"equitiesList": [
-			{
-				"equitiesId": 44352,
-				"equitiesName": "et quis",
-				"isRequired": 1
-			},
-			{
-				"equitiesId": 776,
-				"equitiesName": "Excepteur elit Ut",
-				"isRequired": 1
-			}
-		],
-		"skuTypeId": -62401719.11955952,
-		"platformId": 23755755.481012747,
-		"skuTypeCode": "consequat dolor",
-		"skuTypeName": "velit in mollit",
-		"isBasic": "ut est"
-	},
-]
 
 function SkuTypeEdit(props) {
 	const [list, setList] = useState([])
+	const [isLoading, setIsLoading] = useState(true)
+	const { data = {}, platformId, skuUpdateList } = props
+	const { skuTypeId } = data
+	useEffect(() => {
+		props.getCanUpdateSkuTypeEquitiesAsync(skuTypeId)
+		setIsLoading(false)
+	}, [])
 	function onOk() {
-		console.log("onOk -> list.length", list.length)
-
 		if (list.length > 0) {
 			confirm({
 				title: '您修改SKU配置，是否确认修改？',
 				onOk() {
 					props.platformSkuUpdateEquitiesAsync({
-						skuTypeId: props.skuTypeId,
-						platformId: props.platformId,
+						skuTypeId: skuTypeId,
+						platformId: platformId,
 						equitiesList: list
 					})
 				},
@@ -68,18 +33,20 @@ function SkuTypeEdit(props) {
 	}
 	return (
 		<div>
-			<div className='sku-type-edit'>
-				{
-					listData.map(one => <div key={one.id} className='sku-type-card-item'>
-						<strong>{one.skuTypeName}</strong>
-						<TypeList list={one.equitiesList} changeList={changeList} />
-					</div>)
-				}
-			</div>
-			<div style={{ textAlign: 'right', marginTop: 20 }}>
-				<Button onClick={props.onCancel}>取消</Button>
-				<Button type='primary' style={{ marginLeft: 20 }} onClick={onOk}>确认</Button>
-			</div>
+			<Spin spinning={isLoading}>
+				<div className='sku-type-edit'>
+					{
+						skuUpdateList.map(one => <div key={one.id} className='sku-type-card-item'>
+							<strong>{one.skuTypeName}</strong>
+							<TypeList list={one.equitiesList} changeList={changeList} />
+						</div>)
+					}
+				</div>
+				<div style={{ textAlign: 'right', marginTop: 20 }}>
+					<Button onClick={props.onCancel}>取消</Button>
+					<Button type='primary' style={{ marginLeft: 20 }} onClick={onOk}>确认</Button>
+				</div>
+			</Spin>
 		</div>
 	)
 }

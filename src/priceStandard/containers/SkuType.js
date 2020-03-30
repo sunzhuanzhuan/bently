@@ -17,13 +17,13 @@ function SkuType(props) {
 	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
-		getEquitiesByPlatformIdAsync()
+		getPlatformSkuTypeEquitiesAsync()
 	}, [])
 
 	//查询
-	async function getEquitiesByPlatformIdAsync() {
+	async function getPlatformSkuTypeEquitiesAsync() {
 		setIsLoading(true)
-		await props.actions.getEquitiesByPlatformId({ platformId: platformId })
+		await props.actions.getPlatformSkuTypeEquities({ platformId: platformId })
 		setIsLoading(false)
 	}
 	//修改
@@ -47,15 +47,20 @@ function SkuType(props) {
 		await props.actions.platformSkuUpdateEquities(data)
 		message.success('操作成功')
 		onCancel()
-		getEquitiesByPlatformIdAsync()
+		getPlatformSkuTypeEquitiesAsync()
 	}
 	function onCancel() {
 		setModalProps({ visible: false })
 	}
-	const { priceStandard = {} } = props
-	const { skuList = [], skuBaseList = [] } = priceStandard
+	//获取修改数据
+	async function getCanUpdateSkuTypeEquitiesAsync(skuTypeId) {
+		props.actions.getCanUpdateSkuTypeEquities({ platformId: platformId, skuTypeId: skuTypeId })
+	}
+	const { priceStandard = {}, actions } = props
+	const { skuList = [], skuBaseList = [], skuUpdateList = [] } = priceStandard
 	const commonProps = {
-		setModalProps, modalProps
+		setModalProps, modalProps,
+		getCanUpdateSkuTypeEquitiesAsync, skuUpdateList, platformId
 		, skuList, skuBaseList, platformSkuUpdateEquitiesAsync, onCancel
 	}
 

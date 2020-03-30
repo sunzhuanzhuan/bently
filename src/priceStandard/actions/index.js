@@ -43,11 +43,12 @@ export const {
 	getEquitiesByGroupTypeId,
 	getEquitiesByGroupTypeId_success
 } = createHttpAction('getEquitiesByGroupTypeId', Interface.getEquitiesByGroupTypeId)
-//通过groupTypeId获取平台组权益未使用
+//",//通过groupTypeId获取未配置的平台组权益类型及权益
+
 export const {
-	getEquitiesNoUsed,
-	getEquitiesNoUsed_success
-} = createHttpAction('getEquitiesNoUsed', Interface.getEquitiesByGroupTypeId)
+	getUnUseEquitiesByGroupTypeId,
+	getUnUseEquitiesByGroupTypeId_success
+} = createHttpAction('getUnUseEquitiesByGroupTypeId', Interface.getUnUseEquitiesByGroupTypeId)
 
 //修改媒体平台sku与权益的配置
 export const {
@@ -61,7 +62,12 @@ export const {
 } = createHttpAction('getSystemEquitiesById', Interface.getSystemEquitiesById)
 //获取媒体平台下sku权益配置
 export const {
-	getEquitiesByPlatformId,
-	getEquitiesByPlatformId_success
-} = createHttpAction('getEquitiesByPlatformId', Interface.getEquitiesByPlatformId)
+	getPlatformSkuTypeEquities,
+	getPlatformSkuTypeEquities_success
+} = createHttpAction('getPlatformSkuTypeEquities', Interface.getPlatformSkuTypeEquities)
+//获取媒体平台下sku权益配置
+export const {
+	getCanUpdateSkuTypeEquities,
+	getCanUpdateSkuTypeEquities_success
+} = createHttpAction('getCanUpdateSkuTypeEquities', Interface.getCanUpdateSkuTypeEquities)
 

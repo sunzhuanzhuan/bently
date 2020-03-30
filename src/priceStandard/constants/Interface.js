@@ -9,8 +9,10 @@ export default {
 	groupTypeUpdateEquities: baseUrl + "/groupTypeUpdateEquities",//平台组修改权益类型及权益
 	deleteEquitiesTypeByGroupTypeId: baseUrl + "/deleteEquitiesTypeByGroupTypeId",//删除平台组权益类型
 	getEquitiesByGroupTypeId: baseUrl + "/getEquitiesByGroupTypeId",//通过groupTypeId获取平台组权益
+	getUnUseEquitiesByGroupTypeId: baseUrl + "/getUnUseEquitiesByGroupTypeId",//通过groupTypeId获取未配置的平台组权益类型及权益
 
-	platformSkuUpdateEquities: baseUrl + "/platformSkuUpdateEquities",//修改媒体平台sku与权益的配置
+	platformSkuUpdateEquities: baseUrl + "/platformSkuAddOrUpdateEquities",//修改媒体平台sku与权益的配置
 	getSystemEquitiesById: baseUrl + "/getSystemEquitiesById",//查询系统权益池某项权益类型及权益
-	getEquitiesByPlatformId: baseUrl + "/getEquitiesByPlatformId",//获取媒体平台下sku权益配置
+	getPlatformSkuTypeEquities: baseUrl + "/getPlatformSkuTypeEquities",//获取媒体平台下sku权益配置
+	getCanUpdateSkuTypeEquities: baseUrl + "/getCanUpdateSkuTypeEquities"//获取媒体平台sku权益修改时的列表数据
 }

@@ -21,7 +21,7 @@ function PlatformConfig(props) {
 	}, [groupTypeId])
 	//查询
 	async function getEquitiesByGroupTypeIdAsync() {
-		await props.actions.getEquitiesByGroupTypeId({ groupTypeId: groupTypeId, isUsed: 1 })
+		await props.actions.getEquitiesByGroupTypeId({ groupTypeId: groupTypeId })
 		setIsLoading(false)
 	}
 	//添加弹窗
@@ -38,8 +38,8 @@ function PlatformConfig(props) {
 		})
 	}
 	//获取添加弹窗选中内容
-	async function getEquitiesNoUsedAsync() {
-		await props.actions.getEquitiesNoUsed({ groupTypeId: groupTypeId, isUsed: 2 })
+	async function getUnUseEquitiesByGroupTypeIdAsync() {
+		await props.actions.getUnUseEquitiesByGroupTypeId({ groupTypeId: groupTypeId })
 	}
 	//添加接口
 	async function groupTypeAddEquitiesAsync(params) {
@@ -87,7 +87,7 @@ function PlatformConfig(props) {
 	const commonProps = {
 		setModalProps, modalProps, onAdd, platformList,
 		groupTypeUpdateEquitiesAsync, groupTypeId, onCancel,
-		getEquitiesNoUsedAsync, platformNoUsedList, groupTypeAddEquitiesAsync
+		getUnUseEquitiesByGroupTypeIdAsync, platformNoUsedList, groupTypeAddEquitiesAsync
 	}
 	return (
 		<div>
