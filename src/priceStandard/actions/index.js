@@ -17,11 +17,16 @@ export const {
 	systemDeleteEquities,
 	systemDeleteEquities_success
 } = createHttpAction('systemDeleteEquities', Interface.systemDeleteEquities, { method: 'post' })
-//获取系统权益池权益类型及权益
+//系统权益池权益类型及权益
 export const {
 	getSystemEquities,
 	getSystemEquities_success
 } = createHttpAction('getSystemEquities', Interface.getSystemEquities)
+//系统权益类型排序
+export const {
+	systemEquitiesTypeSort,
+	systemEquitiesTypeSort_success
+} = createHttpAction('systemEquitiesTypeSort', Interface.systemEquitiesTypeSort, { method: 'post' })
 
 //平台组添加权益类型及权益
 export const {

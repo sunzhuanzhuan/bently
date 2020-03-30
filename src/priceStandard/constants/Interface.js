@@ -4,7 +4,7 @@ export default {
 	systemUpdateEquities: baseUrl + "/systemUpdateEquities",//系统权益池修改权益类型及权益
 	systemDeleteEquities: baseUrl + "/systemDeleteEquities",//删除系统配置的权益类型
 	getSystemEquities: baseUrl + "/getSystemEquities",//获取系统权益池权益类型及权益
-
+	systemEquitiesTypeSort: baseUrl + '/systemEquitiesTypeSort',//系统权益类型排序
 	groupTypeAddEquities: baseUrl + "/groupTypeAddEquities",//平台组添加权益类型及权益
 	groupTypeUpdateEquities: baseUrl + "/groupTypeUpdateEquities",//平台组修改权益类型及权益
 	deleteEquitiesTypeByGroupTypeId: baseUrl + "/deleteEquitiesTypeByGroupTypeId",//删除平台组权益类型

@@ -12,6 +12,7 @@ export default class EditSelectedFieldsContent extends Component {
 		this.state = {
 			data: []
 		}
+		this.handleDrag = debounce(this.handleDrag, 1000)
 	}
 	componentDidMount() {
 		this.setState({ data: this.props.systemEquitiesList })
@@ -21,6 +22,8 @@ export default class EditSelectedFieldsContent extends Component {
 		const { data } = this.state
 		data.splice(hoverIndex, 0, ...data.splice(dragIndex, 1))
 		this.setState(data)
+		const idSortList = data.map((one, index) => ({ id: one.id, sort: index }))
+		this.props.systemEquitiesTypeSortAsync({ idSortList })
 	}
 
 	render() {

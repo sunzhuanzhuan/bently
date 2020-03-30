@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 import HCPopover from '../base/HCPopover'
-
+import throttle from 'lodash/throttle'
 function TagList(props) {
 	const [list, setList] = useState(props.value)
 	const { isOperate, onChange } = props
@@ -47,7 +47,7 @@ function TagList(props) {
 							: null}
 					</div>)
 			}
-			{isOperate ? <AddOperate addList={addList} /> : null}
+			{isOperate ? <AddOperate addList={addList} list={list} /> : null}
 		</div>
 	)
 }
@@ -59,8 +59,11 @@ function AddOperate(props) {
 	const [visible, setVisible] = useState(false)
 	return <Popover
 		content={
-			<AddContentForm setVisible={setVisible}
-				addList={props.addList} />
+			<AddContentForm
+				setVisible={setVisible}
+				addList={props.addList}
+				list={props.list}
+			/>
 		}
 		overlayStyle={{ width: 300 }}
 		trigger="click"
@@ -73,6 +76,7 @@ function AddOperate(props) {
 //弹窗内容
 function AddContent(props) {
 	const { getFieldDecorator, validateFields, resetFields } = props.form;
+	//this.search = ;
 	function onOk() {
 		validateFields((err, values) => {
 			if (!err) {
@@ -86,9 +90,24 @@ function AddContent(props) {
 		props.setVisible(false)
 		resetFields()
 	}
+	//唯一性校验
+	const onlyVali = (rule, value, callback) => {
+		const nowList = props.list.map(one => one.equitiesName)
+		if (value) {
+			if (nowList.includes(value)) {
+				callback('权益名称重复');
+			} else {
+				callback();
+			}
+		} else {
+			callback();
+		}
+	}
+
 	return <Form>
 		<Form.Item label="权益名称" >
 			{getFieldDecorator('equitiesName', {
+
 				rules: [
 					{
 						required: true,
@@ -98,6 +117,7 @@ function AddContent(props) {
 						max: 20,
 						message: '请输入1-20字的权益名称!'
 					},
+					{ validator: onlyVali }
 				],
 			})(<Input placeholder='请输入1-20字的权益名称' />)}
 		</Form.Item>

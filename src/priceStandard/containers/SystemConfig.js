@@ -33,10 +33,15 @@ function SystemConfig(props) {
 		getSystemEquitiesAsync()
 		message.success('操作成功')
 	}
+	//排序操作
+	async function systemEquitiesTypeSortAsync(list) {
+		await props.actions.systemEquitiesTypeSort(list)
+		message.success('操作成功')
+	}
 	const { priceStandard = {} } = props
 	const { systemEquitiesList } = priceStandard
 	const commonProps = {
-		setModalProps, modalProps, showEdit, systemEditEquities, systemEquitiesList,
+		setModalProps, modalProps, showEdit, systemEditEquities, systemEquitiesList, systemEquitiesTypeSortAsync,
 		systemDeleteEquitiesAsync
 	}
 	//修改添加弹窗触发
