@@ -19,7 +19,7 @@ function TagList(props) {
 	function deleteList(item) {
 		let deleteList = list.filter(one => one.equitiesName != item.equitiesName)
 		if (item.id) {
-			deleteList.push({ ...item, isDeleted: 2 })
+			deleteList.push({ ...item, isDeleted: 1 })
 		}
 		setList(deleteList)
 		onChange && onChange(deleteList)
@@ -28,7 +28,7 @@ function TagList(props) {
 		<div className='tag-list'>
 			{
 				list.map((item, index) =>
-					item.isDeleted == 2 ? null : <div key={item.equitiesName} className='item'>
+					item.isDeleted == 1 ? null : <div key={item.equitiesName} className='item'>
 						{item.isRequired == 1 ? <span className='red-start'></span > : null}
 						<span>{item.equitiesName}</span>
 						{isOperate ?
