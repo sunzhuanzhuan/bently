@@ -20,6 +20,19 @@ function SystemEdit(props) {
 	function handleCancel() {
 		setModalProps({ visible: false })
 	}
+	//唯一性校验
+	const onlyVali = (rule, value, callback) => {
+		const nowList = props.systemEquitiesList.map(one => one.equitiesTypeName)
+		if (value) {
+			if (nowList.includes(value) && value != equitiesTypeName) {
+				callback('权益类型名称重复');
+			} else {
+				callback();
+			}
+		} else {
+			callback();
+		}
+	}
 	const { getFieldDecorator } = props.form
 	return (
 		<div>
@@ -27,7 +40,9 @@ function SystemEdit(props) {
 				<Form.Item label="权益类型名称" {...formLayout}>
 					{getFieldDecorator('equitiesTypeName', {
 						initialValue: equitiesTypeName,
-						rules: [{ required: true, message: '请输入权益类型名称' }],
+						rules: [
+							{ required: true, message: '请输入权益类型名称' },
+							{ validator: onlyVali }],
 					})(<Input placeholder='请输入' />)}
 				</Form.Item>
 				<Form.Item label="权益单/复选设置" {...formLayout}>
