@@ -14,5 +14,6 @@ export default {
 	platformSkuUpdateEquities: baseUrl + "/platformSkuAddOrUpdateEquities",//修改媒体平台sku与权益的配置
 	getSystemEquitiesById: baseUrl + "/getSystemEquitiesById",//查询系统权益池某项权益类型及权益
 	getPlatformSkuTypeEquities: baseUrl + "/getPlatformSkuTypeEquities",//获取媒体平台下sku权益配置
-	getCanUpdateSkuTypeEquities: baseUrl + "/getCanUpdateSkuTypeEquities"//获取媒体平台sku权益修改时的列表数据
+	getCanUpdateSkuTypeEquities: baseUrl + "/getCanUpdateSkuTypeEquities",//获取媒体平台sku权益修改时的列表数据
+	PSGetGroupPlatformList: '/operator-gateway/getGroupPlatformList'//获取媒体平台组平台信息
 }

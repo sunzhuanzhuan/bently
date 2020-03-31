@@ -97,6 +97,10 @@
 			"target": "http://yapi.ops.tst-weiboyi.com/mock/129/",
 			"changeOrigin": true
 		},
+		"api/operator-gateway/getGroupPlatformList": {
+			"target": "http://yapi.ops.tst-weiboyi.com/mock/129/",
+			"changeOrigin": true
+		},
 		"/api/operator-gateway/search/export/account/price": {
 			"target": "http://yapi.ops.tst-weiboyi.com/mock/129/",
 			"changeOrigin": true

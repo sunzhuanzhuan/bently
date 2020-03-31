@@ -75,4 +75,8 @@ export const {
 	getCanUpdateSkuTypeEquities,
 	getCanUpdateSkuTypeEquities_success
 } = createHttpAction('getCanUpdateSkuTypeEquities', Interface.getCanUpdateSkuTypeEquities)
-
+//获取媒体平台组平台信息
+export const {
+	PSGetGroupPlatformList,
+	PSGetGroupPlatformList_success
+} = createHttpAction('PSGetGroupPlatformList', Interface.PSGetGroupPlatformList)

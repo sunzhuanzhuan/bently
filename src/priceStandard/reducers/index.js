@@ -108,6 +108,12 @@ export const platformNoUsedList = handleActions({
 		return data.map(item => objToListPlatform(item))
 	}
 }, [])
+//获取媒体平台组平台信息
+export const groupPlatformList = handleActions({
+	[priceStandard.PSGetGroupPlatformList_success]: (state, action) => {
+		return [...action.payload.data]
+	}
+}, [])
 
 export default combineReducers({
 	systemEquitiesList,
@@ -116,5 +122,6 @@ export default combineReducers({
 	skuList,
 	skuUpdateList,
 	skuBaseList,
-	platformNoUsedList
+	platformNoUsedList,
+	groupPlatformList
 })
