@@ -15,5 +15,6 @@ export default {
 	getSystemEquitiesById: baseUrl + "/getSystemEquitiesById",//查询系统权益池某项权益类型及权益
 	getPlatformSkuTypeEquities: baseUrl + "/getPlatformSkuTypeEquities",//获取媒体平台下sku权益配置
 	getCanUpdateSkuTypeEquities: baseUrl + "/getCanUpdateSkuTypeEquities",//获取媒体平台sku权益修改时的列表数据
-	PSGetGroupPlatformList: '/operator-gateway/getGroupPlatformList'//获取媒体平台组平台信息
+	PSGetGroupPlatformList: '/operator-gateway/getGroupPlatformList',//获取媒体平台组平台信息
+	PSGetNewBPlatforms: '/operator-gateway/common/v1/getNewBPlatforms'//获取新b端所有平台列表
 }

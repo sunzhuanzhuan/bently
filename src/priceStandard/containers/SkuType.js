@@ -15,11 +15,12 @@ function SkuType(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
 	const [platformId, setPlatformId] = useState('9')
 	const [isLoading, setIsLoading] = useState(true)
-
+	useEffect(() => {
+		props.actions.PSGetNewBPlatforms()
+	}, [])
 	useEffect(() => {
 		getPlatformSkuTypeEquitiesAsync()
-	}, [])
-
+	}, [platformId])
 	//查询
 	async function getPlatformSkuTypeEquitiesAsync() {
 		setIsLoading(true)
@@ -57,7 +58,7 @@ function SkuType(props) {
 		props.actions.getCanUpdateSkuTypeEquities({ platformId: platformId, skuTypeId: skuTypeId })
 	}
 	const { priceStandard = {}, actions } = props
-	const { skuList = [], skuBaseList = [], skuUpdateList = [] } = priceStandard
+	const { skuList = [], skuBaseList = [], skuUpdateList = [], newBPlatformsList } = priceStandard
 	const commonProps = {
 		setModalProps, modalProps,
 		getCanUpdateSkuTypeEquitiesAsync, skuUpdateList, platformId
@@ -68,7 +69,7 @@ function SkuType(props) {
 		<div>
 			<h2>平台SKU配置</h2>
 			<Spin spinning={isLoading}>
-				<PlatformHeader />
+				<PlatformHeader setId={setPlatformId} list={newBPlatformsList} />
 				<TitleBox title={<div style={{ display: 'flex' }}>
 					基础类
 				<div style={{ marginLeft: 80, display: 'flex', fontSize: 13 }}>

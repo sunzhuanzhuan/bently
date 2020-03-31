@@ -114,7 +114,12 @@ export const groupPlatformList = handleActions({
 		return [...action.payload.data]
 	}
 }, [])
-
+//获取新b端所有平台列表
+export const newBPlatformsList = handleActions({
+	[priceStandard.PSGetNewBPlatforms_success]: (state, action) => {
+		return [...action.payload.data]
+	}
+}, [])
 export default combineReducers({
 	systemEquitiesList,
 	systemEquities,
@@ -123,5 +128,6 @@ export default combineReducers({
 	skuUpdateList,
 	skuBaseList,
 	platformNoUsedList,
-	groupPlatformList
+	groupPlatformList,
+	newBPlatformsList
 })

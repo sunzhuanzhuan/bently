@@ -80,3 +80,8 @@ export const {
 	PSGetGroupPlatformList,
 	PSGetGroupPlatformList_success
 } = createHttpAction('PSGetGroupPlatformList', Interface.PSGetGroupPlatformList)
+//获取新b端所有平台列表
+export const {
+	PSGetNewBPlatforms,
+	PSGetNewBPlatforms_success
+} = createHttpAction('PSGetNewBPlatforms', Interface.PSGetNewBPlatforms)
