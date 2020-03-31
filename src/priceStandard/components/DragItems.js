@@ -78,7 +78,7 @@ export default class DragItems extends Component {
 		return connectDragSource && connectDropTarget &&
 			connectDragSource(connectDropTarget(
 				<div>
-					<CardType data={data} onEdit={onEdit} onDelete={onDelete} />
+					<CardType data={data} onEdit={onEdit} onDelete={onDelete} reason='该权益类型下的权益，已在平台权益池中进行配置，不可删除。' />
 				</div>
 			))
 	}

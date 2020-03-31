@@ -40,7 +40,7 @@ function CardType(props) {
 							</span>
 						</Popconfirm>
 						:
-						<HCPopover content={reason}>
+						<HCPopover content={reason} overlayStyle={{ width: 310 }}>
 							<span className='disable'>
 								<Icon type="delete" /> 删除
 							</span>

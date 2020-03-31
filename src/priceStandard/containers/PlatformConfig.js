@@ -7,7 +7,7 @@ import PlatformHeader from '../base/PlatformHeader'
 import CardType from '../components/CardType'
 import PlatformAdd from '../components/PlatformAdd'
 import PlatformUpdate from '../components/PlatformUpdate'
-
+import HCPopover from '../base/HCPopover'
 const titleStyle = {
 	color: '#666',
 	fontWeight: '400'
@@ -103,7 +103,16 @@ function PlatformConfig(props) {
 						onEdit={onUpdate}
 						onDelete={() => deleteEquitiesTypeByGroupTypeIdAsync(item.id)}
 						data={item}
-						key={item.id} />)}
+						key={item.id}
+						reason={
+							<div>
+								该权益目前在以下SKU类型中配置，不可删除。
+								<div className='plat-gray-type-no-delete'>
+									{['头条原创', '次条原创'].join('；')}
+								</div>
+							</div>
+						}
+					/>)}
 				</div>
 			</Spin>
 
