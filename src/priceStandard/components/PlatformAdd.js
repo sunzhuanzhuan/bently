@@ -13,10 +13,9 @@ function PlatformAdd(props) {
 	}, [])
 
 	function onOk() {
-		props.groupTypeAddEquitiesAsync(data)
+		props.groupTypeAddOrUpdateEquitiesAsync(data)
 	}
 	function changeCheck(checked, id, equitiesTypeId) {
-		console.log("changeCheck -> checked", checked)
 		let dataNew = [...data]
 		if (checked) {
 			dataNew = [...dataNew, {

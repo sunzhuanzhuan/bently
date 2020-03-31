@@ -93,7 +93,7 @@ function AddContent(props) {
 	//唯一性校验
 	async function onlyVali(rule, value, callback) {
 		const nowList = props.list.map(one => one.equitiesName)
-		const { data } = await api.post('/operator-gateway/equities/v1/judgeDuplicationEquitiesName', {
+		const { data } = await api.get('/operator-gateway/equities/v1/judgeDuplicationEquitiesName', {
 			params: {
 				equitiesName: value
 			}

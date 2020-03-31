@@ -30,14 +30,10 @@ export const {
 
 //平台组添加权益类型及权益
 export const {
-	groupTypeAddEquities,
-	groupTypeAddEquities_success
-} = createHttpAction('groupTypeAddEquities', Interface.groupTypeAddEquities, { method: 'post' })
-//平台组修改权益类型及权益
-export const {
-	groupTypeUpdateEquities,
-	groupTypeUpdateEquities_success
-} = createHttpAction('groupTypeUpdateEquities', Interface.groupTypeUpdateEquities, { method: 'post' })
+	groupTypeAddOrUpdateEquities,
+	groupTypeAddOrUpdateEquities_success
+} = createHttpAction('groupTypeAddOrUpdateEquities', Interface.groupTypeAddOrUpdateEquities, { method: 'post' })
+
 //删除平台组权益类型
 export const {
 	deleteEquitiesTypeByGroupTypeId,

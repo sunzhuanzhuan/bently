@@ -51,7 +51,7 @@ function PlatformUpdate(props) {
 			</div>
 			<div className='mt20-ml20'>
 				<Button onClick={props.onCancel}>取消</Button>
-				<Button type='primary' onClick={() => props.groupTypeUpdateEquitiesAsync(list)}>确认</Button>
+				<Button type='primary' onClick={() => props.groupTypeAddOrUpdateEquitiesAsync(list)}>确认</Button>
 			</div>
 		</div>
 	)

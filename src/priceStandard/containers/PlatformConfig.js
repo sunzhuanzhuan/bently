@@ -45,8 +45,8 @@ function PlatformConfig(props) {
 		await props.actions.getUnUseEquitiesByGroupTypeId({ groupTypeId: groupTypeId })
 	}
 	//添加接口
-	async function groupTypeAddEquitiesAsync(params) {
-		await props.actions.groupTypeAddEquities(params)
+	async function groupTypeAddOrUpdateEquitiesAsync(params) {
+		await props.actions.groupTypeAddOrUpdateEquities(params)
 		message.success('操作成功')
 		onCancel()
 		getEquitiesByGroupTypeIdAsync()
@@ -64,24 +64,14 @@ function PlatformConfig(props) {
 			content: (props) => <PlatformUpdate data={data} {...props} />
 		})
 	}
-	//修改
-	async function groupTypeUpdateEquitiesAsync(params) {
-		await props.actions.groupTypeUpdateEquities(params)
-		message.success('操作成功')
-		onCancel()
-		getEquitiesByGroupTypeIdAsync()
-	}
+
 	//删除
 	async function deleteEquitiesTypeByGroupTypeIdAsync(id) {
 		await props.actions.deleteEquitiesTypeByGroupTypeId({ id: id })
 		message.success('操作成功')
 		getEquitiesByGroupTypeIdAsync()
 	}
-	//查询列表
-	async function getSystemEquitiesAsync() {
-		await props.actions.getSystemEquities()
-		setIsLoading(false)
-	}
+
 	function onCancel() {
 		setModalProps({ visible: false })
 	}
@@ -89,8 +79,8 @@ function PlatformConfig(props) {
 	const { platformList, platformNoUsedList, groupPlatformList } = priceStandard
 	const commonProps = {
 		setModalProps, modalProps, onAdd, platformList,
-		groupTypeUpdateEquitiesAsync, groupTypeId, onCancel,
-		getUnUseEquitiesByGroupTypeIdAsync, platformNoUsedList, groupTypeAddEquitiesAsync
+		groupTypeId, onCancel,
+		getUnUseEquitiesByGroupTypeIdAsync, platformNoUsedList, groupTypeAddOrUpdateEquitiesAsync
 	}
 	return (
 		<div>
