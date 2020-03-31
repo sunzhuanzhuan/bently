@@ -48,8 +48,7 @@ export const {
 	getEquitiesByGroupTypeId,
 	getEquitiesByGroupTypeId_success
 } = createHttpAction('getEquitiesByGroupTypeId', Interface.getEquitiesByGroupTypeId)
-//",//通过groupTypeId获取未配置的平台组权益类型及权益
-
+//通过groupTypeId获取未配置的平台组权益类型及权益
 export const {
 	getUnUseEquitiesByGroupTypeId,
 	getUnUseEquitiesByGroupTypeId_success

@@ -94,11 +94,13 @@ function AddContent(props) {
 	async function onlyVali(rule, value, callback) {
 		const nowList = props.list.map(one => one.equitiesName)
 		const { data } = await api.post('/operator-gateway/equities/v1/judgeDuplicationEquitiesName', {
-			equitiesName: value
-		})
+			params: {
+				equitiesName: value
+			}
+		}).catch(err => callback(err))
 		if (nowList.includes(value)) {
 			callback('权益名称重复');
-		} else if (data) {
+		} else if (!data) {
 			callback('权益名称重复');
 		} else {
 			callback();
