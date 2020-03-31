@@ -47,7 +47,7 @@ function TagList(props) {
 							: null}
 					</div>)
 			}
-			{isOperate ? <AddOperate addList={addList} list={list} /> : null}
+			{isOperate && list.length < 20 ? <AddOperate addList={addList} list={list} /> : null}
 		</div>
 	)
 }
