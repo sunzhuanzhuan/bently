@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 import HCPopover from '../base/HCPopover'
-import throttle from 'lodash/throttle'
+import api from '@/api'
 function TagList(props) {
 	const [list, setList] = useState(props.value)
 	const { isOperate, onChange } = props
@@ -91,19 +91,19 @@ function AddContent(props) {
 		resetFields()
 	}
 	//唯一性校验
-	const onlyVali = (rule, value, callback) => {
+	async function onlyVali(rule, value, callback) {
 		const nowList = props.list.map(one => one.equitiesName)
-		if (value) {
-			if (nowList.includes(value)) {
-				callback('权益名称重复');
-			} else {
-				callback();
-			}
+		const { data } = await api.post('/operator-gateway/equities/v1/judgeDuplicationEquitiesName', {
+			equitiesName: value
+		})
+		if (nowList.includes(value)) {
+			callback('权益名称重复');
+		} else if (data) {
+			callback('权益名称重复');
 		} else {
 			callback();
 		}
 	}
-
 	return <Form>
 		<Form.Item label="权益名称" >
 			{getFieldDecorator('equitiesName', {
