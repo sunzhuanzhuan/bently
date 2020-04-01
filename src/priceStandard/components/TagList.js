@@ -4,7 +4,7 @@ import './TagList.less'
 import HCPopover from '../base/HCPopover'
 import api from '@/api'
 function TagList(props) {
-	const [list, setList] = useState(props.value)
+	const [list, setList] = useState(props.value || [])
 	const { isOperate, onChange } = props
 	function addList(item) {
 		const newList = [...list, item]

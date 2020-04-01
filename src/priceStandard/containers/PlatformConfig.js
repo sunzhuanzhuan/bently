@@ -24,6 +24,7 @@ function PlatformConfig(props) {
 	}, [groupTypeId])
 	//查询
 	async function getEquitiesByGroupTypeIdAsync() {
+		setIsLoading(true)
 		await props.actions.getEquitiesByGroupTypeId({ groupTypeId: groupTypeId })
 		setIsLoading(false)
 	}
