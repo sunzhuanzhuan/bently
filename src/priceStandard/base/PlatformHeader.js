@@ -49,6 +49,7 @@ export function GroupHeader({ list, setId, }) {
 				onClick={() => clickPlat(item.groupTypeId)}
 			>
 				{item.platformResVOS.length > 0 ? <HCPopover
+					placement='topLeft'
 					trigger="click"
 					content={item.platformResVOS.map(one => one.platformName).join('、')}
 				>

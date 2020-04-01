@@ -32,7 +32,7 @@ function objToListPlatform(data = {}) {
 				type: 'text'
 			}, {
 				name: '权益单',
-				value: data.equitiesList.filter(item => item.isUsed == 1),
+				value: data.equitiesList,
 				type: 'tags'
 			}
 		]
