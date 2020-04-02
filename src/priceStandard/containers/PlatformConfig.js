@@ -68,7 +68,7 @@ function PlatformConfig(props) {
 
 	//删除
 	async function deleteEquitiesTypeByGroupTypeIdAsync(id) {
-		await props.actions.deleteEquitiesTypeByGroupTypeId({ equitiesTypeId: id })
+		await props.actions.deleteEquitiesTypeByGroupTypeId({ equitiesTypeId: id, groupTypeId: groupTypeId })
 		message.success('操作成功')
 		getEquitiesByGroupTypeIdAsync()
 	}

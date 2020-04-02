@@ -30,7 +30,7 @@ function SystemConfig(props) {
 	}
 	//删除操作
 	async function systemDeleteEquitiesAsync(id) {
-		await props.actions.systemDeleteEquities({ id: id })
+		await props.actions.systemDeleteEquities({ equitiesTypeId: id })
 		getSystemEquitiesAsync()
 		message.success('操作成功')
 	}

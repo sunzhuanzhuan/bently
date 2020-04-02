@@ -44,7 +44,7 @@ function PlatformAdd(props) {
 						} key={item.equitiesTypeName}>
 							<div className='checkbox-group-box' >
 								{item.equitiesList.map(one => <div key={one.key} className='checkbox-item'>
-									<Checkbox onChange={(e) => changeCheck(e.target.checked, one.id, item.equitiesTypeId)}>
+									<Checkbox onChange={(e) => changeCheck(e.target.checked, one.id, one.equitiesTypeId)}>
 										{one.equitiesName}
 									</Checkbox>
 								</div>)}

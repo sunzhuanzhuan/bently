@@ -18,7 +18,7 @@ function CardType(props) {
 	const { list = [] } = data
 	return (
 		<div className='card-type'>
-			{list.map((item, index) => <div key={item.value} className='card-item'>
+			{list.map((item, index) => <div key={JSON.stringify(item.value)} className='card-item'>
 				<div className='name'>{item.name}：</div>
 				{
 					item.type === 'tags' ?

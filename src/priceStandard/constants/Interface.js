@@ -2,7 +2,7 @@ const baseUrl = '/operator-gateway/equities/v1'
 export default {
 	systemAddEquities: baseUrl + "/systemAddEquities",//系统权益池添加权益类型及权益
 	systemUpdateEquities: baseUrl + "/systemUpdateEquities",//系统权益池修改权益类型及权益
-	systemDeleteEquities: baseUrl + "/systemDeleteEquities",//删除系统配置的权益类型
+	systemDeleteEquities: baseUrl + "/systemDeleteEquitiesType",//删除系统配置的权益类型
 	getSystemEquities: baseUrl + "/getSystemEquities",//获取系统权益池权益类型及权益
 	systemEquitiesTypeSort: baseUrl + '/systemEquitiesTypeSort',//系统权益类型排序
 
