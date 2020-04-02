@@ -28,7 +28,7 @@ export default class EditSelectedFieldsContent extends Component {
 		data.splice(hoverIndex, 0, ...data.splice(dragIndex, 1))
 		this.setState(data)
 		const idSortList = data.map((one, index) => ({ id: one.id, sort: index }))
-		this.props.systemEquitiesTypeSortAsync({ idSortList })
+		this.props.systemEquitiesTypeSortAsync(idSortList)
 	}
 
 	render() {
