@@ -32,7 +32,7 @@ function CardType(props) {
 				<span className='active' onClick={() => onEdit && onEdit(data)}>
 					<Icon type="form" /> 修改</span>
 				{showDelete ?
-					data.isUsed == 1 || skuTypeNames.length ? <HCPopover content={reason} overlayStyle={{ width: 310 }}>
+					data.isUsed == 1 ? <HCPopover content={reason} overlayStyle={{ width: 310 }}>
 						<span className='disable'>
 							<Icon type="delete" /> 删除
 					</span>

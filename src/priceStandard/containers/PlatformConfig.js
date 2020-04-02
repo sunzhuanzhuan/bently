@@ -96,7 +96,10 @@ function PlatformConfig(props) {
 					{platformList.map((item, index) => <CardType
 						onEdit={onUpdate}
 						onDelete={() => deleteEquitiesTypeByGroupTypeIdAsync(item.id)}
-						data={item}
+						data={{
+							...item,
+							isUsed: (item.skuTypeNames || []).length > 0 ? 1 : 2//占用平台名称数组有数据,则被占用即isUsed=1
+						}}
 						key={index}
 						reason={<div>
 							该权益目前在以下SKU类型中配置，不可删除。
