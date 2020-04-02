@@ -7,7 +7,7 @@ export default {
 	systemEquitiesTypeSort: baseUrl + '/systemEquitiesTypeSort',//系统权益类型排序
 
 	groupTypeAddOrUpdateEquities: baseUrl + "/groupTypeAddOrUpdateEquities",//平台组添加或修改权益类型及权益
-	deleteEquitiesTypeByGroupTypeId: baseUrl + "/deleteEquitiesTypeByGroupTypeId",//删除平台组权益类型
+	deleteEquitiesTypeByGroupTypeId: baseUrl + "/deletePlatformGroupEquitiesType",//删除平台组权益类型
 	getEquitiesByGroupTypeId: baseUrl + "/getEquitiesByGroupTypeId",//通过groupTypeId获取平台组权益
 	getUnUseEquitiesByGroupTypeId: baseUrl + "/getUnUseEquitiesByGroupTypeId",//通过groupTypeId获取未配置的平台组权益类型及权益
 

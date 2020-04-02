@@ -68,7 +68,7 @@ function PlatformConfig(props) {
 
 	//删除
 	async function deleteEquitiesTypeByGroupTypeIdAsync(id) {
-		await props.actions.deleteEquitiesTypeByGroupTypeId({ id: id })
+		await props.actions.deleteEquitiesTypeByGroupTypeId({ equitiesTypeId: id })
 		message.success('操作成功')
 		getEquitiesByGroupTypeIdAsync()
 	}
@@ -93,11 +93,11 @@ function PlatformConfig(props) {
 					<span style={{ marginLeft: 31 }}><Icon type="info-circle" theme="filled" className='warning-info' /> 注：若权益已被平台SKU配置，则不可删除。</span>
 				</div>
 				<div>
-					{platformList.map(item => <CardType
+					{platformList.map((item, index) => <CardType
 						onEdit={onUpdate}
 						onDelete={() => deleteEquitiesTypeByGroupTypeIdAsync(item.id)}
 						data={item}
-						key={item.id}
+						key={index}
 						reason={
 							<div>
 								该权益目前在以下SKU类型中配置，不可删除。

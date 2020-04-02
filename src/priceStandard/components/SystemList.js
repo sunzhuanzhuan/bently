@@ -17,7 +17,12 @@ export default class EditSelectedFieldsContent extends Component {
 	componentDidMount() {
 		this.setState({ data: this.props.systemEquitiesList })
 	}
-
+	static getDerivedStateFromProps(props, state) {
+		if (state.data !== props.systemEquitiesList) {
+			return { data: props.systemEquitiesList };
+		}
+		return null;
+	}
 	handleDrag = (dragIndex, hoverIndex) => {
 		const { data } = this.state
 		data.splice(hoverIndex, 0, ...data.splice(dragIndex, 1))
@@ -28,6 +33,7 @@ export default class EditSelectedFieldsContent extends Component {
 
 	render() {
 		const { data } = this.state
+		console.log("EditSelectedFieldsContent -> render -> data", data)
 		// 搜索筛选
 		return <div className='fields-selected-area-container'>
 			<div className='content-fields-list'>

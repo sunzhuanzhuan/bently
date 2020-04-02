@@ -14,6 +14,7 @@ function SystemConfig(props) {
 	}, [])
 	//查询列表
 	async function getSystemEquitiesAsync() {
+		setIsLoading(true)
 		await props.actions.getSystemEquities()
 		setIsLoading(false)
 	}
@@ -62,7 +63,7 @@ function SystemConfig(props) {
 					<Button type='primary' onClick={showEdit}>+ 添加权益类型</Button>
 					<span style={{ marginLeft: 31 }}><Icon type="info-circle" theme="filled" className='warning-info' /> 注：若权益已被平台SKU配置，则不可删除。</span>
 				</div>
-				<SystemList {...commonProps} key={systemEquitiesList.length} />
+				<SystemList {...commonProps} />
 			</Spin>
 			<Modal
 				footer={null}
