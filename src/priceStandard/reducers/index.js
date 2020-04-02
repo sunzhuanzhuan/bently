@@ -32,7 +32,7 @@ function objToListPlatform(data = {}) {
 				type: 'text'
 			}, {
 				name: '权益单',
-				value: data.equitiesList,
+				value: data.equitiesList.filter(item => item.isPitchOn == 1),
 				type: 'tags'
 			}
 		]
@@ -55,7 +55,7 @@ function objToListSku(data = {}) {
 	}
 }
 function objToSkuUpdate(data = {}) {
-	const isRequiredIds = data.equitiesList.filter(one => one.isRequired > 0).map(item => item.equitiesId)
+	const isRequiredIds = data.equitiesList.filter(one => one.isRequired > 0).map(item => item.id)
 	return {
 		...objToListSku(data),
 		isRequiredIds: isRequiredIds
@@ -78,6 +78,7 @@ export const systemEquities = handleActions({
 export const skuList = handleActions({
 	[priceStandard.getPlatformSkuTypeEquities_success]: (state, action) => {
 		const data = [...action.payload.data]
+		console.log("data", data)
 		return data.filter(item => item.isBasic != 1).map(item => objToListSku(item))
 	}
 }, [])

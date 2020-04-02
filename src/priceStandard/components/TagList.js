@@ -27,25 +27,29 @@ function TagList(props) {
 	return (
 		<div className='tag-list'>
 			{
-				list.map((item, index) => item.isDeleted == 1 ? null : <div key={item.equitiesName} className='item'>
-					{item.isRequired == 1 ? <span className='red-start'></span > : null}
-					<span>{item.equitiesName}</span>
-					{isOperate ?
-						(item.groupTypeNames || []).length > 0 ?
-							<HCPopover content={<div>
-								该权益已在以下平台权益池中进行配置，不可删除。
-								<div className='plat-gray-type-no-delete'>{item.groupTypeNames.join('；')}</div>
-							</div>}><Icon
-									{...iconClose}
-									style={{ color: '#BBBBBB', paddingTop: 3 }} />
-							</HCPopover>
-							: <Icon
-								{...iconClose}
-								style={{ color: '#418BF9', paddingTop: 3 }}
-								onClick={() => deleteList(item)} />
+				list.map((item, index) => <div key={item.id}>
+					{item.isDeleted == 1 ? null :
+						<div className='item'>
+							{item.isRequired == 1 ?
+								<span className='red-start'></span >
+								: null}
+							<span>{item.equitiesName}</span>
+							{isOperate ?
+								(item.groupTypeNames || []).length > 0 ?
+									<HCPopover content={<div>
+										该权益已在以下平台权益池中进行配置，不可删除。
+							<div className='plat-gray-type-no-delete'>{item.groupTypeNames.join('；')}</div>
+									</div>}><Icon
+											{...iconClose}
+											style={{ color: '#BBBBBB', paddingTop: 3 }} />
+									</HCPopover>
+									: <Icon
+										{...iconClose}
+										style={{ color: '#418BF9', paddingTop: 3 }}
+										onClick={() => deleteList(item)} />
 
-						: null}
-				</div>)
+								: null}
+						</div>}</div>)
 			}
 			{isOperate && list.length < 20 ? <AddOperate addList={addList} list={list} /> : null}
 		</div>

@@ -5,21 +5,20 @@ function PlatformUpdate(props) {
 	const [list, setList] = useState([])
 	const { data = {}, groupTypeId } = props
 	const { equitiesList = [] } = data
-	const checkedList = equitiesList.filter(one => one.isUsed == 1)
+	const checkedList = equitiesList.filter(one => one.isPitchOn == 1)
 	const checkedIds = checkedList.map(one => one.id)
 	function changeCheckbox(isCheck, item) {
 		let newItem = {
 			...item,
 			groupTypeId: groupTypeId,
-			equitiesTypeId: data.equitiesTypeId,
-			id: data.id,
-			isDelete: 1
+			equitiesId: data.id,
+			isDeleted: 2
 		}
 		if (isCheck) {
 			setList([...list, newItem])
 		} else {
-			if (checkedIds.includes(item.id)) {
-				newItem.isDelete = 2
+			if (checkedIds.includes(item.equitiesId)) {
+				newItem.isDeleted = 1
 			}
 			setList([...list, newItem])
 		}
@@ -28,8 +27,7 @@ function PlatformUpdate(props) {
 		setList(checkedList.map(one => ({
 			...one,
 			groupTypeId: groupTypeId,
-			equitiesTypeId: data.equitiesTypeId,
-			id: data.id,
+			equitiesId: data.id,
 		})))
 	}, [])
 

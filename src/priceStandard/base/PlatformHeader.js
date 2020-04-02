@@ -10,7 +10,7 @@ const groupTypeId = [
 	{ name: '其他平台', platformId: '5' },
 ]
 function PlatformHeader({ list = groupTypeId, setId, }) {
-	const [checkedPlat, setCheckedPlat] = useState('1')
+	const [checkedPlat, setCheckedPlat] = useState('9')
 	const [showMore, setShowMore] = useState(true)
 	function clickPlat(plat) {
 		setCheckedPlat(plat)

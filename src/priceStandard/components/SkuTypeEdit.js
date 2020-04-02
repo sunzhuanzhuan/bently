@@ -17,11 +17,7 @@ function SkuTypeEdit(props) {
 			confirm({
 				title: '您修改SKU配置，是否确认修改？',
 				onOk() {
-					props.platformSkuUpdateEquitiesAsync({
-						skuTypeId: skuTypeId,
-						platformId: platformId,
-						equitiesList: list
-					})
+					props.platformSkuUpdateEquitiesAsync(list)
 				},
 			});
 		} else {
@@ -30,13 +26,15 @@ function SkuTypeEdit(props) {
 	}
 
 	function changeRequired(required, id, isRequiredIds = []) {
-		console.log("changeRequired -> isRequiredIds", required, isRequiredIds)
 		let item = {
 			equitiesId: id,
-			isRequired: required
+			skuTypeId: skuTypeId,
+			platformId: platformId,
+			isRequired: required,
+			isDeleted: 2
 		}
 		if (isRequiredIds.includes(id) && required == 0) {
-			item.isDelete = 2
+			item.isDeleted = 1
 		}
 		const nowList = [...list.filter(item => item.equitiesId != id), item]
 		console.log("changeRequired -> nowList", nowList)
@@ -48,7 +46,7 @@ function SkuTypeEdit(props) {
 				<div className='sku-type-edit'>
 					{
 						skuUpdateList.map(one => <div key={one.id} className='sku-type-card-item'>
-							<strong>{one.skuTypeName}</strong>
+							<strong>{one.equitiesTypeName}</strong>
 							{one.equitiesList.map(item => <TypeItem
 								{...item}
 								isRequiredIds={one.isRequiredIds}
@@ -73,13 +71,13 @@ function TypeItem(props) {
 	function changeRadio(e) {
 		const value = e.target.value
 		setIsRequired(value)
-		props.changeRequired(value, props.equitiesId)
+		props.changeRequired(value, props.id)
 	}
 	function changeCheck(checked) {
 		const isRequired = checked ? 1 : 0
 		setIsRequired(isRequired)
 		setCheckState(checked)
-		props.changeRequired(isRequired, props.equitiesId, props.isRequiredIds)
+		props.changeRequired(isRequired, props.id, props.isRequiredIds)
 	}
 	return (
 		<div className='type-item'>

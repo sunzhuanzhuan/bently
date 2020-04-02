@@ -64,7 +64,6 @@ function SkuType(props) {
 		getCanUpdateSkuTypeEquitiesAsync, skuUpdateList, platformId
 		, skuList, skuBaseList, platformSkuUpdateEquitiesAsync, onCancel
 	}
-
 	return (
 		<div>
 			<h2>平台SKU配置</h2>
@@ -77,13 +76,13 @@ function SkuType(props) {
 					注：带<span className='red-start'></span>为博主必选项
 				</div>
 				</div>} />
-				{skuList.map(item => <CardType key={item.skuTypeId}
+				{skuBaseList.map((item, index) => <CardType key={index}
 					onEdit={() => onEdit(item)}
 					showDelete={false}
 					data={item} />)}
 
 				<TitleBox title='其他类' />
-				{skuBaseList.map(item => <CardType key={item.skuTypeId}
+				{skuList.map((item, index) => <CardType key={index}
 					onEdit={() => onEdit(item)}
 					showDelete={false}
 					data={item} />)}
