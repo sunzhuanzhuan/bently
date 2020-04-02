@@ -15,7 +15,7 @@ function CardType(props) {
 		onDelete,
 		deleteText = <div>确定删除权益类型吗？<br /><br />删除后此类型下权益都将删除</div>
 	} = props
-	const { list = [] } = data
+	const { list = [], skuTypeNames = [] } = data
 	return (
 		<div className='card-type'>
 			{list.map((item, index) => <div key={JSON.stringify(item.value)} className='card-item'>
@@ -32,7 +32,7 @@ function CardType(props) {
 				<span className='active' onClick={() => onEdit && onEdit(data)}>
 					<Icon type="form" /> 修改</span>
 				{showDelete ?
-					data.isUsed == 1 ? <HCPopover content={reason} overlayStyle={{ width: 310 }}>
+					data.isUsed == 1 || skuTypeNames.length ? <HCPopover content={reason} overlayStyle={{ width: 310 }}>
 						<span className='disable'>
 							<Icon type="delete" /> 删除
 					</span>

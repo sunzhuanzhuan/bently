@@ -98,13 +98,12 @@ function PlatformConfig(props) {
 						onDelete={() => deleteEquitiesTypeByGroupTypeIdAsync(item.id)}
 						data={item}
 						key={index}
-						reason={
-							<div>
-								该权益目前在以下SKU类型中配置，不可删除。
+						reason={<div>
+							该权益目前在以下SKU类型中配置，不可删除。
 								<div className='plat-gray-type-no-delete'>
-									{['头条原创', '次条原创'].join('；')}
-								</div>
+								{(item.skuTypeNames || []).join('；')}
 							</div>
+						</div>
 						}
 					/>)}
 				</div>
