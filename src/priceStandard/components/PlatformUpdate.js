@@ -16,6 +16,7 @@ function PlatformUpdate(props) {
 		}
 		if (checkedIds.includes(item.id)) {
 			newItem.isDeleted = 1
+			delete newItem.isPitchOn
 		}
 		const newList = list.filter(one => one.equitiesId != item.id)
 		setList([...newList, newItem])
