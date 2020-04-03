@@ -14,14 +14,11 @@ function PlatformUpdate(props) {
 			equitiesId: item.id,
 			isDeleted: 2
 		}
-		if (isCheck) {
-			setList([...list, newItem])
-		} else {
-			if (checkedIds.includes(item.equitiesId)) {
-				newItem.isDeleted = 1
-			}
-			setList([...list, newItem])
+		if (checkedIds.includes(item.id)) {
+			newItem.isDeleted = 1
 		}
+		const newList = list.filter(one => one.equitiesId != item.id)
+		setList([...newList, newItem])
 	}
 	useEffect(() => {
 		setList(checkedList.map(one => ({
