@@ -50,7 +50,7 @@ function SkuTypeEdit(props) {
 							{one.equitiesList.map(item => <TypeItem
 								{...item}
 								isRequiredIds={one.isRequiredIds}
-								key={item.key}
+								key={JSON.stringify(`${one.isRequiredIds}_${item.id}`)}
 								changeRequired={changeRequired} />
 							)}
 						</div>)
