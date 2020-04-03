@@ -33,12 +33,17 @@ function SkuTypeEdit(props) {
 			isRequired: required,
 			isDeleted: 2
 		}
+		let isUpdate = true
 		if (isRequiredIds.includes(id) && required == 0) {
 			item.isDeleted = 1
 		}
-		const nowList = [...list.filter(item => item.equitiesId != id), item]
-		console.log("changeRequired -> nowList", nowList)
-		setList(nowList)
+		//如果取消勾选的是本次新增的则不更新list
+		if (!isRequiredIds.includes(id) && required == 0) {
+			isUpdate = false
+		}
+		//过去上次操作过的的id的item
+		const nowList = list.filter(one => one.equitiesId != id)
+		setList(isUpdate ? [...nowList, item] : [...nowList])
 	}
 	return (
 		<div>
