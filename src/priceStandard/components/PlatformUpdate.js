@@ -11,7 +11,7 @@ function PlatformUpdate(props) {
 		let newItem = {
 			...item,
 			groupTypeId: groupTypeId,
-			equitiesId: data.id,
+			equitiesId: item.id,
 			isDeleted: 2
 		}
 		if (isCheck) {
@@ -27,7 +27,7 @@ function PlatformUpdate(props) {
 		setList(checkedList.map(one => ({
 			...one,
 			groupTypeId: groupTypeId,
-			equitiesId: data.id,
+			equitiesId: one.id,
 		})))
 	}, [])
 
