@@ -194,7 +194,7 @@ export default class SimpleTables extends Component {
 		return <div className={isLeft ? "simple-tables-container-left" : "simple-tables-container-right"}>
 			{columsNum ?
 				<div>
-					<FoldBox height={143} isFold={isLeft && data.length > 4 ? true : false} foldId={jsId}>
+					<FoldBox height={137} isFold={isLeft && data.length > 4 ? true : false} foldId={jsId}>
 						<Table {...config} columns={columns} dataSource={data}
 							rowKey={(record, index) => index}
 							id={jsId}
