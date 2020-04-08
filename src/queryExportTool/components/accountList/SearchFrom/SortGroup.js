@@ -1,11 +1,8 @@
 import React, { Component } from "react"
-import { } from 'antd'
 import SortBtn from "@/queryExportTool/components/accountList/SearchFrom/SortBtn";
-import { Icon } from "antd";
-import { Cascader } from "antd";
 import SortCascader from "./SortCascader";
 import { parseUrlQuery } from '@/util/parseUrl'
-
+import { handleMoreList } from '../../../constants/sort'
 export default class SortGroup extends Component {
 	dataToParams = (key, sort) => {
 		const { onSort } = this.props
@@ -60,7 +57,7 @@ export default class SortGroup extends Component {
 		return Object.values(type).filter(one => Object.keys(sort)[0] == one.value).length > 0
 	}
 	render() {
-		const { sorter = {} } = this.props
+		const { sorter = {}, sortMore } = this.props
 		const { buttons = [], more = [], priceGoodBadList = [] } = sorter
 		const { sort, } = this.state
 		const propsSortCascader = {
@@ -69,13 +66,16 @@ export default class SortGroup extends Component {
 			setSort: this.setSort,
 			dataToParams: this.dataToParams,
 		}
-
+		//平台独有价格项
+		const groupSort = more.length > 0 ? handleMoreList(sortMore) : []
+		const allMoreSort = [...more, ...groupSort]
 		return <div className='sorter-container'>
 			{buttons.map(({ field, title, tip }) =>
 				<SortBtn key={field} tip={tip} field={field} title={title} sort={sort[field]} onChange={this.handleChange} />)}
 			{/* <SortCascader list={priceGoodBadList} seletedText='价格优劣' {...propsSortCascader} isHighlight={this.isHighlight(sort, priceGoodBadList)} /> */}
-			<SortCascader list={more} seletedText='更多排序' {...propsSortCascader}
-				isHighlight={this.isHighlight(sort, more)} />
+			<SortCascader list={allMoreSort}
+				seletedText='更多排序' {...propsSortCascader}
+				isHighlight={this.isHighlight(sort, allMoreSort)} />
 		</div>
 	}
 }

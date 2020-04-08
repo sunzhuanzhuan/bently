@@ -1,9 +1,5 @@
 import React, { Component } from "react"
-import { } from 'antd'
-import SortBtn from "@/queryExportTool/components/accountList/SearchFrom/SortBtn";
-import { Icon } from "antd";
-import { Cascader } from "antd";
-import { parseUrlQuery } from '@/util/parseUrl'
+import { Cascader, Icon } from "antd";
 
 export default class SortCascader extends Component {
 

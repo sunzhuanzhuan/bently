@@ -357,7 +357,8 @@ class AccountSearch extends React.Component {
 			</div> : null}
 			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}
 			></SelectedItem>
-			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType} />
+			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType}
+				sortMore={grouped_sku_types[platformType]} />
 		</div >
 	}
 }
