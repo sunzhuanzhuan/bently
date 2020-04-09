@@ -3,16 +3,16 @@ import './index.less'
 import { Icon } from 'antd'
 function FoldBox({ isFold = true, height, children, foldId }) {
 	const [isShow, setIsShow] = useState(false)
-	const showStyle = { height:height + 24 }
+	const showStyle = { height: height + 24 }
 	function getHeight() {
 		const foldDiv = document.getElementById(foldId)
 		return foldDiv.offsetHeight;
 	}
 
 	return (
-		<div className={`fold-box ${isShow ? 'z-index-up' : ''}`} style={ showStyle }  >
-			{isFold ? <div className='fold-container'>
-				<div className='fold-content' style={{ height: isShow ? getHeight():height }} >
+		isFold ? <div className={`fold-box ${isShow ? 'z-index-up' : ''}`} style={showStyle} >
+			<div className='fold-container'>
+				<div className='fold-content' style={{ height: isShow ? getHeight() : height }} >
 					{children}
 				</div>
 				<div onClick={() => setIsShow(!isShow)}>
@@ -20,8 +20,8 @@ function FoldBox({ isFold = true, height, children, foldId }) {
 						: <div className='look-more'> 查看更多 <Icon type="down" />
 						</div>}
 				</div>
-			</div> : children}
-		</div>
+			</div>
+		</div > : children
 	)
 }
 
