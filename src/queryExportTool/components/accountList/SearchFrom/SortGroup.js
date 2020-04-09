@@ -58,7 +58,7 @@ export default class SortGroup extends Component {
 	}
 	render() {
 		const { sorter = {}, sortMore } = this.props
-		const { buttons = [], more = [], priceGoodBadList = [] } = sorter
+		const { buttons = [], more = [], priceGoodBadList = [], noAddSkuPrice } = sorter
 		const { sort, } = this.state
 		const propsSortCascader = {
 			sorter: sorter,
@@ -67,7 +67,7 @@ export default class SortGroup extends Component {
 			dataToParams: this.dataToParams,
 		}
 		//平台独有价格项
-		const groupSort = more.length > 0 ? handleMoreList(sortMore) : []
+		const groupSort = noAddSkuPrice ? [] : handleMoreList(sortMore)
 		const allMoreSort = [...more, ...groupSort]
 		return <div className='sorter-container'>
 			{buttons.map(({ field, title, tip }) =>

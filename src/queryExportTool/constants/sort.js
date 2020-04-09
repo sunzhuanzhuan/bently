@@ -295,24 +295,29 @@ export const groupBySorter = {
 					field: 'followerCount',
 					title: '粉丝数'
 				},
-				{
-					field: 'createdAt',
-					title: '入库时间'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
-				}
 			],
-			priceGoodBadList: [
+			noAddSkuPrice: true,
+			more: [
 				{
-					value: 'defaultQuotePriceDiscount',
+					value: 'createdAt',
+					label: '入库时间',
+					children: [{
+						value: 'desc',
+						label: '由近及远'
+					}, {
+						value: 'asc',
+						label: '由远及近'
+					}]
+				},
+				{
+					value: 'skuOpenQuotePrice',
 					label: '参考报价',
 					children: [{
-						value: 'asc',
-						label: '优势从大到小'
-					}, {
 						value: 'desc',
-						label: '优势从小到大'
+						label: '从高到低'
+					}, {
+						value: 'asc',
+						label: '从低到高'
 					}]
 				}
 			],
@@ -355,24 +360,29 @@ export const groupBySorter = {
 					field: 'followerCount',
 					title: '粉丝数'
 				},
-				{
-					field: 'createdAt',
-					title: '入库时间'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
-				}
 			],
-			priceGoodBadList: [
+			noAddSkuPrice: true,
+			more: [
 				{
-					value: 'defaultQuotePriceDiscount',
+					value: 'createdAt',
+					label: '入库时间',
+					children: [{
+						value: 'desc',
+						label: '由近及远'
+					}, {
+						value: 'asc',
+						label: '由远及近'
+					}]
+				},
+				{
+					value: 'skuOpenQuotePrice',
 					label: '参考报价',
 					children: [{
-						value: 'asc',
-						label: '优势从大到小'
-					}, {
 						value: 'desc',
-						label: '优势从小到大'
+						label: '从高到低'
+					}, {
+						value: 'asc',
+						label: '从低到高'
 					}]
 				}
 			],
