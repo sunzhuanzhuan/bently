@@ -126,9 +126,9 @@ export const groupBySorter = {
 					'title': '原创',
 					'name': 'canOriginWrite'
 				},
-				isLowQuality
+				isLowQuality,
 				//价格优劣
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 			],
 		},
 		sorter: {
@@ -193,9 +193,9 @@ export const groupBySorter = {
 					'title': '可带@/话题/链接',
 					'name': 'isSupportTopicAndLink'
 				},
-				isLowQuality
+				isLowQuality,
 				//价格优劣
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 				// {
 				// 	'title': '原创',
 				// 	'name': 'canOrigin'
@@ -261,9 +261,9 @@ export const groupBySorter = {
 					'title': '原创',
 					'name': 'canOriginWrite'
 				},
-				isLowQuality
+				isLowQuality,
 				//价格优劣
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 			],
 		},
 		sorter: {
@@ -320,9 +320,9 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
-				isLowQuality
+				isLowQuality,
 				//价格优劣
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 			],
 		},
 		sorter: {
@@ -379,9 +379,9 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
-				isLowQuality
+				isLowQuality,
 				//价格优劣
-				//defaultQuotePriceDiscount
+				defaultQuotePriceDiscount
 
 			],
 		},
