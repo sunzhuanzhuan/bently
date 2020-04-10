@@ -71,16 +71,16 @@ function SkuTypeEdit(props) {
 }
 
 function TypeItem(props) {
-	const [checkState, setCheckState] = useState(props.isRequired == 2 || props.isRequired == 1)
-	const [isRequired, setIsRequired] = useState(props.isRequired)
-	function changeRadio(e) {
-		const value = e.target.value
-		setIsRequired(value)
-		props.changeRequired(value, props.id)
-	}
+	const [checkState, setCheckState] = useState(props.isRequired == 2)//props.isRequired == 2
+	//const [isRequired, setIsRequired] = useState(props.isRequired)
+	// function changeRadio(e) {
+	// 	const value = e.target.value
+	// 	setIsRequired(value)
+	// 	props.changeRequired(value, props.id)
+	// }
 	function changeCheck(checked) {
-		const isRequired = checked ? 1 : 0
-		setIsRequired(isRequired)
+		const isRequired = checked ? 2 : 0//0
+		//setIsRequired(isRequired)
 		setCheckState(checked)
 		props.changeRequired(isRequired, props.id, props.isRequiredIds)
 	}
@@ -88,12 +88,12 @@ function TypeItem(props) {
 		<div className='type-item'>
 			<Checkbox defaultChecked={checkState} onChange={(e) => changeCheck(e.target.checked)}>{props.equitiesName}
 			</Checkbox>
-			{checkState ? <div className='radio-item'>
+			{/* {checkState ? <div className='radio-item'>
 				<Radio.Group onChange={changeRadio} value={isRequired}>
 					<Radio value={1}>必选</Radio>
 					<Radio value={2}>非必选</Radio>
 				</Radio.Group>
-			</div> : null}
+			</div> : null} */}
 		</div>
 	)
 }
