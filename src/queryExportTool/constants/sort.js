@@ -65,7 +65,7 @@ const shelfType = {
 	}
 }
 const defaultQuotePriceDiscount = {
-	'title': <span>价格优劣<MarkMessage {...messageInfo['defaultQuotePriceDiscount']} /></span>,
+	'title': <span>优势报价<MarkMessage {...messageInfo['defaultQuotePriceDiscount']} /></span>,
 	'name': 'defaultQuotePriceDiscount',
 }
 function handleMoreList(list) {
