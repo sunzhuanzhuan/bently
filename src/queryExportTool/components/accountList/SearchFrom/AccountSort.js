@@ -80,17 +80,17 @@ export default class AccountSort extends Component {
 		const { defaultSort } = this.state
 		return <div className='account-header-sort-container'>
 			<section className='sort-base-items'>
-				{drop.map(item =>
-					<SortDrop ref={node => this.child['drop_' + item.field] = node} key={item.field} {...item} onSelect={this.selectDrop} />)}
+				筛选：{drop.map(item =>
+				<SortDrop ref={node => this.child['drop_' + item.field] = node} key={item.field} {...item} onSelect={this.selectDrop} />)}
 				{/*<SortDrop title='执行类型' prefix='comply' field='is_famous' onSelect={this.selectDrop} />*/}
 				{check.map(({ title, name }) =>
 					<Checkbox checked={this.state[name] === 1} key={name} name={name} onChange={this.checked}>{title}</Checkbox>)}
 			</section>
-			<Divider type="vertical" />
 			<section className='sort-diff-items'>
-				<a onClick={this.checkDefult}
+				排序：	<a onClick={this.checkDefult}
 					style={{
 						minWidth: 28,
+						marginLeft: 10,
 						color: defaultSort == 2 ? '#666' : ''
 					}}>
 					默认

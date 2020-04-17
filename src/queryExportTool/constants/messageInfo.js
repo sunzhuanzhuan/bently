@@ -128,16 +128,16 @@ export default {
 		title: '',
 		content: <div>
 			<div><b>&nbsp;&nbsp;规则说明：</b></div>
-			<div>{`【参考价】<【渠道价/刊例价】则标记【优势（例：7折）】`}</div>
-			<div>{`【参考价】>【渠道价/刊例价】则标记【劣势（例：高10%）】`}</div>
-			<div>【参考价】=【渠道价/刊例价】则标记【平价】</div>
+			<div>{`【参考价】<【刊例价】则标记【优势（例：7折）】`}</div>
+			<div>{`【参考价】>【刊例价】则标记【劣势（例：高10%）】`}</div>
+			<div>【参考价】=【刊例价】则标记【平价】</div>
 			{nounDescription}
 		</div>
 	},
 	defaultQuotePriceDiscount: {
 		title: '',
 		content: <div>
-			<div>【参考价】＜【渠道价/刊例价】则为优势报价</div>
+			<div>【参考价】＜【刊例价】则为优势报价</div>
 			{nounDescription}
 		</div>
 	},
