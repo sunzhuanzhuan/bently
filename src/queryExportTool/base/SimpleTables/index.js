@@ -22,7 +22,7 @@ const Shielding = ({ isShielding }) => {
 export default class SimpleTables extends Component {
 
 	render() {
-		const { data = [], columsNum = ['fabu'], IsWei, dataTime, tableFooterText, isLeft,
+		const { data = [], columsNum = ['fabu'], ISWEiXin, dataTime, tableFooterText, isLeft,
 			isShielding, platformId, accountId, isFamous } = this.props
 		const config = {
 			pagination: false,
@@ -69,7 +69,7 @@ export default class SimpleTables extends Component {
 									/>
 								</span> : null}
 							</div>
-							{/* {getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)} */}
+							{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
 							{equitiesIdList.length > 0 ? <Equity equitiesIdList={equitiesIdList} /> : null}
 						</div>
 					}
@@ -203,10 +203,10 @@ export default class SimpleTables extends Component {
 					<div className='bottom-two' >
 						<div className="time-table-footer">{tableFooterText ? `${tableFooterText}：${dataTimeNew}` : null}
 						</div>
-						{/* {data.length > 0 && isFamous ? < ExampleTable
+						{data.length > 0 && isFamous ? < ExampleTable
 							dataTimeNew={dataTimeNew}
 							data={data} isFamous={isFamous}
-							ISWEiXin={ISWEiXin} /> : null} */}
+							ISWEiXin={ISWEiXin} /> : null}
 					</div>
 				</div> :
 				<div className='no-columns-text'>暂无数据</div>}
