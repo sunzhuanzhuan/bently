@@ -24,21 +24,21 @@ class DetailMessage extends Component {
 			key: 'platform',
 		}, {
 			title: '所属公司：',
-			dataIndex: 'company_name',
-			key: 'company_name',
-			render: (text, record) => record.company_name ? record.company_name : "无"
+			dataIndex: 'companyName',
+			key: 'companyName',
+			render: (text, record) => (text ? text : "无")
 		}, {
 			title: '报价单模版：',
-			dataIndex: 'template_name',
-			key: 'template_name',
+			dataIndex: 'templateName',
+			key: 'templateName',
 		}, {
 			title: '创建时间：',
-			dataIndex: 'created_at',
-			key: 'created_at',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
 		}, {
 			title: '导出次数：',
-			dataIndex: 'exported_times',
-			key: 'exported_times',
+			dataIndex: 'exportedTimes',
+			key: 'exportedTimes',
 		}, {
 			title: '创建人：',
 			dataIndex: 'creator_name',

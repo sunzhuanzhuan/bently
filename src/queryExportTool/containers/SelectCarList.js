@@ -140,7 +140,7 @@ class SelectCarList extends Component {
 	//批量删除
 	remove = () => {
 		const { cheackedKey, selectedRowKeys } = this.state
-		this.props.actions.removeFromCart({ staging_ids: [...selectedRowKeys] }).then((res) => {
+		this.props.actions.removeFromCart({ stagingIds: [...selectedRowKeys] }).then((res) => {
 			this.setState({
 				selectedRowKeys: []
 			})
@@ -181,7 +181,7 @@ class SelectCarList extends Component {
 	saveQuota = (value) => {
 		this.props.actions.saveQuotation({ ...value }).then((res) => {
 			if (res.data > 0) {
-				this.props.actions.quotationExport({ quotation_id: res.data })
+				this.props.actions.quotationExport({ quotationId: res.data })
 			}
 			this.handleCancel()
 			this.setTypeShow(4, true)
@@ -238,7 +238,7 @@ class SelectCarList extends Component {
 				getCompanyList={getCompanyList}
 				getStencilList={getStencilList}
 				createTemplateData={createTemplateData}
-				group_type_name={selectCarList && selectCarList.group_type_name} />,
+				groupTypeName={selectCarList && selectCarList.groupTypeName} />,
 			2: <ApplyForExport codeCheck={codeCheck} applyCodeOk={this.applyCodeOk}
 				handleCancel={this.handleCancel} messageInfo={messageInfo} />,
 			3: <CreateTemplate show={visible} close={this.handleClose} type={"create"} onCreate={this.onCreateTemple} />,

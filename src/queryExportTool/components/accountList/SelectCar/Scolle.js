@@ -22,7 +22,7 @@ class Scolle extends Component {
 			bigLoading: true,
 			showWarn: false
 		})
-		this.props.actions.getAccountListFromCart({ group_type: cheackedKey }).then((res) => {
+		this.props.actions.getAccountListFromCart({ groupType: cheackedKey }).then((res) => {
 			const { accounts = [] } = res.data
 			this.groupNumber = accounts && accounts.length
 			this.setState({
@@ -47,7 +47,7 @@ class Scolle extends Component {
 			});
 			return;
 		}
-		this.props.actions.addCarSynchronizeSearch({ group_type: cheackedKey, start: selectCartData.data.length, page_size: 10 }).then((res) => {
+		this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: selectCartData.data.length, page_size: 10 }).then((res) => {
 			this.setState({
 				loading: false,
 
@@ -55,19 +55,19 @@ class Scolle extends Component {
 		});
 		this.groupNumber = this.groupNumber + 10
 	}
-	deleteScolle = (ids, group_type) => {
+	deleteScolle = (ids, groupType) => {
 		const { cheackedKey } = this.props
 		this.groupNumber = this.groupNumber - 1
-		this.props.actions.removeFromCart({ staging_ids: [ids] }).then((res) => {
+		this.props.actions.removeFromCart({ stagingIds: [ids] }).then((res) => {
 			const { selectCartData } = this.props
-			this.props.actions.changeTypeCountSelect({ group_type })
+			this.props.actions.changeTypeCountSelect({ groupType })
 			this.setState({
 				loading: true,
 				showWarn: false
 			});
 			this.props.actions.removeSelectExactQuery([ids])
 			if (selectCartData.data.length < 10) {
-				if ((selectCartData.data.length + 1) == selectCartData.tabList[group_type ? group_type : 'total']) {
+				if ((selectCartData.data.length + 1) == selectCartData.tabList[groupType ? groupType : 'total']) {
 					this.setState({
 						hasMore: false,
 						loading: false,
@@ -75,7 +75,7 @@ class Scolle extends Component {
 					return;
 				}
 
-				this.props.actions.addCarSynchronizeSearch({ group_type: cheackedKey, start: this.groupNumber, page_size: 10 }).then((res) => {
+				this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: this.groupNumber, page_size: 10 }).then((res) => {
 					this.setState({
 						loading: false,
 						showWarn: false

@@ -1,31 +1,33 @@
-const baseUrl = 'operator-gateway/search/export/'//java重构接口
+const baseUrl = 'operator-gateway/search/export'//java重构接口
+const branchUrl = 'operator-gateway/search/export/branch'
+const quotationUrl = "operator-gateway/export/account/quotation"
 export default {
 	//获取公司列表
 	getCompanyList: "/export/account/getCompanyList",
 	//账号列表
 	//getAccountList: '/export/account/search',
 	//其他平台搜索
-	otherPlatformSearch: baseUrl + 'otherPlatformSearch',
+	otherPlatformSearch: baseUrl + '/otherPlatformSearch',
 	//小红书
-	smallRedBookSearch: baseUrl + 'smallRedBookSearch',
+	smallRedBookSearch: baseUrl + '/smallRedBookSearch',
 	//视频/直播
-	videoSearch: baseUrl + 'videoSearch',
+	videoSearch: baseUrl + '/videoSearch',
 	//新浪
-	xinaSearch: baseUrl + 'xinaSearch',
+	xinaSearch: baseUrl + '/xinaSearch',
 	//微信
-	weixinSearch: baseUrl + 'weiXinSearch',
+	weixinSearch: baseUrl + '/weiXinSearch',
 	//批量查找账号列表
-	getBatchSearch: baseUrl + 'batchSearch',
+	getBatchSearch: baseUrl + '/batchSearch',
 
 	//报价单详情账号列表
-	getQuotationAccountSearch: baseUrl + "quotationList",
+	getQuotationAccountSearch: baseUrl + '/quotationList',
 	//获取sku价格及平均价格
-	getAccountPrice: baseUrl + 'account/price',
+	getAccountPrice: baseUrl + '/account/price',
 	//获取购物车列表
-	getCartSearchAll: baseUrl + 'cartList',
+	getCartSearchAll: baseUrl + '/cartList',
 
 	//批量查号下载
-	batchAccountExport: "export/account/batchAccountExport",
+	batchAccountExport: branchUrl + "/batchAccountExport",
 	//账号详情
 	getBaseInfo: "/export/account/getBaseInfo",
 	//账号详情---账号评价
@@ -33,29 +35,29 @@ export default {
 	//账号详情---最近应约价
 	getRecentReservationOrderPriceList: "/export/account/getRecentReservationOrderPriceList",
 	//获取购物车
-	getAccountListFromCart: '/export/account/getAccountListFromCart',
+	getAccountListFromCart: branchUrl + '/getAccountListFromCart',
 	//报价单列表
 	getQuotationList: "/export/account/getQuotationList",
 	//删除购物车数据
-	removeFromCart: "/export/account/removeFromCart",
+	removeFromCart: branchUrl + "/removeFromCart",
 	//添加购物车数据
-	addToCart: "/export/account/addToCart",
+	addToCart: branchUrl + "/addToCart",
 	//全部清空
-	clearCart: "/export/account/clearCart",
+	clearCart: branchUrl + "/clearCart",
 	//下载中心列表
-	getDownloadList: '/export/account/getQuotationDownloadList',
+	getDownloadList: branchUrl + '/getQuotationDownloadList',
 	//下载
-	download: "/export/account/download",
+	download: branchUrl + "/download",
 	//重新下载
 	reDownload: "/export/account/reDownload",
 
 	//报价单模版
-	getStencilList: "/export/account/getTemplateList",
+	getStencilList: quotationUrl + "templateList",
 	//报价单详情
-	getQuotationDetail: "/export/account/getQuotationDetail",
+	getQuotationDetail: quotationUrl + "/detail",
 
 	//添加报价单
-	saveQuotation: "/export/account/saveQuotation",
+	saveQuotation: branchUrl + "/saveQuotation",
 	//报价单详情批量删除
 	deleteFromCart: "/export/account/deleteFromQuotation",
 	//报价单导出全部账号

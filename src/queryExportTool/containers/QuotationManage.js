@@ -132,7 +132,7 @@ class QuotationManage extends Component {
 			exportUrl,
 			exportId
 		})
-		this.props.actions.preExportNumCheck({ type: "quotation", quotation_id: exportId }).then((res) => {
+		this.props.actions.preExportNumCheck({ type: "quotation", quotationId: exportId }).then((res) => {
 
 			if (res.data.check_result) {
 				const { account_number, up_level, parent_name } = res.data

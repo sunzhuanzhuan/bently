@@ -23,8 +23,8 @@ class EditQuotation extends Component {
 		this.props.form.validateFields((err, values) => {
 			console.log("TCL: EditQuotation -> saveAndExport -> values", values)
 			if (!err) {
-				values.template_id = values.template_id.key
-				values.company_id = values.company_id.key
+				values.templateId = values.templateId.key
+				values.companyId = values.companyId.key
 				this.props.saveQuota(values)
 
 			}
@@ -66,7 +66,7 @@ class EditQuotation extends Component {
 	}
 	setTempleName = (company_id = 0, company_name) => {
 		this.props.form.setFieldsValue({
-			company_id: { key: company_id, label: company_name ? company_name : "不限" }
+			companyId: { key: company_id, label: company_name ? company_name : "不限" }
 		})
 	}
 	ruleUrlAddTrack = () => {
@@ -74,7 +74,7 @@ class EditQuotation extends Component {
 	}
 	1234567890
 	render() {
-		const { getCompanyList, getStencilList, form, createTemplateData = {}, group_type_name } = this.props
+		const { getCompanyList, getStencilList, form, createTemplateData = {}, groupTypeName } = this.props
 		const { company_id, name, templateId } = createTemplateData
 		const { getFieldDecorator, getFieldError } = form
 		const formItemLayout = {
@@ -88,13 +88,13 @@ class EditQuotation extends Component {
 		return (
 			<Form className="export-all-accout">
 				<AuthVisbleIsBP isComponent={null} noComponent={[
-					<Row style={{ height: 60 }} key='template_id'>
+					<Row style={{ height: 60 }} key='templateId'>
 						<Col span={20}>
 							<FormItem
 								{...formItemLayoutOne}
 								label="选择报价单模板"
 							>
-								{getFieldDecorator('template_id', {
+								{getFieldDecorator('templateId', {
 									initialValue: templateId ? { key: templateId, label: name } : { key: 1, label: "默认模板" },
 									rules: [
 										{ required: true, message: '请选择报价单模板' },
@@ -109,12 +109,12 @@ class EditQuotation extends Component {
 						</Col>
 					</Row>,
 					<FormItem
-						key='company_id'
+						key='companyId'
 						{...formItemLayout}
 						label="指定公司使用"
-						{...(getFieldError('company_id') ? {} : { help: "选择指定公司后，报价单详情页、最终导出EXCLE中的报价是按照该公司计算公式计算得出；且报价单对所有能看到该公司的AE、销售可见。" })}
+						{...(getFieldError('companyId') ? {} : { help: "选择指定公司后，报价单详情页、最终导出EXCLE中的报价是按照该公司计算公式计算得出；且报价单对所有能看到该公司的AE、销售可见。" })}
 					>
-						{getFieldDecorator('company_id', {
+						{getFieldDecorator('companyId', {
 							initialValue: company_id && company_id.key ? { ...company_id } : { key: 0, label: "不限" },
 							rules: [
 								{ required: true, message: '指定公司不能为空' },
@@ -130,7 +130,7 @@ class EditQuotation extends Component {
 					{...(getFieldError('name') ? {} : { help: "请填写报价单的模板名称，不超过30个字" })}
 				>
 					{getFieldDecorator('name', {
-						initialValue: `${group_type_name}${moment().format("YYYY_MM_DD HH_mm")}`,
+						initialValue: `${groupTypeName}${moment().format("YYYY_MM_DD HH_mm")}`,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入报价单名称' },

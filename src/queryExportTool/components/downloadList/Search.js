@@ -19,13 +19,13 @@ class SearchDown extends Component {
 		const { form, setValueSearch } = this.props
 		form.validateFields((err, values) => {
 			if (!err) {
-				const { generation_time } = values
+				const { generationTime } = values
 				const allValue = {
 					...values,
-					company_id: values.company_id && values.company_id.key,
-					company_name: values.company_id && values.company_id.label,
-					created_at_begin: generation_time && generation_time[0] && generation_time[0].format("YYYY-MM-DD"),
-					created_at_end: generation_time && generation_time[1] && generation_time[1].format("YYYY-MM-DD")
+					companyId: values.companyId && values.companyId.key,
+					companyName: values.companyId && values.companyId.label,
+					createdAtBegin: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
+					createdAtEnd: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD")
 				}
 				delete allValue.generation_time
 				setValueSearch(allValue)
@@ -52,8 +52,8 @@ class SearchDown extends Component {
 					label="所属公司"
 					style={{ width: "30%" }}
 				>
-					{getFieldDecorator('company_id', {
-						initialValue: (searchValue && searchValue.company_id > 0) ? { key: searchValue.company_id, label: searchValue.company_name } : undefined
+					{getFieldDecorator('companyId', {
+						initialValue: (searchValue && searchValue.companyId > 0) ? { key: searchValue.companyId, label: searchValue.companyName } : undefined
 					})(
 						<SelectCompany style={{ width: '100%' }} action={getCompanyList} />
 					)}
@@ -74,8 +74,8 @@ class SearchDown extends Component {
 					label="状态"
 					style={{ width: "25%" }}
 				>
-					{getFieldDecorator('process_status', {
-						initialValue: searchValue.process_status
+					{getFieldDecorator('processStatus', {
+						initialValue: searchValue.processStatus
 					})(
 						<Select placeholder="请选择" allowClear>
 							<Option value="1">处理中</Option>
@@ -89,8 +89,8 @@ class SearchDown extends Component {
 					label="生成时间"
 					style={{ width: "30%" }}
 				>
-					{getFieldDecorator('generation_time', {
-						initialValue: searchValue.created_at_begin && [moment(searchValue.created_at_begin), moment(searchValue.created_at_end)]
+					{getFieldDecorator('generationTime', {
+						initialValue: searchValue.createdAtBegin && [moment(searchValue.createdAtBegin), moment(searchValue.createdAtEnd)]
 					})(
 						<RangePicker format={dateFormat} allowClear />
 					)}

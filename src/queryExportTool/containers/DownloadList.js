@@ -83,13 +83,13 @@ class DownloadList extends Component {
 		})
 	}
 	operateDownload = (id) => {
-		this.props.actions.reDownload({ task_id: id }).then(() => {
+		this.props.actions.reDownload({ taskId: id }).then(() => {
 			message.success("开始重新处理")
 			this.searchDownload()
 		})
 	}
 	downLoadById = (download_url, id) => {
-		this.props.actions.download({ task_id: id }).then((res) => {
+		this.props.actions.download({ taskId: id }).then((res) => {
 			this.searchDownload()
 		})
 		window.open(download_url)
@@ -125,7 +125,7 @@ class DownloadList extends Component {
 							<DownLoadSearch {...searchProps} />
 							<DownloadTable
 								isBPAuthVisble={isBPAuthVisble}
-								downloadList={downloadList.rows}
+								downloadList={downloadList.list}
 								operateDownload={this.operateDownload}
 								loading={loading}
 								paginationConfig={paginationConfig}
@@ -138,7 +138,7 @@ class DownloadList extends Component {
 						{selectKey == 2 ? <div>
 							<DownLoadBatchSearch {...searchProps} />
 							<DownLoadBatchSearchTable
-								downloadList={downloadList.rows}
+								downloadList={downloadList.list}
 								operateDownload={this.operateDownload}
 								loading={loading}
 								paginationConfig={paginationConfig}

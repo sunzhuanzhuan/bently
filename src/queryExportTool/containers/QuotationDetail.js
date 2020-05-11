@@ -80,7 +80,7 @@ class QuotationDetail extends Component {
 	//导出方法
 	exportNew = () => {
 		const search = qs.parse(this.props.location.search.substring(1))
-		this.props.actions.preExportNumCheck({ type: "quotation", quotation_id: search.quotation_id }).then((res) => {
+		this.props.actions.preExportNumCheck({ type: "quotation", quotationId: search.quotation_id }).then((res) => {
 			if (res.data.check_result) {
 				const { account_number, up_level, parent_name } = res.data
 				const messageInfo = {
@@ -98,7 +98,7 @@ class QuotationDetail extends Component {
 	exportOperate = () => {
 		const { quotationDetail = {} } = this.props.queryExportToolReducer
 		const { id } = quotationDetail
-		this.props.actions.quotationExport({ quotation_id: id })
+		this.props.actions.quotationExport({ quotationId: id })
 		this.setState({
 			typeShow: 4,
 			visible: true

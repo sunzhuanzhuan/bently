@@ -172,11 +172,11 @@ export class CarContent extends Component {
 
 		const tabsList = [
 			{ tab: `全部 ${sumAccount}`, key: 10, },
-			{ tab: <span>{getShowImg(9, 1)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[1] || 0}</span></span>, key: 1, },
-			{ tab: <span>{getShowImg(1, 2)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[2] || 0}</span></span>, key: 2 },
-			{ tab: <span>{getShowImg(9000, 3)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[3] || 0}</span></span>, key: 3 },
-			{ tab: <span>{getShowImg(93, 4)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[4] || 0}</span></span>, key: 4 },
-			{ tab: <span>{getShowImg(10000, 5)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[5] || 0}</span></span>, key: 5 }
+			{ tab: <span>{getShowImg(9, 1)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.wx || 0}</span></span>, key: 1, },
+			{ tab: <span>{getShowImg(1, 2)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.xl || 0}</span></span>, key: 2 },
+			{ tab: <span>{getShowImg(9000, 3)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.sp || 0}</span></span>, key: 3 },
+			{ tab: <span>{getShowImg(93, 4)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.xhs || 0}</span></span>, key: 4 },
+			{ tab: <span>{getShowImg(10000, 5)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.other || 0}</span></span>, key: 5 }
 		]
 		return (
 			<div className="car-content">

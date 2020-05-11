@@ -65,17 +65,17 @@ class AccountListBatch extends Component {
 		const exportArr = list.map(one => {
 			const { accountId = "", platformId = "", snsName = "", snsId = "", accountId: accountNone = "" } = one
 			return {
-				account_id: accountId ? accountId : accountNone,
-				platform_id: platformId,
-				sns_name: snsName,
-				sns_id: snsId
+				accountId: accountId ? accountId : accountNone,
+				platformId: platformId,
+				snsName: snsName,
+				snsId: snsId
 			}
 		})
 		const data = {
 			...value,
 			accounts: exportArr,
-			search_field: searchValue.fieldType,
-			platform_id: searchValue.platformId
+			searchField: searchValue.fieldType,
+			platformId: searchValue.platformId
 		}
 		this.setState({
 			buttonLoaing: true

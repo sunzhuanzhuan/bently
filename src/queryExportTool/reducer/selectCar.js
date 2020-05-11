@@ -13,15 +13,15 @@ export const selectCartData = handleActions({
 		const dataOld = [...state.data]
 		const addNumber = deleteData.length
 		const total = state.total - addNumber
-		const data = dataOld.filter(one => !deleteData.includes(one.account_id))
+		const data = dataOld.filter(one => !deleteData.includes(one.accountId))
 		return { ...state, total, data }
 	},
 	[accoutActions.changeTypeCountSelect]: (state, action) => {
-		const { group_type } = action.payload
-		if (group_type) {
+		const { groupType } = action.payload
+		if (groupType) {
 
 			let tabList = { ...state.tabList }
-			tabList[group_type] = tabList[group_type] - 1
+			tabList[groupType] = tabList[groupType] - 1
 			return { ...state, tabList }
 		}
 		return { ...state }
@@ -55,10 +55,10 @@ export const selectCartData = handleActions({
 		return { data: [...data.accounts], tabList: { ...count }, total: count && count.total || 0, }
 	}
 }, {
-		total: 0,
-		tabList: {},
-		data: []
-	})
+	total: 0,
+	tabList: {},
+	data: []
+})
 //购物车列表数据
 export const selectCarList = handleActions({
 	// [accoutActions.addToCart_success]: (state, action) => {
@@ -83,7 +83,7 @@ export const selectCarList = handleActions({
 
 		console.log("TCL: data", data)
 		return {
-			group_type_name: data.groupTypeName,
+			groupTypeName: data.groupTypeName,
 			tabList: { ...statistic },
 			total: Object.values(statistic).length > 0 && Object.values(statistic).reduce((pre, next) => pre + next),
 			pagination: data.pagination,
@@ -91,10 +91,10 @@ export const selectCarList = handleActions({
 		}
 	}
 }, {
-		total: 0,
-		tabList: {},
-		data: {}
-	})
+	total: 0,
+	tabList: {},
+	data: {}
+})
 
 
 

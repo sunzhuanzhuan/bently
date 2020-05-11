@@ -121,13 +121,13 @@ class AccountTableSelect extends Component {
 			//精确查询选中添加
 			IsExactQuery && actions.addSelectExactQuery([key.accountId])
 			//仅批量查号使用
-			this.props.actions.addToCart({ item_type_id: 1, accounts: this.getSaveCart([key]) })
+			this.props.actions.addToCart({ itemTypeId: 1, accounts: this.getSaveCart([key]) })
 				.catch(() => {
-					this.props.actions.removeFromCart({ staging_ids: [key.accountId] })
+					this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
 					IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 				})
 		} else {
-			this.props.actions.removeFromCart({ staging_ids: [key.accountId] })
+			this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
 			IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 		}
 		if (seleced) {
@@ -139,12 +139,12 @@ class AccountTableSelect extends Component {
 		}
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
+		return list.map(one => ({ accountId: one.accountId, platformId: one.platformId }))
 	}
 	//全选/取消全选
 	onSelectAllChange = (seleced, list, changeRows) => {
 		const { IsExactQuery, actions, addLookDetailOrIndexList = {} } = this.props
-		const staging_ids = changeRows.map(one => one.accountId)
+		const stagingIds = changeRows.map(one => one.accountId)
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
 		this.track(
@@ -152,23 +152,23 @@ class AccountTableSelect extends Component {
 			index.join(','),
 			seleced ? '加入' : '取消',
 			'batch',
-			staging_ids
+			stagingIds
 		)
 
 		if (seleced) {
 			//同步发一个立刻选中
-			this.props.actions.addSelectStatic(staging_ids)
+			this.props.actions.addSelectStatic(stagingIds)
 			//精确查询选中添加
-			IsExactQuery && actions.addSelectExactQuery(staging_ids)
-			this.props.actions.addToCart({ item_type_id: 1, accounts: this.getSaveCart(list) })
+			IsExactQuery && actions.addSelectExactQuery(stagingIds)
+			this.props.actions.addToCart({ itemTypeId: 1, accounts: this.getSaveCart(list) })
 				.catch(() => {
-					this.props.actions.removeFromCart({ staging_ids: staging_ids })
-					IsExactQuery && actions.removeSelectExactQuery(staging_ids)
+					this.props.actions.removeFromCart({ stagingIds: stagingIds })
+					IsExactQuery && actions.removeSelectExactQuery(stagingIds)
 				})
 		} else {
-			const staging_ids = changeRows.map(one => one.accountId)
-			this.props.actions.removeFromCart({ staging_ids })
-			IsExactQuery && actions.removeSelectExactQuery(staging_ids)
+			const stagingIds = changeRows.map(one => one.accountId)
+			this.props.actions.removeFromCart({ stagingIds })
+			IsExactQuery && actions.removeSelectExactQuery(stagingIds)
 		}
 
 	}

@@ -96,13 +96,13 @@ class AccountList extends Component {
 	}
 	//删除方法
 	removeCartAccount = (value) => {
-		this.props.actions.removeFromCart({ staging_ids: value })
+		this.props.actions.removeFromCart({ stagingIds: value })
 		// .then(() => {
 		// 	this.props.actions.getAccountListFromCart()
 		// })
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
+		return list.map(one => ({ accountId: one.accountId, platformId: one.platformId }))
 	}
 	//报价单的保存
 	addQuotation = () => {
@@ -113,7 +113,7 @@ class AccountList extends Component {
 			this.props.actions.addToQuotation({
 				quotation_id, accounts
 			}).then(() => {
-				window.location.href = `/accountList/quotationManage/detail?quotation_id=${quotation_id}`
+				//window.location.href = `/accountList/quotationManage/detail?quotation_id=${quotation_id}`
 			})
 		}
 	}
@@ -179,13 +179,13 @@ class AccountList extends Component {
 		//此处是处理选好车需要的数据项
 		const data = (type > 0 ? dataList[type] : selectedRowKeysObject).map(one => ({
 			"id": one.accountId,
-			"account_id": one.accountId,
-			"staging_id": one.accountId,
-			"sns_name": one.snsName,
-			"follower_count": one.followerCount,
-			"platform_id": one.platformId,
-			"avatar_url": one.avatarUrl,
-			"is_famous": one.isFamous
+			"accountId": one.accountId,
+			"stagingId": one.accountId,
+			"snsName": one.snsName,
+			"followerCount": one.followerCount,
+			"platformId": one.platformId,
+			"avatarUrl": one.avatarUrl,
+			"isFamous": one.isFamous
 		}))
 		const selectCartInterimList = {
 			...total, data: data, tabList: tabList
