@@ -61,42 +61,9 @@ class ExampleTable extends Component {
 
 			},
 		]
-		const childrenColumns2 = [
-
+		const columns = [
 			{
-				title: '参考价',
-				dataIndex: 'price2',
-				key: 'price2',
-				align: 'center',
-				render: (text, record) => {
-					return record.productOnShelfStatus == 1 ? <div className='flex-betwwen'>{text}
-						{getPriceGoodBad(record.defaultQuotePriceDiscount2, record.productOnShelfStatus == 1)}</div> : '-'
-				}
-			},
-			{
-				title: '渠道价',
-				dataIndex: 'channelPrice2',
-				key: 'channelPrice2',
-				align: 'center',
-				render: (text, record) => {
-					return record.productOnShelfStatus == 1 && text ? text : text === 0 ? text : '-'
-				}
-			},
-			{
-				title: '刊例价',
-				dataIndex: 'publicationPrice2',
-				key: 'publicationPrice2',
-				align: 'center',
-				render: (text, record) => {
-					return record.productOnShelfStatus == 1 && text ? text : text === 0 ? text : '-'
-				}
-
-			},
-		]
-
-		const WeixinIsFamous2 = [
-			{
-				title: ISWEiXin ? '发布' : '价格',
+				title: '价格',
 				children: [
 					{
 						title: '',
@@ -110,16 +77,9 @@ class ExampleTable extends Component {
 			},
 
 		];
-		const WeixinIsFamous1 = [...WeixinIsFamous2, {
-			title: '原创+发布',
-			children: [
-				...childrenColumns2
-			]
-		},]
+
 
 		const { visible, loading } = this.state
-		const columns = ISWEiXin && isFamous == 1 ? WeixinIsFamous1 : WeixinIsFamous2
-
 		return (
 			isShow && isUP ? <div className='example-table'>
 				<a onClick={this.onOK} ><span className='bold-font'>查看[渠道价][刊例价]</span></a>

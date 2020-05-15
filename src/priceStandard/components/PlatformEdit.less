@@ -1,0 +1,73 @@
+.platform-edit-container {
+    margin-top: 15px;
+    border-bottom: 1px solid #EDEDED;
+
+    .title {
+        display: flex;
+        color: #999999;
+        padding-bottom: 10px;
+
+        &>:last-child {
+            padding-left: 20px;
+        }
+
+        &>:first-child {
+            width: 307px;
+            border-right: 1px solid #EDEDED;
+            padding-left: 24px;
+        }
+
+    }
+
+
+    .left-tab {
+        text-align: left;
+        width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .overflow-y-300 {
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+
+    .checkbox-group-box {
+        .overflow-y-300;
+    }
+
+    .checkbox-item {
+        margin-top: 10px;
+
+    }
+
+    .ant-tabs-tab-active {
+        background: rgba(65, 139, 249, 0.1)
+    }
+
+    .ant-tabs-bar {
+        .overflow-y-300;
+        overflow-x: hidden;
+    }
+
+    .ant-tabs-vertical>.ant-tabs-bar .ant-tabs-tab {
+        margin-bottom: 0px;
+    }
+
+}
+
+.platform-update {
+    .item {
+        display: flex;
+
+        &>div:first-child {
+            width: 100px;
+            text-align: right;
+            height: 30px;
+            margin-right: 10px;
+        }
+    }
+}

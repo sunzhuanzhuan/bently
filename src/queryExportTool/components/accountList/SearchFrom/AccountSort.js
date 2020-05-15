@@ -72,7 +72,7 @@ export default class AccountSort extends Component {
 	}
 
 	render() {
-		const { group = '1', changTabNumber } = this.props
+		const { group = '1', sortMore } = this.props
 		const { filter, sorter } = groupBySorter[group]
 		const changeSorter = sorter
 		//changTabNumber == 1 ? sorter : { ...sorter, default: {},}
@@ -95,7 +95,7 @@ export default class AccountSort extends Component {
 					}}>
 					默认
 				</a>
-				<SortGroup ref={node => this.child.sortGroup = node} sorter={changeSorter} onSort={this.sort} />
+				<SortGroup ref={node => this.child.sortGroup = node} sorter={changeSorter} onSort={this.sort} sortMore={sortMore} />
 			</section>
 		</div>
 	}

@@ -153,8 +153,8 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 根据平台不同展示不同的标签 */}
 								{originalName && originalName.split(',').map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}
-								{!ISWEiXin && trinityIsPreventShielding == 1 ? <CTag color='green'>防屏蔽</CTag> : null}
-								{isSupportTopicAndLink == 1 && IsWeibo ? <CTag color='green'>可带@/话题/链接</CTag> : null}
+								{/* {!ISWEiXin && trinityIsPreventShielding == 1 ? <CTag color='green'>防屏蔽</CTag> : null}
+								{isSupportTopicAndLink == 1 && IsWeibo ? <CTag color='green'>可带@/话题/链接</CTag> : null} */}
 								{canOriginWrite == 1 ? <CTag color='green'>原创</CTag> : null}
 							</div>
 							<div style={{ marginTop: 10 }}>
