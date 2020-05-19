@@ -15,6 +15,7 @@ function SkuType(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
 	const [platformId, setPlatformId] = useState('9')
 	const [isLoading, setIsLoading] = useState(true)
+	const [platformName, setPlatformName] = useState('微信公众号')
 	useEffect(() => {
 		props.actions.PSGetNewBPlatforms()
 	}, [])
@@ -29,15 +30,17 @@ function SkuType(props) {
 	}
 	//修改
 	function onEdit(data = {}) {
+		console.log("onEdit -> data", data)
+
 		setModalProps({
 			visible: true,
 			width: '1000px',
 			title: <div>修改SKU配置
 				<span style={{ marginLeft: 30 }}>
-					<span style={titleStyle}>平台：</span>微信
+					<span style={titleStyle}>平台：</span>{platformName}
 				</span>
 				<span style={{ marginLeft: 30 }}>
-					<span style={titleStyle}>sku类型：</span>dd
+					<span style={titleStyle}>sku类型：</span>{data.skuTypeName}
 				</span>
 			</div>,
 			content: (props) => <SkuTypeEdit data={data} {...props} />
@@ -68,7 +71,7 @@ function SkuType(props) {
 		<div>
 			<h2>平台SKU配置</h2>
 			<Spin spinning={isLoading}>
-				<PlatformHeader setId={setPlatformId} list={newBPlatformsList} />
+				<PlatformHeader setId={setPlatformId} list={newBPlatformsList} setName={setPlatformName} />
 				<TitleBox title='基础类' />
 				{skuBaseList.map((item, index) => <CardType key={index}
 					onEdit={() => onEdit(item)}

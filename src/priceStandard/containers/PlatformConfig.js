@@ -16,6 +16,8 @@ function PlatformConfig(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
 	const [groupTypeId, setGroupTypeId] = useState('1')
 	const [isLoading, setIsLoading] = useState(true)
+	const [platformName, setPlatformName] = useState('微信公众号')
+
 	useEffect(() => {
 		props.actions.PSGetGroupPlatformList()
 	}, [])
@@ -35,7 +37,7 @@ function PlatformConfig(props) {
 			width: '666px',
 			title: <div> 添加SKU配置
 				<span style={{ marginLeft: 30 }}>
-					<span style={titleStyle}>平台：</span>微信
+					<span style={titleStyle}>平台：</span>{platformName}
 				</span>
 			</div>,
 			content: (props) => <PlatformAdd data={data} {...props} />
@@ -59,7 +61,7 @@ function PlatformConfig(props) {
 			width: '666px',
 			title: <div> 修改SKU配置
 				<span style={{ marginLeft: 30 }}>
-					<span style={titleStyle}>平台：</span>微信
+					<span style={titleStyle}>平台：</span>{platformName}
 				</span>
 			</div>,
 			content: (props) => <PlatformUpdate data={data} {...props} />
@@ -87,7 +89,7 @@ function PlatformConfig(props) {
 		<div>
 			<h2>平台权益池配置</h2>
 			<Spin spinning={isLoading}>
-				<GroupHeader setId={setGroupTypeId} list={groupPlatformList} />
+				<GroupHeader setId={setGroupTypeId} list={groupPlatformList} setName={setPlatformName} />
 				<div style={{ marginTop: 18 }}>
 					<Button type='primary' onClick={onAdd}>+ 添加平台权益</Button>
 					<span style={{ marginLeft: 31 }}><Icon type="info-circle" theme="filled" className='warning-info' /> 注：若权益已被平台SKU配置，则不可删除。</span>
