@@ -21,7 +21,8 @@ function PlatformAdd(props) {
 			dataNew = [...dataNew, {
 				equitiesTypeId: equitiesTypeId,
 				groupTypeId: props.groupTypeId,
-				equitiesId: id
+				equitiesId: id,
+				isDeleted: 2
 			}]
 		} else {
 			dataNew = dataNew.filter(one => one.equitiesId != id)
