@@ -63,7 +63,7 @@ class QuotationManage extends Component {
 		this.setState({ isLoading: !isLoading })
 	}
 	componentDidMount = () => {
-		this.props.actions.getQuotationList({ page: 1, page_size: 20 }).then(() => {
+		this.props.actions.getQuotationList({ page: 1, pageSize: 20 }).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}
@@ -72,7 +72,7 @@ class QuotationManage extends Component {
 		this.setState({ selectKey }, () => {
 			this.searchTab({})
 			this.props.history.push({
-				search: `?` + qs.stringify({ page: 1, page_size: 20 })
+				search: `?` + qs.stringify({ page: 1, pageSize: 20 })
 			})
 		})
 	}
@@ -80,11 +80,11 @@ class QuotationManage extends Component {
 		const { selectKey } = this.state
 		this.setLoading()
 		if (selectKey == 1) {
-			this.props.actions.getQuotationList({ ...newSearch, page: 1, page_size: 20 }).then(() => {
+			this.props.actions.getQuotationList({ ...newSearch, page: 1, pageSize: 20 }).then(() => {
 				this.setState({ isLoading: false })
 			})
 		} else {
-			this.props.actions.getStencilList({ ...newSearch, page: 1, page_size: 20 }).then(() => {
+			this.props.actions.getStencilList({ ...newSearch, page: 1, pageSize: 20 }).then(() => {
 				this.setState({ isLoading: false })
 			})
 		}
@@ -109,11 +109,11 @@ class QuotationManage extends Component {
 	}
 	//分页
 	onChange = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { page: pagination, pageSize: pageSize }
 		this.searchDownload(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { page: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize
 		})
@@ -132,19 +132,19 @@ class QuotationManage extends Component {
 			exportUrl,
 			exportId
 		})
-		this.props.actions.preExportNumCheck({ type: "quotation", quotationId: exportId }).then((res) => {
+		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: exportId }).then((res) => {
 
-			if (res.data.check_result) {
-				const { account_number, up_level, parent_name } = res.data
+			if (res.data.checkRes == 1) {
+				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
-					account_number, up_level, parent_name
+					accountNumber, upLevel, parentName
 				}
 				this.setState({
 					messageInfo: messageInfo
 				})
 				this.setTypeShow(1, true)
 			} else {
-				this.props.actions.quotationExport({ quotation_id: exportId })
+				this.props.actions.quotationExport({ quotationId: exportId })
 				this.setTypeShow(4, true)
 			}
 		})

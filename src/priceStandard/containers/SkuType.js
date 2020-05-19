@@ -29,6 +29,8 @@ function SkuType(props) {
 	}
 	//修改
 	function onEdit(data = {}) {
+		console.log("onEdit -> data", data)
+
 		setModalProps({
 			visible: true,
 			width: '1000px',

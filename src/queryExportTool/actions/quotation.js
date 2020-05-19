@@ -5,7 +5,9 @@ import createHttpAction from '@/store/createHttpAction'
 export const {
 	getQuotationList,
 	getQuotationList_success
-} = createHttpAction('getQuotationList', Interface.getQuotationList)
+} = createHttpAction('getQuotationList', Interface.getQuotationList, {
+	method: 'post'
+})
 
 //添加报价单
 export const {
@@ -19,7 +21,9 @@ export const {
 export const {
 	getStencilList,
 	getStencilList_success
-} = createHttpAction('getStencilList', Interface.getStencilList)
+} = createHttpAction('getStencilList', Interface.getStencilList, {
+	method: 'post'
+})
 
 //获取报价单详情
 export const {

@@ -50,7 +50,7 @@ export default class TempleSelect extends Component {
 	selectValue = (value) => {
 		const { setTempleName } = this.props
 		const template_id = value.key
-		api.get('/export/account/getTemplateInfo', { params: { template_id: template_id } }).then(res => {
+		api.get('/operator-gateway/export/account/quotation/templateDetail', { params: { template_id: template_id } }).then(res => {
 
 			const { company_name, company_id = 0 } = res.data
 			setTempleName && setTempleName(company_id, company_name)

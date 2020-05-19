@@ -1,7 +1,7 @@
 export default {
 	getCompanyList: '/export/account/getCompanyList',
-	getTemplateAllColumns: '/export/account/getTemplateAllColumns',
-	saveTemplateStyle: '/export/account/saveTemplateStyle',
-	saveTemplate: '/export/account/saveTemplate',
-	getTemplateInfo: '/export/account/getTemplateInfo'
+	getTemplateAllColumns: '/operator-gateway/export/account/quotation/getTemplateAllColumns',
+	saveTemplateStyle: '/operator-gateway/export/account/quotation/saveTemplateStyle',
+	saveTemplate: '/operator-gateway/export/account/quotation/save',
+	getTemplateInfo: '/operator-gateway/export/account/quotation/templateDetail'
 }

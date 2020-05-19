@@ -29,12 +29,12 @@ export default class TemplateBaseInfos extends Component {
 		const { getCompanyList } = this.props.actions;
 		const { templateInfos } = this.props.data;
 		const { type } = this.props
-		const { for_special_company_status, company_id, company_name, name, introduction } = templateInfos
+		const { forSpecialCompanyStatus, companyId, companyName, name, introduction } = templateInfos
 		return (type === 'create' || (type === 'edit' && name)) ? <div className='edit-info-wrapper'>
 			<Form>
 				<FormItem label='是否指定公司专用模板' {...formItemLayout} extra={"指定公司专用之后，所有有权限看到该公司的销售、AE都能看到并且使用本模板"}>
-					{getFieldDecorator('for_special_company_status', {
-						initialValue: for_special_company_status || 2,
+					{getFieldDecorator('forSpecialCompanyStatus', {
+						initialValue: forSpecialCompanyStatus || 2,
 						rules: [{ required: true, message: '请选择' }]
 					})(
 						<RadioGroup>
@@ -43,10 +43,10 @@ export default class TemplateBaseInfos extends Component {
 						</RadioGroup>
 					)}
 				</FormItem>
-				{getFieldValue('for_special_company_status') === 1 ?
-					<FormItem label='指定公司' {...formItemLayout} {...(getFieldError('company_id') ? {} : { help: "请选择具体的公司名称" })}>
-						{getFieldDecorator('company_id', {
-							initialValue: company_id ? { key: company_id, label: company_name } : undefined,
+				{getFieldValue('forSpecialCompanyStatus') === 1 ?
+					<FormItem label='指定公司' {...formItemLayout} {...(getFieldError('companyId') ? {} : { help: "请选择具体的公司名称" })}>
+						{getFieldDecorator('companyId', {
+							initialValue: companyId ? { key: companyId, label: companyName } : undefined,
 							rules: [{ required: true, message: '请选择公司' }]
 						})(<SelectCompany style={{ width: '100%' }} action={getCompanyList} />)}
 					</FormItem> : null}

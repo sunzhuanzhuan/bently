@@ -54,15 +54,15 @@ export default class CreateTemplate extends Component {
 			if (!err) {
 				this.setState({ createLoading: true })
 				// 创建/修改逻辑
-				let data = { ...values, ...(type === 'edit' ? { template_id: templateId } : {}) }
-				data.company_id = data['for_special_company_status'] === 1 ? data.company_id['key'] : undefined
+				let data = { ...values, ...(type === 'edit' ? { templateId: templateId } : {}) }
+				data.companyId = data['forSpecialCompanyStatus'] === 1 ? data.companyId['key'] : undefined
 				data.introduction = data.introduction || ''
 				saveTemplate(data).then(({ msg, data }) => {
 					message.success(msg)
-					this.setState({ createLoading: false, templateId: data.template_id })
+					this.setState({ createLoading: false, templateId: data.templateId })
 					this.next()
 					if (type === 'create') {
-						onCreate && onCreate({ ...values, templateId: data.template_id })
+						onCreate && onCreate({ ...values, templateId: data.templateId })
 					}
 				}).catch((err) => {
 					console.log(err);
@@ -76,20 +76,20 @@ export default class CreateTemplate extends Component {
 	// 保存自定义模板字段核心逻辑
 	saveTemplateStyleCore = () => {
 		const { actions, templateAllColumns, templateInfos } = this.props
-		const { id: template_id } = templateInfos
+		const { id: templateId } = templateInfos
 		const { saveTemplateStyle } = actions
-		let data = Object.values(templateAllColumns).map(({ group_type, selected, sources, priceTypes }) => ({
-			group_type,
-			sku_price_type: priceTypes,
+		let data = Object.values(templateAllColumns).map(({ groupType, selected, sources, priceTypes }) => ({
+			groupType,
+			skuPriceType: priceTypes,
 			"columns": selected.map(id => {
 				let column = sources[id]
 				let obj = {}
-				obj.column_id = id
+				obj.columnId = id
 				column && column["alias"] && (obj["alias"] = column["alias"])
 				return obj
 			})
 		}))
-		return saveTemplateStyle({ template_id, style: data })
+		return saveTemplateStyle({ templateId, style: data })
 	}
 	// 底部按钮保存逻辑
 	handleSave = () => {
@@ -123,7 +123,7 @@ export default class CreateTemplate extends Component {
 		clearColumns()
 		if (type === 'edit') {
 			// 获取模板基本信息
-			getTemplateInfo({ template_id: templateId })
+			getTemplateInfo({ templateId: templateId })
 		}
 	}
 

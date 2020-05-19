@@ -39,8 +39,8 @@ class ApplyForExport extends Component {
 		});
 	}
 	vailEventCode = (rule, value, callback) => {
-		this.props.codeCheck({ code: value }).then((res) => {
-			if (res.data.check_result) {
+		this.props.codeCheck({ verificationCode: value }).then((res) => {
+			if (res.data.checkResult == 1) {
 				callback()
 			} else {
 				callback("请输入正确的审核码")

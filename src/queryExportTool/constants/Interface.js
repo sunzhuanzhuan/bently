@@ -37,7 +37,7 @@ export default {
 	//获取购物车
 	getAccountListFromCart: branchUrl + '/getAccountListFromCart',
 	//报价单列表
-	getQuotationList: "/export/account/getQuotationList",
+	getQuotationList: quotationUrl+"/list",
 	//删除购物车数据
 	removeFromCart: branchUrl + "/removeFromCart",
 	//添加购物车数据
@@ -52,7 +52,7 @@ export default {
 	reDownload: "/export/account/reDownload",
 
 	//报价单模版
-	getStencilList: quotationUrl + "templateList",
+	getStencilList: quotationUrl + "/templateList",
 	//报价单详情
 	getQuotationDetail: quotationUrl + "/detail",
 

@@ -80,11 +80,11 @@ class QuotationDetail extends Component {
 	//导出方法
 	exportNew = () => {
 		const search = qs.parse(this.props.location.search.substring(1))
-		this.props.actions.preExportNumCheck({ type: "quotation", quotationId: search.quotation_id }).then((res) => {
-			if (res.data.check_result) {
-				const { account_number, up_level, parent_name } = res.data
+		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: search.quotation_id }).then((res) => {
+			if (res.data.checkRes == 1) {
+				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
-					account_number, up_level, parent_name
+					accountNumber, upLevel, parentName
 				}
 				this.setState({
 					messageInfo: messageInfo

@@ -23,8 +23,8 @@ export default class EditTemplateKeys extends Component {
 		const { getTemplateAllColumns } = this.props.actions
 		this.setState({ activeKey }, () => {
 			!templateAllColumns[activeKey] && getTemplateAllColumns({
-				group_type: activeKey,
-				template_id: templateId
+				groupType: activeKey,
+				templateId: templateId
 			})
 		})
 	}
@@ -70,15 +70,15 @@ export default class EditTemplateKeys extends Component {
 		const { templateAllColumns } = data
 		const { getTemplateAllColumns, getTemplateInfo } = this.props.actions
 		// 获取模板基本信息
-		getTemplateInfo({ template_id: templateId }).then(() => {
+		getTemplateInfo({ templateId: templateId }).then(() => {
 			// 开启自动保存
 			this.autoSave()
 		}).catch(({ errMsg }) => {
 			notification.error({ message: errMsg || '请求出错了!' })
 		})
 		!templateAllColumns[defaultActiveKey] && getTemplateAllColumns({
-			group_type: defaultActiveKey,
-			template_id: templateId
+			groupType: defaultActiveKey,
+			templateId: templateId
 		})
 	}
 
@@ -89,16 +89,16 @@ export default class EditTemplateKeys extends Component {
 	render() {
 		const { data, actions } = this.props
 		const { templateInfos } = data
-		const { for_special_company_status, name, company_name } = templateInfos
+		const { forSpecialCompanyStatus, name, companyName } = templateInfos
 		const { activeKey, autoSaveStatus } = this.state
 		return name ? <div className='edit-template-keys-wrapper'>
 			<AutoSave type={autoSaveStatus} />
 			<div className='template-keys-container-left'>
 				<Tabs defaultActiveKey={defaultActiveKey} activeKey={activeKey} animated={false} onChange={this.handleChangeTabActive}>
 					{
-						tabsList.map(({ group_id, name }) =>
-							<TabPane tab={name} key={group_id}>
-								<SelectFieldsContent groupId={group_id} data={data} actions={actions} />
+						tabsList.map(({ groupId, name }) =>
+							<TabPane tab={name} key={groupId}>
+								<SelectFieldsContent groupId={groupId} data={data} actions={actions} />
 							</TabPane>)
 					}
 				</Tabs>
@@ -107,16 +107,16 @@ export default class EditTemplateKeys extends Component {
 				<header className='selected-head'>
 					<div className='selected-head-title'>已选字段<a onClick={this.reset}>重置</a></div>
 					<div className='selected-head-template-info'>
-						<p>指定公司: <span title={company_name || '无'}>{for_special_company_status == 1 ? company_name : '无'}</span>
+						<p>指定公司: <span title={companyName || '无'}>{forSpecialCompanyStatus == 1 ? companyName : '无'}</span>
 						</p>
 						<p>模板名称: <span title={name}>{name}</span></p>
 					</div>
 				</header>
 				<Tabs defaultActiveKey={defaultActiveKey} type="card" activeKey={activeKey} animated={false} onChange={this.handleChangeTabActive}>
 					{
-						tabsList.map(({ group_id, name }) =>
-							<TabPane tab={name} key={group_id}>
-								<EditSelectedFieldsContent groupId={group_id} data={data} actions={actions} />
+						tabsList.map(({ groupId, name }) =>
+							<TabPane tab={name} key={groupId}>
+								<EditSelectedFieldsContent groupId={groupId} data={data} actions={actions} />
 							</TabPane>)
 					}
 				</Tabs>

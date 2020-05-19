@@ -40,7 +40,7 @@ class QuotationTable extends Component {
 	}
 
 	render() {
-		const { quotationList, paginationConfig, isLoading } = this.props
+		const { quotationList={}, paginationConfig, isLoading } = this.props
 		const columns = [{
 			title: '报价单ID',
 			dataIndex: 'id',
@@ -65,27 +65,27 @@ class QuotationTable extends Component {
 			// title: '账号数量',
 			// children: [{
 			title: '账号总数',
-			dataIndex: 'account_count',
-			key: 'account_count',
+			dataIndex: 'accountCount',
+			key: 'accountCount',
 
 			width: 80,
 		}, {
 			title: '所属公司',
-			dataIndex: 'company_name',
-			key: 'company_name',
+			dataIndex: 'companyName',
+			key: 'companyName',
 
-			render: (text, record) => record.company_name ? record.company_name : "无"
+			render: (text, record) => record.companyName ? record.companyName : "无"
 		}, {
 			align: "center",
 			title: '创建时间',
-			dataIndex: 'created_at',
-			key: 'created_at',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
 			width: 190,
 		}, {
 
 			title: '创建人',
-			dataIndex: 'creator_name',
-			key: 'creator_name',
+			dataIndex: 'creatorName',
+			key: 'creatorName',
 		}, {
 			align: "center",
 			title: '操作',
@@ -120,9 +120,9 @@ class QuotationTable extends Component {
 				bordered rowKey={record => record.id}
 				pagination={{
 					...paginationConfig,
-					total: quotationList.pagination && quotationList.pagination.total,
-					current: quotationList.pagination && quotationList.pagination.page,
-					pageSize: Number(quotationList.pagination && quotationList.pagination.page_size || 10)
+					total: quotationList.total,
+					current: quotationList.page,
+					pageSize: Number(quotationList.pageSize || 10)
 				}}
 			/>
 		);
