@@ -42,7 +42,7 @@ class QuotationDetail extends Component {
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
 		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotation_id: quotation_id }).then(({ data }) => {
+		getQuotationDetail({ quotationId: quotation_id }).then(({ data }) => {
 			this.props.history.push({
 				search: `?` + qs.stringify({ ...search, companyId: data.company_id })
 			})
@@ -152,11 +152,11 @@ class QuotationDetail extends Component {
 		//this.props.actions.deleteFromCart({ account_ids: selectedRowKeys, quotation_id: search.quotation_id }).then((res) => {
 		this.props.actions.deleteFromCart(
 			{
-				account_ids: [id],
-				quotation_id: search.quotation_id,
+				accountIds: [id],
+				quotationId: search.quotation_id,
 				type: type,
 				numberType: numberType,
-				follower_count: follower_count
+				followerCount: follower_count
 			}).then((res) => {
 				message.success('删除成功', 2);
 				let data = { groupType: selectKey, ...search }
@@ -171,7 +171,7 @@ class QuotationDetail extends Component {
 	applyCodeOk = () => {
 		const { exportUrl, exportId } = this.state
 		this.exportOperate(exportUrl, exportId)
-		this.props.actions.quotationExport({ quotation_id: exportId })
+		this.props.actions.quotationExport({ quotationId: exportId })
 		this.setState({
 			typeShow: 4,
 			visible: true

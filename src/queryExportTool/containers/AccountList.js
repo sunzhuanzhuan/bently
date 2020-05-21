@@ -43,7 +43,7 @@ class AccountList extends Component {
 		const { getAccountIdsByQuotation } = this.props.actions
 		/* 此处quotation_id > 0是走报价单添加账号，把已选在table里勾选 */
 		if (search.quotation_id > 0) {
-			getAccountIdsByQuotation({ quotation_id: search.quotation_id }).then((res) => {
+			getAccountIdsByQuotation({ quotationId: search.quotation_id }).then((res) => {
 				this.setState({
 					selectedRowKeys: res.data,
 					quotation_id: search.quotation_id,
@@ -106,12 +106,12 @@ class AccountList extends Component {
 	}
 	//报价单的保存
 	addQuotation = () => {
-		const quotation_id = this.state.quotation_id
+		const quotationId = this.state.quotation_id
 		const { selectedRowKeysObject } = this.state
 		const accounts = this.getSaveCart(selectedRowKeysObject)
 		if (accounts.length > 0) {
 			this.props.actions.addToQuotation({
-				quotation_id, accounts
+				quotationId, accounts
 			}).then(() => {
 				//window.location.href = `/accountList/quotationManage/detail?quotation_id=${quotation_id}`
 			})

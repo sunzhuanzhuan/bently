@@ -45,7 +45,7 @@ export const stencilList = handleActions({
 export const accountIdsByQuotation = handleActions({
 	[accoutActions.getAccountIdsByQuotation_success]: (state, action) => {
 		return [
-			...action.payload.data
+			...action.payload.data.accountIds
 		]
 	}
 }, [])
@@ -74,8 +74,8 @@ export const quotationAccountList = handleActions({
 		}
 	},
 	[accoutActions.deleteFromCart_success]: (state, action) => {
-		const { type, data, follower_count, numberType } = action.payload
-		const accountsFilter = state.list.filter(one => !data.includes(one.account_id))
+		const { type, data = {}, followerCount, numberType } = action.payload
+		const accountsFilter = state.list.filter(one => !data.accountIds.includes(one.accountId))
 		return {
 			...state,
 			tabList: {
@@ -86,7 +86,7 @@ export const quotationAccountList = handleActions({
 			accountList: accountsFilter,
 			total: state.total - 1,
 			[numberType]: state[numberType] - 1,
-			follower_count: state.follower_count - follower_count
+			followerCount: state.followerCount - followerCount
 		}
 	},
 	[accoutActions.getQuotationAccountSearch_success]: (state, action) => {
@@ -104,9 +104,9 @@ export const quotationAccountList = handleActions({
 		}
 	}
 }, {
-		total: 0,
-		tabList: {},
-		accountList: [],
-		is_select: [],
-	})
+	total: 0,
+	tabList: {},
+	accountList: [],
+	is_select: [],
+})
 

@@ -20,7 +20,7 @@ class RecentPrice extends Component {
 		};
 	}
 	componentDidMount = () => {
-		this.props.actions.getRecentReservationOrderPriceList({ account_id: this.props.account_id, page: 1, page_size: 10 }).then((res) => {
+		this.props.actions.getRecentReservationOrderPriceList({ accountId: this.props.account_id, page: 1, pageSize: 10 }).then((res) => {
 			this.setState({
 				bigLoading: false,
 			});
@@ -33,7 +33,7 @@ class RecentPrice extends Component {
 		this.setState({
 			loading: true,
 		});
-		this.props.actions.AddGetPriceList({ account_id: this.props.account_id, page: value, page_size: 10 }).then((res) => {
+		this.props.actions.AddGetPriceList({ accountId: this.props.accountId, page: value, pageSize: 10 }).then((res) => {
 			if (res.data.length < 10) {
 				this.setState({
 					hasMore: false,
@@ -105,7 +105,7 @@ class RecentPrice extends Component {
 													</div>
 												</Col>
 												<Col span={5}>
-													{platform_id == 106 ? item.live_created_time||'-' : item.media_created_time||'-'}
+													{platform_id == 106 ? item.live_created_time || '-' : item.media_created_time || '-'}
 												</Col>
 											</Row>
 										</List.Item>

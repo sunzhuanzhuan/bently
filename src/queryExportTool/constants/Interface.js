@@ -1,6 +1,6 @@
 const baseUrl = 'operator-gateway/search/export'//java重构接口
-const branchUrl = 'operator-gateway/search/export/branch'
-const quotationUrl = "operator-gateway/export/account/quotation"
+const branchUrl = 'operator-gateway/search/export/branch'//java二次重构
+const quotationUrl = "operator-gateway/export/account/quotation"//java二次重构
 export default {
 	//获取公司列表
 	getCompanyList: "/export/account/getCompanyList",
@@ -36,8 +36,7 @@ export default {
 	getRecentReservationOrderPriceList: "/export/account/getRecentReservationOrderPriceList",
 	//获取购物车
 	getAccountListFromCart: branchUrl + '/getAccountListFromCart',
-	//报价单列表
-	getQuotationList: quotationUrl+"/list",
+
 	//删除购物车数据
 	removeFromCart: branchUrl + "/removeFromCart",
 	//添加购物车数据
@@ -49,30 +48,30 @@ export default {
 	//下载
 	download: branchUrl + "/download",
 	//重新下载
-	reDownload: "/export/account/reDownload",
-
+	reDownload: branchUrl + "/reDownload",
+	//添加报价单
+	saveQuotation: branchUrl + "/saveQuotation",
+	//报价单详情批量删除
+	deleteFromCart: branchUrl + "/deleteFromQuotation",
+	//报价单导出全部账号
+	quotationExport: branchUrl + "/quotationExport",
+	//报价单导出验证
+	preExportNumCheck: branchUrl + "/preExportNumCheck",
+	//获取报价单ID
+	getAccountIdsByQuotation: branchUrl + "/getAccountIdsByQuotation",
+	//验证码验证是否正确
+	codeCheck: branchUrl + "/codeCheck",
+	//将账号添加进报价单
+	addToQuotation: branchUrl + "addToQuotation",
+	//获取公共分类
+	getCommonClassify: '/accountList/api/getCommonClassify',
+	//获取查询项
+	getFilters: '/export/account/getFiltersMeta',
 	//报价单模版
 	getStencilList: quotationUrl + "/templateList",
 	//报价单详情
 	getQuotationDetail: quotationUrl + "/detail",
-
-	//添加报价单
-	saveQuotation: branchUrl + "/saveQuotation",
-	//报价单详情批量删除
-	deleteFromCart: "/export/account/deleteFromQuotation",
-	//报价单导出全部账号
-	quotationExport: "/export/account/quotationExport",
-	//报价单导出验证
-	preExportNumCheck: "/export/account/preExportNumCheck",
-	//获取报价单ID
-	getAccountIdsByQuotation: "/export/account/getAccountIdsByQuotation",
-	//验证码验证是否正确
-	codeCheck: "/export/account/codeCheck",
-	//将账号添加进报价单
-	addToQuotation: "/export/account/addToQuotation",
-	//获取公共分类
-	getCommonClassify: '/accountList/api/getCommonClassify',
-	//获取查询项
-	getFilters: '/export/account/getFiltersMeta'
+	//报价单列表
+	getQuotationList: quotationUrl + "/list",
 
 }

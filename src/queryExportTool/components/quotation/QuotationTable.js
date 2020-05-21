@@ -40,7 +40,7 @@ class QuotationTable extends Component {
 	}
 
 	render() {
-		const { quotationList={}, paginationConfig, isLoading } = this.props
+		const { quotationList = {}, paginationConfig, isLoading } = this.props
 		const columns = [{
 			title: '报价单ID',
 			dataIndex: 'id',
@@ -114,7 +114,7 @@ class QuotationTable extends Component {
 			}
 		}]
 		return (
-			<Table dataSource={quotationList.rows}
+			<Table dataSource={quotationList.list}
 				loading={isLoading}
 				columns={columns}
 				bordered rowKey={record => record.id}
