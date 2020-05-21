@@ -3,48 +3,10 @@ import React from 'react'
 const ExecuteContentDetail = (props) => {
 	const { platform_name } = props;
 	const { data } = props.content;
-	let Item;
-	if (platform_name === "微信公众号") {
-		if (data.execution_type.find(item => parseInt(item.execution_type) === 0).checked === 1) {
-			Item = <tr>
-				<td>执行内容或要求:</td>
-				<td className="special-td" dangerouslySetInnerHTML={{ __html: data.content }}></td>
-			</tr>
-		} else {
-			Item = <tr>
-				<td>文章标题:</td>
-				<td>{data.title}</td>
-			</tr>
-		}
-	} else if (platform_name === "新浪微博") {
-		if (data.execution_type.find(item => parseInt(item.execution_type) === 1).checked === 1) {
-			Item = <tr>
-				<td>直发内容:</td>
-				<td dangerouslySetInnerHTML={{ __html: data.content }}></td>
-			</tr>
-		} else if (data.execution_type.find(item => parseInt(item.execution_type) === 2).checked === 1) {
-			Item = <tr>
-				<td>
-					<div>转发链接:</div>
-					<div>转发语:</div>
-				</td>
-				<td>
-					<div><a href={data.link} target="_blank">{data.link}</a></div>
-					<div dangerouslySetInnerHTML={{ __html: data.content }}></div>
-				</td>
-			</tr>
-		} else {
-			Item = <tr>
-				<td>执行内容或要求:</td>
-				<td className="special-td" dangerouslySetInnerHTML={{ __html: data.content }}></td>
-			</tr>
-		}
-	} else {
-		Item = <tr>
-			<td>执行内容或要求:</td>
-			<td className="special-td" dangerouslySetInnerHTML={{ __html: data.content }}></td>
-		</tr>
-	}
+	let Item = <tr>
+		<td>执行内容/要求:</td>
+		<td className="special-td" dangerouslySetInnerHTML={{ __html: data.content }}></td>
+	</tr>
 	return (
 		<div className="execute-content-box">
 			<table>
