@@ -36,7 +36,7 @@ class DownloadList extends Component {
 		this.setState({
 			selectKey
 		}, () => {
-			this.props.actions.getDownloadList({ page: 1, page_size: 20, ...data, type: selectKey, }).then(() => {
+			this.props.actions.getDownloadList({ page: 1, pageSize: 20, ...data, type: selectKey, }).then(() => {
 				this.setState({
 					loading: false
 				})
@@ -64,11 +64,11 @@ class DownloadList extends Component {
 		this.searchAndLoading(newSearch)
 	}
 	onChangePage = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { page: pagination, pageSize: pageSize }
 		this.searchDownload(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { page: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize
 		})
@@ -112,7 +112,7 @@ class DownloadList extends Component {
 			showSizeChanger: true, showQuickJumper: true,
 			total: downloadList.pagination && downloadList.pagination.total - 0,
 			current: downloadList.pagination && downloadList.pagination.page - 0 || 1,
-			pageSize: downloadList.pagination && downloadList.pagination.page_size - 0 || 20,
+			pageSize: downloadList.pagination && downloadList.pagination.pageSize - 0 || 20,
 			onChange: this.onChangePage,
 			onShowSizeChange: this.onShowSizeChange
 		}
