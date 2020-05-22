@@ -54,7 +54,7 @@ function TagList(props) {
 						</div>}</div>)
 			}
 			{/*filter item.isDeleted标识未删除的数组集合 */}
-			{isOperate && (list.filter(item => item.isDeleted == 2)).length < 20 ? <AddOperate addList={addList} list={list} key={JSON.stringify(list)} /> : null}
+			{isOperate && (list.filter(item => item.isDeleted != 1)).length < 20 ? <AddOperate addList={addList} list={list} key={JSON.stringify(list)} /> : null}
 		</div>
 	)
 }
