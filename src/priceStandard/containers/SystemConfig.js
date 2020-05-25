@@ -5,12 +5,16 @@ import { connect } from "react-redux";
 import SystemEdit from '../components/SystemEdit'
 import SystemList from '../components/SystemList'
 import { Button, Icon, Modal, Spin, message } from 'antd';
-
+// import qs from 'qs'
 function SystemConfig(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
 	const [isLoading, setIsLoading] = useState(true)
 	useEffect(() => {
 		getSystemEquitiesAsync()
+		// let addModel = qs.parse(window.location.search.substring(1))['addModel']
+		// if (addModel) {
+		// 	showEdit(1)
+		// }
 	}, [])
 	//查询列表
 	async function getSystemEquitiesAsync() {

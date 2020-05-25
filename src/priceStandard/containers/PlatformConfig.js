@@ -78,11 +78,13 @@ function PlatformConfig(props) {
 	function onCancel() {
 		setModalProps({ visible: false })
 	}
-	const { priceStandard = {} } = props
+	const { priceStandard = {}, authorizationsReducers = {} } = props
 	const { platformList, platformNoUsedList, groupPlatformList } = priceStandard
+	const systemEquitiesConfig = authorizationsReducers.authVisibleList['system.equities.config']
+
 	const commonProps = {
 		setModalProps, modalProps, onAdd, platformList,
-		groupTypeId, onCancel,
+		groupTypeId, onCancel, systemEquitiesConfig,
 		getUnUseEquitiesByGroupTypeIdAsync, platformNoUsedList, groupTypeAddOrUpdateEquitiesAsync
 	}
 	return (
@@ -127,7 +129,8 @@ function PlatformConfig(props) {
 }
 const mapStateToProps = (state) => {
 	return {
-		priceStandard: state.priceStandard
+		priceStandard: state.priceStandard,
+		authorizationsReducers: state.authorizationsReducers,
 	}
 }
 const mapDispatchToProps = dispatch => ({
