@@ -47,7 +47,7 @@ class Scolle extends Component {
 			});
 			return;
 		}
-		this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: selectCartData.data.length, page_size: 10 }).then((res) => {
+		this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: selectCartData.data.length, pageSize: 10 }).then((res) => {
 			this.setState({
 				loading: false,
 
@@ -75,7 +75,7 @@ class Scolle extends Component {
 					return;
 				}
 
-				this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: this.groupNumber, page_size: 10 }).then((res) => {
+				this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: this.groupNumber, pageSize: 10 }).then((res) => {
 					this.setState({
 						loading: false,
 						showWarn: false

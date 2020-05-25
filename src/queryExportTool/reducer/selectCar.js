@@ -59,7 +59,7 @@ export const selectCartData = handleActions({
 	tabList: {},
 	data: []
 })
-//购物车列表数据
+//购物车列表数据 
 export const selectCarList = handleActions({
 	// [accoutActions.addToCart_success]: (state, action) => {
 	// 	return { ...action.payload }
