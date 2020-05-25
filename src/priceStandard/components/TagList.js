@@ -27,7 +27,7 @@ function TagList(props) {
 
 
 	return (
-		<div className='tag-list'>
+		<div className='tag-list-standard'>
 			{
 				list.map((item, index) => <div key={item.id}>
 					{item.isDeleted == 1 ? null :
