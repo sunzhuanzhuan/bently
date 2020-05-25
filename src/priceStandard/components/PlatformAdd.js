@@ -67,7 +67,6 @@ function PlatformAdd(props) {
 				: <div className='empty-data'>
 					<NoData />
 					<div className='text'>
-						{/* ?addModel=true */}
 						{systemEquitiesConfig ?
 							<a className='add-btn' href='/priceStandard/system'>添加权益类型</a>
 							: '请联系超级管理员添加权益类型'}
