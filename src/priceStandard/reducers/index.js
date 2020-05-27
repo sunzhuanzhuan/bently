@@ -15,7 +15,7 @@ function objToListSystem(data = {}) {
 				value: data.equitiesTypeAttribute == 1 ? '单选' : '复选',
 				type: 'text'
 			}, {
-				name: '权益单',
+				name: '权益',
 				value: data.equitiesList,
 				type: 'tags'
 			}
@@ -31,7 +31,7 @@ function objToListPlatform(data = {}) {
 				value: data.equitiesTypeName,
 				type: 'text'
 			}, {
-				name: '权益单',
+				name: '权益',
 				value: data.equitiesList.filter(item => item.isPitchOn == 1),
 				type: 'tags'
 			}

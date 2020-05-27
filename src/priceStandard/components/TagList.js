@@ -24,8 +24,10 @@ function TagList(props) {
 		setList(deleteList)
 		onChange && onChange(deleteList)
 	}
+
+
 	return (
-		<div className='tag-list'>
+		<div className='tag-list-standard'>
 			{
 				list.map((item, index) => <div key={item.id}>
 					{item.isDeleted == 1 ? null :
@@ -51,7 +53,8 @@ function TagList(props) {
 								: null}
 						</div>}</div>)
 			}
-			{isOperate && list.length < 20 ? <AddOperate addList={addList} list={list} /> : null}
+			{/*filter item.isDeleted标识未删除的数组集合 */}
+			{isOperate && (list.filter(item => item.isDeleted != 1)).length < 20 ? <AddOperate addList={addList} list={list} key={JSON.stringify(list)} /> : null}
 		</div>
 	)
 }

@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import SystemEdit from '../components/SystemEdit'
 import SystemList from '../components/SystemList'
 import { Button, Icon, Modal, Spin, message } from 'antd';
-
 function SystemConfig(props) {
 	const [modalProps, setModalProps] = useState({ visible: false, title: '', content: '' })
 	const [isLoading, setIsLoading] = useState(true)

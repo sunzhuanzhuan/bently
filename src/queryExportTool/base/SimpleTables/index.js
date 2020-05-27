@@ -37,7 +37,7 @@ export default class SimpleTables extends Component {
 					title: title,
 					dataIndex: 'skuTypeName',
 					key: "skuTypeName",
-					align: 'center',
+					align: 'left',
 					render: (text, record) => {
 						return <span>	{text}
 							{record.isSpecial == 1 ? <img src={require('./isSpecial.png')} width='16px' style={{ marginLeft: 5 }} /> : null}
@@ -51,10 +51,11 @@ export default class SimpleTables extends Component {
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
 					dataIndex: 'price1',
 					key: 'price1',
-					align: 'center',
+					align: 'right',
 					render: (text, record) => {
-						const { equitiesIdList = [] } = record
+
 						return <div className='flex-around'>
+							{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
 							<div>
 								<ValueStyle
 									value={numeral(record.price1).format('0,0')}
@@ -69,11 +70,22 @@ export default class SimpleTables extends Component {
 									/>
 								</span> : null}
 							</div>
-							{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
-							{equitiesIdList.length > 0 ? <Equity equitiesIdList={equitiesIdList} /> : null}
+
 						</div>
 					}
-				}
+				},
+				{
+					title: '',
+					dataIndex: 'skuTypeName2',
+					key: "skuTypeName2",
+					align: 'left',
+					render: (text, record) => {
+						const { equitiesIdList = [] } = record
+						return <span>
+							{equitiesIdList.length > 0 ? <Equity equitiesIdList={equitiesIdList} /> : null}
+						</span>
+					}
+				},
 			]
 		}
 		const cloumsMap = {

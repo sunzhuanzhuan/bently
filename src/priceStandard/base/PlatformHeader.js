@@ -9,12 +9,13 @@ const groupTypeId = [
 	{ name: '小红书', platformId: '4' },
 	{ name: '其他平台', platformId: '5' },
 ]
-function PlatformHeader({ list = groupTypeId, setId, }) {
+function PlatformHeader({ list = groupTypeId, setId, setName }) {
 	const [checkedPlat, setCheckedPlat] = useState('9')
 	const [showMore, setShowMore] = useState(true)
-	function clickPlat(plat) {
+	function clickPlat(plat, name) {
 		setCheckedPlat(plat)
 		setId && setId(plat)
+		setName && setName(name)
 	}
 	return (
 		<div className='platform-header'>
@@ -23,7 +24,7 @@ function PlatformHeader({ list = groupTypeId, setId, }) {
 				{list.map(item => <div
 					className={`platform-item ${checkedPlat == item.id ? ' active' : ''}`}
 					key={item.id}
-					onClick={() => clickPlat(item.id)}
+					onClick={() => clickPlat(item.id, item.platformName)}
 				>
 					{item.platformName}
 				</div>)}
@@ -34,11 +35,13 @@ function PlatformHeader({ list = groupTypeId, setId, }) {
 		</div>
 	)
 }
-export function GroupHeader({ list, setId, }) {
+export function GroupHeader({ list, setId, setName }) {
 	const [checkedGroup, setCheckedGroup] = useState('1')
-	function clickPlat(plat) {
+	function clickPlat(plat, name) {
 		setCheckedGroup(plat)
 		setId && setId(plat)
+		setName && setName(name)
+
 	}
 	return (
 		<div className='platform-header'>
@@ -46,7 +49,7 @@ export function GroupHeader({ list, setId, }) {
 			{list.map(item => <div
 				className={`platform-item ${checkedGroup == item.groupTypeId ? ' active' : ''}`}
 				key={item.groupTypeId}
-				onClick={() => clickPlat(item.groupTypeId)}
+				onClick={() => clickPlat(item.groupTypeId, item.groupTypeName)}
 			>
 				{item.platformResVOS.length > 0 ? <HCPopover
 					placement='topLeft'
