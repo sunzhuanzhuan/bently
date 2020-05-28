@@ -25,7 +25,7 @@ class AccountDetails extends Component {
 
 	componentDidMount = () => {
 		const { account_id, actions } = this.props
-		const data = { account_id: account_id }
+		const data = { accountId: account_id }
 		actions.getBaseInfo(data).then(results => {
 			this.setState({
 				isLoading: false

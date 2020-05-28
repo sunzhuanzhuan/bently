@@ -1,15 +1,21 @@
 import { handleActions, createAction } from 'redux-actions';
 import * as accoutActions from '../actions'
-
+const groupTypeMap = {
+	1: 'wx',
+	2: 'xl',
+	3: 'sp',
+	4: 'xhs',
+	5: 'other'
+}
 //侧边栏购物车数据
 export const selectCartData = handleActions({
 	[accoutActions.addToCart_success]: (state, action) => {
-		const addNumber = [...action.payload.data].length
+		const addNumber = [...action.payload.data.data].length
 		const total = state.total + addNumber
 		return { ...state, total }
 	},
 	[accoutActions.removeFromCart_success]: (state, action) => {
-		const deleteData = [...action.payload.data]
+		const deleteData = [...action.payload.data.stagingIds]
 		const dataOld = [...state.data]
 		const addNumber = deleteData.length
 		const total = state.total - addNumber
@@ -19,9 +25,9 @@ export const selectCartData = handleActions({
 	[accoutActions.changeTypeCountSelect]: (state, action) => {
 		const { groupType } = action.payload
 		if (groupType) {
-
+			const key = groupTypeMap[groupType]
 			let tabList = { ...state.tabList }
-			tabList[groupType] = tabList[groupType] - 1
+			tabList[key] = tabList[key] - 1
 			return { ...state, tabList }
 		}
 		return { ...state }
