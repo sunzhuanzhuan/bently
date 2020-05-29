@@ -28,7 +28,7 @@ export const accountList = handleActions({
 		const { is_select } = state
 		if (is_select) {
 			const is_selectOld = [...state.is_select]
-			const deleteData = [...action.payload.data]
+			const deleteData = [...action.payload.data.stagingIds]
 			const is_select = is_selectOld.filter(one => !deleteData.includes(one))
 			return { ...state, is_select }
 		}
@@ -178,9 +178,9 @@ export const addLookDetailOrIndexList = handleActions({
 		}
 	}
 }, {
-		detali: [],
-		index: []
-	})
+	detali: [],
+	index: []
+})
 
 export default combineReducers({
 	arrSelectExactQuery,

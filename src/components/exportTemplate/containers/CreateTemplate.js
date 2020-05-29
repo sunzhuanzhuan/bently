@@ -123,7 +123,7 @@ export default class CreateTemplate extends Component {
 		clearColumns()
 		if (type === 'edit') {
 			// 获取模板基本信息
-			getTemplateInfo({ templateId: templateId })
+			getTemplateInfo({ id: templateId })
 		}
 	}
 

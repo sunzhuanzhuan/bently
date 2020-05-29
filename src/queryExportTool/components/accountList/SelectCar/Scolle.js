@@ -3,6 +3,10 @@ import { Alert, message, Spin } from 'antd';
 import TabList from "./TabList"
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash/debounce';
+const baseParams = {
+	startPageSize: 1,
+	endPageSize: 10
+}
 class Scolle extends Component {
 	constructor(props) {
 		super(props);
@@ -17,12 +21,12 @@ class Scolle extends Component {
 		this.deleteScolle = debounce(this.deleteScolle, 100);
 	}
 	componentDidMount() {
-		const { cheackedKey } = this.props
+		const { cheackedKey = 0 } = this.props
 		this.setState({
 			bigLoading: true,
 			showWarn: false
 		})
-		this.props.actions.getAccountListFromCart({ groupType: cheackedKey }).then((res) => {
+		this.props.actions.getAccountListFromCart({ groupType: cheackedKey, ...baseParams }).then((res) => {
 			const { accounts = [] } = res.data
 			this.groupNumber = accounts && accounts.length
 			this.setState({
@@ -47,7 +51,7 @@ class Scolle extends Component {
 			});
 			return;
 		}
-		this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: selectCartData.data.length, pageSize: 10 }).then((res) => {
+		this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, startPageSize: selectCartData.data.length, endPageSize: 10 }).then((res) => {
 			this.setState({
 				loading: false,
 
@@ -75,7 +79,7 @@ class Scolle extends Component {
 					return;
 				}
 
-				this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, start: this.groupNumber, pageSize: 10 }).then((res) => {
+				this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, startPageSize: this.groupNumber, endPageSize: 10 }).then((res) => {
 					this.setState({
 						loading: false,
 						showWarn: false

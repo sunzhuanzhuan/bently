@@ -45,13 +45,17 @@ class AccountList extends Component {
 		if (search.quotation_id > 0) {
 			getAccountIdsByQuotation({ quotationId: search.quotation_id }).then((res) => {
 				this.setState({
-					selectedRowKeys: res.data,
+					selectedRowKeys: res.data.accountIds || [],
 					quotation_id: search.quotation_id,
 					quotation_name: search.quotation_name
 				})
 			})
 		} else {
-			getAccountListFromCart()
+			getAccountListFromCart({
+				groupType: '',
+				startPageSize: 1,
+				endPageSize: 10
+			})
 
 		}
 	}

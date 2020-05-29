@@ -63,7 +63,7 @@ class QuotationManage extends Component {
 		this.setState({ isLoading: !isLoading })
 	}
 	componentDidMount = () => {
-		this.props.actions.getQuotationList({ page: 1, pageSize: 20 }).then(() => {
+		this.props.actions.getQuotationList({ pageNum: 1, pageSize: 20 }).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}
@@ -72,7 +72,7 @@ class QuotationManage extends Component {
 		this.setState({ selectKey }, () => {
 			this.searchTab({})
 			this.props.history.push({
-				search: `?` + qs.stringify({ page: 1, pageSize: 20 })
+				search: `?` + qs.stringify({ pageNum: 1, pageSize: 20 })
 			})
 		})
 	}
@@ -80,11 +80,11 @@ class QuotationManage extends Component {
 		const { selectKey } = this.state
 		this.setLoading()
 		if (selectKey == 1) {
-			this.props.actions.getQuotationList({ ...newSearch, page: 1, pageSize: 20 }).then(() => {
+			this.props.actions.getQuotationList({ ...newSearch, pageNum: 1, pageSize: 20 }).then(() => {
 				this.setState({ isLoading: false })
 			})
 		} else {
-			this.props.actions.getStencilList({ ...newSearch, page: 1, pageSize: 20 }).then(() => {
+			this.props.actions.getStencilList({ ...newSearch, pageNum: 1, pageSize: 20 }).then(() => {
 				this.setState({ isLoading: false })
 			})
 		}
@@ -109,11 +109,11 @@ class QuotationManage extends Component {
 	}
 	//分页
 	onChange = (pagination, pageSize) => {
-		const param = { page: pagination, pageSize: pageSize }
+		const param = { pageNum: pagination, pageSize: pageSize }
 		this.searchDownload(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
-		const param = { page: pagination, pageSize: pageSize }
+		const param = { pageNum: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize
 		})

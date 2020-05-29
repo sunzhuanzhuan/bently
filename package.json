@@ -93,14 +93,6 @@
 		"analyz": "NODE_ENV=production npm_config_report=true npm run build"
 	},
 	"proxy": {
-		"/api/operator-gateway/search/export/branch/": {
-			"target": "http://yapi.ops.tst-weiboyi.com/mock/129/",
-			"changeOrigin": true
-		},
-		"/api/operator-gateway/export/account/quotation": {
-			"target": "http://yapi.ops.tst-weiboyi.com/mock/129/",
-			"changeOrigin": true
-		},
 		"/api": {
 			"target": "http://nb.dev-weiboyi.com",
 			"changeOrigin": true

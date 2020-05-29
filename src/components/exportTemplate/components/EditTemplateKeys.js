@@ -70,7 +70,7 @@ export default class EditTemplateKeys extends Component {
 		const { templateAllColumns } = data
 		const { getTemplateAllColumns, getTemplateInfo } = this.props.actions
 		// 获取模板基本信息
-		getTemplateInfo({ templateId: templateId }).then(() => {
+		getTemplateInfo({ id: templateId }).then(() => {
 			// 开启自动保存
 			this.autoSave()
 		}).catch(({ errMsg }) => {

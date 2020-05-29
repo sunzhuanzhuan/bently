@@ -42,7 +42,7 @@ class QuotationDetail extends Component {
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
 		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotationId: quotation_id }).then(({ data }) => {
+		getQuotationDetail({ id: quotation_id }).then(({ data }) => {
 			this.props.history.push({
 				search: `?` + qs.stringify({ ...search, companyId: data.company_id })
 			})
@@ -69,7 +69,11 @@ class QuotationDetail extends Component {
 		});
 		//获取选号车的数据
 		const { getAccountListFromCart } = this.props.actions
-		getAccountListFromCart()
+		getAccountListFromCart({
+			groupType: '',
+			startPageSize: 1,
+			endPageSize: 10
+		})
 	}
 	//打开弹窗
 	showModel = () => {

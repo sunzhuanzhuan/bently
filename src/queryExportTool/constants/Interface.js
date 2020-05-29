@@ -62,7 +62,7 @@ export default {
 	//验证码验证是否正确
 	codeCheck: branchUrl + "/codeCheck",
 	//将账号添加进报价单
-	addToQuotation: branchUrl + "addToQuotation",
+	addToQuotation: branchUrl + "/addToQuotation",
 	//获取公共分类
 	getCommonClassify: '/accountList/api/getCommonClassify',
 	//获取查询项

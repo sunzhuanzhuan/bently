@@ -22,6 +22,7 @@ class SearchDown extends Component {
 				const { generationTime } = values
 				const allValue = {
 					...values,
+					currentPage: 1, pageSize: 20,
 					companyId: values.companyId && values.companyId.key,
 					companyName: values.companyId && values.companyId.label,
 					createdAtBegin: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
