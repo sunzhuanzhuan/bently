@@ -134,7 +134,7 @@ class QuotationManage extends Component {
 		})
 		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: exportId }).then((res) => {
 
-			if (res.data.checkRes == 1) {
+			if (res.data.checkRes == 2) {
 				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
 					accountNumber, upLevel, parentName

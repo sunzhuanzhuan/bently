@@ -85,7 +85,7 @@ class QuotationDetail extends Component {
 	exportNew = () => {
 		const search = qs.parse(this.props.location.search.substring(1))
 		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: search.quotation_id }).then((res) => {
-			if (res.data.checkRes == 1) {
+			if (res.data.checkRes == 2) {
 				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
 					accountNumber, upLevel, parentName

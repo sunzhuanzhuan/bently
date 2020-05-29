@@ -71,8 +71,8 @@ class SelectCarList extends Component {
 
 	//根据导出账号个数显示不同弹窗内容
 	checkResult = () => {
-		this.props.actions.preExportNumCheck({ exportType: 1 }).then((res) => {
-			if (res.data.checkRes) {
+		this.props.actions.preExportNumCheck({ exportType: 1, quotationId: '' }).then((res) => {
+			if (res.data.checkRes == 2) {
 				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
 					accountNumber, upLevel, parentName
@@ -83,7 +83,7 @@ class SelectCarList extends Component {
 
 			}
 			this.showModel()
-			this.setState({ typeShow: res.data.checkRes == 1 ? 2 : 1 })
+			this.setState({ typeShow: res.data.checkRes == 2 ? 2 : 1 })
 		})
 	}
 	//设置table选中值

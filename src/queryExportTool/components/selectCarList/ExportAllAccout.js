@@ -127,9 +127,9 @@ class EditQuotation extends Component {
 				<FormItem
 					{...formItemLayout}
 					label="报价单名称"
-					{...(getFieldError('name') ? {} : { help: "请填写报价单的模板名称，不超过30个字" })}
+					{...(getFieldError('quotationName') ? {} : { help: "请填写报价单的模板名称，不超过30个字" })}
 				>
-					{getFieldDecorator('name', {
+					{getFieldDecorator('quotationName', {
 						initialValue: `${groupTypeName}${moment().format("YYYY_MM_DD HH_mm")}`,
 						validateFirst: true,
 						rules: [
