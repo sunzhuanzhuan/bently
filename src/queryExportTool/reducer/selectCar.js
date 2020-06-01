@@ -57,8 +57,8 @@ export const selectCartData = handleActions({
 	},
 	[accoutActions.getAccountListFromCart_success]: (state, action) => {
 		const data = { ...action.payload.data }
-		const { count = {} } = data
-		return { data: [...data.accounts], tabList: { ...count }, total: count && count.total || 0, }
+		const { count = {}, accounts = [] } = data
+		return { data: [...accounts], tabList: { ...count }, total: count && count.total || 0, }
 	}
 }, {
 	total: 0,
