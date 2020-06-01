@@ -35,13 +35,15 @@ export default class SelectFieldsContent extends Component {
 		}
 	}
 
-	componentWillMount() {}
+	componentWillMount() { }
 
 	render() {
 		const { data, groupId, actions } = this.props
 		const { templateAllColumns } = data
+		console.log("SelectFieldsContent -> render -> templateAllColumns", templateAllColumns, groupId)
 		const { selectColumns } = actions
 		const { selected, ids, sources } = templateAllColumns[groupId] || {}
+		console.log("SelectFieldsContent -> render -> selected", selected)
 		// 搜索筛选
 		let { result, resultNumber } = searchFilter(ids, sources, this.state.keyWord)
 		return selected ? <div className='all-fields-select-area-container'>
@@ -56,7 +58,7 @@ export default class SelectFieldsContent extends Component {
 				}} value={selected}>
 					{
 						result.map(({ name, columns }) => {
-							return <FieldsCheckboxGroup key={name} title={name} fields={columns} sources={sources} data={templateAllColumns[groupId]} actions={actions}/>
+							return <FieldsCheckboxGroup key={name} title={name} fields={columns} sources={sources} data={templateAllColumns[groupId]} actions={actions} />
 						})
 					}
 				</CheckboxGroup>

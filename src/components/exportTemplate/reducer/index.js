@@ -21,10 +21,10 @@ function handleColumns(data) {
 		name,
 		"columns": columns.map(item => {
 			// 生成map数据
-			sources[item.column_id] = item
+			sources[item.id] = item
 			// 处理选中的项
-			if (/*item['is_selected'] == 1 || */item['removeable_status'] == 2) defaultSelected.push(item.column_id)
-			return item.column_id
+			if (/*item['is_selected'] == 1 || */item['removeableStatus'] == 2) defaultSelected.push(item.id)
+			return item.id
 		})
 	}))
 	return { ids, sources, defaultSelected }
@@ -35,7 +35,7 @@ function resetColumns(data) {
 	let newData = { ...data }
 	for (let key in newData) {
 		if (!newData.hasOwnProperty(key)) continue
-		const { default_ids } = newData[key]
+		const { defaultIds } = newData[key]
 		newData[key] = update(newData[key], {
 			"sources": {
 				$apply: sources => {
@@ -45,24 +45,23 @@ function resetColumns(data) {
 					}, {})
 				}
 			},
-			"choosed_ids": { $set: default_ids },
-			"selected": { $set: default_ids }
+			"choosedIds": { $set: defaultIds },
+			"selected": { $set: defaultIds }
 		})
 
 	}
 	return newData
 }
 // 处理分组列表为码表
-function handleColumnsWrapToMap(data) {
-	return data.reduce((obj, group) => {
-		obj[group['group_type']] = {
-			...group,
-			...handleColumns([...group['all_columns']]),
-			selected: group['choosed_ids'],
-			priceTypes: group['sku_price_type'] || [1]
-		}
-		return obj
-	}, {})
+function handleColumnsWrapToMap(group) {
+	let obj = {}
+	obj[group['groupType']] = {
+		...group,
+		...handleColumns([...group['allColumns']]),
+		selected: group['choosedIds'],
+		priceTypes: group['skuPriceType'] || [1]
+	}
+	return obj
 }
 
 export const templateAllColumns = handleActions({

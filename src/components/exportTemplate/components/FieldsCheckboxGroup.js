@@ -18,7 +18,7 @@ export default class FieldsCheckboxGroup extends Component {
 	onPriceTypeChange = (priceTypes) => {
 		const { data, actions } = this.props
 		actions.selectPriceType({
-			groupId: data['group_type'],
+			groupId: data['groupType'],
 			priceTypes: priceTypes
 		})
 	}
@@ -28,17 +28,18 @@ export default class FieldsCheckboxGroup extends Component {
 	render() {
 		const { showFields } = this.state
 		const { title, fields = [], sources, data } = this.props
+		console.log("FieldsCheckboxGroup -> render -> fields", fields)
 		return <div className='fields-checkbox-group-container'>
 			<header className='group-head-title'>
 				<h4>{title}</h4>
-				{title === "账号价格信息" && <PriceGroupType onChange={this.onPriceTypeChange} selected={data.priceTypes}/>}
+				{title === "账号价格信息" && <PriceGroupType onChange={this.onPriceTypeChange} selected={data.priceTypes} />}
 				<CollapseSwitch status={showFields} onClick={this.handleClick} />
 			</header>
 			<div className={'group-content-list' + (showFields ? ' show' : '')}>
 				{
 					fields.map(key => {
-						const { column_id: id, name, introduction, removeable_status } = sources[key]
-						return <Checkbox key={id} value={id} disabled={removeable_status == 2}>
+						const { id, name, introduction, removeableStatus } = sources[key]
+						return <Checkbox key={id} value={id} disabled={removeableStatus == 2}>
 							<Label name={name} content={introduction} />
 						</Checkbox>
 					})

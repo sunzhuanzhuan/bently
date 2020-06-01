@@ -22,6 +22,7 @@ export default class EditTemplateKeys extends Component {
 		const { templateAllColumns } = data
 		const { getTemplateAllColumns } = this.props.actions
 		this.setState({ activeKey }, () => {
+			console.log("EditTemplateKeys -> activeKey", activeKey)
 			!templateAllColumns[activeKey] && getTemplateAllColumns({
 				groupType: activeKey,
 				templateId: templateId

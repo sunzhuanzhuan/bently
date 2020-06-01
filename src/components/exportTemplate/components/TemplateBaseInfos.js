@@ -28,6 +28,7 @@ export default class TemplateBaseInfos extends Component {
 		const { getFieldDecorator, getFieldValue, getFieldError } = this.props.form;
 		const { getCompanyList } = this.props.actions;
 		const { templateInfos } = this.props.data;
+
 		const { type } = this.props
 		const { forSpecialCompanyStatus, companyId, companyName, name, introduction } = templateInfos
 		return (type === 'create' || (type === 'edit' && name)) ? <div className='edit-info-wrapper'>

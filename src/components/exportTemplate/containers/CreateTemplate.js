@@ -59,10 +59,10 @@ export default class CreateTemplate extends Component {
 				data.introduction = data.introduction || ''
 				saveTemplate(data).then(({ msg, data }) => {
 					message.success(msg)
-					this.setState({ createLoading: false, templateId: data.templateId })
+					this.setState({ createLoading: false, templateId: data })
 					this.next()
 					if (type === 'create') {
-						onCreate && onCreate({ ...values, templateId: data.templateId })
+						onCreate && onCreate({ ...values, templateId: data })
 					}
 				}).catch((err) => {
 					console.log(err);
@@ -144,12 +144,15 @@ export default class CreateTemplate extends Component {
 		const {
 			saving, current, createLoading: loading, modalType
 		} = this.state
+
+
 		const params = {
 			data: { templateAllColumns, templateInfos },
 			actions,
 			type,
 			templateId: this.state.templateId || this.props.templateId
 		}
+
 		const Content = steps[current].content
 		return <FullScreenModal title={modalTypes[modalType]} show={show} className='template-container' onCancel={this.closeModal}>
 			<div className='full-screen-modal-body'>
