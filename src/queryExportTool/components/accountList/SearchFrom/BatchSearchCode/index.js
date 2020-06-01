@@ -129,7 +129,7 @@ class BatchSearchCode extends Component {
 							})(
 								<Cascader
 									popupClassName="batch-serach-code-cascader"
-									fieldNames={{ label: 'name', value: 'platform_id', children: 'grouped_platforms' }}
+									fieldNames={{ label: 'name', value: 'platformId', children: 'groupedPlatforms' }}
 									options={filtersMetaMap && filtersMetaMap.groups}
 									expandTrigger="click"
 									displayRender={displayRender}

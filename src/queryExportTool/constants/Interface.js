@@ -66,7 +66,7 @@ export default {
 	//获取公共分类
 	getCommonClassify: '/accountList/api/getCommonClassify',
 	//获取查询项
-	getFilters: '/export/account/getFiltersMeta',
+	getFilters: baseUrl + '/getFiltersMeta',
 	//报价单模版
 	getStencilList: quotationUrl + "/templateList",
 	//报价单详情
