@@ -41,8 +41,8 @@ class DetailMessage extends Component {
 			key: 'exportedTimes',
 		}, {
 			title: '创建人：',
-			dataIndex: 'creator_name',
-			key: 'creator_name',
+			dataIndex: 'creatorName',
+			key: 'creatorName',
 		}, {
 			title: '备注：',
 			dataIndex: 'introduction',

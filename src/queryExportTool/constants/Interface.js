@@ -29,7 +29,7 @@ export default {
 	//批量查号下载
 	batchAccountExport: branchUrl + "/batchAccountExport",
 	//账号详情
-	getBaseInfo: branchUrl + "/getBaseInfo",
+	getBaseInfo: baseUrl + "/getBaseInfo",
 	//账号详情---账号评价
 	getDegreeList: "/export/account/getDegreeList",
 	//账号详情---最近应约价
