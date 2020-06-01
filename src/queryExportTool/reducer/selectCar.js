@@ -1,12 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import * as accoutActions from '../actions'
-const groupTypeMap = {
-	1: 'wx',
-	2: 'xl',
-	3: 'sp',
-	4: 'xhs',
-	5: 'other'
-}
+import { groupTypeMap } from '../constants'
 //侧边栏购物车数据
 export const selectCartData = handleActions({
 	[accoutActions.addToCart_success]: (state, action) => {

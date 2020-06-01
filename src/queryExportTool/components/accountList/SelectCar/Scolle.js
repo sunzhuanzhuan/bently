@@ -3,6 +3,8 @@ import { Alert, message, Spin } from 'antd';
 import TabList from "./TabList"
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash/debounce';
+import { groupTypeMap } from '@/queryExportTool/constants'
+
 const baseParams = {
 	startPageSize: 1,
 	endPageSize: 10
@@ -38,7 +40,8 @@ class Scolle extends Component {
 	handleInfiniteOnLoad = (value) => {
 		const { selectCartData, cheackedKey } = this.props
 
-		const lengthMax = cheackedKey ? selectCartData && selectCartData.tabList[cheackedKey] : selectCartData.total
+		const lengthMax = cheackedKey ? selectCartData && selectCartData.tabList[groupTypeMap[cheackedKey]] : selectCartData.total
+		console.log("handleInfiniteOnLoad -> lengthMax", lengthMax, selectCartData.data.length)
 		this.setState({
 			loading: true,
 			showWarn: false
