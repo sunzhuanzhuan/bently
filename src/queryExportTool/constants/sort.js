@@ -146,10 +146,10 @@ export const groupBySorter = {
 				}
 			],
 			check: [
-				// {
-				// 	'title': '防屏蔽',
-				// 	'name': 'trinityIsPreventShielding'
-				// },
+				{
+					'title': '防屏蔽',
+					'name': 'trinityIsPreventShielding'
+				},
 				// {
 				// 	'title': '可带@/话题/链接',
 				// 	'name': 'isSupportTopicAndLink'
