@@ -29,7 +29,7 @@ class SearchDown extends Component {
 					currentPage: 1,
 					pageSize: 20,
 				}
-				delete allValue.generation_time
+				delete allValue.generationTime
 				setValueSearch(allValue)
 			}
 		})
