@@ -172,7 +172,7 @@ class SelectCarList extends Component {
 	}
 	//关闭窗口
 	handleClose = () => {
-		this.props.actions.getStencilList().then(() => {
+		this.props.actions.getStencilList({ pageNum: 1, pageSize: 20 }).then(() => {
 			this.setTypeShow(1, true)
 		})
 
