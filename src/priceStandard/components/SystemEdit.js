@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Input, Radio, Button } from 'antd'
 import TagList from './TagList'
+import { systemTrim } from '@/util'
 
 function SystemEdit(props) {
 	const { setModalProps, equitiesTypeName, id, equitiesTypeAttribute, equitiesList = [] } = props
@@ -13,7 +14,6 @@ function SystemEdit(props) {
 		props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
 				props.systemEditEquities({ ...values, id: id })
-				handleCancel()
 			}
 		});
 	};
@@ -24,7 +24,9 @@ function SystemEdit(props) {
 	const onlyVali = (rule, value, callback) => {
 		const nowList = props.systemEquitiesList.map(one => one.equitiesTypeName)
 		if (value) {
-			if (nowList.includes(value) && value != equitiesTypeName) {
+			if (systemTrim(value).length == 0) {
+				callback('请输入权益类型名称!');
+			} else if (nowList.includes(value) && value != equitiesTypeName) {
 				callback('权益类型名称重复');
 			} else {
 				callback();
