@@ -35,6 +35,10 @@ const actions = {
 	"internal_refuse": {
 		title: "内审拒绝",
 		component: Operating
+	},
+	"internal_export": {
+		title: "导出为Excel",
+		component: Operating
 	}
 }
 
