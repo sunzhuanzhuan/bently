@@ -94,8 +94,7 @@ class Quotation extends Component {
 			dataIndex: 'wbyTypeName',
 			align: 'center',
 			key: 'wbyTypeName',
-		}]
-		const weiboColunm = [{
+		}, {
 			title: '对应预设报价项',
 			dataIndex: 'skuTypeName',
 			align: 'center',
@@ -152,10 +151,10 @@ class Quotation extends Component {
 			}
 		}];
 		const addColumns = [
-			...nameColunm, ...(platformId == 1 ? weiboColunm : []), ...statuColunm, ...(notOperate ? [] : oprateColunm)
+			...nameColunm, ...statuColunm, ...(notOperate ? [] : oprateColunm)
 		]
 		const editColumns = [
-			...idColumns, ...nameColunm, ...(platformId == 1 ? weiboColunm : []), ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
+			...idColumns, ...nameColunm, ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
 		]
 		return (
 			<div style={{ marginBottom: 8 }}>

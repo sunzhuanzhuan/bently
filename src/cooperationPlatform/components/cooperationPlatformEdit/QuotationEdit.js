@@ -58,6 +58,24 @@ class QuotationEdit extends Component {
 			}
 		});
 	}
+	//判断是否删除了之前选中的预设报价项
+	getIsDelete = (list = []) => {
+		const { item = {} } = this.props
+		const { skuTypeList = [] } = item
+		const newList = list.map(item => item.skuTypeId)
+		const objSku = {}
+		list.forEach(item => {
+			objSku[item.skuTypeId] = item
+		})
+		skuTypeList.forEach(item => {
+			objSku[item.skuTypeId] = {
+				...item,
+				isDelete: ((newList.includes(item.skuTypeId)) ? '未删除' : '删除')
+			}
+		})
+		return Object.keys(objSku).map(one => (objSku[one]))
+	}
+
 	onClean = () => {
 		this.props.form.resetFields()
 	}
@@ -72,10 +90,17 @@ class QuotationEdit extends Component {
 	//选择时设置相关数据
 	skuTypeChange = (value, option) => {
 		const { form: { setFieldsValue } } = this.props
-		const { skuTypeName } = option.props
-		setFieldsValue({
-			skuTypeName: skuTypeName,
-		})
+		// const { skuTypeName } = option.props
+		// setFieldsValue({
+		// 	skuTypeName: skuTypeName,
+		// })
+	}
+	//对应预设报价项禁用判断
+	getIsDisabled = (id) => {
+		const { item = {}, trinitySkuTypeVOS = [] } = this.props
+		//已选的对应预设报价项
+		const skuTypesSelected = trinitySkuTypeVOS.map(one => one.skuTypeId).filter(skuTypeId => skuTypeId != item.skuTypeId)
+		return skuTypesSelected.includes(id)
 	}
 
 	render() {
@@ -153,16 +178,17 @@ class QuotationEdit extends Component {
 				</Form.Item>
 				{platformId == 1 ? <Form.Item label="对应预设报价项" {...formLayoutModal} >
 					{
-						getFieldDecorator('skuTypeId', {
-							initialValue: item && item.skuTypeId,
-							rules: [
-								{ required: true, message: '本项为必选项，请选择！' },
-							],
+						getFieldDecorator('skuTypeList', {
+							initialValue: [{ key: item.skuTypeId, value: item.skuTypeName }],
+							// rules: [
+							// 	{ required: true, message: '本项为必选项，请选择！' },
+							// ],
 						})(
-							<Select placeholder="请选择对应预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
+							<Select mode="multiple" labelInValue={true} placeholder="请选择对应预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
 								{skuTypeList.map(one => <Option
 									key={one.skuTypeId}
 									skuTypeName={one.skuTypeName}
+									disabled={this.getIsDisabled(one.skuTypeId)}
 									value={one.skuTypeId}>{one.skuTypeName}</Option>)}
 							</Select>
 						)}
