@@ -191,7 +191,7 @@ class AccountSearch extends React.Component {
 
 	render() {
 		const { selectedItems, isShowMore, changTabNumber } = this.state;
-		const { form, match, history, location, keyword, } = this.props;
+		const { form, match, history, location, keyword, defaultPlatformIds } = this.props;
 		const { getFieldDecorator } = form;
 		const { filterOptions = {} } = this.props.queryExportToolReducer;
 		const { params } = match;
@@ -203,7 +203,7 @@ class AccountSearch extends React.Component {
 			category, group, operation_tag, grouped_sku_types = {}, order_industry_category
 		} = filterOptions[platformType] || {};
 		//参考报价在平台1，2，3时，不现实下拉选择
-		const isShowSelectForPrice = [1, 2, 3].indexOf(parseInt(platformType, 10)) !== -1;
+		const isShowSelectForPrice = [1, 2, 3, 4, 5].indexOf(parseInt(platformType, 10)) !== -1;
 		price.options = grouped_sku_types[platformType] || []
 		const { grouped_platforms = [] } = group;
 
@@ -246,7 +246,9 @@ class AccountSearch extends React.Component {
 			}
 			{
 				grouped_platforms.length > 0 && <LayoutSearch name='平台名称'>
-					{getFieldDecorator('platformIds')(
+					{getFieldDecorator('platformIds', ({
+						initialValue: defaultPlatformIds
+					}))(
 						<ItemLable
 							onClick={(names) => this.onItemLableChange('platformIds', '平台名称', names)}
 							tagsArray={grouped_platforms.map(item => { item.id = item.platform_id; return item })}

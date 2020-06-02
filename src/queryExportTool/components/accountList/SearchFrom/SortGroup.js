@@ -67,7 +67,7 @@ export default class SortGroup extends Component {
 			dataToParams: this.dataToParams,
 		}
 		//平台独有价格项
-		const groupSort = noAddSkuPrice ? [] : handleMoreList(sortMore)
+		const groupSort = handleMoreList(sortMore)
 		const allMoreSort = [...more, ...groupSort]
 		let priceList = [...allMoreSort]
 		priceList.splice(0, 1)

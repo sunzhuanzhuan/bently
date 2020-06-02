@@ -28,7 +28,7 @@ class DefaultChild extends Component {
 		const { getFilters, getAccountList } = this.props.actions
 		const { params: { platformType: groupType } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
-		const basePath = { defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, }
+		const basePath = { defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, platformIds: groupType == 5 ? [23] : [] }
 		this.paramsAll = basePath
 		getAccountList({
 			groupType,
@@ -191,6 +191,7 @@ class DefaultChild extends Component {
 			<AccountSearch keyword={search.keyword || ''}
 				onFilterSearch={this.onFilterSearch}
 				{...this.props}
+				defaultPlatformIds={this.paramsAll.platformIds}
 				serachStart={this.serachStart}
 			/>
 			<Spin spinning={this.state.loading}>
