@@ -57,7 +57,11 @@ class DownloadList extends Component {
 	}
 	searchDownload = (values) => {
 		const search = qs.parse(this.props.location.search.substring(1))
-		const newSearch = { ...search, ...values }
+		const newSearch = {
+			currentPage: 1,
+			pageSize: 20,
+			...search, ...values
+		}
 		this.props.history.push({
 			search: `?` + qs.stringify(newSearch)
 		})

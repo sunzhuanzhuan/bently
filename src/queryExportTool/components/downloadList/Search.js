@@ -22,11 +22,12 @@ class SearchDown extends Component {
 				const { generationTime } = values
 				const allValue = {
 					...values,
-					currentPage: 1, pageSize: 20,
 					companyId: values.companyId && values.companyId.key,
 					companyName: values.companyId && values.companyId.label,
 					createdAtBegin: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
-					createdAtEnd: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD")
+					createdAtEnd: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD"),
+					currentPage: 1,
+					pageSize: 20,
 				}
 				delete allValue.generation_time
 				setValueSearch(allValue)
