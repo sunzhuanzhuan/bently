@@ -46,8 +46,8 @@ class BatchSearch extends Component {
 							{...formItemLayout}
 							label="文件名称"
 						>
-							{getFieldDecorator('keyword', {
-								initialValue: searchValue.keyword
+							{getFieldDecorator('taskName', {
+								initialValue: searchValue.taskName
 							})(
 								<Input placeholder="请输入关键词" />
 							)}

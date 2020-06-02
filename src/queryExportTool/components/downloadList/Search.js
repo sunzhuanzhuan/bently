@@ -65,8 +65,8 @@ class SearchDown extends Component {
 					label="报价单名称"
 					style={{ width: "30%" }}
 				>
-					{getFieldDecorator('keyword', {
-						initialValue: searchValue.keyword
+					{getFieldDecorator('quotationName', {
+						initialValue: searchValue.quotationName
 					})(
 						<Input placeholder="请输入关键词" />
 					)}

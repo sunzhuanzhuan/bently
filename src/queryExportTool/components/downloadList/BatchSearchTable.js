@@ -15,9 +15,8 @@ class BatchSearchTable extends Component {
 			key: 'id',
 		}, {
 			title: '文件名称',
-			dataIndex: 'name',
-
-			key: 'name',
+			dataIndex: 'taskName',
+			key: 'taskName',
 		}, {
 			title: '下载次数',
 			dataIndex: 'downloadTimes',

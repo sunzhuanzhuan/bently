@@ -36,7 +36,7 @@ class DownloadList extends Component {
 		this.setState({
 			selectKey
 		}, () => {
-			this.props.actions.getDownloadList({ currentPage: 1, pageSize: 20, ...data, type: selectKey, }).then(() => {
+			this.props.actions.getDownloadList({ currentPage: 1, pageSize: 20, ...data, taskType: selectKey, }).then(() => {
 				this.setState({
 					loading: false
 				})
@@ -49,7 +49,7 @@ class DownloadList extends Component {
 		this.setState({
 			loading: true
 		})
-		this.props.actions.getDownloadList({ type: selectKey, ...params }).then(() => {
+		this.props.actions.getDownloadList({ taskType: selectKey, ...params }).then(() => {
 			this.setState({
 				loading: false
 			})
