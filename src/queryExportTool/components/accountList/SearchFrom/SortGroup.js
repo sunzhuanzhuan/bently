@@ -57,7 +57,7 @@ export default class SortGroup extends Component {
 		return Object.values(type).filter(one => Object.keys(sort)[0] == one.value).length > 0
 	}
 	render() {
-		const { sorter = {}, sortMore } = this.props
+		const { sorter = {}, sortMore = [] } = this.props
 		const { buttons = [], more = [], priceGoodBadList = [], noAddSkuPrice } = sorter
 		const { sort, } = this.state
 		const propsSortCascader = {
