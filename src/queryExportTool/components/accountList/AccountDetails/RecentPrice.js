@@ -58,9 +58,11 @@ class RecentPrice extends Component {
 				<div style={{ marginTop: 20 }}>
 					<div>
 						<Row className="price-table-row title">
-							<Col span={5}>应约时间</Col>
-							<Col span={6}>价格名称</Col>
+							<Col span={4}>应约时间</Col>
+							<Col span={4}>价格名称</Col>
+							<Col span={1}></Col>
 							<Col span={4}>应约价(元)</Col>
+							<Col span={2}></Col>
 							<Col span={4}>执行数据<MarkMessage
 								content={<div style={{ width: 200 }}>展示的是订单执行后的表现稳定性数据，一般为发布时间后72小时的数据；若为-则是因为该订单未最终执行或未抓取到数据。</div>}
 							/></Col>
@@ -82,16 +84,19 @@ class RecentPrice extends Component {
 									renderItem={(item, index) => (
 										<List.Item key={index} style={{ marginTop: 16 }}>
 											<Row className="price-table-row">
-												<Col span={5}>
+												<Col span={4}>
 													{item.created_time}
 												</Col>
-												<Col span={6}>
-													{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginRight: 4, marginBottom: 4 }} /> : null}
-													{item.skuTypeName}
-													<EquitiesTags list={item.equities} />
-												</Col>
 												<Col span={4}>
+													{item.skuTypeName}
+
+												</Col>
+												<Col span={1}>	{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginBottom: 4 }} /> : null}</Col>
+												<Col span={4} >
 													{item.deal_price}
+												</Col>
+												<Col span={2}>
+													<EquitiesTags list={item.equities} />
 												</Col>
 												<Col span={4} >
 													<div className='execution-data'>
@@ -134,7 +139,7 @@ class RecentPrice extends Component {
 export default RecentPrice;
 function EquitiesTags({ list = [] }) {
 	return list.length > 0 ? <span><MarkMessage text={
-		<img src={require('../../../base/SimpleTables/equity.png')} height='18px' style={{ marginBottom: 1, marginLeft: 4 }} />
+		<img src={require('../../../base/SimpleTables/equity.png')} height='18px' style={{ marginBottom: 1 }} />
 	} content={
 		list.map(one => <Tag key={one.equitiesId} color="blue" style={{ marginTop: 6, marginBottom: 4 }}>
 			{one.is_free == 1 ? <img src={require('../../../images/free.png')} width='14px'
