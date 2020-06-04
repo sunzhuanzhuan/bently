@@ -167,7 +167,7 @@ class QuotationEdit extends Component {
 
 					)}
 				</Form.Item>
-				{platformId == 1 ? <Form.Item label="对应预设报价项" {...formLayoutModal} >
+				<Form.Item label="对应预设报价项" {...formLayoutModal} >
 					{
 						getFieldDecorator('skuTypeIds', {
 							initialValue: item.skuTypeIds,
@@ -183,7 +183,7 @@ class QuotationEdit extends Component {
 									value={one.skuTypeId}>{one.skuTypeName}</Option>)}
 							</Select>
 						)}
-				</Form.Item > : null}
+				</Form.Item >
 
 				<Form.Item label="描述"  {...formLayoutModal}>
 					{getFieldDecorator('description', {
