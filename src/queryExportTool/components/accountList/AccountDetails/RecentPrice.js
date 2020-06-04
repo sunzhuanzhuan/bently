@@ -60,7 +60,6 @@ class RecentPrice extends Component {
 						<Row className="price-table-row title">
 							<Col span={4}>应约时间</Col>
 							<Col span={4}>价格名称</Col>
-							<Col span={1}></Col>
 							<Col span={4}>应约价(元)</Col>
 							<Col span={2}></Col>
 							<Col span={4}>执行数据<MarkMessage
@@ -89,9 +88,8 @@ class RecentPrice extends Component {
 												</Col>
 												<Col span={4}>
 													{item.skuTypeName}
-
+													{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginLeft: 4, marginBottom: 4 }} /> : null}
 												</Col>
-												<Col span={1}>	{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginBottom: 4 }} /> : null}</Col>
 												<Col span={4} >
 													{item.deal_price}
 												</Col>

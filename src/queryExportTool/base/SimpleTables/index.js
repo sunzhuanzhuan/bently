@@ -38,11 +38,11 @@ export default class SimpleTables extends Component {
 					dataIndex: 'skuTypeName',
 					key: "skuTypeName",
 					align: 'left',
-				}, {
-					title: '',
-					dataIndex: 'isSpecial',
-					key: "isSpecial",
-					render: (text) => text == 1 ? <img src={require('./isSpecial.png')} width='16px' style={{ marginLeft: 5 }} /> : null
+					render: (text, record) => {
+						return <span>	{text}
+							{record.isSpecial == 1 ? <img src={require('./isSpecial.png')} width='16px' style={{ marginLeft: 5 }} /> : null}
+						</span>
+					}
 				}, {
 					title: <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格
 						{messageInfoKey ?
