@@ -10,7 +10,7 @@ export default function Equity({ equitiesIdList }) {
 	}
 	const text = <img src={require('./equity.png')} height='18px' style={{ marginTop: 4, marginLeft: 2 }} />
 	const content = <div>
-		{list.map(one => <Tag key={one.equitiesId} color="blue">{one.equitiesName}</Tag>)}
+		{list.map(one => <Tag key={one.equitiesId} color="blue" style={{ cursor: 'auto' }}>{one.equitiesName}</Tag>)}
 	</div>
 	return <span onMouseOver={hoverEquity}><MarkMessage text={text} content={content} /></span>
 }

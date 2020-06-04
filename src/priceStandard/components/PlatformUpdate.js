@@ -38,7 +38,7 @@ function PlatformUpdate(props) {
 			<div className='item'>
 				<div>权益：</div>
 				<div>
-					{equitiesList.map(item => <div key={item.id}><Checkbox
+					{equitiesList.map(item => <div key={item.id} className='equities-item'><Checkbox
 						disabled={item.isUsed == 1}
 						defaultChecked={item.isPitchOn == 1}
 						onChange={e => changeCheckbox(e.target.checked, item)}>
