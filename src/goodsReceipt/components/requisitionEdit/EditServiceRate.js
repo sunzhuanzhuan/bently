@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import { InputNumber, Form } from 'antd';
+import React, { Component } from 'react';
+import { Input, Form } from 'antd';
 import qs from "qs";
 import "./EditServiceRate.less";
-const FormItem = Form.Item
+import { scientificToNumber } from '@/util';
+const FormItem = Form.Item;
+
 class EditServiceRate extends Component {
 	constructor(props) {
 		super(props);
@@ -52,24 +54,23 @@ class EditServiceRate extends Component {
 	render() {
 		const { value, editable, isVerifica } = this.state;
 		const { getFieldDecorator } = this.props.form;
-		const { messageError = "请填写服务费率", vailPrice = {}, inputNumberProps = {}, unit = "", minError } = this.props
+		const { messageError = "请填写服务费率", vailPrice = {}, inputNumberProps = {}, unit = "" } = this.props
 		return (
 			<span className="edit-service-rate">
 
 				{editable ?
 					<FormItem>
 						{getFieldDecorator('serviceRate', {
-							initialValue: value,
+							initialValue: scientificToNumber(Number(value)),
 							validateFirst: true,
 							rules: [
 								{ required: isVerifica, message: messageError },
 								{ validator: vailPrice },
 							],
 						})(
-							<InputNumber
-								step={0.01}
+							<Input
 								{...inputNumberProps}
-								onChange={this.handleChange}
+								style={{width: 180}}
 								onPressEnter={this.check}
 								className="edit-service-rate-value"
 							/>
@@ -82,11 +83,11 @@ class EditServiceRate extends Component {
 					</FormItem>
 					: <span>
 						<FormItem>
-							<InputNumber
-								step={0.01}
+							<Input
 								className="edit-service-rate-value"
+								style={{width: 180}}
 								disabled
-								value={value} />
+								value={scientificToNumber(Number(value))} />
 							<span style={{ paddingLeft: unit ? 9 : 0 }}>{unit}</span>
 							<a className="edit-service-rate-operate" onClick={this.editClick}>修改</a>
 						</FormItem>

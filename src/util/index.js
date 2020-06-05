@@ -170,6 +170,29 @@ const changeHistoryLocation = (historyInstance, paramsString, actionType, value)
 	// console.log(historyInstance, 'historyInstance-index')
 }
 
+/**
+ * 转换科学计数法为数字展示
+ * @param {Number} num 
+ */
+const scientificToNumber = (num) => {
+	if(/\d+\.?\d*e[+-]*\d+/i.test(num)) {
+		var zero = '0',
+		parts = String(num).toLowerCase().split('e'),
+		e = parts.pop(),
+		l = Math.abs(e),
+		sign = e/l,
+		coeff_array = parts[0].split('.');
+		if(sign === -1) {
+			num = zero + '.' + new Array(l).join(zero) + coeff_array.join('');
+		} else {
+			var dec = coeff_array[1];  
+			if(dec) l = l - dec.length;
+			num = coeff_array.join('') + new Array(l+1).join(zero);
+		}
+	}
+	return num;
+}
+
 // export var EventEmitter = require('events')
 
 var events = new EventEmitter()
@@ -188,7 +211,8 @@ export {
 	shallowEqual,
 	changeHistorySearch,
 	changeHistoryLocation,
-	events
+	events,
+	scientificToNumber
 }
 export { calcSum } from './calcSum'
 

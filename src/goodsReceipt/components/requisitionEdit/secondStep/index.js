@@ -117,7 +117,6 @@ class SecondStep extends Component {
 										unit="%"
 										actions={actions}
 										changeAction={updateBaseInfo}
-										minError="请确认填写的是0-100，小数点后最多2位的数字"
 										searchActionByFree={this.searchActionByFree}
 										form={this.props.form}
 										vailPrice={this.vailPrice}
