@@ -33,15 +33,13 @@ class QuotationEdit extends Component {
 			const data = qs.parse(window.location.search.substring(1))
 			const { isEdit, addList, index, updateList, item, editQuotation } = this.props
 			if (!err) {
-				console.log("QuotationEdit -> onAdd -> data.id", data.id)
-
 				if (data.id > 0) {
 					//在修改页面的新增和修改直接保存数据库
 					editQuotation([{
 						...values,
 						trinityPlatformCode: data.code,
 						platformId: data.platformId,
-						skuTypeIds: values.skuTypeIds.map(one => one.key)
+						skuTypeIds: values.skuTypeIds && values.skuTypeIds.map(one => one.key)
 					}], () => { message.success('您的操作已保存成功！') })
 				} else {
 					//新增页面操作页面缓存
@@ -89,7 +87,6 @@ class QuotationEdit extends Component {
 			let arr = item.skuTypeIds.map(item => item.key);
 			return acc.concat(arr);
 		}, [])
-		console.log("QuotationEdit -> getIsDisabled -> skuTypesSelected", skuTypesSelected)
 
 		return skuTypesSelected.includes(id)
 	}
