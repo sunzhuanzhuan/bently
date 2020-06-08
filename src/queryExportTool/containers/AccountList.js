@@ -117,7 +117,7 @@ class AccountList extends Component {
 			this.props.actions.addToQuotation({
 				quotationId, accounts
 			}).then(() => {
-				//window.location.href = `/accountList/quotationManage/detail?quotationId=${quotationId}`
+				window.location.href = `/accountList/quotationManage/detail?quotationId=${quotationId}`
 			})
 		}
 	}
