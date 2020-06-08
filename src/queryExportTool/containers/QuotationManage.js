@@ -122,7 +122,7 @@ class QuotationManage extends Component {
 	//导出
 	applyCodeOk = () => {
 		const { exportId } = this.state
-		this.props.actions.quotationExport({ quotation_id: exportId })
+		this.props.actions.quotationExport({ quotationId: exportId })
 		this.handleCancel()
 		this.setTypeShow(4, true)
 	}
@@ -154,7 +154,7 @@ class QuotationManage extends Component {
 	//关闭页面操作
 	handleClose = () => {
 		this.handleCancel()
-		this.searchDownload()
+		this.searchDownload({ pageNum: 1, pageSize: 20 })
 	}
 	//修改页面操作
 	editTemple = (id) => {

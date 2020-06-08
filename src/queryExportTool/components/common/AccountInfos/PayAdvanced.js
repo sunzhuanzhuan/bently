@@ -11,15 +11,15 @@ class PayAdvanced extends PureComponent {
 	}
 
 	componentDidMount = () => {
-		const { account_id } = this.props;
+		const { accountId } = this.props;
 		this.isMount = true;
 
-		if (account_id) {
-			api.get('export/account/getPrepaymentAccount', { params: { accountIds: account_id } }).then(res => {
+		if (accountId) {
+			api.get('export/account/getPrepaymentAccount', { params: { accountIds: accountId } }).then(res => {
 				const { data = {} } = res;
 
 				const { items = [] } = data;
-				const itemInfo = items && items.find(item => item.accountId === account_id) || {};
+				const itemInfo = items && items.find(item => item.accountId === accountId) || {};
 
 				this.setState({ itemInfo });
 			})
@@ -27,10 +27,10 @@ class PayAdvanced extends PureComponent {
 	}
 
 	render() {
-		const { title = "提前打款", account_id = '' } = this.props;
+		const { title = "提前打款", accountId = '' } = this.props;
 		const { itemInfo } = this.state;
 
-		if (itemInfo.accountId === account_id && itemInfo.isPrepayment === 1)
+		if (itemInfo.accountId === accountId && itemInfo.isPrepayment === 1)
 			return (
 				<div className='pay_advanced_wrapper'>{title}</div>
 			);

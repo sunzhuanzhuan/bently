@@ -36,11 +36,11 @@ export default class MainItem extends PureComponent {
 	track = (eventName, position) => {
 		const { accountListItem = {} } = this.props
 		const { accountId } = accountListItem;
-		sensors.track(eventName, {
-			account_id: accountId,
-			position: position,
-			app_id: 101
-		});
+		// sensors.track(eventName, {
+		// 	accountId: accountId,
+		// 	position: position,
+		// 	app_id: 101
+		// // });
 	}
 	//查看详情
 	lookDetail = (platformId, accountId, groupType) => {
@@ -50,7 +50,7 @@ export default class MainItem extends PureComponent {
 		this.track('AccountListClick', '详情');
 		[1, 9, 93, 24, 25, 103, 110, 115, 116].includes(platformId) ?
 			window.open(`/account/view/detail?${urlPrapm}`, "_blank")
-			: this.props.setModalContent(<AccountDetails account_id={accountId}
+			: this.props.setModalContent(<AccountDetails accountId={accountId}
 			/>)
 		//添加打开详情
 		const { actions } = this.props
@@ -168,7 +168,7 @@ export default class MainItem extends PureComponent {
 							<div style={{ marginTop: 10 }}>
 								{/* 此处展示为是否提前打款标示 */}
 								<LazyLoad once overflow height={20}>
-									<PayAdvanced account_id={accountId} />
+									<PayAdvanced accountId={accountId} />
 								</LazyLoad>
 							</div>
 						</AccountInfos>

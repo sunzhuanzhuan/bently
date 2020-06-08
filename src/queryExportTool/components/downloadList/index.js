@@ -51,7 +51,7 @@ class DownloadList extends Component {
 				return <div>
 					{record.processStatus == 1 || record.processStatus == 4 ? <span>处理中</span> :
 						record.processStatus == 2 ? <span style={{ color: "#0CAD67" }}>已完成</span>
-							: <Popover trigger="hover" content={record.export_failed_reason ? record.export_failed_reason : "无"} title="失败原因">
+							: <Popover trigger="hover" content={record.exportFailedReason ? record.exportFailedReason : "无"} title="失败原因">
 								<span style={{ color: "#FF0000" }}>失败</span>
 							</Popover>}
 				</div>
@@ -70,7 +70,7 @@ class DownloadList extends Component {
 
 				</div>
 			}
-		}].filter(one => !(isBPAuthVisble && one.key == 'company_name'))
+		}].filter(one => !(isBPAuthVisble && one.key == 'companyName'))
 		return (
 			<Table dataSource={downloadList}
 				columns={columns}

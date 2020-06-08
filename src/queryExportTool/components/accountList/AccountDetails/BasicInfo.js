@@ -74,10 +74,10 @@ class BasicInfo extends Component {
 	}
 	render() {
 		const { baseInfoList } = this.props
-		const { cooperation_cases = [], audience = {} } = baseInfoList
-		const { kol_visitor_gender_draw = {}, kol_visitor_age_draw = [],
-			kol_visitor_province_draw = [], kol_visitor_interest_draw = [] } = audience
-		const { male, female } = kol_visitor_gender_draw
+		const { cooperationCases = [], audience = {} } = baseInfoList
+		const { kolVisitorGenderDraw = {}, kolVisitorAgeDraw = [],
+			kolVisitorProvinceDraw = [], kolVisitorInterestDraw = [] } = audience
+		const { male, female } = kolVisitorGenderDraw
 
 		const SexBox = <Row>
 			<Col span={4}></Col>
@@ -92,9 +92,9 @@ class BasicInfo extends Component {
 		const isdata = female <= 0 && male <= 0
 		const AudienceList = [
 			{ colSpan: 5, title: "性别", isShowLine: true, content: isdata ? <div className="none-number">暂无数据</div> : SexBox },
-			{ colSpan: 7, title: "年龄", isShowLine: true, content: <NumberSort list={kol_visitor_age_draw} /> },
-			{ colSpan: 7, title: "兴趣", isShowLine: true, content: <NumberSort list={kol_visitor_interest_draw} /> },
-			{ colSpan: 5, title: "地域", isShowLine: false, content: <NumberSort list={kol_visitor_province_draw} /> }
+			{ colSpan: 7, title: "年龄", isShowLine: true, content: <NumberSort list={kolVisitorAgeDraw} /> },
+			{ colSpan: 7, title: "兴趣", isShowLine: true, content: <NumberSort list={kolVisitorInterestDraw} /> },
+			{ colSpan: 5, title: "地域", isShowLine: false, content: <NumberSort list={kolVisitorProvinceDraw} /> }
 		]
 		const columns = [{
 			title: '博文内容/数据',
@@ -138,7 +138,7 @@ class BasicInfo extends Component {
 				</Row>
 				<Row>
 					<TitleLable title="账号案例" >
-						<Table dataSource={cooperation_cases} columns={columns} pagination={false}
+						<Table dataSource={cooperationCases} columns={columns} pagination={false}
 							bordered rowKey={(record, index) => index} />
 					</TitleLable>
 				</Row>

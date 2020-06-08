@@ -21,7 +21,7 @@ const TempMenu = () => {
 		<Link style={{ paddingLeft: 10 }} to="/accountList/list/1">账号列表</Link>
 		<Link style={{ paddingLeft: 10 }} to="/accountList/selectCarList">选号车列表</Link>
 		<Link style={{ paddingLeft: 10 }} to="/accountList/quotationManage">报价单管理</Link>
-		<Link style={{ paddingLeft: 10 }} to="/accountList/quotationManage/detail?quotation_id=1&&quotation_name=asdad">报价单详情</Link>
+		<Link style={{ paddingLeft: 10 }} to="/accountList/quotationManage/detail?quotationId=1&&quotationName=asdad">报价单详情</Link>
 		<Link style={{ paddingLeft: 10 }} to="/accountList/downloadCenter">下载中心</Link>
 		<Link style={{ paddingLeft: 10 }} to="/accountList/accountDetails">账号详情</Link>
 

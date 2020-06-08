@@ -158,7 +158,7 @@ export class CarContent extends Component {
 		}
 	}
 	render() {
-		const { selectCartData, quotation_id, actions, isAsync } = this.props;
+		const { selectCartData, quotationId, actions, isAsync } = this.props;
 		const { selectCarHeight } = this.state;
 		const { cheackedKey } = this.state
 		const sumAccount = selectCartData && selectCartData.total || 0
@@ -197,7 +197,7 @@ export class CarContent extends Component {
 						</Popconfirm> : null}
 					</div>
 					<div className="footer-right">
-						{quotation_id > 0 ?
+						{quotationId > 0 ?
 							<a>
 								<Button type="primary" onClick={() => {
 									this.props.addQuotation()

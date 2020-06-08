@@ -20,7 +20,7 @@ class RecentPrice extends Component {
 		};
 	}
 	componentDidMount = () => {
-		this.props.actions.getRecentReservationOrderPriceList({ accountId: this.props.account_id, page: 1, pageSize: 10 }).then((res) => {
+		this.props.actions.getRecentReservationOrderPriceList({ accountId: this.props.accountId, page: 1, pageSize: 10 }).then((res) => {
 			this.setState({
 				bigLoading: false,
 			});
@@ -51,7 +51,7 @@ class RecentPrice extends Component {
 		const { visable, bigLoading, warnMessage } = this.state
 		const { recentReservationOrderPriceList, baseInfoList } = this.props
 		const { base = {}, } = baseInfoList
-		const { platform_id } = base
+		const { platformId } = base
 		return (
 			<div className="recent-price-wxy">
 				{visable ? <Alert message="说明:本页展示该账号最近一年在微播易平台的应约时间,价格名称,应约价，及执行后的数据表现" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
@@ -84,25 +84,25 @@ class RecentPrice extends Component {
 										<List.Item key={index} style={{ marginTop: 16 }}>
 											<Row className="price-table-row">
 												<Col span={4}>
-													{item.created_time}
+													{item.createdTime}
 												</Col>
 												<Col span={4}>
 													{item.skuTypeName}
 													{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginLeft: 4, marginBottom: 4 }} /> : null}
 												</Col>
 												<Col span={4} >
-													{item.deal_price}
+													{item.dealPrice}
 												</Col>
 												<Col span={2}>
 													<EquitiesTags list={item.equities} />
 												</Col>
 												<Col span={4} >
 													<div className='execution-data'>
-														{executionList.includes(`${platform_id}`) ?
-															executionMap[platform_id].list.map((one, index) => <div key={index} className='execution-data-item'>
+														{executionList.includes(`${platformId}`) ?
+															executionMap[platformId].list.map((one, index) => <div key={index} className='execution-data-item'>
 																<span>{one.name}：</span>
 																<span>{item[one.value] === 0 || item[one.value] ?
-																	platform_id == 9 ? getWeixinAvg(item[one.value])
+																	platformId == 9 ? getWeixinAvg(item[one.value])
 																		: getOtherAllAvg(item[one.value])
 																	: '-'}</span>
 															</div>
@@ -110,7 +110,7 @@ class RecentPrice extends Component {
 													</div>
 												</Col>
 												<Col span={5}>
-													{platform_id == 106 ? item.live_created_time || '-' : item.media_created_time || '-'}
+													{platformId == 106 ? item.liveCreatedTime || '-' : item.mediaCreatedTime || '-'}
 												</Col>
 											</Row>
 										</List.Item>
@@ -140,7 +140,7 @@ function EquitiesTags({ list = [] }) {
 		<img src={require('../../../base/SimpleTables/equity.png')} height='18px' style={{ marginBottom: 1 }} />
 	} content={
 		list.map(one => <Tag key={one.equitiesId} color="blue" style={{ marginTop: 6, marginBottom: 4 }}>
-			{one.is_free == 1 ? <img src={require('../../../images/free.png')} width='14px'
+			{one.isFree == 1 ? <img src={require('../../../images/free.png')} width='14px'
 				style={{ marginRight: 4, marginBottom: 2 }} /> : null}
 			{one.equitiesName}
 		</Tag>)

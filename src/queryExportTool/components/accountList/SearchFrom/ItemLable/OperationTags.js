@@ -80,7 +80,6 @@ class ItemLable extends Component {
 				<MoreOperate lineHight={40} textMore="更多" >
 					{tagsArray.map((tag) => {
 						const checkedNow = selectedTags && selectedTags.indexOf(tag.id) > -1;
-						const brandList = (tag.brand_list || []).map(one => one.name)
 						return <CheckableTag
 							className="ant-tag-theme-thin"
 							key={tag.id}

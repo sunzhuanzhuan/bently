@@ -64,9 +64,9 @@ class EditQuotation extends Component {
 			callback()
 		}
 	}
-	setTempleName = (company_id = 0, company_name) => {
+	setTempleName = (companyId = 0, companyName) => {
 		this.props.form.setFieldsValue({
-			companyId: { key: company_id, label: company_name ? company_name : "不限" }
+			companyId: { key: companyId, label: companyName ? companyName : "不限" }
 		})
 	}
 	ruleUrlAddTrack = () => {
@@ -75,7 +75,7 @@ class EditQuotation extends Component {
 	1234567890
 	render() {
 		const { getCompanyList, getStencilList, form, createTemplateData = {}, groupTypeName } = this.props
-		const { company_id, name, templateId } = createTemplateData
+		const { companyId, name, templateId } = createTemplateData
 		const { getFieldDecorator, getFieldError } = form
 		const formItemLayout = {
 			labelCol: { span: 5 },
@@ -115,7 +115,7 @@ class EditQuotation extends Component {
 						{...(getFieldError('companyId') ? {} : { help: "选择指定公司后，报价单详情页、最终导出EXCLE中的报价是按照该公司计算公式计算得出；且报价单对所有能看到该公司的AE、销售可见。" })}
 					>
 						{getFieldDecorator('companyId', {
-							initialValue: company_id && company_id.key ? { ...company_id } : { key: 0, label: "不限" },
+							initialValue: companyId && companyId.key ? { ...companyId } : { key: 0, label: "不限" },
 							rules: [
 								{ required: true, message: '指定公司不能为空' },
 							],

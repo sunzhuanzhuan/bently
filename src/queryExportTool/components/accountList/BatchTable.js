@@ -45,7 +45,7 @@ class BatchTable extends Component {
 			render: (text, record) => {
 				const { avatarUrl = require('../common/AccountInfos/img/default.jpg'), accountId, snsName } = record
 				return <span className="sns_name_title"
-					onClick={() => this.setModalContent(<AccountDetails account_id={accountId} />)}>
+					onClick={() => this.setModalContent(<AccountDetails accountId={accountId} />)}>
 					<span data-src={avatarUrl ? `http://api-webroot.api.weiboyi.com/pic.php?picurl=${avatarUrl}` : ""} id={`avatar_list_${accountId}`}></span>
 					{snsName}
 				</span>

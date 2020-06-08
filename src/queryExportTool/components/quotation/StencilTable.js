@@ -20,7 +20,7 @@ class StencilTable extends Component {
 	}
 
 	render() {
-		const { stencilList={}, paginationConfig, isLoading } = this.props
+		const { stencilList = {}, paginationConfig, isLoading } = this.props
 		const columns = [
 			{
 				title: '模版名称',
@@ -74,15 +74,15 @@ class StencilTable extends Component {
 				}
 			}]
 		return (
-			<Table dataSource={stencilList.list||[]}
+			<Table dataSource={stencilList.list || []}
 				loading={isLoading} columns={columns}
 				bordered
 				rowKey={record => record.id}
 				pagination={{
 					...paginationConfig,
-					total:  stencilList.total,
-					current:  stencilList.page,
-					pageSize:  stencilList.pageSize
+					total: stencilList.total,
+					current: stencilList.pageNum,
+					pageSize: stencilList.pageSize
 				}}
 			/>
 		);

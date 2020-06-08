@@ -205,7 +205,7 @@ class AccountSearch extends React.Component {
 		//参考报价在平台1，2，3时，不现实下拉选择
 		const isShowSelectForPrice = [1, 2, 3, 4, 5].indexOf(parseInt(platformType, 10)) !== -1;
 		price.options = groupedSkuTypes[platformType] || []
-		const { grouped_platforms = [] } = group;
+		const { groupedPlatforms = [] } = group;
 
 		const historyFrom = <div>
 			{orderIndustryCategory && <LayoutSearch name=
@@ -245,13 +245,13 @@ class AccountSearch extends React.Component {
 			</LayoutSearch>
 			}
 			{
-				grouped_platforms.length > 0 && <LayoutSearch name='平台名称'>
+				groupedPlatforms.length > 0 && <LayoutSearch name='平台名称'>
 					{getFieldDecorator('platformIds', ({
 						initialValue: defaultPlatformIds
 					}))(
 						<ItemLable
 							onClick={(names) => this.onItemLableChange('platformIds', '平台名称', names)}
-							tagsArray={grouped_platforms.map(item => { item.id = item.platform_id; return item })}
+							tagsArray={groupedPlatforms.map(item => { item.id = item.platformId; return item })}
 						/>
 					)}
 				</LayoutSearch>

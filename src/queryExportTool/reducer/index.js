@@ -9,43 +9,43 @@ import * as quotation from "./quotation";
 //账号列表的数据
 export const accountList = handleActions({
 	[accoutActions.addSelectStatic]: (state, action) => {
-		const { is_select } = state
+		const { isSelect } = state
 
-		if (is_select) {
-			let is_select = [...state.is_select, ...action.payload]
-			return { ...state, is_select }
+		if (isSelect) {
+			let isSelect = [...state.isSelect, ...action.payload]
+			return { ...state, isSelect }
 		}
 	},
 	// [accoutActions.addToCart_success]: (state, action) => {
-	// 	const { is_select } = state
-	// 	if (is_select) {
-	// 		let is_select = [...state.is_select, ...action.payload.data]
-	// 		return { ...state, is_select }
+	// 	const { isSelect } = state
+	// 	if (isSelect) {
+	// 		let isSelect = [...state.isSelect, ...action.payload.data]
+	// 		return { ...state, isSelect }
 	// 	}
 	// },
 
 	[accoutActions.removeFromCart_success]: (state, action) => {
-		const { is_select } = state
-		if (is_select) {
-			const is_selectOld = [...state.is_select]
+		const { isSelect } = state
+		if (isSelect) {
+			const isSelectOld = [...state.isSelect]
 			const deleteData = [...action.payload.data.stagingIds]
-			const is_select = is_selectOld.filter(one => !deleteData.includes(one))
-			return { ...state, is_select }
+			const isSelect = isSelectOld.filter(one => !deleteData.includes(one))
+			return { ...state, isSelect }
 		}
 	},
 	[accoutActions.clearCart_success]: (state, action) => {
 		return {
-			...state, is_select: []
+			...state, isSelect: []
 		}
 	},
 	[accoutActions.getAccountList_success]: (state, action) => {
 		const data = { ...action.payload.data }
 		const { result, statistic } = data
-		const is_select = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
+		const isSelect = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
 		return {
 			...result,
 			statistic: statistic,
-			is_select: is_select
+			isSelect: isSelect
 		}
 	}
 }, {})
@@ -57,42 +57,42 @@ export const historyData = handleAction('collectHistoryData', (state, action) =>
 //批量查号的数据
 export const batchSearchList = handleActions({
 	[accoutActions.addSelectStatic]: (state, action) => {
-		const { is_select } = state
-		if (is_select) {
-			let is_select = [...state.is_select, ...action.payload]
-			return { ...state, is_select }
+		const { isSelect } = state
+		if (isSelect) {
+			let isSelect = [...state.isSelect, ...action.payload]
+			return { ...state, isSelect }
 		}
 	},
 	// [accoutActions.addToCart_success]: (state, action) => {
-	// 	const { is_select } = state
-	// 	if (is_select) {
-	// 		let is_select = [...state.is_select, ...action.payload.data]
-	// 		return { ...state, is_select }
+	// 	const { isSelect } = state
+	// 	if (isSelect) {
+	// 		let isSelect = [...state.isSelect, ...action.payload.data]
+	// 		return { ...state, isSelect }
 	// 	}
 	// },
 	[accoutActions.removeFromCart_success]: (state, action) => {
-		const { is_select } = state
-		if (is_select) {
-			const is_selectOld = [...state.is_select]
-			if (is_selectOld.length > 0) {
+		const { isSelect } = state
+		if (isSelect) {
+			const isSelectOld = [...state.isSelect]
+			if (isSelectOld.length > 0) {
 				const deleteData = [...action.payload.data]
-				const is_select = is_selectOld.filter(one => !deleteData.includes(one))
-				return { ...state, is_select }
+				const isSelect = isSelectOld.filter(one => !deleteData.includes(one))
+				return { ...state, isSelect }
 			}
 		}
 
 	},
 	[accoutActions.cleanBatchSearch]: (state, action) => {
-		return { ...state, is_select: [] }
+		return { ...state, isSelect: [] }
 	},
 	[accoutActions.getBatchSearch_success]: (state, action) => {
 		const data = { ...action.payload.data }
 		const { result, statistic } = data
-		const is_select = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
+		const isSelect = result.list.filter(one => one.isSelected == 1).map(one => one.accountId)
 		return {
 			...result,
 			statistic: statistic,
-			is_select: is_select
+			isSelect: isSelect
 		}
 	}
 }, {})

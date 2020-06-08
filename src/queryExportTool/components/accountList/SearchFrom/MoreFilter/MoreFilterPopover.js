@@ -29,7 +29,7 @@ export default class MoreFilterPopover extends React.Component {
 		this.setState({ moreFilterVisible: false })
 	}
 	render() {
-		const { filter_more, style } = this.props;
+		const { filterMore, style } = this.props;
 		const { selectedItems, visible } = this.state;
 		console.log('style, ', style)
 		return <Popover
@@ -40,7 +40,7 @@ export default class MoreFilterPopover extends React.Component {
 			onVisibleChange={this.onVisibleChange}
 			visible={visible}
 			trigger='click'
-			content={<MoreFilter ref={e => this.MoreFilterNode = e} onOk={this.onMoreFilterOk} onCancel={this.onMoreFilterCancel} filterMore={filter_more}></MoreFilter>}
+			content={<MoreFilter ref={e => this.MoreFilterNode = e} onOk={this.onMoreFilterOk} onCancel={this.onMoreFilterCancel} filterMore={filterMore}></MoreFilter>}
 		>
 			<span className="filter-common-items-more" onClick={this.showMore}>
 				更多筛选<Icon style={{ paddingLeft: '10px' }} type={visible ? 'up' : 'down'}></Icon>

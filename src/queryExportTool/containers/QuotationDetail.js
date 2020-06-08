@@ -41,10 +41,10 @@ class QuotationDetail extends Component {
 			detailLoading: true
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
-		const quotation_id = search.quotation_id
-		getQuotationDetail({ id: quotation_id }).then(({ data }) => {
+		const quotationId = search.quotationId
+		getQuotationDetail({ id: quotationId }).then(({ data }) => {
 			this.props.history.push({
-				search: `?` + qs.stringify({ ...search, companyId: data.company_id })
+				search: `?` + qs.stringify({ ...search, companyId: data.companyId })
 			})
 			this.setState({
 				detailLoading: false,
@@ -61,7 +61,7 @@ class QuotationDetail extends Component {
 			}
 		})
 		getQuotationAccountSearch(
-			getPostFrom({ quotationId: parseInt(quotation_id) })
+			getPostFrom({ quotationId: parseInt(quotationId) })
 		).then(results => {
 			this.setState({
 				isLoading: false,
@@ -84,7 +84,7 @@ class QuotationDetail extends Component {
 	//导出方法
 	exportNew = () => {
 		const search = qs.parse(this.props.location.search.substring(1))
-		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: search.quotation_id }).then((res) => {
+		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: search.quotationId }).then((res) => {
 			if (res.data.checkRes == 2) {
 				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
@@ -133,7 +133,7 @@ class QuotationDetail extends Component {
 			isLoading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotation_id }
+		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotationId }
 
 		this.setLoading()
 		if (key == 10) {
@@ -149,18 +149,18 @@ class QuotationDetail extends Component {
 	addSelectedRowKeysToCart = (selectedRowKeys) => {
 		this.setState({ selectedRowKeys })
 	}
-	batchRemove = (id, type, numberType, follower_count) => {
+	batchRemove = (id, type, numberType, followerCount) => {
 		//selectedRowKeys,
 		const { selectKey } = this.state
 		const search = qs.parse(this.props.location.search.substring(1))
-		//this.props.actions.deleteFromCart({ account_ids: selectedRowKeys, quotation_id: search.quotation_id }).then((res) => {
+		//this.props.actions.deleteFromCart({ accountIds: selectedRowKeys, quotationId: search.quotationId }).then((res) => {
 		this.props.actions.deleteFromCart(
 			{
 				accountIds: [id],
-				quotationId: search.quotation_id,
+				quotationId: search.quotationId,
 				type: type,
 				numberType: numberType,
-				followerCount: follower_count
+				followerCount: followerCount
 			}).then((res) => {
 				message.success('删除成功', 2);
 				let data = { groupType: selectKey, ...search }
@@ -249,7 +249,7 @@ class QuotationDetail extends Component {
 							报价单详情
 						</h2>
 						<div style={{ float: "right", marginRight: 60 }}>
-							<Link to={`/accountList/quotaList/1?quotation_id=${search.quotation_id}&&quotation_name=${quotationDetail.name}`}>
+							<Link to={`/accountList/quotaList/1?quotationId=${search.quotationId}&&quotationName=${quotationDetail.name}`}>
 								<Button style={{ marginRight: 20 }}>添加账号</Button>
 							</Link>
 							<Button type="primary" onClick={this.exportNew}>导出报价单</Button>

@@ -21,6 +21,7 @@ class Heard extends Component {
 			isFamous, gender, areaName, ageGroup, isVerified, verifiedStatus, url, snsId } = base
 		const IsWei = isFamous == 2
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
+
 		return (
 			<div>
 				<Row>
@@ -33,11 +34,11 @@ class Heard extends Component {
 					<Col span={20}>
 						<Row>
 							<Col span={2} style={{ width: 18, marginTop: -2 }}>
-								<WBYPlatformIcon weiboType={platformId} widthSize={14} />
+								<WBYPlatformIcon weibo_type={platformId} widthSize={14} />
 							</Col>
 							<Col span={16}>
 								<div style={{ float: "left", marginRight: 10 }} >{snsName}
-									<WeiboVip platformId={platformId} verifiedStatus={verifiedStatus} marginTop={0} />
+									<WeiboVip platformId={`${platformId}`} verifiedStatus={verifiedStatus} marginTop={0} />
 									<PlatformVerified isVerified={isVerified} platformId={platformId} />
 								</div>
 								<div style={{ marginTop: -4 }}>

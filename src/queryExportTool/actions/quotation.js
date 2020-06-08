@@ -60,8 +60,8 @@ export const {
 	quotationExport,
 	quotationExport_success
 } = createHttpAction('quotationExport', Interface.quotationExport, {
-	isTrack: true, trackResult: ({ quotation_id }, { task_id }) => ({
-		quotation_id, task_id
+	isTrack: true, trackResult: ({ quotationId }, { task_id }) => ({
+		quotationId, task_id
 	})
 })
 //报价单导出验证
