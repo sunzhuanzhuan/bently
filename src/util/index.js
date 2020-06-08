@@ -178,6 +178,11 @@ var events = new EventEmitter()
 // })
 // window.events = events;
 // events.emit('message', 'hello world')
+//去掉空格
+function systemTrim(str) {
+	var regExp = /(^\s*)|(\s*$)/;
+	return str.replace(regExp, "");
+}
 export {
 	showLoading,
 	hideLoading,
@@ -188,7 +193,8 @@ export {
 	shallowEqual,
 	changeHistorySearch,
 	changeHistoryLocation,
-	events
+	events,
+	systemTrim
 }
 export { calcSum } from './calcSum'
 
@@ -199,12 +205,12 @@ String.prototype.toUpperCaseFirst = function () {
 }
 
 //export getDomain
-export const domain = (function(hostname){
+export const domain = (function (hostname) {
 	let domain;
 	// 判断是否为IP
 	if (/^((\d+\.\d+\.\d+\.\d+)|localhost)$/.test(hostname)) {
 		domain = hostname
-	}else {
+	} else {
 		// 截取主域名
 		domain = '.' + hostname.split('.').slice(-2).join('.')
 	}

@@ -3,6 +3,7 @@ import { Tag, Icon, Popover, Form, Input, Button } from 'antd';
 import './TagList.less'
 import HCPopover from '../base/HCPopover'
 import api from '@/api'
+import { systemTrim } from '@/util'
 function TagList(props) {
 	const [list, setList] = useState(props.value || [])
 	const { isOperate, onChange } = props
@@ -105,7 +106,10 @@ function AddContent(props) {
 				equitiesName: value
 			}
 		}).catch(err => callback(err))
-		if (nowList.includes(value)) {
+		if (systemTrim(value).length == 0) {
+			callback('请填写权益名称!');
+		}
+		else if (nowList.includes(value)) {
 			callback('权益名称重复');
 		} else if (!data) {
 			callback('权益名称重复');
@@ -116,7 +120,6 @@ function AddContent(props) {
 	return <Form>
 		<Form.Item label="权益名称" >
 			{getFieldDecorator('equitiesName', {
-
 				rules: [
 					{
 						required: true,

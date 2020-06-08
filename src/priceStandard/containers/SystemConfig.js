@@ -18,14 +18,25 @@ function SystemConfig(props) {
 		setIsLoading(false)
 	}
 	//添加修改接口
-	async function systemEditEquities(data) {
+	function systemEditEquities(data) {
 		if (data.id) {
-			await props.actions.systemUpdateEquities(data)
+			props.actions.systemUpdateEquities(data).then(() => {
+				getSystemEquitiesAsync()
+				message.success('操作成功')
+				setModalProps({ visible: false })
+			}).catch((err) => {
+				message.error(err.errorMsg)
+			})
 		} else {
-			await props.actions.systemAddEquities(data)
+			props.actions.systemAddEquities(data).then(() => {
+				getSystemEquitiesAsync()
+				message.success('操作成功')
+				setModalProps({ visible: false })
+			}).catch((err) => {
+				message.error(err.errorMsg)
+			})
 		}
-		getSystemEquitiesAsync()
-		message.success('操作成功')
+
 	}
 	//删除操作
 	async function systemDeleteEquitiesAsync(id) {

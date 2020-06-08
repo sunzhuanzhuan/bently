@@ -31,7 +31,9 @@ class BaseInfo extends Component {
 			})
 			//此处查询报价项列表
 			getTrinitySkuTypeList({ trinityPlatformCode: data.code, platformId: data.platformId }).then(({ data }) => {
-				const dataSku = { trinitySkuTypeVOS: data }
+				const dataSku = {
+					trinitySkuTypeVOS: this.changeSkuTypeList(data)
+				}
 				this.setState(dataSku, () => {
 					this.props.form.setFieldsValue(dataSku)
 				})
@@ -45,7 +47,16 @@ class BaseInfo extends Component {
 			})
 		}
 	}
-	updateBaseInfoState = (data) => {
+	changeSkuTypeList = (list = []) => {
+		return list.map(item => ({
+			...item,
+			skuTypeIds: item.skuTypeList.map(item => ({
+				key: item.skuTypeId,
+				label: item.skuTypeName
+			}))
+		}))
+	}
+	updateBaseInfotate = (data) => {
 		this.setState(data)
 	}
 	//前台新增数据
@@ -85,7 +96,7 @@ class BaseInfo extends Component {
 				trinityPlatformCode: data.code,
 				platformId: data.platformId
 			}).then(({ data }) => {
-				this.setState({ trinitySkuTypeVOS: data })
+				this.setState({ trinitySkuTypeVOS: this.changeSkuTypeList(data) })
 				onChange && onChange()
 			})
 		})
@@ -125,7 +136,7 @@ class BaseInfo extends Component {
 		})
 	}
 	render() {
-		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail, cooperationPlatformReducer } = this.props
+		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail, cooperationPlatformReducer, } = this.props
 		const { agentVo = {} } = cooperationPlatformInfoDetail
 		const { getFieldDecorator, getFieldValue } = form
 
@@ -223,6 +234,7 @@ class BaseInfo extends Component {
 						content: <QuotationEdit
 							key={getFieldValue("cooperationPlatformKey")}
 							{...operateProps}
+							isAddCooperation={true}
 						/>
 					})}
 					>新增报价项</a></div>

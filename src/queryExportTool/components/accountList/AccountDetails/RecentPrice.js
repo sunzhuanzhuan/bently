@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, message, Spin, Row, Col, Alert, Skeleton } from 'antd';
+import { List, message, Spin, Row, Col, Alert, Tag } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import "./RecentPrice.less"
 import { executionList, executionMap } from "../../../constants/executionData";
@@ -58,10 +58,11 @@ class RecentPrice extends Component {
 				<div style={{ marginTop: 20 }}>
 					<div>
 						<Row className="price-table-row title">
-							<Col span={5}>应约时间</Col>
-							<Col span={5}>价格名称</Col>
+							<Col span={4}>应约时间</Col>
+							<Col span={4}>价格名称</Col>
 							<Col span={4}>应约价(元)</Col>
-							<Col span={5}>执行数据<MarkMessage
+							<Col span={2}></Col>
+							<Col span={4}>执行数据<MarkMessage
 								content={<div style={{ width: 200 }}>展示的是订单执行后的表现稳定性数据，一般为发布时间后72小时的数据；若为-则是因为该订单未最终执行或未抓取到数据。</div>}
 							/></Col>
 							<Col span={5}>发布时间</Col>
@@ -82,16 +83,20 @@ class RecentPrice extends Component {
 									renderItem={(item, index) => (
 										<List.Item key={index} style={{ marginTop: 16 }}>
 											<Row className="price-table-row">
-												<Col span={5}>
+												<Col span={4}>
 													{item.created_time}
 												</Col>
-												<Col span={5}>
-													{item.price_label}
-												</Col>
 												<Col span={4}>
+													{item.skuTypeName}
+													{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginLeft: 4, marginBottom: 4 }} /> : null}
+												</Col>
+												<Col span={4} >
 													{item.deal_price}
 												</Col>
-												<Col span={5} >
+												<Col span={2}>
+													<EquitiesTags list={item.equities} />
+												</Col>
+												<Col span={4} >
 													<div className='execution-data'>
 														{executionList.includes(`${platform_id}`) ?
 															executionMap[platform_id].list.map((one, index) => <div key={index} className='execution-data-item'>
@@ -105,7 +110,7 @@ class RecentPrice extends Component {
 													</div>
 												</Col>
 												<Col span={5}>
-													{platform_id == 106 ? item.liveCreatedTime || '-' : item.mediaCreatedTime || '-'}
+													{platform_id == 106 ? item.live_created_time || '-' : item.media_created_time || '-'}
 												</Col>
 											</Row>
 										</List.Item>
@@ -130,3 +135,15 @@ class RecentPrice extends Component {
 }
 
 export default RecentPrice;
+function EquitiesTags({ list = [] }) {
+	return list.length > 0 ? <span><MarkMessage text={
+		<img src={require('../../../base/SimpleTables/equity.png')} height='18px' style={{ marginBottom: 1 }} />
+	} content={
+		list.map(one => <Tag key={one.equitiesId} color="blue" style={{ marginTop: 6, marginBottom: 4 }}>
+			{one.is_free == 1 ? <img src={require('../../../images/free.png')} width='14px'
+				style={{ marginRight: 4, marginBottom: 2 }} /> : null}
+			{one.equitiesName}
+		</Tag>)
+	} /></span> : null
+}
+

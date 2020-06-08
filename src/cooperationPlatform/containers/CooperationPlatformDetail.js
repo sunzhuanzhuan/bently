@@ -28,9 +28,18 @@ class CooperationPlatformDetail extends Component {
 		this.setState({
 			isLoading: false,
 			cooperationPlatformInfoDetail: coRes.data,
-			trinitySkuTypeList: tsRes.data,
+			trinitySkuTypeList: this.changeSkuTypeList(tsRes.data),
 			trinityTollTypeList: ttRes.data
 		})
+	}
+	changeSkuTypeList = (list = []) => {
+		return list.map(item => ({
+			...item,
+			skuTypeIds: item.skuTypeList.map(item => ({
+				key: item.skuTypeId,
+				label: item.skuTypeName
+			}))
+		}))
 	}
 	render() {
 		const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
@@ -53,7 +62,7 @@ class CooperationPlatformDetail extends Component {
 			{ title: "结算方式", content: settleType == 1 ? '预付' : '周期结算' },
 			{ title: "回票方式", content: returnInvoiceType == 1 ? '全部回款' : returnInvoiceType == 2 ? '部分回款' : '不回款' },
 			{ title: "回票类型", content: invoiceArr[invoiceType] },
-			{ title: "发票税率", content: `${Number(agentTaxRate || 0) * 100} %`, isHide: invoiceType != 1  },
+			{ title: "发票税率", content: `${Number(agentTaxRate || 0) * 100} %`, isHide: invoiceType != 1 },
 		]
 		const { isLoading } = this.state
 		return (

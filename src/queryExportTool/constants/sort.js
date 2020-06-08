@@ -150,10 +150,10 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
-				{
-					'title': '可带@/话题/链接',
-					'name': 'isSupportTopicAndLink'
-				},
+				// {
+				// 	'title': '可带@/话题/链接',
+				// 	'name': 'isSupportTopicAndLink'
+				// },
 				isLowQuality,
 				//价格优劣
 				defaultQuotePriceDiscount
@@ -309,17 +309,17 @@ export const groupBySorter = {
 						label: '由远及近'
 					}]
 				},
-				{
-					value: 'skuOpenQuotePrice',
-					label: '参考报价',
-					children: [{
-						value: 'desc',
-						label: '从高到低'
-					}, {
-						value: 'asc',
-						label: '从低到高'
-					}]
-				}
+				// {
+				// 	value: 'skuOpenQuotePrice',
+				// 	label: '参考报价',
+				// 	children: [{
+				// 		value: 'desc',
+				// 		label: '从高到低'
+				// 	}, {
+				// 		value: 'asc',
+				// 		label: '从低到高'
+				// 	}]
+				// }
 			],
 			default: {
 				//followerCount: 'desc'
@@ -374,17 +374,17 @@ export const groupBySorter = {
 						label: '由远及近'
 					}]
 				},
-				{
-					value: 'skuOpenQuotePrice',
-					label: '参考报价',
-					children: [{
-						value: 'desc',
-						label: '从高到低'
-					}, {
-						value: 'asc',
-						label: '从低到高'
-					}]
-				}
+				// {
+				// 	value: 'skuOpenQuotePrice',
+				// 	label: '参考报价',
+				// 	children: [{
+				// 		value: 'desc',
+				// 		label: '从高到低'
+				// 	}, {
+				// 		value: 'asc',
+				// 		label: '从低到高'
+				// 	}]
+				// }
 			],
 			default: {
 				//followerCount: 'desc' 

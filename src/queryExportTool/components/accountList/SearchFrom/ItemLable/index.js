@@ -21,7 +21,8 @@ class ItemLable extends Component {
 	}
 	componentDidMount = () => {
 		const { value } = this.props
-		this.setState({ selectedTags: this.props.value })
+		console.log("ItemLable -> componentDidMount -> value", value)
+		this.setState({ selectedTags: value })
 
 	}
 	componentWillReceiveProps(nextProps) {
@@ -30,6 +31,8 @@ class ItemLable extends Component {
 			this.setState({
 				selectedTags: nextProps.value || []
 			})
+			console.log("ItemLable -> componentWillReceiveProps -> nextProps.value", nextProps.value)
+
 		}
 	}
 
@@ -70,6 +73,7 @@ class ItemLable extends Component {
 	render() {
 		const { tagsArray = [], isTooltip } = this.props
 		const { selectedTags } = this.state;
+		console.log("ItemLable -> render -> selectedTags", selectedTags)
 		return (
 			<div className="item-lable-box">
 				<MoreOperate lineHight={40} textMore="更多" >

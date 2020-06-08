@@ -57,7 +57,7 @@ export default class SortGroup extends Component {
 		return Object.values(type).filter(one => Object.keys(sort)[0] == one.value).length > 0
 	}
 	render() {
-		const { sorter = {}, sortMore } = this.props
+		const { sorter = {}, sortMore = [] } = this.props
 		const { buttons = [], more = [], priceGoodBadList = [], noAddSkuPrice } = sorter
 		const { sort, } = this.state
 		const propsSortCascader = {
@@ -67,7 +67,7 @@ export default class SortGroup extends Component {
 			dataToParams: this.dataToParams,
 		}
 		//平台独有价格项
-		const groupSort = noAddSkuPrice ? [] : handleMoreList(sortMore)
+		const groupSort = handleMoreList(sortMore)
 		const allMoreSort = [...more, ...groupSort]
 		let priceList = [...allMoreSort]
 		priceList.splice(0, 1)
