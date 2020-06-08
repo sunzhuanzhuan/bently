@@ -87,7 +87,7 @@ class RecentPrice extends Component {
 													{item.createdTime}
 												</Col>
 												<Col span={4}>
-													{item.skuTypeName}
+													{item.priceLabel}
 													{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginLeft: 4, marginBottom: 4 }} /> : null}
 												</Col>
 												<Col span={4} >
