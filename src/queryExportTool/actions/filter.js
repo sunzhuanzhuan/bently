@@ -29,7 +29,7 @@ export const getFilters = (params) => (dispatch) => {
 			name: '常见分类',
 			options: getCategory(groupedCategories, groupType)
 		}
-		const operation_tag = data.operation_tags
+		const operationTags = data.operationTags
 		const group = getGroupById(groups, groupType)
 		// if (version !== params.version) {
 		// 	return;
@@ -39,20 +39,20 @@ export const getFilters = (params) => (dispatch) => {
 			payload: {
 				[groupType]: {
 					category,
-					operation_tag,
+					operationTags,
 					group,
-					grouped_sku_types: groupedSkuTypes,
-					order_industry_category: getOrderIndustryCategory(orderIndustryCategory),
-					industry_list_options: data.industry_list,
-					kol_province_list_options: kolProvinceList,
-					kol_interest_list_options: kolInterestList,
-					default_hot_cities: defaultHotCities.map(item => ({
+					groupedSkuTypes: groupedSkuTypes,
+					orderIndustryCategory: getOrderIndustryCategory(orderIndustryCategory),
+					industryList: data.industryList,
+					kolProvinceList: kolProvinceList,
+					kolInterestList: kolInterestList,
+					defaultHotCities: defaultHotCities.map(item => ({
 						"key": String(item.areaId),
 						"title": item.areaName
 					})),
-					unit_play_price_types: data.unitPlayPriceTypes,
-					unit_read_price_types: data.unitReadPriceTypes,
-					verified_status: [
+					unitPlayPriceTypes: data.unitPlayPriceTypes,
+					unitReadPriceTypes: data.unitReadPriceTypes,
+					verifiedStatus: [
 						{ value: "", name: "不限" },
 						...data.verifiedStatus.map(item => ({ value: item.id, name: item.name }))
 					]

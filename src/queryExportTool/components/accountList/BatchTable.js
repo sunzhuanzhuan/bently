@@ -62,9 +62,9 @@ class BatchTable extends Component {
 			}
 		}, {
 			title: '账号ID',
-			dataIndex: 'sns_id',
+			dataIndex: 'snsId',
 			align: "center",
-			key: 'sns_id',
+			key: 'snsId',
 			render: (text, record) => {
 				return <span>
 					{record.snsId}

@@ -120,13 +120,13 @@ export default class FilterCommon extends React.Component {
 		const { params } = this.props.match;
 		const { onChange } = this;
 		const {
-			unit_play_price_types,
-			unit_read_price_types,
-			verified_status,
-			default_hot_cities,
-			industry_list_options,
-			kol_province_list_options, //账号地域
-			kol_interest_list_options,	//账号兴趣
+			unitPlayPriceTypes,
+			unitReadPriceTypes,
+			verifiedStatus,
+			defaultHotCities,
+			industryList,
+			kolProvinceList, //账号地域
+			kolInterestList,	//账号兴趣
 		} = filterOptions[params.platformType] || {};
 
 		const { dropdownMenuShow } = this.state;
@@ -183,7 +183,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput promptMessage="可以选择占比大于某个值的地域" options={kol_province_list_options} onOkClick={(values) => { onChange('kolVisitorProvinceDraw', '受众地域', values) }}></SelectAndInput>
+								<SelectAndInput promptMessage="可以选择占比大于某个值的地域" options={kolProvinceList} onOkClick={(values) => { onChange('kolVisitorProvinceDraw', '受众地域', values) }}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
@@ -195,7 +195,7 @@ export default class FilterCommon extends React.Component {
 								// 	weight: [30, 100]
 								// }
 							})(
-								<SelectAndInput promptMessage="可以选择占比大于某个值的兴趣" options={kol_interest_list_options} onOkClick={(values) => { onChange('kolVisitorInterestDraw', '受众兴趣', values) }}></SelectAndInput>
+								<SelectAndInput promptMessage="可以选择占比大于某个值的兴趣" options={kolInterestList} onOkClick={(values) => { onChange('kolVisitorInterestDraw', '受众兴趣', values) }}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
@@ -259,7 +259,7 @@ export default class FilterCommon extends React.Component {
 							{getFieldDecorator("areaIds", {
 								// initialValue: '0'
 							})(
-								<TreeTransfer options={default_hot_cities} onOkClick={(values) => { onChange('areaIds', '账号地域', values) }} onClickCancel={this.onClickCancel}></TreeTransfer>
+								<TreeTransfer options={defaultHotCities} onOkClick={(values) => { onChange('areaIds', '账号地域', values) }} onClickCancel={this.onClickCancel}></TreeTransfer>
 							)}
 						</DropdownMenuNew>
 					}
@@ -284,7 +284,7 @@ export default class FilterCommon extends React.Component {
 							})(
 								<SelectMenu
 									onSelect={(values) => { onChange('industryId', '账号行业', values) }}
-									options={industry_list_options}></SelectMenu>
+									options={industryList}></SelectMenu>
 							)}</DropdownMenuNew>
 					}
 					{
@@ -294,7 +294,7 @@ export default class FilterCommon extends React.Component {
 							})(
 								<SelectMenu
 									onSelect={(values) => { onChange('verifiedStatus', '认证类型', values) }}
-									options={verified_status}
+									options={verifiedStatus}
 								></SelectMenu>
 							)}</DropdownMenuNew>
 					}
@@ -306,7 +306,7 @@ export default class FilterCommon extends React.Component {
 									inputLableBefore='阅读单价'
 									inputLableAfter=''
 									showType='three'
-									options={unit_read_price_types}
+									options={unitReadPriceTypes}
 								></SelectAndInput>
 							)}
 						</div></DropdownMenuNew>
@@ -320,7 +320,7 @@ export default class FilterCommon extends React.Component {
 									inputLableBefore='播放单价'
 									inputLableAfter=''
 									showType='three'
-									options={unit_play_price_types}
+									options={unitPlayPriceTypes}
 								></SelectAndInput>
 							)}
 						</div></DropdownMenuNew>
@@ -356,10 +356,10 @@ export default class FilterCommon extends React.Component {
 							onOk={this.onMoreFilterOk}
 							onCancel={this.onMoreFilterCancel}
 							filterMore={{
-								unit_play_price_types,
-								unit_read_price_types,
-								verified_status,
-								industry_list_options
+								unitPlayPriceTypes,
+								unitReadPriceTypes,
+								verifiedStatus,
+								industryList
 							}}></MoreFilter>
 					}
 					trigger="click" >

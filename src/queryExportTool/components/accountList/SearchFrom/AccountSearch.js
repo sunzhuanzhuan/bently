@@ -200,15 +200,15 @@ class AccountSearch extends React.Component {
 		const PriceMarks = priceMarks[platformType] || priceMarks['default'];
 		const FollowersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
 		const {
-			category, group, operation_tag, grouped_sku_types = {}, order_industry_category
+			category, group, operationTags, groupedSkuTypes = {}, orderIndustryCategory
 		} = filterOptions[platformType] || {};
 		//参考报价在平台1，2，3时，不现实下拉选择
 		const isShowSelectForPrice = [1, 2, 3].indexOf(parseInt(platformType, 10)) !== -1;
-		price.options = grouped_sku_types[platformType] || []
+		price.options = groupedSkuTypes[platformType] || []
 		const { grouped_platforms = [] } = group;
 
 		const historyFrom = <div>
-			{order_industry_category && <LayoutSearch name=
+			{orderIndustryCategory && <LayoutSearch name=
 				{<span>
 					历史推广行业
 					<Tooltip placement="top"
@@ -223,7 +223,7 @@ class AccountSearch extends React.Component {
 						isTooltip={true}
 						onClick={(names) => this.onItemLableChange('orderIndustryCategory', '历史推广行业', names)}
 						// id='operationTag'
-						tagsArray={order_industry_category}
+						tagsArray={orderIndustryCategory}
 					/>
 				)}
 			</LayoutSearch>}
@@ -254,12 +254,12 @@ class AccountSearch extends React.Component {
 					)}
 				</LayoutSearch>
 			}
-			{operation_tag && <LayoutSearch name={'运营标签'}>
+			{operationTags && <LayoutSearch name={'运营标签'}>
 				{getFieldDecorator('operationTagIds')(
 					<OperationTag
 						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
 						// id='operationTag'
-						tagsArray={operation_tag}
+						tagsArray={operationTags}
 					/>
 				)}
 			</LayoutSearch>}
@@ -358,7 +358,7 @@ class AccountSearch extends React.Component {
 			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}
 			></SelectedItem>
 			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType}
-				sortMore={grouped_sku_types[platformType]} />
+				sortMore={groupedSkuTypes[platformType]} />
 		</div >
 	}
 }

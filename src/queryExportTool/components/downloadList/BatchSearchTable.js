@@ -41,7 +41,7 @@ class BatchSearchTable extends Component {
 				return <div>
 					{record.processStatus == 1 || record.processStatus == 4 ? <span>处理中</span> :
 						record.processStatus == 2 ? <span style={{ color: "#0CAD67" }}>已完成</span>
-							: <Popover trigger="hover" content={record.export_failed_reason ? record.export_failed_reason : "无"} title="失败原因">
+							: <Popover trigger="hover" content={record.exportFailedReason ? record.exportFailedReason : "无"} title="失败原因">
 								<span style={{ color: "#FF0000" }}>失败</span>
 							</Popover>}
 				</div>
@@ -54,7 +54,7 @@ class BatchSearchTable extends Component {
 			render: (text, record) => {
 				return <div>
 					{record.processStatus == 1 || record.processStatus == 4 ? "" :
-						record.processStatus == 2 ? <a onClick={() => this.props.downLoadById(record.download_url, record.id)}>下载</a> :
+						record.processStatus == 2 ? <a onClick={() => this.props.downLoadById(record.downloadUrl, record.id)}>下载</a> :
 							<a onClick={() => operateDownload(record.id)}>重新处理</a>
 					}
 

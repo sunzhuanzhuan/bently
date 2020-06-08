@@ -105,7 +105,7 @@ class RecentPrice extends Component {
 													</div>
 												</Col>
 												<Col span={5}>
-													{platform_id == 106 ? item.live_created_time || '-' : item.media_created_time || '-'}
+													{platform_id == 106 ? item.liveCreatedTime || '-' : item.mediaCreatedTime || '-'}
 												</Col>
 											</Row>
 										</List.Item>
