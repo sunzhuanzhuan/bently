@@ -164,10 +164,7 @@ class QuotationDetail extends Component {
 				followerCount: followerCount
 			}).then((res) => {
 				message.success('删除成功', 2);
-				let data = { groupType: selectKey == 0 ? null : selectKey, ...search }
-				if (selectKey == 10) {
-					data.groupType = 0
-				}
+				let data = { groupType: selectKey == 10 ? null : selectKey, ...search }
 				//暂时搜索
 				this.props.actions.getQuotationAccountSearch(getPostFrom(data))
 			})
@@ -185,7 +182,7 @@ class QuotationDetail extends Component {
 	serachAction = (value) => {
 		const { selectKey } = this.state
 		if (selectKey == 10) {
-			value.groupType = 0
+			value.groupType = null
 		}
 		this.setLoading()
 		this.props.actions.getQuotationAccountSearch(getPostFrom(value)).then(() => {
