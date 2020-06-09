@@ -91,7 +91,7 @@ export const templateAllColumns = handleActions({
 		let { groupId, value } = action.payload
 		return update(state, {
 			[groupId]: {
-				"choosed_ids": { $set: [...value] },
+				"choosedIds": { $set: [...value] },
 				"selected": { $set: [...value] }
 			}
 		})
