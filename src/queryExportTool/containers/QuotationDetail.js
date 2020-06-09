@@ -157,13 +157,14 @@ class QuotationDetail extends Component {
 		this.props.actions.deleteFromCart(
 			{
 				accountIds: [id],
+				accounts: [{ accountId: id }],
 				quotationId: search.quotationId,
 				type: type,
 				numberType: numberType,
 				followerCount: followerCount
 			}).then((res) => {
 				message.success('删除成功', 2);
-				let data = { groupType: selectKey, ...search }
+				let data = { groupType: selectKey == 0 ? null : selectKey, ...search }
 				if (selectKey == 10) {
 					data.groupType = 0
 				}
