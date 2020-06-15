@@ -19,7 +19,7 @@ export default class TempleSelect extends Component {
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ searchIng: true });
-		api.get('/export/account/getTemplateListByName', { params: { name: value } }).then(res => {
+		api.get('/operator-gateway/search/export/branch/getTemplateListByName', { params: { templateName: value, startPageSize: 1, endPageSize: 50 } }).then(res => {
 			const { data = [] } = res.data
 			if (fetchId !== this.lastFetchId) {
 				return;
