@@ -44,8 +44,10 @@ export const stencilList = handleActions({
 }, {})
 export const accountIdsByQuotation = handleActions({
 	[accoutActions.getAccountIdsByQuotation_success]: (state, action) => {
+		const { data = {} } = action.payload
+		const { accountIds = [] } = data
 		return [
-			...action.payload.data.accountIds
+			...accountIds
 		]
 	}
 }, [])

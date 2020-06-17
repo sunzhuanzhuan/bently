@@ -45,7 +45,7 @@ class AccountList extends Component {
 		if (search.quotationId > 0) {
 			getAccountIdsByQuotation({ quotationId: search.quotationId }).then((res) => {
 				this.setState({
-					selectedRowKeys: res.data.accountIds || [],
+					selectedRowKeys: res.data && res.data.accountIds || [],
 					quotationId: search.quotationId,
 					quotationName: search.quotationName
 				})
