@@ -8,7 +8,7 @@ export default function Equity({ equitiesIdList }) {
 		const { data } = await api.get('/operator-gateway/equities/v1/getEquitiesListByEquitiesIds', { params: { equitiesIdList: equitiesIdList.join(',') } })
 		setList(data)
 	}
-	const text = <img src={require('./equity.png')} height='18px' style={{ marginTop: 4, marginLeft: 2 }} />
+	const text = <img src={require('./equity.png')} height='18px' style={{ marginTop: 4 }} />
 	const content = <div>
 		{list.map(one => <Tag key={one.equitiesId} color="blue" style={{ cursor: 'auto' }}>{one.equitiesName}</Tag>)}
 	</div>
