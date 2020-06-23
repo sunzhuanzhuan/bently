@@ -88,7 +88,9 @@ class RecentPrice extends Component {
 												</Col>
 												<Col span={4}>
 													{item.priceLabel}
-													{item.isShield == 1 ? <img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginLeft: 4, marginBottom: 4 }} /> : null}
+													{item.isShield == 1 ?
+														<MarkMessage text={<img src={require('../../../base/SimpleTables/isSpecial.png')} width='16px' style={{ marginLeft: 4, marginBottom: 4 }} />} content={'该参考报价为防屏蔽的报价'} />
+														: null}
 												</Col>
 												<Col span={4} >
 													{item.dealPrice}

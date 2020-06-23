@@ -212,14 +212,14 @@ export default class FilterCommon extends React.Component {
 							)}</DropdownMenuNew>
 					}
 					{
-						mapFieldsToPlatform['mediaIndexOneAvgReadNum'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='多一阅读量' className='dropdown-menu'>
+						mapFieldsToPlatform['mediaIndexOneAvgReadNum'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='头条阅读量' className='dropdown-menu'>
 							{getFieldDecorator("mediaIndexOneAvgReadNum", {
 								// initialValue: {
 								// 	name: '',
 								// 	weight: [30, 100]
 								// }
 							})(
-								<IndexButton id='mediaIndexOneAvgReadNum' onOkClick={(values) => { onChange('mediaIndexOneAvgReadNum', '多一阅读量', values) }} inputLableAfter=""></IndexButton>
+								<IndexButton id='mediaIndexOneAvgReadNum' onOkClick={(values) => { onChange('mediaIndexOneAvgReadNum', '头条阅读量', values) }} inputLableAfter=""></IndexButton>
 							)}</DropdownMenuNew>
 					}
 					{/* 新浪微博 */}

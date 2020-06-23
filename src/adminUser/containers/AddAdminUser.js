@@ -104,7 +104,7 @@ class AddAdminUser extends Component {
 	}
 	//d打开弹窗
 	showModal = async () => {
-
+		const { isSaleSupport } = this.state;
 		const { isEditAciton, actions, adminUserOne } = this.props
 		this.setState({
 			visible: true
@@ -128,7 +128,7 @@ class AddAdminUser extends Component {
 					message.error(error.errorMsg)
 				})
 			}
-			if (support_seller_id.length > 0) {
+			if (isSaleSupport) {
 				this.props.actions.getSupportSeller({ user_group_id })
 			}
 			const selectData = { user_group_id: adminUserOne.user_group_id }

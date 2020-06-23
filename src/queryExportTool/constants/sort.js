@@ -107,7 +107,7 @@ export const groupBySorter = {
 					tip: <MarkMessage {...messageInfo['yudu']} />
 				}, {
 					field: 'mediaIndexOneAvgReadNum',
-					title: '多图文第一条阅读量'
+					title: '头条阅读量'
 				}
 			],
 			more: [
