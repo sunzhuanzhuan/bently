@@ -24,6 +24,7 @@ export default class EditSelectedFieldsContent extends Component {
 	handleDrag = (dragIndex, hoverIndex) => {
 		const { data, groupId, actions } = this.props
 		const { templateAllColumns } = data
+		console.log("EditSelectedFieldsContent -> handleDrag -> templateAllColumns", templateAllColumns)
 		const { selectColumns } = actions
 		const { selected } = templateAllColumns[groupId] || {}
 		// const current = selected[dragIndex]
@@ -50,12 +51,12 @@ export default class EditSelectedFieldsContent extends Component {
 		}
 	}
 
-	componentWillMount() {}
+	componentWillMount() { }
 
 	render() {
 		const { data, groupId, actions } = this.props
 		const { templateAllColumns } = data
-		const { selectColumns,changeColumnsAlias } = actions
+		const { selectColumns, changeColumnsAlias } = actions
 		const { selected, ids, sources } = templateAllColumns[groupId] || {}
 		// 搜索筛选
 		let { result } = searchFilter(selected, sources, this.state.keyWord)

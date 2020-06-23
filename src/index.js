@@ -48,6 +48,8 @@ import Login from './login/container/Login'
 import videoDispatch from "./videoDispatch";
 import CooperationPlatform from "./cooperationPlatform";
 import OrderAssortRule from './orderAssortRule'
+import PriceStandard from './priceStandard'
+
 //404错误页面
 // import AccountManage from './accountManage'
 import GoodsReceipt from "./goodsReceipt";
@@ -113,6 +115,9 @@ render(
 							<Route path='/config' component={CooperationPlatform} />
 							<Route path='/classificationManage' component={ClassificationManage} />
 							<Route path='/assortOrder' component={OrderAssortRule} />
+							<Route path='/priceStandard'
+								component={PriceStandard} />
+
 							{/* <Redirect to={'/error'} /> */}
 							<Route render={redirectToOtherProjects} />
 						</Switch>

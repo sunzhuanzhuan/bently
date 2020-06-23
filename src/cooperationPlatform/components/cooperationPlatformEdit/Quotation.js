@@ -17,28 +17,34 @@ class Quotation extends Component {
 		console.log('selectedRowKeys changed: ', selectedRowKeys);
 		this.setState({ selectedRowKeys });
 	}
-	setSkuTypeStatus = (id, isEnable, code) => {
+	setSkuTypeStatus = (record, isEnable, code) => {
+		const { skuTypeIds = [], id } = record
 		this.props.editQuotation([{
 			id: id,
 			trinityPlatformCode: code,
-			trinitySkuTypeStatus: isEnable ? 3 : 1//1启用，3停用
+			trinitySkuTypeStatus: isEnable ? 3 : 1,//1启用，3停用
+			skuTypeIds: skuTypeIds.map(one => one.key)
 		}], () => {
 			message.success(`提示：当前报价项已${isEnable ? '停用' : '启用'}，下单时该报价项${isEnable ? '不' : ''}可见！`)
 		})
 	}
-	stopSkuTypeStatus = async (id, isEnable) => {
+	stopSkuTypeStatus = async (record, isEnable) => {
 		const { actions: { getTrinitySkuTypeList } } = this.props
 		const { searchParams: { code, platformId, status } } = this.state
 		//如果平台启用则修改时校验报价项是否有启用
 		if (status == 1) {
-			const { data } = await getTrinitySkuTypeList({ trinityPlatformCode: code, trinitySkuTypeStatus: 1, platformId: platformId });
+			const { data } = await getTrinitySkuTypeList({
+				trinityPlatformCode: code,
+				trinitySkuTypeStatus: 1, platformId: platformId,
+
+			});
 			if (data.length > 1) {
-				this.setSkuTypeStatus(id, isEnable, code)
+				this.setSkuTypeStatus(record, isEnable, code)
 			} else {
 				message.error('请您至少启用一条报价项，以免影响正常下单')
 			}
 		} else {
-			this.setSkuTypeStatus(id, isEnable, code)
+			this.setSkuTypeStatus(record, isEnable, code)
 		}
 	}
 	render() {
@@ -56,8 +62,10 @@ class Quotation extends Component {
 			noLast,//只没有操作列
 			platformId,//是微博
 			cooperationPlatformKey,
-			titleModal
+			titleModal,
+			cooperationPlatformReducer = {}
 		} = this.props
+		const { skuTypeMap = {} } = cooperationPlatformReducer
 		const { searchParams, selectedRowKeys } = this.state
 		const tableProps = notOperate ? {
 			rowSelection: {
@@ -70,6 +78,7 @@ class Quotation extends Component {
 			dataIndex: 'trinityCode',
 			align: 'center',
 			key: 'trinityCode',
+			width: 80,
 		}]
 		const timeColumns = [{
 			id: 1,
@@ -94,12 +103,14 @@ class Quotation extends Component {
 			dataIndex: 'wbyTypeName',
 			align: 'center',
 			key: 'wbyTypeName',
-		}]
-		const weiboColunm = [{
+		}, {
 			title: '对应预设报价项',
-			dataIndex: 'skuTypeName',
+			dataIndex: 'skuTypeIds',
 			align: 'center',
-			key: 'skuTypeName',
+			key: 'skuTypeIds',
+			render: (text = []) => {
+				return text.map(one => one.label).join('，')
+			}
 		}]
 		const statuColunm = [{
 			title: '描述',
@@ -111,6 +122,7 @@ class Quotation extends Component {
 			dataIndex: 'trinitySkuTypeStatus',
 			align: 'center',
 			key: 'trinitySkuTypeStatus',
+			width: 70,
 			render: (text) => text == 1 ? "已启用" : text == 3 ? `已停用` : '未启用'
 		}]
 		const oprateColunm = [{
@@ -118,6 +130,7 @@ class Quotation extends Component {
 			dataIndex: 'operate',
 			align: 'center',
 			key: 'operate',
+			width: 80,
 			render: (text, record, index) => {
 				const { trinitySkuTypeStatus, id } = record
 				const isEnable = trinitySkuTypeStatus == 1
@@ -143,19 +156,19 @@ class Quotation extends Component {
 							deleteList(record.idAdd, 'trinitySkuTypeVOS')} /> : null}
 
 					{searchParams.id > 0 ?
-						isEnable ? <a style={{ marginLeft: 4 }} onClick={() => this.stopSkuTypeStatus(id, isEnable)}>
+						isEnable ? <a style={{ marginLeft: 4 }} onClick={() => this.stopSkuTypeStatus(record, isEnable)}>
 							停用
-						</a> : <a style={{ marginLeft: 4 }} onClick={() => this.setSkuTypeStatus(id, isEnable, searchParams.code)}>
+						</a> : <a style={{ marginLeft: 4 }} onClick={() => this.setSkuTypeStatus(record, isEnable, searchParams.code)}>
 								启用
 						</a> : null}
 				</div>
 			}
 		}];
 		const addColumns = [
-			...nameColunm, ...(platformId == 1 ? weiboColunm : []), ...statuColunm, ...(notOperate ? [] : oprateColunm)
+			...nameColunm, ...statuColunm, ...(notOperate ? [] : oprateColunm)
 		]
 		const editColumns = [
-			...idColumns, ...nameColunm, ...(platformId == 1 ? weiboColunm : []), ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
+			...idColumns, ...nameColunm, ...timeColumns, ...statuColunm, ...(noLast ? [] : oprateColunm)
 		]
 		return (
 			<div style={{ marginBottom: 8 }}>

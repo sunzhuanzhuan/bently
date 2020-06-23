@@ -19,9 +19,7 @@ class QuotationEdit extends Component {
 			const sku = await getCaptureTrinitySkuType({ cooperationPlatformKey: cooperationPlatformKey, platformId: platformId })
 			let skuType = {}
 			//如果微博平台则查询关联报价项
-			if (platformId == 1) {
-				skuType = await getSkuTypeList({ platformId: platformId, productLineId: 1 })
-			}
+			skuType = await getSkuTypeList({ platformId: platformId, productLineId: 1 })
 			this.setState({
 				captureTrinitySkuType: sku.data,
 				skuTypeList: skuType.data
@@ -35,19 +33,18 @@ class QuotationEdit extends Component {
 			const data = qs.parse(window.location.search.substring(1))
 			const { isEdit, addList, index, updateList, item, editQuotation } = this.props
 			if (!err) {
-				console.log('Received values of form: ', values);
 				if (data.id > 0) {
 					//在修改页面的新增和修改直接保存数据库
 					editQuotation([{
 						...values,
 						trinityPlatformCode: data.code,
-						platformId: data.platformId
+						platformId: data.platformId,
+						skuTypeIds: values.skuTypeIds && values.skuTypeIds.map(one => one.key)
 					}], () => { message.success('您的操作已保存成功！') })
 				} else {
 					//新增页面操作页面缓存
 					if (isEdit) {
 						//在新增页面的修改
-
 						updateList(index, { ...item, ...values }, 'trinitySkuTypeVOS')
 					} else {
 						//在新增页面新增报价项
@@ -58,6 +55,8 @@ class QuotationEdit extends Component {
 			}
 		});
 	}
+
+
 	onClean = () => {
 		this.props.form.resetFields()
 	}
@@ -72,14 +71,29 @@ class QuotationEdit extends Component {
 	//选择时设置相关数据
 	skuTypeChange = (value, option) => {
 		const { form: { setFieldsValue } } = this.props
-		const { skuTypeName } = option.props
-		setFieldsValue({
-			skuTypeName: skuTypeName,
-		})
+		// const { skuTypeName } = option.props
+		// setFieldsValue({
+		// 	skuTypeName: skuTypeName,
+		// })
+	}
+	//对应预设报价项禁用判断
+	getIsDisabled = (id) => {
+		const { item = {}, trinitySkuTypeVOS = [], isAddCooperation } = this.props
+		const { trinityCode, idAdd } = item
+		//已选的对应预设报价项
+		const skuTypesSelectedEdit = trinitySkuTypeVOS
+			.filter(one => (one.trinityCode != trinityCode || one.idAdd != idAdd))
+		const skuTypesSelected = (isAddCooperation ? trinitySkuTypeVOS : skuTypesSelectedEdit).reduce((acc, item) => {
+			let arr = item.skuTypeIds.map(item => item.key);
+			return acc.concat(arr);
+		}, [])
+
+		return skuTypesSelected.includes(id)
 	}
 
+
 	render() {
-		const { formLayoutModal, form, item, setShowModal,
+		const { formLayoutModal, form, item = {}, setShowModal,
 			platformId, trinitySkuTypeVOS = [],
 			cooperationPlatformKey,
 			isEdit } = this.props
@@ -94,7 +108,6 @@ class QuotationEdit extends Component {
 		//默认选中第一个可用报价项
 		const filterSkuTypeFirst = isSkuType || {}
 		const isCancle = qs.parse(window.location.search.substring(1)).code
-
 		return (
 			<Form layout="horizontal" >
 				<Form.Item label="报价项ID" style={{ display: item && item.id ? 'bolock' : 'none' }} {...formLayoutModal}>
@@ -151,29 +164,24 @@ class QuotationEdit extends Component {
 
 					)}
 				</Form.Item>
-				{platformId == 1 ? <Form.Item label="对应预设报价项" {...formLayoutModal} >
+				<Form.Item label="对应预设报价项" {...formLayoutModal} >
 					{
-						getFieldDecorator('skuTypeId', {
-							initialValue: item && item.skuTypeId,
-							rules: [
-								{ required: true, message: '本项为必选项，请选择！' },
-							],
+						getFieldDecorator('skuTypeIds', {
+							initialValue: item.skuTypeIds,
+							// rules: [
+							// 	{ required: true, message: '本项为必选项，请选择！' },
+							// ],
 						})(
-							<Select placeholder="请选择对应预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
+							<Select mode="multiple" labelInValue={true} placeholder="请选择对应预设报价项" style={{ width: 314 }} onChange={this.skuTypeChange}>
 								{skuTypeList.map(one => <Option
 									key={one.skuTypeId}
 									skuTypeName={one.skuTypeName}
+									disabled={this.getIsDisabled(one.skuTypeId)}
 									value={one.skuTypeId}>{one.skuTypeName}</Option>)}
 							</Select>
 						)}
-				</Form.Item > : null}
-				<Form.Item style={{ display: 'none' }}>
-					{getFieldDecorator('skuTypeName', {
-						initialValue: item && item.skuTypeName
-					})(
-						<Input />
-					)}
-				</Form.Item>
+				</Form.Item >
+
 				<Form.Item label="描述"  {...formLayoutModal}>
 					{getFieldDecorator('description', {
 						initialValue: item && item.description,
