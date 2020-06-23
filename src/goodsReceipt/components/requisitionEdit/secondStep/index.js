@@ -59,9 +59,9 @@ class SecondStep extends Component {
 		this.searchAction()
 	}
 	vailPrice = (rule, value, callback) => {
-		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,2})$/
+		const parent = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{1,8})$/
 		if (!parent.test(value) || value < 0 || value > 100) {
-			callback('请确认填写的是0-100，小数点后最多2位的数字')
+			callback('请确认填写的是0-100，小数点后最多8位的数字')
 		} else {
 			callback()
 		}
@@ -117,7 +117,6 @@ class SecondStep extends Component {
 										unit="%"
 										actions={actions}
 										changeAction={updateBaseInfo}
-										minError="请确认填写的是0-100，小数点后最多2位的数字"
 										searchActionByFree={this.searchActionByFree}
 										form={this.props.form}
 										vailPrice={this.vailPrice}

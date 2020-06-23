@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { Modal, message } from "antd";
+import { Modal, message, Button } from "antd";
 import AuditRejectionForm from "../requisitionList/AuditRejectionForm";
 import ModalBox from "../requisitionList/ModalBox";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as action from '../../actions/index'
 import { withRouter, Link } from "react-router-dom";
+import apiDownload from '../../../api/apiDownload'
+import qs from 'qs'
 class Operating extends Component {
 	constructor(props) {
 		super(props);
@@ -60,6 +62,15 @@ class Operating extends Component {
 			getGRListOperateAfter && getGRListOperateAfter()
 		})
 	}
+	//导出Excel
+	exportExcel = () => {
+		const { gr_id } = this.props
+		message.loading('正在导出...', 3)
+		apiDownload({
+			url: '/gr/exportGROrderExcel' + '?' + qs.stringify({ gr_id: gr_id }),
+			method: 'GET',
+		}, `【GR】${gr_id}_Details.xlsx`)
+	}
 	render() {
 		const { visible, modalType } = this.state
 		const modalMap = {
@@ -85,8 +96,9 @@ class Operating extends Component {
 				{operateType == "copy" ? <div onClick={() => this.copyGROperate(gr_id)}>{text}</div> :
 					operateType == "modify" ? <Link to={`${GReditUrl}/0?gr_id=${gr_id}&typeOperate=modify`}>
 						{text}
-					</Link>
-						: <div onClick={() => { this.showModal(operateType, gr_id) }}>{text}</div>
+					</Link> :
+						operateType == 'internal_export' ? <span onClick={this.exportExcel}>{text}</span>
+							: <div onClick={() => { this.showModal(operateType, gr_id) }}>{text}</div>
 				}
 				<Modal
 					title="提示"

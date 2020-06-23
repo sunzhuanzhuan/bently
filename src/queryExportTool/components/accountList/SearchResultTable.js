@@ -49,6 +49,11 @@ export const SearchResultTable = (props) => {
 			</span>
 		}
 	}, {
+		title: '主账号名称',
+		dataIndex: 'identityName',
+		align: "center",
+		key: 'identityName'
+	}, {
 		title: '执行类型',
 		dataIndex: 'isFamous',
 		align: "center",

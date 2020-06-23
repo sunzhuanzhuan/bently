@@ -74,7 +74,7 @@ export default class MainItem extends PureComponent {
 			weeklyOrderNum, reservationOrderNum, mediaCount7d, mediaGroupCount7d,
 			onShelfStatus = {}, followerCountVerificationStatus,
 			followerCountScreenshotModifiedTime, trinityIsPreventShielding,
-			avgData = {}, platformId = 0, groupType, agentInfo, followerCountGrowthRate28d,
+			avgData = {}, platformId = 0, groupType, agentInfo, followerCountGrowthRate28d, verificationReason
 		} = accountListItem
 
 		const genderName = gender == 1 ? "男" : gender == 2 ? "女" : ""
@@ -147,9 +147,10 @@ export default class MainItem extends PureComponent {
 							<Secondary genderName={genderName} areaName={areaName} ageGroup={ageGroup} />
 							{/* 微信才显示二维码，其他为简介 */}
 							{ISWEiXin ? <QRCode src={qrCodeUrl} snsId={snsId} verificationInfo={verificationInfo} introduction={introduction} /> :
-								<Popover content={introduction} trigger="hover" overlayStyle={{ width: 320 }} getPopupContainer={() => document.querySelector('.query-export-tool')}>
-									<MultiClamp ellipsis="..." clamp={2}>{introduction}</MultiClamp>
-								</Popover>}
+								<Popover content={IsWeibo ? verificationReason : introduction} trigger="hover" overlayStyle={{ width: 320 }} getPopupContainer={() => document.querySelector('.query-export-tool')}>
+									<MultiClamp ellipsis="..." clamp={2}>{IsWeibo ? verificationReason : introduction}</MultiClamp>
+								</Popover>
+							}
 							<div style={{ marginTop: 10 }}>
 								{/* 根据平台不同展示不同的标签 */}
 								{originalName && originalName.split(',').map((one, index) => <CTag key={index} color='green'>{one}</CTag>)}

@@ -11,6 +11,7 @@ const LEFT_COl_Span = 10
 const ROGHT_COl_Span = 14
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+import { scientificToNumber } from '@/util';
 class ThirdStep extends Component {
 	constructor(props) {
 		super(props);
@@ -155,7 +156,7 @@ class ThirdStep extends Component {
 		};
 		const BaseInfo = [{
 			title: "服务费率",
-			value: `${service_fee_rate}%`
+			value: `${scientificToNumber(Number(service_fee_rate))}%`
 		}, {
 			title: "执行凭证可用余额",
 			value: `${po_remaining_budget}  CNY`
