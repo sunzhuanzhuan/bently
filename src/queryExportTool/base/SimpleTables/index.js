@@ -48,7 +48,7 @@ export default class SimpleTables extends Component {
 						{messageInfoKey ?
 							<MarkMessage {...messageInfo[messageInfoKey]} />
 							: null}
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+					</span>,
 					dataIndex: 'price1',
 					key: 'price1',
 					align: 'right',
