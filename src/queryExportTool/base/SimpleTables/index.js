@@ -39,8 +39,10 @@ export default class SimpleTables extends Component {
 					key: "skuTypeName",
 					align: 'left',
 					render: (text, record) => {
+
 						return <span>	{text}
-							{record.isSpecial == 1 ? <img src={require('./isSpecial.png')} width='16px' style={{ marginLeft: 5 }} /> : null}
+							{record.isSpecial == 1 ? <MarkMessage text={<img src={require('./isSpecial.png')} width='14px' style={{ marginLeft: 5 }} />} content={'该参考报价为防屏蔽的报价'} /> : null}
+
 						</span>
 					}
 				}, {
