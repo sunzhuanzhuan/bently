@@ -8,6 +8,7 @@ import AccountTableSelect from '../accountList/AccountTable/AccountTableSelect';
 import MediaInfo from "@/queryExportTool/components/common/MediaInfo";
 import LazyLoad from 'react-lazyload';
 import './AccountTable/index.less'
+import qs from 'qs'
 class BatchTable extends Component {
 	constructor(props) {
 		super(props);
@@ -32,7 +33,14 @@ class BatchTable extends Component {
 			visible: true
 		})
 	}
+	onClickName = ({ platformId, accountId, groupType }) => {
+		const urlPrapm = qs.stringify({ platformId, accountId, groupType })
+		const isOpenDetail = [1, 9, 93, 24, 25, 103, 110, 115, 116].includes(platformId)
+		isOpenDetail ?
+			window.open(`/account/view/detail?${urlPrapm}`, "_blank")
+			: this.setModalContent(<AccountDetails account_id={accountId} />)
 
+	}
 	render() {
 		const { visible, modalContent } = this.state
 		const { accountList = {}, type = 1, actions, arrSelectExactQuery,
@@ -45,7 +53,7 @@ class BatchTable extends Component {
 			render: (text, record) => {
 				const { avatarUrl = require('../common/AccountInfos/img/default.jpg'), accountId, snsName } = record
 				return <span className="sns_name_title"
-					onClick={() => this.setModalContent(<AccountDetails account_id={accountId} />)}>
+					onClick={() => record.notExist == 1 ? null : this.onClickName(record)}>
 					<span data-src={avatarUrl ? `http://api-webroot.api.weiboyi.com/pic.php?picurl=${avatarUrl}` : ""} id={`avatar_list_${accountId}`}></span>
 					{snsName}
 				</span>
