@@ -94,7 +94,11 @@
 	},
 	"proxy": {
 		"/api": {
+<<<<<<< HEAD
 			"target": "http://nb.dev-weiboyi.com",
+=======
+			"target": "http://nb.pre-weiboyi.com",
+>>>>>>> dev/priceStandard
 			"changeOrigin": true
 		}
 	},

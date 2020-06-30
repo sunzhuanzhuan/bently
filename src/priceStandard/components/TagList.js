@@ -105,7 +105,7 @@ function AddContent(props) {
 			params: {
 				equitiesName: value
 			}
-		}).catch(err => callback(err))
+		}).catch(err => callback(err.errorMsg))
 		if (systemTrim(value).length == 0) {
 			callback('请填写权益名称!');
 		}
@@ -120,6 +120,7 @@ function AddContent(props) {
 	return <Form>
 		<Form.Item label="权益名称" >
 			{getFieldDecorator('equitiesName', {
+				validateFirst: true,
 				rules: [
 					{
 						required: true,

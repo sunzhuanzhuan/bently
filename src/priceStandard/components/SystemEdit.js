@@ -42,6 +42,7 @@ function SystemEdit(props) {
 				<Form.Item label="权益类型名称" {...formLayout}>
 					{getFieldDecorator('equitiesTypeName', {
 						initialValue: equitiesTypeName,
+						validateFirst: true,
 						rules: [
 							{ required: true, message: '请输入权益类型名称' },
 							{ validator: onlyVali }],
