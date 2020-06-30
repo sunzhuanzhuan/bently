@@ -54,7 +54,7 @@ class RecentPrice extends Component {
 		const { platformId } = base
 		return (
 			<div className="recent-price-wxy">
-				{visable ? <Alert message="说明:本页展示该账号最近一年在微播易平台的应约时间,应约价，及执行后的数据表现" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
+				{visable ? <Alert message="说明:本页展示该账号最近一年在微播易平台的应约时间，应约价，及执行后的数据表现" type="warning" showIcon closable afterClose={this.handleClose} style={{ marginTop: 20 }} /> : null}
 				<div style={{ marginTop: 20 }}>
 					<div>
 						<Row className="price-table-row title">
