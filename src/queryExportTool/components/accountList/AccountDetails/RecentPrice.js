@@ -130,23 +130,11 @@ class RecentPrice extends Component {
 
 export default RecentPrice;
 function EquitiesTags({ list = [] }) {
-<<<<<<< HEAD
-	return list.length > 0 ? <span><MarkMessage text={
-		<img src={require('../../../base/SimpleTables/equity.png')} height='18px' style={{ marginBottom: 1 }} />
-	} content={
-		list.map(one => <Tag key={one.equitiesId} color="blue" style={{ marginTop: 6, marginBottom: 4 }}>
-			{one.isFree == 1 ? <img src={require('../../../images/free.png')} width='14px'
-				style={{ marginRight: 4, marginBottom: 2 }} /> : null}
-			{one.equitiesName}
-		</Tag>)
-	} /></span> : null
-=======
 	return list.length > 0 ? list.map(one => <Tag key={one.equitiesId} color="blue" style={{ marginBottom: 8 }}>
 		{one.is_free == 1 ? <img src={require('../../../images/free.png')} width='14px'
 			style={{ marginRight: 4, marginBottom: 2 }} /> : null}
 		{one.equitiesName}
 	</Tag>)
 		: null
->>>>>>> dev/priceStandard
 }
 
