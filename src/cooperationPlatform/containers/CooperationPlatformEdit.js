@@ -43,7 +43,7 @@ class CooperationPlatformEdit extends Component {
 				values.platformName = platformSelect.map[values.platformId].platformName
 				//付款公司
 				values.agentVo.paymentCompanyName = values.agentVo.paymentCompanyCode == 'ZF0001' ? '布谷鸟' : '微播易'
-				if(values.agentVo.invoiceType == 2)
+				if (values.agentVo.invoiceType == 2)
 					values.agentVo.agentTaxRate = 0.00
 				this.editOprate(values)
 			}
@@ -53,6 +53,9 @@ class CooperationPlatformEdit extends Component {
 		const { id } = this.state
 		const search = qs.parse(window.location.search.substring(1))
 		const { actions: { insertCooperationPlatform, updateCooperationPlatform, addOrUpdateTollType, getTrinitySkuTypeList } } = this.props
+		if (values.trinitySkuTypeVOS.length > 0) {
+			values.trinitySkuTypeVOS = this.getTrinityTollTypeVOS(values.trinitySkuTypeVOS)
+		}
 		if (id > 0) {
 			if (values.agentVo.paymentType == 1) {
 				values.agentVo.alipayAccountName = ""
@@ -90,6 +93,12 @@ class CooperationPlatformEdit extends Component {
 		}
 		message.success('您所提交的信息已经保存成功！', 2).then(this.jumpPage)
 
+	}
+	getTrinityTollTypeVOS = (list = []) => {
+		return list.map(one => ({
+			...one,
+			skuTypeIds: one.skuTypeIds.map(one => one.key)
+		}))
 	}
 	jumpPage = () => {
 		window.location.href = "/config/platform/list";

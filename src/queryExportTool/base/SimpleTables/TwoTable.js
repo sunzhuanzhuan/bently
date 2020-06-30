@@ -16,16 +16,14 @@ class TwoTable extends Component {
 	}
 	//此处是右侧两个小表格的配置列项
 	getColumsNum = (groupType, IsWei) => {
-		const tableKey = groupType == 1 ? IsWei ? 11 : 1 : groupType
 		const tableCol = {
-			1: ["fabu-yuyue", "yuedu"],
-			11: ["fabu-wei", "yuedu"],
+			1: ["fabu-wei", "yuedu"],
 			2: ['baojia', 'zhifa'],
 			3: ['baojiatwo', 'video'],
 			4: ['baojia', 'red'],
 			5: ['baojia', 'otherAvg'],
 		}
-		return tableKey ? tableCol[tableKey] : ['', '']
+		return groupType ? tableCol[groupType] : ['', '']
 	}
 	componentDidMount = () => {
 		const { accountId } = this.props
@@ -49,7 +47,7 @@ class TwoTable extends Component {
 		this.isMount = false
 	}
 	render() {
-		const { IsWei, groupType, platformId, isShielding, ISWEiXin, isFamous } = this.props
+		const { IsWei, groupType, platformId, accountId, isShielding, ISWEiXin, isFamous } = this.props
 		const { skuPrice, avgData, dataSku, dataAvg } = this.state
 		return (
 			<div style={{ display: 'flex', flex: 5 }}>
@@ -62,7 +60,8 @@ class TwoTable extends Component {
 					platformId={platformId}
 					isShielding={isShielding}
 					isFamous={isFamous}
-					ISWEiXin={ISWEiXin} />
+					ISWEiXin={ISWEiXin}
+					accountId={accountId} />
 				<SimpleTables IsWei={IsWei}
 					data={avgData}
 					dataTime={dataAvg}

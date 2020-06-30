@@ -1,44 +1,6 @@
 import React from 'react'
 import MarkMessage from "@/queryExportTool/base/MarkMessage";
 import messageInfo from "@/queryExportTool/constants/messageInfo";
-
-const skyType = {
-	"1": "多图文第一条(原创+发布)",
-	"2": "多图文第二条(原创+发布)",
-	"3": "多图文第3~N条(原创+发布)",
-	"4": "单图文(原创+发布)",
-	"5": "多图文1发布",
-	"6": "多图文2发布",
-	"7": "多图文3+条发布",
-	"8": "单图文发布",
-	"9": "直发报价",
-	"10": "转发报价",
-	"11": "硬广直发",
-	"12": "硬广转发",
-	"13": "软广直发",
-	"14": "软广转发",
-	"15": "原创视频+发布",
-	"16": "视频发布",
-	"17": "活动现场直播",
-	"18": "直播广告植入",
-	"19": "视频广告植入",
-	"20": "供图+拍摄",
-	"21": "供图",
-	"22": "原创视频+发布",
-	"23": "视频发布",
-	"24": "活动现场直播",
-	"25": "直播广告植入",
-	"26": "图文发布",
-	"27": "原创图文+发布",
-	"28": "预约参考价",
-	"29": "账号报价",
-	"30": "硬广直发报价",
-	"31": "账号报价",
-	"32": "预约参考价"
-}
-//
-//
-//
 const complyType = {
 	'0': {
 		name: '不限'
@@ -68,11 +30,11 @@ const defaultQuotePriceDiscount = {
 	'title': <span>优势报价<MarkMessage {...messageInfo['defaultQuotePriceDiscount']} /></span>,
 	'name': 'defaultQuotePriceDiscount',
 }
-function handleMoreList(list) {
-	return list.map(id => {
+export function handleMoreList(list) {
+	return list.map(one => {
 		return {
-			value: 'skuOpenQuotePrice:' + id,
-			label: skyType[id] + '价格',
+			value: 'skuOpenQuotePrice:' + one.id,
+			label: one.name + '价格',
 			children: [{
 				value: 'desc',
 				label: '从高到低'
@@ -83,21 +45,21 @@ function handleMoreList(list) {
 		}
 	})
 }
-function priceGoodBadList(list) {
-	return list.map(id => {
-		return {
-			value: 'defaultQuotePriceDiscount:' + id,
-			label: skyType[id] + '价格',
-			children: [{
-				value: 'asc',
-				label: '优势从大到小'
-			}, {
-				value: 'desc',
-				label: '优势从小到大'
-			}]
-		}
-	})
-}
+// function priceGoodBadList(list) {
+// 	return list.map(id => {
+// 		return {
+// 			value: 'defaultQuotePriceDiscount:' + id,
+// 			label: skyType[id] + '价格',
+// 			children: [{
+// 				value: 'asc',
+// 				label: '优势从大到小'
+// 			}, {
+// 				value: 'desc',
+// 				label: '优势从小到大'
+// 			}]
+// 		}
+// 	})
+// }
 const isLowQuality = {
 	'title': '不含劣质号',
 	'name': 'isLowQuality'
@@ -145,7 +107,7 @@ export const groupBySorter = {
 					tip: <MarkMessage {...messageInfo['yudu']} />
 				}, {
 					field: 'mediaIndexOneAvgReadNum',
-					title: '多图文第一条阅读量'
+					title: '头条阅读量'
 				}
 			],
 			more: [
@@ -160,10 +122,9 @@ export const groupBySorter = {
 						label: '由远及近'
 					}]
 				},
-				...handleMoreList([1, 2, 3, 4, 5, 6, 7, 8])
 			],
 			priceGoodBadList: [
-				...priceGoodBadList([1, 2, 3, 4, 5, 6, 7, 8])
+				//...priceGoodBadList([1, 2, 3, 4, 5, 6, 7, 8])
 			],
 			default: {
 				//snbt: 'desc' 
@@ -189,10 +150,10 @@ export const groupBySorter = {
 					'title': '防屏蔽',
 					'name': 'trinityIsPreventShielding'
 				},
-				{
-					'title': '可带@/话题/链接',
-					'name': 'isSupportTopicAndLink'
-				},
+				// {
+				// 	'title': '可带@/话题/链接',
+				// 	'name': 'isSupportTopicAndLink'
+				// },
 				isLowQuality,
 				//价格优劣
 				defaultQuotePriceDiscount
@@ -230,9 +191,10 @@ export const groupBySorter = {
 						label: '由远及近'
 					}]
 				},
-				...handleMoreList([9, 10, 11, 12, 13, 14])
 			],
-			priceGoodBadList: [...priceGoodBadList([9, 10, 11, 12, 13, 14])],
+			priceGoodBadList: [
+				//...priceGoodBadList([9, 10, 11, 12, 13, 14])
+			],
 			default: {
 				//snbt: 'desc' 
 			}
@@ -291,10 +253,9 @@ export const groupBySorter = {
 						label: '由远及近'
 					}]
 				},
-				...handleMoreList([16, 15, 19, 17, 26, 27])
 			],
 			priceGoodBadList: [
-				...priceGoodBadList([16, 15, 19, 17, 26, 27])
+				//	...priceGoodBadList([16, 15, 19, 17, 26, 27])
 			],
 			default: {
 				//snbt: 'desc', 
@@ -334,26 +295,31 @@ export const groupBySorter = {
 					field: 'followerCount',
 					title: '粉丝数'
 				},
-				{
-					field: 'createdAt',
-					title: '入库时间'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
-				}
 			],
-			priceGoodBadList: [
+			noAddSkuPrice: true,
+			more: [
 				{
-					value: 'defaultQuotePriceDiscount',
-					label: '参考报价',
+					value: 'createdAt',
+					label: '入库时间',
 					children: [{
-						value: 'asc',
-						label: '优势从大到小'
-					}, {
 						value: 'desc',
-						label: '优势从小到大'
+						label: '由近及远'
+					}, {
+						value: 'asc',
+						label: '由远及近'
 					}]
-				}
+				},
+				// {
+				// 	value: 'skuOpenQuotePrice',
+				// 	label: '参考报价',
+				// 	children: [{
+				// 		value: 'desc',
+				// 		label: '从高到低'
+				// 	}, {
+				// 		value: 'asc',
+				// 		label: '从低到高'
+				// 	}]
+				// }
 			],
 			default: {
 				//followerCount: 'desc'
@@ -394,26 +360,31 @@ export const groupBySorter = {
 					field: 'followerCount',
 					title: '粉丝数'
 				},
-				{
-					field: 'createdAt',
-					title: '入库时间'
-				}, {
-					field: 'skuOpenQuotePrice',
-					title: '参考报价'
-				}
 			],
-			priceGoodBadList: [
+			noAddSkuPrice: true,
+			more: [
 				{
-					value: 'defaultQuotePriceDiscount',
-					label: '参考报价',
+					value: 'createdAt',
+					label: '入库时间',
 					children: [{
-						value: 'asc',
-						label: '优势从大到小'
-					}, {
 						value: 'desc',
-						label: '优势从小到大'
+						label: '由近及远'
+					}, {
+						value: 'asc',
+						label: '由远及近'
 					}]
-				}
+				},
+				// {
+				// 	value: 'skuOpenQuotePrice',
+				// 	label: '参考报价',
+				// 	children: [{
+				// 		value: 'desc',
+				// 		label: '从高到低'
+				// 	}, {
+				// 		value: 'asc',
+				// 		label: '从低到高'
+				// 	}]
+				// }
 			],
 			default: {
 				//followerCount: 'desc' 

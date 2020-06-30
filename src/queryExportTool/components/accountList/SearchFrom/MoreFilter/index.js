@@ -76,7 +76,7 @@ const CheckboxItem = ({ id, name, options, form, onChecked }) => {
 // 	return <div className='' style={{ 'overflow': 'hidden', marginBottom: '20px' }}>
 // 		<h4>{name}</h4>
 // 		{getFieldDecorator(type, {})(
-// 			<SelectAndInput inputLableBefore='阅读单价' inputLableAfter='' showBtn={false} showType='three' options={[{ name: '多一', value: '1' }]} ></SelectAndInput>
+// 			<SelectAndInput inputLableBefore='阅读单价' inputLableAfter='' showBtn={false} showType='three' options={[{ name: '头条', value: '1' }]} ></SelectAndInput>
 // 		)}
 // 	</div>
 // }
