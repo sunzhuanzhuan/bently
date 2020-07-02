@@ -94,7 +94,7 @@ class QuotationTable extends Component {
 			width: 140,
 			render: (text, record) => {
 				const url = `/accountList/downloadCenter`
-				const historyUrl = url + `?keyword=${record.name}&companyId=${record.companyId}&companyName=${record.companyName}`
+				const historyUrl = url + `?quotationName=${record.name}&companyId=${record.companyId}&companyName=${record.companyName}`
 				const content = <Menu>
 					<Menu.Item>
 						<div className="quotation-table-action-content" onClick={() => this.props.exportNew(record.id, url)}>导出最新</div>
