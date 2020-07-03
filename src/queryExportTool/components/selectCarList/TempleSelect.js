@@ -20,11 +20,11 @@ export default class TempleSelect extends Component {
 		const fetchId = this.lastFetchId;
 		this.setState({ searchIng: true });
 		api.get('/operator-gateway/search/export/branch/getTemplateListByName', { params: { templateName: value, startPageSize: 1, endPageSize: 50 } }).then(res => {
-			const { data = [] } = res.data
+			const { list = [] } = res.data
 			if (fetchId !== this.lastFetchId) {
 				return;
 			}
-			!this.isUnmount && this.setState({ data: data, searchIng: false });
+			!this.isUnmount && this.setState({ data: list, searchIng: false });
 		});
 	}
 	handleChange = (value) => {
@@ -84,7 +84,7 @@ export default class TempleSelect extends Component {
 				onChange={this.handleChange}
 				{...this.props}
 			>
-				{data.map((one) => <Option key={one.id} value={one.id}>{one.name}</Option>)}
+				{data.map((one) => <Option key={one.id} value={one.id}>{one.templateName}</Option>)}
 			</Select>)
 	}
 }
