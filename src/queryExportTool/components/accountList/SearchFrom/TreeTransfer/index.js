@@ -243,7 +243,8 @@ class TreeTransfer extends Component {
 					</div>
 					<div className='right-content'>
 						{selectedKeys.map(one => {
-							return <Tag className="tag-item" key={one} closable onClose={this.onCloseKeys(one)}>{this.showListToMap[one].title}</Tag>
+							const city = this.showListToMap[one]
+							return <Tag className="tag-item" key={one} closable onClose={this.onCloseKeys(one)}>{city && city.title}</Tag>
 						})}
 					</div>
 				</div>

@@ -76,7 +76,9 @@ export default class SelectCompany extends Component {
 				onFocus={this.onCancel}
 				{...this.props}
 				onChange={this.handleChange}
+        getPopupContainer={triggerNode =>triggerNode.parentNode}
 			>
+        <Option key={0}>无</Option>
 				{data.map(({ company_id, name }) => <Option key={company_id}>{name}</Option>)}
 			</Select>)
 	}

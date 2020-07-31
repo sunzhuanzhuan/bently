@@ -1,6 +1,5 @@
 import React from 'react';
-// import moment from 'moment';
-import { Menu } from 'antd';
+import { message } from 'antd';
 import './SelectMenu.less'
 
 class SelectMenu extends React.Component {

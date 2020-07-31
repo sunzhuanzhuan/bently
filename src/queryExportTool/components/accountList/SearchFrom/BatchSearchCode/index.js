@@ -34,13 +34,23 @@ class BatchSearchCode extends Component {
 	}
 	onSearchAccout = (e) => {
 		e.preventDefault();
-		const { accoutName } = this.state
+    let { accoutName } = this.state
 		this.props.form.validateFields((err, values) => {
 			const platformId = values.platformId[values.platformId.length - 1]
 			delete values.vailAccoutName
 			delete values.keyword
 
 			if (!err) {
+        if (values.fieldType === 3) {
+          if (accoutName && Array.isArray(accoutName)) {
+            let newAccountName = [];
+            accoutName.forEach(item => {
+              item = item.replace(/\s*/g, "");
+              newAccountName.push(item);
+            });
+            accoutName = newAccountName;
+          }
+        }
 				const allValue = {
 					fieldType: values.fieldType,
 					platformId: platformId ? platformId : null,
@@ -129,7 +139,7 @@ class BatchSearchCode extends Component {
 							})(
 								<Cascader
 									popupClassName="batch-serach-code-cascader"
-									fieldNames={{ label: 'name', value: 'platform_id', children: 'grouped_platforms' }}
+									fieldNames={{ label: 'name', value: 'platformId', children: 'groupedPlatforms' }}
 									options={filtersMetaMap && filtersMetaMap.groups}
 									expandTrigger="click"
 									displayRender={displayRender}

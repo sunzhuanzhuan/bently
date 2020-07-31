@@ -40,7 +40,7 @@ class QuotationTable extends Component {
 	}
 
 	render() {
-		const { quotationList, paginationConfig, isLoading } = this.props
+		const { quotationList = {}, paginationConfig, isLoading } = this.props
 		const columns = [{
 			title: '报价单ID',
 			dataIndex: 'id',
@@ -51,7 +51,7 @@ class QuotationTable extends Component {
 			dataIndex: 'name',
 			key: 'name',
 			render: (text, record) => {
-				return <Link to={`/accountList/quotationManage/detail?quotation_id=${record.id}`}>
+				return <Link to={`/accountList/quotationManage/detail?quotationId=${record.id}`}>
 					{record.name}
 				</Link>
 			}
@@ -65,27 +65,27 @@ class QuotationTable extends Component {
 			// title: '账号数量',
 			// children: [{
 			title: '账号总数',
-			dataIndex: 'account_count',
-			key: 'account_count',
+			dataIndex: 'accountCount',
+			key: 'accountCount',
 
 			width: 80,
 		}, {
 			title: '所属公司',
-			dataIndex: 'company_name',
-			key: 'company_name',
+			dataIndex: 'companyName',
+			key: 'companyName',
 
-			render: (text, record) => record.company_name ? record.company_name : "无"
+			render: (text, record) => record.companyName ? record.companyName : "无"
 		}, {
 			align: "center",
 			title: '创建时间',
-			dataIndex: 'created_at',
-			key: 'created_at',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
 			width: 190,
 		}, {
 
 			title: '创建人',
-			dataIndex: 'creator_name',
-			key: 'creator_name',
+			dataIndex: 'creatorName',
+			key: 'creatorName',
 		}, {
 			align: "center",
 			title: '操作',
@@ -94,7 +94,7 @@ class QuotationTable extends Component {
 			width: 140,
 			render: (text, record) => {
 				const url = `/accountList/downloadCenter`
-				const historyUrl = url + `?keyword=${record.name}&company_id=${record.company_id}&company_name=${record.company_name}`
+				const historyUrl = url + `?quotationName=${record.name}&companyId=${record.companyId}&companyName=${record.companyName}`
 				const content = <Menu>
 					<Menu.Item>
 						<div className="quotation-table-action-content" onClick={() => this.props.exportNew(record.id, url)}>导出最新</div>
@@ -108,21 +108,21 @@ class QuotationTable extends Component {
 				</Menu>
 
 				return <div style={{ padding: "0px 9px" }}>
-					<a href={`/accountList/quotaList/1?quotation_id=${record.id}&&quotation_name=${record.name}`}>添加账号</a>
+					<a href={`/accountList/quotaList/1?quotationId=${record.id}&&quotationName=${record.name}`}>添加账号</a>
 					<ExportBox content={content} />
 				</div>
 			}
 		}]
 		return (
-			<Table dataSource={quotationList.rows}
+			<Table dataSource={quotationList.list}
 				loading={isLoading}
 				columns={columns}
 				bordered rowKey={record => record.id}
 				pagination={{
 					...paginationConfig,
-					total: quotationList.pagination && quotationList.pagination.total,
-					current: quotationList.pagination && quotationList.pagination.page,
-					pageSize: Number(quotationList.pagination && quotationList.pagination.page_size || 10)
+					total: quotationList.total,
+					current: quotationList.pageNum,
+					pageSize: Number(quotationList.pageSize || 10)
 				}}
 			/>
 		);

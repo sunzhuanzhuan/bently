@@ -20,7 +20,7 @@ class StencilTable extends Component {
 	}
 
 	render() {
-		const { stencilList, paginationConfig, isLoading } = this.props
+		const { stencilList = {}, paginationConfig, isLoading } = this.props
 		const columns = [
 			{
 				title: '模版名称',
@@ -44,21 +44,21 @@ class StencilTable extends Component {
 				</div>
 			}, {
 				title: '所属公司',
-				dataIndex: 'company_name',
-				key: 'company_name',
-				render: (text, record) => record.company_name ? record.company_name : "无"
+				dataIndex: 'companyName',
+				key: 'companyName',
+				render: (text, record) => record.companyName ? record.companyName : "无"
 			}, {
 				title: '使用次数',
-				dataIndex: 'used_times',
-				key: 'used_times',
+				dataIndex: 'usedTimes',
+				key: 'usedTimes',
 			}, {
 				title: '创建人',
-				dataIndex: 'creator_name',
-				key: 'creator_name',
+				dataIndex: 'creatorName',
+				key: 'creatorName',
 			}, {
 				title: '创建时间',
-				dataIndex: 'created_at',
-				key: 'created_at',
+				dataIndex: 'createdAt',
+				key: 'createdAt',
 				width: "190",
 				align: "center",
 			}, {
@@ -74,15 +74,15 @@ class StencilTable extends Component {
 				}
 			}]
 		return (
-			<Table dataSource={stencilList.rows}
+			<Table dataSource={stencilList.list || []}
 				loading={isLoading} columns={columns}
 				bordered
 				rowKey={record => record.id}
 				pagination={{
 					...paginationConfig,
-					total: stencilList.pagination && stencilList.pagination.total,
-					current: stencilList.pagination && stencilList.pagination.page,
-					pageSize: stencilList.pagination && stencilList.pagination.page_size
+					total: stencilList.total,
+					current: stencilList.pageNum,
+					pageSize: stencilList.pageSize
 				}}
 			/>
 		);

@@ -33,9 +33,20 @@ class AccountTableSelect extends Component {
 			visible: false,
 			checkedId: 0,
 			modalContent: "",
-			selecedTable: []
+      selecedTable: [],
+      isGetAllInfo:false,
+      selectedRowKeys: []
 		}
 	}
+
+  componentDidMount() {
+    const {accountList = {}} = this.props;
+    const {isSelect = []} = accountList;
+    this.setState({
+      selectedRowKeys: isSelect
+    });
+  }
+
 	showModal = () => {
 		this.setState({
 			visible: true
@@ -81,26 +92,15 @@ class AccountTableSelect extends Component {
 		const { serachAction } = this.props
 		serachAction && serachAction({ ...valuesAll })
 	}
-	//神策添加
-	track = (is_visit_detail, is_visit_homepage, operation_type, deal_type, account_ids) => {
-		const urlAll = this.props.match.url
-		let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/"
-		if (url == '/accountList/list/') {
-			sensors.track('AccountToCart', {
-				app_id: 101,
-				is_visit_detail: is_visit_detail,
-				is_visit_homepage: is_visit_homepage,
-				operation_type: operation_type,
-				deal_type: deal_type,//批量加入batch。单个加入single
-				position: '列表',
-				account_ids: account_ids.join(','),
-			});
-		}
-	}
+
 
 
 	//选择和取消选择
 	onSelectChange = (key, seleced) => {
+    if (this.state.isGetAllInfo) {
+      return
+    }
+    this.setState({isGetAllInfo: true})
 		const { IsExactQuery, isShowTypeByList, actions, addLookDetailOrIndexList = {} } = this.props
 
 		this.setState({
@@ -108,26 +108,34 @@ class AccountTableSelect extends Component {
 		})
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
-		this.track(
-			detali.includes(key.accountId) ? key.accountId : '',
-			index.includes(key.accountId) ? key.accountId : '',
-			seleced ? '加入' : '取消',
-			'single',
-			[key.accountId]
-		)
+
 		if (seleced) {
 			//同步发一个立刻选中
 			this.props.actions.addSelectStatic([key.accountId])
+      this.setState({
+        selectedRowKeys: [...this.state.selectedRowKeys, key.accountId]
+      });
 			//精确查询选中添加
 			IsExactQuery && actions.addSelectExactQuery([key.accountId])
 			//仅批量查号使用
-			this.props.actions.addToCart({ item_type_id: 1, accounts: this.getSaveCart([key]) })
+			this.props.actions.addToCart({ itemTypeId: 1, accounts: this.getSaveCart([key]) })
 				.catch(() => {
-					this.props.actions.removeFromCart({ staging_ids: [key.accountId] })
+					this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
 					IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 				})
+        .then(() => {
+          this.setState({isGetAllInfo: false})
+        })
 		} else {
-			this.props.actions.removeFromCart({ staging_ids: [key.accountId] })
+      let selectedRowKeys = this.state.selectedRowKeys || [];
+      let newRowKey = selectedRowKeys.filter(item => item != key.accountId);
+      this.setState({
+        selectedRowKeys: newRowKey
+      });
+			this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
+        .then(() => {
+          this.setState({isGetAllInfo: false})
+        })
 			IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 		}
 		if (seleced) {
@@ -139,36 +147,43 @@ class AccountTableSelect extends Component {
 		}
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
+		return list.map(one => ({ accountId: one.accountId, platformId: one.platformId }))
 	}
 	//全选/取消全选
 	onSelectAllChange = (seleced, list, changeRows) => {
+    if (this.state.isGetAllInfo) {
+      return
+    }
+    this.setState({isGetAllInfo: true});
 		const { IsExactQuery, actions, addLookDetailOrIndexList = {} } = this.props
-		const staging_ids = changeRows.map(one => one.accountId)
+		const stagingIds = changeRows.map(one => one.accountId)
 		const { detali = [], index = [] } = addLookDetailOrIndexList
-
-		this.track(
-			detali.join(','),
-			index.join(','),
-			seleced ? '加入' : '取消',
-			'batch',
-			staging_ids
-		)
-
 		if (seleced) {
 			//同步发一个立刻选中
-			this.props.actions.addSelectStatic(staging_ids)
+			this.props.actions.addSelectStatic(stagingIds);
+      this.setState({
+        selectedRowKeys: [...this.state.selectedRowKeys, ...stagingIds]
+      });
 			//精确查询选中添加
-			IsExactQuery && actions.addSelectExactQuery(staging_ids)
-			this.props.actions.addToCart({ item_type_id: 1, accounts: this.getSaveCart(list) })
+			IsExactQuery && actions.addSelectExactQuery(stagingIds)
+			this.props.actions.addToCart({ itemTypeId: 1, accounts: this.getSaveCart(list) })
 				.catch(() => {
-					this.props.actions.removeFromCart({ staging_ids: staging_ids })
-					IsExactQuery && actions.removeSelectExactQuery(staging_ids)
+					this.props.actions.removeFromCart({ stagingIds: stagingIds })
+					IsExactQuery && actions.removeSelectExactQuery(stagingIds)
 				})
+        .then(() => {
+          this.setState({isGetAllInfo: false})
+        })
 		} else {
-			const staging_ids = changeRows.map(one => one.accountId)
-			this.props.actions.removeFromCart({ staging_ids })
-			IsExactQuery && actions.removeSelectExactQuery(staging_ids)
+			const stagingIds = changeRows.map(one => one.accountId);
+      this.setState({
+        selectedRowKeys: []
+      });
+			this.props.actions.removeFromCart({ stagingIds })
+        .then(() => {
+          this.setState({isGetAllInfo: false})
+        });
+			IsExactQuery && actions.removeSelectExactQuery(stagingIds)
 		}
 
 	}
@@ -180,9 +195,9 @@ class AccountTableSelect extends Component {
 			arrSelectExactQuery,//精确查询的数组
 			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
 		} = this.props;
-		const { is_select = [] } = accountList
+		const { isSelect = [] } = accountList
 		const rowSelection = {
-			selectedRowKeys: IsExactQuery ? arrSelectExactQuery : is_select,
+			selectedRowKeys: IsExactQuery ? arrSelectExactQuery : this.state.selectedRowKeys,
 			onSelect: this.onSelectChange,
 			onSelectAll: this.onSelectAllChange,
 			getCheckboxProps: record => (IsExactQuery ? {
@@ -209,8 +224,8 @@ class AccountTableSelect extends Component {
 			</div>,
 			dataIndex: 'name',
 			render: (text, record, index) => {
-				return record.not_exist == 1 ?
-					<NoExist name={record.sns_name || record.account_id || record.sns_id} />
+				return record.notExist == 1 ?
+					<NoExist name={record.snsName || record.accountId || record.snsId} />
 					: <MainItem isDeleteAction={isDeleteAction} batchRemove={batchRemove} accountListItem={record} setModalContent={this.setModalContent} actions={actions} isPreloading={index < 4} />
 			}
 		}];

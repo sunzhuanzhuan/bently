@@ -41,10 +41,10 @@ class QuotationDetail extends Component {
 			detailLoading: true
 		})
 		const { getQuotationAccountSearch, getQuotationDetail } = this.props.actions
-		const quotation_id = search.quotation_id
-		getQuotationDetail({ quotation_id: quotation_id }).then(({ data }) => {
+		const quotationId = search.quotationId
+		getQuotationDetail({ id: quotationId }).then(({ data }) => {
 			this.props.history.push({
-				search: `?` + qs.stringify({ ...search, companyId: data.company_id })
+				search: `?` + qs.stringify({ ...search, companyId: data.companyId })
 			})
 			this.setState({
 				detailLoading: false,
@@ -61,7 +61,7 @@ class QuotationDetail extends Component {
 			}
 		})
 		getQuotationAccountSearch(
-			getPostFrom({ quotationId: parseInt(quotation_id) })
+			getPostFrom({ quotationId: parseInt(quotationId) })
 		).then(results => {
 			this.setState({
 				isLoading: false,
@@ -69,7 +69,11 @@ class QuotationDetail extends Component {
 		});
 		//获取选号车的数据
 		const { getAccountListFromCart } = this.props.actions
-		getAccountListFromCart()
+		getAccountListFromCart({
+			groupType: '',
+      offset: 1,
+      limit: 10
+		})
 	}
 	//打开弹窗
 	showModel = () => {
@@ -80,11 +84,11 @@ class QuotationDetail extends Component {
 	//导出方法
 	exportNew = () => {
 		const search = qs.parse(this.props.location.search.substring(1))
-		this.props.actions.preExportNumCheck({ type: "quotation", quotation_id: search.quotation_id }).then((res) => {
-			if (res.data.check_result) {
-				const { account_number, up_level, parent_name } = res.data
+		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: search.quotationId }).then((res) => {
+			if (res.data.checkRes == 2) {
+				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
-					account_number, up_level, parent_name
+					accountNumber, upLevel, parentName
 				}
 				this.setState({
 					messageInfo: messageInfo
@@ -98,7 +102,7 @@ class QuotationDetail extends Component {
 	exportOperate = () => {
 		const { quotationDetail = {} } = this.props.queryExportToolReducer
 		const { id } = quotationDetail
-		this.props.actions.quotationExport({ quotation_id: id })
+		this.props.actions.quotationExport({ quotationId: id })
 		this.setState({
 			typeShow: 4,
 			visible: true
@@ -129,7 +133,7 @@ class QuotationDetail extends Component {
 			isLoading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotation_id }
+		const data = { ...search, currentPage: 1, groupType: key, quotationId: search.quotationId }
 
 		this.setLoading()
 		if (key == 10) {
@@ -145,24 +149,22 @@ class QuotationDetail extends Component {
 	addSelectedRowKeysToCart = (selectedRowKeys) => {
 		this.setState({ selectedRowKeys })
 	}
-	batchRemove = (id, type, numberType, follower_count) => {
+	batchRemove = (id, type, numberType, followerCount) => {
 		//selectedRowKeys,
 		const { selectKey } = this.state
 		const search = qs.parse(this.props.location.search.substring(1))
-		//this.props.actions.deleteFromCart({ account_ids: selectedRowKeys, quotation_id: search.quotation_id }).then((res) => {
+		//this.props.actions.deleteFromCart({ accountIds: selectedRowKeys, quotationId: search.quotationId }).then((res) => {
 		this.props.actions.deleteFromCart(
 			{
-				account_ids: [id],
-				quotation_id: search.quotation_id,
+				accountIds: [id],
+				accounts: [{ accountId: id }],
+				quotationId: search.quotationId,
 				type: type,
 				numberType: numberType,
-				follower_count: follower_count
+				followerCount: followerCount
 			}).then((res) => {
 				message.success('删除成功', 2);
-				let data = { groupType: selectKey, ...search }
-				if (selectKey == 10) {
-					data.groupType = 0
-				}
+				let data = { groupType: selectKey == 10 ? null : selectKey, ...search }
 				//暂时搜索
 				this.props.actions.getQuotationAccountSearch(getPostFrom(data))
 			})
@@ -171,7 +173,7 @@ class QuotationDetail extends Component {
 	applyCodeOk = () => {
 		const { exportUrl, exportId } = this.state
 		this.exportOperate(exportUrl, exportId)
-		this.props.actions.quotationExport({ quotation_id: exportId })
+		this.props.actions.quotationExport({ quotationId: exportId })
 		this.setState({
 			typeShow: 4,
 			visible: true
@@ -180,7 +182,7 @@ class QuotationDetail extends Component {
 	serachAction = (value) => {
 		const { selectKey } = this.state
 		if (selectKey == 10) {
-			value.groupType = 0
+			value.groupType = null
 		}
 		this.setLoading()
 		this.props.actions.getQuotationAccountSearch(getPostFrom(value)).then(() => {
@@ -245,7 +247,7 @@ class QuotationDetail extends Component {
 							报价单详情
 						</h2>
 						<div style={{ float: "right", marginRight: 60 }}>
-							<Link to={`/accountList/quotaList/1?quotation_id=${search.quotation_id}&&quotation_name=${quotationDetail.name}`}>
+							<Link to={`/accountList/quotaList/1?quotationId=${search.quotationId}&&quotationName=${quotationDetail.name}`}>
 								<Button style={{ marginRight: 20 }}>添加账号</Button>
 							</Link>
 							<Button type="primary" onClick={this.exportNew}>导出报价单</Button>

@@ -15,12 +15,12 @@ function getQuotationData(list) {
 		let micro_flash_number = 0
 		account_count.map(item => {
 			if (item.is_famous == 1) {
-				reserve_number = item.account_id_count
-				one.reserve_number = item.account_id_count
+				reserve_number = item.accountId_count
+				one.reserve_number = item.accountId_count
 			}
 			if (item.is_famous == 2) {
-				micro_flash_number = item.account_id_count
-				one.micro_flash_number = item.account_id_count
+				micro_flash_number = item.accountId_count
+				one.micro_flash_number = item.accountId_count
 			}
 		})
 		one.number_sum = reserve_number + micro_flash_number
@@ -44,8 +44,10 @@ export const stencilList = handleActions({
 }, {})
 export const accountIdsByQuotation = handleActions({
 	[accoutActions.getAccountIdsByQuotation_success]: (state, action) => {
+		const { data = {} } = action.payload
+		const { accountIds = [] } = data
 		return [
-			...action.payload.data
+			...accountIds
 		]
 	}
 }, [])
@@ -53,29 +55,29 @@ export const accountIdsByQuotation = handleActions({
 //报价单详情账号列表
 export const quotationAccountList = handleActions({
 	[accoutActions.addSelectStatic]: (state, action) => {
-		const { is_select } = state
-		if (is_select) {
-			let is_select = [...state.is_select, ...action.payload]
-			return { ...state, is_select }
+		const { isSelect } = state
+		if (isSelect) {
+			let isSelect = [...state.isSelect, ...action.payload]
+			return { ...state, isSelect }
 		}
 	},
 	[accoutActions.removeFromCart_success]: (state, action) => {
-		const { is_select } = state
-		if (is_select) {
-			const is_selectOld = [...state.is_select]
+		const { isSelect } = state
+		if (isSelect) {
+			const isSelectOld = [...state.isSelect]
 			const deleteData = [...action.payload.data]
-			const is_select = is_selectOld.filter(one => !deleteData.includes(one))
-			return { ...state, is_select }
+			const isSelect = isSelectOld.filter(one => !deleteData.includes(one))
+			return { ...state, isSelect }
 		}
 	},
 	[accoutActions.clearCart_success]: (state, action) => {
 		return {
-			...state, is_select: []
+			...state, isSelect: []
 		}
 	},
 	[accoutActions.deleteFromCart_success]: (state, action) => {
-		const { type, data, follower_count, numberType } = action.payload
-		const accountsFilter = state.list.filter(one => !data.includes(one.account_id))
+		const { type, data = {}, followerCount, numberType } = action.payload
+		const accountsFilter = state.list.filter(one => !data.accountIds.includes(one.accountId))
 		return {
 			...state,
 			tabList: {
@@ -86,7 +88,7 @@ export const quotationAccountList = handleActions({
 			accountList: accountsFilter,
 			total: state.total - 1,
 			[numberType]: state[numberType] - 1,
-			follower_count: state.follower_count - follower_count
+			followerCount: state.followerCount - followerCount
 		}
 	},
 	[accoutActions.getQuotationAccountSearch_success]: (state, action) => {
@@ -94,7 +96,7 @@ export const quotationAccountList = handleActions({
 		const { account_count, result, followerCount, parkAccountCount, reservationAccountCount } = data
 		return {
 			...result,
-			is_select: result.list.filter(one => one.isSelected == 1).map(one => one.accountId),
+			isSelect: result.list.filter(one => one.isSelected == 1).map(one => one.accountId),
 			tabList: data.statistic,
 			total: data.statistic.total,
 			pagination: data.pagination,
@@ -104,9 +106,9 @@ export const quotationAccountList = handleActions({
 		}
 	}
 }, {
-		total: 0,
-		tabList: {},
-		accountList: [],
-		is_select: [],
-	})
+	total: 0,
+	tabList: {},
+	accountList: [],
+	isSelect: [],
+})
 

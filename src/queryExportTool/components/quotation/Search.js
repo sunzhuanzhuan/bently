@@ -18,14 +18,14 @@ class SearchDown extends Component {
 		const { form, searchTab } = this.props
 		form.validateFields((err, values) => {
 			if (!err) {
-				const { generation_time } = values
+				const { generationTime } = values
 				const allValue = {
 					...values,
-					company_id: values.company_id && values.company_id.key,
-					created_at_begin: generation_time && generation_time[0] && generation_time[0].format("YYYY-MM-DD"),
-					created_at_end: generation_time && generation_time[1] && generation_time[1].format("YYYY-MM-DD")
+					companyId: values.companyId && values.companyId.key,
+					createdAtBegin: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
+					createdAtEnd: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD")
 				}
-				delete allValue.generation_time
+				delete allValue.generationTime
 				this.props.history.push({
 					search: `?` + qs.stringify(allValue)
 				})
@@ -55,8 +55,8 @@ class SearchDown extends Component {
 							{...formItemLayout}
 							label="所属公司"
 						>
-							{getFieldDecorator('company_id', {
-								initialValue: searchValue.company_id
+							{getFieldDecorator('companyId', {
+								initialValue: searchValue.companyId
 							})(
 								<SelectCompany style={{ width: '100%' }} action={getCompanyList} />
 							)}
@@ -70,7 +70,7 @@ class SearchDown extends Component {
 							{getFieldDecorator('name', {
 								initialValue: searchValue.name
 							})(
-								<Input placeholder="请输入关键词" />
+                <Input placeholder="请输入关键词"  autoComplete="off"/>
 							)}
 						</FormItem>
 					</Col>
@@ -79,10 +79,10 @@ class SearchDown extends Component {
 							{...formItemLayout}
 							label="创建时间"
 						>
-							{getFieldDecorator('generation_time', {
-								initialValue: isStencil ? "" : searchValue.created_at_begin && [moment(searchValue.created_at_begin), moment(searchValue.created_at_end)]
+							{getFieldDecorator('generationTime', {
+								initialValue: isStencil ? "" : searchValue.createdAtBegin && [moment(searchValue.createdAtBegin), moment(searchValue.createdAtEnd)]
 							})(
-								<RangePicker format={dateFormat} />
+                <RangePicker format={dateFormat}   getCalendarContainer={triggerNode => triggerNode.parentNode} />
 							)}
 						</FormItem>
 					</Col>}

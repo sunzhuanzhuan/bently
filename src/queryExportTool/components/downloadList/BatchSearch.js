@@ -17,13 +17,15 @@ class BatchSearch extends Component {
 		const { form, setValueSearch } = this.props
 		form.validateFields((err, values) => {
 			if (!err) {
-				const { generation_time } = values
+				const { generationTime } = values
 				const allValue = {
 					...values,
-					created_at_begin: generation_time && generation_time[0] && generation_time[0].format("YYYY-MM-DD"),
-					created_at_end: generation_time && generation_time[1] && generation_time[1].format("YYYY-MM-DD")
+					currentPage: 1,
+					pageSize: 20,
+          createAtStartTime: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
+          createAtEndTime: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD")
 				}
-				delete allValue.generation_time
+				delete allValue.generationTime
 				setValueSearch(allValue)
 			}
 		})
@@ -44,10 +46,10 @@ class BatchSearch extends Component {
 							{...formItemLayout}
 							label="文件名称"
 						>
-							{getFieldDecorator('keyword', {
-								initialValue: searchValue.keyword
+							{getFieldDecorator('taskName', {
+								initialValue: searchValue.taskName
 							})(
-								<Input placeholder="请输入关键词" />
+                <Input placeholder="请输入关键词" autoComplete="off"/>
 							)}
 						</FormItem>
 					</Col>
@@ -56,10 +58,10 @@ class BatchSearch extends Component {
 							{...formItemLayout}
 							label="状态"
 						>
-							{getFieldDecorator('process_status', {
-								initialValue: searchValue.process_status
+							{getFieldDecorator('processStatus', {
+								initialValue: searchValue.processStatus
 							})(
-								<Select placeholder="请选择" style={{ width: 150 }} allowClear>
+                <Select placeholder="请选择" style={{ width: 150 }} allowClear getPopupContainer={triggerNode => triggerNode.parentNode}>
 									<Option value="1">处理中</Option>
 									<Option value="2">已完成</Option>
 									<Option value="3">失败</Option>
@@ -73,11 +75,10 @@ class BatchSearch extends Component {
 							{...formItemLayout}
 							label="生成时间"
 						>
-							{getFieldDecorator('generation_time', {
-								initialValue: searchValue.created_at_begin && [moment(searchValue.created_at_begin), moment(searchValue.created_at_end)]
+							{getFieldDecorator('generationTime', {
+								initialValue: searchValue.createdAtBegin && [moment(searchValue.createdAtBegin), moment(searchValue.createdAtEnd)]
 							})(
-								<RangePicker format={dateFormat}
-								/>
+                <RangePicker format={dateFormat} getCalendarContainer={triggerNode => triggerNode.parentNode}/>
 							)}
 						</FormItem>
 					</Col>

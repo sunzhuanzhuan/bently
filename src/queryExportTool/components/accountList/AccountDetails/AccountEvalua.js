@@ -17,7 +17,7 @@ class AccountEvalua extends Component {
 		this.seachLoading()
 	}
 	seachLoading = (showkey) => {
-		this.props.getDegreeList({ account_id: this.props.account_id, page: 1, page_size: 10, evaluate_level: showkey }).then((req) => {
+		this.props.getDegreeList({ account_id: this.props.accountId, page: 1, page_size: 10, evaluate_level: showkey }).then((req) => {
 			this.setState({
 				bigLoading: false
 			})
@@ -29,7 +29,7 @@ class AccountEvalua extends Component {
 		this.setState({ showkey })
 	}
 	render() {
-		const { degreeList, actions, account_id } = this.props
+		const { degreeList, actions, accountId } = this.props
 		const { showkey, bigLoading } = this.state
 		const statistic = degreeList && degreeList.statistic || {}
 		return (
@@ -44,7 +44,7 @@ class AccountEvalua extends Component {
 				</div>
 				<Spin spinning={bigLoading} >
 					<AccountEvaluaMore actions={actions} degreeList={degreeList}
-						showkey={showkey} key={showkey} account_id={account_id} />
+						showkey={showkey} key={showkey} accountId={accountId} />
 				</Spin>
 			</div>
 		);

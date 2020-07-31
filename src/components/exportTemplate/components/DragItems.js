@@ -59,7 +59,7 @@ const cardTarget = {
 export default class DragItems extends Component {
 	isEdit = () => {
 		const { changeColumnsAlias, groupId } = this.props
-		const { column_id: id, edit } = this.props.data
+		const { id, edit } = this.props.data
 		!edit && changeColumnsAlias({ groupId, id, val: true, key: 'edit' })
 	}
 	validate = (val) => {
@@ -83,7 +83,7 @@ export default class DragItems extends Component {
 	saveFieldsValue = () => {
 		const { tempValue } = this.state
 		const { changeColumnsAlias, groupId } = this.props
-		const { name, column_id: id } = this.props.data
+		const { name, id } = this.props.data
 
 		if (tempValue != name) {
 			if (!this.validate(tempValue)) {
@@ -100,7 +100,7 @@ export default class DragItems extends Component {
 	}
 	cancelFieldsValue = () => {
 		const { changeColumnsAlias, groupId } = this.props
-		const { alias, name, column_id: id, edit } = this.props.data
+		const { alias, name, id, edit } = this.props.data
 		changeColumnsAlias({ groupId, id, val: false, key: 'edit' })
 		this.setState({
 			// edit: false,
@@ -130,7 +130,7 @@ export default class DragItems extends Component {
 			length,
 			del
 		} = this.props
-		const { alias, name, removeable_status, edit } = data
+		const { alias, name, removeableStatus, edit } = data
 		const { tempValue, errorProps } = this.state
 		const opacity = isDragging ? 0 : 1
 		const content = edit ? <div className='item-content edit-item'>
@@ -140,7 +140,7 @@ export default class DragItems extends Component {
 					value={tempValue}
 					onChange={this.handleChangeValue}
 					placeholder='字段名'
-					// onBlur={this.cancelFieldsValue}
+				// onBlur={this.cancelFieldsValue}
 				/>
 			</FormItem>
 			<div className='actions' style={{ marginLeft: 6 }}>
@@ -149,20 +149,20 @@ export default class DragItems extends Component {
 				<a onClick={this.cancelFieldsValue}>取消</a>
 			</div>
 		</div> : <div className='item-content view-item'>
-			{alias ? alias + '[' + name + ']' : name}
-			<Icon className='actions' style={styleMainColor} onClick={this.isEdit} type="edit" theme="outlined" />
-			<div className='actions' style={styleAutoActions}>
-				<a onClick={() => drag(index, 0)}>置顶</a>
-				<Divider type="vertical" />
-				<a onClick={() => drag(index, length - 1)}>置底</a>
+				{alias ? alias + '[' + name + ']' : name}
+				<Icon className='actions' style={styleMainColor} onClick={this.isEdit} type="edit" theme="outlined" />
+				<div className='actions' style={styleAutoActions}>
+					<a onClick={() => drag(index, 0)}>置顶</a>
+					<Divider type="vertical" />
+					<a onClick={() => drag(index, length - 1)}>置底</a>
+				</div>
 			</div>
-		</div>
 		return connectDragSource && connectDropTarget &&
 			connectDragSource(connectDropTarget(
 				<div className='selected-fields-item' style={{ opacity }} onDoubleClick={this.isEdit}>
 					<Icon type="pause" theme="outlined" />
 					{content}
-					{removeable_status == 2 ? <Icon type="lock" theme="filled" /> :
+					{removeableStatus == 2 ? <Icon type="lock" theme="filled" /> :
 						<Icon type="close" theme="outlined" onClick={() => del(index)} />}
 				</div>
 			))

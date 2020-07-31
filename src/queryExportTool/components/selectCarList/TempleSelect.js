@@ -19,12 +19,12 @@ export default class TempleSelect extends Component {
 		this.lastFetchId += 1;
 		const fetchId = this.lastFetchId;
 		this.setState({ searchIng: true });
-		api.get('/export/account/getTemplateListByName', { params: { name: value } }).then(res => {
-			const { data = [] } = res.data
+		api.get('/operator-gateway/search/export/branch/getTemplateListByName', { params: { templateName: value, startPageSize: 1, endPageSize: 50 } }).then(res => {
+			const { list = [] } = res.data
 			if (fetchId !== this.lastFetchId) {
 				return;
 			}
-			!this.isUnmount && this.setState({ data: data, searchIng: false });
+			!this.isUnmount && this.setState({ data: list, searchIng: false });
 		});
 	}
 	handleChange = (value) => {
@@ -49,11 +49,11 @@ export default class TempleSelect extends Component {
 	}
 	selectValue = (value) => {
 		const { setTempleName } = this.props
-		const template_id = value.key
-		api.get('/export/account/getTemplateInfo', { params: { template_id: template_id } }).then(res => {
+		const templateId = value.key
+		api.get('/operator-gateway/export/account/quotation/templateDetail', { params: { id: templateId } }).then(res => {
 
-			const { company_name, company_id = 0 } = res.data
-			setTempleName && setTempleName(company_id, company_name)
+			const { companyName, companyId = 0 } = res.data
+			setTempleName && setTempleName(companyId, companyName)
 		})
 	}
 	componentWillUnmount() {
@@ -84,7 +84,7 @@ export default class TempleSelect extends Component {
 				onChange={this.handleChange}
 				{...this.props}
 			>
-				{data.map((one) => <Option key={one.id} value={one.id}>{one.name}</Option>)}
+				{data.map((one) => <Option key={one.id} value={one.id}>{one.templateName}</Option>)}
 			</Select>)
 	}
 }
