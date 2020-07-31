@@ -16,6 +16,14 @@ export const accountList = handleActions({
 			return { ...state, isSelect }
 		}
 	},
+  [accoutActions.removeListSelectStatic]: (state, action) => {
+    const { oldValue = [], newValue = [] } = action.payload;
+    if (oldValue.length === newValue.length) {
+      return {...state, isSelect: []};
+    }
+    let isSelect = oldValue.filter(item => !newValue.includes(item));
+    return {...state, isSelect};
+  },
 	// [accoutActions.addToCart_success]: (state, action) => {
 	// 	const { isSelect } = state
 	// 	if (isSelect) {
