@@ -102,11 +102,12 @@ class QuotationDetail extends Component {
 	exportOperate = () => {
 		const { quotationDetail = {} } = this.props.queryExportToolReducer
 		const { id } = quotationDetail
-		this.props.actions.quotationExport({ quotationId: id })
-		this.setState({
-			typeShow: 4,
-			visible: true
-		})
+    this.props.actions.quotationExport({ quotationId: id }).then(() => {
+      this.setState({
+        typeShow: 4,
+        visible: true
+      })
+    });
 	}
 	setTypeshow = (typeShow, visible) => {
 		this.setState({
