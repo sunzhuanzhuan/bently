@@ -71,8 +71,8 @@ class QuotationDetail extends Component {
 		const { getAccountListFromCart } = this.props.actions
 		getAccountListFromCart({
 			groupType: '',
-			startPageSize: 1,
-			endPageSize: 10
+      offset: 1,
+      limit: 10
 		})
 	}
 	//打开弹窗

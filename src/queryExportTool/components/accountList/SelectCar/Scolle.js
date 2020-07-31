@@ -6,8 +6,8 @@ import debounce from 'lodash/debounce';
 import { groupTypeMap } from '@/queryExportTool/constants'
 
 const baseParams = {
-	startPageSize: 1,
-	endPageSize: 10
+  offset: 0,
+  limit: 10
 }
 class Scolle extends Component {
 	constructor(props) {
@@ -54,7 +54,7 @@ class Scolle extends Component {
 			});
 			return;
 		}
-		this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, startPageSize: selectCartData.data.length, endPageSize: 10 }).then((res) => {
+    this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, offset: selectCartData.data.length, limit: 10 }).then((res) => {
 			this.setState({
 				loading: false,
 
@@ -74,6 +74,7 @@ class Scolle extends Component {
 			});
 			this.props.actions.removeSelectExactQuery([ids])
 			if (selectCartData.data.length < 10) {
+        groupType = {'1': 'wx'}[groupType];
 				if ((selectCartData.data.length + 1) == selectCartData.tabList[groupType ? groupType : 'total']) {
 					this.setState({
 						hasMore: false,
@@ -82,7 +83,7 @@ class Scolle extends Component {
 					return;
 				}
 
-				this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, startPageSize: this.groupNumber, endPageSize: 10 }).then((res) => {
+        this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, offset: selectCartData.data.length, limit: 10 }).then((res) => {
 					this.setState({
 						loading: false,
 						showWarn: false

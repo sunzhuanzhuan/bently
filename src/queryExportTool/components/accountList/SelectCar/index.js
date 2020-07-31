@@ -87,11 +87,12 @@ class SelectCar extends Component {
 					style={{ padding: 0 }}
 					className="select-car-drawer"
 				>
-					{visible ?
-						<div><MarkBox number={number > 0 ? number : 0} isShowSelect={this.isShowSelect} visible={visible} />
-							<div style={{ minWidth: 385 }}>{this.props.children}</div>
-						</div>
-						: null}
+          {visible ?
+            <div>
+              <MarkBox number={number > 0 ? number : 0} isShowSelect={this.isShowSelect} visible={visible}/>
+              <div style={{minWidth: 385, overflow: 'hidden'}}>{this.props.children}</div>
+            </div>
+            : null}
 				</Drawer>
 			</div>
 

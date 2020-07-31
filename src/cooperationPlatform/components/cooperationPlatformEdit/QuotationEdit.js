@@ -84,7 +84,7 @@ class QuotationEdit extends Component {
 		const skuTypesSelectedEdit = trinitySkuTypeVOS
 			.filter(one => (one.trinityCode != trinityCode || one.idAdd != idAdd))
 		const skuTypesSelected = (isAddCooperation ? trinitySkuTypeVOS : skuTypesSelectedEdit).reduce((acc, item) => {
-			let arr = item.skuTypeIds.map(item => item.key);
+      let arr = (item.skuTypeIds || []).map(item => item.key);
 			return acc.concat(arr);
 		}, [])
 

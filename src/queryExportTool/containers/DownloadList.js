@@ -114,9 +114,9 @@ class DownloadList extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const paginationConfig = {
 			showSizeChanger: true, showQuickJumper: true,
-			total: downloadList.pagination && downloadList.pagination.total - 0,
-			current: downloadList.pagination && downloadList.pagination.page - 0 || 1,
-			pageSize: downloadList.pagination && downloadList.pagination.pageSize - 0 || 20,
+      total: downloadList.total - 0,
+      current: downloadList.pageNum - 0 || 1,
+      pageSize: downloadList.pageSize - 0 || 20,
 			onChange: this.onChangePage,
 			onShowSizeChange: this.onShowSizeChange
 		}

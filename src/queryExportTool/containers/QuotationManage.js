@@ -24,6 +24,7 @@ import "./QuotationManage.less"
 import { CreateTemplate } from "../../components/exportTemplate";
 const TabPane = Tabs.TabPane;
 class QuotationManage extends Component {
+  $search = React.createRef();
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -102,7 +103,14 @@ class QuotationManage extends Component {
 				this.setLoading()
 			})
 		} else {
-			this.props.actions.getStencilList({ ...newSearch }).then(() => {
+      this.props.history.push({
+        search: `?` + qs.stringify({})
+      });
+      this.$search.current.resetFields();
+      let search = newSearch;
+      search.name = '';
+      search.companyId = '';
+			this.props.actions.getStencilList({ ...search }).then(() => {
 				this.setLoading()
 			})
 		}
@@ -194,14 +202,12 @@ class QuotationManage extends Component {
 			<div >
 				<h2>报价单管理</h2>
 				<Tabs onChange={this.changeTab} animated={false}>
-					{tablist.map(one => {
+          {tablist.map((one, index) => {
 						return <TabPane tab={one.tab} key={one.key}>
-							{selectKey == one.key ?
-								<div>
-									<QuotationSearch {...one.searchProps} companyList={companyList} searchTab={this.searchTab} getCompanyList={getCompanyList} />
-									{one.table}
-								</div>
-								: null}
+              <div>
+                <QuotationSearch wrappedComponentRef={this.$search} {...one.searchProps} companyList={companyList} searchTab={this.searchTab} getCompanyList={getCompanyList}/>
+                {one.table}
+              </div>
 						</TabPane>
 					})}
 				</Tabs>

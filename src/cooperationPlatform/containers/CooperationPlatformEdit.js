@@ -97,7 +97,7 @@ class CooperationPlatformEdit extends Component {
 	getTrinityTollTypeVOS = (list = []) => {
 		return list.map(one => ({
 			...one,
-			skuTypeIds: one.skuTypeIds.map(one => one.key)
+      skuTypeIds: (one.skuTypeIds || []).map(one => one.key)
 		}))
 	}
 	jumpPage = () => {
@@ -142,7 +142,9 @@ class CooperationPlatformEdit extends Component {
 					<div style={{ width: '60%', marginLeft: '6.6%' }}>
 						<CooperationMethod {...commonProps} />
 					</div>
-					<SettlementMethod {...commonProps} />
+          <div style={{ width: '60%', marginLeft: '6.6%' }}>
+            <SettlementMethod {...commonProps} />
+          </div>
 					<div style={{ width: '60%', marginLeft: '6.6%' }}>
 						<PaymentMethod  {...commonProps} />
 					</div>

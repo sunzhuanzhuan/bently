@@ -11,6 +11,7 @@ class DefaultChild extends Component {
 		super(props);
 		this._isMounted = false;
 		this.paramsAll = {};
+    this.platformIds = [];
 
 	}
 	state = {
@@ -29,6 +30,7 @@ class DefaultChild extends Component {
 		const { params: { platformType: groupType } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
 		const basePath = { defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, platformIds: groupType == 5 ? [23] : [] }
+    this.platformIds = basePath.platformIds;
 		this.paramsAll = basePath
 		getAccountList({
 			groupType,
@@ -132,16 +134,17 @@ class DefaultChild extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
-		this.props.actions.getAccountList({
-			searchSource: 1,
-			...this.paramsAll,
-			...params, groupType: platformType,
-			keyword: search.keyword || '',
-		}).then(() => {
-			this.setState({
-				loading: false
-			})
-		});
+    this.props.actions.getAccountList({
+      searchSource: 1,
+      ...this.paramsAll,
+      ...params,
+      groupType: platformType,
+      keyword: search.keyword || '',
+    }).then(() => {
+      this.setState({
+        loading: false
+      })
+    });
 	}
 
 	isdBackUp = (isdBackUp) => {
@@ -191,7 +194,7 @@ class DefaultChild extends Component {
 			<AccountSearch keyword={search.keyword || ''}
 				onFilterSearch={this.onFilterSearch}
 				{...this.props}
-				defaultPlatformIds={this.paramsAll.platformIds}
+                     defaultPlatformIds={this.platformIds}
 				serachStart={this.serachStart}
 			/>
 			<Spin spinning={this.state.loading}>

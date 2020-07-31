@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-// import { StickyContainer, Sticky } from 'react-sticky';
 import * as action from '../actions/index'
 import { Tabs, Spin, BackTop, message } from "antd"
 import qs from "qs";
@@ -15,13 +14,6 @@ import debounce from 'lodash/debounce';
 import MaskBox from "../base/MaskBox";
 
 const TabPane = Tabs.TabPane;
-// const renderTabBar = (props, DefaultTabBar) => (
-// 	<Sticky bottomOffset={80}>
-// 		{({ style }) => (
-// 			<DefaultTabBar {...props} style={{ ...style, zIndex: 1, background: '#fff' }} />
-// 		)}
-// 	</Sticky>
-// );
 class AccountList extends Component {
 
 	constructor(props) {
@@ -53,8 +45,8 @@ class AccountList extends Component {
 		} else {
 			getAccountListFromCart({
 				groupType: '',
-				startPageSize: 1,
-				endPageSize: 10
+        offset: 0,
+        limit: 10
 			})
 
 		}
@@ -101,9 +93,6 @@ class AccountList extends Component {
 	//删除方法
 	removeCartAccount = (value) => {
 		this.props.actions.removeFromCart({ stagingIds: value })
-		// .then(() => {
-		// 	this.props.actions.getAccountListFromCart()
-		// })
 	}
 	getSaveCart = (list) => {
 		return list.map(one => ({ accountId: one.accountId, platformId: one.platformId }))

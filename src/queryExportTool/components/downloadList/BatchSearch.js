@@ -22,8 +22,8 @@ class BatchSearch extends Component {
 					...values,
 					currentPage: 1,
 					pageSize: 20,
-					createdAtBegin: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
-					createdAtEnd: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD")
+          createAtStartTime: generationTime && generationTime[0] && generationTime[0].format("YYYY-MM-DD"),
+          createAtEndTime: generationTime && generationTime[1] && generationTime[1].format("YYYY-MM-DD")
 				}
 				delete allValue.generationTime
 				setValueSearch(allValue)
@@ -49,7 +49,7 @@ class BatchSearch extends Component {
 							{getFieldDecorator('taskName', {
 								initialValue: searchValue.taskName
 							})(
-								<Input placeholder="请输入关键词" />
+                <Input placeholder="请输入关键词" autoComplete="off"/>
 							)}
 						</FormItem>
 					</Col>
@@ -61,7 +61,7 @@ class BatchSearch extends Component {
 							{getFieldDecorator('processStatus', {
 								initialValue: searchValue.processStatus
 							})(
-								<Select placeholder="请选择" style={{ width: 150 }} allowClear>
+                <Select placeholder="请选择" style={{ width: 150 }} allowClear getPopupContainer={triggerNode => triggerNode.parentNode}>
 									<Option value="1">处理中</Option>
 									<Option value="2">已完成</Option>
 									<Option value="3">失败</Option>
@@ -78,8 +78,7 @@ class BatchSearch extends Component {
 							{getFieldDecorator('generationTime', {
 								initialValue: searchValue.createdAtBegin && [moment(searchValue.createdAtBegin), moment(searchValue.createdAtEnd)]
 							})(
-								<RangePicker format={dateFormat}
-								/>
+                <RangePicker format={dateFormat} getCalendarContainer={triggerNode => triggerNode.parentNode}/>
 							)}
 						</FormItem>
 					</Col>

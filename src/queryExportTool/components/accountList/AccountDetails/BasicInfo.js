@@ -43,7 +43,10 @@ class NumberSort extends Component {
 		this.state = {};
 	}
 	render() {
-		const { list, } = this.props
+    let { list, } = this.props;
+    let newList = list.filter(el=>{
+      return el.value*1>0
+    });
 		const styleMap = {
 			0: { fontWeight: "bold", color: "#333" },
 			1: { color: "#333" },
@@ -51,7 +54,7 @@ class NumberSort extends Component {
 		}
 		return (
 			<div className="wxy-age-list">
-				{list.length > 0 ? list.map((one, index) => {
+        {newList.length > 0 ? newList.map((one, index) => {
 					return <div key={index}
 						className="age-list-item"
 						style={{ ...styleMap[index] }}>

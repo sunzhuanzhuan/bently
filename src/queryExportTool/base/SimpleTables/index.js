@@ -60,7 +60,7 @@ export default class SimpleTables extends Component {
 							{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
 							<div>
 								<ValueStyle
-									value={numeral(record.price1).format('0,0')}
+                  value={record.price1}
 									type="1"
 									productOnShelfStatus={record.productOnShelfStatus}
 									unit="元" />

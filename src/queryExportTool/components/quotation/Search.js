@@ -70,7 +70,7 @@ class SearchDown extends Component {
 							{getFieldDecorator('name', {
 								initialValue: searchValue.name
 							})(
-								<Input placeholder="请输入关键词" />
+                <Input placeholder="请输入关键词"  autoComplete="off"/>
 							)}
 						</FormItem>
 					</Col>
@@ -82,7 +82,7 @@ class SearchDown extends Component {
 							{getFieldDecorator('generationTime', {
 								initialValue: isStencil ? "" : searchValue.createdAtBegin && [moment(searchValue.createdAtBegin), moment(searchValue.createdAtEnd)]
 							})(
-								<RangePicker format={dateFormat} />
+                <RangePicker format={dateFormat}   getCalendarContainer={triggerNode => triggerNode.parentNode} />
 							)}
 						</FormItem>
 					</Col>}

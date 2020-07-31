@@ -35,7 +35,7 @@ export default {
 	//账号详情---最近应约价
 	getRecentReservationOrderPriceList: "/operator-gateway/search/export/getRecentReservationOrderPriceList",
 	//获取购物车
-	getAccountListFromCart: branchUrl + '/getAccountListFromCart',
+  getAccountListFromCart: branchUrl + '/loadAccountListFromCart',
 
 	//删除购物车数据
 	removeFromCart: branchUrl + "/removeFromCart",

@@ -1,5 +1,4 @@
 import React from 'react';
-// import moment from 'moment';
 import { Tag, DatePicker, Button, Popover, Icon, message } from 'antd';
 import DropdownMenuNew from '../../../dropdownMenu/dropdownMenuNew'
 import MoreFilter from '../MoreFilter/index'
@@ -10,33 +9,16 @@ import SelectMenu from '../SelectMenu'
 import TreeTransfer from '../TreeTransfer'
 import './FilterCommon.less'
 import { objectToArray } from '../../../../../util'
-// import SelectedItem from '../SelectedItems'
-const { RangePicker } = DatePicker;
-// const FilterNumberRangePicker = DropdownMenu.FilterNumberRangePicker
 import {
-	// dateRangeOptions,
 	genderOptions,
 	kolVisitorAgeDrawOptions,
 	kolVisitorGenderOptions,
-	// mediaTypeOptions
 } from '@/queryExportTool/constants/searchFilter'
-
-// const FilterDateRangePicker = ({ onChange }) => {
-// 	const disabledDate = () => { }
-// 	const disabledRangeTime = () => { }
-// 	return <RangePicker
-// 		onChange={(dates, dateStrings) => onChange({ optionsValues: dateStrings, optionsNames: dateStrings })}
-// 		disabledDate={disabledDate}
-// 		disabledTime={disabledRangeTime}
-// 		format="YYYY-MM-DD"
-// 	/>
-// }
 
 export default class FilterCommon extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
-			// selectedItems: {},
 			moreFilterVisible: false
 		}
 	}
@@ -56,17 +38,6 @@ export default class FilterCommon extends React.Component {
 	onFilter = () => {
 		this.props.onFilter();
 	}
-	// onSelectMenuChange = (id, name, value) => {
-	// 	const { filterOptions = {} } = this.props.queryExportToolReducer;
-	// 	const { params } = this.props.match;
-	// 	const { filterCommonArray = {} } = filterOptions[params.platformType] || {};
-	// 	const options = filterCommonArray[id].options || [];
-	// 	const map = options.reduce((obj, item) => {
-	// 		obj[item.value || item.id] = item.name;
-	// 		return obj;
-	// 	}, {})
-	// 	this.onChange(id, name, { optionsNames: map[value] })
-	// }
 
 	onMoreFilterCancel = () => {
 		this.onVisibleChange(false)
@@ -77,42 +48,31 @@ export default class FilterCommon extends React.Component {
 		})
 	}
 	onMoreFilterOk = (selectedItems) => {
-		const { batchUpdateSelectedItems } = this.props;
+    this.onVisibleChange(false)
+    let allSelectedItems = {
+      ...this.props.selectedItems,
+      ...selectedItems
+    };
+    const {batchUpdateSelectedItems} = this.props;
+    let newObj = {};
+    if (Object.keys(allSelectedItems).length > 10) {
+      let keys = Object.keys(allSelectedItems).slice(0, 10);
+      for (let i = 0; i < keys.length; i++) {
+        newObj[keys[i]] = allSelectedItems[keys[i]]
+      }
+      console.log(newObj)
+      batchUpdateSelectedItems(newObj);
+      message.error("最多显示10个标签");
+      return;
+    }
 		batchUpdateSelectedItems(selectedItems);
-
-		console.log("onMoreFilterOk", selectedItems)
-		// const stateSelectedItems = this.state.selectedItems;
-		// const maxLength = Object.keys(selectedItems).length + Object.keys(stateSelectedItems).length;
-		// if (maxLength > 10) {
-		// 	message.error('搜索不能超过十个条件')
-		// 	return false;
-		// }
-		// const SelectedItems = { ...stateSelectedItems, ...selectedItems }
-		// this.setState({
-		// 	selectedItems: SelectedItems
-		// })
-		this.onVisibleChange(false)
-		this.props.onFilter();
+    this.props.onFilter();
 	}
-	// remove = (id) => {
-	// 	const SelectedItems = this.state.selectedItems;
-	// 	delete SelectedItems[id];
-	// 	this.MoreFilterNode && this.MoreFilterNode.remove(id);
-	// 	this.setState({ selectedItems: SelectedItems })
-	// 	this.props.resetFilter(id);
-	// 	this.props.onFilter();
-	// }
-	// resetFilter = () => {
-	// 	this.setState({
-	// 		selectedItems: {}
-	// 	})
-	// 	this.MoreFilterNode && this.MoreFilterNode.reset();
-	// 	this.props.resetFilter();
-	// 	this.props.onFilter();
-	// }
+
 	reset = () => {
 		this.MoreFilterNode && this.MoreFilterNode.reset()
 	}
+
 	render() {
 		const { form, selectedItems } = this.props;
 		const { getFieldDecorator } = form;
@@ -160,6 +120,7 @@ export default class FilterCommon extends React.Component {
 								<SelectMenu
 									options={kolVisitorGenderOptions}
 									onSelect={values => onChange('kolVisitorGenderDrawType', '受众性别', values)}
+                  selectedItems={this.props.selectedItems}
 								></SelectMenu>
 							)}
 						</DropdownMenuNew>
@@ -167,35 +128,23 @@ export default class FilterCommon extends React.Component {
 					{
 						mapFieldsToPlatform['kolVisitorAgeDraw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众年龄' className='dropdown-menu' >
 							{getFieldDecorator("kolVisitorAgeDraw", {
-								// initialValue: {
-								// 	name: '19-24',
-								// 	weight: [30, 100]
-								// }
-							})(<SelectAndInput promptMessage="可以选择占比大于某个值的年龄段" options={kolVisitorAgeDrawOptions} onOkClick={(values) => { onChange('kolVisitorAgeDraw', '受众年龄', values) }}></SelectAndInput>
+              })(<SelectAndInput promptMessage="可以选择占比大于某个值的年龄段" options={kolVisitorAgeDrawOptions} onOkClick={(values) => { onChange('kolVisitorAgeDraw', '受众年龄', values) }} selectedItems={this.props.selectedItems}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
 					{
 						mapFieldsToPlatform['kolVisitorProvinceDraw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众地域' className='dropdown-menu'>
 							{getFieldDecorator("kolVisitorProvinceDraw", {
-								// initialValue: {
-								// 	name: '',
-								// 	weight: [30, 100]
-								// }
 							})(
-								<SelectAndInput promptMessage="可以选择占比大于某个值的地域" options={kolProvinceList} onOkClick={(values) => { onChange('kolVisitorProvinceDraw', '受众地域', values) }}></SelectAndInput>
+                <SelectAndInput promptMessage="可以选择占比大于某个值的地域" options={kolProvinceList} onOkClick={(values) => { onChange('kolVisitorProvinceDraw', '受众地域', values) }} selectedItems={this.props.selectedItems}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
 					{
 						mapFieldsToPlatform['kolVisitorInterestDraw'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='受众兴趣' className='dropdown-menu'>
 							{getFieldDecorator("kolVisitorInterestDraw", {
-								// initialValue: {
-								// 	name: '',
-								// 	weight: [30, 100]
-								// }
 							})(
-								<SelectAndInput promptMessage="可以选择占比大于某个值的兴趣" options={kolInterestList} onOkClick={(values) => { onChange('kolVisitorInterestDraw', '受众兴趣', values) }}></SelectAndInput>
+                <SelectAndInput promptMessage="可以选择占比大于某个值的兴趣" options={kolInterestList} onOkClick={(values) => { onChange('kolVisitorInterestDraw', '受众兴趣', values) }} selectedItems={this.props.selectedItems}></SelectAndInput>
 							)}
 						</DropdownMenuNew>
 					}
@@ -203,12 +152,8 @@ export default class FilterCommon extends React.Component {
 					{
 						mapFieldsToPlatform['trueReadRatio'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='真实阅读率' className='dropdown-menu'>
 							{getFieldDecorator("trueReadRatio", {
-								// initialValue: {
-								// 	name: '',
-								// 	weight: [30, 100]
-								// }
 							})(
-								<SelectAndInput id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }}></SelectAndInput>
+                <SelectAndInput id='trueReadRatio' onOkClick={(values) => { onChange('trueReadRatio', '真实阅读率', values) }} selectedItems={this.props.selectedItems}></SelectAndInput>
 							)}</DropdownMenuNew>
 					}
 					{
@@ -237,12 +182,8 @@ export default class FilterCommon extends React.Component {
 					{
 						mapFieldsToPlatform['trueFansRate'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='真粉率' className='dropdown-menu'>
 							{getFieldDecorator("trueFansRate", {
-								// initialValue: {
-								// 	name: '',
-								// 	weight: [30, 100]
-								// }
 							})(
-								<SelectAndInput id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }}></SelectAndInput>
+                <SelectAndInput id='trueFansRate' onOkClick={(values) => { onChange('trueFansRate', '真粉率', values) }} selectedItems={this.props.selectedItems}></SelectAndInput>
 							)}</DropdownMenuNew>
 					}
 
@@ -307,6 +248,7 @@ export default class FilterCommon extends React.Component {
 									inputLableAfter=''
 									showType='three'
 									options={unitReadPriceTypes}
+                  selectedItems={this.props.selectedItems}
 								></SelectAndInput>
 							)}
 						</div></DropdownMenuNew>
@@ -321,22 +263,11 @@ export default class FilterCommon extends React.Component {
 									inputLableAfter=''
 									showType='three'
 									options={unitPlayPriceTypes}
+                  selectedItems={this.props.selectedItems}
 								></SelectAndInput>
 							)}
 						</div></DropdownMenuNew>
 					}
-					{/* {
-						mapFieldsToPlatform['liveLatestPublishTime'].includes(platformType) && <DropdownMenuNew visible={dropdownMenuShow} name='最近一次内容发布时间' className='dropdown-menu'>
-							{getFieldDecorator("liveLatestPublishTime", {
-								// initialValue: '0'
-							})(
-								<SelectMenu id='liveLatestPublishTime'
-									onSelect={(values) => { onChange('liveLatestPublishTime', '最近一次内容发布时间', values) }}
-									options={dateRangeOptions}
-								></SelectMenu>
-							)}
-						</DropdownMenuNew>
-					} */}
 				</div>
 
 				<Popover

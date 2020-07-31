@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Tabs, Form, Icon, Tooltip } from 'antd';
+import { Row, Tabs, Form, Icon, Tooltip, message } from 'antd';
 import ItemLable from './ItemLable';
 import OperationTag from './ItemLable/OperationTags'
 import InputAndSliderNumber from './InputAndSlider/InputAndSliderNumber'
@@ -64,6 +64,7 @@ class AccountSearch extends React.Component {
 			selectedItems: {},
 			isShowMore: false,
 			changTabNumber: '1',
+      isSameId:false
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
@@ -117,6 +118,12 @@ class AccountSearch extends React.Component {
 			delete selectedItems[id]
 			clear = false
 		}
+    let keys = Object.keys(selectedItems);
+
+    if (Object.keys(selectedItems).length > 10) {
+      message.error("最多显示10个标签")
+      return;
+    }
 		this.setState({ selectedItems })
 		if (needReset) {
 			params = this.accountListort.reset(clear)
@@ -219,11 +226,11 @@ class AccountSearch extends React.Component {
 				</span>
 				} width='115px'>
 				{getFieldDecorator('orderIndustryCategory')(
-					<ItemLable
+          <ItemLable id='orderIndustryCategory'
 						isTooltip={true}
 						onClick={(names) => this.onItemLableChange('orderIndustryCategory', '历史推广行业', names)}
 						// id='operationTag'
-						tagsArray={orderIndustryCategory}
+            tagsArray={orderIndustryCategory} selectedItems={this.state.selectedItems}
 					/>
 				)}
 			</LayoutSearch>}
@@ -236,10 +243,10 @@ class AccountSearch extends React.Component {
 		const allSearch = <div>
 			{category && platformType != 5 && <LayoutSearch name={category.name}>
 				{getFieldDecorator('classificationIds')(
-					<ItemLable
+          <ItemLable id='classificationIds'
 						onClick={(names) => this.onItemLableChange('classificationIds', '常见分类', names)}
 						// id='category'
-						tagsArray={category.options}
+						tagsArray={category.options} selectedItems={this.state.selectedItems}
 					/>
 				)}
 			</LayoutSearch>
@@ -250,6 +257,8 @@ class AccountSearch extends React.Component {
 						initialValue: defaultPlatformIds
 					}))(
 						<ItemLable
+              id='platformIds'
+              selectedItems={this.state.selectedItems}
 							onClick={(names) => this.onItemLableChange('platformIds', '平台名称', names)}
 							tagsArray={groupedPlatforms.map(item => { item.id = item.platformId; return item })}
 						/>
@@ -262,6 +271,7 @@ class AccountSearch extends React.Component {
 						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
 						// id='operationTag'
 						tagsArray={operationTags}
+            selectedItems={this.state.selectedItems}
 					/>
 				)}
 			</LayoutSearch>}
@@ -271,14 +281,14 @@ class AccountSearch extends React.Component {
 					// 	number: [0, 200]
 					// }
 				})(
-					<InputAndSliderNumber unit={"万"}
+					<InputAndSliderNumber unit={"万"} id='followerCount'
 						onNameChange={(names) => this.onItemLableChange('followerCount', followersCount.name, names)}
 						onFilter={this.onFilterSearch}
 						marks={FollowersCountMarks}
 						// id='followersCount'
 						maxNumber={100000}//10亿
 						showFalseMessage={'粉丝数不能超过10亿'}
-						sliderMin={+(followersCount.bar.min)} sliderMax={+(followersCount.bar.max)}
+                                sliderMin={+(followersCount.bar.min)} sliderMax={+(followersCount.bar.max)} selectedItems={this.state.selectedItems}
 					/>
 				)}
 			</LayoutSearch>}
@@ -289,7 +299,7 @@ class AccountSearch extends React.Component {
 						// 	number: [2000, 1000000]
 						// }
 					})(
-						<InputAndSliderNumber unit={"元"}
+            <InputAndSliderNumber unit={"元"} id='price'
 							onNameChange={(names) => this.onItemLableChange('price', price.name, names)}
 							onFilter={this.onFilterSearch}
 							// id='price'
@@ -298,7 +308,8 @@ class AccountSearch extends React.Component {
 							showFalseMessage={'价格不能超过1亿'}
 							sliderMin={+(price.bar.min)} sliderMax={+(price.bar.max)}
 							isShowSelect={isShowSelectForPrice}
-							selectList={[{ id: -1, name: '请选择报价类型' }, ...price.options]} />
+                                  selectList={[{ id: -1, name: '请选择报价类型' }, ...price.options]}  selectedItems={this.state.selectedItems}
+            />
 					)}
 				</div>
 			</LayoutSearch>
@@ -306,7 +317,7 @@ class AccountSearch extends React.Component {
 			<FilterCommon
 				batchUpdateSelectedItems={this.batchUpdateSelectedItems}
 				onChange={this.onItemLableChange}
-				selectedItems={selectedItems}
+        selectedItems={this.state.selectedItems}
 				{...this.props}
 				resetFilter={this.resetFilter}
 				onFilter={this.onFilterSearch}
