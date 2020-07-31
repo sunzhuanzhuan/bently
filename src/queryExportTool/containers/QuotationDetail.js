@@ -93,7 +93,7 @@ class QuotationDetail extends Component {
 				this.setState({
 					messageInfo: messageInfo
 				})
-				// this.setTypeshow(1, true)
+				this.setTypeshow(1, true)
 			} else {
 				this.exportOperate()
 			}
