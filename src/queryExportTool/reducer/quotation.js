@@ -61,6 +61,14 @@ export const quotationAccountList = handleActions({
 			return { ...state, isSelect }
 		}
 	},
+  [accoutActions.removeSelectStatic]: (state, action) => {
+    const { oldValue = [], newValue = [] } = action.payload;
+    if (oldValue.length === newValue.length) {
+      return {...state, isSelect: []};
+    }
+    let isSelect = oldValue.filter(item => !newValue.includes(item));
+    return {...state, isSelect};
+  },
 	[accoutActions.removeFromCart_success]: (state, action) => {
 		const { isSelect } = state
 		if (isSelect) {

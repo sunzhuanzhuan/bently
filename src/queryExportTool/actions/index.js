@@ -101,6 +101,11 @@ export const removeSelectStatic = createAction('removeSelectStatic', (value) => 
 	return value
 })
 
+//静态取消选中结果
+export const removeListSelectStatic = createAction('removeListSelectStatic', (value) => {
+  return value
+})
+
 //保存精确查询的值
 export const addSelectExactQuery = createAction('addSelectExactQuery', (value) => {
 	return value

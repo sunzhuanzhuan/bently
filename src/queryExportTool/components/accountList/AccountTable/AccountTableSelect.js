@@ -1,6 +1,6 @@
 /*
- * @Author: wangxinyue 
- * @Date: 2019-05-20 11:37:46 
+ * @Author: wangxinyue
+ * @Date: 2019-05-20 11:37:46
  * @Last Modified by: wangxinyue
  * @Last Modified time: 2019-05-22 17:27:19
  */
@@ -11,7 +11,7 @@
  * accountList渲染的list 集合
  * header全选后的内容
  * addSelectedRowKeysToCart 多选框操作方法
- * 
+ *
  */
 import React, { Component } from 'react';
 import MainItem from "../MainItem";
@@ -34,18 +34,9 @@ class AccountTableSelect extends Component {
 			checkedId: 0,
 			modalContent: "",
       selecedTable: [],
-      isGetAllInfo:false,
-      selectedRowKeys: []
+      isGetAllInfo:false
 		}
 	}
-
-  componentDidMount() {
-    const {accountList = {}} = this.props;
-    const {isSelect = []} = accountList;
-    this.setState({
-      selectedRowKeys: isSelect
-    });
-  }
 
 	showModal = () => {
 		this.setState({
@@ -112,9 +103,6 @@ class AccountTableSelect extends Component {
 		if (seleced) {
 			//同步发一个立刻选中
 			this.props.actions.addSelectStatic([key.accountId])
-      this.setState({
-        selectedRowKeys: [...this.state.selectedRowKeys, key.accountId]
-      });
 			//精确查询选中添加
 			IsExactQuery && actions.addSelectExactQuery([key.accountId])
 			//仅批量查号使用
@@ -128,10 +116,11 @@ class AccountTableSelect extends Component {
         })
 		} else {
       let selectedRowKeys = this.state.selectedRowKeys || [];
+      const { accountList = {} } = this.props;
+      const { isSelect = [] } = accountList;
       let newRowKey = selectedRowKeys.filter(item => item != key.accountId);
-      this.setState({
-        selectedRowKeys: newRowKey
-      });
+      this.props.actions.removeSelectStatic({oldValue: isSelect, newValue: [key.accountId]});
+      this.props.actions.removeListSelectStatic({oldValue: isSelect, newValue: [key.accountId]});
 			this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
         .then(() => {
           this.setState({isGetAllInfo: false})
@@ -161,9 +150,6 @@ class AccountTableSelect extends Component {
 		if (seleced) {
 			//同步发一个立刻选中
 			this.props.actions.addSelectStatic(stagingIds);
-      this.setState({
-        selectedRowKeys: [...this.state.selectedRowKeys, ...stagingIds]
-      });
 			//精确查询选中添加
 			IsExactQuery && actions.addSelectExactQuery(stagingIds)
 			this.props.actions.addToCart({ itemTypeId: 1, accounts: this.getSaveCart(list) })
@@ -175,14 +161,15 @@ class AccountTableSelect extends Component {
           this.setState({isGetAllInfo: false})
         })
 		} else {
+      const { accountList = {} } = this.props;
+      const { isSelect = [] } = accountList;
 			const stagingIds = changeRows.map(one => one.accountId);
-      this.setState({
-        selectedRowKeys: []
-      });
 			this.props.actions.removeFromCart({ stagingIds })
         .then(() => {
           this.setState({isGetAllInfo: false})
         });
+      this.props.actions.removeSelectStatic({oldValue: isSelect, newValue: stagingIds});
+      this.props.actions.removeListSelectStatic({oldValue: isSelect, newValue: stagingIds});
 			IsExactQuery && actions.removeSelectExactQuery(stagingIds)
 		}
 
@@ -195,8 +182,9 @@ class AccountTableSelect extends Component {
 			arrSelectExactQuery,//精确查询的数组
 			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
 		} = this.props;
-    const rowSelection = {
-			selectedRowKeys: IsExactQuery ? arrSelectExactQuery : this.state.selectedRowKeys,
+		const { isSelect = [] } = accountList
+		const rowSelection = {
+			selectedRowKeys: IsExactQuery ? arrSelectExactQuery : isSelect,
 			onSelect: this.onSelectChange,
 			onSelectAll: this.onSelectAllChange,
 			getCheckboxProps: record => (IsExactQuery ? {
