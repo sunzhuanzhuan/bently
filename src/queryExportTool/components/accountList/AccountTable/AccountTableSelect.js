@@ -195,8 +195,7 @@ class AccountTableSelect extends Component {
 			arrSelectExactQuery,//精确查询的数组
 			isDeleteAction, batchRemove, actions//专为删除而设计，是否有删除，删除方法
 		} = this.props;
-		const { isSelect = [] } = accountList
-		const rowSelection = {
+    const rowSelection = {
 			selectedRowKeys: IsExactQuery ? arrSelectExactQuery : this.state.selectedRowKeys,
 			onSelect: this.onSelectChange,
 			onSelectAll: this.onSelectAllChange,
