@@ -89,9 +89,10 @@ class AccountSearch extends React.Component {
 			params.skuOpenQuotePrice = params.price.number;
 			delete params.price
 		}
-		if (params.followerCount && !params.followerCount[1]) {
-			params.followerCount[1] = null;
-		}
+		
+		// if (params.followerCount && !params.followerCount[1]) {
+		// 	params.followerCount[1] = null;
+		// }
 
 		if (params.skuOpenQuotePrice && !params.skuOpenQuotePrice[1]) {
 			params.skuOpenQuotePrice[1] = null;

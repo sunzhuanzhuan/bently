@@ -23,13 +23,17 @@ const formatWNumberDefult = (value) => {
 
 const FansCount = ({ value, isfollowerCount, followerCountGrowthRate28d }) => {
   value = formatWNumberDefult(value);
-	return <div className='fans-count-item'>
+  let val = value.value;
+  if (!val || val === '0' || val === 0) {
+    val = '-';
+  }
+  return <div className='fans-count-item'>
 		<div className='title'>粉丝数
 		{isfollowerCount && followerCountGrowthRate28d ? <span>/增长率 <MarkMessage content={'增长率为近28天的粉丝增长率'} /></span> : null}
 		</div>
     <div className='value'>
       <div className='value-format-display-container large-value-dark'>
-        <div className='value-format-display-value'>{value.value}{value.unit}</div>
+        <div className='value-format-display-value'>{val}{value.unit}</div>
       </div>
       {isfollowerCount ?
         <span>/
