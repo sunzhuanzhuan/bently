@@ -142,9 +142,9 @@ class CooperationPlatformEdit extends Component {
 					<div style={{ width: '60%', marginLeft: '6.6%' }}>
 						<CooperationMethod {...commonProps} />
 					</div>
-          <div style={{ width: '60%', marginLeft: '6.6%' }}>
-            <SettlementMethod {...commonProps} />
-          </div>
+					<div style={{ width: '60%', marginLeft: '6.6%' }}>
+						<SettlementMethod {...commonProps} />
+					</div>
 					<div style={{ width: '60%', marginLeft: '6.6%' }}>
 						<PaymentMethod  {...commonProps} />
 					</div>
