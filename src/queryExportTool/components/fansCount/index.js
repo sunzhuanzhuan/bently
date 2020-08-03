@@ -8,7 +8,10 @@ import MarkMessage from '../../base/MarkMessage'
 const formatWNumberDefult = (value) => {
   let unit = ''
   if (value == 0 || value > 0) {
-    if (Math.abs(value) > 10000 || Math.abs(value) == 10000) {
+    if (Math.abs(value) > 100000000 || Math.abs(value) == 100000000) {
+      value = numeral(value / 100000000).format('0.0')
+      unit = '亿'
+    } else if (Math.abs(value) > 10000 || Math.abs(value) == 10000) {
       value = numeral(value / 10000).format('0.0')
       unit = '万'
     } else {
