@@ -24,8 +24,8 @@ class AccountDetails extends Component {
 	}
 
 	componentDidMount = () => {
-		const { account_id, actions } = this.props
-		const data = { account_id: account_id }
+		const { accountId, actions } = this.props
+		const data = { accountId: accountId }
 		actions.getBaseInfo(data).then(results => {
 			this.setState({
 				isLoading: false
@@ -39,7 +39,7 @@ class AccountDetails extends Component {
 	render() {
 
 		const { showkey, isLoading } = this.state
-		const { actions, queryExportToolReducer, account_id, } = this.props
+		const { actions, queryExportToolReducer, accountId, } = this.props
 		const { getDegreeList } = actions
 		const { degreeList, baseInfoList, recentReservationOrderPriceList } = queryExportToolReducer;
 		return (
@@ -50,17 +50,17 @@ class AccountDetails extends Component {
 						<div className="wxy-radio-group">
 							<RadioGroup onChange={this.onChange} defaultValue="1" >
 								<RadioButton value="1">基本信息</RadioButton>
-								<RadioButton value="2">账号评价（{baseInfoList && baseInfoList.degree_count || 0}）<MarkMessage {...messageInfo.degree} /></RadioButton>
-								<RadioButton value="3">近期应约 （{baseInfoList && baseInfoList.price_count || 0}）</RadioButton>
+								<RadioButton value="2">账号评价（{baseInfoList && baseInfoList.degreeCount || 0}）<MarkMessage {...messageInfo.degree} /></RadioButton>
+								<RadioButton value="3">近期应约 （{baseInfoList && baseInfoList.priceCount || 0}）</RadioButton>
 							</RadioGroup>
 						</div>
 						<div >
 							{showkey == 1 ? <AccountDetailsBasicInfo baseInfoList={baseInfoList} /> :
 								showkey == 2 ? <AccountDetailsAccountEvalua degreeList={degreeList} getDegreeList=
-									{getDegreeList} actions={actions} account_id={account_id} /> :
+									{getDegreeList} actions={actions} accountId={accountId} /> :
 									showkey == 3 ? <AccountDetailsRecentPrice recentReservationOrderPriceList={recentReservationOrderPriceList}
 										baseInfoList={baseInfoList}
-										actions={actions} account_id={account_id} />
+										actions={actions} accountId={accountId} />
 										: null}
 						</div>
 					</div>

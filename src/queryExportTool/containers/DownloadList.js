@@ -36,7 +36,7 @@ class DownloadList extends Component {
 		this.setState({
 			selectKey
 		}, () => {
-			this.props.actions.getDownloadList({ page: 1, page_size: 20, ...data, type: selectKey, }).then(() => {
+			this.props.actions.getDownloadList({ currentPage: 1, pageSize: 20, ...data, taskType: selectKey, }).then(() => {
 				this.setState({
 					loading: false
 				})
@@ -49,7 +49,7 @@ class DownloadList extends Component {
 		this.setState({
 			loading: true
 		})
-		this.props.actions.getDownloadList({ type: selectKey, ...params }).then(() => {
+		this.props.actions.getDownloadList({ taskType: selectKey, ...params }).then(() => {
 			this.setState({
 				loading: false
 			})
@@ -57,18 +57,22 @@ class DownloadList extends Component {
 	}
 	searchDownload = (values) => {
 		const search = qs.parse(this.props.location.search.substring(1))
-		const newSearch = { ...search, ...values }
+		const newSearch = {
+			currentPage: 1,
+			pageSize: 20,
+			...search, ...values
+		}
 		this.props.history.push({
 			search: `?` + qs.stringify(newSearch)
 		})
 		this.searchAndLoading(newSearch)
 	}
 	onChangePage = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { currentPage: pagination, pageSize: pageSize }
 		this.searchDownload(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { currentPage: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize
 		})
@@ -79,17 +83,17 @@ class DownloadList extends Component {
 			this.props.history.push({
 				search: `?` + qs.stringify(type)
 			})
-			this.searchAndLoading()
+			this.searchAndLoading({ currentPage: 1, pageSize: 20, })
 		})
 	}
 	operateDownload = (id) => {
-		this.props.actions.reDownload({ task_id: id }).then(() => {
+		this.props.actions.reDownload({ taskId: id }).then(() => {
 			message.success("开始重新处理")
 			this.searchDownload()
 		})
 	}
 	downLoadById = (download_url, id) => {
-		this.props.actions.download({ task_id: id }).then((res) => {
+		this.props.actions.download({ taskId: id }).then((res) => {
 			this.searchDownload()
 		})
 		window.open(download_url)
@@ -110,9 +114,9 @@ class DownloadList extends Component {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const paginationConfig = {
 			showSizeChanger: true, showQuickJumper: true,
-			total: downloadList.pagination && downloadList.pagination.total - 0,
-			current: downloadList.pagination && downloadList.pagination.page - 0 || 1,
-			pageSize: downloadList.pagination && downloadList.pagination.page_size - 0 || 20,
+      total: downloadList.total - 0,
+      current: downloadList.pageNum - 0 || 1,
+      pageSize: downloadList.pageSize - 0 || 20,
 			onChange: this.onChangePage,
 			onShowSizeChange: this.onShowSizeChange
 		}
@@ -125,7 +129,7 @@ class DownloadList extends Component {
 							<DownLoadSearch {...searchProps} />
 							<DownloadTable
 								isBPAuthVisble={isBPAuthVisble}
-								downloadList={downloadList.rows}
+								downloadList={downloadList.list}
 								operateDownload={this.operateDownload}
 								loading={loading}
 								paginationConfig={paginationConfig}
@@ -138,7 +142,7 @@ class DownloadList extends Component {
 						{selectKey == 2 ? <div>
 							<DownLoadBatchSearch {...searchProps} />
 							<DownLoadBatchSearchTable
-								downloadList={downloadList.rows}
+								downloadList={downloadList.list}
 								operateDownload={this.operateDownload}
 								loading={loading}
 								paginationConfig={paginationConfig}

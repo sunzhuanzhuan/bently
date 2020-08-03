@@ -97,7 +97,7 @@ class CooperationPlatformEdit extends Component {
 	getTrinityTollTypeVOS = (list = []) => {
 		return list.map(one => ({
 			...one,
-			skuTypeIds: (one.skuTypeIds || []).map(one => one.key)
+      skuTypeIds: (one.skuTypeIds || []).map(one => one.key)
 		}))
 	}
 	jumpPage = () => {

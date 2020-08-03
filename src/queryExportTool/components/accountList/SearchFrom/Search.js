@@ -65,6 +65,7 @@ export class DefaultSearch extends React.Component {
 						enterButton
 						onSearch={this.onSearch}
 						ref={node => this.userNameInput = node}
+            autoComplete="off"
 					/>
 				)}
 			</div>

@@ -24,6 +24,7 @@ import "./QuotationManage.less"
 import { CreateTemplate } from "../../components/exportTemplate";
 const TabPane = Tabs.TabPane;
 class QuotationManage extends Component {
+  $search = React.createRef();
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -63,7 +64,7 @@ class QuotationManage extends Component {
 		this.setState({ isLoading: !isLoading })
 	}
 	componentDidMount = () => {
-		this.props.actions.getQuotationList({ page: 1, page_size: 20 }).then(() => {
+		this.props.actions.getQuotationList({ pageNum: 1, pageSize: 20 }).then(() => {
 			this.setState({ isLoading: false })
 		})
 	}
@@ -72,7 +73,7 @@ class QuotationManage extends Component {
 		this.setState({ selectKey }, () => {
 			this.searchTab({})
 			this.props.history.push({
-				search: `?` + qs.stringify({ page: 1, page_size: 20 })
+				search: `?` + qs.stringify({ pageNum: 1, pageSize: 20 })
 			})
 		})
 	}
@@ -80,11 +81,11 @@ class QuotationManage extends Component {
 		const { selectKey } = this.state
 		this.setLoading()
 		if (selectKey == 1) {
-			this.props.actions.getQuotationList({ ...newSearch, page: 1, page_size: 20 }).then(() => {
+			this.props.actions.getQuotationList({ ...newSearch, pageNum: 1, pageSize: 20 }).then(() => {
 				this.setState({ isLoading: false })
 			})
 		} else {
-			this.props.actions.getStencilList({ ...newSearch, page: 1, page_size: 20 }).then(() => {
+			this.props.actions.getStencilList({ ...newSearch, pageNum: 1, pageSize: 20 }).then(() => {
 				this.setState({ isLoading: false })
 			})
 		}
@@ -102,18 +103,25 @@ class QuotationManage extends Component {
 				this.setLoading()
 			})
 		} else {
-			this.props.actions.getStencilList({ ...newSearch }).then(() => {
+      this.props.history.push({
+        search: `?` + qs.stringify({})
+      });
+      this.$search.current.resetFields();
+      let search = newSearch;
+      search.name = '';
+      search.companyId = '';
+			this.props.actions.getStencilList({ ...search }).then(() => {
 				this.setLoading()
 			})
 		}
 	}
 	//分页
 	onChange = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { pageNum: pagination, pageSize: pageSize }
 		this.searchDownload(param)
 	}
 	onShowSizeChange = (pagination, pageSize) => {
-		const param = { page: pagination, page_size: pageSize }
+		const param = { pageNum: pagination, pageSize: pageSize }
 		this.setState({
 			pageSize: pageSize
 		})
@@ -122,7 +130,7 @@ class QuotationManage extends Component {
 	//导出
 	applyCodeOk = () => {
 		const { exportId } = this.state
-		this.props.actions.quotationExport({ quotation_id: exportId })
+		this.props.actions.quotationExport({ quotationId: exportId })
 		this.handleCancel()
 		this.setTypeShow(4, true)
 	}
@@ -132,19 +140,19 @@ class QuotationManage extends Component {
 			exportUrl,
 			exportId
 		})
-		this.props.actions.preExportNumCheck({ type: "quotation", quotation_id: exportId }).then((res) => {
+		this.props.actions.preExportNumCheck({ exportType: 2, quotationId: exportId }).then((res) => {
 
-			if (res.data.check_result) {
-				const { account_number, up_level, parent_name } = res.data
+			if (res.data.checkRes == 2) {
+				const { accountNumber, upLevel, parentName } = res.data
 				const messageInfo = {
-					account_number, up_level, parent_name
+					accountNumber, upLevel, parentName
 				}
 				this.setState({
 					messageInfo: messageInfo
 				})
 				this.setTypeShow(1, true)
 			} else {
-				this.props.actions.quotationExport({ quotation_id: exportId })
+				this.props.actions.quotationExport({ quotationId: exportId })
 				this.setTypeShow(4, true)
 			}
 		})
@@ -154,7 +162,7 @@ class QuotationManage extends Component {
 	//关闭页面操作
 	handleClose = () => {
 		this.handleCancel()
-		this.searchDownload()
+		this.searchDownload({ pageNum: 1, pageSize: 20 })
 	}
 	//修改页面操作
 	editTemple = (id) => {
@@ -194,14 +202,12 @@ class QuotationManage extends Component {
 			<div >
 				<h2>报价单管理</h2>
 				<Tabs onChange={this.changeTab} animated={false}>
-					{tablist.map(one => {
+          {tablist.map((one, index) => {
 						return <TabPane tab={one.tab} key={one.key}>
-							{selectKey == one.key ?
-								<div>
-									<QuotationSearch {...one.searchProps} companyList={companyList} searchTab={this.searchTab} getCompanyList={getCompanyList} />
-									{one.table}
-								</div>
-								: null}
+              <div>
+                <QuotationSearch wrappedComponentRef={this.$search} {...one.searchProps} companyList={companyList} searchTab={this.searchTab} getCompanyList={getCompanyList}/>
+                {one.table}
+              </div>
 						</TabPane>
 					})}
 				</Tabs>

@@ -11,6 +11,7 @@ class DefaultChild extends Component {
 		super(props);
 		this._isMounted = false;
 		this.paramsAll = {};
+    this.platformIds = [];
 
 	}
 	state = {
@@ -29,6 +30,7 @@ class DefaultChild extends Component {
 		const { params: { platformType: groupType } } = this.props.match
 		const search = qs.parse(this.props.location.search.substring(1))
 		const basePath = { defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, platformIds: groupType == 5 ? [23] : [] }
+    this.platformIds = basePath.platformIds;
 		this.paramsAll = basePath
 		getAccountList({
 			groupType,
@@ -132,16 +134,17 @@ class DefaultChild extends Component {
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
-		this.props.actions.getAccountList({
-			searchSource: 1,
-			...this.paramsAll,
-			...params, groupType: platformType,
-			keyword: search.keyword || '',
-		}).then(() => {
-			this.setState({
-				loading: false
-			})
-		});
+    this.props.actions.getAccountList({
+      searchSource: 1,
+      ...this.paramsAll,
+      ...params,
+      groupType: platformType,
+      keyword: search.keyword || '',
+    }).then(() => {
+      this.setState({
+        loading: false
+      })
+    });
 	}
 
 	isdBackUp = (isdBackUp) => {
@@ -155,7 +158,7 @@ class DefaultChild extends Component {
 	render() {
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { queryExportToolReducer, removeCartAccount, addSelectedRowKeysToCart, actions } = this.props;
-		const { selectedRowKeys, selectedRowKeysObject, quotation_id } = this.props
+		const { selectedRowKeys, selectedRowKeysObject, quotationId } = this.props
 		const { accountList, accountIdsByQuotation, addLookDetailOrIndexList } = queryExportToolReducer;
 		let { platformType } = this.props.match.params;
 		let ruleUrl = {
@@ -191,20 +194,20 @@ class DefaultChild extends Component {
 			<AccountSearch keyword={search.keyword || ''}
 				onFilterSearch={this.onFilterSearch}
 				{...this.props}
-				defaultPlatformIds={this.paramsAll.platformIds}
+                     defaultPlatformIds={this.platformIds}
 				serachStart={this.serachStart}
 			/>
 			<Spin spinning={this.state.loading}>
-				{/*quotation_id>0代表走报价单选号车列表，已选的为选中不可编辑状态，选中值在前台保存。操作state
-				另一个table的选中是后台返回is_select，操作action*/}
+				{/*quotationId>0代表走报价单选号车列表，已选的为选中不可编辑状态，选中值在前台保存。操作state
+				另一个table的选中是后台返回isSelect，操作action*/}
 				<div>
-					{quotation_id > 0 ?
+					{quotationId > 0 ?
 						<AccountTable
 							accountList={accountList}
 							header={header}
 							addSelectedRowKeysToCart={addSelectedRowKeysToCart}
 							selectedRowKeys={selectedRowKeys}
-							isShowDisable={quotation_id > 0}
+							isShowDisable={quotationId > 0}
 							serachAction={this.serachAction}
 							selectedRowKeysObject={selectedRowKeysObject}
 							isObject={true}

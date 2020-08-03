@@ -10,7 +10,7 @@
  */
 import React, { Component } from 'react';
 import MoreOperate from "../../../common/MoreOperate";
-import { Tag, Tooltip } from 'antd';
+import { Tag, Tooltip, message } from 'antd';
 import "./index.less";
 const CheckableTag = Tag.CheckableTag;
 class ItemLable extends Component {
@@ -40,6 +40,7 @@ class ItemLable extends Component {
 
 	handleChange(tagId, checked) {
 		const { selectedTags = [] } = this.state;
+    let {selectedItems} = this.props;
 		let nextSelectedTags = [];
 		const { onChange, unlimitedValue, isoOnlyOne } = this.props;
 		if (tagId == unlimitedValue || isoOnlyOne) {
@@ -65,6 +66,11 @@ class ItemLable extends Component {
 			obj[item.value || item.id] = item.name;
 			return obj;
 		}, {})
+    const {selectedItems} = this.props;
+    if ({optionsNames: changedValue.map(item => map[item])}.optionsNames.length < 2 && Object.keys(selectedItems).length > 9) {
+      message.error("最多显示10个标签")
+      return;
+    }
 		onClick && onClick({ optionsNames: changedValue.map(item => map[item]) });
 
 		if (onChange) {
@@ -80,7 +86,6 @@ class ItemLable extends Component {
 				<MoreOperate lineHight={40} textMore="更多" >
 					{tagsArray.map((tag) => {
 						const checkedNow = selectedTags && selectedTags.indexOf(tag.id) > -1;
-						const brandList = (tag.brand_list || []).map(one => one.name)
 						return <CheckableTag
 							className="ant-tag-theme-thin"
 							key={tag.id}

@@ -12,13 +12,14 @@ export const {
 	download,
 	download_success
 } = createHttpAction('download', Interface.download, {
-	isTrack: true, trackResult: (search, data) => ({task_id:data.task_id})
+	isTrack: true, method: 'post', trackResult: (search, data) => ({ task_id: data.task_id })
 })
 //重新下载链接
 export const {
 	reDownload,
 	reDownload_success
 } = createHttpAction('reDownload', Interface.reDownload, {
-	isTrack: true
+	isTrack: true,
+	method: 'post'
 })
 

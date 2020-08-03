@@ -16,12 +16,12 @@ class AccountEvaluaMore extends Component {
 	}
 
 	handleInfiniteOnLoad = (value) => {
-		const { showkey, account_id } = this.props
+		const { showkey, accountId } = this.props
 		this.setState({
 			loading: true,
 		});
 
-		this.props.actions.addGetDegreeList({ account_id: account_id, page: value, page_size: 10, evaluate_level: showkey }).then((res) => {
+		this.props.actions.addGetDegreeList({ account_id: accountId, page: value, page_size: 10, evaluate_level: showkey }).then((res) => {
 			if (res.data.rows < 10) {
 				this.setState({
 					hasMore: false,

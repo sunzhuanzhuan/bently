@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "./index.less"
-import { Input, Slider, Select } from 'antd';
+import { Input, Slider, Select,message } from 'antd';
 import PropTypes from 'prop-types'
 import ItemLable from '../ItemLable';
 import CInputNumber from "@/queryExportTool/base/CInputNumber";
@@ -125,7 +125,7 @@ class InputAndSliderNumber extends Component {
 				</div>
 				<div className="item-lable-left">
 					{isShowSelect ? <div className="item-lable-select">
-						<Select value={selectValue} style={{ width: "100%" }} placeholder="请选择" dropdownMatchSelectWidth={false} onChange={this.changeSelect}>
+            <Select  getPopupContainer={triggerNode => triggerNode.parentNode}  value={selectValue} style={{ width: "100%" }} placeholder="请选择" dropdownMatchSelectWidth={false} onChange={this.changeSelect}>
 							{selectList.length > 0 ? selectList.map((one, index) => {
 								return <Option key={index} value={one.id || one.value}>{one.name}</Option>
 							}) : null}
@@ -133,11 +133,13 @@ class InputAndSliderNumber extends Component {
 					</div> : null}
 					<div className='item-slider'>
 						<ItemLable
+              id={this.props.id}
 							onClick={this.onItemLableChange}
 							onChange={this.onChangeItem}
 							isoOnlyOne
 							value={[number.join('-')]}
 							tagsArray={marks}
+              selectedItems={this.props.selectedItems}
 						/>
 					</div>
 				</div>

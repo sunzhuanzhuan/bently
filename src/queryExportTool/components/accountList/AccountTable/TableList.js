@@ -24,16 +24,16 @@ class TableList extends Component {
 			key: 'name',
 		}, {
 			title: '所属平台',
-			dataIndex: 'platform_id',
-			key: 'platform_id',
+			dataIndex: 'platformId',
+			key: 'platformId',
 		}, {
 			title: '账号ID',
-			dataIndex: 'account_id12',
-			key: 'account_id12',
+			dataIndex: 'accountId12',
+			key: 'accountId12',
 		}, {
-			title: 'account_id',
-			dataIndex: 'account_id',
-			key: 'account_id',
+			title: 'accountId',
+			dataIndex: 'accountId',
+			key: 'accountId',
 		}, {
 			title: '执行类型',
 			dataIndex: 'type',
