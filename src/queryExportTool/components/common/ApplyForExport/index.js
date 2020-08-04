@@ -70,7 +70,7 @@ class ApplyForExport extends Component {
 			<span>
 				<div className='apply-for-export'>
 					<div className='text-message'>
-						该报价单账号数量超过{upLevel == 2 ? 200 : null}{upLevel == 3 ? 500 : null}个，须向上级【{upLevel ? "李理" : parentName}】申请，点击立即发送，
+						该报价单账号数量超过{upLevel == 2 ? 200 : null}{upLevel == 3 ? 500 : null}个，须向上级【{upLevel === 3 ? "李理" : parentName}】申请，点击立即发送，
 						您的上级将收到短信审核码，输入审核码即可导出报价单。
 					</div>
 					<Row className="export-row">
