@@ -64,9 +64,17 @@ class Scolle extends Component {
 	}
 	deleteScolle = (ids, groupType) => {
 		const { cheackedKey } = this.props
-		this.groupNumber = this.groupNumber - 1
+		this.groupNumber = this.groupNumber - 1;
+    const { selectCartData } = this.props
+    let oldArr = [];
+    for(let i=0;i<selectCartData.data.length;i++){ oldArr.push(selectCartData.data[i].accountId.toString())
+    }
+    oldArr.push(ids.toString())
+    let newArr = [];
+    newArr.push(ids.toString())
+    this.props.actions.removeSelectStatic({oldValue: oldArr, newValue:newArr});
+    this.props.actions.removeListSelectStatic({oldValue: oldArr, newValue: newArr});
 		this.props.actions.removeFromCart({ stagingIds: [ids] }).then((res) => {
-			const { selectCartData } = this.props
 			this.props.actions.changeTypeCountSelect({ groupType })
 			this.setState({
 				loading: true,

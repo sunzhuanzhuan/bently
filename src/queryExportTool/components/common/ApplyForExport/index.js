@@ -13,12 +13,15 @@ class ApplyForExport extends Component {
 		};
 		this.vailEventCode = debounce(this.vailEventCode, 800);
 	}
-	sendMessage = () => {
-		const { messageInfo } = this.props
-		api.get('/export/account/sendSms', { params: { ...messageInfo } }).then((res) =>
-			message.success(res.data.message)
-		)
-	}
+  sendMessage = () => {
+    const { messageInfo } = this.props;
+    const params = {
+      accountNum: messageInfo.accountNumber
+    };
+    api.get('/operator-gateway/search/export/branch/sendSms', { params: params}).then((res) =>
+      message.success(res.data.message)
+    )
+  }
 	showModal = () => {
 		this.setState({
 			visible: true,
@@ -67,7 +70,7 @@ class ApplyForExport extends Component {
 			<span>
 				<div className='apply-for-export'>
 					<div className='text-message'>
-						该报价单账号数量超过{upLevel == 2 ? 200 : null}{upLevel == 3 ? 500 : null}个，须向上级【{upLevel ? "李理" : parentName}】申请，点击立即发送，
+						该报价单账号数量超过{upLevel == 2 ? 200 : null}{upLevel == 3 ? 500 : null}个，须向上级【{upLevel === 3 ? "李理" : parentName}】申请，点击立即发送，
 						您的上级将收到短信审核码，输入审核码即可导出报价单。
 					</div>
 					<Row className="export-row">
