@@ -13,12 +13,15 @@ class ApplyForExport extends Component {
 		};
 		this.vailEventCode = debounce(this.vailEventCode, 800);
 	}
-	sendMessage = () => {
-		const { messageInfo } = this.props
-		api.get('/export/account/sendSms', { params: { ...messageInfo } }).then((res) =>
-			message.success(res.data.message)
-		)
-	}
+  sendMessage = () => {
+    const { messageInfo } = this.props;
+    const params = {
+      accountNum: messageInfo.accountNumber
+    };
+    api.get('/operator-gateway/search/export/branch/sendSms', { params: params}).then((res) =>
+      message.success(res.data.message)
+    )
+  }
 	showModal = () => {
 		this.setState({
 			visible: true,
