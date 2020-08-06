@@ -3,6 +3,12 @@ import { Alert, message, Spin } from 'antd';
 import TabList from "./TabList"
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash/debounce';
+import { groupTypeMap } from '@/queryExportTool/constants'
+
+const baseParams = {
+  offset: 0,
+  limit: 10
+}
 class Scolle extends Component {
 	constructor(props) {
 		super(props);
@@ -17,12 +23,12 @@ class Scolle extends Component {
 		this.deleteScolle = debounce(this.deleteScolle, 100);
 	}
 	componentDidMount() {
-		const { cheackedKey } = this.props
+		const { cheackedKey = 0 } = this.props
 		this.setState({
 			bigLoading: true,
 			showWarn: false
 		})
-		this.props.actions.getAccountListFromCart({ group_type: cheackedKey }).then((res) => {
+		this.props.actions.getAccountListFromCart({ groupType: cheackedKey, ...baseParams }).then((res) => {
 			const { accounts = [] } = res.data
 			this.groupNumber = accounts && accounts.length
 			this.setState({
@@ -34,7 +40,8 @@ class Scolle extends Component {
 	handleInfiniteOnLoad = (value) => {
 		const { selectCartData, cheackedKey } = this.props
 
-		const lengthMax = cheackedKey ? selectCartData && selectCartData.tabList[cheackedKey] : selectCartData.total
+		const lengthMax = cheackedKey ? selectCartData && selectCartData.tabList[groupTypeMap[cheackedKey]] : selectCartData.total
+		console.log("handleInfiniteOnLoad -> lengthMax", lengthMax, selectCartData.data.length)
 		this.setState({
 			loading: true,
 			showWarn: false
@@ -47,7 +54,7 @@ class Scolle extends Component {
 			});
 			return;
 		}
-		this.props.actions.addCarSynchronizeSearch({ group_type: cheackedKey, start: selectCartData.data.length, page_size: 10 }).then((res) => {
+    this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, offset: selectCartData.data.length, limit: 10 }).then((res) => {
 			this.setState({
 				loading: false,
 
@@ -55,19 +62,28 @@ class Scolle extends Component {
 		});
 		this.groupNumber = this.groupNumber + 10
 	}
-	deleteScolle = (ids, group_type) => {
+	deleteScolle = (ids, groupType) => {
 		const { cheackedKey } = this.props
-		this.groupNumber = this.groupNumber - 1
-		this.props.actions.removeFromCart({ staging_ids: [ids] }).then((res) => {
-			const { selectCartData } = this.props
-			this.props.actions.changeTypeCountSelect({ group_type })
+		this.groupNumber = this.groupNumber - 1;
+    const { selectCartData } = this.props
+    let oldArr = [];
+    for(let i=0;i<selectCartData.data.length;i++){ oldArr.push(selectCartData.data[i].accountId.toString())
+    }
+    oldArr.push(ids.toString())
+    let newArr = [];
+    newArr.push(ids.toString())
+    this.props.actions.removeSelectStatic({oldValue: oldArr, newValue:newArr});
+    this.props.actions.removeListSelectStatic({oldValue: oldArr, newValue: newArr});
+		this.props.actions.removeFromCart({ stagingIds: [ids] }).then((res) => {
+			this.props.actions.changeTypeCountSelect({ groupType })
 			this.setState({
 				loading: true,
 				showWarn: false
 			});
 			this.props.actions.removeSelectExactQuery([ids])
 			if (selectCartData.data.length < 10) {
-				if ((selectCartData.data.length + 1) == selectCartData.tabList[group_type ? group_type : 'total']) {
+        groupType = {'1': 'wx'}[groupType];
+				if ((selectCartData.data.length + 1) == selectCartData.tabList[groupType ? groupType : 'total']) {
 					this.setState({
 						hasMore: false,
 						loading: false,
@@ -75,7 +91,7 @@ class Scolle extends Component {
 					return;
 				}
 
-				this.props.actions.addCarSynchronizeSearch({ group_type: cheackedKey, start: this.groupNumber, page_size: 10 }).then((res) => {
+        this.props.actions.addCarSynchronizeSearch({ groupType: cheackedKey, offset: selectCartData.data.length, limit: 10 }).then((res) => {
 					this.setState({
 						loading: false,
 						showWarn: false

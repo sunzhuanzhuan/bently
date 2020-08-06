@@ -3,23 +3,23 @@ import React from "react";
 
 export const tabsList = [
 	{
-		group_id: 1,
+		groupId: 1,
 		name: '微信公众号'
 	},
 	{
-		group_id: 2,
+		groupId: 2,
 		name: '新浪微博'
 	},
 	{
-		group_id: 3,
+		groupId: 3,
 		name: '视频直播'
 	},
 	{
-		group_id: 4,
+		groupId: 4,
 		name: '小红书'
 	},
 	{
-		group_id: 5,
+		groupId: 5,
 		name: '其他'
 	},
 ]

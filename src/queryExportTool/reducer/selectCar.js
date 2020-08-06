@@ -1,27 +1,27 @@
 import { handleActions, createAction } from 'redux-actions';
 import * as accoutActions from '../actions'
-
+import { groupTypeMap } from '../constants'
 //侧边栏购物车数据
 export const selectCartData = handleActions({
 	[accoutActions.addToCart_success]: (state, action) => {
-		const addNumber = [...action.payload.data].length
+		const addNumber = [...action.payload.data.data].length
 		const total = state.total + addNumber
 		return { ...state, total }
 	},
 	[accoutActions.removeFromCart_success]: (state, action) => {
-		const deleteData = [...action.payload.data]
+		const deleteData = [...action.payload.data.stagingIds]
 		const dataOld = [...state.data]
 		const addNumber = deleteData.length
 		const total = state.total - addNumber
-		const data = dataOld.filter(one => !deleteData.includes(one.account_id))
+		const data = dataOld.filter(one => !deleteData.includes(one.accountId))
 		return { ...state, total, data }
 	},
 	[accoutActions.changeTypeCountSelect]: (state, action) => {
-		const { group_type } = action.payload
-		if (group_type) {
-
+		const { groupType } = action.payload
+		if (groupType) {
+			const key = groupTypeMap[groupType]
 			let tabList = { ...state.tabList }
-			tabList[group_type] = tabList[group_type] - 1
+			tabList[key] = tabList[key] - 1
 			return { ...state, tabList }
 		}
 		return { ...state }
@@ -51,15 +51,15 @@ export const selectCartData = handleActions({
 	},
 	[accoutActions.getAccountListFromCart_success]: (state, action) => {
 		const data = { ...action.payload.data }
-		const { count = {} } = data
-		return { data: [...data.accounts], tabList: { ...count }, total: count && count.total || 0, }
+		const { count = {}, accounts = [] } = data
+		return { data: [...accounts], tabList: { ...count }, total: count && count.total || 0, }
 	}
 }, {
-		total: 0,
-		tabList: {},
-		data: []
-	})
-//购物车列表数据
+	total: 0,
+	tabList: {},
+	data: []
+})
+//购物车列表数据 
 export const selectCarList = handleActions({
 	// [accoutActions.addToCart_success]: (state, action) => {
 	// 	return { ...action.payload }
@@ -83,7 +83,7 @@ export const selectCarList = handleActions({
 
 		console.log("TCL: data", data)
 		return {
-			group_type_name: data.groupTypeName,
+			groupTypeName: data.groupTypeName,
 			tabList: { ...statistic },
 			total: Object.values(statistic).length > 0 && Object.values(statistic).reduce((pre, next) => pre + next),
 			pagination: data.pagination,
@@ -91,10 +91,10 @@ export const selectCarList = handleActions({
 		}
 	}
 }, {
-		total: 0,
-		tabList: {},
-		data: {}
-	})
+	total: 0,
+	tabList: {},
+	data: {}
+})
 
 
 

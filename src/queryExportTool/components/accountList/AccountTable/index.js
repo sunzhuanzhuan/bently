@@ -158,12 +158,15 @@ class AccountTable extends Component {
 		const { selectedRowKeys, isShowDisable = false, accountList = {},
 			header, tableProps, isShowNoFind,
 			accountIdsByQuotation = [], tablePageSize = 20 } = this.props;
+    let arr = [];
+    for(let i=0;i<selectedRowKeys.length;i++) { arr.push(selectedRowKeys[i].toString())
+    }
 		const rowSelection = {
-			selectedRowKeys,
+			selectedRowKeys:arr,
 			onSelect: this.onSelectChange,
 			onSelectAll: this.onSelectAllChange,
 			getCheckboxProps: record => (isShowDisable ? {
-				disabled: accountIdsByQuotation.includes(record.accountId),
+				disabled: accountIdsByQuotation.includes(record.accountId*1),
 				name: record.name,
 			} : {})
 		};

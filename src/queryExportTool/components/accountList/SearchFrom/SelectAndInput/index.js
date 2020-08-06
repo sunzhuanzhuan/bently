@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Select, Input, InputNumber, Button } from 'antd';
+import { Select, Input, InputNumber, Button, message } from 'antd';
 import "./index.less"
 import PropTypes from 'prop-types'
 import CInputNumber from "@/queryExportTool/base/CInputNumber";

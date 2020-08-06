@@ -25,9 +25,9 @@ export const getQuoteNumber = (value) => {
 export const getUnitPrice = (value) => {
 	if (value) {
 		if (0 < value && value < 0.1) {
-			return <div style={{ fontSize: 12, transform: "scale(0.9)" }}>不足0.1</div>
+			return <div style={{ fontSize: 12, transform: "scale(0.9)" }}>不足0.10</div>
 		} else {
-			return value.toFixed(1)
+			return value.toFixed(2)
 		}
 	} else {
 		return "-"

@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-// import { StickyContainer, Sticky } from 'react-sticky';
 import * as action from '../actions/index'
 import { Tabs, Spin, BackTop, message } from "antd"
 import qs from "qs";
@@ -15,13 +14,6 @@ import debounce from 'lodash/debounce';
 import MaskBox from "../base/MaskBox";
 
 const TabPane = Tabs.TabPane;
-// const renderTabBar = (props, DefaultTabBar) => (
-// 	<Sticky bottomOffset={80}>
-// 		{({ style }) => (
-// 			<DefaultTabBar {...props} style={{ ...style, zIndex: 1, background: '#fff' }} />
-// 		)}
-// 	</Sticky>
-// );
 class AccountList extends Component {
 
 	constructor(props) {
@@ -34,24 +26,28 @@ class AccountList extends Component {
 		selectedRowKeysObject: [],
 		selectCartInterimList: {},
 		selectLoading: false,
-		quotation_id: 0,
-		quotation_name: "",
+		quotationId: 0,
+		quotationName: "",
 	}
 	componentDidMount = () => {
 		const { getAccountListFromCart } = this.props.actions
 		const search = qs.parse(this.props.location.search.substring(1))
 		const { getAccountIdsByQuotation } = this.props.actions
-		/* 此处quotation_id > 0是走报价单添加账号，把已选在table里勾选 */
-		if (search.quotation_id > 0) {
-			getAccountIdsByQuotation({ quotation_id: search.quotation_id }).then((res) => {
+		/* 此处quotationId > 0是走报价单添加账号，把已选在table里勾选 */
+		if (search.quotationId > 0) {
+			getAccountIdsByQuotation({ quotationId: search.quotationId }).then((res) => {
 				this.setState({
-					selectedRowKeys: res.data,
-					quotation_id: search.quotation_id,
-					quotation_name: search.quotation_name
+					selectedRowKeys: res.data && res.data.accountIds || [],
+					quotationId: search.quotationId,
+					quotationName: search.quotationName
 				})
 			})
 		} else {
-			getAccountListFromCart()
+			getAccountListFromCart({
+				groupType: '',
+        offset: 0,
+        limit: 10
+			})
 
 		}
 	}
@@ -64,11 +60,11 @@ class AccountList extends Component {
 		let queryParams = {
 			pageSize: search.pageSize,
 		}
-		const { quotation_id, quotation_name } = this.state
-		if (quotation_id > 0) {
+		const { quotationId, quotationName } = this.state
+		if (quotationId > 0) {
 			queryParams = {
-				quotation_id: quotation_id,
-				quotation_name: quotation_name
+				quotationId: quotationId,
+				quotationName: quotationName
 			}
 		}
 		url += "?" + qs.stringify(queryParams)
@@ -83,7 +79,7 @@ class AccountList extends Component {
 	addSelectedRowKeysToCart = (object, selected, list) => {
 		const { quotationAccountList = {} } = this.props.queryExportToolReducer
 		const { accountList = [] } = quotationAccountList
-		const quotationAccountId = accountList.map(one => one.account_id)
+		const quotationAccountId = accountList.map(one => one.accountId)
 		this.setState({
 			...object
 		})
@@ -96,30 +92,27 @@ class AccountList extends Component {
 	}
 	//删除方法
 	removeCartAccount = (value) => {
-		this.props.actions.removeFromCart({ staging_ids: value })
-		// .then(() => {
-		// 	this.props.actions.getAccountListFromCart()
-		// })
+		this.props.actions.removeFromCart({ stagingIds: value })
 	}
 	getSaveCart = (list) => {
-		return list.map(one => ({ account_id: one.accountId, platform_id: one.platformId }))
+		return list.map(one => ({ accountId: one.accountId, platformId: one.platformId }))
 	}
 	//报价单的保存
 	addQuotation = () => {
-		const quotation_id = this.state.quotation_id
+		const quotationId = this.state.quotationId
 		const { selectedRowKeysObject } = this.state
 		const accounts = this.getSaveCart(selectedRowKeysObject)
 		if (accounts.length > 0) {
 			this.props.actions.addToQuotation({
-				quotation_id, accounts
+				quotationId, accounts
 			}).then(() => {
-				window.location.href = `/accountList/quotationManage/detail?quotation_id=${quotation_id}`
+				window.location.href = `/accountList/quotationManage/detail?quotationId=${quotationId}`
 			})
 		}
 	}
 	//报价单的删除
 	deleteCart = (ids, group_type) => {
-		const isQuotation = this.state.quotation_id > 0
+		const isQuotation = this.state.quotationId > 0
 		const { selectedRowKeysObject, selectedRowKeys } = this.state
 		if (isQuotation) {
 			this.setState({
@@ -132,7 +125,7 @@ class AccountList extends Component {
 	}
 	//报价单的清空
 	cleanCart = () => {
-		const isQuotation = this.state.quotation_id > 0
+		const isQuotation = this.state.quotationId > 0
 		this.setState({
 			selectedRowKeysObject: [],
 			selectedRowKeys: [],
@@ -149,7 +142,7 @@ class AccountList extends Component {
 	}
 	//选号车查询
 	searchCart = (group_type) => {
-		const isQuotation = this.state.quotation_id > 0
+		const isQuotation = this.state.quotationId > 0
 		if (isQuotation) {
 			this.getSelectCartInterimList(group_type)
 		}
@@ -179,13 +172,13 @@ class AccountList extends Component {
 		//此处是处理选好车需要的数据项
 		const data = (type > 0 ? dataList[type] : selectedRowKeysObject).map(one => ({
 			"id": one.accountId,
-			"account_id": one.accountId,
-			"staging_id": one.accountId,
-			"sns_name": one.snsName,
-			"follower_count": one.followerCount,
-			"platform_id": one.platformId,
-			"avatar_url": one.avatarUrl,
-			"is_famous": one.isFamous
+			"accountId": one.accountId,
+			"stagingId": one.accountId,
+			"snsName": one.snsName,
+			"followerCount": one.followerCount,
+			"platformId": one.platformId,
+			"avatarUrl": one.avatarUrl,
+			"isFamous": one.isFamous
 		}))
 		const selectCartInterimList = {
 			...total, data: data, tabList: tabList
@@ -203,8 +196,8 @@ class AccountList extends Component {
 		const { match, queryExportToolReducer, actions } = this.props;
 		let { platformType } = match.params;
 		const { selectedRowKeys, selectedRowKeysObject, selectCartInterimList, selectLoading } = this.state
-		const { quotation_name, quotation_id } = this.state
-		const isQuotation = quotation_id > 0
+		const { quotationName, quotationId } = this.state
+		const isQuotation = quotationId > 0
 		const { selectCartData, } = queryExportToolReducer;
 		//获取平台图标
 		function getShowImg(type, key) {
@@ -232,13 +225,13 @@ class AccountList extends Component {
 			addSelectedRowKeysToCart: this.addSelectedRowKeysToCart,
 			selectedRowKeysObject,
 			selectedRowKeys,
-			quotation_id: quotation_id,
+			quotationId: quotationId,
 		}
 		//选号车参数
 		const selectProps = {
 			selectCartData: isQuotation ? selectCartInterimList : selectCartData,
 			cleanCart: this.cleanCart,
-			quotation_id: quotation_id,
+			quotationId: quotationId,
 			addQuotation: this.addQuotation,
 			deleteCart: this.deleteCart,
 			searchCart: this.searchCart,
@@ -247,7 +240,7 @@ class AccountList extends Component {
 			cleanSelectExactQuery: actions.cleanSelectExactQuery
 		}
 
-		const heardText = <h2>{quotation_id > 0 ? `请为【${quotation_name}】报价单，选择您心仪的账号` : "账号列表"}</h2>
+		const heardText = <h2>{quotationId > 0 ? `请为【${quotationName}】报价单，选择您心仪的账号` : "账号列表"}</h2>
 		return <div >
 			<MaskBox />
 			<div id="Js-select-car-no-click-id">

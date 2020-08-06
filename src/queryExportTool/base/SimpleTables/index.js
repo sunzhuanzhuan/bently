@@ -55,12 +55,15 @@ export default class SimpleTables extends Component {
 					key: 'price1',
 					align: 'right',
 					render: (text, record) => {
-
-						return <div className='flex-around'>
+            let price1 = record.price1;
+            if (price1 && price1 > 0) {
+              price1 = price1.toFixed(2);
+            }
+            return <div className='flex-around'>
 							{getPriceGoodBad(record.defaultQuotePriceDiscount1, record.productOnShelfStatus == 1)}
 							<div>
 								<ValueStyle
-									value={numeral(record.price1).format('0,0')}
+                  value={price1}
 									type="1"
 									productOnShelfStatus={record.productOnShelfStatus}
 									unit="元" />

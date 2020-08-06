@@ -6,14 +6,7 @@ import { createAction } from 'redux-actions'
 export const {
 	addToCart,
 	addToCart_success
-} = createHttpAction('addToCart', Interface.addToCart, {
-	method: 'post', isTrack: true,
-	trackResult: (search, data) => {
-		return {
-			account_id: data && data[0]
-		}
-	}
-})
+} = createHttpAction('addToCart', Interface.addToCart, { method: 'post', isTrack: true, })
 //获取侧边栏购物车信息
 export const {
 	getAccountListFromCart,

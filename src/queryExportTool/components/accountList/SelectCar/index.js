@@ -87,11 +87,12 @@ class SelectCar extends Component {
 					style={{ padding: 0 }}
 					className="select-car-drawer"
 				>
-					{visible ?
-						<div><MarkBox number={number > 0 ? number : 0} isShowSelect={this.isShowSelect} visible={visible} />
-							<div style={{ minWidth: 385 }}>{this.props.children}</div>
-						</div>
-						: null}
+          {visible ?
+            <div>
+              <MarkBox number={number > 0 ? number : 0} isShowSelect={this.isShowSelect} visible={visible}/>
+              <div style={{minWidth: 385, overflow: 'hidden'}}>{this.props.children}</div>
+            </div>
+            : null}
 				</Drawer>
 			</div>
 
@@ -158,7 +159,7 @@ export class CarContent extends Component {
 		}
 	}
 	render() {
-		const { selectCartData, quotation_id, actions, isAsync } = this.props;
+		const { selectCartData, quotationId, actions, isAsync } = this.props;
 		const { selectCarHeight } = this.state;
 		const { cheackedKey } = this.state
 		const sumAccount = selectCartData && selectCartData.total || 0
@@ -172,11 +173,11 @@ export class CarContent extends Component {
 
 		const tabsList = [
 			{ tab: `全部 ${sumAccount}`, key: 10, },
-			{ tab: <span>{getShowImg(9, 1)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[1] || 0}</span></span>, key: 1, },
-			{ tab: <span>{getShowImg(1, 2)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[2] || 0}</span></span>, key: 2 },
-			{ tab: <span>{getShowImg(9000, 3)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[3] || 0}</span></span>, key: 3 },
-			{ tab: <span>{getShowImg(93, 4)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[4] || 0}</span></span>, key: 4 },
-			{ tab: <span>{getShowImg(10000, 5)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList[5] || 0}</span></span>, key: 5 }
+			{ tab: <span>{getShowImg(9, 1)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.wx || 0}</span></span>, key: 1, },
+			{ tab: <span>{getShowImg(1, 2)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.xl || 0}</span></span>, key: 2 },
+			{ tab: <span>{getShowImg(9000, 3)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.sp || 0}</span></span>, key: 3 },
+			{ tab: <span>{getShowImg(93, 4)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.xhs || 0}</span></span>, key: 4 },
+			{ tab: <span>{getShowImg(10000, 5)}<span className="text-number"> {selectCartData.tabList && selectCartData.tabList.other || 0}</span></span>, key: 5 }
 		]
 		return (
 			<div className="car-content">
@@ -197,7 +198,7 @@ export class CarContent extends Component {
 						</Popconfirm> : null}
 					</div>
 					<div className="footer-right">
-						{quotation_id > 0 ?
+						{quotationId > 0 ?
 							<a>
 								<Button type="primary" onClick={() => {
 									this.props.addQuotation()

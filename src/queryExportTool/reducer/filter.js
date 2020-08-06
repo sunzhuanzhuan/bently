@@ -10,14 +10,14 @@ export const filterOptions = handleAction(getFilters_success, (state, action) =>
 export const filtersMetaMap = handleAction(getFiltersMeta_success, (state, action) => {
 
 	let gropusAfter = [...action.payload.data.groups]
-	gropusAfter.unshift({ id: 0, name: "不限", platform_id: 0 })
+	gropusAfter.unshift({ id: 0, name: "不限", platformId: 0 })
 	const groups = gropusAfter.map((one, index) => {
-		const { grouped_platforms = [] } = one
-		if (grouped_platforms.length <= 0) {
-			delete one.grouped_platforms
+		const { groupedPlatforms = [] } = one
+		if (groupedPlatforms.length <= 0) {
+			delete one.groupedPlatforms
 		}
-		if (one.platform_id <= 0) {
-			one.platform_id = 0 - index
+		if (one.platformId <= 0) {
+			one.platformId = 0 - index
 		}
 		return one
 	})

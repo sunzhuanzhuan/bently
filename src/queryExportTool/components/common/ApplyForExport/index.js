@@ -13,12 +13,15 @@ class ApplyForExport extends Component {
 		};
 		this.vailEventCode = debounce(this.vailEventCode, 800);
 	}
-	sendMessage = () => {
-		const { messageInfo } = this.props
-		api.get('/export/account/sendSms', { params: { ...messageInfo } }).then((res) =>
-			message.success(res.data.message)
-		)
-	}
+  sendMessage = () => {
+    const { messageInfo } = this.props;
+    const params = {
+      accountNum: messageInfo.accountNumber
+    };
+    api.get('/operator-gateway/search/export/branch/sendSms', { params: params}).then((res) =>
+      message.success(res.data.message)
+    )
+  }
 	showModal = () => {
 		this.setState({
 			visible: true,
@@ -39,8 +42,8 @@ class ApplyForExport extends Component {
 		});
 	}
 	vailEventCode = (rule, value, callback) => {
-		this.props.codeCheck({ code: value }).then((res) => {
-			if (res.data.check_result) {
+		this.props.codeCheck({ verificationCode: value }).then((res) => {
+			if (res.data.checkResult == 1) {
 				callback()
 			} else {
 				callback("请输入正确的审核码")
@@ -52,7 +55,7 @@ class ApplyForExport extends Component {
 	render() {
 		const { getFieldDecorator, getFieldValue, } = this.props.form;
 		const { messageInfo = {} } = this.props
-		const { parent_name, up_level } = messageInfo
+		const { parentName, upLevel } = messageInfo
 		const formItemLayout = {
 			labelCol: {
 				xs: { span: 24 },
@@ -67,7 +70,7 @@ class ApplyForExport extends Component {
 			<span>
 				<div className='apply-for-export'>
 					<div className='text-message'>
-						该报价单账号数量超过{up_level ? 500 : 200}个，须向上级【{up_level ? "李理" : parent_name}】申请，点击立即发送，
+						该报价单账号数量超过{upLevel == 2 ? 200 : null}{upLevel == 3 ? 500 : null}个，须向上级【{upLevel === 3 ? "李理" : parentName}】申请，点击立即发送，
 						您的上级将收到短信审核码，输入审核码即可导出报价单。
 					</div>
 					<Row className="export-row">

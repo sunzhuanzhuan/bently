@@ -43,7 +43,10 @@ class NumberSort extends Component {
 		this.state = {};
 	}
 	render() {
-		const { list, } = this.props
+    let { list, } = this.props;
+    let newList = list.filter(el=>{
+      return el.value*1>0
+    });
 		const styleMap = {
 			0: { fontWeight: "bold", color: "#333" },
 			1: { color: "#333" },
@@ -51,7 +54,7 @@ class NumberSort extends Component {
 		}
 		return (
 			<div className="wxy-age-list">
-				{list.length > 0 ? list.map((one, index) => {
+        {newList.length > 0 ? newList.map((one, index) => {
 					return <div key={index}
 						className="age-list-item"
 						style={{ ...styleMap[index] }}>
@@ -74,10 +77,10 @@ class BasicInfo extends Component {
 	}
 	render() {
 		const { baseInfoList } = this.props
-		const { cooperation_cases = [], audience = {} } = baseInfoList
-		const { kol_visitor_gender_draw = {}, kol_visitor_age_draw = [],
-			kol_visitor_province_draw = [], kol_visitor_interest_draw = [] } = audience
-		const { male, female } = kol_visitor_gender_draw
+		const { cooperationCases = [], audience = {} } = baseInfoList
+		const { kolVisitorGenderDraw = {}, kolVisitorAgeDraw = [],
+			kolVisitorProvinceDraw = [], kolVisitorInterestDraw = [] } = audience
+		const { male, female } = kolVisitorGenderDraw
 
 		const SexBox = <Row>
 			<Col span={4}></Col>
@@ -92,9 +95,9 @@ class BasicInfo extends Component {
 		const isdata = female <= 0 && male <= 0
 		const AudienceList = [
 			{ colSpan: 5, title: "性别", isShowLine: true, content: isdata ? <div className="none-number">暂无数据</div> : SexBox },
-			{ colSpan: 7, title: "年龄", isShowLine: true, content: <NumberSort list={kol_visitor_age_draw} /> },
-			{ colSpan: 7, title: "兴趣", isShowLine: true, content: <NumberSort list={kol_visitor_interest_draw} /> },
-			{ colSpan: 5, title: "地域", isShowLine: false, content: <NumberSort list={kol_visitor_province_draw} /> }
+			{ colSpan: 7, title: "年龄", isShowLine: true, content: <NumberSort list={kolVisitorAgeDraw} /> },
+			{ colSpan: 7, title: "兴趣", isShowLine: true, content: <NumberSort list={kolVisitorInterestDraw} /> },
+			{ colSpan: 5, title: "地域", isShowLine: false, content: <NumberSort list={kolVisitorProvinceDraw} /> }
 		]
 		const columns = [{
 			title: '博文内容/数据',
@@ -138,7 +141,7 @@ class BasicInfo extends Component {
 				</Row>
 				<Row>
 					<TitleLable title="账号案例" >
-						<Table dataSource={cooperation_cases} columns={columns} pagination={false}
+						<Table dataSource={cooperationCases} columns={columns} pagination={false}
 							bordered rowKey={(record, index) => index} />
 					</TitleLable>
 				</Row>

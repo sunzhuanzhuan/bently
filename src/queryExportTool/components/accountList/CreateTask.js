@@ -48,9 +48,9 @@ class createTask extends Component {
 					<FormItem  {...formItemLayout}
 						label="文件名称"
 						style={{ marginTop: 20 }}
-						{...(getFieldError('name') ? {} : { help: "请输入名称，不超过30个字" })}
+						{...(getFieldError('taskFileName') ? {} : { help: "请输入名称，不超过30个字" })}
 					>
-						{getFieldDecorator('name', {
+						{getFieldDecorator('taskFileName', {
 							rules: [
 								{ required: true, message: '请输入名称' },
 								{ validator: this.vailAccoutName }]
