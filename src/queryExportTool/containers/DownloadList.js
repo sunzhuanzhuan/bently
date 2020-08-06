@@ -125,7 +125,7 @@ class DownloadList extends Component {
 				<h2>下载中心</h2>
 				<Tabs onChange={this.onChangeTab} defaultActiveKey={search && search.type || "1"} animated={false}>
 					<TabPane tab="报价单下载" key="1">
-						{selectKey == 1 ? <div>
+						{selectKey == 1 ? <div style={{minHeight: '500px'}}>
 							<DownLoadSearch {...searchProps} />
 							<DownloadTable
 								isBPAuthVisble={isBPAuthVisble}
@@ -139,7 +139,7 @@ class DownloadList extends Component {
 						</div> : null}
 					</TabPane>
 					{isBPAuthVisble ? null : <TabPane tab="批量查号结果下载" key="2">
-						{selectKey == 2 ? <div>
+						{selectKey == 2 ? <div style={{minHeight: '500px'}}>
 							<DownLoadBatchSearch {...searchProps} />
 							<DownLoadBatchSearchTable
 								downloadList={downloadList.list}

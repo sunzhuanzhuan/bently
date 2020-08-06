@@ -204,7 +204,7 @@ class QuotationManage extends Component {
 				<Tabs onChange={this.changeTab} animated={false}>
           {tablist.map((one, index) => {
 						return <TabPane tab={one.tab} key={one.key}>
-              <div>
+              <div style={{minHeight: '500px'}}>
                 <QuotationSearch wrappedComponentRef={this.$search} {...one.searchProps} companyList={companyList} searchTab={this.searchTab} getCompanyList={getCompanyList}/>
                 {one.table}
               </div>
