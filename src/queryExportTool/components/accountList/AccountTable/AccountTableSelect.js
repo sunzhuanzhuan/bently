@@ -33,7 +33,6 @@ class AccountTableSelect extends Component {
 			visible: false,
 			checkedId: 0,
 			modalContent: "",
-      selecedTable: [],
       isGetAllInfo:false
 		}
 	}
@@ -91,11 +90,11 @@ class AccountTableSelect extends Component {
     if (this.state.isGetAllInfo) {
       return
     }
-    this.setState({isGetAllInfo: true})
+
 		const { IsExactQuery, isShowTypeByList, actions, addLookDetailOrIndexList = {} } = this.props
 
 		this.setState({
-			selecedTable: [key.accountId]
+      isGetAllInfo: true
 		})
 		const { detali = [], index = [] } = addLookDetailOrIndexList
 
@@ -111,7 +110,7 @@ class AccountTableSelect extends Component {
 					this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
 					IsExactQuery && actions.removeSelectExactQuery([key.accountId])
 				})
-        .then(() => {
+        .finally(() => {
           this.setState({isGetAllInfo: false})
         })
 		} else {
@@ -122,7 +121,7 @@ class AccountTableSelect extends Component {
       this.props.actions.removeSelectStatic({oldValue: isSelect, newValue: [key.accountId]});
       this.props.actions.removeListSelectStatic({oldValue: isSelect, newValue: [key.accountId]});
 			this.props.actions.removeFromCart({ stagingIds: [key.accountId] })
-        .then(() => {
+        .finally(() => {
           this.setState({isGetAllInfo: false})
         })
 			IsExactQuery && actions.removeSelectExactQuery([key.accountId])
@@ -157,7 +156,7 @@ class AccountTableSelect extends Component {
 					this.props.actions.removeFromCart({ stagingIds: stagingIds })
 					IsExactQuery && actions.removeSelectExactQuery(stagingIds)
 				})
-        .then(() => {
+        .finally(() => {
           this.setState({isGetAllInfo: false})
         })
 		} else {
@@ -165,7 +164,7 @@ class AccountTableSelect extends Component {
       const { isSelect = [] } = accountList;
 			const stagingIds = changeRows.map(one => one.accountId);
 			this.props.actions.removeFromCart({ stagingIds })
-        .then(() => {
+        .finally(() => {
           this.setState({isGetAllInfo: false})
         });
       this.props.actions.removeSelectStatic({oldValue: isSelect, newValue: stagingIds});
