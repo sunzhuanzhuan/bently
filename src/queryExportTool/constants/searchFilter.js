@@ -183,7 +183,7 @@ export const followersCountMarks = {
 		{ id: '40-80', name: '40-80万' },
 		{ id: '80-120', name: '80-120万' },
 		{ id: '120-200', name: '120-200万' },
-		{ id: '200-', name: '200万以上' }
+		{ id: '200', name: '200万以上' }
 	],
 	3: [
 		{ id: '0-0.5', name: '5000以下' },
