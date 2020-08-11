@@ -48,7 +48,8 @@ class EditQuotation extends Component {
 					callback('报价单名称长度不能超过30个字')
 				} else {
 					api.post('/operator-gateway/search/export/branch/verifyQuotaNameIsAvailable', { quotationName: value }).then(res => {
-						if (res.data) {
+            let data = res.data || {};
+						if (data.isExist === 2) {
 							callback()
 						} else {
 							callback("报价单名称不能重复")
