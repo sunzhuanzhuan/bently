@@ -47,8 +47,9 @@ class EditQuotation extends Component {
 				if (countstrlen(value) > 60) {
 					callback('报价单名称长度不能超过30个字')
 				} else {
-					api.get('/export/account/verifyQuotaNameIsAvailable', { params: { name: value } }).then(res => {
-						if (res.data) {
+					api.post('/operator-gateway/search/export/branch/verifyQuotaNameIsAvailable', { quotationName: value }).then(res => {
+            let data = res.data || {};
+						if (data.isExist === 2) {
 							callback()
 						} else {
 							callback("报价单名称不能重复")
