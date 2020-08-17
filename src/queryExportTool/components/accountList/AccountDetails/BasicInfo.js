@@ -78,9 +78,18 @@ class BasicInfo extends Component {
 	render() {
 		const { baseInfoList } = this.props
 		const { cooperationCases = [], audience = {} } = baseInfoList
-		const { kolVisitorGenderDraw = {}, kolVisitorAgeDraw = [],
+		const { kolvisitorgenderdraw = [], kolVisitorAgeDraw = [],
 			kolVisitorProvinceDraw = [], kolVisitorInterestDraw = [] } = audience
-		const { male, female } = kolVisitorGenderDraw
+    let male, female = 0;
+
+    kolvisitorgenderdraw.forEach(item => {
+      let { name, value } = item;
+      if (name.indexOf('男')) {
+        male = value;
+      } else {
+        female = value;
+      }
+    });
 
 		const SexBox = <Row>
 			<Col span={4}></Col>

@@ -20,7 +20,7 @@ class RecentPrice extends Component {
 		};
 	}
 	componentDidMount = () => {
-		this.props.actions.getRecentReservationOrderPriceList({ accountId: this.props.accountId, page: 1, pageSize: 10 }).then((res) => {
+		this.props.actions.getRecentReservationOrderPriceList({ account_id: this.props.accountId, page: 1, pageSize: 10 }).then((res) => {
 			this.setState({
 				bigLoading: false,
 			});
