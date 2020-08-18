@@ -119,8 +119,8 @@ class BulkImportAccountModal extends Component {
                 this.setState({verification: "account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";"});
                 return false;
             }
-            if (data.split(/\n+/g).length > 200) {
-                this.setState({verification: "最多输入200个账号，请重新输入"});
+            if (data.split(/\n+/g).length > 1000) {
+                this.setState({verification: "最多输入1000个账号，请重新输入"});
                 return false;
             }
         }
@@ -178,7 +178,7 @@ class BulkImportAccountModal extends Component {
                     visible={visible}
                     confirmLoading={this.state.confirmLoading}>
                     {this.state.status === 1 || this.state.status === 2 ? <div><Form>
-                        <h4>请输入account_id，一行一个，单次最多导入200个</h4>
+                        <h4>请输入account_id，一行一个，单次最多导入1000个</h4>
                         <p className="tips-auto-delete"><span className="warning">说明：</span>重复账号、标签黑名单账号在导入进标签时会自动剔除</p>
                         <Form.Item>
                             {getFieldDecorator('accountId', {initialValue: ""})(<TextArea
