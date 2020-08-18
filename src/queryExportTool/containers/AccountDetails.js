@@ -19,13 +19,19 @@ class AccountDetails extends Component {
 		this.state = {
 			showkey: 1,
 			isLoading: true,
-			minLoding: false
+			minLoding: false,
+      recentReservationOrderPriceNum:0
 		};
 	}
 
 	componentDidMount = () => {
 		const { accountId, actions } = this.props
 		const data = { accountId: accountId }
+		const data1 = {account_id:accountId}
+		actions.getRecentReservationOrderPriceNum(data1).then(res=>{this.setState({
+        recentReservationOrderPriceNum:res.data
+      })
+    })
 		actions.getBaseInfo(data).then(results => {
 			this.setState({
 				isLoading: false
@@ -51,7 +57,7 @@ class AccountDetails extends Component {
 							<RadioGroup onChange={this.onChange} defaultValue="1" >
 								<RadioButton value="1">基本信息</RadioButton>
 								<RadioButton value="2">账号评价（{baseInfoList && baseInfoList.degreeCount || 0}）<MarkMessage {...messageInfo.degree} /></RadioButton>
-								<RadioButton value="3">近期应约 （{baseInfoList && baseInfoList.priceCount || 0}）</RadioButton>
+								<RadioButton value="3">近期应约 （{this.state.recentReservationOrderPriceNum}）</RadioButton>
 							</RadioGroup>
 						</div>
 						<div >

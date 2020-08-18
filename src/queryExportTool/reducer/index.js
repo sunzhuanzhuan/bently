@@ -140,6 +140,14 @@ export const recentReservationOrderPriceList = handleActions({
 		]
 	}
 }, [])
+//账号详情---最近应约价格数量
+export const recentReservationOrderPriceNum = handleActions({
+  [accoutActions.getRecentReservationOrderPriceNum]:(state,action) => {
+    return {
+      ...action.payload.data
+    }
+  }
+},{})
 //下载列表数据
 export const downloadList = handleActions({
 	[accoutActions.getDownloadList_success]: (state, action) => {
@@ -191,6 +199,7 @@ export const addLookDetailOrIndexList = handleActions({
 })
 
 export default combineReducers({
+  recentReservationOrderPriceNum,
 	arrSelectExactQuery,
 	companyList,
 	accountList,

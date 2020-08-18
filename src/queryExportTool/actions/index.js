@@ -76,6 +76,10 @@ export const {
 	getRecentReservationOrderPriceList,
 	getRecentReservationOrderPriceList_success
 } = createHttpAction('getRecentReservationOrderPriceList', Interface.getRecentReservationOrderPriceList)
+//账号详情---获取最近应约价格数量
+export const{
+  getRecentReservationOrderPriceNum
+} = createHttpAction('getRecentReservationOrderPriceNum',Interface.getRecentReservationOrderPriceNum)
 //账号详情---最近应约价--滚动条
 export const {
 	AddGetPriceList,

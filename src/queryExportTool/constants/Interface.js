@@ -33,7 +33,9 @@ export default {
 	//账号详情---账号评价
 	getDegreeList: "/export/account/getDegreeList",
 	//账号详情---最近应约价
-	getRecentReservationOrderPriceList: "/operator-gateway/search/export/getRecentReservationOrderPriceList",
+	getRecentReservationOrderPriceList: "/export/account/getRecentReservationOrderPriceList",
+  //账号详情---最近应约价格数量
+  getRecentReservationOrderPriceNum:"/export/account/getHistoryPriceCount",
 	//获取购物车
   getAccountListFromCart: branchUrl + '/loadAccountListFromCart',
 
