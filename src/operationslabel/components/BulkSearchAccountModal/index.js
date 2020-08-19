@@ -86,7 +86,7 @@ class BulkSearchAccountModal extends Component {
                                 )}
                             </Select>)}
                         </Form.Item>
-                        <h4>请输入账号ID，一行一个，单次最多输入200个</h4>
+                        <h4>请输入account_id，一行一个，单次最多输入200个</h4>
                         <Form.Item>
                             {getFieldDecorator('search', {
                                 rules: [
