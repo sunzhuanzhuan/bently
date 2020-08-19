@@ -40,16 +40,16 @@ class BulkSearchAccountModal extends Component {
                 }
             });
             if (noNumber.length !== 0) {
-                callback("账号ID不能为中文字符，输入错误账号ID为: " + noNumber.join(",") + ";");
+                callback("account_id不能为中文字符，输入错误account_id为: " + noNumber.join(",") + ";");
 
             } else if (value.split(/\n+/g).length > 200) {
-                callback("最多输入200个账号ID，请重新输入");
+                callback("最多输入200个account_id，请重新输入");
             } else {
                 callback();
             }
 
         } else {
-            callback("请输入账号ID");
+            callback("请输入account_id");
         }
 
     }
@@ -109,7 +109,7 @@ class BulkSearchAccountModal extends Component {
                                 <Icon className="icon-format" style={{color: "#52c41a"}} type="check-circle-o"/>}
                             成功找到账号<b>{successNum.ok ? successNum.ok : 0}</b>个{successNum.on.length !== 0 ?
                             <span>，失败<b className="warning">{successNum.on.length}</b>个</span> : null}</h3>
-                        {successNum.on.length !== 0 ? <p className="warning">{"查找失败的账号ID: " + successNum.on}</p> : null}
+                        {successNum.on.length !== 0 ? <p className="warning">{"查找失败的account_id: " + successNum.on}</p> : null}
                     </div> : null}
                 </Modal>
             </div>
