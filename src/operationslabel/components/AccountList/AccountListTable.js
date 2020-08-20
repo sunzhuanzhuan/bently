@@ -255,7 +255,7 @@ class AccountListTable extends Component {
 							rowSelection={rowSelection}
 							dataSource={tagDetailSearchList.list}
 							pagination={{
-								pageSize: 100,
+								pageSize: 200,
 								current: this.props.current,
 								total: count,
 								onChange: this.changePage.bind(this)
