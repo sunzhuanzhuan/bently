@@ -12,6 +12,7 @@ const LabelDetailManualImport = lazyLoadComponent(() => import('./containers/Lab
 const LbelRecycleDetails = lazyLoadComponent(() => import('./containers/LbelRecycleDetails'))
 const MinApp = lazyLoadComponent(() => import('../minAppExcel/containers/MinApp'));
 const WebsiteInformation = lazyLoadComponent(() => import('../website/container/WebsiteInformation'));
+const HighProfitAccount = lazyLoadComponent(() => import('./containers/HighProfitAccount'))
 
 class OperationslabelIndex extends Component {
 	constructor(props) {
@@ -29,6 +30,7 @@ class OperationslabelIndex extends Component {
 				<Route path='/ol/OperationslabelRecycle/details/:id' component={LbelRecycleDetails} />
 				<Route exact path='/ol/minAppInformation' component={MinApp} />
 				<Route exact path="/ol/websiteInformation" component={WebsiteInformation} />
+				<Route exact path='/ol/highProfitAccount' component={HighProfitAccount} />
 			</div>
 		);
 	}
