@@ -7,6 +7,8 @@ import {
     TAG_DETAILS_SEARCH_LIST
 } from "../constants/ActionTypes";
 
+import * as highProfitAccount from './highProfitAccount';
+
 
 //请求标签列表
 const requestTaglist = (state = {}, action) => {
@@ -62,5 +64,6 @@ export default combineReducers({
     tagDetails,
     tagDetailSearchType,
     accountImport,
-    tagDetailSearchList
+    tagDetailSearchList,
+	...highProfitAccount
 })
