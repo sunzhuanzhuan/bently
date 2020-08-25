@@ -5,6 +5,7 @@ import { Button, Tabs, Input, Table, message, Modal } from "antd";
 import BulkImportAccountModal from '../components/BulkImportAccountModal';
 import * as Action from "../action/highProfitAccount";
 import BulkSearchAccountModal from "@/operationslabel/components/BulkSearchAccountModal";
+import Login from "@/login/container/Login";
 const { TabPane } = Tabs;
 const { confirm } = Modal;
 const Search = Input.Search;
@@ -22,6 +23,13 @@ class HighProfitAccount extends Component {
 			searchModalStatus: 1
 		};
 	}
+	searchTypes = [
+		{name: '微信公众号', groupType: 1},
+		{name: '新浪微博', groupType: 2},
+		{name: '视频/直播', groupType: 3},
+		{name: '小红书', groupType: 4},
+		{name: '其他', groupType: 5}
+	]
 
 	columns = [
 		{
@@ -30,23 +38,23 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '账号名称',
-			dataIndex: 'name'
+			dataIndex: 'accountName'
 		},
 		{
 			title: '平台',
-			dataIndex: 'pla'
+			dataIndex: 'platformId'
 		},
 		{
 			title: '账号ID',
-			dataIndex: 'accountId'
+			dataIndex: 'snsId'
 		},
 		{
 			title: '账号分类',
-			dataIndex: 'category'
+			dataIndex: 'groupType'
 		},
 		{
 			title: '被约次数',
-			dataIndex: 'count'
+			dataIndex: 'appointmentCount'
 		},
 		{
 			title: '当前价格有效期开始时间',
@@ -96,7 +104,7 @@ class HighProfitAccount extends Component {
 	 * 点击搜索或按下回车键时的回调
 	 */
 	search = () => {
-		let searchValue = this.state.searchTypes;
+		let searchValue = this.state.searchValue;
 		if (!searchValue) {
 			return  message.error('搜索条件不能为空');
 		}
@@ -119,15 +127,11 @@ class HighProfitAccount extends Component {
 	 * 获取 tab 的label
 	 */
 	getTabLabel = () => {
-		const searchTypes = (this.props.searchType || {}).searchTypeInfo || [];
-		if (!searchTypes || !searchTypes.length) {
-			return '';
-		}
 		const activeKey = this.state.activeKey;
 		if (activeKey === null) {
-			return searchTypes[0].name;
+			return this.searchTypes[0].name;
 		}
-		let searchType = searchTypes.find(item => item.platform === activeKey);
+		let searchType = this.searchTypes.find(item => item.groupType === activeKey);
 		return searchType ? searchType.name : '';
 	};
 
@@ -220,9 +224,8 @@ class HighProfitAccount extends Component {
 
 	render() {
 		const { accountnumber, add_account_mode } = this.props.detail;
-		const searchType = (this.props.searchType || {}).searchTypeInfo || [];
 		const accountInfo = this.props.accountInfo || {};
-
+		const { totalAccount = 0, platformAccount = 0, yyAcount = 0, pdAccount = 0 } =this.props.accountInfo.count || {};
 		return (
 			<div>
 				<div className="high_profit_account">
@@ -232,10 +235,7 @@ class HighProfitAccount extends Component {
 
 					<h4 className="title">
 						<span className="sub-title">账号信息</span>
-						<em>账号数：{accountnumber ? accountnumber.bespeak + accountnumber.dispatch === 0 ?
-							0 : accountnumber.bespeak + accountnumber.dispatch + " (预约类:" + accountnumber.bespeak +
-							"," + "派单类:" + accountnumber.dispatch + ")" : ""}
-						</em>
+						<em>账号数：{totalAccount}（预约类{yyAcount} 派单类{pdAccount}）</em>
 						<Button
 							type="primary"
 							size="small"
@@ -243,52 +243,56 @@ class HighProfitAccount extends Component {
 							onClick={this.showImportAccountModal}
 						>批量导入账号</Button>
 					</h4>
-
-					<div className='search'>
-						<div className='search_tabs'>
-							<Tabs className="tab" type="card" onChange={this.tabChange}>
-								{
-									searchType.map(item => (
-										<TabPane tab={item.name} key={item.platform}>
-											<Search
-												enterButton={'搜' + item.name}
-												placeholder="请输入账号名称、账号ID"
-												size="large"
-												value={this.state.searchValue}
-												onChange={this.searchChange}
-												onSearch={this.search}
-											/>
-										</TabPane>
-									))
-								}
-							</Tabs>
-							<Button
-								className="batch_search"
-								icon="search"
-								size="small"
-								onClick={this.showSearchAccountModal}
-							>批量查找</Button>
+					{ totalAccount && totalAccount !== 0 ? <div>
+						<div className='search'>
+							<div className='search_tabs'>
+								<Tabs className="tab" type="card" onChange={this.tabChange}>
+									{
+										this.searchTypes.map(item => (
+											<TabPane tab={item.name} key={item.groupType}>
+												<Search
+													enterButton={'搜' + item.name}
+													placeholder="请输入账号名称、账号ID"
+													size="large"
+													value={this.state.searchValue}
+													onChange={this.searchChange}
+													onSearch={this.search}
+												/>
+											</TabPane>
+										))
+									}
+								</Tabs>
+								<Button
+									className="batch_search"
+									icon="search"
+									size="small"
+									onClick={this.showSearchAccountModal}
+								>批量查找</Button>
+							</div>
 						</div>
-					</div>
-					<div className='account_num'>{this.getTabLabel()}账号数: 20</div>
-					<div>
-						<Table
-							rowKey='id'
-							columns={this.columns}
-							rowSelection= {{
-								selectedRowKeys: this.state.selectedRowKeys,
-								onChange: this.selectionChange
-							}}
-							pagination={{
-								pageSize: 10,
-								current: this.state.current,
-								total: accountInfo.count,
-								onChange: this.changePage
-							}}
-							footer={this.footerHandle}
-							dataSource={accountInfo.list || []}>
-						</Table>
-					</div>
+						<div className='account_num'>{this.getTabLabel()}账号数: {platformAccount}</div>
+						<div>
+							<Table
+								rowKey='id'
+								columns={this.columns}
+								rowSelection= {{
+									selectedRowKeys: this.state.selectedRowKeys,
+									onChange: this.selectionChange
+								}}
+								pagination={{
+									pageSize: 10,
+									current: this.state.current,
+									total: accountInfo.count,
+									onChange: this.changePage
+								}}
+								footer={this.footerHandle}
+								dataSource={accountInfo.list || []}>
+							</Table>
+						</div>
+
+					</div> : <div className="account-none-img-box"> <img  className='account-none-img' src={require("../images/none.png")} /></div>
+
+					}
 				</div>
 				{/*批量导入账号*/}
 				<BulkImportAccountModal
