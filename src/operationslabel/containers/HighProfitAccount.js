@@ -5,7 +5,6 @@ import { Button, Tabs, Input, Table, message, Modal } from "antd";
 import BulkImportAccountModal from '../components/BulkImportAccountModal';
 import * as Action from "../action/highProfitAccount";
 import BulkSearchAccountModal from "@/operationslabel/components/BulkSearchAccountModal";
-import Login from "@/login/container/Login";
 const { TabPane } = Tabs;
 const { confirm } = Modal;
 const Search = Input.Search;
@@ -14,8 +13,8 @@ class HighProfitAccount extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeKey: null, // 搜索tab key
-			searchValue: '', // 搜索文本框内容
+			platformId: null, // 搜索tab key
+			accountMark: '', // 搜索文本框内容
 			current: 1, // 分页 - 当前第几页
 			selectedRowKeys: [], // table 选中的keys
 			importAccountVisible: false, // 批量导入账号modal 显示、隐藏
@@ -24,11 +23,11 @@ class HighProfitAccount extends Component {
 		};
 	}
 	searchTypes = [
-		{name: '微信公众号', groupType: 1},
-		{name: '新浪微博', groupType: 2},
-		{name: '视频/直播', groupType: 3},
-		{name: '小红书', groupType: 4},
-		{name: '其他', groupType: 5}
+		{name: '微信公众号', id: '1'},
+		{name: '新浪微博', id: '2'},
+		{name: '视频/直播', id: '3'},
+		{name: '小红书', id: '4'},
+		{name: '其他', id: '5'}
 	]
 
 	columns = [
@@ -42,7 +41,10 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '平台',
-			dataIndex: 'platformId'
+			dataIndex: 'platformId',
+			render: (value) => {
+				return this.getTabLabel(value);
+			}
 		},
 		{
 			title: '账号ID',
@@ -74,8 +76,6 @@ class HighProfitAccount extends Component {
 
 
 	componentWillMount() {
-		// 获取搜索类型
-		this.props.actions.getSearchType();
 		// 获取账户列表
 		this.props.actions.getAccountList();
 	}
@@ -84,10 +84,11 @@ class HighProfitAccount extends Component {
 	/**
 	 *  tab 切换面包回调事件
 	 */
-	tabChange = (activeKey, b) => {
+	tabChange = (platformId) => {
+		console.log(platformId);
 		this.setState({
-			activeKey: activeKey,
-			searchValue: ''
+			platformId: platformId,
+			accountMark: ''
 		});
 	};
 
@@ -96,7 +97,7 @@ class HighProfitAccount extends Component {
 	 */
 	searchChange = (e) => {
 		this.setState({
-			searchValue: e.target.value
+			accountMark: e.target.value
 		});
 	};
 
@@ -104,11 +105,12 @@ class HighProfitAccount extends Component {
 	 * 点击搜索或按下回车键时的回调
 	 */
 	search = () => {
-		let searchValue = this.state.searchValue;
-		if (!searchValue) {
+		let accountMark = this.state.accountMark;
+		if (!accountMark) {
 			return  message.error('搜索条件不能为空');
 		}
-		let activeKey = this.state.activeKey;
+		let platformId = this.state.platformId;
+		console.log(accountMark, platformId);
 	};
 
 	/**
@@ -126,12 +128,12 @@ class HighProfitAccount extends Component {
 	/**
 	 * 获取 tab 的label
 	 */
-	getTabLabel = () => {
-		const activeKey = this.state.activeKey;
-		if (activeKey === null) {
+	getTabLabel = (platformId) => {
+		platformId = platformId || this.state.platformId;
+		if (platformId === null) {
 			return this.searchTypes[0].name;
 		}
-		let searchType = this.searchTypes.find(item => item.groupType === activeKey);
+		let searchType = this.searchTypes.find(item => item.id === platformId);
 		return searchType ? searchType.name : '';
 	};
 
@@ -147,7 +149,6 @@ class HighProfitAccount extends Component {
 	 * 单个删除
 	 */
 	del = (record) => {
-		console.log(record);
 		confirm({
 			title: '提示',
 			content: '确定删除该账号吗',
@@ -207,9 +208,39 @@ class HighProfitAccount extends Component {
 	};
 
 	/**
+	 * 批量查询modal 取消操作
+	 */
+	handleSearchAccountCancel = () => {
+		this.setState({
+			searchAccountVisible: false,
+		}, () => {
+			this.setState({
+				searchModalStatus: 1
+			})
+		});
+	};
+
+	/**
 	 * 批量导入modal 开始导入
 	 */
 	handleImportAccountOk = (accountIds) => {
+		console.log(accountIds);
+	};
+
+	/**
+	 * 批量搜索modal 开始导入
+	 */
+	handleSearchAccountOk = ({platformId, accountIds}) => {
+		this.setState({
+			searchModalStatus: 2,
+			platformId: platformId
+		});
+		setTimeout(() => {
+			this.setState({
+				searchModalStatus: 3
+			});
+		}, 3000);
+		console.log(platformId);
 		console.log(accountIds);
 	};
 
@@ -223,9 +254,9 @@ class HighProfitAccount extends Component {
 	};
 
 	render() {
-		const { accountnumber, add_account_mode } = this.props.detail;
 		const accountInfo = this.props.accountInfo || {};
-		const { totalAccount = 0, platformAccount = 0, yyAcount = 0, pdAccount = 0 } =this.props.accountInfo.count || {};
+		const { totalCount = 0, platformCount = 0, yyCount = 0, pdCount = 0 } = accountInfo.count || {};
+		const successNum = {ok: accountInfo.ok, on: accountInfo.on};
 		return (
 			<div>
 				<div className="high_profit_account">
@@ -235,7 +266,7 @@ class HighProfitAccount extends Component {
 
 					<h4 className="title">
 						<span className="sub-title">账号信息</span>
-						<em>账号数：{totalAccount}（预约类{yyAcount} 派单类{pdAccount}）</em>
+						<em>账号数：{totalCount}（预约类{yyCount} 派单类{pdCount}）</em>
 						<Button
 							type="primary"
 							size="small"
@@ -243,18 +274,18 @@ class HighProfitAccount extends Component {
 							onClick={this.showImportAccountModal}
 						>批量导入账号</Button>
 					</h4>
-					{ totalAccount && totalAccount !== 0 ? <div>
+					{ totalCount && totalCount !== 0 ? <div>
 						<div className='search'>
 							<div className='search_tabs'>
-								<Tabs className="tab" type="card" onChange={this.tabChange}>
+								<Tabs className="tab" type="card" activeKey={this.state.platformId || '1'} onChange={this.tabChange}>
 									{
 										this.searchTypes.map(item => (
-											<TabPane tab={item.name} key={item.groupType}>
+											<TabPane tab={item.name} key={item.id}>
 												<Search
 													enterButton={'搜' + item.name}
 													placeholder="请输入账号名称、账号ID"
 													size="large"
-													value={this.state.searchValue}
+													value={this.state.accountMark}
 													onChange={this.searchChange}
 													onSearch={this.search}
 												/>
@@ -270,7 +301,7 @@ class HighProfitAccount extends Component {
 								>批量查找</Button>
 							</div>
 						</div>
-						<div className='account_num'>{this.getTabLabel()}账号数: {platformAccount}</div>
+						<div className='account_num'>{this.getTabLabel()}账号数: {platformCount}</div>
 						<div>
 							<Table
 								rowKey='id'
@@ -280,18 +311,21 @@ class HighProfitAccount extends Component {
 									onChange: this.selectionChange
 								}}
 								pagination={{
-									pageSize: 10,
+									pageSize: 100,
 									current: this.state.current,
-									total: accountInfo.count,
+									total: platformCount,
 									onChange: this.changePage
 								}}
 								footer={this.footerHandle}
-								dataSource={accountInfo.list || []}>
+								dataSource={accountInfo.accountIds || []}>
 							</Table>
 						</div>
 
-					</div> : <div className="account-none-img-box"> <img  className='account-none-img' src={require("../images/none.png")} /></div>
-
+					</div> : (
+						<div className="account-none-img-box">
+							<img src={require("../images/none.png")} />
+							<div>暂无账号</div>
+						</div>)
 					}
 				</div>
 				{/*批量导入账号*/}
@@ -304,6 +338,10 @@ class HighProfitAccount extends Component {
 				<BulkSearchAccountModal
 					visible={this.state.searchAccountVisible}
 					status={this.state.searchModalStatus}
+					handleCancel={this.handleSearchAccountCancel}
+					platform={this.searchTypes}
+					handleOk={this.handleSearchAccountOk}
+					successNum={successNum}
 					/>
 			</div>
 		)
@@ -313,8 +351,6 @@ class HighProfitAccount extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		detail: {},
-		searchType: state.operationslabelReducers.searchType || {},
 		accountInfo: state.operationslabelReducers.accountInfo || {}
 	}
 };

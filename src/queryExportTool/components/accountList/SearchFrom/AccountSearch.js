@@ -345,7 +345,6 @@ class AccountSearch extends React.Component {
 						{commSearch}
 						{allSearch}
 					</div> : null}
-
 				</TabPane>
 				<TabPane tab={
 					<div className='big-zindex-box'>
@@ -359,7 +358,17 @@ class AccountSearch extends React.Component {
 							{allSearch}
 						</div> : null}
 					</div> : null}
-
+				</TabPane>
+				<TabPane tab={
+					<div className='selected-account'>
+						<label>精选账号</label>
+						<img src={require('./../images/HOT.png')} alt="" />
+					</div>
+				} key="3" >
+					{changTabNumber == 3 ? <div>
+						{commSearch}
+						{allSearch}
+					</div> : null}
 				</TabPane>
 			</Tabs>
 

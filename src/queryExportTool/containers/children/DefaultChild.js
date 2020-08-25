@@ -53,6 +53,7 @@ class DefaultChild extends Component {
 	}
 
 	onFilterSearch = (params) => {
+		console.log(params);
 		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality, defaultSort } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
@@ -109,6 +110,24 @@ class DefaultChild extends Component {
 				unitPrices: params.skuUnitPlayPrice.weight
 			}
 		}
+
+		const { searchSource } = params;
+		// searchSource === '3' 高利润账号
+		if (searchSource && searchSource === '3') {
+			const { onlineStatus, accountSort: { createdAt } = {} } = params;
+
+			let sortLabel = 1; // 1 默认规则
+			// 23 使用二三级规则
+			(onlineStatus && !createdAt) && (sortLabel = 23);
+			// 12 使用一二级规则
+			(!onlineStatus && createdAt) && (sortLabel = 12);
+			// 2 使用二级规则
+			(onlineStatus && createdAt) && (sortLabel = 2);
+			params.sortLabel = sortLabel;
+			params.searchSource = 1;
+			params.isHighProfit = 1;
+		}
+
 		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, currentPage: 1, pageSize: 20 }
 		this.props.actions.getAccountList(this.paramsAll).then(() => {
 			this.setState({
@@ -191,11 +210,12 @@ class DefaultChild extends Component {
 			</div>}
 		</div>
 		return <div >
-			<AccountSearch keyword={search.keyword || ''}
+			<AccountSearch
+				keyword={search.keyword || ''}
 				onFilterSearch={this.onFilterSearch}
 				{...this.props}
-                     defaultPlatformIds={this.platformIds}
 				serachStart={this.serachStart}
+				defaultPlatformIds={this.platformIds}
 			/>
 			<Spin spinning={this.state.loading}>
 				{/*quotationId>0代表走报价单选号车列表，已选的为选中不可编辑状态，选中值在前台保存。操作state

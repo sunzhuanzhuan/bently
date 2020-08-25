@@ -97,11 +97,12 @@ export default class MainItem extends PureComponent {
 			<div className="account-list-main-item-content" style={{ clear: "both" }}>
 				<main className="content-main">
 					<div className='content-main-left'>
-						<div>
+						<div className='platform-icon'>
 							{platformId ? <WBYPlatformIcon
 								weibo_type={platformId}
 								width_size={20}
-							/> : null}
+							/> : null}<br/>
+							<img src={require('./../images/HOT.png')} width='30' alt="" />
 						</div>
 						<div>
 							<Avatar id={`avatar_${accountId}`} src={avatarUrl} name='测试图'>
