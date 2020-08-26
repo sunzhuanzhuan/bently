@@ -119,12 +119,12 @@ class AccountSearch extends React.Component {
 			delete selectedItems[id]
 			clear = false
 		}
-    let keys = Object.keys(selectedItems);
+		let keys = Object.keys(selectedItems);
 
-    if (Object.keys(selectedItems).length > 10) {
-      message.error("最多显示10个标签")
-      return;
-    }
+		if (Object.keys(selectedItems).length > 10) {
+			message.error("最多显示10个标签");
+			return;
+		}
 		this.setState({ selectedItems })
 		if (needReset) {
 			params = this.accountListort.reset(clear)
@@ -345,7 +345,6 @@ class AccountSearch extends React.Component {
 						{commSearch}
 						{allSearch}
 					</div> : null}
-
 				</TabPane>
 				<TabPane tab={
 					<div className='big-zindex-box'>
@@ -359,7 +358,17 @@ class AccountSearch extends React.Component {
 							{allSearch}
 						</div> : null}
 					</div> : null}
-
+				</TabPane>
+				<TabPane tab={
+					<div className='selected-account'>
+						<label>精选账号</label>
+						<img src={require('./../images/HOT.png')} alt="" />
+					</div>
+				} key="3" >
+					{changTabNumber == 3 ? <div>
+						{commSearch}
+						{allSearch}
+					</div> : null}
 				</TabPane>
 			</Tabs>
 

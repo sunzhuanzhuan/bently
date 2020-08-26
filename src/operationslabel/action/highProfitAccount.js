@@ -1,7 +1,6 @@
 // 高利润账号
 import { createHttpAction } from 'redux-action-extend'
 import { tagDetailSearchType, importTagCheck, importTagInsert } from "@/operationslabel/constants/API";
-import {RESETDOWNLOADLINK} from "@/batchCreateMainAccount/constants/ActionTypes";
 
 export const {
 	getSearchType,
