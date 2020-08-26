@@ -77,7 +77,7 @@ class HighProfitAccount extends Component {
 
 	componentWillMount() {
 		// 获取账户列表
-		this.props.actions.getAccountList()
+		this.props.actions.getAccountList();
 	}
 
 
@@ -87,7 +87,7 @@ class HighProfitAccount extends Component {
 	tabChange = (platformId) => {
 		//账号查询
 		this.setState({
-			platformId: platformId,
+			platformId: platformId
 		});
 	};
 

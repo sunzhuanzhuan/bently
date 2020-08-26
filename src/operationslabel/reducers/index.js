@@ -1,4 +1,5 @@
-import {combineReducers} from 'redux'
+import {combineReducers} from 'redux';
+import * as highProfitAccount from './highProfitAccount';
 import {
     REQUEST_TAGLIST,
     TAG_DETAILS,
@@ -62,5 +63,6 @@ export default combineReducers({
     tagDetails,
     tagDetailSearchType,
     accountImport,
-    tagDetailSearchList
+    tagDetailSearchList,
+	...highProfitAccount
 })
