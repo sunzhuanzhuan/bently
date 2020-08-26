@@ -119,12 +119,12 @@ class AccountSearch extends React.Component {
 			delete selectedItems[id]
 			clear = false
 		}
-    let keys = Object.keys(selectedItems);
+		let keys = Object.keys(selectedItems);
 
-    if (Object.keys(selectedItems).length > 10) {
-      message.error("最多显示10个标签")
-      return;
-    }
+		if (Object.keys(selectedItems).length > 10) {
+			message.error("最多显示10个标签");
+			return;
+		}
 		this.setState({ selectedItems })
 		if (needReset) {
 			params = this.accountListort.reset(clear)
