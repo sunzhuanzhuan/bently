@@ -113,7 +113,7 @@ class FilterForm extends Component {
         })
     }
 
-    render() {
+    render () {
         const {
             type,
             platformList,
@@ -164,6 +164,8 @@ class FilterForm extends Component {
                             <Select
                                 placeholder="请选择"
                                 className="select-width"
+                                showSearch
+                                filterOption={(input, option) => option.props.children.indexOf(input.replace(/(^\s*)|(\s*$)/g, '')) >= 0}
                             >
                                 <Option key='0'>请选择</Option>
                                 {
@@ -189,6 +191,8 @@ class FilterForm extends Component {
                             <Select
                                 placeholder="请选择"
                                 className="select-width"
+                                showSearch
+                                filterOption={(input, option) => option.props.children.indexOf(input.replace(/(^\s*)|(\s*$)/g, '')) >= 0}
                             >
                                 <Option key='0'>请选择</Option>
                                 {
