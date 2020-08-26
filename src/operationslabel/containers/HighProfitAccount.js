@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Tabs, Input, Table, message, Modal } from "antd";
 import BulkImportAccountModal from '../components/BulkImportAccountModal';
+import VerificationImportAccountModal from '../components/VerificationImportAccountModal'
 import * as Action from "../action/highProfitAccount";
 import BulkSearchAccountModal from "@/operationslabel/components/BulkSearchAccountModal";
 import Login from "@/login/container/Login";
@@ -295,11 +296,10 @@ class HighProfitAccount extends Component {
 					}
 				</div>
 				{/*批量导入账号*/}
-				<BulkImportAccountModal
+				<VerificationImportAccountModal
 					visible={this.state.importAccountVisible}
 					handleCancel={this.handleImportAccountCancel}
-					handleOk={this.handleImportAccountOk}
-				></BulkImportAccountModal>
+				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal
 					visible={this.state.searchAccountVisible}

@@ -1,11 +1,27 @@
 import { handleActions } from 'redux-actions';
-import { getSearchType_success, getAccountList_success } from '../action/highProfitAccount';
+import { getSearchType_success, getAccountList_success, accountImportCheck_success, accountImport_success} from '../action/highProfitAccount';
 
 /**
  * 搜索类型
  */
 export const searchType = handleActions({
 	[getSearchType_success]: (state, action) => {
+		return { ...action.payload.data }
+	}
+}, {});
+/**
+ * 批量导入账号检查
+ */
+export const  accountImportCheck = handleActions({
+	[accountImportCheck_success]: (state, action) => {
+		return { ...action.payload.data }
+	}
+}, {});
+/**
+ * 批量导入账号
+ */
+export const  accountImport = handleActions({
+	[accountImport_success]: (state, action) => {
 		return { ...action.payload.data }
 	}
 }, {});

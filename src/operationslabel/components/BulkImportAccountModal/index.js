@@ -96,7 +96,7 @@ class BulkImportAccountModal extends Component {
     account_id(data) {
         let accountId = new Set((data.split(/\n+/g).filter(t => t !== "")));
         this.setState({n2: [...accountId].length});
-        return [...accountId]
+        return [...accountId];
     }
 
 //验证导入账号规则
