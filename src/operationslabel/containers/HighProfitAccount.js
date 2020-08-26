@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Tabs, Input, Table, message, Modal } from "antd";
-import BulkImportAccountModal from '../components/BulkImportAccountModal';
 import VerificationImportAccountModal from '../components/VerificationImportAccountModal'
 import * as Action from "../action/highProfitAccount";
 import BulkSearchAccountModal from "@/operationslabel/components/BulkSearchAccountModal";
@@ -14,7 +13,7 @@ class HighProfitAccount extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			platformId: null, // 搜索tab key
+			platformId: '1', // 搜索tab key
 			accountMark: '', // 搜索文本框内容
 			current: 1, // 分页 - 当前第几页
 			selectedRowKeys: [], // table 选中的keys
@@ -78,7 +77,7 @@ class HighProfitAccount extends Component {
 
 	componentWillMount() {
 		// 获取账户列表
-		this.props.actions.getAccountList();
+		this.props.actions.getAccountList()
 	}
 
 
@@ -86,10 +85,9 @@ class HighProfitAccount extends Component {
 	 *  tab 切换面包回调事件
 	 */
 	tabChange = (platformId) => {
-		console.log(platformId);
+		//账号查询
 		this.setState({
 			platformId: platformId,
-			accountMark: ''
 		});
 	};
 
@@ -97,6 +95,8 @@ class HighProfitAccount extends Component {
 	 * 搜索输入框change事件
 	 */
 	searchChange = (e) => {
+		console.log(1234)
+		//账号查询
 		this.setState({
 			accountMark: e.target.value
 		});
@@ -131,9 +131,6 @@ class HighProfitAccount extends Component {
 	 */
 	getTabLabel = (platformId) => {
 		platformId = platformId || this.state.platformId;
-		if (platformId === null) {
-			return this.searchTypes[0].name;
-		}
 		let searchType = this.searchTypes.find(item => item.id === platformId);
 		return searchType ? searchType.name : '';
 	};
@@ -150,11 +147,14 @@ class HighProfitAccount extends Component {
 	 * 单个删除
 	 */
 	del = (record) => {
+		console.log(record)
 		confirm({
 			title: '提示',
 			content: '确定删除该账号吗',
 			onOk() {
 				// TODO 调用删除接口
+				// this.props.actions.getAccountDelete({accountIds:[record]})
+
 				// TODO 调用table数据接口
 				message.success('删除成功');
 			},
@@ -241,6 +241,7 @@ class HighProfitAccount extends Component {
 				searchModalStatus: 3
 			});
 		}, 3000);
+		//批量查找接口
 		console.log(platformId);
 		console.log(accountIds);
 	};
@@ -256,6 +257,7 @@ class HighProfitAccount extends Component {
 
 	render() {
 		const accountInfo = this.props.accountInfo || {};
+		console.log(accountInfo)
 		const { totalCount = 0, platformCount = 0, yyCount = 0, pdCount = 0 } = accountInfo.count || {};
 		const successNum = {ok: accountInfo.ok, on: accountInfo.on};
 		return (
@@ -351,7 +353,8 @@ class HighProfitAccount extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		accountInfo: state.operationslabelReducers.accountInfo || {}
+		accountInfo: state.operationslabelReducers.accountInfo || {},
+
 	}
 };
 

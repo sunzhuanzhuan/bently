@@ -1,6 +1,5 @@
 import api from '../../api/index'
 import {
-	IMPORT_TAG,
     IMPORT_TAG_CHECK,
     REQUEST_TAGLIST,
     TAG_DETAILS,
@@ -80,28 +79,17 @@ export const tagDetailSearchList = (type, data) => (dispatch) => {
 };
 
 
-// //账号批量导入检查
-// export const accountImportCheck = (type, data) => (dispatch) => {
-//     return api.post(tagApi[type], data).then((response) => {
-//         if (response.code === 200) {
-//             dispatch({
-//                 type: IMPORT_TAG_CHECK,
-//                 data: response.data
-//             });
-//         }
-//     })
-// };
-// //账号批量导入
-// export const accountImport = (type, data) => (dispatch) => {
-// 	return api.post(tagApi[type], data).then((response) => {
-// 		if (response.code === 200) {
-// 			dispatch({
-// 				type: IMPORT_TAG,
-// 				data: response.data
-// 			});
-// 		}
-// 	})
-// };
+//账号批量导入
+export const accountImport = (type, data) => (dispatch) => {
+    return api.post(tagApi[type], data).then((response) => {
+        if (response.code === 200) {
+            dispatch({
+                type: IMPORT_TAG_CHECK,
+                data: response.data
+            });
+        }
+    })
+};
 
 //标签编辑
 export const tagUpdate = (type, data, message) => () => {
@@ -129,4 +117,3 @@ export const tagSort = (type, data, message) => () => {
         }
     })
 };
-

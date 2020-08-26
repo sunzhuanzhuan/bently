@@ -4,11 +4,8 @@ import {
     TAG_DETAILS,
     TAG_DETAILS_SEARCH_TYPE,
     IMPORT_TAG_CHECK,
-	IMPORT_TAG,
     TAG_DETAILS_SEARCH_LIST
 } from "../constants/ActionTypes";
-
-import * as highProfitAccount from './highProfitAccount';
 
 
 //请求标签列表
@@ -49,8 +46,8 @@ const tagDetailSearchList = (state = {}, action) => {
             return state;
     }
 };
-//批量导入账号查询检查
-const accountImportCheck = (state = {}, action) => {
+//批量导入账号查询
+const accountImport = (state = {}, action) => {
     switch (action.type) {
         case IMPORT_TAG_CHECK:
             return action.data;
@@ -58,23 +55,12 @@ const accountImportCheck = (state = {}, action) => {
             return state;
     }
 };
-//批量导入账号
-const accountImport = (state = {}, action) => {
-	switch (action.type) {
-		case IMPORT_TAG:
-			return action.data;
-		default:
-			return state;
-	}
-};
 
 
 export default combineReducers({
     requestTaglist,
     tagDetails,
     tagDetailSearchType,
-	accountImportCheck,
-	accountImport,
-    tagDetailSearchList,
-	...highProfitAccount
+    accountImport,
+    tagDetailSearchList
 })

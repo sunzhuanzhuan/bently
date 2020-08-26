@@ -59,7 +59,7 @@ class VerificationImportAccountModal extends Component{
 				if (this.verification(values.accountId)) {
 					this.setState({verification: "", confirmLoading: true}, () => {
 						//满足验证条件发送请求
-						this.props.actions.accountImportCheck({accountIds: this.account_id(values.accountId).join(",")})
+						this.props.actions.getAccountImportCheck({accountIds: this.account_id(values.accountId).join(",")})
 							.finally(() => {
 								this.setState({
 									status: 2,
@@ -76,7 +76,7 @@ class VerificationImportAccountModal extends Component{
 			this.setState({
 				confirmLoading: true
 			},() => {
-				this.props.actions.accountImport({accountIds:this.props.importAccountCheck.is_exits})
+				this.props.actions.getAccountImport({accountIds:this.props.importAccountCheck.is_exits})
 					.finally(() => {
 						this.setState({
 							confirmLoading: false,
@@ -107,6 +107,7 @@ class VerificationImportAccountModal extends Component{
 	render() {
 		const { visible, form} = this.props;
 		const { not_exits, is_exits, is_distinct} = this.props.importAccountCheck;
+		const { successList = ['333'], failList = ['123', '456'] } = this.props.importAccount;
 		const { TextArea } = Input;
 		const { getFieldDecorator } = form;
 		return (
@@ -146,19 +147,19 @@ class VerificationImportAccountModal extends Component{
 					footer ={null}
 					onCancel={this.handleCancel.bind(this)}		>
 					<div>
-						{/*{fail.length === 0 ?*/}
-						{/*	<h3 className="import-account-status"><Icon className="icon-format"*/}
-						{/*												style={{color: "#52c41a"}}*/}
-						{/*												type="check-circle-o"/>成功导入账号<b>{success.length}</b>个*/}
-						{/*	</h3> :*/}
-						{/*	<div>*/}
-						{/*		<h3 className="import-account-status"><Icon className="icon-format"*/}
-						{/*													style={{color: "#faad14"}}*/}
-						{/*													type="info-circle-o"/>成功导入账号<b>{success.length}</b>个，失败<b*/}
-						{/*			className="warning">{fail.length}</b>个</h3>*/}
-						{/*		<p className="warning">{"失败账号account_id: " + fail.join(",")}</p>*/}
-						{/*	</div>*/}
-						{/*}*/}
+						{failList.length === 0 ?
+							<h3 className="import-account-status"><Icon className="icon-format"
+																		style={{color: "#52c41a"}}
+																		type="check-circle-o"/>成功导入账号<b>{successList.length}</b>个
+							</h3> :
+							<div>
+								<h3 className="import-account-status"><Icon className="icon-format"
+																			style={{color: "#faad14"}}
+																			type="info-circle-o"/>成功导入账号<b>{successList.length}</b>个，失败<b
+									className="warning">{failList.length}</b>个</h3>
+								<p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
+							</div>
+						}
 					</div>
 				</Modal> : ""}
 
