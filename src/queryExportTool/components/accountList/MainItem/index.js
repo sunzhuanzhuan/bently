@@ -64,7 +64,7 @@ export default class MainItem extends PureComponent {
 	}
 	render() {
 		const { accountListItem = {}, isPreloading, isDeleteAction, batchRemove } = this.props
-		const { snsName = '', avatarUrl, verifiedStatus, level, introduction,
+		const { snsName = '', isHighProfit, avatarUrl, verifiedStatus, level, introduction,
 			isLowQuality, url, isSupportTopicAndLink, isVerified,
 			canOriginWrite, areaName, ageGroup, originalName,
 			isPreventShielding, classificationList = [], qrCodeUrl,
@@ -101,8 +101,10 @@ export default class MainItem extends PureComponent {
 							{platformId ? <WBYPlatformIcon
 								weibo_type={platformId}
 								width_size={20}
-							/> : null}<br/>
-							<img src={require('./../images/HOT.png')} width='30' alt="" />
+							/> : null}
+							{
+								isHighProfit === '1' ? <img src={require('./../images/HOT.png')} width='30' alt="" /> : null
+							}
 						</div>
 						<div>
 							<Avatar id={`avatar_${accountId}`} src={avatarUrl} name='测试图'>

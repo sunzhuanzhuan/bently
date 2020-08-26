@@ -53,7 +53,6 @@ class DefaultChild extends Component {
 	}
 
 	onFilterSearch = (params) => {
-		console.log(params);
 		const { skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality, defaultSort } = params;
 		const search = qs.parse(this.props.location.search.substring(1))
 		let { platformType } = this.props.match.params;
