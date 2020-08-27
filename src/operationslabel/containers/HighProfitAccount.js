@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, Tabs, Input, Table, message, Modal } from "antd";
+import { Button, Tabs, Input, Table, message, Modal, Spin } from "antd";
 import VerificationImportAccountModal from '../components/VerificationImportAccountModal'
 import * as Action from "../action/highProfitAccount";
 import BulkSearchAccountModal from "@/operationslabel/components/BulkSearchAccountModal";
@@ -14,13 +14,18 @@ class HighProfitAccount extends Component {
 		super(props);
 		this.state = {
 			platformId: '1', // 搜索tab key
-			accountMark: '', // 搜索文本框内容
-			current: 1, // 分页 - 当前第几页
+			keyword: '', // 搜索文本框内容
+			currentPage: 1, // 分页 - 当前第几页
+			pageSize: 100, //页面数量
 			selectedRowKeys: [], // table 选中的keys
 			importAccountVisible: false, // 批量导入账号modal 显示、隐藏
 			searchAccountVisible: false, // 批量查找账号modal 显示、隐藏
-			searchModalStatus: 1
-		};
+			searchModalStatus: 1,
+			currentSearchType: 0, //0.平台查询列表，1.带个查询 2 代表批量查询
+			loading: false,
+			total: 0, //账号总数
+		}
+
 	}
 	searchTypes = [
 		{name: '微信公众号', id: '1'},
@@ -37,11 +42,11 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '账号名称',
-			dataIndex: 'accountName'
+			dataIndex: 'snsName'
 		},
 		{
 			title: '平台',
-			dataIndex: 'platformId',
+			dataIndex: 'groupType',
 			render: (value) => {
 				return this.getTabLabel(value);
 			}
@@ -52,11 +57,11 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '账号分类',
-			dataIndex: 'groupType'
+			dataIndex: 'isFamous'
 		},
 		{
 			title: '被约次数',
-			dataIndex: 'appointmentCount'
+			dataIndex: 'orderNum'
 		},
 		{
 			title: '当前价格有效期开始时间',
@@ -77,17 +82,58 @@ class HighProfitAccount extends Component {
 
 	componentWillMount() {
 		// 获取账户列表
-		this.props.actions.getAccountList()
+		this.props.actions.getAccountList();
+		this.setState({
+			currentSearchType: 0
+		}, () => {
+			this.getAccountInfo();
+		})
 	}
+	/**
+	 * 账号发送请求
+	 */
+	getAccountInfo = () => {
+		const { platformId, keyword, currentPage, pageSize } = this.state;
+		let accounts = this.props.accountInfo.result.list || []
+		let accountIds = accounts.map( el => el.accountId)
+		this.setState({
+			loading: true
+		},() => {
+			switch (this.state.currentSearchType) {
+				case 0 :
+					this.props.actions.getAccountSearch({ platformId, currentPage, pageSize }).finally(() => {
+						this.setState({
+							loading: false
+						})
+					});
+					break;
+				case 1 :
+					this.props.actions.getAccountSearch({ platformId, keyword, currentPage, pageSize }).finally(() => {
+						this.setState({
+							loading: false
+						})
+					});
+					break;
+				case 2 :
+					this.props.actions.getBatchAccountSearch({ platformId, accountIds, currentPage, pageSize }).finally(() => {
+						this.setState({
+							loading: false
+						})
+					})
+			}
 
+		})
 
+	}
 	/**
 	 *  tab 切换面包回调事件
 	 */
 	tabChange = (platformId) => {
 		//账号查询
 		this.setState({
-			platformId: platformId,
+			platformId: platformId
+		}, () => {
+			this.getAccountInfo();
 		});
 	};
 
@@ -95,10 +141,9 @@ class HighProfitAccount extends Component {
 	 * 搜索输入框change事件
 	 */
 	searchChange = (e) => {
-		console.log(1234)
 		//账号查询
 		this.setState({
-			accountMark: e.target.value
+			keyword: e.target.value
 		});
 	};
 
@@ -106,12 +151,15 @@ class HighProfitAccount extends Component {
 	 * 点击搜索或按下回车键时的回调
 	 */
 	search = () => {
-		let accountMark = this.state.accountMark;
-		if (!accountMark) {
+		let keyword = this.state.keyword;
+		if (!keyword) {
 			return  message.error('搜索条件不能为空');
 		}
-		let platformId = this.state.platformId;
-		console.log(accountMark, platformId);
+		this.setState({
+			currentSearchType: 1
+		}, () => {
+			this.getAccountInfo();
+		})
 	};
 
 	/**
@@ -119,10 +167,10 @@ class HighProfitAccount extends Component {
 	 */
 	changePage = (pageNum) => {
 		this.setState({
-			current: pageNum
+			currentPage: pageNum
 		}, () => {
-			// TODO
 			// 分页改变重新请求列表接口
+			this.getAccountInfo();
 		});
 	};
 
@@ -147,35 +195,49 @@ class HighProfitAccount extends Component {
 	 * 单个删除
 	 */
 	del = (record) => {
-		console.log(record)
 		confirm({
 			title: '提示',
 			content: '确定删除该账号吗',
-			onOk() {
+			onOk : () => {
 				// TODO 调用删除接口
-				// this.props.actions.getAccountDelete({accountIds:[record]})
-
-				// TODO 调用table数据接口
-				message.success('删除成功');
+				this.props.actions.getAccountDelete({accountIds:[record.accountId]})
+					.finally( res => {
+						let code = res ? res.code ? res.code : null : null;
+						if( code && code === 1000){
+							message.success('删除成功');
+							this.getAccountInfo();
+						}else{
+							message.error('删除失败');
+						}
+					})
 			},
 		});
 	};
+
 
 	/**
 	 * 批量删除
 	 */
 	batchDel = () => {
 		const keys = this.state.selectedRowKeys;
+		console.log(keys)
 		if (!keys.length) {
 			return message.error('请先选中账号再进行操作！');
 		}
 		confirm({
 			title: '提示',
 			content: '确定删除该账号吗',
-			onOk() {
+			onOk : () => {
 				// TODO 调用删除接口
-				// TODO 调用table数据接口
-				message.success('删除成功');
+				this.props.actions.getAccountDelete({accountIds:keys}).finally( res => {
+					let code = res ? res.code ? res.code : null : null;
+					if( code && code === 1000){
+						message.success('删除成功');
+						this.getAccountInfo();
+					}else{
+						message.error('删除失败');
+					}
+				})
 			},
 		});
 
@@ -220,30 +282,26 @@ class HighProfitAccount extends Component {
 			})
 		});
 	};
-
-	/**
-	 * 批量导入modal 开始导入
-	 */
-	handleImportAccountOk = (accountIds) => {
-		console.log(accountIds);
-	};
-
 	/**
 	 * 批量搜索modal 开始导入
 	 */
 	handleSearchAccountOk = ({platformId, accountIds}) => {
+		this.props.actions.get
 		this.setState({
 			searchModalStatus: 2,
+			accountIds: accountIds,
 			platformId: platformId
-		});
-		setTimeout(() => {
+		},() => {
+			// this.props.actions.getBatchAccountList()
 			this.setState({
+				currentSearchType: 2,
 				searchModalStatus: 3
-			});
-		}, 3000);
-		//批量查找接口
-		console.log(platformId);
-		console.log(accountIds);
+			}, () => {
+				this.getAccountInfo();
+			})
+		});
+
+
 	};
 
 	/**
@@ -257,9 +315,9 @@ class HighProfitAccount extends Component {
 
 	render() {
 		const accountInfo = this.props.accountInfo || {};
-		console.log(accountInfo)
-		const { totalCount = 0, platformCount = 0, yyCount = 0, pdCount = 0 } = accountInfo.count || {};
-		const successNum = {ok: accountInfo.ok, on: accountInfo.on};
+		const { total = 0, platform = 0, order = 0, dispatch = 0 } = accountInfo.statistic|| {};
+		const { ok = '0', on = [] } = accountInfo.result || {};
+		const successNum = { ok, on}
 		return (
 			<div>
 				<div className="high_profit_account">
@@ -269,7 +327,7 @@ class HighProfitAccount extends Component {
 
 					<h4 className="title">
 						<span className="sub-title">账号信息</span>
-						<em>账号数：{totalCount}（预约类{yyCount} 派单类{pdCount}）</em>
+						<em>账号数：{total}（预约类{order} 派单类{dispatch}）</em>
 						<Button
 							type="primary"
 							size="small"
@@ -277,7 +335,7 @@ class HighProfitAccount extends Component {
 							onClick={this.showImportAccountModal}
 						>批量导入账号</Button>
 					</h4>
-					{ totalCount && totalCount !== 0 ? <div>
+					{ total && total !== 0 ? <div>
 						<div className='search'>
 							<div className='search_tabs'>
 								<Tabs className="tab" type="card" activeKey={this.state.platformId || '1'} onChange={this.tabChange}>
@@ -288,7 +346,7 @@ class HighProfitAccount extends Component {
 													enterButton={'搜' + item.name}
 													placeholder="请输入账号名称、账号ID"
 													size="large"
-													value={this.state.accountMark}
+													value={this.state.keyword}
 													onChange={this.searchChange}
 													onSearch={this.search}
 												/>
@@ -304,26 +362,27 @@ class HighProfitAccount extends Component {
 								>批量查找</Button>
 							</div>
 						</div>
-						<div className='account_num'>{this.getTabLabel()}账号数: {platformCount}</div>
+						<div className='account_num'>{this.getTabLabel()}账号数: {platform}</div>
 						<div>
-							<Table
-								rowKey='id'
-								columns={this.columns}
-								rowSelection= {{
-									selectedRowKeys: this.state.selectedRowKeys,
-									onChange: this.selectionChange
-								}}
-								pagination={{
-									pageSize: 100,
-									current: this.state.current,
-									total: platformCount,
-									onChange: this.changePage
-								}}
-								footer={this.footerHandle}
-								dataSource={accountInfo.accountIds || []}>
-							</Table>
+							<Spin spinning={this.state.loading} >
+								<Table
+									rowKey='accountId'
+									columns={this.columns}
+									rowSelection= {{
+										selectedRowKeys: this.state.selectedRowKeys,
+										onChange: this.selectionChange
+									}}
+									pagination={{
+										pageSize: 100,
+										currentPage: this.state.currentPage,
+										total: platform,
+										onChange: this.changePage
+									}}
+									footer={this.footerHandle}
+									dataSource={accountInfo.result.list || []}>
+								</Table>
+							</Spin>
 						</div>
-
 					</div> : (
 						<div className="account-none-img-box">
 							<img src={require("../images/none.png")} />
@@ -335,6 +394,12 @@ class HighProfitAccount extends Component {
 				<VerificationImportAccountModal
 					visible={this.state.importAccountVisible}
 					handleCancel={this.handleImportAccountCancel}
+					platformId={this.state.platformId}
+					keyword={this.state.keyword}
+					currentPage={this.state.currentPage}
+					pageSize={this.state.pageSize}
+					currentSearchType={this.state.currentSearchType}
+					getAccountInfo={this.getAccountInfo()}
 				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal

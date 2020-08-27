@@ -4,7 +4,7 @@ import {
 	highProfitAccountImport,
 	highProfitAccountImportCheck,
 	highProfitAccountSearch,
-	highProfitAccountExport,
+	highProfitAccountBatchSearch,
 	highProfitAccountDelete
 } from "@/operationslabel/constants/API";
 
@@ -22,24 +22,36 @@ export const {
 } = createHttpAction('getAccountImport', highProfitAccountImport, {
 	method: 'post'
 });
-//批量查找高利润账号
+//查找高利润账号
 export const {
 	getAccountSearch,
 	getAccountSearch_success
 } = createHttpAction('getAccountSearch', highProfitAccountSearch, {
 	method: 'post'
 });
+//批量查找高利润账号
+export const {
+	getBatchAccountSearch,
+	getBatchAccountSearch_success
+} = createHttpAction('getBatchAccountSearch', highProfitAccountBatchSearch, {
+	method: 'post'
+});
 
 //删除高利润账号(批量)
 export const {
-	getAccountDelete,
-	getAccountDelete_success
+	getAccountDelete
 } = createHttpAction('getAccountDelete', highProfitAccountDelete, {
 	method: 'post'
 });
 export const getAccountList = () => {
 	return {
 		type: 'getAccountList',
+		data: {}
+	}
+}
+export const getBatchAccountList = () => {
+	return {
+		type: 'getBatchAccountList',
 		data: {}
 	}
 }

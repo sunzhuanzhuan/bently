@@ -53,7 +53,7 @@ class VerificationImportAccountModal extends Component{
 		return true;
 	}
 	//获取导入的账号
-	handleOk(){
+	handleOk= () =>{
 		if(this.state.status === 1){
 			this.props.form.validateFields((err, values) => {
 				if (this.verification(values.accountId)) {
@@ -81,25 +81,22 @@ class VerificationImportAccountModal extends Component{
 						this.setState({
 							confirmLoading: false,
 							status: 3,
-							okText: '确定'
+							okText: '开始导入'
+						}, () => {
+							const { platformId, keyword, currentPage, pageSize, currentSearchType } = this.props;
+
+							// this.props.getAccountSearch({ platformId, keyword, currentPage, pageSize })
+							this.props.actions.getBatchAccountList();
 						})
 					})
 			})
-		}
-		if(this.state.status === 3){
-			this.props.handleCancel();
-			setTimeout(() => {
-				this.setState({status: 1, tagall: []}, () => {
-					this.props.form.resetFields();
-				})
-			}, 200);
 		}
 	}
 
 	handleCancel() {
 		this.props.handleCancel();
 		setTimeout(() => {
-			this.setState({status: 1, tagall: []}, () => {
+			this.setState({status: 1, okText: '开始导入', confirmLoading: false, verification: ''}, () => {
 				this.props.form.resetFields();
 			})
 		}, 200);
@@ -150,13 +147,13 @@ class VerificationImportAccountModal extends Component{
 						{failList.length === 0 ?
 							<h3 className="import-account-status"><Icon className="icon-format"
 																		style={{color: "#52c41a"}}
-																		type="check-circle-o"/>成功导入账号<b>{successList.length}</b>个
+																		type="check-circle-o"/>成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
 							</h3> :
 							<div>
 								<h3 className="import-account-status"><Icon className="icon-format"
 																			style={{color: "#faad14"}}
 																			type="info-circle-o"/>成功导入账号<b>{successList.length}</b>个，失败<b
-									className="warning">{failList.length}</b>个</h3>
+									className="warning">{failList.length}</b>个,请于五分钟后查看结果</h3>
 								<p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
 							</div>
 						}
@@ -170,8 +167,8 @@ class VerificationImportAccountModal extends Component{
 }
 const mapStateToProps = (state) => {
 	return {
-		importAccountCheck: state.operationslabelReducers.importAccountCheck || {},
-		importAccount: state.operationslabelReducers.importAccount || {}
+		importAccountCheck: state.operationslabelReducers.highAccountImportCheck || {},
+		importAccount: state.operationslabelReducers.highAccountImport || {}
 	}
 };
 

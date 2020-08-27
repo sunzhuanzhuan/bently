@@ -11,7 +11,8 @@ export const deleteAccount = "/tag/account/deleteAccount"; //删除标签账号
 export const tagSort = "/tag/tag/sort"; //标签排序
 export const highProfitAccountImport = "/operator-gateway/high/profit/importHighProfitAccountLis"; //高利润账号批量导入
 export const highProfitAccountImportCheck = "/operator-gateway/high/profit/check"; //高利润账号批量导入检查
-export const highProfitAccountExport = ""; //高利润账号批量导出
-export const highProfitAccountSearch = ""; //高利润账号查询
+export const highProfitAccountSearch = "operator-gateway/high/profit/searchHighProfitAccount"; //高利润账号查询
+export const highProfitAccountBatchSearch = "operator-gateway/high/profit/searchHighProfitAccountList"; //批量高利润账号查询
 export const highProfitAccountDelete = "/operator-gateway/high/profit/deleteHighProfitAccountList"; //高利润账号删除
+
 
