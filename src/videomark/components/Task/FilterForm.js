@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Button, DatePicker, Select, Icon } from 'antd';
 import SelectFormItem from '../common/SelectFormItem'
+import InputSelectItem from '../common/InputSelectItem'
 const Option = Select.Option;
 const FormItem = Form.Item;
 import './FilterForm.less'
@@ -64,6 +65,8 @@ class FilterForm extends Component {
             if (err) {
                 return;
             }
+            debugger
+            console.log(values)
             setStateData({ loadingVisible: true })
             setStateData({ filterParams: values })
 
@@ -161,24 +164,11 @@ class FilterForm extends Component {
                     </FormItem>
                     <FormItem label="平台">
                         {getFieldDecorator('weibo_type_filter')(
-                            <Select
-                                placeholder="请选择"
-                                className="select-width"
-                                showSearch
-                                filterOption={(input, option) => option.props.children.indexOf(input.replace(/(^\s*)|(\s*$)/g, '')) >= 0}
-                            >
-                                <Option key='0'>请选择</Option>
-                                {
-                                    platformList.length > 0 ?
-                                        platformList.map(item => {
-                                            return <Option key={item.platform_id}
-                                                value={item.platform_id}
-                                            >
-                                                {item.platform_name}
-                                            </Option>
-                                        }) : ""
-                                }
-                            </Select>
+                            <InputSelectItem
+                                options={platformList}
+                                displayStr={'platform_name'}
+                                keyStr={'platform_id'}
+                            ></InputSelectItem>
                         )}
                     </FormItem>
                     <FormItem label="厂商简称">
@@ -188,24 +178,11 @@ class FilterForm extends Component {
                     </FormItem>
                     <FormItem label="销售经理">
                         {getFieldDecorator('sale_manager_id')(
-                            <Select
-                                placeholder="请选择"
-                                className="select-width"
-                                showSearch
-                                filterOption={(input, option) => option.props.children.indexOf(input.replace(/(^\s*)|(\s*$)/g, '')) >= 0}
-                            >
-                                <Option key='0'>请选择</Option>
-                                {
-                                    saleList.length > 0 ?
-                                        saleList.map(item => {
-                                            return <Option key={item.owner_admin_id}
-                                                value={item.owner_admin_id}
-                                            >
-                                                {item.real_name}
-                                            </Option>
-                                        }) : ""
-                                }
-                            </Select>
+                            <InputSelectItem
+                                options={saleList}
+                                displayStr={'real_name'}
+                                keyStr={'owner_admin_id'}
+                            ></InputSelectItem>
                         )}
                     </FormItem>
                     {
@@ -314,7 +291,7 @@ class FilterForm extends Component {
                         </FormItem>
                     </div>
                 </fieldset>
-            </Form>
+            </Form >
         );
     }
 }
