@@ -21,9 +21,10 @@ class HighProfitAccount extends Component {
 			importAccountVisible: false, // 批量导入账号modal 显示、隐藏
 			searchAccountVisible: false, // 批量查找账号modal 显示、隐藏
 			searchModalStatus: 1,
-			currentSearchType: 0, //0.平台查询列表，1.带个查询 2 代表批量查询
+			currentSearchType: 1, // 1.查询 2.批量查询
 			loading: false,
-			total: 0, //账号总数
+			total: 0, //账号总数,
+			accountIds: [] // 账号ID数组
 		}
 
 	}
@@ -84,29 +85,24 @@ class HighProfitAccount extends Component {
 		// 获取账户列表
 		this.props.actions.getAccountList();
 		this.setState({
-			currentSearchType: 0
+			currentSearchType: 1
 		}, () => {
 			this.getAccountInfo();
 		})
 	}
 	/**
-	 * 账号发送请求
+	 * 获取账号/账号列表请求  查找getAccountSearch，批量查找getBatchAccountSearch是两个接口，当页面操作删除账号，需要重新请求页面数据，需要记录页面请求的数据是查找还是批量查找得到的，
+	 * 用currentSearchType记录。1表示查找getAccountSearch，2表示批量查找getBatchAccountSearch,
+	 * 根据currentSearchType发送相应的i请求。
+	 *
 	 */
 	getAccountInfo = () => {
-		const { platformId, keyword, currentPage, pageSize } = this.state;
-		let accounts = this.props.accountInfo.result.list || []
-		let accountIds = accounts.map( el => el.accountId)
+		const { platformId, keyword, currentPage, pageSize, accountIds } = this.state;
+		console.log(accountIds)
 		this.setState({
 			loading: true
 		},() => {
 			switch (this.state.currentSearchType) {
-				case 0 :
-					this.props.actions.getAccountSearch({ platformId, currentPage, pageSize }).finally(() => {
-						this.setState({
-							loading: false
-						})
-					});
-					break;
 				case 1 :
 					this.props.actions.getAccountSearch({ platformId, keyword, currentPage, pageSize }).finally(() => {
 						this.setState({
@@ -131,7 +127,8 @@ class HighProfitAccount extends Component {
 	tabChange = (platformId) => {
 		//账号查询
 		this.setState({
-			platformId: platformId
+			platformId: platformId,
+			currentSearchType: 1,
 		}, () => {
 			this.getAccountInfo();
 		});
@@ -167,7 +164,8 @@ class HighProfitAccount extends Component {
 	 */
 	changePage = (pageNum) => {
 		this.setState({
-			currentPage: pageNum
+			currentPage: pageNum,
+			currentSearchType: 1,
 		}, () => {
 			// 分页改变重新请求列表接口
 			this.getAccountInfo();
@@ -220,7 +218,6 @@ class HighProfitAccount extends Component {
 	 */
 	batchDel = () => {
 		const keys = this.state.selectedRowKeys;
-		console.log(keys)
 		if (!keys.length) {
 			return message.error('请先选中账号再进行操作！');
 		}
@@ -283,10 +280,9 @@ class HighProfitAccount extends Component {
 		});
 	};
 	/**
-	 * 批量搜索modal 开始导入
+	 * 批量搜索modal
 	 */
 	handleSearchAccountOk = ({platformId, accountIds}) => {
-		this.props.actions.get
 		this.setState({
 			searchModalStatus: 2,
 			accountIds: accountIds,
@@ -316,7 +312,7 @@ class HighProfitAccount extends Component {
 	render() {
 		const accountInfo = this.props.accountInfo || {};
 		const { total = 0, platform = 0, order = 0, dispatch = 0 } = accountInfo.statistic|| {};
-		const { ok = '0', on = [] } = accountInfo.result || {};
+		const { ok = '0', on = []} = accountInfo.result || {};
 		const successNum = { ok, on}
 		return (
 			<div>
@@ -398,8 +394,6 @@ class HighProfitAccount extends Component {
 					keyword={this.state.keyword}
 					currentPage={this.state.currentPage}
 					pageSize={this.state.pageSize}
-					currentSearchType={this.state.currentSearchType}
-					getAccountInfo={this.getAccountInfo()}
 				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal

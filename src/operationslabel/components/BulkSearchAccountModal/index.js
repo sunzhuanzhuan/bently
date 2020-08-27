@@ -29,9 +29,9 @@ class BulkSearchAccountModal extends Component {
                 let search = values.search.split(/\n+/g).filter(t => t !== "");
                 this.props.form.resetFields();
                 if (handleOk && typeof handleOk === 'function') {
-					handleOk({platformId : values.platform, accountIds: search.join(",")});
+					handleOk({platformId : values.platform, accountIds: search});
 				} else {
-					this.props.bulkSearch({platform: values.platform, search: search.join(",")});
+					this.props.bulkSearch({platform: values.platform, search: search});
 				}
             }
 

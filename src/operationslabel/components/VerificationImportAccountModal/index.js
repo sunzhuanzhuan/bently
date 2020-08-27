@@ -83,10 +83,9 @@ class VerificationImportAccountModal extends Component{
 							status: 3,
 							okText: '开始导入'
 						}, () => {
-							const { platformId, keyword, currentPage, pageSize, currentSearchType } = this.props;
-
-							// this.props.getAccountSearch({ platformId, keyword, currentPage, pageSize })
-							this.props.actions.getBatchAccountList();
+							const { platformId, keyword, currentPage, pageSize } = this.props;
+							this.props.actions.getAccountSearch({ platformId, keyword, currentPage, pageSize });
+							this.props.actions.getAccountList()
 						})
 					})
 			})
@@ -103,8 +102,8 @@ class VerificationImportAccountModal extends Component{
 	}
 	render() {
 		const { visible, form} = this.props;
-		const { not_exits, is_exits, is_distinct} = this.props.importAccountCheck;
-		const { successList = ['333'], failList = ['123', '456'] } = this.props.importAccount;
+		const { not_exits = [], is_exits = [], is_distinct = []} = this.props.importAccountCheck || {};
+		const { successList = ['333'], failList = ['123', '456'] } = this.props.importAccount || {};
 		const { TextArea } = Input;
 		const { getFieldDecorator } = form;
 		return (
