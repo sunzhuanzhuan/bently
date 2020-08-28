@@ -67,7 +67,7 @@ export default class InputSelectItem extends Component {
             }}
             onSearch={this.onSearch}
             onChange={this.onChange}
-            getPopupContainer={() => document.querySelector('.input-select-wrap')}
+            getPopupContainer={() => document.querySelector('.ant-layout-content')}
         >
             <Option key='0'>请选择</Option>
             {
