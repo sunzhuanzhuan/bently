@@ -13,7 +13,7 @@ class BulkSearchAccountModal extends Component {
         }
     }
 
-    platform = [
+	platform = [
 		{name: '微信公众号', id: 1},
 		{name: '新浪微博', id: 2},
 		{name: '视频/直播', id: 3},
