@@ -22,7 +22,6 @@ class AccountList extends Component {
         }
     }
 
-    //test
     //批量查找
     showSearchAccountModal = () => {
         this.setState({searchAccountVisible: true, status: 1})
