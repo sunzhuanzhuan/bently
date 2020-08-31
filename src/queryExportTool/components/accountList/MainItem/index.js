@@ -103,7 +103,7 @@ export default class MainItem extends PureComponent {
 								width_size={20}
 							/> : null}
 							{
-								isHighProfit === '1' ? <img src={require('./../images/HOT.png')} width='30' alt="" /> : null
+								isHighProfit === 1 ? <img src={require('./../images/HOT.png')} width='30' alt="" /> : null
 							}
 						</div>
 						<div>
