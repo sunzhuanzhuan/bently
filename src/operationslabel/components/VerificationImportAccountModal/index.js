@@ -73,8 +73,14 @@ class VerificationImportAccountModal extends Component{
 			});
 		}
 		if(this.state.status === 2){
-			if(this.props.importAccountCheck.isExits.length === 0){
+			if(!this.props.importAccountCheck.isExits){
 				return
+			}
+			if(this.props.importAccountCheck.isExits.length === 0){
+				this.setState({
+					status: 3
+				})
+				return;
 			}
 			this.setState({
 				confirmLoading: true
