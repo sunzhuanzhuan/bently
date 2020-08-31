@@ -22,7 +22,7 @@ class AccountList extends Component {
         }
     }
 
-	//批量查找
+    //批量查找
     showSearchAccountModal = () => {
         this.setState({searchAccountVisible: true, status: 1})
     }
@@ -31,7 +31,7 @@ class AccountList extends Component {
         this.setState({searchAccountVisible: false, status: 1})
     }
 
-	//分页
+    //分页
     pageCount(platform, page) {
         this.setState({loading: true, current: page, platform: platform}, () => {
             this.props.getTagDetailSearchList(
@@ -46,7 +46,7 @@ class AccountList extends Component {
         });
     }
 
-	//批量查找
+    //批量查找
     bulkSearch(data) {
         this.setState({
             loading: true,
@@ -88,27 +88,27 @@ class AccountList extends Component {
                     }}>
                         {tagDetailSearchType.searchTypeInfo ?
                             tagDetailSearchType.searchTypeInfo.map(d =>
-                                    <TabPane tab={d.name} key={d.platform}>
-                                        <Search className="search-input"
-                                                placeholder="请输入账号名称、账号ID"
-                                                onSearch={(value) => {
-                                                    if (!value) return message.error("搜索条件不能为空！", 1);
-                                                    this.setState({
-                                                        loading: true,
-                                                        searche: value,
-                                                        current: 1,
-                                                        isbatch: 2,
-                                                        platform: d.platform
-                                                    }, () => {
-														//初始化
-                                                        this.props.getTagDetailSearchList(d.platform, 1, value, 2, this.props.tagid)
-                                                            .then(() => {
-                                                                this.setState({loading: false});
-                                                            })
-                                                    });
-                                                }}
-                                                enterButton={"搜" + d.name} size="large"/>
-                                    </TabPane>
+                                <TabPane tab={d.name} key={d.platform}>
+                                    <Search className="search-input"
+                                            placeholder="请输入账号名称、账号ID"
+                                            onSearch={(value) => {
+                                                if (!value) return message.error("搜索条件不能为空！", 1);
+                                                this.setState({
+                                                    loading: true,
+                                                    searche: value,
+                                                    current: 1,
+                                                    isbatch: 2,
+                                                    platform: d.platform
+                                                }, () => {
+                                                    //初始化
+                                                    this.props.getTagDetailSearchList(d.platform, 1, value, 2, this.props.tagid)
+                                                        .then(() => {
+                                                            this.setState({loading: false});
+                                                        })
+                                                });
+                                            }}
+                                            enterButton={"搜" + d.name} size="large"/>
+                                </TabPane>
                             ) : ""}
                     </Tabs>
                 </div>

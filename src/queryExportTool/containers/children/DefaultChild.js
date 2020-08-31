@@ -110,6 +110,9 @@ class DefaultChild extends Component {
 			}
 		}
 
+		delete this.paramsAll.isHighProfit;
+		delete this.paramsAll.sortLabel;
+
 		const { searchSource } = params;
 		// searchSource === '3' 高利润账号
 		if (searchSource && searchSource === '3') {
@@ -123,7 +126,7 @@ class DefaultChild extends Component {
 			// 2 使用二级规则
 			(onlineStatus && createdAt) && (sortLabel = 2);
 			params.sortLabel = sortLabel;
-			params.searchSource = 1;
+			params.searchSource = '1';
 			params.isHighProfit = 1;
 		}
 
