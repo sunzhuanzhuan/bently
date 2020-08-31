@@ -14,12 +14,11 @@ class BulkSearchAccountModal extends Component {
     }
 
     platform = [
-		{id: "9", name: '微信 '},
-		{id: "23", name: '朋友圈 '},
-		{id: "1", name: '新浪微博 '},
-		{id: "live", name: '直播达人 '},
-		{id: "video", name: '视频自媒体 '},
-		{id: "orher", name: '其它 '}
+		{name: '微信公众号', id: 1},
+		{name: '新浪微博', id: 2},
+		{name: '视频/直播', id: 3},
+		{name: '小红书', id: 4},
+		{name: '其他', id: 5}
 	]
 
     handleOk() {
@@ -72,8 +71,6 @@ class BulkSearchAccountModal extends Component {
         const {visible, form, status,  successNum} = this.props;
         const {getFieldDecorator} = form;
         const { platform = this.platform } = this.props;
-
-
         return (
             <div>
                 <Modal

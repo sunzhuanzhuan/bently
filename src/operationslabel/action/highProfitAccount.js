@@ -12,7 +12,7 @@ import {
 export const {
 	getAccountImportCheck,
 	getAccountImportCheck_success
-} = createHttpAction('getAccountImportCheck', highProfitAccountImportCheck, {
+} = createHttpAction('getAccountImportCheck',highProfitAccountImportCheck, {
 	method: 'post'
 });
 //批量导入高利润账号
@@ -43,16 +43,4 @@ export const {
 } = createHttpAction('getAccountDelete', highProfitAccountDelete, {
 	method: 'post'
 });
-export const getAccountList = () => {
-	return {
-		type: 'getAccountList',
-		data: {}
-	}
-}
-export const getBatchAccountList = () => {
-	return {
-		type: 'getBatchAccountList',
-		data: {}
-	}
-}
 

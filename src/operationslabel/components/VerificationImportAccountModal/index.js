@@ -17,11 +17,10 @@ class VerificationImportAccountModal extends Component{
 		}
 	}
 
-	//拼接account_id字符串
+	//返回accountId[]
 	account_id(data) {
-		let accountId = new Set((data.split(/\n+/g).filter(t => t !== "")));
-		this.setState({n2: [...accountId].length});
-		return [...accountId]
+		let accountId = data.split(/\n+/g).filter(t => t !== "");
+		return accountId;
 	}
 
 	//验证导入账号规则
@@ -59,7 +58,7 @@ class VerificationImportAccountModal extends Component{
 				if (this.verification(values.accountId)) {
 					this.setState({verification: "", confirmLoading: true}, () => {
 						//满足验证条件发送请求
-						this.props.actions.getAccountImportCheck({accountIds: this.account_id(values.accountId).join(",")})
+						this.props.actions.getAccountImportCheck({accountIds: this.account_id(values.accountId)})
 							.finally(() => {
 								this.setState({
 									status: 2,
@@ -67,16 +66,20 @@ class VerificationImportAccountModal extends Component{
 									okText: '确认导入'
 
 								})
-							})
+							});
 					});
 				}
+				return;
 			});
 		}
 		if(this.state.status === 2){
+			if(this.props.importAccountCheck.isExits.length === 0){
+				return
+			}
 			this.setState({
 				confirmLoading: true
 			},() => {
-				this.props.actions.getAccountImport({accountIds:this.props.importAccountCheck.is_exits})
+				this.props.actions.getAccountImport({accountIds:this.props.importAccountCheck.isExits})
 					.finally(() => {
 						this.setState({
 							confirmLoading: false,
@@ -85,7 +88,6 @@ class VerificationImportAccountModal extends Component{
 						}, () => {
 							const { platformId, keyword, currentPage, pageSize } = this.props;
 							this.props.actions.getAccountSearch({ platformId, keyword, currentPage, pageSize });
-							this.props.actions.getAccountList()
 						})
 					})
 			})
@@ -102,8 +104,8 @@ class VerificationImportAccountModal extends Component{
 	}
 	render() {
 		const { visible, form} = this.props;
-		const { not_exits = [], is_exits = [], is_distinct = []} = this.props.importAccountCheck || {};
-		const { successList = ['333'], failList = ['123', '456'] } = this.props.importAccount || {};
+		const { notExits = [], isExits = [], isDistinct = []} = this.props.importAccountCheck || {};
+		const { successList = [], failList = [] } = this.props.importAccount || {};
 		const { TextArea } = Input;
 		const { getFieldDecorator } = form;
 		return (
@@ -116,24 +118,25 @@ class VerificationImportAccountModal extends Component{
 					cancelText="取消"
 					visible={visible}
 					okText={this.state.okText}
-					confirmLoading={this.state.confirmLoading}
-				>
+					confirmLoading={this.state.confirmLoading}>
 					<div>
 						<Form>
-						<h4>请输入account_id，一行一个，单次最多导入1000个</h4>
-						<p className="tips-auto-delete"><span className="warning">说明：</span>{this.state.status === 1 && '重复账号、标签黑名单账号在导入进标签时会自动剔除' || this.state.status === 2 && '重复账号会自动剔除'}</p>
-						<Form.Item>
-							{getFieldDecorator('accountId', {initialValue: ""})(<TextArea
-								autosize={{minRows: 7, maxRows: 10}}
-								disabled={this.state.status === 2 ? true : false}/>)}
-						</Form.Item>
-						<div style={{"display": this.state.verification ? "block" : "none", color: "red"}}>
-							{this.state.verification}
-						</div>
-						{this.state.status === 2 ? <div className="account-check-result">
-							<h4>一、账号检测结果</h4>
-							<p><b>{not_exits}</b>个账号未找到，<span className="warning">account_id为{() => not_exits.join(",")}</span>;共检测到<b>{is_exits}</b>个账号存在,其中<b>{is_distinct}</b>个账号为重复账号，<span className='warning'>account_id为{() => is_distinct.join(",")}</span></p>
-						</div> : ""}</Form>
+							<h4>请输入account_id，一行一个，单次最多导入1000个</h4>
+							<p className="tips-auto-delete"><span className="warning">说明：</span>{this.state.status === 1 && '重复账号在导入进标签时会自动剔除' || this.state.status === 2 && '重复账号会自动剔除'}</p>
+							<Form.Item>
+								{getFieldDecorator('accountId', {initialValue: ""})(<TextArea
+									autosize={{minRows: 7, maxRows: 10}}
+									disabled={this.state.status === 2 ? true : false}/>)}
+							</Form.Item>
+							<div style={{"display": this.state.verification ? "block" : "none", color: "red"}}>
+								{this.state.verification}
+							</div>
+							{this.state.status === 2 ?
+								<div className="account-check-result">
+									<h4>一、账号检测结果</h4>
+									<p><b>{notExits.length}</b>个账号未找到{ notExits.length>0 && <span>,<span className="warning">account_id为{ notExits.join(",")}</span></span>};共检测到<b>{isExits.length}</b>个账号存在,其中<b>{isDistinct.length}</b>个账号为重复账号{isDistinct.length>0 && <span><span className='warning'>,account_id为{isDistinct.join(",")}</span></span>}</p>
+								</div> : ""}
+						</Form>
 					</div>
 				</Modal> : ""}
 				{this.state.status === 3 ? <Modal
@@ -141,24 +144,22 @@ class VerificationImportAccountModal extends Component{
 					title={<span>批量导入账号</span>}
 					visible={visible}
 					footer ={null}
-					onCancel={this.handleCancel.bind(this)}		>
+					onCancel={this.handleCancel.bind(this)}>
 					<div>
 						{failList.length === 0 ?
-							<h3 className="import-account-status"><Icon className="icon-format"
-																		style={{color: "#52c41a"}}
-																		type="check-circle-o"/>成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
+							<h3 className="import-account-status">
+								<Icon className="icon-format" style={{color: "#52c41a"}} type="check-circle-o"/>
+								成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
 							</h3> :
 							<div>
-								<h3 className="import-account-status"><Icon className="icon-format"
-																			style={{color: "#faad14"}}
-																			type="info-circle-o"/>成功导入账号<b>{successList.length}</b>个，失败<b
-									className="warning">{failList.length}</b>个,请于五分钟后查看结果</h3>
+								<h3 className="import-account-status">
+									<Icon className="icon-format" style={{color: "#faad14"}}  type="info-circle-o"/>
+									成功导入账号<b>{successList.length}</b>个，失败<b className="warning">{failList.length}</b>个,请于五分钟后查看结果</h3>
 								<p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
 							</div>
 						}
 					</div>
 				</Modal> : ""}
-
 			</div>
 		)
 	}

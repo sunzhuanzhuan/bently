@@ -13,7 +13,7 @@ class HighProfitAccount extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			platformId: '1', // 搜索tab key
+			platformId: 1, // 搜索tab key
 			keyword: '', // 搜索文本框内容
 			currentPage: 1, // 分页 - 当前第几页
 			pageSize: 100, //页面数量
@@ -29,11 +29,11 @@ class HighProfitAccount extends Component {
 
 	}
 	searchTypes = [
-		{name: '微信公众号', id: '1'},
-		{name: '新浪微博', id: '2'},
-		{name: '视频/直播', id: '3'},
-		{name: '小红书', id: '4'},
-		{name: '其他', id: '5'}
+		{name: '微信公众号', id: 1},
+		{name: '新浪微博', id: 2},
+		{name: '视频/直播', id: 3},
+		{name: '小红书', id: 4},
+		{name: '其他', id: 5}
 	]
 
 	columns = [
@@ -58,7 +58,10 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '账号分类',
-			dataIndex: 'isFamous'
+			dataIndex: 'isFamous',
+			render: (value) => {
+				return this.getIsFamous(value);
+			}
 		},
 		{
 			title: '被约次数',
@@ -81,9 +84,7 @@ class HighProfitAccount extends Component {
 	];
 
 
-	componentWillMount() {
-		// 获取账户列表
-		this.props.actions.getAccountList();
+	componentDidMount() {
 		this.setState({
 			currentSearchType: 1
 		}, () => {
@@ -98,7 +99,6 @@ class HighProfitAccount extends Component {
 	 */
 	getAccountInfo = () => {
 		const { platformId, keyword, currentPage, pageSize, accountIds } = this.state;
-		console.log(accountIds)
 		this.setState({
 			loading: true
 		},() => {
@@ -127,7 +127,7 @@ class HighProfitAccount extends Component {
 	tabChange = (platformId) => {
 		//账号查询
 		this.setState({
-			platformId: platformId,
+			platformId: platformId*1,
 			currentSearchType: 1,
 		}, () => {
 			this.getAccountInfo();
@@ -171,6 +171,16 @@ class HighProfitAccount extends Component {
 			this.getAccountInfo();
 		});
 	};
+	onShowSizeChange = (current,size) => {
+		this.setState({
+			currentPage: current,
+			currentSearchType: 1,
+			pageSize: size
+		}, () => {
+			this.getAccountInfo()
+		})
+
+	}
 
 	/**
 	 * 获取 tab 的label
@@ -180,6 +190,17 @@ class HighProfitAccount extends Component {
 		let searchType = this.searchTypes.find(item => item.id === platformId);
 		return searchType ? searchType.name : '';
 	};
+
+	/**
+	 * 获取table的账号分类
+	 */
+	getIsFamous = (isFamous) => {
+		if(isFamous === 1){
+			return "预约"
+		}else if(isFamous === 2){
+			return "派单"
+		}
+	}
 
 	/**
 	 * 表格底部添加批量删除按钮
@@ -199,14 +220,18 @@ class HighProfitAccount extends Component {
 			onOk : () => {
 				// TODO 调用删除接口
 				this.props.actions.getAccountDelete({accountIds:[record.accountId]})
-					.finally( res => {
+					.then( res => {
+						console.log(res)
 						let code = res ? res.code ? res.code : null : null;
-						if( code && code === 1000){
+						if( code && code === "1000"){
 							message.success('删除成功');
 							this.getAccountInfo();
 						}else{
 							message.error('删除失败');
 						}
+					})
+					.catch( () => {
+						message.error('删除失败');
 					})
 			},
 		});
@@ -226,14 +251,16 @@ class HighProfitAccount extends Component {
 			content: '确定删除该账号吗',
 			onOk : () => {
 				// TODO 调用删除接口
-				this.props.actions.getAccountDelete({accountIds:keys}).finally( res => {
+				this.props.actions.getAccountDelete({accountIds:keys}).then( res => {
 					let code = res ? res.code ? res.code : null : null;
-					if( code && code === 1000){
+					if( code && code === "1000"){
 						message.success('删除成功');
 						this.getAccountInfo();
 					}else{
 						message.error('删除失败');
 					}
+				}).catch(() => {
+					message.error('删除失败');
 				})
 			},
 		});
@@ -288,7 +315,6 @@ class HighProfitAccount extends Component {
 			accountIds: accountIds,
 			platformId: platformId
 		},() => {
-			// this.props.actions.getBatchAccountList()
 			this.setState({
 				currentSearchType: 2,
 				searchModalStatus: 3
@@ -296,8 +322,6 @@ class HighProfitAccount extends Component {
 				this.getAccountInfo();
 			})
 		});
-
-
 	};
 
 	/**
@@ -311,16 +335,15 @@ class HighProfitAccount extends Component {
 
 	render() {
 		const accountInfo = this.props.accountInfo || {};
-		const { total = 0, platform = 0, order = 0, dispatch = 0 } = accountInfo.statistic|| {};
-		const { ok = '0', on = []} = accountInfo.result || {};
-		const successNum = { ok, on}
+		const { total = 0, platform = 0, order = 0, dispatch = 0, ok = 0, on = []} = accountInfo.statistic|| {};
+		const successNum = { ok, on};
+		const { list = [] }= accountInfo.result || {};
 		return (
 			<div>
 				<div className="high_profit_account">
 					<h3>
 						<span>运营管理-高利润账号管理</span>
 					</h3>
-
 					<h4 className="title">
 						<span className="sub-title">账号信息</span>
 						<em>账号数：{total}（预约类{order} 派单类{dispatch}）</em>
@@ -331,10 +354,10 @@ class HighProfitAccount extends Component {
 							onClick={this.showImportAccountModal}
 						>批量导入账号</Button>
 					</h4>
-					{ total && total !== 0 ? <div>
+					{ total !==0 ? <div>
 						<div className='search'>
 							<div className='search_tabs'>
-								<Tabs className="tab" type="card" activeKey={this.state.platformId || '1'} onChange={this.tabChange}>
+								<Tabs className="tab" type="card" activeKey={this.state.platformId+"" || '1'} onChange={this.tabChange}>
 									{
 										this.searchTypes.map(item => (
 											<TabPane tab={item.name} key={item.id}>
@@ -360,7 +383,7 @@ class HighProfitAccount extends Component {
 						</div>
 						<div className='account_num'>{this.getTabLabel()}账号数: {platform}</div>
 						<div>
-							<Spin spinning={this.state.loading} >
+							{ platform >0 && <Spin spinning={this.state.loading} >
 								<Table
 									rowKey='accountId'
 									columns={this.columns}
@@ -368,16 +391,19 @@ class HighProfitAccount extends Component {
 										selectedRowKeys: this.state.selectedRowKeys,
 										onChange: this.selectionChange
 									}}
-									pagination={{
-										pageSize: 100,
-										currentPage: this.state.currentPage,
+									pagination={platform > 100 ? {
+										pageSize: this.state.pageSize,
+										current: this.state.currentPage,
 										total: platform,
-										onChange: this.changePage
-									}}
+										onChange: this.changePage,
+										showSizeChanger: true,
+										showQuickJumper: true,
+										onShowSizeChange: this.onShowSizeChange
+									} : null}
 									footer={this.footerHandle}
-									dataSource={accountInfo.result.list || []}>
+									dataSource={list}>
 								</Table>
-							</Spin>
+							</Spin>}
 						</div>
 					</div> : (
 						<div className="account-none-img-box">

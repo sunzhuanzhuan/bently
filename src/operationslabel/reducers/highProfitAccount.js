@@ -23,26 +23,20 @@ export const highAccountImportCheck = handleActions({
  */
 export const highAccountImport = handleActions({
 	[getAccountImport_success]: (state, action) => {
-		return { successList:[] ,failList:['123', '456']}
+		return { ...action.payload.data }
 	}
 }, {});
 /**
  * 账号信息
  */
 export const accountInfo = handleActions({
-	['getAccountList']: (state, action) => {
-		return {count: {totalCount:3},list: [{accountId: '1', accountName: 'test',snsId:123, platformId: 3,groupType:1,appointmentCount:3,startTime:'2020-08-05',endTime:'2020-08-30'},
-				{accountId: '2', accountName: 'test1',snsId:'123', platformId: 3,groupType:1,appointmentCount:3,startTime:'2020-08-05',endTime:'2020-08-30'},
-				{accountId: '3', accountName: 'test1',snsId:'123', platformId: 3,groupType:1,appointmentCount:3,startTime:'2020-08-05',endTime:'2020-08-30'}
-			]};
-		// return { ...action.payload.data }
+	[getAccountSearch_success]: (state, action) => {
+		return { ...action.payload.data }
 	},
-	['getBatchAccountList']:(state, action) => {
-		return {count: {totalCount:110}, ok: 30, on: ['123','6666'], list: [{accountId: '12', accountName: 'test',snsId:123, platformId: 3,groupType:1,appointmentCount:3,startTime:'2020-08-05',endTime:'2020-08-30'},
-				{accountId: '22', accountName: 'test1',snsId:'123', platformId: 3,groupType:1,appointmentCount:3,startTime:'2020-08-05',endTime:'2020-08-30'},
-				{accountId: '33', accountName: 'test1',snsId:'123', platformId: 3,groupType:1,appointmentCount:3,startTime:'2020-08-05',endTime:'2020-08-30'}
-			]};
-
-	},
+	[getBatchAccountSearch_success]:(state, action) => {
+		return { ...action.payload.data }
+	}
 }, {});
+
+
 
