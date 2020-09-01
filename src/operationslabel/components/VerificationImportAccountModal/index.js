@@ -154,7 +154,7 @@ class VerificationImportAccountModal extends Component{
 						{failList.length === 0?
 							<h3 className="import-account-status">
 								<Icon className="icon-format" style={{color: "#52c41a"}} type="check-circle-o"/>
-								成功导入账号<b>0</b>个,请于五分钟后查看结果
+								成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
 							</h3> :
 							<div>
 								<h3 className="import-account-status">
