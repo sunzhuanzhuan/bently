@@ -25,8 +25,7 @@ class HighProfitAccount extends Component {
 			currentSearchType: 1, // 1.查询 2.批量查询
 			loading: false,
 			total: 0, //账号总数,
-			accountIds: [],// 账号ID数组,
-			delayCount: 0
+			accountIds: [] // 账号ID数组,
 		}
 
 	}
@@ -50,7 +49,10 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '平台',
-			dataIndex: 'platformName'
+			dataIndex: 'groupType',
+			render: (value) => {
+				return this.getTabLabel(value);
+			}
 		},
 		{
 			title: '账号ID',
@@ -97,7 +99,7 @@ class HighProfitAccount extends Component {
 	/**
 	 * 获取账号/账号列表请求  查找getAccountSearch，批量查找getBatchAccountSearch是两个接口，当页面操作删除账号，需要重新请求页面数据，需要记录页面请求的数据是查找还是批量查找得到的，
 	 * 用currentSearchType记录。1表示查找getAccountSearch，2表示批量查找getBatchAccountSearch,
-	 * 根据currentSearchType发送相应的请求。
+	 * 根据currentSearchType发送相应的i请求。
 	 *
 	 */
 	getAccountInfo = () => {
@@ -141,7 +143,7 @@ class HighProfitAccount extends Component {
 		//账号查询
 		this.setState({
 			platformId: platformId * 1,
-			currentSearchType: 1
+			currentSearchType: 1,
 		}, () => {
 			this.getAccountInfo();
 		});
@@ -226,37 +228,32 @@ class HighProfitAccount extends Component {
 	/**
 	 * 延迟获取账号列表数据, 首次延迟两秒, 之后每秒请求接口获取一次数据，最多5次
 	 */
-	delayGetAccountInfo = (cb) => {
+	delayGetAccountInfo = (cb = () => {}) => {
 		const accountInfo = this.props.accountInfo || {};
 		const platformTotal = accountInfo.result && accountInfo.result.total || 0;
-		if (this.state.delayCount > 3) {
-			this.setState({
-				delayCount: 0
-			});
-			if (cb && typeof cb === 'function') {
+		let count = 0;
+
+		let recursionFun = () => {
+			if (count > 3) {
 				cb(false);
+				return;
 			}
-			return;
-		}
-		setTimeout(() => {
-			this.getAccountInfo().then((data) => {
+			setTimeout(async () => {
+				let data = await this.getAccountInfo();
 				let total = (data.data.result || {}).total;
 				if (platformTotal === total) {
-					this.setState({
-						delayCount: this.state.delayCount + 1
-					});
-					console.log(this.state.delayCount)
-					this.delayGetAccountInfo(cb);
+					count = count + 1;
+					recursionFun();
 				} else {
-					this.setState({
-						delayCount: 0
-					});
-					if (cb && typeof cb === 'function') {
-						cb(true);
-					}
+					cb(true);
 				}
-			});
+			}, 1000);
+		};
+
+		setTimeout(() => {
+			recursionFun();
 		}, 1000);
+
 	};
 	/**
 	 * 单个删除
@@ -271,11 +268,12 @@ class HighProfitAccount extends Component {
 						.then(res => {
 							let code = res ? res.code ? res.code : null : null;
 							if (code && code === "1000") {
-								setTimeout(() => {
-									this.delayGetAccountInfo((success) => {
-										success && resolve();
-									});
-								}, 1000);
+								this.delayGetAccountInfo((success) => {
+									if (!success) {
+										message.info('正在删除,请稍后查询');
+									}
+									resolve();
+								});
 							} else {
 								message.error('删除失败');
 							}
@@ -306,9 +304,10 @@ class HighProfitAccount extends Component {
 						let code = res ? res.code ? res.code : null : null;
 						if (code && code === "1000") {
 							this.delayGetAccountInfo((success) => {
-								console.log('66666666');
-								console.log(success);
-								success && resolve();
+								if (!success) {
+									message.info('正在删除,请稍后查询');
+								}
+								resolve();
 							});
 						} else {
 							message.error('删除失败');
@@ -472,6 +471,10 @@ class HighProfitAccount extends Component {
 				<VerificationImportAccountModal
 					visible={this.state.importAccountVisible}
 					handleCancel={this.handleImportAccountCancel}
+					pageSize={this.state.pageSize}
+					keyword={this.state.keyword}
+					platformId={this.state.platformId}
+					currentPage={this.state.currentPage}
 				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal
