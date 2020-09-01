@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
 import * as highProfitAccount from './highProfitAccount';
 import {
-    REQUEST_TAGLIST,
-    TAG_DETAILS,
-    TAG_DETAILS_SEARCH_TYPE,
+	REQUEST_TAGLIST,
+	TAG_DETAILS,
+	TAG_DETAILS_SEARCH_TYPE,
 	IMPORT_TAG_CHECK,
-    TAG_DETAILS_SEARCH_LIST
+	TAG_DETAILS_SEARCH_LIST
 } from "../constants/ActionTypes";
 
 
