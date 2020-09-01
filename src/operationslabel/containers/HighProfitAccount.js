@@ -166,6 +166,7 @@ class HighProfitAccount extends Component {
 		this.setState({
 			currentPage: pageNum,
 			currentSearchType: 1,
+            pageSize: 5
 		}, () => {
 			// 分页改变重新请求列表接口
 			this.getAccountInfo();
@@ -419,7 +420,8 @@ class HighProfitAccount extends Component {
 										onChange: this.changePage,
 										showSizeChanger: true,
 										showQuickJumper: true,
-										onShowSizeChange: this.onShowSizeChange
+										onShowSizeChange: this.onShowSizeChange,
+                                        pageSizeOptions: ["20", "50", "100"]
 									}}
 									footer={this.footerHandle}
 									dataSource={list}>
