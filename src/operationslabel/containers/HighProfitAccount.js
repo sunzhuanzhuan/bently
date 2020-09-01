@@ -360,7 +360,8 @@ class HighProfitAccount extends Component {
 
 	render() {
 		const accountInfo = this.props.accountInfo || {};
-		const {total = 0, platform = 0, order = 0, dispatch = 0, ok = 0, on = []} = accountInfo.statistic || {};
+		const {total = 0, order = 0, dispatch = 0, ok = 0, on = []} = accountInfo.statistic || {};
+		const platform = accountInfo.result && accountInfo.result.total || 0;
 		const successNum = {ok, on};
 		const {list = []} = accountInfo.result || {};
 		return (
