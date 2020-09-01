@@ -128,7 +128,7 @@ class DefaultChild extends Component {
 			params.sortLabel = sortLabel;
 			params.searchSource = '1';
 			params.isHighProfit = 1;
-            params.defaultSort = 2;
+			params.defaultSort = 2;
 		}
 
 		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, currentPage: 1, pageSize: 20 }
