@@ -25,8 +25,7 @@ class HighProfitAccount extends Component {
 			currentSearchType: 1, // 1.查询 2.批量查询
 			loading: false,
 			total: 0, //账号总数,
-			accountIds: [],// 账号ID数组,
-			delayCount: 0
+			accountIds: [] // 账号ID数组,
 		}
 
 	}
@@ -229,36 +228,32 @@ class HighProfitAccount extends Component {
 	/**
 	 * 延迟获取账号列表数据, 首次延迟两秒, 之后每秒请求接口获取一次数据，最多5次
 	 */
-	delayGetAccountInfo = (cb) => {
+	delayGetAccountInfo = (cb = () => {}) => {
 		const accountInfo = this.props.accountInfo || {};
 		const platformTotal = accountInfo.result && accountInfo.result.total || 0;
-		if (this.state.delayCount > 3) {
-			this.setState({
-				delayCount: 0
-			});
-			if (cb && typeof cb === 'function') {
+		let count = 0;
+
+		let recursionFun = () => {
+			if (count > 3) {
 				cb(false);
+				return;
 			}
-			return;
-		}
-		setTimeout(() => {
-			this.getAccountInfo().then((data) => {
+			setTimeout(async () => {
+				let data = await this.getAccountInfo();
 				let total = (data.data.result || {}).total;
 				if (platformTotal === total) {
-					this.setState({
-						delayCount: this.state.delayCount + 1
-					});
-					this.delayGetAccountInfo(cb);
+					count = count + 1;
+					recursionFun();
 				} else {
-					this.setState({
-						delayCount: 0
-					});
-					if (cb && typeof cb === 'function') {
-						cb(true);
-					}
+					cb(true);
 				}
-			});
+			}, 1000);
+		};
+
+		setTimeout(() => {
+			recursionFun();
 		}, 1000);
+
 	};
 	/**
 	 * 单个删除
@@ -273,11 +268,12 @@ class HighProfitAccount extends Component {
 						.then(res => {
 							let code = res ? res.code ? res.code : null : null;
 							if (code && code === "1000") {
-								setTimeout(() => {
-									this.delayGetAccountInfo((success) => {
-										success && resolve();
-									});
-								}, 1000);
+								this.delayGetAccountInfo((success) => {
+									if (!success) {
+										message.info('正在删除,请稍后查询');
+									}
+									resolve();
+								});
 							} else {
 								message.error('删除失败');
 							}
@@ -308,9 +304,10 @@ class HighProfitAccount extends Component {
 						let code = res ? res.code ? res.code : null : null;
 						if (code && code === "1000") {
 							this.delayGetAccountInfo((success) => {
-								console.log('66666666');
-								console.log(success);
-								success && resolve();
+								if (!success) {
+									message.info('正在删除,请稍后查询');
+								}
+								resolve();
 							});
 						} else {
 							message.error('删除失败');
