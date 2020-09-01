@@ -59,10 +59,10 @@ const accountImport = (state = {}, action) => {
 
 
 export default combineReducers({
-    requestTaglist,
-    tagDetails,
-    tagDetailSearchType,
-    accountImport,
-    tagDetailSearchList,
+	requestTaglist,
+	tagDetails,
+	tagDetailSearchType,
+	accountImport,
+	tagDetailSearchList,
 	...highProfitAccount
 })
