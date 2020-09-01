@@ -442,10 +442,7 @@ class HighProfitAccount extends Component {
 				<VerificationImportAccountModal
 					visible={this.state.importAccountVisible}
 					handleCancel={this.handleImportAccountCancel}
-					platformId={this.state.platformId}
-					keyword={this.state.keyword}
-					currentPage={this.state.currentPage}
-					pageSize={this.state.pageSize}
+					setTimer={this.setTimer.bind(this)}
 				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal
