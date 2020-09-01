@@ -26,6 +26,7 @@ class HighProfitAccount extends Component {
 			loading: false,
 			total: 0, //账号总数,
 			accountIds: [],// 账号ID数组,
+			delayCount: 0
 		}
 
 	}
@@ -101,27 +102,37 @@ class HighProfitAccount extends Component {
 	 */
 	getAccountInfo = () => {
 		const {platformId, keyword, currentPage, pageSize, accountIds} = this.state;
-		this.setState({
-			loading: true
-		}, () => {
-			switch (this.state.currentSearchType) {
-				case 1 :
-					this.props.actions.getAccountSearch({platformId, keyword, currentPage, pageSize}).finally(() => {
-						this.setState({
-							loading: false
-						})
-					});
-					break;
-				case 2 :
-					this.props.actions.getBatchAccountSearch({platformId, accountIds, currentPage, pageSize}).finally(() => {
-						this.setState({
-							loading: false
-						})
-					})
-			}
-
-		})
-
+		return new Promise(((resolve, reject) => {
+			this.setState({
+				loading: true
+			}, () => {
+				switch (this.state.currentSearchType) {
+					case 1 :
+						this.props.actions.getAccountSearch({platformId, keyword, currentPage, pageSize})
+							.then((data) => {
+								resolve(data);
+							}).catch(() => {
+								reject();
+							}).finally(() => {
+								this.setState({
+									loading: false
+								})
+							});
+						break;
+					case 2 :
+						this.props.actions.getBatchAccountSearch({platformId, accountIds, currentPage, pageSize})
+							.then((data) => {
+								resolve(data);
+							}).catch(() => {
+								reject();
+							}).finally(() => {
+								this.setState({
+									loading: false
+								})
+							});
+				}
+			})
+		}));
 	}
 	/**
 	 *  tab 切换面包回调事件
@@ -213,26 +224,39 @@ class HighProfitAccount extends Component {
 	};
 
 	/**
-	 * 删除，批量删除设置定时器
-	 *
+	 * 延迟获取账号列表数据, 首次延迟两秒, 之后每秒请求接口获取一次数据，最多5次
 	 */
-	setDelTimer() {
-		this.setState({
-			loading: true
-		}, () => {
-			let timer = null;
-			timer = setTimeout(() => {
-				this.setState({
-					loading: false
-				}, () => {
-					clearTimeout(timer);
-					timer = null;
-					this.getAccountInfo();
-					message.success('删除成功');
-				})
-			}, 2000)
-		})
-	}
+	delayGetAccountInfo = (cb) => {
+		const accountInfo = this.props.accountInfo || {};
+		const platformTotal = accountInfo.result && accountInfo.result.total || 0;
+		if (this.state.delayCount > 3) {
+			this.setState({
+				delayCount: 0
+			});
+			if (cb && typeof cb === 'function') {
+				cb(false);
+			}
+			return;
+		}
+		setTimeout(() => {
+			this.getAccountInfo().then((data) => {
+				let total = (data.data.result || {}).total;
+				if (platformTotal === total) {
+					this.setState({
+						delayCount: this.state.delayCount + 1
+					});
+					this.delayGetAccountInfo(cb);
+				} else {
+					this.setState({
+						delayCount: 0
+					});
+					if (cb && typeof cb === 'function') {
+						cb(true);
+					}
+				}
+			});
+		}, 1000);
+	};
 	/**
 	 * 单个删除
 	 */
@@ -241,18 +265,24 @@ class HighProfitAccount extends Component {
 			title: '提示',
 			content: '确定删除该账号吗',
 			onOk: () => {
-				this.props.actions.getAccountDelete({accountIds: [record.accountId]})
-					.then(res => {
-						let code = res ? res.code ? res.code : null : null;
-						if (code && code === "1000") {
-							this.setDelTimer()
-						} else {
+				return new Promise(((resolve, reject) => {
+					this.props.actions.getAccountDelete({accountIds: [record.accountId]})
+						.then(res => {
+							let code = res ? res.code ? res.code : null : null;
+							if (code && code === "1000") {
+								setTimeout(() => {
+									this.delayGetAccountInfo((success) => {
+										success && resolve();
+									});
+								}, 1000);
+							} else {
+								message.error('删除失败');
+							}
+						})
+						.catch(() => {
 							message.error('删除失败');
-						}
-					})
-					.catch(() => {
-						message.error('删除失败');
-					})
+						})
+				}));
 			},
 		});
 	};
@@ -270,16 +300,22 @@ class HighProfitAccount extends Component {
 			title: '提示',
 			content: '确定删除该账号吗',
 			onOk: () => {
-				this.props.actions.getAccountDelete({accountIds: keys}).then(res => {
-					let code = res ? res.code ? res.code : null : null;
-					if (code && code === "1000") {
-						this.setDelTimer()
-					} else {
+				return new Promise((resolve => {
+					this.props.actions.getAccountDelete({accountIds: keys}).then(res => {
+						let code = res ? res.code ? res.code : null : null;
+						if (code && code === "1000") {
+							this.delayGetAccountInfo((success) => {
+								console.log('66666666');
+								console.log(success);
+								success && resolve();
+							});
+						} else {
+							message.error('删除失败');
+						}
+					}).catch(() => {
 						message.error('删除失败');
-					}
-				}).catch(() => {
-					message.error('删除失败');
-				})
+					})
+				}))
 			},
 		});
 
