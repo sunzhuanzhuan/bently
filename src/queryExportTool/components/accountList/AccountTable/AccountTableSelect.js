@@ -33,7 +33,7 @@ class AccountTableSelect extends Component {
 			visible: false,
 			checkedId: 0,
 			modalContent: "",
-      isGetAllInfo:false
+            isGetAllInfo:false
 		}
 	}
 

@@ -6,13 +6,13 @@ import AccountTable from '../../components/accountList/AccountTable'
 import AccountTableSelect from '../../components/accountList/AccountTable/AccountTableSelect';
 import { Spin } from "antd"
 import { sensors } from '../../../util/sensor/sensors'
+import {getClassifications_success} from "@/queryExportTool/actions";
 class DefaultChild extends Component {
 	constructor(props) {
 		super(props);
 		this._isMounted = false;
 		this.paramsAll = {};
-    this.platformIds = [];
-
+		this.platformIds = [];
 	}
 	state = {
 		loading: true,
@@ -20,34 +20,44 @@ class DefaultChild extends Component {
 	componentDidMount() {
 		this._isMounted = true;
 		const { params: { platformType: groupType } } = this.props.match
-		const { getFilters, getAccountList } = this.props.actions
+		const { getFilters, getClassifications } = this.props.actions
 		getFilters({ groupType })
-		this.serachStart()
-
+        getClassifications()
+        this.serachStart()
 	}
-	serachStart = (searchSource, changeTab) => {
-		const { getFilters, getAccountList } = this.props.actions
-		const { params: { platformType: groupType } } = this.props.match
-		const search = qs.parse(this.props.location.search.substring(1))
-		const basePath = { defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, platformIds: groupType == 5 ? [23] : [] }
-    this.platformIds = basePath.platformIds;
-		this.paramsAll = basePath
-		getAccountList({
-			groupType,
-			currentPage: 1,
-			searchSource: searchSource || 1,
-			pageSize: search.pageSize || 20,
-			keyword: search.keyword || '',
-			...basePath
-		}).then(results => {
-			if (this._isMounted || changeTab) {
-				this.setState({
-					loading: false
-				})
-			}
-		});
 
-	}
+    serachStart = (searchSource, changeTab) => {
+        const {getFilters, getAccountList} = this.props.actions
+        const {params: {platformType: groupType}} = this.props.match
+        const search = qs.parse(this.props.location.search.substring(1))
+        const basePath = {defaultSort: search.keyword && search.keyword.length > 0 ? 2 : 1, platformIds: groupType == 5 ? [23] : []}
+        // 哔哩哔哩动画
+        if (groupType === '7') {
+            basePath.platformIds = [110];
+        }
+        // 抖音
+        if (groupType === '8') {
+            basePath.platformIds = [115];
+        }
+
+        this.platformIds = basePath.platformIds;
+        this.paramsAll = basePath
+        getAccountList({
+            groupType,
+            currentPage: 1,
+            searchSource: searchSource || 1,
+            pageSize: search.pageSize || 20,
+            keyword: search.keyword || '',
+            ...basePath
+        }).then(results => {
+            if (this._isMounted || changeTab) {
+                this.setState({
+                    loading: false
+                })
+            }
+        });
+
+    }
 	componentWillUnmount() {
 		this._isMounted = false;
 	}
@@ -131,7 +141,8 @@ class DefaultChild extends Component {
 			params.isHighProfit = 1;
 		}
 
-		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, currentPage: 1, pageSize: 20 }
+		this.paramsAll = { ...this.paramsAll, ...params, groupType: platformType, currentPage: 1, pageSize: 20 };
+
 		this.props.actions.getAccountList(this.paramsAll).then(() => {
 			this.setState({
 				loading: false
@@ -150,24 +161,24 @@ class DefaultChild extends Component {
 		});
 	}
 	//账号table分页查询方法
-	serachAction = (params) => {
-		this.setState({
-			loading: true
-		})
-		const search = qs.parse(this.props.location.search.substring(1))
-		let { platformType } = this.props.match.params;
-    this.props.actions.getAccountList({
-      searchSource: 1,
-      ...this.paramsAll,
-      ...params,
-      groupType: platformType,
-      keyword: search.keyword || '',
-    }).then(() => {
-      this.setState({
-        loading: false
-      })
-    });
-	}
+    serachAction = (params) => {
+        this.setState({
+            loading: true
+        })
+        const search = qs.parse(this.props.location.search.substring(1))
+        let {platformType} = this.props.match.params;
+        this.props.actions.getAccountList({
+            searchSource: 1,
+            ...this.paramsAll,
+            ...params,
+            groupType: platformType,
+            keyword: search.keyword || '',
+        }).then(() => {
+            this.setState({
+                loading: false
+            })
+        });
+    }
 
 	isdBackUp = (isdBackUp) => {
 		document.getElementById('app-content-children-id').scrollTop = 0

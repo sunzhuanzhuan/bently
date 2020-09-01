@@ -195,7 +195,7 @@ class AccountList extends Component {
 
 		const { match, queryExportToolReducer, actions } = this.props;
 		let { platformType } = match.params;
-		const { selectedRowKeys, selectedRowKeysObject, selectCartInterimList, selectLoading } = this.state
+        const { selectedRowKeys, selectedRowKeysObject, selectCartInterimList, selectLoading } = this.state
 		const { quotationName, quotationId } = this.state
 		const isQuotation = quotationId > 0
 		const { selectCartData, } = queryExportToolReducer;
@@ -213,6 +213,8 @@ class AccountList extends Component {
 				{ name: <div>{getShowImg(1, 2)}新浪微博</div>, group_type: 2 },
 				{ name: <div>{getShowImg(9000, 3)}视频/直播</div>, group_type: 3 },
 				{ name: <div>{getShowImg(93, 4)}小红书</div>, group_type: 4 },
+                { name: <div>{getShowImg(110, 7)}哔哩哔哩动画</div>, group_type: 7 },
+                { name: <div>{getShowImg(115, 8)}抖音</div>, group_type: 8 },
 				{ name: <div>{getShowImg(10000, 5)}其他平台</div>, group_type: 5 }]
 			if (!isQuotation) {
 				tabsGrops.push({ name: "批量找号", group_type: 6 })

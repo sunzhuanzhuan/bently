@@ -9,15 +9,15 @@ import './index.less';
 import FilterCommon from './FilterCommon'
 import AccountSort from "@/queryExportTool/components/accountList/SearchFrom/AccountSort";
 import SelectedItem from './SelectedItems'
-import { objectToArray } from '@/util'
-import MarkMessage from "../../../base/MarkMessage";
 import Cookie from 'js-cookie'
+import ProItemLabel from './ProItemLabel';
 
 import {
 	priceMarks,
 	followersCountMarks
 } from '@/queryExportTool/constants/searchFilter'
 const { TabPane } = Tabs;
+
 const LayoutSearch = ({ name, children, width }) => {
 	return (
 		<Row className="layout-search-box">
@@ -47,9 +47,9 @@ const price = {
 
 
 class AccountSearch extends React.Component {
+	proItemLabelRef = React.createRef();
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			categoryValue: [],
 			groupedPlatformsValue: [],
@@ -64,14 +64,15 @@ class AccountSearch extends React.Component {
 			selectedItems: {},
 			isShowMore: false,
 			changTabNumber: '1',
-      isSameId:false
+			isSameId: false,
+			contentSelected: []
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
 	}
 	onFilterSearch = (values = {}) => {
 		const params = this.props.form.getFieldsValue();
-		const { changTabNumber } = this.state
+		const { changTabNumber, contentSelected } = this.state
 		const { skuPriceValid, followerCount } = params;
 		if (skuPriceValid && skuPriceValid.length > 0) {
 			params.skuPriceValidFrom = skuPriceValid[0].format('YYYY-MM-DD 00:00:00')
@@ -90,10 +91,6 @@ class AccountSearch extends React.Component {
 			delete params.price
 		}
 		
-		// if (params.followerCount && !params.followerCount[1]) {
-		// 	params.followerCount[1] = null;
-		// }
-
 		if (params.skuOpenQuotePrice && !params.skuOpenQuotePrice[1]) {
 			params.skuOpenQuotePrice[1] = null;
 		}
@@ -101,7 +98,9 @@ class AccountSearch extends React.Component {
 			params.skuOpenQuotePrice = undefined;
 		}
 
-		this.props.onFilterSearch({ searchSource: changTabNumber, ...params, ...values, })
+        params.content = contentSelected;
+
+        this.props.onFilterSearch({ searchSource: changTabNumber, ...params, ...values, })
 	}
 
 	batchUpdateSelectedItems = (selectedItems) => {
@@ -148,14 +147,15 @@ class AccountSearch extends React.Component {
 			this.props.form.resetFields([id]);
 		} else {
 			this.props.form.resetFields();
-			this.setState({ selectedItems: {} })
+			this.setState({ selectedItems: {}, contentSelected: [] })
+
 		}
 		this.props.history.push({
 			pathname: urlAll,
 			search: "",
 		});
 		this.onFilterCommon && this.onFilterCommon.reset()
-		this.onFilterSearch(params)
+        this.onFilterSearch(params)
 	}
 	handleChangeForFilterMain = (params) => {
 		this.onChange(params)
@@ -190,6 +190,7 @@ class AccountSearch extends React.Component {
 			})
 		}, 1000);
 	}
+
 	isShowMoresSet = () => {
 		const { isShowMore } = this.state
 		this.setState({
@@ -197,19 +198,56 @@ class AccountSearch extends React.Component {
 		})
 	}
 
+    commSearch = (keyword, form, showSearchType) => {
+        return <Search
+            keyword={keyword}
+            form={form}
+            showSearchType={showSearchType}
+            onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
+        ></Search>
+    }
+
+    contentChange = (codes, names) => {
+		let selectedItems = {
+			...this.state.selectedItems,
+			content: names
+		};
+		if (!names || !names.length) {
+			delete selectedItems.content;
+		}
+		this.setState({
+            contentSelected: JSON.parse(JSON.stringify(codes)),
+			selectedItems: selectedItems
+		});
+        this.onFilterSearch();
+	};
+
+	delContent = (firstCode, code, isLevel2) => {
+		let { contentSelected = [] } = this.state;
+		let $proItemLabel = this.proItemLabelRef.current;
+        $proItemLabel.del(firstCode, code, isLevel2, contentSelected);
+		let names = $proItemLabel.selectedToNames(contentSelected);
+        this.contentChange(contentSelected, names);
+	};
+
+
 	render() {
-		const { selectedItems, isShowMore, changTabNumber } = this.state;
+        const { selectedItems, isShowMore, changTabNumber } = this.state;
 		const { form, match, history, location, keyword, defaultPlatformIds } = this.props;
 		const { getFieldDecorator } = form;
-		const { filterOptions = {} } = this.props.queryExportToolReducer;
-		const { params } = match;
-		const platformType = params.platformType;
-		if (!filterOptions[platformType]) return null;
+		const { filterOptions = {}, classificationOptions } = this.props.queryExportToolReducer;
+        const { params } = match;
+		let platformType = params.platformType;
+        if (!filterOptions[platformType]) return null;
 		const PriceMarks = priceMarks[platformType] || priceMarks['default'];
 		const FollowersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
 		const {
 			category, group, operationTags, groupedSkuTypes = {}, orderIndustryCategory
 		} = filterOptions[platformType] || {};
+
+        // 内容分类、人设分类和风格分类
+		const { content, people, style } = classificationOptions.data || {};
+
 		//参考报价在平台1，2，3时，不现实下拉选择
 		const isShowSelectForPrice = [1, 2, 3, 4, 5].indexOf(parseInt(platformType, 10)) !== -1;
 		price.options = groupedSkuTypes[platformType] || []
@@ -238,22 +276,46 @@ class AccountSearch extends React.Component {
 
 		</div>
 
-		const commSearch = <Search keyword={keyword} form={form}
-			onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
-		></Search>
 		const allSearch = <div>
-			{category && platformType != 5 && <LayoutSearch name={category.name}>
-				{getFieldDecorator('classificationIds')(
-          <ItemLable id='classificationIds'
-						onClick={(names) => this.onItemLableChange('classificationIds', '常见分类', names)}
-						// id='category'
-						tagsArray={category.options} selectedItems={this.state.selectedItems}
-					/>
-				)}
-			</LayoutSearch>
-			}
+            {
+                content &&
+                <LayoutSearch name='内容分类'>
+                    {getFieldDecorator('content')(
+                        <ProItemLabel
+                            ref={this.proItemLabelRef}
+                            data={content}
+                            selected={this.state.contentSelected}
+                            onChange={this.contentChange}>
+                        </ProItemLabel>
+                    )}
+                </LayoutSearch>
+            }
+            {
+                people &&
+                <LayoutSearch name={'人设分类'}>
+                    {getFieldDecorator('people')(
+                        <OperationTag
+                            onClick={(names) => this.onItemLableChange('people', '人设分类', names)}
+                            tagsArray={people}
+                            selectedItems={this.state.selectedItems}
+                        />
+                    )}
+                 </LayoutSearch>
+            }
+            {
+                style &&
+                <LayoutSearch name={'风格分类'}>
+                    {getFieldDecorator('style')(
+                        <OperationTag
+                            onClick={(names) => this.onItemLableChange('style', '风格分类', names)}
+                            tagsArray={style}
+                            selectedItems={this.state.selectedItems}
+                        />
+                    )}
+                </LayoutSearch>
+            }
 			{
-				groupedPlatforms.length > 0 && <LayoutSearch name='平台名称'>
+                (groupedPlatforms.length > 0 && platformType !== '7' && platformType !=='8') && <LayoutSearch name='平台名称'>
 					{getFieldDecorator('platformIds', ({
 						initialValue: defaultPlatformIds
 					}))(
@@ -266,16 +328,16 @@ class AccountSearch extends React.Component {
 					)}
 				</LayoutSearch>
 			}
-			{operationTags && <LayoutSearch name={'运营标签'}>
-				{getFieldDecorator('operationTagIds')(
-					<OperationTag
-						onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
-						// id='operationTag'
-						tagsArray={operationTags}
-            selectedItems={this.state.selectedItems}
-					/>
-				)}
-			</LayoutSearch>}
+            {operationTags && <LayoutSearch name={'运营标签'}>
+                {getFieldDecorator('operationTagIds')(
+                    <OperationTag
+                        onClick={(names) => this.onItemLableChange('operationTagIds', '运营标签', names)}
+                        // id='operationTag'
+                        tagsArray={operationTags}
+                        selectedItems={this.state.selectedItems}
+                    />
+                )}
+            </LayoutSearch>}
 			{followersCount && <LayoutSearch name={followersCount.name} >
 				{getFieldDecorator('followerCount', {
 					// initialValue: {
@@ -318,7 +380,7 @@ class AccountSearch extends React.Component {
 			<FilterCommon
 				batchUpdateSelectedItems={this.batchUpdateSelectedItems}
 				onChange={this.onItemLableChange}
-        selectedItems={this.state.selectedItems}
+                selectedItems={this.state.selectedItems}
 				{...this.props}
 				resetFilter={this.resetFilter}
 				onFilter={this.onFilterSearch}
@@ -342,7 +404,7 @@ class AccountSearch extends React.Component {
 			>
 				<TabPane tab="全库账号" key="1" >
 					{changTabNumber == 1 ? <div>
-						{commSearch}
+						{this.commSearch(keyword, form, true)}
 						{allSearch}
 					</div> : null}
 				</TabPane>
@@ -352,7 +414,7 @@ class AccountSearch extends React.Component {
 					</div>} key="2" >
 
 					{changTabNumber == 2 ? <div>
-						{commSearch}
+                        {this.commSearch(keyword, form)}
 						{historyFrom}
 						{isShowMore ? <div >
 							{allSearch}
@@ -366,7 +428,7 @@ class AccountSearch extends React.Component {
 					</div>
 				} key="3" >
 					{changTabNumber == 3 ? <div>
-						{commSearch}
+                        {this.commSearch(keyword, form, true)}
 						{allSearch}
 					</div> : null}
 				</TabPane>
@@ -378,9 +440,8 @@ class AccountSearch extends React.Component {
 					<div><Icon type={isShowMore ? 'up' : "down"} className='search-more-icon' /></div>
 				</div>
 			</div> : null}
-			<SelectedItem selectedItems={selectedItems} clear={this.resetFilter}
-			></SelectedItem>
-			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={params.platformType}
+			<SelectedItem selectedItems={selectedItems} delContent={this.delContent} clear={this.resetFilter}></SelectedItem>
+			<AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={platformType}
 				sortMore={groupedSkuTypes[platformType]} />
 		</div >
 	}

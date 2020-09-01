@@ -64,7 +64,7 @@ export default class AccountSort extends Component {
 	}
 
 	constructor(props) {
-		super(props);
+        super(props);
 		const keyword = qs.parse(window.location.search.substring(1)).keyword
 		this.state = { ...groupBySorter[props.group || 1].filter.default, defaultSort: keyword && keyword.length > 0 ? 2 : 1 }
 		this.child = {}
