@@ -74,7 +74,7 @@ class VerificationImportAccountModal extends Component{
 		}
 		if(this.state.status === 2){
 			if(!this.props.importAccountCheck.isExits){
-				return
+				return;
 			}
 			if(this.props.importAccountCheck.isExits.length === 0){
 				this.setState({

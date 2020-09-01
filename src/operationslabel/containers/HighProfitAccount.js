@@ -24,7 +24,7 @@ class HighProfitAccount extends Component {
 			currentSearchType: 1, // 1.查询 2.批量查询
 			loading: false,
 			total: 0, //账号总数,
-			accountIds: [] // 账号ID数组
+			accountIds: [] ,// 账号ID数组,
 		}
 
 	}
@@ -209,6 +209,29 @@ class HighProfitAccount extends Component {
 	footerHandle = () => {
 		return <Button onClick={this.batchDel}>批量删除</Button>
 	};
+    /**
+     * 设置定时器
+     *
+     */
+    setTimer(){
+       this.setState({
+           loading: true
+       },() => {
+           let timer = null;
+           timer = setTimeout(()=>{
+               this.setState({
+                   loading: false
+               },() =>{
+                   clearTimeout(timer);
+                   timer = null;
+                   this.getAccountInfo();
+               })
+           },2000)
+       })
+
+    }
+
+
 
 	/**
 	 * 单个删除
@@ -221,11 +244,10 @@ class HighProfitAccount extends Component {
 				// TODO 调用删除接口
 				this.props.actions.getAccountDelete({accountIds:[record.accountId]})
 					.then( res => {
-						console.log(res)
 						let code = res ? res.code ? res.code : null : null;
 						if( code && code === "1000"){
 							message.success('删除成功');
-							this.getAccountInfo();
+							this.setTimer()
 						}else{
 							message.error('删除失败');
 						}
@@ -252,10 +274,9 @@ class HighProfitAccount extends Component {
 			onOk : () => {
 				// TODO 调用删除接口
 				this.props.actions.getAccountDelete({accountIds:keys}).then( res => {
-					let code = res ? res.code ? res.code : null : null;
+                    let code = res ? res.code ? res.code : null : null;
 					if( code && code === "1000"){
-						message.success('删除成功');
-						this.getAccountInfo();
+                        this.setTimer()
 					}else{
 						message.error('删除失败');
 					}
@@ -391,7 +412,7 @@ class HighProfitAccount extends Component {
 										selectedRowKeys: this.state.selectedRowKeys,
 										onChange: this.selectionChange
 									}}
-									pagination={platform > 100 ? {
+									pagination={{
 										pageSize: this.state.pageSize,
 										current: this.state.currentPage,
 										total: platform,
@@ -399,7 +420,7 @@ class HighProfitAccount extends Component {
 										showSizeChanger: true,
 										showQuickJumper: true,
 										onShowSizeChange: this.onShowSizeChange
-									} : null}
+									}}
 									footer={this.footerHandle}
 									dataSource={list}>
 								</Table>
