@@ -49,10 +49,7 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '平台',
-			dataIndex: 'groupType',
-			render: (value) => {
-				return this.getTabLabel(value);
-			}
+			dataIndex: 'platformName'
 		},
 		{
 			title: '账号ID',
@@ -133,7 +130,7 @@ class HighProfitAccount extends Component {
 		//账号查询
 		this.setState({
 			platformId: platformId * 1,
-			currentSearchType: 1,
+			currentSearchType: 1
 		}, () => {
 			this.getAccountInfo();
 		});
@@ -438,10 +435,6 @@ class HighProfitAccount extends Component {
 				<VerificationImportAccountModal
 					visible={this.state.importAccountVisible}
 					handleCancel={this.handleImportAccountCancel}
-					pageSize={this.state.pageSize}
-					keyword={this.state.keyword}
-					platformId={this.state.platformId}
-					currentPage={this.state.currentPage}
 				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal
