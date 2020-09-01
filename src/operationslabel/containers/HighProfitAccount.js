@@ -97,7 +97,7 @@ class HighProfitAccount extends Component {
 	/**
 	 * 获取账号/账号列表请求  查找getAccountSearch，批量查找getBatchAccountSearch是两个接口，当页面操作删除账号，需要重新请求页面数据，需要记录页面请求的数据是查找还是批量查找得到的，
 	 * 用currentSearchType记录。1表示查找getAccountSearch，2表示批量查找getBatchAccountSearch,
-	 * 根据currentSearchType发送相应的i请求。
+	 * 根据currentSearchType发送相应的请求。
 	 *
 	 */
 	getAccountInfo = () => {
@@ -245,6 +245,7 @@ class HighProfitAccount extends Component {
 					this.setState({
 						delayCount: this.state.delayCount + 1
 					});
+					console.log(this.state.delayCount)
 					this.delayGetAccountInfo(cb);
 				} else {
 					this.setState({
