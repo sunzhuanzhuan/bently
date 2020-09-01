@@ -171,7 +171,6 @@ class HighProfitAccount extends Component {
 		this.setState({
 			currentPage: pageNum,
 			currentSearchType: 1,
-			pageSize: 5
 		}, () => {
 			// 分页改变重新请求列表接口
 			this.getAccountInfo();
