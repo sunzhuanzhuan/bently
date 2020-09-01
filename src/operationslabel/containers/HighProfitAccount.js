@@ -216,10 +216,10 @@ class HighProfitAccount extends Component {
 	};
 
 	/**
-	 * 设置定时器
+	 * 删除，批量删除设置定时器
 	 *
 	 */
-	setTimer() {
+	setDelTimer() {
 		this.setState({
 			loading: true
 		}, () => {
@@ -231,13 +231,11 @@ class HighProfitAccount extends Component {
 					clearTimeout(timer);
 					timer = null;
 					this.getAccountInfo();
+					message.success('删除成功');
 				})
 			}, 2000)
 		})
-
 	}
-
-
 	/**
 	 * 单个删除
 	 */
@@ -250,8 +248,7 @@ class HighProfitAccount extends Component {
 					.then(res => {
 						let code = res ? res.code ? res.code : null : null;
 						if (code && code === "1000") {
-							message.success('删除成功');
-							this.setTimer()
+							this.setDelTimer()
 						} else {
 							message.error('删除失败');
 						}
@@ -279,7 +276,7 @@ class HighProfitAccount extends Component {
 				this.props.actions.getAccountDelete({accountIds: keys}).then(res => {
 					let code = res ? res.code ? res.code : null : null;
 					if (code && code === "1000") {
-						this.setTimer()
+						this.setDelTimer()
 					} else {
 						message.error('删除失败');
 					}
@@ -408,28 +405,27 @@ class HighProfitAccount extends Component {
 						</div>
 						<div className='account_num'>{this.getTabLabel()}账号数: {platform}</div>
 						<div>
-							{platform > 0 && <Spin spinning={this.state.loading}>
-								<Table
-									rowKey='accountId'
-									columns={this.columns}
-									rowSelection={{
-										selectedRowKeys: this.state.selectedRowKeys,
-										onChange: this.selectionChange
-									}}
-									pagination={{
-										pageSize: this.state.pageSize,
-										current: this.state.currentPage,
-										total: platform,
-										onChange: this.changePage,
-										showSizeChanger: true,
-										showQuickJumper: true,
-										onShowSizeChange: this.onShowSizeChange,
-										pageSizeOptions: ["20", "50", "100"]
-									}}
-									footer={this.footerHandle}
-									dataSource={list}>
-								</Table>
-							</Spin>}
+							<Table
+								loading={this.state.loading}
+								rowKey='accountId'
+								columns={this.columns}
+								rowSelection={{
+									selectedRowKeys: this.state.selectedRowKeys,
+									onChange: this.selectionChange
+								}}
+								pagination={{
+									pageSize: this.state.pageSize,
+									current: this.state.currentPage,
+									total: platform,
+									onChange: this.changePage,
+									showSizeChanger: true,
+									showQuickJumper: true,
+									onShowSizeChange: this.onShowSizeChange,
+									pageSizeOptions: ["20", "50", "100"]
+								}}
+								footer={this.footerHandle}
+								dataSource={list}>
+							</Table>
 						</div>
 					</div> : (
 						<div className="account-none-img-box">
@@ -442,7 +438,10 @@ class HighProfitAccount extends Component {
 				<VerificationImportAccountModal
 					visible={this.state.importAccountVisible}
 					handleCancel={this.handleImportAccountCancel}
-					setTimer={this.setTimer.bind(this)}
+					pageSize={this.state.pageSize}
+					keyword={this.state.keyword}
+					platformId={this.state.platformId}
+					currentPage={this.state.currentPage}
 				></VerificationImportAccountModal>
 				{/*批量查找账号*/}
 				<BulkSearchAccountModal
