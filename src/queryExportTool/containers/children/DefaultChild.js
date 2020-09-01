@@ -11,8 +11,7 @@ class DefaultChild extends Component {
 		super(props);
 		this._isMounted = false;
 		this.paramsAll = {};
-    this.platformIds = [];
-
+		this.platformIds = [];
 	}
 	state = {
 		loading: true,
@@ -155,18 +154,18 @@ class DefaultChild extends Component {
 			loading: true
 		})
 		const search = qs.parse(this.props.location.search.substring(1))
-		let { platformType } = this.props.match.params;
-    this.props.actions.getAccountList({
-      searchSource: 1,
-      ...this.paramsAll,
-      ...params,
-      groupType: platformType,
-      keyword: search.keyword || '',
-    }).then(() => {
-      this.setState({
-        loading: false
-      })
-    });
+		let {platformType} = this.props.match.params;
+		this.props.actions.getAccountList({
+			searchSource: 1,
+			...this.paramsAll,
+			...params,
+			groupType: platformType,
+			keyword: search.keyword || '',
+		}).then(() => {
+			this.setState({
+				loading: false
+			})
+		});
 	}
 
 	isdBackUp = (isdBackUp) => {
