@@ -92,8 +92,7 @@ class VerificationImportAccountModal extends Component{
 							status: 3,
 							okText: '开始导入'
 						}, () => {
-							const { platformId, keyword, currentPage, pageSize } = this.props;
-							this.props.actions.getAccountSearch({ platformId, keyword, currentPage, pageSize });
+							this.props.setTimer();
 						})
 					})
 			})
