@@ -78,7 +78,7 @@ class VerificationImportAccountModal extends Component{
 			}
 			if(this.props.importAccountCheck.isExits.length === 0){
 				this.setState({
-					status: 3
+					status: 4
 				})
 				return;
 			}
@@ -151,7 +151,7 @@ class VerificationImportAccountModal extends Component{
 					footer ={null}
 					onCancel={this.handleCancel.bind(this)}>
 					<div>
-						{failList.length === 0 ?
+						{failList.length === 0?
 							<h3 className="import-account-status">
 								<Icon className="icon-format" style={{color: "#52c41a"}} type="check-circle-o"/>
 								成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
@@ -163,6 +163,20 @@ class VerificationImportAccountModal extends Component{
 								<p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
 							</div>
 						}
+					</div>
+				</Modal> : ""}
+				{this.state.status === 4 ? <Modal
+					className="operationslabel-detail"
+					title={<span>批量导入账号</span>}
+					visible={visible}
+					footer ={null}
+					onCancel={this.handleCancel.bind(this)}>
+					<div>
+						<h3 className="import-account-status">
+							<Icon className="icon-format" style={{color: "#faad14"}}  type="info-circle-o"/>
+							成功导入账号<b>{isExits.length}</b>个，失败<b className="warning">{notExits.length}</b>个,请于五分钟后查看结果
+						</h3>
+						<p className="warning">{"失败账号account_id: " + notExits.join(",")}</p>
 					</div>
 				</Modal> : ""}
 			</div>
