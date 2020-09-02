@@ -38,11 +38,15 @@ class VerificationImportAccountModal extends Component {
             }
         });
         if (noNumber.length !== 0) {
-            this.setState({verification: "account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";"});
+            this.setState({
+                verification: "account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";"
+            });
             return false;
         }
         if (data.split(/\n+/g).length > 1000) {
-            this.setState({verification: "最多输入1000个账号，请重新输入"});
+            this.setState({
+                verification: "最多输入1000个账号，请重新输入"
+            });
             return false;
         }
 
@@ -57,7 +61,10 @@ class VerificationImportAccountModal extends Component {
                     return;
                 }
                 if (this.verification(values.accountId)) {
-                    this.setState({verification: "", confirmLoading: true}, () => {
+                    this.setState({
+                        verification: "",
+                        confirmLoading: true
+                    }, () => {
                         //满足验证条件发送请求
                         this.props.actions.getAccountImportCheck({accountIds: this.toIds(values.accountId)})
                             .finally(() => {
@@ -101,9 +108,14 @@ class VerificationImportAccountModal extends Component {
     handleCancel() {
         this.props.handleCancel();
         setTimeout(() => {
-            this.setState({status: 1, okText: '开始导入', confirmLoading: false, verification: ''}, () => {
+            this.setState({
+                status: 1,
+                okText: '开始导入',
+                confirmLoading: false,
+                verification: ''
+            }, () => {
                 this.props.form.resetFields();
-            })
+            });
         }, 200);
     }
 
