@@ -8,7 +8,7 @@ class VerificationImportAccountModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 1, //导入步骤状态
+            status: 1, // 1为初始状态 2为校验规则通过后,发送检查请求后的状态 3发送导入请求后的状态
             confirmLoading: false,
             okText: '开始导入',
             verification: '',
@@ -26,7 +26,9 @@ class VerificationImportAccountModal extends Component {
         return data.split(/\n+/g).filter(t => t !== "");
     }
 
-    //验证导入账号规则
+    /**
+     * 验证导入账号规则
+     */
     verification(data) {
         let noNumber = [];
         const reg = /^[0-9]+[0-9]*]*$/;
@@ -53,8 +55,11 @@ class VerificationImportAccountModal extends Component {
         return true;
     }
 
-    //获取导入的账号
+    /**
+     * 获取导入的账号
+     */
     handleOk = () => {
+        //初始状态
         if (this.state.status === 1) {
             this.props.form.validateFields((err, values) => {
                 if (err) {
@@ -69,7 +74,7 @@ class VerificationImportAccountModal extends Component {
                         this.props.actions.getAccountImportCheck({accountIds: this.toIds(values.accountId)})
                             .finally(() => {
                                 this.setState({
-                                    status: 2,
+                                    status: 2, // 为校验规则通过后,发送检查请求后的状态
                                     confirmLoading: false,
                                     okText: '确认导入'
 
@@ -80,10 +85,11 @@ class VerificationImportAccountModal extends Component {
                 return;
             });
         }
+        //为校验规则通过后,发送检查请求后的状态
         if (this.state.status === 2) {
             if (!this.props.importAccountCheck.isExits.length) {
                 this.setState({
-                    status: 1,
+                    status: 1, //初始状态
                     okText: '开始导入'
                 }, () => {
                     message.error("未检测到的账号无法导入，请重新输入账号");
@@ -96,7 +102,7 @@ class VerificationImportAccountModal extends Component {
                         .finally(() => {
                             this.setState({
                                 confirmLoading: false,
-                                status: 3,
+                                status: 3,  //发送导入请求后的状态
                                 okText: '开始导入'
                             })
                         })
@@ -109,7 +115,7 @@ class VerificationImportAccountModal extends Component {
         this.props.handleCancel();
         setTimeout(() => {
             this.setState({
-                status: 1,
+                status: 1, //初始状态
                 okText: '开始导入',
                 confirmLoading: false,
                 verification: ''
@@ -126,6 +132,7 @@ class VerificationImportAccountModal extends Component {
         const {TextArea} = Input;
         const {getFieldDecorator} = form;
         return (
+            //status为1为初始状态 2为为校验规则通过后,发送检查请求后的状态 3发送导入请求后的状态
             <div>
                 {this.state.status === 1 || this.state.status === 2 ? <Modal
                     className="operationslabel-detail"
@@ -158,7 +165,12 @@ class VerificationImportAccountModal extends Component {
                             {this.state.status === 2 ?
                                 <div className="account-check-result">
                                     <h4>一、账号检测结果</h4>
-                                    <p>{notExits.length > 0 && <span className="warning">{notExits.length}个账号未找到,account_id为{notExits.join(",")};</span>}共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号{isDistinct.length > 0 && <span><span className='warning'>,account_id为{isDistinct.join(",")}</span></span>}</p>
+                                    <p>
+                                        <span className="warning"><b>{notExits.length}</b>个账号未找到</span>
+                                        {notExits.length > 0 ? <span className="warning">,account_id为{notExits.join(",")}</span> : ""};
+                                        共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号
+                                        {isDistinct.length >0 ? <span className="warning">,account_id为{isDistinct.join(",")}</span> : ""}
+                                    </p>
                                 </div> : ""}
                         </Form>
                     </div>
