@@ -17,12 +17,16 @@ class VerificationImportAccountModal extends Component{
 		}
 	}
 
-	//返回accountId[]
+	//返回accountId[],带去重
 	account_id(data) {
 		let accountId = data.split(/\n+/g).filter(t => t !== "");
+		accountId = accountId.reduce((pre,item) => {
+			!pre.includes(item) && pre.push(item);
+			return pre;
+		},[])
+		console.log(accountId)
 		return accountId;
 	}
-
 	//验证导入账号规则
 	verification(data) {
 		let noNumber = [];
@@ -137,7 +141,12 @@ class VerificationImportAccountModal extends Component{
 							{this.state.status === 2 ?
 								<div className="account-check-result">
 									<h4>一、账号检测结果</h4>
-									<p>{ notExits.length>0 && <span className="warning">{notExits.length}个账号未找到,account_id为{ notExits.join(",")};</span>}共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号{isDistinct.length>0 && <span><span className='warning'>,account_id为{isDistinct.join(",")}</span></span>}</p>
+									<p>
+										<span className="warning"><b>{notExits.length}</b>个账号未找到</span>
+										{notExits.length > 0 ? <span className="warning">,account_id为{notExits.join(",")}</span> : ""};
+										共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号
+										{isDistinct.length >0 ? <span className="warning">,account_id为{isDistinct.join(",")}</span> : ""}
+									</p>
 								</div> : ""}
 						</Form>
 					</div>
