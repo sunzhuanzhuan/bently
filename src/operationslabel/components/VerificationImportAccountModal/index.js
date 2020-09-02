@@ -73,27 +73,27 @@ class VerificationImportAccountModal extends Component{
 			});
 		}
 		if(this.state.status === 2){
-			if(!this.props.importAccountCheck.isExits){
-				return;
-			}
-			if(this.props.importAccountCheck.isExits.length === 0){
+			if(!this.props.importAccountCheck.isExits.length){
 				this.setState({
-					status: 4
+					status: 1,
+					okText: '开始导入'
+				},() => {
+					message.error("未检测到的账号无法导入，请重新输入账号");
 				})
-				return;
-			}
-			this.setState({
-				confirmLoading: true
-			},() => {
-				this.props.actions.getAccountImport({accountIds:this.props.importAccountCheck.isExits})
-					.finally(() => {
-						this.setState({
-							confirmLoading: false,
-							status: 3,
-							okText: '开始导入'
+			}else{
+				this.setState({
+					confirmLoading: true
+				},() => {
+					this.props.actions.getAccountImport({accountIds:this.props.importAccountCheck.isExits})
+						.finally(() => {
+							this.setState({
+								confirmLoading: false,
+								status: 3,
+								okText: '开始导入'
+							})
 						})
-					})
-			})
+				})
+			}
 		}
 	}
 
@@ -137,7 +137,7 @@ class VerificationImportAccountModal extends Component{
 							{this.state.status === 2 ?
 								<div className="account-check-result">
 									<h4>一、账号检测结果</h4>
-									<p><b>{notExits.length}</b>个账号未找到{ notExits.length>0 && <span>,<span className="warning">account_id为{ notExits.join(",")}</span></span>};共检测到<b>{isExits.length}</b>个账号存在,其中<b>{isDistinct.length}</b>个账号为重复账号{isDistinct.length>0 && <span><span className='warning'>,account_id为{isDistinct.join(",")}</span></span>}</p>
+									<p>{ notExits.length>0 && <span className="warning">{notExits.length}个账号未找到,account_id为{ notExits.join(",")};</span>}共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号{isDistinct.length>0 && <span><span className='warning'>,account_id为{isDistinct.join(",")}</span></span>}</p>
 								</div> : ""}
 						</Form>
 					</div>
@@ -161,20 +161,6 @@ class VerificationImportAccountModal extends Component{
 								<p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
 							</div>
 						}
-					</div>
-				</Modal> : ""}
-				{this.state.status === 4 ? <Modal
-					className="operationslabel-detail"
-					title={<span>批量导入账号</span>}
-					visible={visible}
-					footer ={null}
-					onCancel={this.handleCancel.bind(this)}>
-					<div>
-						<h3 className="import-account-status">
-							<Icon className="icon-format" style={{color: "#faad14"}}  type="info-circle-o"/>
-							成功导入账号<b>{isExits.length}</b>个，失败<b className="warning">{notExits.length}</b>个,请于五分钟后查看结果
-						</h3>
-						<p className="warning">{"失败账号account_id: " + notExits.join(",")}</p>
 					</div>
 				</Modal> : ""}
 			</div>
