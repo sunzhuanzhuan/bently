@@ -118,48 +118,6 @@ class ProItemLabel extends React.PureComponent{
 	};
 
 	/**
-	 * 渲染二级
-	 */
-	renderSecond = (data = {}) => {
-		let children = data.children || [];
-		return (
-			<ul>
-				{
-					children.map(item => <li
-						key={item.code}
-						className={this.getChildrenIsSelected(data.code, item.code, true) ? 'selected' : ''}
-						onClick={this.selected.bind(null, data.code, item, true)}>
-						<span>{item.name || ''}</span>
-						{
-							item.children && this.renderThree(data, item.children)
-						}
-					</li>)
-				}
-			</ul>
-		);
-	};
-
-	/**
-	 * 渲染三级菜单
-	 * @param firstData - 一级菜单data
-	 * @param data
-	 * @returns {*}
-	 */
-	renderThree = (firstData, data = []) => {
-		return (
-			<ul>
-				{
-					data.map(item => <li
-						key={item.code}
-						className={this.getChildrenIsSelected(firstData.code, item.code, false) ? 'selected' : ''}
-						onClick={this.selected.bind(null,firstData.code, item, false)}
-					>{item.name || ''}</li>)
-				}
-			</ul>
-		);
-	};
-
-	/**
 	 * 获取一级菜单是否选中
 	 * @returns {boolean}
 	 */
@@ -199,16 +157,20 @@ class ProItemLabel extends React.PureComponent{
 	 * 一级菜单单击事件
 	 */
 	firstClick = (code) => {
-		const info = this.getSelectedInfo(code);
-		if (info) {
-			const index = info.index;
-			const { selected, onChange } = this.props;
+		const selectedInfo = this.getSelectedInfo(code);
+		const { selected, onChange } = this.props;
+		// info 存在说明该一级菜单已经存在选择项，则删除该一级菜单
+		if (selectedInfo.info) {
+			const index = selectedInfo.index;
 			if (onChange && typeof onChange === 'function') {
 				selected.splice(index, 1);
-				onChange(selected, this.selectedToNames(selected));
 			}
-
+		} else {
+			selected.push({[code]:{}});
 		}
+		console.log('6666666666666666');
+		console.log(this.selectedToNames(selected));
+		onChange(selected, this.selectedToNames(selected));
 	};
 
 	/**
@@ -234,16 +196,15 @@ class ProItemLabel extends React.PureComponent{
 		if (info) {
 			let result = {};
 			let firstName = info.name;
-
+			result[code] = firstName;
 			let level2Data = info.children || [];
 			// 二级菜单
 			level2Data.forEach(item => {
 				let level2Code = item.code;
 				let level2Name = item.name;
 				let level3Data = item.children;
-				if (!level3Data) {
-					result[level2Code] = `${firstName}：${level2Name}`;
-				} else {
+				result[level2Code] = `${firstName}：${level2Name}`;
+				if (level3Data) {
 					level3Data.forEach(l3Item => {
 						let level3Code = l3Item.code;
 						let level3Name = l3Item.name;
@@ -280,6 +241,12 @@ class ProItemLabel extends React.PureComponent{
 					resultInfo.children.push(childInfo);
 				});
 			}
+
+			// level2 和 level3 都不存在
+			if (!level2Data && !level3Data) {
+				resultInfo.children.push({code: firstCode, namePath: namesInfo[firstCode]});
+			}
+
 			result.push(resultInfo);
 		});
 		return result;
@@ -295,13 +262,18 @@ class ProItemLabel extends React.PureComponent{
 	del = (firstCode, code, isLevel2, selected) => {
 		let selectedInfo = this.getSelectedInfo(firstCode);
 		let info = selectedInfo.info;
+		let selectedIndex = selectedInfo.index;
 		if (!info) {
 			return;
 		}
-		let selectedIndex = selectedInfo.index;
+		// 说明只是选中了一级菜单
+		if (firstCode === code) {
+			selected.splice(selectedIndex, 1);
+			return;
+		}
 		let level = isLevel2 ? ProItemLabel.LEVEL_2 : ProItemLabel.LEVEL_3;
 		let item = info[firstCode];
-		let levelData = item[level];
+		let levelData = item[level] || [];
 		let index = levelData.findIndex(cCode => cCode === code);
 		if (index < 0) {
 			return;
@@ -323,14 +295,12 @@ class ProItemLabel extends React.PureComponent{
 	/**
 	 * 选择单击事件
 	 * @param firstCode - 一级菜单code
+	 * @param level2Code - 二级菜单code
 	 * @param childData - 子级菜单Data
 	 * @param isLevel2 - 是否是二级菜单
 	 */
-	selected = (firstCode, childData, isLevel2 = true) => {
-
-		if (childData.children) {
-			return;
-		}
+	selected = (firstCode, level2Code, childData, isLevel2 = true, event) => {
+		event.stopPropagation(); // 阻止冒泡
 
 		const { selected = [], onChange } = this.props;
 
@@ -357,12 +327,65 @@ class ProItemLabel extends React.PureComponent{
 			} else {
 				// 没有被选中则添加到对应的level数组中
 				levelData.push(childCode);
+
+				if (isLevel2) {
+					let level2Children = childData.children || [];
+					level2Children.forEach(item => {
+						this.del(firstCode, item.code, false, selected);
+					});
+				} else {
+					// isLevel3 如果二级有选中的话则删除该项二级
+					this.del(firstCode, level2Code, true, selected);
+				}
+
 			}
 		}
 		if (onChange && typeof onChange === 'function') {
 			let names = this.selectedToNames(selected);
 			onChange(selected, names);
 		}
+	};
+
+	/**
+	 * 渲染二级
+	 */
+	renderSecond = (data = {}) => {
+		let children = data.children || [];
+		return (
+			<ul>
+				{
+					children.map(item => <li
+						key={item.code}
+						className={this.getChildrenIsSelected(data.code, item.code, true) ? 'selected' : ''}
+						onClick={this.selected.bind(null, data.code, item.code, item, true)}>
+						<span>{item.name || ''}</span>
+						{
+							item.children && this.renderThree(data, item)
+						}
+					</li>)
+				}
+			</ul>
+		);
+	};
+
+	/**
+	 * 渲染三级菜单
+	 * @param firstData - 一级菜单data
+	 * @param data
+	 * @returns {*}
+	 */
+	renderThree = (firstData, data = {children: []}) => {
+		return (
+			<ul>
+				{
+					data.children.map(item => <li
+						key={item.code}
+						className={this.getChildrenIsSelected(firstData.code, item.code, false) ? 'selected' : ''}
+						onClick={this.selected.bind(null,firstData.code, data.code, item, false)}
+					>{item.name || ''}</li>)
+				}
+			</ul>
+		);
 	};
 
 
