@@ -25,6 +25,29 @@ class VerificationImportAccountModal extends Component {
         return data.split(/\n+/g).filter(t => t !== "");
     }
 
+    validator = (rule, data, callback) => {
+        if (data) {
+            let noNumber = [];
+            const reg = /^[0-9]+[0-9]*]*$/;
+            //判断是否为数字
+            let arr = this.toIds(data);
+            arr.forEach(val => {
+                if (!reg.test(val)) {
+                    noNumber.push(val);
+                }
+            });
+            if (noNumber.length !== 0) {
+                callback("account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";");
+            } else if (data.split(/\n+/g).length > 1000) {
+                callback("最多输入1000个账号，请重新输入");
+            } else {
+                callback();
+            }
+        } else {
+            callback('请输入account_id');
+        }
+    };
+
     /**
      * 验证导入账号规则
      */
@@ -58,29 +81,29 @@ class VerificationImportAccountModal extends Component {
      * 获取导入的账号
      */
     handleOk = () => {
+        console.log('3333');
         //status 1 为初始状态,验证accountId输入格式
         if (this.state.status === 1) {
             this.props.form.validateFields((err, values) => {
+                console.log(err);
                 if (err) {
                     return;
                 }
-                if (this.verification(values.accountId)) {
-                    this.setState({
-                        verification: "",
-                        confirmLoading: true
-                    }, () => {
-                        //满足验证条件发送请求
-                        this.props.actions.getAccountImportCheck({accountIds: this.toIds(values.accountId)})
-                            .finally(() => {
-                                this.setState({
-                                    status: 2, // 为校验规则通过后,发送检查请求后的状态
-                                    confirmLoading: false,
-                                    okText: '确认导入'
+                this.setState({
+                    verification: "",
+                    confirmLoading: true
+                }, () => {
+                    //满足验证条件发送请求
+                    this.props.actions.getAccountImportCheck({accountIds: this.toIds(values.accountId)})
+                        .finally(() => {
+                            this.setState({
+                                status: 2, // 为校验规则通过后,发送检查请求后的状态
+                                confirmLoading: false,
+                                okText: '确认导入'
 
-                                })
-                            });
-                    });
-                }
+                            })
+                        });
+                });
             });
         }
         // status 2 为校验规则通过后,发送检查请求后的状态
@@ -152,7 +175,7 @@ class VerificationImportAccountModal extends Component {
                         <Form.Item>
                             {getFieldDecorator('accountId', {
                                 initialValue: "",
-                                rules: [{ required: true, message: '请输入account_id' }],
+                                rules: [{validator: this.validator }],
                             })(<TextArea
                                 autosize={{minRows: 7, maxRows: 10}}
                                 disabled={this.state.status === 2}/>)}
