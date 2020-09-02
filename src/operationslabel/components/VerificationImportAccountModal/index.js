@@ -11,9 +11,7 @@ class VerificationImportAccountModal extends Component {
         this.state = {
             status: 1, // 1为初始状态,验证accountId输入格式; 2:为校验规则通过后,发送检查请求后的状态;3:显示导入结果modal
             confirmLoading: false,
-            okText: '开始导入',
-            verification: ''
-
+            okText: '开始导入'
         }
     }
 
@@ -59,7 +57,6 @@ class VerificationImportAccountModal extends Component {
                     return;
                 }
                 this.setState({
-                    verification: "",
                     confirmLoading: true
                 }, () => {
                     //满足验证条件发送请求
@@ -108,7 +105,6 @@ class VerificationImportAccountModal extends Component {
                 status: 1, //初始状态
                 okText: '开始导入',
                 confirmLoading: false,
-                verification: ''
             }, () => {
                 this.props.form.resetFields();
             });
@@ -149,9 +145,6 @@ class VerificationImportAccountModal extends Component {
                                 autosize={{minRows: 7, maxRows: 10}}
                                 disabled={this.state.status === 2}/>)}
                         </Form.Item>
-                        <div style={{"display": this.state.verification ? "block" : "none", color: "red"}}>
-                            {this.state.verification}
-                        </div>
                         {this.state.status === 2 ?
                             <div className="account-check-result">
                                 <h4>一、账号检测结果</h4>
