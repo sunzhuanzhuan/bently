@@ -49,43 +49,12 @@ class VerificationImportAccountModal extends Component {
     };
 
     /**
-     * 验证导入账号规则
-     */
-    verification(data) {
-        let noNumber = [];
-        const reg = /^[0-9]+[0-9]*]*$/;
-        //判断是否为数字
-        let arr = this.toIds(data);
-        arr.forEach(val => {
-            if (!reg.test(val)) {
-                noNumber.push(val);
-            }
-        });
-        if (noNumber.length !== 0) {
-            this.setState({
-                verification: "account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";"
-            });
-            return false;
-        }
-        if (data.split(/\n+/g).length > 1000) {
-            this.setState({
-                verification: "最多输入1000个账号，请重新输入"
-            });
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * 获取导入的账号
      */
     handleOk = () => {
-        console.log('3333');
         //status 1 为初始状态,验证accountId输入格式
         if (this.state.status === 1) {
             this.props.form.validateFields((err, values) => {
-                console.log(err);
                 if (err) {
                     return;
                 }
