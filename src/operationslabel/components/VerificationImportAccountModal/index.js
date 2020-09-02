@@ -18,36 +18,32 @@ class VerificationImportAccountModal extends Component {
         }
     }
 
-    //返回accountId[]
-    account_id(data) {
-        let accountId = data.split(/\n+/g).filter(t => t !== "");
-        return accountId;
+    /**
+     * 输入的字符串转换为ids
+     * @param data
+     */
+    toIds(data = "") {
+        return data.split(/\n+/g).filter(t => t !== "");
     }
 
     //验证导入账号规则
     verification(data) {
         let noNumber = [];
         const reg = /^[0-9]+[0-9]*]*$/;
-        //判断是否为空
-        if (!data) {
-            this.setState({verification: "请输入account_id"});
+        //判断是否为数字
+        let arr = this.toIds(data);
+        arr.forEach(val => {
+            if (!reg.test(val)) {
+                noNumber.push(val);
+            }
+        });
+        if (noNumber.length !== 0) {
+            this.setState({verification: "account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";"});
             return false;
-        } else {
-            //判断是否为数字
-            let arr = data.split(/\n+/g).filter(t => t !== "");
-            arr.map(val => {
-                if (!reg.test(val)) {
-                    noNumber.push(val);
-                }
-            });
-            if (noNumber.length !== 0) {
-                this.setState({verification: "account_id必须为数字，非数字的account_id为: " + noNumber.join(",") + ";"});
-                return false;
-            }
-            if (data.split(/\n+/g).length > 1000) {
-                this.setState({verification: "最多输入1000个账号，请重新输入"});
-                return false;
-            }
+        }
+        if (data.split(/\n+/g).length > 1000) {
+            this.setState({verification: "最多输入1000个账号，请重新输入"});
+            return false;
         }
 
         return true;
@@ -57,10 +53,13 @@ class VerificationImportAccountModal extends Component {
     handleOk = () => {
         if (this.state.status === 1) {
             this.props.form.validateFields((err, values) => {
+                if (err) {
+                    return;
+                }
                 if (this.verification(values.accountId)) {
                     this.setState({verification: "", confirmLoading: true}, () => {
                         //满足验证条件发送请求
-                        this.props.actions.getAccountImportCheck({accountIds: this.account_id(values.accountId)})
+                        this.props.actions.getAccountImportCheck({accountIds: this.toIds(values.accountId)})
                             .finally(() => {
                                 this.setState({
                                     status: 2,
@@ -128,9 +127,15 @@ class VerificationImportAccountModal extends Component {
                     <div>
                         <Form>
                             <h4>请输入account_id，一行一个，单次最多导入1000个</h4>
-                            <p className="tips-auto-delete"><span className="warning">说明：</span>{this.state.status === 1 && '重复账号在导入进标签时会自动剔除' || this.state.status === 2 && '重复账号会自动剔除'}</p>
+                            <p className="tips-auto-delete">
+                                <span className="warning">说明：</span>
+                                {this.state.status === 1 && '重复账号在导入进标签时会自动剔除' || this.state.status === 2 && '重复账号会自动剔除'}
+                            </p>
                             <Form.Item>
-                                {getFieldDecorator('accountId', {initialValue: ""})(<TextArea
+                                {getFieldDecorator('accountId', {
+                                    initialValue: "",
+                                    rules: [{ required: true, message: '请输入account_id' }],
+                                })(<TextArea
                                     autosize={{minRows: 7, maxRows: 10}}
                                     disabled={this.state.status === 2 ? true : false}/>)}
                             </Form.Item>
