@@ -49,10 +49,7 @@ class HighProfitAccount extends Component {
 		},
 		{
 			title: '平台',
-			dataIndex: 'groupType',
-			render: (value) => {
-				return this.getTabLabel(value);
-			}
+			dataIndex: 'platformName',
 		},
 		{
 			title: '账号ID',
