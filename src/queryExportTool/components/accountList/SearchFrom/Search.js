@@ -8,8 +8,9 @@ export class DefaultSearch extends React.Component {
 		super(props);
 		this.state = {
 			userName: '',
-            show: false
-		};
+			show: false,
+			keywordsOptions: ['sns_name', 'sns_id', 'classification']
+		}
 	}
 
     componentDidMount() {
@@ -62,6 +63,12 @@ export class DefaultSearch extends React.Component {
             show: !this.state.show
         });
     }
+
+	typeChange = (values) => {
+		this.setState({
+			keywordsOptions: values
+		});
+	}
 	// onChangeUserName = (e) => {
 	// 	// const { onChange } = this.props;
 	// 	// this.setState({ userName: e.target.value });
@@ -87,20 +94,23 @@ export class DefaultSearch extends React.Component {
                         <span>默认全选</span>
                         <Icon type="down" style={{transform: `rotateZ(${this.state.show ? 180 : 0}deg)`}}/>
                         <div id='searchTypePopover' className='search-type-popover' style={{display: this.state.show ? 'block' : 'none'}}>
-                            <Checkbox.Group style={{ width: '100%' }}>
+                            <Checkbox.Group
+								value={this.state.keywordsOptions}
+								onChange={this.typeChange}
+								style={{ width: '100%' }}>
                                 <Row>
                                     <Col span={24}>
-                                        <Checkbox value="A">账号名称</Checkbox>
+                                        <Checkbox value='sns_name'>账号名称</Checkbox>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <Checkbox value="A">账号id</Checkbox>
+                                        <Checkbox value='sns_id'>账号id</Checkbox>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <Checkbox value="A">账号分类标签</Checkbox>
+                                        <Checkbox value='classification'>账号分类标签</Checkbox>
                                     </Col>
                                 </Row>
                             </Checkbox.Group>

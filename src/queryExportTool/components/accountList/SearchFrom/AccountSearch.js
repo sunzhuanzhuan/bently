@@ -98,7 +98,7 @@ class AccountSearch extends React.Component {
 			params.skuOpenQuotePrice = undefined;
 		}
 
-        params.content = contentSelected;
+        params.contentClassificationIds = contentSelected;
 
         this.props.onFilterSearch({ searchSource: changTabNumber, ...params, ...values, })
 	}
@@ -246,7 +246,15 @@ class AccountSearch extends React.Component {
 		} = filterOptions[platformType] || {};
 
         // 内容分类、人设分类和风格分类
-		const { content, people, style } = classificationOptions.data || {};
+		let { content, people = [], style = [] } = classificationOptions.data || {};
+		people = people.map(item => {
+			item.id = item.code;
+			return item;
+		});
+		style = style.map(item => {
+			item.id = item.code;
+			return item;
+		});
 
 		//参考报价在平台1，2，3时，不现实下拉选择
 		const isShowSelectForPrice = [1, 2, 3, 4, 5].indexOf(parseInt(platformType, 10)) !== -1;
@@ -280,7 +288,7 @@ class AccountSearch extends React.Component {
             {
                 content &&
                 <LayoutSearch name='内容分类'>
-                    {getFieldDecorator('content')(
+                    {getFieldDecorator('contentClassificationIds')(
                         <ProItemLabel
                             ref={this.proItemLabelRef}
                             data={content}
@@ -293,9 +301,9 @@ class AccountSearch extends React.Component {
             {
                 people &&
                 <LayoutSearch name={'人设分类'}>
-                    {getFieldDecorator('people')(
+                    {getFieldDecorator('peopleClassificationIds')(
                         <OperationTag
-                            onClick={(names) => this.onItemLableChange('people', '人设分类', names)}
+                            onClick={(names) => this.onItemLableChange('peopleClassificationIds', '人设分类', names)}
                             tagsArray={people}
                             selectedItems={this.state.selectedItems}
                         />
@@ -305,9 +313,9 @@ class AccountSearch extends React.Component {
             {
                 style &&
                 <LayoutSearch name={'风格分类'}>
-                    {getFieldDecorator('style')(
+                    {getFieldDecorator('styleClassificationIds')(
                         <OperationTag
-                            onClick={(names) => this.onItemLableChange('style', '风格分类', names)}
+                            onClick={(names) => this.onItemLableChange('styleClassificationIds', '风格分类', names)}
                             tagsArray={style}
                             selectedItems={this.state.selectedItems}
                         />
