@@ -39,13 +39,46 @@ const ImportModal = (props) => {
                         <div className="account-check-result">
                             <h4>一、账号检测结果</h4>
                             <p>
-                                <span className="warning"><b>{notExits.length}</b>个账号未找到</span>
-                                {notExits.length > 0 ? <span className="warning">,account_id为{notExits.join(",")}</span> : ""};
+                                {notExits.length > 0 ?
+                                    <span className="warning">
+                                        <b>{notExits.length}</b>个账号未找到,account_id为{notExits.join(",")}
+                                    </span> : <span><b>{notExits.length}</b>个账号未找到</span>};
                                 共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号
                                 {isDistinct.length >0 ? <span className="warning">,account_id为{isDistinct.join(",")}</span> : ""}
                             </p>
                         </div> : ""}
                 </Form>
+            </div>
+        </Modal>
+    );
+};
+/**
+ * 导入结果modal
+ */
+const ImportResultModal = (props) => {
+    const { visible, successList = [], failList = [], handleCancel } = props;
+    return (
+        <Modal
+            className="operationslabel-detail"
+            title={<span>批量导入账号</span>}
+            visible={visible}
+            footer={null}
+            onCancel={handleCancel}>
+            <div>
+                {failList.length === 0 ?
+                    <h3 className="import-account-status">
+                        <Icon className="icon-format" style={{color: "#52c41a"}} type="check-circle-o"/>
+                        成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
+                    </h3> :
+                    <div>
+                        <h3 className="import-account-status">
+                            <Icon className="icon-format" style={{color: "#faad14"}} type="info-circle-o"/>
+                            成功导入账号<b>{successList.length}</b>个，
+                            失败<b className="warning">{failList.length}</b>个,请于五分钟后查看结果
+                        </h3>
+                        <p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
+                    </div>
+                }
             </div>
         </Modal>
     );
@@ -145,7 +178,7 @@ class VerificationImportAccountModal extends Component {
         }
     }
 
-    handleCancel() {
+    handleCancel = () => {
         this.props.handleCancel();
         setTimeout(() => {
             this.setState({
@@ -158,93 +191,11 @@ class VerificationImportAccountModal extends Component {
         }, 200);
     }
 
-    /**
-     * 批量导入modal
-     * @returns {*}
-     */
-    renderImportModal = () => {
-        const {visible, form} = this.props;
-        const {getFieldDecorator} = form;
-        const {notExits = [], isExits = [], isDistinct = []} = this.props.importAccountCheck || {};
-        return (
-            <Modal
-                className="operationslabel-detail"
-                title={<span>批量导入账号</span>}
-                onOk={this.handleOk.bind(this)}
-                onCancel={this.handleCancel.bind(this)}
-                cancelText="取消"
-                visible={visible}
-                okText={this.state.okText}
-                confirmLoading={this.state.confirmLoading}>
-                <div>
-                    <Form>
-                        <h4>请输入account_id，一行一个，单次最多导入1000个</h4>
-                        <p className="tips-auto-delete">
-                            <span className="warning">说明：</span>
-                            {this.state.status === 1 && '重复账号在导入进标签时会自动剔除'}
-                            {this.state.status === 2 && '重复账号会自动剔除'}
-                        </p>
-                        <Form.Item>
-                            {getFieldDecorator('accountId', {
-                                initialValue: "",
-                                rules: [{validator: this.validator }],
-                            })(<TextArea
-                                autosize={{minRows: 7, maxRows: 10}}
-                                disabled={this.state.status === 2}/>)}
-                        </Form.Item>
-                        {this.state.status === 2 ?
-                            <div className="account-check-result">
-                                <h4>一、账号检测结果</h4>
-                                <p>
-                                    <span className="warning"><b>{notExits.length}</b>个账号未找到</span>
-                                    {notExits.length > 0 ? <span className="warning">,account_id为{notExits.join(",")}</span> : ""};
-                                    共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号
-                                    {isDistinct.length >0 ? <span className="warning">,account_id为{isDistinct.join(",")}</span> : ""}
-                                </p>
-                            </div> : ""}
-                    </Form>
-                </div>
-            </Modal>
-        );
-    };
-
-    /**
-     * 导入结果modal
-     */
-    renderImportResultModal = () => {
-        const {visible} = this.props;
-        const {successList = [], failList = []} = this.props.importAccount || {};
-        return (
-            <Modal
-                className="operationslabel-detail"
-                title={<span>批量导入账号</span>}
-                visible={visible}
-                footer={null}
-                onCancel={this.handleCancel.bind(this)}>
-                <div>
-                    {failList.length === 0 ?
-                        <h3 className="import-account-status">
-                            <Icon className="icon-format" style={{color: "#52c41a"}} type="check-circle-o"/>
-                            成功导入账号<b>{successList.length}</b>个,请于五分钟后查看结果
-                        </h3> :
-                        <div>
-                            <h3 className="import-account-status">
-                                <Icon className="icon-format" style={{color: "#faad14"}} type="info-circle-o"/>
-                                成功导入账号<b>{successList.length}</b>个，
-                                失败<b className="warning">{failList.length}</b>个,请于五分钟后查看结果
-                            </h3>
-                            <p className="warning">{"失败账号account_id: " + failList.join(",")}</p>
-                        </div>
-                    }
-                </div>
-            </Modal>
-        );
-    };
 
     render() {
         const {visible, form} = this.props;
         const {notExits = [], isExits = [], isDistinct = []} = this.props.importAccountCheck || {};
-
+        const {successList = [], failList = []} = this.props.importAccount || {};
         const importModalParams = {
             visible: visible,
             form: form,
@@ -252,14 +203,24 @@ class VerificationImportAccountModal extends Component {
             confirmLoading: this.state.confirmLoading,
             notExits: notExits,
             isExits: isExits,
-            isDistinct: isExits,
+            isDistinct: isDistinct,
             status: this.state.status,
             handleOk: this.handleOk,
+            handleCancel: this.handleCancel,
             validator: this.validator
+
         };
+        const ImportResultModalParams = {
+            visible,
+            successList,
+            failList,
+            handleCancel: this.handleCancel
+        }
 
         // status = 1 或者 2 的时候显示导入modal
         let isImportModal = (this.state.status === 1 || this.state.status === 2);
+        // status 3 显示导入结果modal
+        let IsImportResultModal = (this.state.status === 3)
         return (
             <div>
                 {
@@ -267,8 +228,8 @@ class VerificationImportAccountModal extends Component {
                     <ImportModal {...importModalParams}></ImportModal>
                 }
                 {
-                    // status 3 显示导入结果modal
-                    this.state.status === 3 && this.renderImportResultModal()
+                    IsImportResultModal &&
+                    <ImportResultModal {...ImportResultModalParams}></ImportResultModal>
                 }
             </div>
         )
