@@ -5,6 +5,12 @@ import * as Action from "../../action/highProfitAccount";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+/**
+ * 批量导入账号modal
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const ImportModal = (props) => {
     const {visible, form, okText, status, confirmLoading, notExits = [], isExits = [], isDistinct = []} = props;
     const {handleOk, handleCancel, validator} = props;
@@ -24,8 +30,8 @@ const ImportModal = (props) => {
                     <h4>请输入account_id，一行一个，单次最多导入1000个</h4>
                     <p className="tips-auto-delete">
                         <span className="warning">说明：</span>
-                        {status === 1 && '重复账号在导入进标签时会自动剔除'}
-                        {status === 2 && '重复账号会自动剔除'}
+                        {status === VerificationImportAccountModal.START_IMPORT && '重复账号在导入进标签时会自动剔除'}
+                        {status === VerificationImportAccountModal.CONFIRM_IMPORT && '重复账号会自动剔除'}
                     </p>
                     <Form.Item>
                         {getFieldDecorator('accountId', {
@@ -52,8 +58,12 @@ const ImportModal = (props) => {
         </Modal>
     );
 };
+
 /**
- * 导入结果modal
+ * 批量导入账号结果modal
+ * @param props
+ * @returns {*}
+ * @constructor
  */
 const ImportResultModal = (props) => {
     const { visible, successList = [], failList = [], handleCancel } = props;
@@ -86,10 +96,18 @@ const ImportResultModal = (props) => {
 
 
 class VerificationImportAccountModal extends Component {
+
+    // 开始导入
+    static START_IMPORT = 1;
+    // 确认导入
+    static CONFIRM_IMPORT = 2;
+    // 导入结果
+    static IMPORT_RESULT = 3;
+
     constructor(props) {
         super(props);
         this.state = {
-            status: 1, // 1为初始状态,验证accountId输入格式; 2:为校验规则通过后,发送检查请求后的状态;3:显示导入结果modal
+            status: VerificationImportAccountModal.START_IMPORT,
             confirmLoading: false,
             okText: '开始导入'
         }
@@ -103,6 +121,12 @@ class VerificationImportAccountModal extends Component {
         return data.split(/\n+/g).filter(t => t !== "");
     }
 
+    /**
+     * 表单验证
+     * @param rule
+     * @param data
+     * @param callback
+     */
     validator = (rule, data, callback) => {
         if (data) {
             let noNumber = [];
@@ -130,8 +154,7 @@ class VerificationImportAccountModal extends Component {
      * 获取导入的账号
      */
     handleOk = () => {
-        //status 1 为初始状态,验证accountId输入格式
-        if (this.state.status === 1) {
+        if (this.state.status === VerificationImportAccountModal.START_IMPORT) {
             this.props.form.validateFields((err, values) => {
                 if (err) {
                     return;
@@ -143,7 +166,8 @@ class VerificationImportAccountModal extends Component {
                     this.props.actions.getAccountImportCheck({accountIds: this.toIds(values.accountId)})
                         .finally(() => {
                             this.setState({
-                                status: 2, // 为校验规则通过后,发送检查请求后的状态
+                                // 校验规则通过后, 状态改为确认导入
+                                status: VerificationImportAccountModal.CONFIRM_IMPORT,
                                 confirmLoading: false,
                                 okText: '确认导入'
 
@@ -152,11 +176,10 @@ class VerificationImportAccountModal extends Component {
                 });
             });
         }
-        // status 2 为校验规则通过后,发送检查请求后的状态
-        if (this.state.status === 2) {
+        if (this.state.status === VerificationImportAccountModal.CONFIRM_IMPORT) {
             if (!this.props.importAccountCheck.isExits.length) {
                 this.setState({
-                    status: 1, //初始状态
+                    status: VerificationImportAccountModal.START_IMPORT,
                     okText: '开始导入'
                 }, () => {
                     message.error("未检测到的账号无法导入，请重新输入账号");
@@ -169,7 +192,7 @@ class VerificationImportAccountModal extends Component {
                         .finally(() => {
                             this.setState({
                                 confirmLoading: false,
-                                status: 3,  //发送导入请求后的状态
+                                status: VerificationImportAccountModal.IMPORT_RESULT,
                                 okText: '开始导入'
                             })
                         })
@@ -182,7 +205,7 @@ class VerificationImportAccountModal extends Component {
         this.props.handleCancel();
         setTimeout(() => {
             this.setState({
-                status: 1, //初始状态
+                status: VerificationImportAccountModal.START_IMPORT,
                 okText: '开始导入',
                 confirmLoading: false,
             }, () => {
@@ -218,9 +241,10 @@ class VerificationImportAccountModal extends Component {
         }
 
         // status = 1 或者 2 的时候显示导入modal
-        let isImportModal = (this.state.status === 1 || this.state.status === 2);
+        let isImportModal = (this.state.status === VerificationImportAccountModal.START_IMPORT
+            || this.state.status === VerificationImportAccountModal.CONFIRM_IMPORT);
         // status 3 显示导入结果modal
-        let IsImportResultModal = (this.state.status === 3)
+        let IsImportResultModal = (this.state.status === VerificationImportAccountModal.IMPORT_RESULT);
         return (
             <div>
                 {
