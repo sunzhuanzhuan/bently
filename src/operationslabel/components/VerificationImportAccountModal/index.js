@@ -141,7 +141,8 @@ class VerificationImportAccountModal extends Component {
                             <h4>请输入account_id，一行一个，单次最多导入1000个</h4>
                             <p className="tips-auto-delete">
                                 <span className="warning">说明：</span>
-                                {this.state.status === 1 && '重复账号在导入进标签时会自动剔除' || this.state.status === 2 && '重复账号会自动剔除'}
+                                {this.state.status === 1 && '重复账号在导入进标签时会自动剔除'}
+                                {this.state.status === 2 && '重复账号会自动剔除'}
                             </p>
                             <Form.Item>
                                 {getFieldDecorator('accountId', {
@@ -149,7 +150,7 @@ class VerificationImportAccountModal extends Component {
                                     rules: [{ required: true, message: '请输入account_id' }],
                                 })(<TextArea
                                     autosize={{minRows: 7, maxRows: 10}}
-                                    disabled={this.state.status === 2 ? true : false}/>)}
+                                    disabled={this.state.status === 2}/>)}
                             </Form.Item>
                             <div style={{"display": this.state.verification ? "block" : "none", color: "red"}}>
                                 {this.state.verification}
