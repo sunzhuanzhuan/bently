@@ -2,8 +2,55 @@ import React, {Component} from 'react';
 import {Modal, Input, Form, Icon, message} from 'antd';
 const {TextArea} = Input;
 import * as Action from "../../action/highProfitAccount";
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
+const ImportModal = (props) => {
+    const {visible, form, okText, status, confirmLoading, notExits = [], isExits = [], isDistinct = []} = props;
+    const {handleOk, handleCancel, validator} = props;
+    const {getFieldDecorator} = form;
+    return (
+        <Modal
+            className="operationslabel-detail"
+            title={<span>批量导入账号</span>}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            cancelText="取消"
+            visible={visible}
+            okText={okText}
+            confirmLoading={confirmLoading}>
+            <div>
+                <Form>
+                    <h4>请输入account_id，一行一个，单次最多导入1000个</h4>
+                    <p className="tips-auto-delete">
+                        <span className="warning">说明：</span>
+                        {status === 1 && '重复账号在导入进标签时会自动剔除'}
+                        {status === 2 && '重复账号会自动剔除'}
+                    </p>
+                    <Form.Item>
+                        {getFieldDecorator('accountId', {
+                            initialValue: "",
+                            rules: [{validator: validator }],
+                        })(<TextArea
+                            autosize={{minRows: 7, maxRows: 10}}
+                            disabled={status === 2}/>)}
+                    </Form.Item>
+                    {status === 2 ?
+                        <div className="account-check-result">
+                            <h4>一、账号检测结果</h4>
+                            <p>
+                                <span className="warning"><b>{notExits.length}</b>个账号未找到</span>
+                                {notExits.length > 0 ? <span className="warning">,account_id为{notExits.join(",")}</span> : ""};
+                                共检测到<b>{isExits.length}</b>个账号,其中<b>{isDistinct.length}</b>个账号为重复账号
+                                {isDistinct.length >0 ? <span className="warning">,account_id为{isDistinct.join(",")}</span> : ""}
+                            </p>
+                        </div> : ""}
+                </Form>
+            </div>
+        </Modal>
+    );
+};
+
 
 class VerificationImportAccountModal extends Component {
     constructor(props) {
@@ -195,11 +242,29 @@ class VerificationImportAccountModal extends Component {
     };
 
     render() {
+        const {visible, form} = this.props;
+        const {notExits = [], isExits = [], isDistinct = []} = this.props.importAccountCheck || {};
+
+        const importModalParams = {
+            visible: visible,
+            form: form,
+            okText: this.state.okText,
+            confirmLoading: this.state.confirmLoading,
+            notExits: notExits,
+            isExits: isExits,
+            isDistinct: isExits,
+            status: this.state.status,
+            handleOk: this.handleOk,
+            validator: this.validator
+        };
+
+        // status = 1 或者 2 的时候显示导入modal
+        let isImportModal = (this.state.status === 1 || this.state.status === 2);
         return (
             <div>
                 {
-                    // status 1 和 2 显示 导入账号modal
-                    (this.state.status === 1 || this.state.status === 2) && this.renderImportModal()
+                    (isImportModal) &&
+                    <ImportModal {...importModalParams}></ImportModal>
                 }
                 {
                     // status 3 显示导入结果modal
