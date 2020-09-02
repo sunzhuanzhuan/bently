@@ -64,7 +64,7 @@ class AccountSearch extends React.Component {
 			selectedItems: {},
 			isShowMore: false,
 			changTabNumber: '1',
-      isSameId:false
+			isSameId: false
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
