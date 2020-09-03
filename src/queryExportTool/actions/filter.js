@@ -65,17 +65,10 @@ export const getFilters = (params) => (dispatch) => {
 	})
 }
 
-// export const {
-//     getClassifications,
-//     getClassifications_success
-// } = createHttpAction('getClassifications', Interface.getClassifications);
-
-export const getClassifications = () => {
-    return {
-        type: 'getClassifications_success',
-        data: {}
-    }
-}
+export const {
+    getClassifications,
+    getClassifications_success
+} = createHttpAction('getClassifications', Interface.getClassifications);
 
 
 export const {

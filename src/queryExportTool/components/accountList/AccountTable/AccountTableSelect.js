@@ -29,12 +29,12 @@ const { $, location } = window;
 class AccountTableSelect extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			visible: false,
-			checkedId: 0,
-			modalContent: "",
-            isGetAllInfo:false
-		}
+        this.state = {
+            visible: false,
+            checkedId: 0,
+            modalContent: "",
+            isGetAllInfo: false
+        }
 	}
 
 	showModal = () => {

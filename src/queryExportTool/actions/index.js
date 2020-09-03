@@ -15,15 +15,15 @@ export * from './download'
 } = createHttpAction('getCompanyList', Interface.getCompanyList)*/
 //获取账号列表信息
 export const getAccountList = (params) => (dispatch) => {
-	const interfaceKey = {
-		1: Interface.weixinSearch,//微信
-		2: Interface.xinaSearch,//微博
-		3: Interface.videoSearch,//视频
-		4: Interface.smallRedBookSearch,//小红书
-		5: Interface.otherPlatformSearch, //其他平台
+    const interfaceKey = {
+        1: Interface.weixinSearch,//微信
+        2: Interface.xinaSearch,//微博
+        3: Interface.videoSearch,//视频
+        4: Interface.smallRedBookSearch,//小红书
+        5: Interface.otherPlatformSearch, //其他平台
         7: Interface.videoSearch, // 哔哩哔哩动画
         8: Interface.videoSearch // 抖音
-	}
+    }
 
 	return api.post(interfaceKey[params.groupType], params).then((response) => {
 		const { data, } = response
