@@ -178,8 +178,7 @@ class HighProfitAccount extends Component {
      */
     changePage = (pageNum) => {
         this.setState({
-            currentPage: pageNum,
-            currentSearchType: 1,
+            currentPage: pageNum
         }, () => {
             // 分页改变重新请求列表接口
             this.getAccountInfo();
@@ -188,7 +187,6 @@ class HighProfitAccount extends Component {
     onShowSizeChange = (current, size) => {
         this.setState({
             currentPage: current,
-            currentSearchType: 1,
             pageSize: size
         }, () => {
             this.getAccountInfo()
@@ -367,10 +365,11 @@ class HighProfitAccount extends Component {
         this.setState({
             searchModalStatus: 2,
             accountIds: accountIds,
-            platformId: platformId
+            platformId: platformId,
         }, () => {
             this.setState({
                 currentSearchType: 2,
+                currentPage: 1,
                 searchModalStatus: 3
             }, () => {
                 this.getAccountInfo();
@@ -389,8 +388,7 @@ class HighProfitAccount extends Component {
 
     render() {
         const accountInfo = this.props.accountInfo || {};
-        const {total = 0, order = 0, dispatch = 0, ok = 0, on = []} = accountInfo.statistic || {};
-        const platform = accountInfo.result && accountInfo.result.total || 0;
+        const {total = 0, order = 0, dispatch = 0, ok = 0, on = [], platform=0 } = accountInfo.statistic || {};
         const successNum = {ok, on};
         const {list = []} = accountInfo.result || {};
         return (
@@ -455,8 +453,8 @@ class HighProfitAccount extends Component {
                                     current: this.state.currentPage,
                                     total: platform,
                                     onChange: this.changePage,
-                                    showSizeChanger: true,
-                                    showQuickJumper: true,
+                                    showSizeChanger: this.state.currentSearchType === 1,
+                                    showQuickJumper: this.state.currentSearchType === 1,
                                     onShowSizeChange: this.onShowSizeChange,
                                     pageSizeOptions: ["20", "50", "100"]
                                 }}
