@@ -142,6 +142,7 @@ class HighProfitAccount extends Component {
         this.setState({
             platformId: platformId * 1,
             currentSearchType: 1,
+            currentPage : 1
         }, () => {
             this.getAccountInfo();
         });
