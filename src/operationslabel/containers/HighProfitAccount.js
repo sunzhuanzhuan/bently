@@ -167,6 +167,7 @@ class HighProfitAccount extends Component {
             return message.error('搜索条件不能为空');
         }
         this.setState({
+            currentPage: 1,
             currentSearchType: 1
         }, () => {
             this.getAccountInfo();
@@ -450,7 +451,7 @@ class HighProfitAccount extends Component {
                                     selectedRowKeys: this.state.selectedRowKeys,
                                     onChange: this.selectionChange
                                 }}
-                                pagination={{
+                                pagination={ isSearchList ? {
                                     pageSize: this.state.pageSize,
                                     current: this.state.currentPage,
                                     total: platform,
@@ -459,7 +460,7 @@ class HighProfitAccount extends Component {
                                     showQuickJumper: isSearchList,
                                     onShowSizeChange: this.onShowSizeChange,
                                     pageSizeOptions: ["20", "50", "100"]
-                                }}
+                                } : false}
                                 footer={this.footerHandle}
                                 dataSource={list}>
                             </Table>
