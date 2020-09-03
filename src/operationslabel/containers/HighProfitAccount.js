@@ -391,6 +391,8 @@ class HighProfitAccount extends Component {
         const {total = 0, order = 0, dispatch = 0, ok = 0, on = [], platform=0 } = accountInfo.statistic || {};
         const successNum = {ok, on};
         const {list = []} = accountInfo.result || {};
+        //定义一个变量，记录当前列表是否是查找请求得到的。// （查找请求和批量查找请求有区别，currentSearchType 记录 1是查找 2是批量查找)
+        let isSearchList = this.state.currentSearchType === 1;
         return (
             <div>
                 <div className="high_profit_account">
@@ -453,8 +455,8 @@ class HighProfitAccount extends Component {
                                     current: this.state.currentPage,
                                     total: platform,
                                     onChange: this.changePage,
-                                    showSizeChanger: this.state.currentSearchType === 1,
-                                    showQuickJumper: this.state.currentSearchType === 1,
+                                    showSizeChanger: isSearchList,
+                                    showQuickJumper: isSearchList,
                                     onShowSizeChange: this.onShowSizeChange,
                                     pageSizeOptions: ["20", "50", "100"]
                                 }}
