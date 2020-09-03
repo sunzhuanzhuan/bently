@@ -180,6 +180,7 @@ class DefaultChild extends Component {
         });
     }
 
+
 	isdBackUp = (isdBackUp) => {
 		document.getElementById('app-content-children-id').scrollTop = 0
 	}
