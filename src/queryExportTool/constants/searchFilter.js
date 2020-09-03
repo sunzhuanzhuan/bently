@@ -191,7 +191,7 @@ export const followersCountMarks = {
 		{ id: '1-2', name: '1-2万' },
 		{ id: '2-5', name: '2-5万' },
 		{ id: '5-10', name: '5-10万' },
-		{ id: '10-', name: '10万以上' },
+		{ id: '10', name: '10万以上' },
 	],
 	5: [
 		{ id: '0-20', name: '20万以下' },
@@ -200,6 +200,6 @@ export const followersCountMarks = {
 		{ id: '150-300', name: '150-300万' },
 		{ id: '300-500', name: '300-500万' },
 		{ id: '500-1000', name: '500-1000万' },
-		{ id: '1000-', name: '1000万以上' }
+		{ id: '1000', name: '1000万以上' }
 	],
 };

@@ -390,7 +390,7 @@ class LabelDetailManualImport extends Component {
 							{/*只 手工导入 状态下出现*/}
 
 						</h4>
-						{/*批量导出弹出框*/}
+						{/*批量导入弹出框*/}
 						<BulkImportAccountModal
 							visible={this.state.importAccountVisible}
 							handleOk={this.handleImportAccountOk}

@@ -13,12 +13,26 @@ class BulkSearchAccountModal extends Component {
         }
     }
 
+	platform = [
+		{id: "9", name: '微信 '},
+		{id: "23", name: '朋友圈 '},
+		{id: "1", name: '新浪微博 '},
+		{id: "live", name: '直播达人 '},
+		{id: "video", name: '视频自媒体 '},
+		{id: "orher", name: '其它 '}
+	]
+
     handleOk() {
+		let { handleOk } = this.props;
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 let search = values.search.split(/\n+/g).filter(t => t !== "");
-                this.props.bulkSearch({platform: values.platform, search: search.join(",")});
                 this.props.form.resetFields();
+                if (handleOk && typeof handleOk === 'function') {
+					handleOk({platformId : values.platform, accountIds: search});
+				} else {
+					this.props.bulkSearch({platform: values.platform, search: search});
+				}
             }
 
         })
@@ -57,14 +71,7 @@ class BulkSearchAccountModal extends Component {
     render() {
         const {visible, form, status, successNum} = this.props;
         const {getFieldDecorator} = form;
-        const platform = [
-            {id: "9", name: '微信 '},
-            {id: "23", name: '朋友圈 '},
-            {id: "1", name: '新浪微博 '},
-            {id: "live", name: '直播达人 '},
-            {id: "video", name: '视频自媒体 '},
-            {id: "orher", name: '其它 '}
-        ]
+        const { platform = this.platform } = this.props;
         return (
             <div>
                 <Modal
