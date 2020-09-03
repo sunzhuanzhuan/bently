@@ -287,26 +287,27 @@ class AccountSearch extends React.Component {
         const {groupedPlatforms = []} = group;
 
         const historyFrom = <div>
-            {orderIndustryCategory && <LayoutSearch name=
-                                                        {<span>
+            {orderIndustryCategory &&
+            <LayoutSearch
+                name={<span>
 					历史推广行业
-					<Tooltip placement="top"
-                             getPopupContainer={() => document.querySelector('.query-export-tool')}
-                             title={'账号在微播易合作过的客户所属行业'}>
+					<Tooltip
+                        placement="top"
+                        getPopupContainer={() => document.querySelector('.query-export-tool')}
+                        title={'账号在微播易合作过的客户所属行业'}>
 						<Icon type="question-circle" theme="filled" style={{color: '#1890ff'}}/>
 					</Tooltip>
-				</span>
-                                                        } width='115px'>
+				</span>}
+                width='115px'>
                 {getFieldDecorator('orderIndustryCategory')(
-                    <ItemLable id='orderIndustryCategory'
-                               isTooltip={true}
-                               onClick={(names) => this.onItemLableChange('orderIndustryCategory', '历史推广行业', names)}
-                        // id='operationTag'
-                               tagsArray={orderIndustryCategory} selectedItems={this.state.selectedItems}
+                    <ItemLable
+                        id='orderIndustryCategory'
+                        isTooltip={true}
+                        onClick={(names) => this.onItemLableChange('orderIndustryCategory', '历史推广行业', names)}
+                        tagsArray={orderIndustryCategory} selectedItems={this.state.selectedItems}
                     />
                 )}
             </LayoutSearch>}
-
         </div>
 
         const allSearch = <div>
@@ -378,38 +379,36 @@ class AccountSearch extends React.Component {
             </LayoutSearch>}
             {followersCount && <LayoutSearch name={followersCount.name}>
                 {getFieldDecorator('followerCount', {
-                    // initialValue: {
-                    // 	number: [0, 200]
-                    // }
                 })(
-                    <InputAndSliderNumber unit={"万"} id='followerCount'
-                                          onNameChange={(names) => this.onItemLableChange('followerCount', followersCount.name, names)}
-                                          onFilter={this.onFilterSearch}
-                                          marks={FollowersCountMarks}
-                        // id='followersCount'
-                                          maxNumber={100000}//10亿
-                                          showFalseMessage={'粉丝数不能超过10亿'}
-                                          sliderMin={+(followersCount.bar.min)} sliderMax={+(followersCount.bar.max)} selectedItems={this.state.selectedItems}
+                    <InputAndSliderNumber
+                        unit={"万"} id='followerCount'
+                        onNameChange={(names) => this.onItemLableChange('followerCount', followersCount.name, names)}
+                        onFilter={this.onFilterSearch}
+                        marks={FollowersCountMarks}
+                        maxNumber={100000}//10亿
+                        showFalseMessage={'粉丝数不能超过10亿'}
+                        sliderMin={+(followersCount.bar.min)}
+                        sliderMax={+(followersCount.bar.max)}
+                        selectedItems={this.state.selectedItems}
                     />
                 )}
             </LayoutSearch>}
             {price && <LayoutSearch name={price.name}>
                 <div style={{marginLeft: isShowSelectForPrice ? 10 : 0}}>
                     {getFieldDecorator('price', {
-                        // initialValue: {
-                        // 	number: [2000, 1000000]
-                        // }
                     })(
-                        <InputAndSliderNumber unit={"元"} id='price'
-                                              onNameChange={(names) => this.onItemLableChange('price', price.name, names)}
-                                              onFilter={this.onFilterSearch}
-                            // id='price'
-                                              marks={PriceMarks}
-                                              maxNumber={100000000}//1亿
-                                              showFalseMessage={'价格不能超过1亿'}
-                                              sliderMin={+(price.bar.min)} sliderMax={+(price.bar.max)}
-                                              isShowSelect={isShowSelectForPrice}
-                                              selectList={[{id: -1, name: '请选择报价类型'}, ...price.options]} selectedItems={this.state.selectedItems}
+                        <InputAndSliderNumber
+                            unit={"元"} id='price'
+                            onNameChange={(names) => this.onItemLableChange('price', price.name, names)}
+                            onFilter={this.onFilterSearch}
+                            marks={PriceMarks}
+                            maxNumber={100000000}//1亿
+                            showFalseMessage={'价格不能超过1亿'}
+                            sliderMin={+(price.bar.min)}
+                            sliderMax={+(price.bar.max)}
+                            isShowSelect={isShowSelectForPrice}
+                            selectList={[{id: -1, name: '请选择报价类型'}, ...price.options]}
+                            selectedItems={this.state.selectedItems}
                         />
                     )}
                 </div>
@@ -428,15 +427,15 @@ class AccountSearch extends React.Component {
 
         const historyStyle = Cookie.get('isLoginedHistoryQueryTool') ? {} : {}
         return <div id='js-account-seach-id'>
-
             <div className='history-new-box'>
                 <div className='new-box-img'>
                     <img src='http://img.weiboyi.com/vol1/1/102/124/n/v/rp7846pp75sn11r99p5o506o4op229o2/new.png'/>
                 </div>
             </div>
-            <Tabs type="card"
-                  className='query-tool-search-tab'
-                  activeKey={changTabNumber} onChange={this.changeTab}
+            <Tabs
+                type="card"
+                className='query-tool-search-tab'
+                activeKey={changTabNumber} onChange={this.changeTab}
             >
                 <TabPane tab="全库账号" key="1">
                     {changTabNumber == 1 ? <div>
@@ -448,7 +447,6 @@ class AccountSearch extends React.Component {
                     <div className='big-zindex-box'>
                         历史成交账号
                     </div>} key="2">
-
                     {changTabNumber == 2 ? <div>
                         {this.commSearch(keyword, form)}
                         {historyFrom}
@@ -477,8 +475,13 @@ class AccountSearch extends React.Component {
                 </div>
             </div> : null}
             <SelectedItem selectedItems={selectedItems} delContent={this.delContent} clear={this.resetFilter}></SelectedItem>
-            <AccountSort key={changTabNumber} changTabNumber={changTabNumber} ref={node => this.accountListort = node} onChange={this.onFilterSearch} group={platformType}
-                         sortMore={groupedSkuTypes[platformType]}/>
+            <AccountSort
+                key={changTabNumber}
+                changTabNumber={changTabNumber}
+                ref={node => this.accountListort = node}
+                onChange={this.onFilterSearch}
+                group={platformType}
+                sortMore={groupedSkuTypes[platformType]}/>
         </div>
     }
 }
