@@ -23,40 +23,48 @@
 
   .pro-item-label-popover {
     position: fixed;
-    // max-height: 200px;
-    background-color: #c2c1c1;
     z-index: 2000;
     text-align: center;
-    ul {
-      margin: 0;
-      padding: 0;
-      line-height: 24px;
-      li {
-        display: block;
-        cursor: pointer;
-        width: 100%;
-        position: relative;
-        padding: 0 5px;
-        &:hover {
-          background-color: rgba(182, 218, 252, .5);
-          ul {
-            display: block;
+    height: 400px;
+    overflow-y: auto;
+    width: 300px;
+    &::-webkit-scrollbar {
+      display: none
+    }
+    .item-container {
+      background-color: #c2c1c1;
+      width: 80px;
+      ul {
+        margin: 0;
+        padding: 0;
+        line-height: 24px;
+        li {
+          display: block;
+          cursor: pointer;
+          width: 100%;
+          position: relative;
+          padding: 0 5px;
+          &:hover {
+            background-color: rgba(182, 218, 252, .5);
+            ul {
+              display: block;
+            }
           }
-        }
-        &.selected {
-          background-color: rgba(24, 144, 255, 0.3);
-          border-radius: 0;
-        }
-        ul {
-          display: none;
-          position: absolute;
-          top: 0;
-          right: 0;
-          transform: translateX(100%);
-          background-color: #e6e6e6;
-          li {
-            padding: 0 5px;
-            white-space: nowrap;
+          &.selected {
+            background-color: rgba(24, 144, 255, 0.3);
+            border-radius: 0;
+          }
+          ul {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translateX(100%);
+            background-color: #e6e6e6;
+            li {
+              padding: 0 5px;
+              white-space: nowrap;
+            }
           }
         }
       }

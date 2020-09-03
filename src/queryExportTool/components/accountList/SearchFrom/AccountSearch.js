@@ -1,4 +1,5 @@
 import React from 'react';
+import qs from "qs"
 import {Row, Tabs, Form, Icon, Tooltip, message} from 'antd';
 import ItemLable from './ItemLable';
 import OperationTag from './ItemLable/OperationTags'
@@ -121,7 +122,6 @@ class AccountSearch extends React.Component {
             delete selectedItems[id]
             clear = false
         }
-        let keys = Object.keys(selectedItems);
 
         if (Object.keys(selectedItems).length > 10) {
             message.error("最多显示10个标签");
@@ -222,11 +222,12 @@ class AccountSearch extends React.Component {
     };
 
     commSearch = (keyword, form, showSearchType) => {
+        const search = qs.parse(this.props.location.search.substring(1));
         return <Search
             keyword={keyword}
             form={form}
             showSearchType={showSearchType}
-            keywordsOptions={this.state.keywordsOptions}
+            keywordsOptions={search.keywordsOptions}
             typeChange={this.typeChange}
             onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
         ></Search>

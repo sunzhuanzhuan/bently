@@ -66,15 +66,14 @@ class DefaultChild extends Component {
     }
 
     onFilterSearch = (params) => {
-        const {skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality, defaultSort} = params;
+        const {skuOpenQuotePrice = [], operationTagIds = [], follower_count = [], isLowQuality, defaultSort, keywordsOptions = []} = params;
         const search = qs.parse(this.props.location.search.substring(1))
         let {platformType} = this.props.match.params;
-        // const searchParamsString = qs.stringify(params);
         const urlAll = this.props.match.url
         let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/" + platformType
         this.props.history.push({
             pathname: url,
-            search: "?keyword=" + params.keyword || ''
+            search: `?keyword=${params.keyword || ''}&keywordsOptions=${keywordsOptions.join(',')}`
         });
         this.setState({
             loading: true
@@ -159,7 +158,7 @@ class DefaultChild extends Component {
         let url = urlAll.slice(0, urlAll.lastIndexOf("/")) + "/" + activeKey
         this.props.history.push({
             pathname: url,
-            search: "?keyword=" + search.keyword || '',
+            search: `?keyword=${search.keyword || ''}&keywordsOptions=${search.keywordsOptions}`
 
         });
     }
@@ -225,6 +224,8 @@ class DefaultChild extends Component {
                 <div>微信公众号<span><a href="javascript:void(0)" onClick={() => this.onCountClick(1)}>{statistic[1] || 0}</a></span>个</div>
                 <div>新浪微博<span><a href="javascript:void(0)" onClick={() => this.onCountClick(2)}>{statistic[2] || 0}</a></span>个</div>
                 <div>视频/直播<span><a href="javascript:void(0)" onClick={() => this.onCountClick(3)}>{statistic[3] || 0}</a></span>个</div>
+                <div>哔哩哔哩动画<span><a href="javascript:void(0)" onClick={() => this.onCountClick(7)}>{statistic[7] || 0}</a></span>个</div>
+                <div>抖音<span><a href="javascript:void(0)" onClick={() => this.onCountClick(8)}>{statistic[6] || 0}</a></span>个</div>
                 <div>小红书<span><a href="javascript:void(0)" onClick={() => this.onCountClick(4)}>{statistic[4] || 0}</a></span>个</div>
                 <div>其他平台<span><a href="javascript:void(0)" onClick={() => this.onCountClick(5)}>{statistic[5] || 0}</a></span>个</div>
             </div>}

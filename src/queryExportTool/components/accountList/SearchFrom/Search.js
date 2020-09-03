@@ -9,7 +9,8 @@ export class DefaultSearch extends React.Component {
         super(props);
         this.state = {
             userName: '',
-            show: false
+            show: false,
+            keywordsOptions: []
         }
     }
 
@@ -30,17 +31,20 @@ export class DefaultSearch extends React.Component {
     emitEmpty = () => {
         const {onSearch} = this.props;
         this.userNameInput.focus();
-        // this.setState({ userName: '' });
         this.userName = '';
         this.props.form.setFieldsValue({keyword: ''});
         onSearch && onSearch({optionsNames: ''});
     }
 
     componentWillReceiveProps(nextProps) {
-        // debugger;
         if ("keyword" in nextProps) {
             this.setState({
                 userName: nextProps.keyword
+            })
+        }
+        if ("keywordsOptions" in nextProps) {
+            this.setState({
+                keywordsOptions: nextProps.keywordsOptions.split(',')
             })
         }
     }
@@ -70,6 +74,34 @@ export class DefaultSearch extends React.Component {
             typeChange(values);
         }
     }
+
+    /**
+     * 获取搜索分类文本显示
+     */
+    getTypeLabel = () => {
+        const {keywordsOptions = []} = this.state;
+        if (keywordsOptions.length === 3) {
+            return '默认全选';
+        }
+        if (keywordsOptions.length === 0) {
+            return '';
+        }
+        let result = [];
+        keywordsOptions.forEach(item =>{
+            switch (item) {
+                case 'sns_name':
+                    result.push('名称');
+                    break;
+                case 'sns_id':
+                    result.push('id');
+                    break
+                default:
+                    result.push('标签');
+            }
+        });
+        return result.join("、");
+    };
+
     // onChangeUserName = (e) => {
     // 	// const { onChange } = this.props;
     // 	// this.setState({ userName: e.target.value });
@@ -78,7 +110,7 @@ export class DefaultSearch extends React.Component {
     // }
     render() {
 
-        const {form, showSearchType = false, keywordsOptions = []} = this.props;
+        const {form, showSearchType = false} = this.props;
         const {getFieldDecorator} = form;
         const {userName} = this.state;
         const suffix = userName ? <span key='1' style={{padding: "0 10px"}}><Icon type="close-circle" onClick={this.emitEmpty}/></span> : null;
@@ -92,11 +124,11 @@ export class DefaultSearch extends React.Component {
                 {
                     showSearchType &&
                     <div className='search-type' onClick={this.typeClick}>
-                        <span>默认全选</span>
+                        <span>{this.getTypeLabel()}</span>
                         <Icon type="down" style={{transform: `rotateZ(${this.state.show ? 180 : 0}deg)`}}/>
                         <div id='searchTypePopover' className='search-type-popover' style={{display: this.state.show ? 'block' : 'none'}}>
                             <Checkbox.Group
-                                value={keywordsOptions}
+                                value={this.state.keywordsOptions}
                                 onChange={this.typeChange}
                                 style={{width: '100%'}}>
                                 <Row>
@@ -123,7 +155,6 @@ export class DefaultSearch extends React.Component {
                         initialValue: userName
                     })(
                         <Search
-                            // onChange={this.onChangeUserName}
                             style={{width: "440px"}}
                             placeholder="请输入账号名称、账号ID 、分类标签"
                             suffix={suffix}

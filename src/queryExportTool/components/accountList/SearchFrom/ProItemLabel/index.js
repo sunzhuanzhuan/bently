@@ -1,6 +1,7 @@
 import React from 'react';
 import MoreOperate from "../../../common/MoreOperate";
 import './index.less';
+import { message } from 'antd';
 
 class ProItemLabel extends React.PureComponent {
     constructor(props) {
@@ -154,6 +155,19 @@ class ProItemLabel extends React.PureComponent {
     };
 
     /**
+     * 验证选择数量
+     */
+    checkSelectNum = () => {
+        let maxSelectNum = 3;
+        const {selected = []} = this.props;
+        if (selected.length >= 3) {
+            message.error('内容标签最多选择三个');
+            return false;
+        }
+        return true;
+    };
+
+    /**
      * 一级菜单单击事件
      */
     firstClick = (code) => {
@@ -166,9 +180,11 @@ class ProItemLabel extends React.PureComponent {
                 selected.splice(index, 1);
             }
         } else {
+            if (!this.checkSelectNum()) {
+                return;
+            }
             selected.push({[code]: {}});
         }
-        console.log(this.selectedToNames(selected));
         onChange(selected, this.selectedToNames(selected));
     };
 
@@ -310,6 +326,9 @@ class ProItemLabel extends React.PureComponent {
 
         // info 不存在说明此一级菜单下还没有选中的项
         if (!info) {
+            if (!this.checkSelectNum()) {
+                return;
+            }
             let item = {[firstCode]: {[level]: [childCode]}};
             selected.push(item);
         } else {
@@ -407,15 +426,18 @@ class ProItemLabel extends React.PureComponent {
                         }
                     </ul>
                 </MoreOperate>
-                <div className='pro-item-label-popover' onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={{
+                <div className='pro-item-label-popover' onMouseEnter={this.onMouseEnter} style={{
                     display: this.state.popover.show ? 'block' : 'none',
                     top: this.state.popover.top + 'px',
-                    // minWidth: this.state.popover.width + 'px',
                     left: this.state.popover.left + 'px',
                 }}>
-                    {
-                        this.renderSecond(this.state.itemData)
-                    }
+                    <div className='item-container' onMouseLeave={this.onMouseLeave} style={{
+                        minWidth: this.state.popover.width + 'px'
+                    }}>
+                        {
+                            this.renderSecond(this.state.itemData)
+                        }
+                    </div>
                 </div>
             </div>
         );
