@@ -58,8 +58,8 @@ class SelectedItems extends React.Component {
                                 {
                                     (item.children || []).map(cItem => (
                                         <span key={cItem.id}>
-											<label>{cItem.namePath || ''}</label>
-											<Icon type="close" onClick={this.delContent.bind(null, item.firstCode, cItem)}/>
+                                            <label>{cItem.namePath || ''}</label>
+                                            <Icon type="close" onClick={this.delContent.bind(null, item.firstCode, cItem)}/>
 										</span>
                                     ))
                                 }

@@ -6,7 +6,6 @@ import AccountTable from '../../components/accountList/AccountTable'
 import AccountTableSelect from '../../components/accountList/AccountTable/AccountTableSelect';
 import {Spin} from "antd"
 import {sensors} from '../../../util/sensor/sensors'
-import {getClassifications_success} from "@/queryExportTool/actions";
 
 class DefaultChild extends Component {
     constructor(props) {

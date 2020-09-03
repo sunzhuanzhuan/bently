@@ -70,7 +70,7 @@ export default {
     //获取查询项
     getFilters: baseUrl + '/getFiltersMeta',
     // 获取内容分类、人设分类和风格分类
-    getClassifications: baseUrl + '/operator-gateway/account/classifications',
+    getClassifications: '/operator-gateway/account/classifications',
     //报价单模版
     getStencilList: quotationUrl + "/templateList",
     //报价单详情

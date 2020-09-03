@@ -271,7 +271,7 @@ class AccountSearch extends React.Component {
         } = filterOptions[platformType] || {};
 
         // 内容分类、人设分类和风格分类
-        let {content, people = [], style = []} = classificationOptions.data || {};
+        let {content, people = [], style = []} = classificationOptions || {};
         people = people.map(item => {
             item.id = item.code;
             return item;

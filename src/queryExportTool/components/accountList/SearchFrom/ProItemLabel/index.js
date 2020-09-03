@@ -168,7 +168,6 @@ class ProItemLabel extends React.PureComponent {
         } else {
             selected.push({[code]: {}});
         }
-        console.log('6666666666666666');
         console.log(this.selectedToNames(selected));
         onChange(selected, this.selectedToNames(selected));
     };
@@ -203,12 +202,12 @@ class ProItemLabel extends React.PureComponent {
                 let level2Code = item.code;
                 let level2Name = item.name;
                 let level3Data = item.children;
-                result[level2Code] = `${firstName}：${level2Name}`;
+                result[level2Code] = `${firstName}:${level2Name}`;
                 if (level3Data) {
                     level3Data.forEach(l3Item => {
                         let level3Code = l3Item.code;
                         let level3Name = l3Item.name;
-                        result[level3Code] = `${firstName}：${level2Name}：${level3Name}`;
+                        result[level3Code] = `${firstName}:${level2Name}:${level3Name}`;
                     });
                 }
             });
@@ -411,7 +410,7 @@ class ProItemLabel extends React.PureComponent {
                 <div className='pro-item-label-popover' onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={{
                     display: this.state.popover.show ? 'block' : 'none',
                     top: this.state.popover.top + 'px',
-                    minWidth: this.state.popover.width + 'px',
+                    // minWidth: this.state.popover.width + 'px',
                     left: this.state.popover.left + 'px',
                 }}>
                     {

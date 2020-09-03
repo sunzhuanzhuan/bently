@@ -9,12 +9,6 @@ const getGroupById = (groups, groupType) => {
     }
     return groups.find(group => group.groupId == groupType)
 }
-const getCategory = (groupedCategories, groupType) => {
-    return groupedCategories.map(item => ({
-        id: item.itemKey,
-        name: item.itemValue
-    }))
-}
 const getOrderIndustryCategory = (orderIndustryCategory = []) => {
     return orderIndustryCategory.map(item => ({
         ...item,
@@ -28,10 +22,6 @@ export const getFilters = (params) => (dispatch) => {
     return api.get(Interface.getFilters).then((data) => {
         data = data.data;
         const {groups, groupedCategories, orderIndustryCategory, groupedSkuTypes, kolProvinceList, kolInterestList, defaultHotCities} = data;
-        const category = {
-            name: '常见分类',
-            options: getCategory(groupedCategories, groupType)
-        }
         const operationTags = data.operationTags
         const group = getGroupById(groups, groupType)
         // if (version !== params.version) {
@@ -41,7 +31,6 @@ export const getFilters = (params) => (dispatch) => {
             type: getFilters_success,
             payload: {
                 [groupType]: {
-                    category,
                     operationTags,
                     group,
                     groupedSkuTypes: groupedSkuTypes,
