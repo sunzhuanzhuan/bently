@@ -40,7 +40,6 @@ class ItemLable extends Component {
 
 	handleChange(tagId, checked) {
 		const { selectedTags = [] } = this.state;
-    let {selectedItems} = this.props;
 		let nextSelectedTags = [];
 		const { onChange, unlimitedValue, isoOnlyOne } = this.props;
 		if (tagId == unlimitedValue || isoOnlyOne) {

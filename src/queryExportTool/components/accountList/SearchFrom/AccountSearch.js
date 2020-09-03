@@ -65,7 +65,8 @@ class AccountSearch extends React.Component {
 			isShowMore: false,
 			changTabNumber: '1',
 			isSameId: false,
-			contentSelected: []
+			contentSelected: [],
+            keywordsOptions: ['sns_name', 'sns_id', 'classification']
 		}
 		this.onFilterSearch = debounce(this.onFilterSearch, 800)
 
@@ -109,7 +110,7 @@ class AccountSearch extends React.Component {
 		})
 	}
 	onItemLableChange = (id, name, { optionsNames: names }, needReset) => {
-		let params, clear = true;
+		let params = {}, clear = true;
 		const selectedItems = {
 			...this.state.selectedItems,
 			[id]: name + ':' + names
@@ -134,6 +135,16 @@ class AccountSearch extends React.Component {
 				params.defaultSort = defaultSort
 			}
 		}
+
+        const { changTabNumber } = this.state;
+
+		// 是否全库账号或者精选账号, changTabNumber = 1 是全库账号, changTabNumber = 2 是精选账号
+		const isAllOrHighAccount = changTabNumber === '1' || changTabNumber === '3';
+        if (isAllOrHighAccount) {
+            params.keywordsOptions = this.state.keywordsOptions;
+        } else {
+            params.keywordsOptions = [];
+        }
 
 		this.onFilterSearch(params);
 	}
@@ -198,11 +209,23 @@ class AccountSearch extends React.Component {
 		})
 	}
 
+    /**
+     * 搜索类型change事件
+     * @param values
+     */
+    typeChange = (values) => {
+        this.setState({
+            keywordsOptions: values
+        });
+    };
+
     commSearch = (keyword, form, showSearchType) => {
         return <Search
             keyword={keyword}
             form={form}
             showSearchType={showSearchType}
+            keywordsOptions={this.state.keywordsOptions}
+            typeChange={this.typeChange}
             onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
         ></Search>
     }
@@ -242,7 +265,7 @@ class AccountSearch extends React.Component {
 		const PriceMarks = priceMarks[platformType] || priceMarks['default'];
 		const FollowersCountMarks = followersCountMarks[platformType] || followersCountMarks['default']
 		const {
-			category, group, operationTags, groupedSkuTypes = {}, orderIndustryCategory
+			group, operationTags, groupedSkuTypes = {}, orderIndustryCategory
 		} = filterOptions[platformType] || {};
 
         // 内容分类、人设分类和风格分类
@@ -303,6 +326,7 @@ class AccountSearch extends React.Component {
                 <LayoutSearch name={'人设分类'}>
                     {getFieldDecorator('peopleClassificationIds')(
                         <OperationTag
+                            isoOnlyOne={true}
                             onClick={(names) => this.onItemLableChange('peopleClassificationIds', '人设分类', names)}
                             tagsArray={people}
                             selectedItems={this.state.selectedItems}
@@ -315,6 +339,7 @@ class AccountSearch extends React.Component {
                 <LayoutSearch name={'风格分类'}>
                     {getFieldDecorator('styleClassificationIds')(
                         <OperationTag
+                            isoOnlyOne={true}
                             onClick={(names) => this.onItemLableChange('styleClassificationIds', '风格分类', names)}
                             tagsArray={style}
                             selectedItems={this.state.selectedItems}

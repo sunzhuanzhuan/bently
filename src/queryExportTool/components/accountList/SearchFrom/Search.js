@@ -8,8 +8,7 @@ export class DefaultSearch extends React.Component {
 		super(props);
 		this.state = {
 			userName: '',
-			show: false,
-			keywordsOptions: ['sns_name', 'sns_id', 'classification']
+			show: false
 		}
 	}
 
@@ -65,9 +64,10 @@ export class DefaultSearch extends React.Component {
     }
 
 	typeChange = (values) => {
-		this.setState({
-			keywordsOptions: values
-		});
+		const { typeChange } = this.props;
+		if (typeChange && typeof typeChange === 'function') {
+            typeChange(values);
+        }
 	}
 	// onChangeUserName = (e) => {
 	// 	// const { onChange } = this.props;
@@ -77,7 +77,7 @@ export class DefaultSearch extends React.Component {
 	// }
 	render() {
 
-		const { form, showSearchType = false } = this.props;
+		const { form, showSearchType = false, keywordsOptions = [] } = this.props;
 		const { getFieldDecorator } = form;
 		const { userName } = this.state;
 		const suffix = userName ? <span key='1' style={{ padding: "0 10px" }}><Icon type="close-circle" onClick={this.emitEmpty} /></span> : null;
@@ -95,7 +95,7 @@ export class DefaultSearch extends React.Component {
                         <Icon type="down" style={{transform: `rotateZ(${this.state.show ? 180 : 0}deg)`}}/>
                         <div id='searchTypePopover' className='search-type-popover' style={{display: this.state.show ? 'block' : 'none'}}>
                             <Checkbox.Group
-								value={this.state.keywordsOptions}
+								value={keywordsOptions}
 								onChange={this.typeChange}
 								style={{ width: '100%' }}>
                                 <Row>
@@ -124,7 +124,7 @@ export class DefaultSearch extends React.Component {
                         <Search
                             // onChange={this.onChangeUserName}
                             style={{ width: "440px" }}
-                            placeholder="请输入账号名称、账号ID 、关键字"
+                            placeholder="请输入账号名称、账号ID 、分类标签"
                             suffix={suffix}
                             enterButton
                             onSearch={this.onSearch}
