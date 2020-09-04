@@ -73,7 +73,6 @@ export default class AccountSort extends Component {
 
     render() {
         const {group = '1', sortMore} = this.props
-        console.log(sortMore);
         const {filter, sorter} = groupBySorter[group]
         const changeSorter = sorter
         const {drop, check} = filter
