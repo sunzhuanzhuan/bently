@@ -270,7 +270,6 @@ class AccountSearch extends React.Component {
         const {form, match, history, location, keyword, defaultPlatformIds} = this.props;
         const {getFieldDecorator} = form;
         const {filterOptions = {}, classificationOptions} = this.props.queryExportToolReducer;
-        console.log(filterOptions);
         const {params} = match;
         let platformType = params.platformType;
         if (!filterOptions[platformType]) return null;
@@ -292,7 +291,7 @@ class AccountSearch extends React.Component {
         });
 
         //参考报价在平台1，2，3时，不现实下拉选择
-        const isShowSelectForPrice = [1, 2, 3, 4, 5].indexOf(parseInt(platformType, 10)) !== -1;
+        const isShowSelectForPrice = [1, 2, 3, 4, 5, 7, 8].indexOf(parseInt(platformType, 10)) !== -1;
         price.options = groupedSkuTypes[platformType] || []
         const {groupedPlatforms = []} = group;
 

@@ -2,10 +2,18 @@ import Interface from '../constants/Interface'
 // import { createHttpAction } from 'redux-action-extend'
 import createHttpAction from '@/store/createHttpAction'
 import api from '../../api/index'
+
+// 视频/直播平台类型
+const VIDEO_PLATFORM_TYPE = "3";
+// b站平台类型
+const BILI_PLATFORM_TYPE = '7';
+// 抖音平台类型
+const DOUYIN_PLATFORM_TYPE = "8";
+
 //获取账号列表信息
 const getGroupById = (groups, groupType) => {
-    if (groupType === '7' || groupType === '8') {
-        groupType = '3';
+    if (groupType === BILI_PLATFORM_TYPE || groupType === DOUYIN_PLATFORM_TYPE) {
+        groupType = VIDEO_PLATFORM_TYPE;
     }
     return groups.find(group => group.groupId == groupType)
 }
@@ -21,7 +29,10 @@ export const getFilters = (params) => (dispatch) => {
     // version = params.version;
     return api.get(Interface.getFilters).then((data) => {
         data = data.data;
-        const {groups, groupedCategories, orderIndustryCategory, groupedSkuTypes, kolProvinceList, kolInterestList, defaultHotCities} = data;
+        const {groups, groupedCategories, orderIndustryCategory, groupedSkuTypes = {}, kolProvinceList, kolInterestList, defaultHotCities} = data;
+        // B站和抖音默认成视频/直播的skuTypes
+        groupedSkuTypes[BILI_PLATFORM_TYPE] = groupedSkuTypes[VIDEO_PLATFORM_TYPE];
+        groupedSkuTypes[DOUYIN_PLATFORM_TYPE] = groupedSkuTypes[VIDEO_PLATFORM_TYPE];
         const operationTags = data.operationTags
         const group = getGroupById(groups, groupType)
         // if (version !== params.version) {

@@ -68,7 +68,7 @@ export default class SortGroup extends Component {
 		}
 		//平台独有价格项
 		const groupSort = handleMoreList(sortMore)
-		const allMoreSort = [...more, ...groupSort]
+        const allMoreSort = [...more, ...groupSort]
 		let priceList = [...allMoreSort]
 		priceList.splice(0, 1)
 		return <div className='sorter-container'>
