@@ -330,12 +330,6 @@ class AccountSearch extends React.Component {
 
 		}
 		return <div id='js-account-seach-id'>
-
-			<div className='history-new-box'>
-				<div className='new-box-img'>
-					<img src='http://img.weiboyi.com/vol1/1/102/124/n/v/rp7846pp75sn11r99p5o506o4op229o2/new.png' />
-				</div>
-			</div>
 			<Tabs type="card"
 				className='query-tool-search-tab'
 				activeKey={changTabNumber} onChange={this.changeTab}
