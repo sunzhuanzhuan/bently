@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Icon, Checkbox, Row, Col} from 'antd';
+import {Input, Icon, Checkbox, Row, Col, message} from 'antd';
 import './index.less';
 
 const Search = Input.Search;
@@ -9,8 +9,7 @@ export class DefaultSearch extends React.Component {
         super(props);
         this.state = {
             userName: '',
-            show: false,
-            keywordsOptions: []
+            show: false
         }
     }
 
@@ -42,15 +41,16 @@ export class DefaultSearch extends React.Component {
                 userName: nextProps.keyword
             })
         }
-        if ("keywordsOptions" in nextProps) {
-            this.setState({
-                keywordsOptions: nextProps.keywordsOptions.split(',')
-            })
-        }
     }
 
     onSearch = () => {
-        const {form} = this.props;
+        const {form, showSearchType = false, keywordsOptions= []} = this.props;
+        if (showSearchType) {
+            if (!keywordsOptions || !keywordsOptions.length) {
+                message.error('请勾选分类');
+                return;
+            }
+        }
         const {onSearch} = this.props;
         const userName = form.getFieldValue('keyword')
         onSearch && onSearch({optionsNames: userName || ''});
@@ -79,7 +79,7 @@ export class DefaultSearch extends React.Component {
      * 获取搜索分类文本显示
      */
     getTypeLabel = () => {
-        const {keywordsOptions = []} = this.state;
+        const {keywordsOptions = []} = this.props;
         if (keywordsOptions.length === 3) {
             return '默认全选';
         }
@@ -110,7 +110,7 @@ export class DefaultSearch extends React.Component {
     // }
     render() {
 
-        const {form, showSearchType = false} = this.props;
+        const {form, showSearchType = false, keywordsOptions= []} = this.props;
         const {getFieldDecorator} = form;
         const {userName} = this.state;
         const suffix = userName ? <span key='1' style={{padding: "0 10px"}}><Icon type="close-circle" onClick={this.emitEmpty}/></span> : null;
@@ -128,7 +128,7 @@ export class DefaultSearch extends React.Component {
                         <Icon type="down" style={{transform: `rotateZ(${this.state.show ? 180 : 0}deg)`}}/>
                         <div id='searchTypePopover' className='search-type-popover' style={{display: this.state.show ? 'block' : 'none'}}>
                             <Checkbox.Group
-                                value={this.state.keywordsOptions}
+                                value={keywordsOptions}
                                 onChange={this.typeChange}
                                 style={{width: '100%'}}>
                                 <Row>

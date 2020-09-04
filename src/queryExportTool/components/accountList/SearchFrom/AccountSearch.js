@@ -75,6 +75,15 @@ class AccountSearch extends React.Component {
 
     }
 
+    componentDidMount() {
+        const search = qs.parse(this.props.location.search.substring(1));
+        const keywordsOptions = search.keywordsOptions;
+        keywordsOptions && this.setState({
+            keywordsOptions: keywordsOptions.split(',')
+        });
+    }
+
+
     onFilterSearch = (values = {}) => {
         const params = this.props.form.getFieldsValue();
         const {changTabNumber, contentSelected} = this.state
@@ -222,12 +231,11 @@ class AccountSearch extends React.Component {
     };
 
     commSearch = (keyword, form, showSearchType) => {
-        const search = qs.parse(this.props.location.search.substring(1));
         return <Search
             keyword={keyword}
             form={form}
             showSearchType={showSearchType}
-            keywordsOptions={search.keywordsOptions}
+            keywordsOptions={this.state.keywordsOptions}
             typeChange={this.typeChange}
             onSearch={(names) => this.onItemLableChange('keyword', '关键字', names, true)}
         ></Search>
@@ -262,6 +270,7 @@ class AccountSearch extends React.Component {
         const {form, match, history, location, keyword, defaultPlatformIds} = this.props;
         const {getFieldDecorator} = form;
         const {filterOptions = {}, classificationOptions} = this.props.queryExportToolReducer;
+        console.log(filterOptions);
         const {params} = match;
         let platformType = params.platformType;
         if (!filterOptions[platformType]) return null;

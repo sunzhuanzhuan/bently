@@ -93,10 +93,10 @@ export default class FilterCommon extends React.Component {
         const {dropdownMenuShow} = this.state;
         const selectedItemsArray = objectToArray({...selectedItems});
         const mapFieldsToPlatform = {
-            "kolVisitorGenderDrawType": [1, 2, 3], //受众性别
-            "kolVisitorAgeDraw": [1, 2, 3],	//受众年龄
-            "kolVisitorProvinceDraw": [1, 2, 3],
-            "kolVisitorInterestDraw": [1, 2, 3],
+            "kolVisitorGenderDrawType": [1, 2, 3, 7, 8], //受众性别
+            "kolVisitorAgeDraw": [1, 2, 3, 7, 8],	//受众年龄
+            "kolVisitorProvinceDraw": [1, 2, 3, 7, 8],
+            "kolVisitorInterestDraw": [1, 2, 3, 7, 8],
             "trueReadRatio": [1],
             "mediaIndexOneAvgReadNum": [1],
             "directMediaInteractionAvg": [2],
@@ -105,9 +105,9 @@ export default class FilterCommon extends React.Component {
             "industryId": [],  //账号行业
             "verifiedStatus": [],
             "liveLatestPublishTime": [4, 5],
-            "areaIds": [1, 2, 3, 4, 5],
+            "areaIds": [1, 2, 3, 4, 5, 7, 8],
             "readPrice": [1],
-            "playPrice": [3]
+            "playPrice": [3, 7, 8]
         }
         const platformType = parseInt(params.platformType, 10);
         return (

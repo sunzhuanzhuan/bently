@@ -42,6 +42,8 @@ class DefaultChild extends Component {
             basePath.platformIds = [115];
         }
 
+        const keywordsOptions = (search.keywordsOptions || '').split(",");
+
         this.platformIds = basePath.platformIds;
         this.paramsAll = basePath
         getAccountList({
@@ -50,6 +52,7 @@ class DefaultChild extends Component {
             searchSource: searchSource || 1,
             pageSize: search.pageSize || 20,
             keyword: search.keyword || '',
+            keywordsOptions: keywordsOptions,
             ...basePath
         }).then(results => {
             if (this._isMounted || changeTab) {
