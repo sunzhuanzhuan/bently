@@ -387,8 +387,7 @@ class AccountSearch extends React.Component {
                 )}
             </LayoutSearch>}
             {followersCount && <LayoutSearch name={followersCount.name}>
-                {getFieldDecorator('followerCount', {
-                })(
+                {getFieldDecorator('followerCount', {})(
                     <InputAndSliderNumber
                         unit={"万"} id='followerCount'
                         onNameChange={(names) => this.onItemLableChange('followerCount', followersCount.name, names)}
@@ -404,8 +403,7 @@ class AccountSearch extends React.Component {
             </LayoutSearch>}
             {price && <LayoutSearch name={price.name}>
                 <div style={{marginLeft: isShowSelectForPrice ? 10 : 0}}>
-                    {getFieldDecorator('price', {
-                    })(
+                    {getFieldDecorator('price', {})(
                         <InputAndSliderNumber
                             unit={"元"} id='price'
                             onNameChange={(names) => this.onItemLableChange('price', price.name, names)}
