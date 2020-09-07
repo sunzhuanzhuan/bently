@@ -54,8 +54,8 @@ class CooperationPlatformDetail extends Component {
             captureCooperationPlatformName,
             agentVo = {},
             platformId,
-            orderPriceTipsTitle,
-            formulaDesc
+            orderPriceTipsTitle = '',
+            formulaDesc = ''
         } = cooperationPlatformInfoDetail || {}
         const { settleType, returnInvoiceType, invoiceType, agentTaxRate } = agentVo
         const { paymentCompanyName } = agentVo
@@ -65,8 +65,20 @@ class CooperationPlatformDetail extends Component {
             { title: "微播易展示下单平台名称", content: cooperationPlatformName },
             { title: "下单截图是否必填", content: isNeedScreenshot == 1 ? '是' : '否' },
             { title: "付款公司", content: paymentCompanyName },
-            { title: "下单价提示标题", content: orderPriceTipsTitle },
-            { title: "公式说明", content: formulaDesc },
+            {
+                title: "下单价提示标题", content: <div
+                    style={{ margin: '0 0 12px' }}
+                    dangerouslySetInnerHTML={{
+                        __html: orderPriceTipsTitle.replace(/\n/g, '<br />')
+                    }}></div>
+            },
+            {
+                title: "公式说明", content: <div
+                    style={{ margin: '0 0 12px' }}
+                    dangerouslySetInnerHTML={{
+                        __html: formulaDesc.replace(/\n/g, '<br />')
+                    }}></div>
+            },
         ]
         const invoiceArr = {
             1: '增值税专用发票',
