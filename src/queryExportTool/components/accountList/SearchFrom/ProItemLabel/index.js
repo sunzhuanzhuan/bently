@@ -7,7 +7,8 @@ import {
     getChildrenIsSelected,
     checkSelectNum,
     selectedToNames,
-    del
+    del,
+    selectedHandle
 } from './utils';
 import './index.less';
 
@@ -25,9 +26,6 @@ class ProItemLabel extends React.PureComponent {
             }
         }
     }
-
-    static LEVEL_2 = 'level2';
-    static LEVEL_3 = 'level3';
 
     componentWillMount() {
         const scrollContainer = document.getElementById('app-content-children-id');
@@ -50,21 +48,16 @@ class ProItemLabel extends React.PureComponent {
         });
     }
 
-
     /**
      * 获取item
-     * @param id
-     * @returns {*|*[]}
      */
     getCurItemData = (code) => {
         const {data = []} = this.props;
         return data.find(item => item.code === Number(code)) || {};
     };
 
-
     /**
      * 鼠标进入事件
-     * @param e
      */
     onMouseEnter = (e) => {
         const target = e.target;
@@ -111,8 +104,6 @@ class ProItemLabel extends React.PureComponent {
 
     /**
      * 设置一级label的border-radius样式
-     * @param e
-     * @param isHasRadius
      */
     setBorderRadius = (e, isHasRadius = true) => {
         const target = e.target;
@@ -122,7 +113,6 @@ class ProItemLabel extends React.PureComponent {
 
     /**
      * 获取一级菜单是否选中
-     * @returns {boolean}
      */
     getFirstIsSelected = (code) => {
         let {selected = []} = this.props;
@@ -152,7 +142,6 @@ class ProItemLabel extends React.PureComponent {
 
     /**
      * selected to names
-     * @param selected
      */
     selectedToNames = (selected = []) => {
         const {data} = this.props;
@@ -161,10 +150,6 @@ class ProItemLabel extends React.PureComponent {
 
     /**
      * 删除某个一级菜单的选中项
-     * @param firstCode
-     * @param code
-     * @param isLevel2
-     * @param selected
      */
     del = (firstCode, code, isLevel2, selected) => {
         del(firstCode, code, isLevel2, selected);
@@ -172,53 +157,11 @@ class ProItemLabel extends React.PureComponent {
 
     /**
      * 选择单击事件
-     * @param firstCode - 一级菜单code
-     * @param level2Code - 二级菜单code
-     * @param childData - 子级菜单Data
-     * @param isLevel2 - 是否是二级菜单
      */
     selected = (firstCode, level2Code, childData, isLevel2 = true, event) => {
         event.stopPropagation(); // 阻止冒泡
         const {selected = [], onChange} = this.props;
-        let childCode = childData.code;
-        let selectedInfo = getSelectedInfo(firstCode, selected);
-        let info = selectedInfo.info;
-        let level = isLevel2 ? ProItemLabel.LEVEL_2 : ProItemLabel.LEVEL_3;
-
-        // info 不存在说明此一级菜单下还没有选中的项
-        if (!info) {
-            if (!checkSelectNum(selected)) {
-                return;
-            }
-            let item = {[firstCode]: {[level]: [childCode]}};
-            selected.push(item);
-        } else {
-            let item = info[firstCode];
-            let levelData = item[level];
-            if (!levelData) {
-                levelData = [];
-                item[level] = levelData;
-            }
-
-            // 说明该项已经被选中
-            if (levelData.includes(childCode) > 0) {
-                this.del(firstCode, childCode, isLevel2, selected);
-            } else {
-                // 没有被选中则添加到对应的level数组中
-                levelData.push(childCode);
-
-                if (isLevel2) {
-                    let level2Children = childData.children || [];
-                    level2Children.forEach(item => {
-                        this.del(firstCode, item.code, false, selected);
-                    });
-                } else {
-                    // isLevel3 如果二级有选中的话则删除该项二级
-                    this.del(firstCode, level2Code, true, selected);
-                }
-
-            }
-        }
+        selectedHandle(firstCode, level2Code, childData, isLevel2,selected);
         if (onChange && typeof onChange === 'function') {
             let names = this.selectedToNames(selected);
             onChange(selected, names);
@@ -250,9 +193,6 @@ class ProItemLabel extends React.PureComponent {
 
     /**
      * 渲染三级菜单
-     * @param firstData - 一级菜单data
-     * @param data
-     * @returns {*}
      */
     renderThree = (firstData, data = {children: []}) => {
         const {selected} = this.props;
@@ -268,7 +208,6 @@ class ProItemLabel extends React.PureComponent {
             </ul>
         );
     };
-
 
     render() {
         let {data = []} = this.props;
@@ -306,5 +245,4 @@ class ProItemLabel extends React.PureComponent {
         );
     }
 }
-
 export default ProItemLabel;

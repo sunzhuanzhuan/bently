@@ -5,8 +5,6 @@ const LEVEL_3 = 'level3';
 
 /**
  * 通过id给目前元素设置Radius样式
- * @param id
- * @param isHasRadius
  */
 export const setBorderRadius = (id, isHasRadius = true) => {
     if (!id) {
@@ -72,7 +70,7 @@ export const getChildrenIsSelected = (firstCode, childrenCode, isLevel2, selecte
 /**
  * 验证选择数量
  */
-export const checkSelectNum = (selected = [], ) => {
+export const checkSelectNum = (selected = []) => {
     let maxSelectNum = 3;
     if (selected.length >= 3) {
         message.error('内容标签最多选择三个');
@@ -83,8 +81,6 @@ export const checkSelectNum = (selected = [], ) => {
 
 /**
  * 树形数据结构转换为对象
- * @param code
- * @returns {{}|null}
  */
 export const treeDataToObj = (code, data = []) => {
     let info = data.find(item => item.code === code);
@@ -114,9 +110,6 @@ export const treeDataToObj = (code, data = []) => {
 
 /**
  * selected to names
- * @param selected
- * @param data
- * @returns {[]}
  */
 export const selectedToNames = (selected = [], data = []) => {
     let result = [];
@@ -151,10 +144,6 @@ export const selectedToNames = (selected = [], data = []) => {
 
 /**
  * 删除某一个选中项
- * @param firstCode
- * @param code
- * @param isLevel2
- * @param selected
  */
 export const del = (firstCode, code, isLevel2, selected) => {
     let selectedInfo = getSelectedInfo(firstCode, selected);
@@ -188,3 +177,47 @@ export const del = (firstCode, code, isLevel2, selected) => {
         }
     }
 }
+
+/**
+ * 选择单击事件处理逻辑
+ */
+export const selectedHandle = (firstCode, level2Code, childData = {}, isLevel2 = true, selected = []) => {
+    let childCode = childData.code;
+    let selectedInfo = getSelectedInfo(firstCode, selected);
+    let info = selectedInfo.info;
+    let level = isLevel2 ? LEVEL_2 : LEVEL_3;
+
+    // info 不存在说明此一级菜单下还没有选中的项
+    if (!info) {
+        if (!checkSelectNum(selected)) {
+            return;
+        }
+        let item = {[firstCode]: {[level]: [childCode]}};
+        selected.push(item);
+    } else {
+        let item = info[firstCode];
+        let levelData = item[level];
+        if (!levelData) {
+            levelData = [];
+            item[level] = levelData;
+        }
+
+        // 说明该项已经被选中
+        if (levelData.includes(childCode) > 0) {
+            del(firstCode, childCode, isLevel2, selected);
+        } else {
+            // 没有被选中则添加到对应的level数组中
+            levelData.push(childCode);
+
+            if (isLevel2) {
+                let level2Children = childData.children || [];
+                level2Children.forEach(item => {
+                    del(firstCode, item.code, false, selected);
+                });
+            } else {
+                // isLevel3 如果二级有选中的话则删除该项二级
+                del(firstCode, level2Code, true, selected);
+            }
+        }
+    }
+};

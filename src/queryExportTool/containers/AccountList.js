@@ -211,6 +211,13 @@ class AccountList extends Component {
             /></span>
         }
 
+        function getDouyinImg(key) {
+            return <span className="tab-icon-style">
+                <span className={`douyin-icon ${key == platformType ? 'default' : 'gray'}`}></span>
+            </span>
+        }
+
+
         function getTabsGrops() {
             let tabsGrops = [
                 {name: <div>{getShowImg(9, 1)}微信公众号</div>, group_type: 1},
@@ -218,7 +225,7 @@ class AccountList extends Component {
                 {name: <div>{getShowImg(9000, 3)}视频/直播</div>, group_type: 3},
                 {name: <div>{getShowImg(93, 4)}小红书</div>, group_type: 4},
                 {name: <div>{getShowImg(110, 7)}哔哩哔哩动画</div>, group_type: 7},
-                {name: <div>{getShowImg(115, 8)}抖音</div>, group_type: 8},
+                {name: <div>{getDouyinImg(8)}抖音</div>, group_type: 8},
                 {name: <div>{getShowImg(10000, 5)}其他平台</div>, group_type: 5}]
             if (!isQuotation) {
                 tabsGrops.push({name: "批量找号", group_type: 6})
