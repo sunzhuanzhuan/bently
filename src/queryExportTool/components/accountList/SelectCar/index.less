@@ -1,126 +1,113 @@
 .select-car {
-  position: fixed;
-  right: 0px;
-  top: 9%;
-  border: 1px solid #F5F5F5;
-  box-shadow: 0 0 8px #DDD;
-  -moz-box-shadow: 0 0 8px #DDD;
-  -webkit-box-shadow: 0 0 8px #DDD;
+    position: fixed;
+    right: 0px;
+    top: 9%;
+    border: 1px solid #F5F5F5;
+    box-shadow: 0 0 8px #DDD;
+    -moz-box-shadow: 0 0 8px #DDD;
+    -webkit-box-shadow: 0 0 8px #DDD;
 }
 
 .tab-icon-style {
-  margin-right: 4px;
-  .douyin-icon {
-    display: inline-block;
-    transform: scale(0.0583333);
-    vertical-align: text-bottom;
-    margin: -113px;
-    font-size: 205.714px;
-    width: 240px;
-    height: 240px;
-    background-repeat: no-repeat;
-    &.default {
-      background-image: url("../../../images/douyin.png");
+    margin-right: 4px;
+    .douyin-icon {
+        display: inline-block;
+        transform: scale(0.0583333);
+        vertical-align: text-bottom;
+        margin: -113px;
+        font-size: 205.714px;
+        width: 240px;
+        height: 240px;
+        background-repeat: no-repeat;
+        &.default {
+            background-image: url("../../../images/douyin.png");
+        }
+        &.gray {
+            background-image: url("../../../images/douyin_gray.png");
+        }
     }
-    &.gray {
-      background-image: url("../../../images/douyin_gray.png");
-    }
-  }
 }
 
 .show-car {
-  width: 38px;
-  height: 180px;
-  position: absolute;
-  left: -38px;
-  top: 9%;
-  background: rgba(0, 0, 0, 0.70);
-  color: #fff;
-  text-align: center;
-  cursor: pointer;
-
-  .car-icon {
-    height: 38px;
-    line-height: 38px;
     width: 38px;
-    float: left;
-    border-bottom: 1px solid #fff
-  }
-
-  .car-text {
-    margin: 50px auto 0px;
-    width: 14px;
-    height: 84px;
-    font-size: 13px;
-    font-weight: 400
-  }
-
-  .car-number {
-    margin-top: 10px;
-  }
+    height: 180px;
+    position: absolute;
+    left: -38px;
+    top: 9%;
+    background: rgba(0, 0, 0, 0.70);
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    .car-icon {
+        height: 38px;
+        line-height: 38px;
+        width: 38px;
+        float: left;
+        border-bottom: 1px solid #fff
+    }
+    .car-text {
+        margin: 50px auto 0px;
+        width: 14px;
+        height: 84px;
+        font-size: 13px;
+        font-weight: 400
+    }
+    .car-number {
+        margin-top: 10px;
+    }
 }
 
 .car-content {
-  background: #fff;
-
-  .select-car-content-tabs {
-    width: 385px;
-
-    .tab-img-box {
-      img {
-        padding-right: 3px;
-        margin-bottom: 2px;
-      }
+    background: #fff;
+    .select-car-content-tabs {
+        width: 385px;
+        .tab-img-box {
+            img {
+                padding-right: 3px;
+                margin-bottom: 2px;
+            }
+        }
+        .tab-pane {
+            //overflow-y: auto;
+        }
+        .ant-tabs-nav .ant-tabs-tab {
+            text-align: center;
+            min-width: 62px;
+            margin: 0px;
+            padding: 16px 4px;
+        }
+        .text-number {
+            position: absolute;
+            bottom: 15px;
+        }
     }
-
-    .tab-pane {
-      //overflow-y: auto;
+    .car-footer {
+        width: 385px;
+        padding: 10px;
+        margin-top: 4px;
+        height: 48px;
+        background: #F5F5F5;
+        .footer-left {
+            height: 30px;
+            line-height: 30px;
+            float: left;
+        }
+        .footer-right {
+            float: right;
+        }
     }
-
-    .ant-tabs-nav .ant-tabs-tab {
-      text-align: center;
-      min-width: 62px;
-      margin: 0px;
-      padding: 16px 4px;
-    }
-
-    .text-number {
-      position: absolute;
-      bottom: 15px;
-    }
-  }
-
-  .car-footer {
-    width: 385px;
-    padding: 10px;
-    margin-top: 4px;
-    height: 48px;
-    background: #F5F5F5;
-
-    .footer-left {
-      height: 30px;
-      line-height: 30px;
-      float: left;
-    }
-
-    .footer-right {
-      float: right;
-    }
-  }
 }
 
 .tab-list-box {
-  .close-circle-show {
-    display: none;
-    margin-right: 10px;
-  }
-
-  .list-item:hover {
-    background: rgba(180, 231, 197, 0.26);
-    color: #fff;
-
     .close-circle-show {
-      display: block;
+        display: none;
+        margin-right: 10px;
     }
-  }
+    .list-item:hover {
+        background: rgba(180, 231, 197, 0.26);
+        color: #fff;
+        .close-circle-show {
+            display: block;
+        }
+    }
 }
