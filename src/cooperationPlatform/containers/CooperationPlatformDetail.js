@@ -42,10 +42,21 @@ class CooperationPlatformDetail extends Component {
         }))
     }
     render () {
-        const { cooperationPlatformInfoDetail, trinitySkuTypeList, trinityTollTypeList } = this.state
-        const { isNeedScreenshot, cooperationPlatformName, platformName, captureCooperationPlatformName,
-            agentVo = {}, platformId, orderPriceTipsTitle, formulaDesc
-        } = cooperationPlatformInfoDetail
+        const {
+            cooperationPlatformInfoDetail,
+            trinitySkuTypeList,
+            trinityTollTypeList
+        } = this.state
+        const {
+            isNeedScreenshot,
+            cooperationPlatformName,
+            platformName,
+            captureCooperationPlatformName,
+            agentVo = {},
+            platformId,
+            orderPriceTipsTitle,
+            formulaDesc
+        } = cooperationPlatformInfoDetail || {}
         const { settleType, returnInvoiceType, invoiceType, agentTaxRate } = agentVo
         const { paymentCompanyName } = agentVo
         const baseInfo = [

@@ -136,8 +136,20 @@ class BaseInfo extends Component {
 		})
 	}
 	render () {
-		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail = {}, cooperationPlatformReducer, } = this.props
-		const { agentVo = {}, formulaDesc, orderPriceTipsTitle } = cooperationPlatformInfoDetail
+		const {
+			form,
+			formLayout,
+			setShowModal,
+			actions,
+			platformSelect,
+			cooperationPlatformInfoDetail,
+			cooperationPlatformReducer
+		} = this.props
+		const {
+			agentVo = {},
+			formulaDesc,
+			orderPriceTipsTitle
+		} = cooperationPlatformInfoDetail || {}
 		const { getFieldDecorator, getFieldValue } = form
 		const formLayoutTable = {
 			labelCol: { span: 4 },
@@ -228,8 +240,8 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<PaymentCompany form={form} formLayout={formLayout}
 					dataDefault={agentVo}
-					formulaDesc
-					orderPriceTipsTitle
+					orderPriceTipsTitle={orderPriceTipsTitle}
+					formulaDesc={formulaDesc}
 				/>
 				<Form.Item label="平台报价项" {...formLayoutTable}>
 					<div style={{ textAlign: "right" }}><a onClick={() => setShowModal(true, {
