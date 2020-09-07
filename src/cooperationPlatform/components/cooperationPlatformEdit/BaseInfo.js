@@ -136,7 +136,7 @@ class BaseInfo extends Component {
 		})
 	}
 	render () {
-		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail, cooperationPlatformReducer, } = this.props
+		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail = {}, cooperationPlatformReducer, } = this.props
 		const { agentVo = {}, formulaDesc, orderPriceTipsTitle } = cooperationPlatformInfoDetail
 		const { getFieldDecorator, getFieldValue } = form
 		debugger
@@ -176,12 +176,12 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<Form.Item label="所属媒体平台"{...formLayout} >
 					{getFieldDecorator('platformId', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformId,
+						initialValue: cooperationPlatformInfoDetail.platformId,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.platformName}</span> : <Select placeholder="请选择" style={{ width: 250 }} onChange={this.platformChange}>
+						id > 0 ? <span>{cooperationPlatformInfoDetail.platformName}</span> : <Select placeholder="请选择" style={{ width: 250 }} onChange={this.platformChange}>
 							{(platformSelect && platformSelect.arr || []).map((one => <Option key={one.platformName}
 								platformName={one.platformName} value={one.id} >{one.platformName}</Option>))}
 						</Select>
@@ -189,12 +189,12 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<Form.Item label="可选下单平台"{...formLayout} >
 					{getFieldDecorator('cooperationPlatformKey', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.cooperationPlatformKey,
+						initialValue: cooperationPlatformInfoDetail.cooperationPlatformKey,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
 					})(
-						id > 0 ? <span>{cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.captureCooperationPlatformName}</span> : <Select placeholder="请选择" style={{ width: 250 }} onChange={this.changeCPkey} >
+						id > 0 ? <span>{cooperationPlatformInfoDetail.captureCooperationPlatformName}</span> : <Select placeholder="请选择" style={{ width: 250 }} onChange={this.changeCPkey} >
 							{this.state.unUsedCPSelect.map((one => <Option
 								key={one.cooperationPlatformKey}
 								cooperationPlatformName={one.cooperationPlatformName}
@@ -204,7 +204,7 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<Form.Item label="微播易展示下单平台名称"  {...formLayout}>
 					{getFieldDecorator('cooperationPlatformName', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.cooperationPlatformName,
+						initialValue: cooperationPlatformInfoDetail.cooperationPlatformName,
 						validateFirst: true,
 						rules: [
 							{ required: true, message: '本项为必填项，请输入！' },
@@ -216,7 +216,7 @@ class BaseInfo extends Component {
 				</Form.Item>
 				<Form.Item label="下单截图是否必填"{...formLayout}>
 					{getFieldDecorator('isNeedScreenshot', {
-						initialValue: cooperationPlatformInfoDetail && cooperationPlatformInfoDetail.isNeedScreenshot,
+						initialValue: cooperationPlatformInfoDetail.isNeedScreenshot,
 						rules: [
 							{ required: true, message: '本项为必选项，请选择！' },
 						],
@@ -227,7 +227,11 @@ class BaseInfo extends Component {
 						</RadioGroup>
 					)}
 				</Form.Item>
-				<PaymentCompany form={form} formLayout={formLayout} dataDefault={agentVo} />
+				<PaymentCompany form={form} formLayout={formLayout}
+					dataDefault={agentVo}
+					formulaDesc
+					orderPriceTipsTitle
+				/>
 				<Form.Item label="平台报价项" {...formLayoutTable}>
 					<div style={{ textAlign: "right" }}><a onClick={() => setShowModal(true, {
 						title: <div>新增报价项{titleModal}</div>,
