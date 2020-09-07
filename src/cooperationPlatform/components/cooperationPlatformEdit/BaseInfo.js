@@ -139,7 +139,6 @@ class BaseInfo extends Component {
 		const { form, formLayout, setShowModal, actions, platformSelect, cooperationPlatformInfoDetail = {}, cooperationPlatformReducer, } = this.props
 		const { agentVo = {}, formulaDesc, orderPriceTipsTitle } = cooperationPlatformInfoDetail
 		const { getFieldDecorator, getFieldValue } = form
-		debugger
 		const formLayoutTable = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 20 },
