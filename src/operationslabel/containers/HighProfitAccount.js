@@ -142,6 +142,7 @@ class HighProfitAccount extends Component {
         this.setState({
             platformId: platformId * 1,
             currentSearchType: 1,
+            currentPage : 1
         }, () => {
             this.getAccountInfo();
         });
@@ -166,6 +167,7 @@ class HighProfitAccount extends Component {
             return message.error('搜索条件不能为空');
         }
         this.setState({
+            currentPage: 1,
             currentSearchType: 1
         }, () => {
             this.getAccountInfo();
@@ -177,8 +179,7 @@ class HighProfitAccount extends Component {
      */
     changePage = (pageNum) => {
         this.setState({
-            currentPage: pageNum,
-            currentSearchType: 1,
+            currentPage: pageNum
         }, () => {
             // 分页改变重新请求列表接口
             this.getAccountInfo();
@@ -187,7 +188,6 @@ class HighProfitAccount extends Component {
     onShowSizeChange = (current, size) => {
         this.setState({
             currentPage: current,
-            currentSearchType: 1,
             pageSize: size
         }, () => {
             this.getAccountInfo()
@@ -366,10 +366,11 @@ class HighProfitAccount extends Component {
         this.setState({
             searchModalStatus: 2,
             accountIds: accountIds,
-            platformId: platformId
+            platformId: platformId,
         }, () => {
             this.setState({
                 currentSearchType: 2,
+                currentPage: 1,
                 searchModalStatus: 3
             }, () => {
                 this.getAccountInfo();
@@ -388,10 +389,11 @@ class HighProfitAccount extends Component {
 
     render() {
         const accountInfo = this.props.accountInfo || {};
-        const {total = 0, order = 0, dispatch = 0, ok = 0, on = []} = accountInfo.statistic || {};
-        const platform = accountInfo.result && accountInfo.result.total || 0;
+        const {total = 0, order = 0, dispatch = 0, ok = 0, on = [], platform=0 } = accountInfo.statistic || {};
         const successNum = {ok, on};
         const {list = []} = accountInfo.result || {};
+        //定义一个变量，记录当前列表是否是查找请求得到的。// （查找请求和批量查找请求有区别，currentSearchType 记录 1是查找 2是批量查找)
+        let isSearchList = this.state.currentSearchType === 1;
         return (
             <div>
                 <div className="high_profit_account">
@@ -449,16 +451,16 @@ class HighProfitAccount extends Component {
                                     selectedRowKeys: this.state.selectedRowKeys,
                                     onChange: this.selectionChange
                                 }}
-                                pagination={{
+                                pagination={ isSearchList ? {
                                     pageSize: this.state.pageSize,
                                     current: this.state.currentPage,
                                     total: platform,
                                     onChange: this.changePage,
-                                    showSizeChanger: true,
-                                    showQuickJumper: true,
+                                    showSizeChanger: isSearchList,
+                                    showQuickJumper: isSearchList,
                                     onShowSizeChange: this.onShowSizeChange,
                                     pageSizeOptions: ["20", "50", "100"]
-                                }}
+                                } : false}
                                 footer={this.footerHandle}
                                 dataSource={list}>
                             </Table>
