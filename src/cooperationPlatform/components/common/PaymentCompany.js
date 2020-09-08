@@ -53,7 +53,7 @@ class PaymentCompany extends Component {
 						initialValue: formulaDesc,
 						rules: [
 							{
-								validator: this.validatorMsg(100)
+								validator: this.validatorMsg(200)
 							},
 							{ required: true, message: '此项为必选项，请输入！' },
 						],
