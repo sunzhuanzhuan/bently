@@ -95,18 +95,18 @@ const PriceValid = ({ id, name, form, onChange }) => {
 }
 
 const mapFieldsToPlatform = {
-	"mainAccountName": [1, 2, 3, 4, 5],
-	"introduction": [1, 2, 3, 4, 5],
-	"verificationInfo": [1, 2, 3, 4, 5],
-	"cooperationTips": [1, 2, 3, 4, 5],
+	"mainAccountName": [1, 2, 3, 4, 5, 7, 8],
+	"introduction": [1, 2, 3, 4, 5, 7, 8],
+	"verificationInfo": [1, 2, 3, 4, 5, 7, 8],
+	"cooperationTips": [1, 2, 3, 4, 5, 7, 8],
 	"trademarkName": [1, 2, 4],
 	"hotwordName": [1, 2, 4],
-	"latestPublishTime": [1, 2, 3, 4],
+	"latestPublishTime": [1, 2, 3, 4, 7, 8],
 	"verifiedStatus": [2],
-	"gender": [1, 2, 3],
-	"mediaType": [1, 2, 3, 4, 5],
+	"gender": [1, 2, 3, 7, 8],
+	"mediaType": [1, 2, 3, 4, 5, 7, 8],
 	"industryId": [],
-	"isVerified": [3, 4, 5]
+	"isVerified": [3, 4, 5, 7, 8]
 }
 
 class MoreFilter extends Component {

@@ -1,6 +1,7 @@
 
 import { handleAction } from 'redux-actions';
-import { getFilters_success, getFiltersMeta_success } from '../actions'
+import { getFilters_success, getFiltersMeta_success, getClassifications_success } from '../actions'
+import {getAccountImport_success} from "@/operationslabel/action/highProfitAccount";
 export const filterOptions = handleAction(getFilters_success, (state, action) => {
 	return {
 		...state,
@@ -26,3 +27,12 @@ export const filtersMetaMap = handleAction(getFiltersMeta_success, (state, actio
 		groups: groups
 	}
 }, {})
+
+/**
+ * 内容分类、人设分类和风格分类options
+ */
+export const classificationOptions = handleAction(getClassifications_success, (state, action) => {
+    return {
+        ...action.payload.data
+    }
+}, {});

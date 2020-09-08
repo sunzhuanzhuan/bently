@@ -390,7 +390,131 @@ export const groupBySorter = {
 				//followerCount: 'desc' 
 			}
 		}
-	}
+	},
+    '7': {
+        filter: {
+            drop: [
+                {
+                    'title': '上下架状态',
+                    'prefix': 'shelf',
+                    'field': 'onlineStatus'
+                },
+                {
+                    'title': '执行类型',
+                    'prefix': 'comply',
+                    'field': 'isFamous'
+                }
+            ],
+            check: [
+                {
+                    'title': '防屏蔽',
+                    'name': 'trinityIsPreventShielding'
+                },
+                {
+                    'title': '原创',
+                    'name': 'canOriginWrite'
+                },
+                isLowQuality,
+                //价格优劣
+                defaultQuotePriceDiscount
+            ],
+        },
+        sorter: {
+            buttons: [
+                {
+                    field: 'snbt',
+                    title: 'SNBT'
+                }, {
+                    field: 'followerCount',
+                    title: '粉丝数'
+                }, {
+                    field: 'mediaPlayAvg',
+                    title: '平均播放量'
+                }
+            ],
+            more: [
+                {
+                    value: 'createdAt',
+                    label: '入库时间',
+                    children: [{
+                        value: 'desc',
+                        label: '由近及远'
+                    }, {
+                        value: 'asc',
+                        label: '由远及近'
+                    }]
+                },
+            ],
+            priceGoodBadList: [
+                //	...priceGoodBadList([16, 15, 19, 17, 26, 27])
+            ],
+            default: {
+                //snbt: 'desc',
+            }
+        }
+    },
+    '8': {
+        filter: {
+            drop: [
+                {
+                    'title': '上下架状态',
+                    'prefix': 'shelf',
+                    'field': 'onlineStatus'
+                },
+                {
+                    'title': '执行类型',
+                    'prefix': 'comply',
+                    'field': 'isFamous'
+                }
+            ],
+            check: [
+                {
+                    'title': '防屏蔽',
+                    'name': 'trinityIsPreventShielding'
+                },
+                {
+                    'title': '原创',
+                    'name': 'canOriginWrite'
+                },
+                isLowQuality,
+                //价格优劣
+                defaultQuotePriceDiscount
+            ],
+        },
+        sorter: {
+            buttons: [
+                {
+                    field: 'snbt',
+                    title: 'SNBT'
+                }, {
+                    field: 'followerCount',
+                    title: '粉丝数'
+                }, {
+                    field: 'mediaPlayAvg',
+                    title: '平均播放量'
+                }
+            ],
+            more: [
+                {
+                    value: 'createdAt',
+                    label: '入库时间',
+                    children: [{
+                        value: 'desc',
+                        label: '由近及远'
+                    }, {
+                        value: 'asc',
+                        label: '由远及近'
+                    }]
+                },
+            ],
+            priceGoodBadList: [
+                //	...priceGoodBadList([16, 15, 19, 17, 26, 27])
+            ],
+            default: {
+                //snbt: 'desc',
+            }
+        }
+    },
 }
 export const sortDropTypes = {
 	complyType,
