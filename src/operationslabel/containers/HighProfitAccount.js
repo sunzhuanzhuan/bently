@@ -342,12 +342,8 @@ class HighProfitAccount extends Component {
                     this.props.actions.clearAllAccount().then(res => {
                         let code = res ? res.code ? res.code : null : null;
                         if (code && code === "1000") {
-                            this.delayGetAccountInfo((success) => {
-                                if (!success) {
-                                    message.info('正在删除,请稍后查询');
-                                }
-                                resolve();
-                            });
+                            message.success('清空成功，请于5分钟后刷新查看');
+                            resolve();
                         } else {
                             message.error('删除失败');
                             reject();
