@@ -5,7 +5,8 @@ import {
     highProfitAccountImportCheck,
     highProfitAccountSearch,
     highProfitAccountBatchSearch,
-    highProfitAccountDelete
+    highProfitAccountDelete,
+    highProfitAccountClearAll
 } from "@/operationslabel/constants/API";
 
 //批量导入高利润账号检查
@@ -41,6 +42,13 @@ export const {
 export const {
     getAccountDelete
 } = createHttpAction('getAccountDelete', highProfitAccountDelete, {
+    method: 'post'
+});
+
+//清空所有高利润账号
+export const {
+    clearAllAccount
+} = createHttpAction('clearAllAccount', highProfitAccountClearAll, {
     method: 'post'
 });
 
