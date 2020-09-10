@@ -238,14 +238,20 @@ class HighProfitAccount extends Component {
                 return;
             }
             setTimeout(async () => {
-                let data = await this.getAccountInfo();
-                let total = (data.data.result || {}).total;
-                if (platformTotal === total) {
-                    count = count + 1;
-                    recursionFun();
-                } else {
-                    cb(true);
+                try{
+                    let data = await this.getAccountInfo();
+                    let total = (data.data.result || {}).total;
+                    if (platformTotal === total) {
+                        count = count + 1;
+                        recursionFun();
+                    } else {
+                        cb(true);
+                    }
+
+                }catch (e) {
+                    cb(true)
                 }
+
             }, 1000);
         };
 
@@ -265,7 +271,7 @@ class HighProfitAccount extends Component {
                 return new Promise(((resolve, reject) => {
                     this.props.actions.getAccountDelete({accountIds: [record.accountId]})
                         .then(res => {
-                            let code = res ? res.code ? res.code : null : null;
+                            let code = (res || {}).code;
                             if (code && code === "1000") {
                                 this.delayGetAccountInfo((success) => {
                                     if (!success) {
@@ -275,10 +281,12 @@ class HighProfitAccount extends Component {
                                 });
                             } else {
                                 message.error('删除失败');
+                                reject();
                             }
                         })
                         .catch(() => {
                             message.error('删除失败');
+                            reject();
                         })
                 }));
             },
@@ -298,9 +306,9 @@ class HighProfitAccount extends Component {
             title: '提示',
             content: '确定删除该账号吗',
             onOk: () => {
-                return new Promise((resolve => {
+                return new Promise((resolve, reject) => {
                     this.props.actions.getAccountDelete({accountIds: keys}).then(res => {
-                        let code = res ? res.code ? res.code : null : null;
+                        let code = (res || {}).code;
                         if (code && code === "1000") {
                             this.delayGetAccountInfo((success) => {
                                 if (!success) {
@@ -310,15 +318,47 @@ class HighProfitAccount extends Component {
                             });
                         } else {
                             message.error('删除失败');
+                            reject();
                         }
                     }).catch(() => {
                         message.error('删除失败');
+                        reject();
                     })
-                }))
+                })
             },
         });
 
     };
+
+    /**
+     * 清空所有高账号
+     */
+    clearAll = () => {
+        confirm({
+            title: '提示',
+            content: '要删除所有精选账号，会有5分钟左右的延迟，确定吗？',
+            onOk: () => {
+                return new Promise((resolve, reject) => {
+                    this.props.actions.clearAllAccount().then(res => {
+                        let code = (res || {}).code;
+                        if (code && code === "1000") {
+                            message.success('清空成功，请于5分钟后刷新查看');
+                            resolve();
+                        } else {
+                            message.error('删除失败');
+                            reject();
+                        }
+                    }).catch(() => {
+                        message.error('删除失败');
+                        reject();
+                    })
+                })
+            },
+
+
+        })
+
+    }
 
     /**
      * 多选选中项发生变化时的回调
@@ -409,6 +449,12 @@ class HighProfitAccount extends Component {
                             className="btn-detail-edit"
                             onClick={this.showImportAccountModal}
                         >批量导入账号</Button>
+                        <Button
+                            type="primary"
+                            size="small"
+                            className="btn-clear-all"
+                            onClick={this.clearAll}
+                        >清空所有账号</Button>
                     </h4>
                     {total !== 0 ? <div>
                         <div className='search'>

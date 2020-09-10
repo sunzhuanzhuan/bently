@@ -14,5 +14,6 @@ export const highProfitAccountImportCheck = "/operator-gateway/high/profit/check
 export const highProfitAccountSearch = "/operator-gateway/high/profit/searchHighProfitAccount"; //高利润账号查询
 export const highProfitAccountBatchSearch = "/operator-gateway/high/profit/searchHighProfitAccountList"; //批量高利润账号查询
 export const highProfitAccountDelete = "/operator-gateway/high/profit/deleteHighProfitAccountList"; //高利润账号删除
+export const highProfitAccountClearAll = "/operator-gateway/high/profit/clearHighProfitAccount"; //清空所有高利润账号
 
 

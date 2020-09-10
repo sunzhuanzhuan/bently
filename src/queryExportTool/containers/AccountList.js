@@ -265,13 +265,16 @@ class AccountList extends Component {
                         getTabsGrops().map((item, index, array) => {
                             return <TabPane tab={item.name} key={item.group_type} style={index == 0 ? {minHeight: 1000} : null}>
                                 {
-                                    item.group_type != 6 && platformType == item.group_type ?
+                                    item.group_type != 6 && platformType == item.group_type &&
                                         <DefaultChild
                                             {...this.props}
                                             {...tableProps}
                                             setAccountState={this.setAccountState}
                                         />
-                                        : platformType == 6 ? <AccountListBatch {...tableProps} /> : null
+                                }
+                                {
+                                    platformType == 6 && platformType == item.group_type &&
+                                    <AccountListBatch {...tableProps} />
                                 }
                             </TabPane>
                         })
