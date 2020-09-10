@@ -271,7 +271,7 @@ class HighProfitAccount extends Component {
                 return new Promise(((resolve, reject) => {
                     this.props.actions.getAccountDelete({accountIds: [record.accountId]})
                         .then(res => {
-                            let code = res ? res.code ? res.code : null : null;
+                            let code = (res || {}).code;
                             if (code && code === "1000") {
                                 this.delayGetAccountInfo((success) => {
                                     if (!success) {
@@ -308,7 +308,7 @@ class HighProfitAccount extends Component {
             onOk: () => {
                 return new Promise((resolve, reject) => {
                     this.props.actions.getAccountDelete({accountIds: keys}).then(res => {
-                        let code = res ? res.code ? res.code : null : null;
+                        let code = (res || {}).code;
                         if (code && code === "1000") {
                             this.delayGetAccountInfo((success) => {
                                 if (!success) {
@@ -340,7 +340,7 @@ class HighProfitAccount extends Component {
             onOk: () => {
                 return new Promise((resolve, reject) => {
                     this.props.actions.clearAllAccount().then(res => {
-                        let code = res ? res.code ? res.code : null : null;
+                        let code = (res || {}).code;
                         if (code && code === "1000") {
                             message.success('清空成功，请于5分钟后刷新查看');
                             resolve();
