@@ -65,8 +65,7 @@ class FilterForm extends Component {
             if (err) {
                 return;
             }
-            debugger
-            console.log(values)
+
             setStateData({ loadingVisible: true })
             setStateData({ filterParams: values })
 
