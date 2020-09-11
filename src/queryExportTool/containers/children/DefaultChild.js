@@ -23,7 +23,7 @@ class DefaultChild extends Component {
         this._isMounted = true;
         const {params: {platformType: groupType}} = this.props.match
         const {getFilters, getClassifications} = this.props.actions;
-        getFilters({groupType: parseInt(groupType)});
+        getFilters({groupType});
         getClassifications()
         this.serachStart()
     }
