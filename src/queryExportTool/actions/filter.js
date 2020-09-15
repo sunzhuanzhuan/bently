@@ -27,7 +27,9 @@ const getOrderIndustryCategory = (orderIndustryCategory = []) => {
 export const getFilters = (params) => (dispatch) => {
     let {groupType} = params;
     // version = params.version;
-    return api.get(Interface.getFilters).then((data) => {
+    return api.get(Interface.getFilters, {
+        params:params
+    }).then((data) => {
         data = data.data;
         const {groups, groupedCategories, orderIndustryCategory, groupedSkuTypes = {}, kolProvinceList, kolInterestList, defaultHotCities} = data;
         // B站和抖音默认成视频/直播的skuTypes

@@ -22,8 +22,8 @@ class DefaultChild extends Component {
     componentDidMount() {
         this._isMounted = true;
         const {params: {platformType: groupType}} = this.props.match
-        const {getFilters, getClassifications} = this.props.actions
-        getFilters({groupType})
+        const {getFilters, getClassifications} = this.props.actions;
+        getFilters({groupType});
         getClassifications()
         this.serachStart()
     }
